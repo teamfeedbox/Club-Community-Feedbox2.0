@@ -1,0 +1,42 @@
+.landing-container{
+    padding: 0 7%;
+    
+}
+.landing_head{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size:37px ;
+    padding-left: 7%;
+}
+.head{
+    margin-top: 100px;
+    margin-bottom: 60px;
+}
+.landing_head_left{
+    z-index: 1;
+    width: 50%;
+}
+.landing_head_right{
+    z-index: 1;
+    width: 50%;
+}
+.lading-btn{
+    margin-top: 65px;
+    font-size: 23px;
+    
+}
+.signup-btn{
+background-color:#F06827;
+color: #fff;
+border: none;
+padding: 10px 45px;
+border-radius: 5px;
+
+}
+.signin-btn{
+    color: #F06827;
+    border: none;
+    background-color: transparent;
+    padding: 10px 45px;
+}
