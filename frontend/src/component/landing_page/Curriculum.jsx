@@ -41,10 +41,10 @@ const Curriculum = () => {
       </div>
 
         <div className="curriculum-carousel">
-      <Carousel activeIndex={index} onSelect={handleSelect}>
+      <Carousel activeIndex={index} onSelect={handleSelect} >
         {
           carouselData.map((item)=>
-          <Carousel.Item>
+          <Carousel.Item >
             <div className="curriculum-carousel-inside">
               <div className="curriculum-carousel-left">
               <h2>{item.title}</h2>
