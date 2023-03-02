@@ -6,16 +6,19 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
 import Login from './component/login/Login';
 import SignUp from './component/signup/SignUp';
-import Landing from './component/landing_page/Landing';
+import Home from './component/landing_page/Home';
+// import Main from './component/Main';
+import Main from './component/Main/Main';
 
 const App = () => {
   return (
     <div className='App'>
       <Router>
         <Routes>
-          <Route path='/' element={<Landing/>}/>
+          <Route path='/' element={<Home />}/>
           <Route index path='/login' element={ <Login /> } />
           <Route index path='/signup' element={ <SignUp /> } />
+          <Route index path='/main' element={ <Main /> } />
         </Routes>
       </Router>
     </div>
