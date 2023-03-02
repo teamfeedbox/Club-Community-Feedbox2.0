@@ -6,7 +6,7 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
 import Login from './component/login/Login';
 import SignUp from './component/signup/SignUp';
-import Landing from './component/landing_page/landing';
+import Landing from './component/landing_page/Landing';
 
 const App = () => {
   return (

@@ -7,7 +7,6 @@ import LoginPage from './LoginPage'
 const Login = () => {
   return (
     <div>
-      <div>chutiya</div>
         <LoginHeader />
         <LoginPage />
     </div>
