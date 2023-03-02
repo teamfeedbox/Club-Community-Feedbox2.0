@@ -66,7 +66,7 @@ function Landing() {
                
             </div>
         </div>
-        <Curriculum/>
+       
     </div>
   )
 }

@@ -28,10 +28,10 @@ const postSchema = new mongoose.Schema({
 
   },
 
-  img: {
+  img: [{
     data: Buffer,
     contentType: String,
-  },
+  }],
   postType: {
     type: String,
   },
@@ -49,6 +49,7 @@ const postSchema = new mongoose.Schema({
   postedBy: {
     type: String,
   },
+  likes:[],
 
   comment: [
     {

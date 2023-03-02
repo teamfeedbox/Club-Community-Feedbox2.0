@@ -58,4 +58,3 @@ app.post("/add-post", async (req, res) => {
 });
 
 app.listen(port, console.log(`server is listening on the port: ${port}`));
-git 
