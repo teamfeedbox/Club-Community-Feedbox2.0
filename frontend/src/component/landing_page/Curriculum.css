@@ -1,0 +1,104 @@
+.Curriculum{
+    padding: 80px;
+}
+.Curriculum-head {
+    text-align: center;
+    align-items: center;
+    margin: 20px ;
+}
+.Curriculum-head h2{
+    font-size: 2.2rem;
+    font-weight: 600;
+}
+.Curriculum-head p{
+    /* border : 2px solid black; */
+    width: 80%;
+    margin: auto;
+    color: #716f6f;
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin-top: 10px;
+}
+
+/* cards */
+.curriculum-cards{
+    font-size: 15px;
+    margin-right: 50px;
+    display: flex;
+    flex-direction:row;
+    flex-wrap: wrap;
+
+}
+.curriculum-card{
+    width: 30%;
+    margin: 15px;
+    
+}
+.curriculum-card img{
+    width: 100%;
+    border-radius: 10px 10px 0px 0px;
+    height: 60%;
+}
+
+.card-data{
+    padding: 0px 0px 20px 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    height: 40%;
+}
+.card-title{
+    font-weight: bold;
+    background-color: #fff;
+}
+.card-text{
+    background-color: #fff;
+    
+}
+
+/* carousel */
+.curriculum-carousel{
+    height: fit-content;
+    width: 80%;
+    /* border: 5px solid black; */
+    margin: 7% 2% 7% 7%;
+    padding: 2%;
+    /* border-radius: 10px; */
+}
+
+.curriculum-carousel-inside{
+    display: flex;
+    flex-direction: row;
+}
+
+.curriculum-carousel-left{
+    width: 70%;
+}
+.curriculum-carousel-left ,h2{
+    margin: 10px 10px 30px 10px;
+}
+.curriculum-carousel-left ,h4{
+    margin: 10px 10px 30px 10px;
+}
+
+.curriculum-carousel-left p{
+    line-height: 40px;
+    margin: 10px 10px 0 10px;
+}
+.curriculum-carousel-right{
+    width: 30%;
+}
+
+.curriculum-carousel-right img{
+    width: 90%;
+    height: 60%;
+    margin-top: 60px;
+    
+}
+
+.carousel-control-next{
+    right:'-100px'
+}
+
+.carousel-control-next{
+    left:'-100px'
+}

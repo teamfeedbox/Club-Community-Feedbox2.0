@@ -27,16 +27,56 @@
     
 }
 .signup-btn{
-background-color:#F06827;
+background-color:#232234;
 color: #fff;
 border: none;
 padding: 10px 45px;
 border-radius: 5px;
 
 }
+
+.signup-btn:hover{
+    background-color:#232234c6;
+}
 .signin-btn{
-    color: #F06827;
+    color: #232234;
     border: none;
     background-color: transparent;
     padding: 10px 45px;
+}
+
+.signin-btn:hover{
+    color:#232234c6;
+}
+
+.right-img{
+    margin-left: 85px;
+}
+
+.landing-text{
+    margin: 50px 7% 50px 7%;
+    font-size: 25px;
+}
+
+/* Second Section */
+
+.landing-second-section{
+    background-color: #232234;
+    color:white;
+    padding: 5% 7% 2% 7%;
+    font-size: 25px;
+
+}
+.landing-second-head{
+    background-color: #232234;
+    color: #F06827;
+    
+}
+.landing-second-con{
+    background-color: #232234;
+    padding-left: 20px;
+}
+.landing-second{
+    margin-bottom: 50px;
+    margin-top: 20px;
 }
