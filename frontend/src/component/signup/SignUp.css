@@ -23,3 +23,8 @@
 .signup-page-main input{
     /* width: 50%; */
 }
+
+.multi-placeholder ::placeholder{
+    padding-left: 8px;
+}
+

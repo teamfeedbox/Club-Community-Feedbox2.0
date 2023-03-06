@@ -1,25 +1,14 @@
 const mongoose = require("mongoose");
 
-const postSchema = new mongoose.Schema({
-  // userId:String,
-  // // name:String,
-  // desc: String,
-  // img:
-  // {
-  //     data: Buffer,
-  //     contentType: String
-  // },
-  // video:
-  // {
-  //     data: Buffer,
-  //     contentType: String
-  // },
-  // document:{
-  //     data: Buffer,
-  //     contentType: String
-  // },
-  // postType:String,   //public or private
+const user = require('./user')
+const {ObjectId} = mongoose.Schema.Types
 
+const postSchema = new mongoose.Schema({
+
+user:{
+  type:ObjectId,
+  ref:user
+},
   title: {
     type: String,
   },
@@ -27,11 +16,29 @@ const postSchema = new mongoose.Schema({
     type: String,
 
   },
+  // profile: {
+  //   type:ObjectId,
+  //   ref: 'user',
+  // },
 
-  img: [{
-    data: Buffer,
-    contentType: String,
-  }],
+  // img: [{
+  //   data: Buffer,
+  //   contentType: String,
+  // }],
+
+  img: {
+ type:String
+  },
+
+
+  // postType: {
+  //   type: String,
+  //   enum: ['public', 'private'],
+  //   // default: 'public',
+  // },
+
+
+
   postType: {
     type: String,
   },
@@ -47,14 +54,19 @@ const postSchema = new mongoose.Schema({
     default: Date.now,
   },
   postedBy: {
-    type: String,
+    // type: String,
+    type:ObjectId,
+    ref:user
+
   },
   likes:[],
 
   comment: [
     {
       userId: {
-        type: String,
+        // type: String,
+        type:ObjectId,
+        ref:"user"
       },
       date: {
         type: Date,
@@ -65,7 +77,9 @@ const postSchema = new mongoose.Schema({
       },
       reply: {
         userId: {
-          type: String,
+          // type: String,
+          type:ObjectId,
+          ref:"user"
         },
         date: {
           type: Date,
