@@ -1,40 +1,57 @@
 import { faEnvelope, faLockOpen, faPhone, faSchool, faSuitcase, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
 
+import React, { useState,useEffect } from "react";
+import { useNavigate } from 'react-router-dom'
+import Multiselect from 'multiselect-react-dropdown';
+
+import "./SignUp.css";
 const SignupPage = () => {
 const [name,setName] = useState("");
 const [email,setEmail] = useState("");
 const [password,setPassword] = useState("");
 const [phone,setPhone] = useState("");
 const [college,setCollege] = useState("");
-const [job,setJob] = useState("");
+const [skills,setSkills] = useState([]);
 
 
-// useEffect(()=>{
-//   const auth = localStorage.getItem('users');
+const navigate = useNavigate();
+
+useEffect(()=>{
+  const auth = localStorage.getItem('user');
+  if(auth)
+  {
+    navigate('/login');
+  }
   
-// })
-
+})
 
 const collectData = async (e) => {
   e.preventDefault();
-  console.log(name, email, password, phone, college, job);
+  console.log(name, email, password, phone, college,skills);
  let result = await fetch('http://localhost:8000/register',{
   method:'post',       // post method because we want to save the data
-  body:JSON.stringify({name,email,password,phone, college, job}),
+  body:JSON.stringify({name,email,password,phone, college,skills}),
   headers:{
     'Content-Type':'application/json',
-    'Access-Control-Allow-Origin':'*',
-    'Access-Control-Allow-Methods':'POST,PATCH,OPTIONS'
+
   },
 
  })
  result = await result.json()
- console.log(result)
+//  console.log(result)
  localStorage.setItem('user',JSON.stringify(result));
+ if(result)
+       {
+          navigate('/login')
+       }
  
 }
+
+
+let onSelectNames = skills => {
+  setSkills(skills);
+};
 
 
   
@@ -85,13 +102,32 @@ const collectData = async (e) => {
             </div>
           </div>
 
-          <div class="d-flex flex-row align-items-center mb-4">
-            <FontAwesomeIcon style={{'margin' : '10px'}}  icon={faSuitcase} />
+          
+          <div class="d-flex flex-row align-items-center mb-4 multi-placeholder">
+            <FontAwesomeIcon style={{'margin' : '12px'}}  icon={faSuitcase} />
             <div class="form-outline flex-fill mb-0">
-              <input type="text" id="job" class="form-control" placeholder="Your Designation"
-              value={job} onChange={(e) => setJob(e.target.value)} required autoComplete="new-password"/>
+            <Multiselect
+            value={skills} onChange={(e) => console.log()}
+            // onChange={(e)=>setSkills[...skills,e.target.value]}
+            placeholder="Add Skill"
+            // style={{paddingLeft:"50px"}}
+            displayValue=""
+            isObject={false}
+            onKeyPressFn={function noRefCheck(){}}
+            onRemove={function noRefCheck(){}}
+            onSearch={function noRefCheck(){}}
+            onSelect={onSelectNames}
+            options={[
+            'Web Development','App Development','SEO','Linkedin Optimization','Graphic Design',
+            'Video Editing','Time Management','Digital Marketing','Content Writing','Ads'
+          ]}
+  selectedValues={{}}
+/>
             </div>
           </div>
+
+         
+          
 
           {/* <div class="form-check d-flex justify-content-center mb-5">
             <input

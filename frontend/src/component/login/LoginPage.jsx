@@ -31,11 +31,11 @@ const LoginPage = () => {
       });
       result = await result.json();
       console.log(result)
-      console.log("first")
+      // console.log("first")
 
-      if(result.name){
-          localStorage.setItem('users',JSON.stringify(result));
-          // navigate('/signup')
+      if(result){
+          localStorage.setItem('user',JSON.stringify(result));
+          // navigate('/')
           alert("welcome")
       }
       else{
