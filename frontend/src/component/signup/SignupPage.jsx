@@ -1,8 +1,10 @@
-import { faEnvelope, faLockOpen, faPhone, faSchool, faSuitcase, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faLockOpen, faPhone, faSchool, faSuitcase, faUser,faCalendar,faCodeBranch} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState,useEffect } from "react";
-import Multiselect from 'multiselect-react-dropdown';
 
+import React, { useState,useEffect } from "react";
+import { useNavigate } from 'react-router-dom'
+import Multiselect from 'multiselect-react-dropdown';
+import { Link } from "react-router-dom";
 import "./SignUp.css";
 const SignupPage = () => {
 const [name,setName] = useState("");
@@ -10,27 +12,46 @@ const [email,setEmail] = useState("");
 const [password,setPassword] = useState("");
 const [phone,setPhone] = useState("");
 const [college,setCollege] = useState("");
-const [job,setJob] = useState("");
+const [skills,setSkills] = useState([]);
 
+
+const navigate = useNavigate();
+
+useEffect(()=>{
+  const auth = localStorage.getItem('user');
+  if(auth)
+  {
+    navigate('/login');
+  }
+  
+})
 
 const collectData = async (e) => {
   e.preventDefault();
-  console.log(name, email, password, phone, college, job);
+  console.log(name, email, password, phone, college,skills);
  let result = await fetch('http://localhost:8000/register',{
   method:'post',       // post method because we want to save the data
-  body:JSON.stringify({name,email,password,phone, college, job}),
+  body:JSON.stringify({name,email,password,phone, college,skills}),
   headers:{
     'Content-Type':'application/json',
-    'Access-Control-Allow-Origin':'*',
-    'Access-Control-Allow-Methods':'POST,PATCH,OPTIONS'
+
   },
 
  })
  result = await result.json()
- console.log(result)
+//  console.log(result)
  localStorage.setItem('user',JSON.stringify(result));
+ if(result)
+       {
+          navigate('/login')
+       }
  
 }
+
+
+let onSelectNames = skills => {
+  setSkills(skills);
+};
 
 
   
@@ -45,7 +66,7 @@ const collectData = async (e) => {
             <FontAwesomeIcon style={{'margin' : '10px'}} icon={faUser} />
             <div class="form-outline flex-fill mb-0">
               <input type="text" id="name" class="form-control" placeholder="Your Name" 
-              required value={name} onChange={(e) => setName(e.target.value)} autoComplete="new-password"/>
+              required value={name} onChange={(e) => setName(e.target.value)} />
             </div>
           </div>
 
@@ -53,7 +74,7 @@ const collectData = async (e) => {
             <FontAwesomeIcon style={{'margin' : '10px'}} icon={faEnvelope} />
             <div class="form-outline flex-fill mb-0">
               <input type="email" id="email" class="form-control" placeholder="Your Email" 
-              value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="new-password"/>
+              value={email} onChange={(e) => setEmail(e.target.value)} required />
             </div>
           </div>
 
@@ -65,27 +86,40 @@ const collectData = async (e) => {
             </div>
           </div>
 
-          <div class="d-flex flex-row align-items-center mb-4">
-            <FontAwesomeIcon style={{'margin' : '10px'}} icon={faPhone} />
-            <div class="form-outline flex-fill mb-0">
-              <input type="tel" id="contactNumber" class="form-control" placeholder="Your Contact Number"
-              value={phone} onChange={(e) => setPhone(e.target.value)} required autoComplete="new-password"/>
-            </div>
-          </div>
 
           <div class="d-flex flex-row align-items-center mb-4">
             <FontAwesomeIcon style={{'margin' : '10px'}}  icon={faSchool} />
             <div class="form-outline flex-fill mb-0">
               <input type="text" id="university" class="form-control" placeholder="Your University"
-              value={college} onChange={(e) => setCollege(e.target.value)} required autoComplete="new-password"/>
+              value={college} onChange={(e) => setCollege(e.target.value)} required />
             </div>
           </div>
 
+          
+          <div class="d-flex flex-row align-items-center mb-4">
+          <FontAwesomeIcon style={{'margin' : '10px'}} icon={faCalendar} />
+            <div class="form-outline flex-fill mb-0">
+              <input type="year" id="year" class="form-control" placeholder="Year"
+               required min='1' />
+            </div>
+          </div>
+
+          
+          
+          <div class="d-flex flex-row align-items-center mb-4">
+            <FontAwesomeIcon style={{'margin' : '10px'}} icon={faCodeBranch} />
+            <div class="form-outline flex-fill mb-0">
+              <input type="text" id="branch" class="form-control" placeholder="Branch"
+             required/>
+            </div>
+          </div>
           
           <div class="d-flex flex-row align-items-center mb-4 multi-placeholder">
             <FontAwesomeIcon style={{'margin' : '12px'}}  icon={faSuitcase} />
             <div class="form-outline flex-fill mb-0">
             <Multiselect
+            value={skills} onChange={(e) => console.log()}
+            // onChange={(e)=>setSkills[...skills,e.target.value]}
             placeholder="Add Skill"
             // style={{paddingLeft:"50px"}}
             displayValue=""
@@ -93,7 +127,7 @@ const collectData = async (e) => {
             onKeyPressFn={function noRefCheck(){}}
             onRemove={function noRefCheck(){}}
             onSearch={function noRefCheck(){}}
-            onSelect={function noRefCheck(){}}
+            onSelect={onSelectNames}
             options={[
             'Web Development','App Development','SEO','Linkedin Optimization','Graphic Design',
             'Video Editing','Time Management','Digital Marketing','Content Writing','Ads'
@@ -119,9 +153,9 @@ const collectData = async (e) => {
           </div> */}
 
           <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-            <button type="submit" class="btn btn-primary btn-lg" onClick={collectData}  >
+            <Link to='/login' type="submit" class="btn btn-primary btn-lg" onClick={collectData}  >
               Register
-            </button>
+            </Link>
           </div>
         </form>
       </div>

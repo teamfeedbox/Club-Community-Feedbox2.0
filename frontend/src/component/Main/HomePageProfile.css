@@ -1,0 +1,47 @@
+.HomePageProfile {
+    border: 2px solid black;
+    margin: 20px 0px 20px 20px;
+    border-radius: 10px;
+    padding: 20px 10px;
+    text-align: center;
+    overflow: hidden;
+    position: fixed;
+    width: 20%;
+}
+.home-page-profile-card img{
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+}
+.HomePageProfile-name {
+    padding-top: 15px;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+.HomePageProfile-role {
+    /* border: 2px solid black; */
+    margin-top: -15px;
+    font-weight: 500;
+}
+.HomePageProfile-skills {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.HomePageProfile-coin {
+    /* border: 2px solid red; */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+.HomePageProfile-coin img {
+    height: 70px;
+    width: 70px;
+}
+.reward-coin-content {
+    /* border: 2px solid red; */
+    padding-top: 5px;
+    padding-left: 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+}

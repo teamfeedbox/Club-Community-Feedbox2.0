@@ -1,14 +1,7 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  // name:String,
-  // email:String,
-  // password:String,
 
-  // phone:Number,
-
-  // college:String,
-  // job:String
 
   name: {
     type: String,
@@ -36,6 +29,9 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     //required: true,
+  },
+  position:{
+    type:String,
   },
   collegeYear: {
     type: Number,

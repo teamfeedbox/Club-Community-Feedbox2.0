@@ -1,17 +1,21 @@
-.Navbar{
+.Navbar {
     display: flex;
     justify-content: space-around;
     background-color: #232234;
     color: white;
-    /* padding: 5px; */
+    overflow: hidden;
+    position: fixed;
+    /* top: 0; */
+    width: 100%;
+    z-index: 10000000;
 }
 
-.navbar-center{
+.navbar-center {
     display: flex;
     /* border: 2px solid red; */
 }
 
-.navbar-link{
+.navbar-link {
     text-decoration: none;
     color: #fff;
     /* border: 2px solid ; */
@@ -21,10 +25,11 @@
     transition: all 0.1s linear;
 }
 
-.navbar-link:hover{
+.navbar-link:hover {
     color: #cfcdcc;
     /* border-bottom: 3px solid white; */
 }
+
 .navbar-highlight {
     background-color: white;
     height: 2px;
@@ -32,26 +37,32 @@
     margin: auto;
     /* transition: all 0.3s linear; */
 }
-.Navbar-left{
+
+.Navbar-left {
     /* margin: auto; */
+    position: relative;
     padding-top: 5px;
+    /* border: 2px solid white; */
+    left: -70px;
 }
-.Navbar-left img{
+
+.Navbar-left img {
     height: 60px;
     /* border: 2px solid white; */
 }
-.navabar-right{
+
+.navabar-right {
     display: flex;
     justify-content: space-between;
     /* border: 2px solid red; */
 }
 
-.navabr-button{
+.navabr-button {
     margin: auto;
     padding: 0px 30px;
 }
 
-.navabr-button button{
+.navabr-button button {
     color: white;
     background-color: #232234;
     border: 2px solid #fff;
@@ -61,19 +72,23 @@
     font-weight: 500;
     transition: all 0.2s linear;
 }
-.navabr-button button:hover{
+
+.navabr-button button:hover {
     background-color: #fff;
     color: #232234;
     /* border: 2px solid #0f4d25; */
 }
-.navabar-icon{
+
+.navabar-icon {
     margin: auto;
     /* padding: 0px 30px 0px 10px; */
 }
-.navbar-profile{
+
+.navbar-profile {
     margin: auto;
 }
-.navbar-profile img{
+
+.navbar-profile img {
     height: 45px;
     width: 45px;
     border-radius: 50%;

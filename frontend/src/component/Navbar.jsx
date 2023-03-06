@@ -12,22 +12,22 @@ const Navbar = () => {
         <img src="Images/logo.png" alt="" />
       </div>
       <div className="navbar-center">
-        <Link className="navbar-link"  onClick={() => setHighlight('home')}>
+        <Link to='/main' className="navbar-link"  onClick={() => setHighlight('home')}>
           Home
           <div className={hightlight === 'home' ? 'navbar-highlight' : ''}></div>
         </Link>
 
-        {/* <Link className="navbar-link" onClick={() => setHighlight('notification')}>
-          Notification
-          <div className={hightlight === 'notification' ? 'navbar-highlight' : ''}></div>
-        </Link> */}
+        <Link className="navbar-link" onClick={() => setHighlight('xyz')}>
+          Xyz
+          <div className={hightlight === 'xyz' ? 'navbar-highlight' : ''}></div>
+        </Link>
 
         <Link className="navbar-link" onClick={() => setHighlight('calendar')}>
           Calendar
           <div className={hightlight === 'calendar' ? 'navbar-highlight' : ''}></div>
         </Link>
 
-        <Link className="navbar-link" onClick={() => setHighlight('res')}>
+        <Link to='/rescources' className="navbar-link" onClick={() => setHighlight('res')}>
           Resources
           <div className={hightlight === 'res' ? 'navbar-highlight' : ''}></div>
         </Link>
