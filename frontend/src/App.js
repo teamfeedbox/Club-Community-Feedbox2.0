@@ -9,6 +9,8 @@ import SignUp from './component/signup/SignUp';
 import Home from './component/landing_page/Home';
 // import Main from './component/Main';
 import Main from './component/Main/Main';
+import Rescources from './component/Rescources/Rescources';
+import RescourcesDisplay from './component/Rescources/RescourcesDisplay'
 
 const App = () => {
   return (
@@ -19,6 +21,8 @@ const App = () => {
           <Route index path='/login' element={ <Login /> } />
           <Route index path='/register' element={ <SignUp /> } />
           <Route index path='/main' element={ <Main /> } />
+          <Route index path='/rescources' element={ <Rescources /> } />
+          <Route index path='/rescourcesDisplay' element={ <RescourcesDisplay /> } />
         </Routes>
       </Router>
     </div>

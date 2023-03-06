@@ -53,7 +53,7 @@ const Curriculum = () => {
               <h4>{item.name}</h4>
               </div>
               <div className="curriculum-carousel-right">
-                <img src={item.img} alt="alumni image"></img>
+                <img src={item.img} alt="alumni image"/>
               </div>
             </div>
           </Carousel.Item>
