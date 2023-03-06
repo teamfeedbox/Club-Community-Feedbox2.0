@@ -3,7 +3,7 @@ import "./Curriculum.css";
 // import data
 import {curriculumData} from "../../component_data/landing_curriculum";
 import {carouselData} from "../../component_data/curriculumCarousel"
-
+import {Link} from 'react-router-dom'
 // import other depencies
 import  { useState } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
@@ -14,6 +14,7 @@ const Curriculum = () => {
     setIndex(selectedIndex);
   };
   return (
+    <div>
     <div className="Curriculum">
       <div className="Curriculum-head">
         <h2>The YC Curriculum</h2>
@@ -61,6 +62,25 @@ const Curriculum = () => {
       
           </Carousel>
           </div>
+          </div>
+
+          {/* footer */}
+          <div className="landing-footer">
+            <Link to='/' className="footer-logo">
+            <img src='Images/banner.png' alt="Feedbox logo"></img>
+            </Link>
+            <div className="footer-middle">
+              <li>About</li>
+              <li>Privacy</li>
+              <li>FAQ</li>
+              <li>Help</li>
+            </div>
+
+            <Link to='/register' className="footer-btn-parent">
+              <button className="footer-btn">Register Now</button>
+            </Link>
+          </div>
+      
       </div>
   );
 };

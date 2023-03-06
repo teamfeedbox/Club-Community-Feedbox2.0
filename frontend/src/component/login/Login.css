@@ -1,16 +1,16 @@
 /* login header css */
 .login-header{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     padding: 10px;
-    margin-top: 10px;
+    padding: 0 200px;
 }
 .login-header-left img{
-    height: 50px;
-    width: 180px;
+    height: 75px;
+    width: 150px;
 }
 .login-header-right{
-    width: 35%;
+    /* width: 35%; */
     display: flex;
 }
 
@@ -37,9 +37,10 @@
 
 .login-header-overall-button{
     /* border: 2px solid red; */
-    width: 50%;
+    /* width: 60%; */
     display: flex;
     justify-content: space-around;
+    margin-top: 10px;
 }
 
 .joinnow-login-header {
@@ -90,18 +91,24 @@
 /* **************************login page content****************** */
 .login-page{
     /* border: 2px solid black; */
-    padding: 50px;
     display: flex;
+    width: 70%;
+    flex-direction: row-reverse;
+    margin: 20px auto 0px auto;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px
 }
 .login-main-page{
     /* border: 2px solid red; */
-    width: 50%;
-    padding-left: 60px;
+    width: 35%;
+    margin: auto auto;
+    /* padding:0px 0 0 120px; */
+    text-align: center;
+    
 }
 .login-main-page p{
-    color: #8f5849;
-    font-size: 60px;
-    font-weight: 200;
+    color: #044D9C;
+    font-size: 40px;
+    font-weight: 700;
 }
 
 .login-input {
@@ -109,18 +116,44 @@
     display: flex;
     /* width: 60%; */
     margin:10px 0px;
+    justify-content: center;
 }
 
 .login-main-page form { 
     margin-top: 50px;
 }
 .login-input input {
-    width: 60%;
+    /* width: 60%; */
     height: 40px;
     margin: 2px 0px;
     padding-left: 10px;
+    justify-content: center;
+}
+/* default classes */
+.input-group>:not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+    margin-left: -1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    width: 12%;
+}
+.input-group-text{
+    height: 100%;
+    border-radius: 0px 10px 10px 0px;
 }
 
+.login-input-password{
+    border: 2px solid black;
+}
+
+.login-input-eye{
+    padding:7px;
+    height: 50px;
+    /* margin-right: -100px; */
+    /* position: absolute; */
+}
+element.style{
+    margin:0;
+}
 .login-main-page form button{
     border: 2px solid #2977c9;
     border-radius: 2px;
@@ -131,7 +164,6 @@
     font-family: inherit;
     overflow: hidden;
     outline-width: 2px;
-    padding: 0 32px;
     text-align: center;
     text-decoration: none;
     vertical-align: middle;
@@ -144,8 +176,9 @@
     align-items: center;
     justify-content: center;
     background-color: #2977c9;
-    width: 60%;
-    margin: 30px 0px;
+    width: fit-content;
+    padding:10px 80px;
+    margin:20px auto;
     transition: all 0.2s linear;
 }
 
@@ -168,9 +201,50 @@
     height: 600px;
 }
 
-@media only screen and (max-width: 480px){
-    .login-header-right{
-        display: none;
+@media only screen and (max-width:480px){
+   .login-image{
+    display: none;
+   }
+}
+
+
+@media only screen and (min-width:480px) and (max-width:950px)
+{
+    .login-header{
+        justify-content:none;
+        padding: 0 50px;
+    }     
+    .login-page{
+        width: 90%;
+    }
+    .login-main-page{
+        width: 38%;
+    }
+    .login-main-page p{
+        font-size: 38px;
+    }
+    .login-input input {
+        height: 40px;
+        margin: 2px 0px;
+        padding-left: 10px;
+    }
+    .input-group-text{
+        margin-right: -5px;
+    }
+    .login-main-page form{
+        width: 98%;
+    }
+    .joinnow-login-button{
+        width: 65%;
+        height: 55px;
+    }
+    .login-image{
+        width: 60%;
+    }
+    .login-image img {
+        width: 100%;
     }
 
 }
+
+
