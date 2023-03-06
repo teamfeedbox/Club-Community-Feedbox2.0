@@ -1,5 +1,10 @@
 import React from 'react';
 import "./Landing.css";
+<<<<<<< HEAD
+import { Link } from 'react-router-dom';
+import Curriculum from './Curriculum';
+=======
+>>>>>>> 9c5aa865e1fcbe482a86a74796752eee022f8962
 function Landing() {
   return (
     <div className='landing-container'>
@@ -10,22 +15,22 @@ function Landing() {
                 color:'white',
                 padding:'10px 20px',
                 marginRight:'20px'
-                }}>Y</b>
-                    <b>Startup School</b>
+                }}>F</b>
+                    <b>Feedbox School</b>
                 </div>
                 <p>
             
-                Learn how to start a company,<br/> with help
-                from the world's top<br/> startup accelerator -<br></br>
-                Y Combinator.
+                Learn how to start a company, with help
+                from the world's top startup accelerator -<br></br>
+                <b>Y Combinator</b>.
                 </p>
-                <p style={{fontSize:"27px",marginTop:'30px'}}>
-                <span style={{color:'#232234',fontWeight:'500'}}>Startup School</span> is a free online course
+                <p className="landing-heaad-text">
+                <span >Startup School</span> is a free online course
                 on how to start a startup.
                 </p>
-                <div className='lading-btn'>
-                    <button className='signup-btn'>Sign up</button>
-                    <button className='signin-btn'>Sign in</button>
+                <div className='landing-btn-container'>
+                    <Link to="/login" className='login-btn'>Log in</Link>
+                    <Link to="/register" className='register-btn'>Register</Link>
                 </div>
             </div>
             <div className='landing_head_right'>

@@ -1,10 +1,10 @@
-import { faEnvelope, faLockOpen, faPhone, faSchool, faSuitcase, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faLockOpen, faPhone, faSchool, faSuitcase, faUser,faCalendar,faCodeBranch} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import React, { useState,useEffect } from "react";
 import { useNavigate } from 'react-router-dom'
 import Multiselect from 'multiselect-react-dropdown';
-
+import { Link } from "react-router-dom";
 import "./SignUp.css";
 const SignupPage = () => {
 const [name,setName] = useState("");
@@ -66,7 +66,7 @@ let onSelectNames = skills => {
             <FontAwesomeIcon style={{'margin' : '10px'}} icon={faUser} />
             <div class="form-outline flex-fill mb-0">
               <input type="text" id="name" class="form-control" placeholder="Your Name" 
-              required value={name} onChange={(e) => setName(e.target.value)} autoComplete="new-password"/>
+              required value={name} onChange={(e) => setName(e.target.value)} />
             </div>
           </div>
 
@@ -74,7 +74,7 @@ let onSelectNames = skills => {
             <FontAwesomeIcon style={{'margin' : '10px'}} icon={faEnvelope} />
             <div class="form-outline flex-fill mb-0">
               <input type="email" id="email" class="form-control" placeholder="Your Email" 
-              value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="new-password"/>
+              value={email} onChange={(e) => setEmail(e.target.value)} required />
             </div>
           </div>
 
@@ -86,22 +86,33 @@ let onSelectNames = skills => {
             </div>
           </div>
 
-          <div class="d-flex flex-row align-items-center mb-4">
-            <FontAwesomeIcon style={{'margin' : '10px'}} icon={faPhone} />
-            <div class="form-outline flex-fill mb-0">
-              <input type="tel" id="contactNumber" class="form-control" placeholder="Your Contact Number"
-              value={phone} onChange={(e) => setPhone(e.target.value)} required autoComplete="new-password"/>
-            </div>
-          </div>
 
           <div class="d-flex flex-row align-items-center mb-4">
             <FontAwesomeIcon style={{'margin' : '10px'}}  icon={faSchool} />
             <div class="form-outline flex-fill mb-0">
               <input type="text" id="university" class="form-control" placeholder="Your University"
-              value={college} onChange={(e) => setCollege(e.target.value)} required autoComplete="new-password"/>
+              value={college} onChange={(e) => setCollege(e.target.value)} required />
             </div>
           </div>
 
+          
+          <div class="d-flex flex-row align-items-center mb-4">
+          <FontAwesomeIcon style={{'margin' : '10px'}} icon={faCalendar} />
+            <div class="form-outline flex-fill mb-0">
+              <input type="year" id="year" class="form-control" placeholder="Year"
+               required min='1' />
+            </div>
+          </div>
+
+          
+          
+          <div class="d-flex flex-row align-items-center mb-4">
+            <FontAwesomeIcon style={{'margin' : '10px'}} icon={faCodeBranch} />
+            <div class="form-outline flex-fill mb-0">
+              <input type="text" id="branch" class="form-control" placeholder="Branch"
+             required/>
+            </div>
+          </div>
           
           <div class="d-flex flex-row align-items-center mb-4 multi-placeholder">
             <FontAwesomeIcon style={{'margin' : '12px'}}  icon={faSuitcase} />
@@ -142,9 +153,9 @@ let onSelectNames = skills => {
           </div> */}
 
           <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-            <button type="submit" class="btn btn-primary btn-lg" onClick={collectData}  >
+            <Link to='/login' type="submit" class="btn btn-primary btn-lg" onClick={collectData}  >
               Register
-            </button>
+            </Link>
           </div>
         </form>
       </div>

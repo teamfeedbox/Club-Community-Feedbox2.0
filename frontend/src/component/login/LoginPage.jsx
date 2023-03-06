@@ -1,4 +1,4 @@
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faAt, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,62 +7,105 @@ import "./Login.css";
 const LoginPage = () => {
   const [eye, setEye] = useState(false);
   const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-  //   useEffect(()=>{
-  //     const auth = localStorage.getItem('users'); // this is done to prevent going to login page again using url
-  //     if(auth)
-  //     {
-  //         navigate('/signup')
-  //     }
-  // },[])
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    console.log(email, password);
 
-    const loginHandle = async (e) => {
-      e.preventDefault();
-      console.log( email, password);
+    let result = await fetch("http://localhost:8000/login", {
+      method: "post",
+      body: JSON.stringify({ email, password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    result = await result.json();
+    console.log(result);
+    console.log("first");
 
-      //this is called login api integration which is created in backend index.js file
-      let result = await fetch('http://localhost:8000/login',{
-          method:'post',
-          body: JSON.stringify({email,password}),
-          headers:{
-              "Content-Type":"application/json"
-          }
-      });
-      result = await result.json();
-      console.log(result)
-      // console.log("first")
+    if (result.name) {
+      localStorage.setItem("users", JSON.stringify(result));
+      // navigate('/signup')
+      alert("welcome");
+    } else {
+      alert("Please enter valid login credentials");
+    }
+  };
 
-      if(result){
-          localStorage.setItem('user',JSON.stringify(result));
-          // navigate('/')
-          alert("welcome")
-      }
-      else{
-          alert("Please enter valid login credentials")
-      }
-  }
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  };
 
-
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
 
   const navigate = useNavigate();
   return (
     <div className="login-page">
       <div className="login-main-page">
-        <p>Welcome to your professional community</p>
+        <p>Sign In</p>
         <form action="">
-          <div className="login-input">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Email"
+              aria-label="Recipient's username"
+              aria-describedby="basic-addon2"
+            />
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon2">
+              <FontAwesomeIcon icon={faAt} className='fa-regular' />
+                
+              </span>
+            </div>
+          </div>
+
+          <div class="input-group mb-3">
+            <input
+              type={eye ? "text" : "password"}
+              required
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              class="form-control"
+              aria-label="Recipient's username"
+              aria-describedby="basic-addon2"
+            />
+            <div class="input-group-append bg-transparent">
+              <span class="input-group-text" id="basic-addon2">
+                <div
+                  onClick={() => {
+                    setEye(!eye);
+                  }}
+                >
+                  {eye ? (
+                    <FontAwesomeIcon icon={faEye} />
+                  ) : (
+                    <FontAwesomeIcon icon={faEyeSlash} />
+                  )}
+                </div>
+              </span>
+            </div>
+          </div>
+          {/* <div className="login-input">
             <input type="email" required placeholder="Email"
             value={email} onChange={(e) => setEmail(e.target.value)} />
           </div>
-          <div className="login-input">
-            <input
+          <div className="login-input login-input-password">
+            <div>
+
+            <input className="login-input-eye-left"
               type={eye ? "text" : "password"}
               required
               placeholder="Password"
               value={password} onChange={(e) => setPassword(e.target.value)}
             />
-            <div
+            </div>
+            <div className="login-input-eye"
               onClick={() => {
                 setEye(!eye);
               }}
@@ -74,14 +117,24 @@ const LoginPage = () => {
                 <FontAwesomeIcon icon={faEyeSlash} />
               )}
             </div>
-          </div>
-          <button type="submit" onClick={loginHandle}>Sign in</button>
+          </div> */}
+          <button
+            className="login-input-below-btn"
+            type="submit"
+            onClick={handleLogin}
+          >
+            Sign in
+          </button>
         </form>
-        <button className="joinnow-login-button" onClick={() => navigate('/signup')}>New to LinkedIn? Join now</button>
-       
+        <button
+          className="joinnow-login-button"
+          onClick={() => navigate("/signup")}
+        >
+          New to LinkedIn? Join now
+        </button>
       </div>
       <div className="login-image">
-        <img src="Images/loginImage.png" alt="" />
+        <img src="Images/l2.jpeg" alt="" />
       </div>
     </div>
   );

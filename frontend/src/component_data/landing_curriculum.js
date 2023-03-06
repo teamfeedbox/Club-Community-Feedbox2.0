@@ -18,7 +18,7 @@ export const curriculumData=[
     {
         img:'Images/speaker4.png',
         title:'How to Get Users and Grow',
-        text:'Gustaf Alstromer, YC Partner & Former Head of Growth at Airbnb'
+        text:'Gustaf Alstromer, YC Partner & Former '
     },
     {
         img:'Images/speaker5.jpg',
