@@ -1,0 +1,90 @@
+.CreatePost {
+    border: 2px solid black;
+    border-radius: 10px;
+    margin: 20px;
+    padding: 20px;
+    display: flex;
+}
+
+.create-post-profile img {
+    height: 55px;
+    width: 55px;
+    border-radius: 50%;
+}
+
+.create-post-start {
+    display: flex;
+    border-bottom: 2px solid black;
+    margin: auto;
+    width: 88%;
+    padding: 7px;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    border-radius: 2px;
+    transition: 0.3s all linear;
+}
+
+.create-post-start:hover {
+    background-color: rgb(234, 230, 230);
+}
+.profile-section-overall {
+    /* height: 100%; */
+}
+
+.modal-input {
+    height: 100%;
+    width: 100%;
+    border: none;
+} 
+
+.modal-body {
+    /* height: 200px; */
+}
+
+.modal-body textarea:focus {
+    outline: none;
+}
+.modal-profile-section {
+    margin-bottom: 15px;
+    margin-left: 10px;
+    display: flex;
+    /* border: 2px solid black; */
+}
+
+.modal-profile-section-image img{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+ 
+.modal-profile-section-content{
+    margin-left: 10px;
+}
+
+.modal-profile-section-content select {
+    position: relative;
+    color: gray;
+    border: none;
+    /* width: 120%; */
+    top: -5px;
+}
+
+.modal-profile-section-content select:focus {
+    outline: none;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    /* border: 2px solid black; */
+}
+
+.image-chooosen-upload{
+    height: 300px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.image-chooosen-upload-display {
+    display: none
+}
