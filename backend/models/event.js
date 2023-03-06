@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const user = require('./user')
+const {ObjectId} = mongoose.Schema.Types
 
 const eventSchema = new mongoose.Schema({
   title: {
@@ -9,8 +11,8 @@ const eventSchema = new mongoose.Schema({
   },
 
   eventDate: {
-    type: Date,
-    default: Date.now,
+    type: String,
+    
   },
 
   venue: {
@@ -20,7 +22,10 @@ const eventSchema = new mongoose.Schema({
     type: String,
   },
   postedBy: {
-    type: String,
+    // type: String,
+    type:ObjectId,
+    ref:user
+
   },
   date: {
     type: Date,
