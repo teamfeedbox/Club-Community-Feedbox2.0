@@ -47,6 +47,7 @@ text-decoration: none;
 
 .login-btn:hover{
     background-color:#232234c6;
+    transform: scale(0.98);
     text-decoration: none;
     color:#fff;
 }
@@ -54,15 +55,16 @@ text-decoration: none;
     color: #232234;
     border: none;
     background-color: transparent;
-    padding: 15px 45px;
-    margin-left: 20px;
-    border-radius: 5px;
-    text-decoration: none;
+    padding: 9px 44px;
+    margin-left: 5px;
 }
-.register-btn:hover{
-    background-color: rgb(228, 225, 225);
-    color:#000;
-    text-decoration: none;
+
+.signin-btn:hover{
+    color:#232234c6;
+    border: 1px solid black;
+    border-radius: 5px;
+    transform: scale(0.98);
+    
 }
 .right-img{
     height: 100%;
