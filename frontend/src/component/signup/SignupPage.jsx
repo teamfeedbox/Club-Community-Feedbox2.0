@@ -1,5 +1,6 @@
 import { faEnvelope, faLockOpen, faPhone, faSchool, faSuitcase, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import React, { useState,useEffect } from "react";
 import { useNavigate } from 'react-router-dom'
 import Multiselect from 'multiselect-react-dropdown';

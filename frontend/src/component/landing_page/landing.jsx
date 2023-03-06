@@ -1,6 +1,5 @@
 import React from 'react';
 import "./Landing.css";
-import Curriculum from './Curriculum';
 function Landing() {
   return (
     <div className='landing-container'>
