@@ -37,16 +37,22 @@ border-radius: 5px;
 
 .signup-btn:hover{
     background-color:#232234c6;
+    transform: scale(0.98);
 }
 .signin-btn{
     color: #232234;
     border: none;
     background-color: transparent;
-    padding: 10px 45px;
+    padding: 9px 44px;
+    margin-left: 5px;
 }
 
 .signin-btn:hover{
     color:#232234c6;
+    border: 1px solid black;
+    border-radius: 5px;
+    transform: scale(0.98);
+    
 }
 
 .right-img{
