@@ -47,23 +47,23 @@ text-decoration: none;
 
 .login-btn:hover{
     background-color:#232234c6;
-    transform: scale(0.98);
+    transform: scale(0.97);
     text-decoration: none;
     color:#fff;
 }
 .register-btn{
     color: #232234;
     border: none;
-    background-color: transparent;
-    padding: 9px 44px;
+    text-decoration: none;
+    padding: 14px 44px;
     margin-left: 5px;
 }
 
-.signin-btn:hover{
+.register-btn:hover{
     color:#232234c6;
     border: 1px solid black;
     border-radius: 5px;
-    transform: scale(0.98);
+    transform: scale(0.97);
     
 }
 .right-img{
