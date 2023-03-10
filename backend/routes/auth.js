@@ -5,6 +5,7 @@ const Jwt = require('jsonwebtoken')
 const jwtKey = require('../key')
 
 
+
 router.post('/register',async(req,res)=>{
     let data = new user(req.body);
     let result = await data.save(); // saving the users in the database when users signup
@@ -12,7 +13,7 @@ router.post('/register',async(req,res)=>{
     delete result.password;
     res.send(result);
     // console.log(result)
-})
+});
 
 
 router.post('/login',async(req,res)=>{
