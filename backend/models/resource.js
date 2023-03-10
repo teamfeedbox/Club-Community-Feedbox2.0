@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const {ObjectId} = mongoose.Schema.Types
-const user = require('./user')
+// const user = require('./user')
 const resourceSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -14,7 +14,7 @@ const resourceSchema = new mongoose.Schema({
   },
   author: {
     type:ObjectId,
-    ref:"user"
+    ref:"users"
   },
   date: {
     type: Date,

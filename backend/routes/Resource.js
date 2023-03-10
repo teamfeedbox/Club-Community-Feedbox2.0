@@ -2,70 +2,64 @@ const express = require('express')
 const router = express.Router()
 const Resource = require('../models/resource')
 
-// const[image,setImage] = useState('')
-// const[url,setUrl] = useState('')
+
+router.post('/create-resource',async(req,res)=>{
+    let resource = new Resource(req.body)
+    let data = await resource.save();
+    res.send(data);
+    
+})
 
 
-useEffect(()=>{
-if(url){
-    fetch('/create-post',{
-        method:'post',
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-            title,
-            desc,
-            postType,
-            collegeName,
-            postedDate,
-            postedBy,
-           pic:url
-        })
-    }).then(res=>res.json())
-    // .then(data=>{
-    //     console.log(data)
-    //     if(data.error){
-    //         console.log("error")
-    //     }
-    //     else{
-    //         history.push('/') or use useNavigate()
-    //     }
-    // })
-    .catch(err=>{
-        console.log(err)
-    })
-}
-},[url])
-
-
-
-
- const postDetails = ()=>{
-    const data = new FormData()
-    data.append('file',image)
-    data.append('upload_preset','feedbox-community-web')
-    data.append('cloud_name','feedbox-community-web')
-    fetch('https://api.cloudinary.com/v1_1/feedbox-community-web/image/upload',{
-        method:'post',
-        body:data
-    })
-    .then(res=>res.json())
-    .then(data=>{
-        setUrl(data.url)
+//api to get all resource
+//it will be used to display at the resources page
+router.get('/getAllResource',(req,res)=>{
+    Resource.find()
+    .populate('author').select("-password")
+    .then(posts=>{
+        res.json(posts)
     })
     .catch(err=>{
         console.log(err)
     })
-
-
-}
-
-{/* <button onClick ={()=>postDetails()} */}
+})
 
 
 
 
+//api to get all the resource created by user in their profile page
+router.get('/myResource/:id',(req,res)=>{
+   
+    Resource.find({author:req.params.id})
+  
+    .populate('author').select("-password")
+    .then(resource=>{
+        res.json({resource})
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
 
+
+//update resource api
+router.put('/updateResource/:id',async(req,res)=>{
+    let result = await Resource.updateOne(
+        {_id:req.params.id},
+        
+        {
+            $set:req.body
+            
+        }
+    )
+    res.send(result)
+  })
+
+//delete resource
+router.delete('/deleteResource/:eventId',async(req,res)=>{
+    const result = await Resource.ddeleteOne({_id:req.params.eventId});
+    res.send(result)
+     
+ })
 
 module.exports = router

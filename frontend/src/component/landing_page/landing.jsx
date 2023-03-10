@@ -2,6 +2,7 @@ import React from 'react';
 import "./Landing.css";
 import { Link } from 'react-router-dom';
 import Curriculum from './Curriculum';
+// import {Link} from 'react-router-dom'
 function Landing() {
   return (
     <div className='landing-container'>

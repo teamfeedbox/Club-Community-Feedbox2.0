@@ -14,14 +14,15 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.3",
-    "multiselect-react-dropdown": "^2.0.25",
     "react": "^18.2.0",
+    "react-autosuggest": "^10.1.0",
     "react-bootstrap": "^2.7.2",
     "react-bootstrap-v5": "^1.4.0",
     "react-calendar": "^4.0.0",
     "react-dom": "^18.2.0",
-    "react-dropdown-input": "^0.1.11",
+    "react-dropdown": "^1.11.0",
     "react-icons": "^4.7.1",
+    "react-is": "^18.2.0",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "scrollable-component": "^1.2.1",
@@ -50,5 +51,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "flow-babel-webpack-plugin": "^1.1.1"
   }
 }
