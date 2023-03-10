@@ -26,9 +26,9 @@ const LoginPage = () => {
     console.log("first");
 
     if (result.name) {
-      localStorage.setItem("users", JSON.stringify(result));
-      // navigate('/signup')
-      alert("welcome");
+      localStorage.setItem("user", JSON.stringify(result));
+      navigate('/main')
+      // alert("welcome");
     } else {
       alert("Please enter valid login credentials");
     }
@@ -55,6 +55,7 @@ const LoginPage = () => {
               placeholder="Email"
               aria-label="Recipient's username"
               aria-describedby="basic-addon2"
+              value={email} onChange={(e) => setEmail(e.target.value)} 
             />
             <div class="input-group-append">
               <span class="input-group-text" id="basic-addon2">

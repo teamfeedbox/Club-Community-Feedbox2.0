@@ -17,41 +17,41 @@ router.post('/register',async(req,res)=>{
 
 router.post('/login',async(req,res)=>{
     
-    // if (req.body.password && req.body.email) {
-    //     let data = await user.findOne(req.body).select("-password");
-    //     if (data) {
+    if (req.body.password && req.body.email) {
+        let data = await user.findOne(req.body).select("-password");
+        if (data) {
           
-    //       res.send(data);
-    //     } else {
-    //       res.send({ result: "no user found" });
-    //     }
-    //   } else {
-    //     res.send({ result: "no user found" });
-    //   }
+          res.send(data);
+        } else {
+          res.send({ result: "no user found" });
+        }
+      } else {
+        res.send({ result: "no user found" });
+      }
 
 
 
     //with jwt authentication
-    if (req.body.password && req.body.email) {
-    let data = await user.findOne(req.body).select("-password");
-    if (data) {
+  //   if (req.body.password && req.body.email) {
+  //   let data = await user.findOne(req.body).select("-password");
+  //   if (data) {
 
-      // this code is for jwt authentication
-      Jwt.sign({data},jwtKey,(err,token)=>{
-        if(err){
-      res.send("Something went wrong");
+  //     // this code is for jwt authentication
+  //     Jwt.sign({data},jwtKey,(err,token)=>{
+  //       if(err){
+  //     res.send("Something went wrong");
 
-        }
-        res.send({data,auth:token});
-        // res.send(data);
-      })
+  //       }
+  //       res.send({data,auth:token});
+  //       // res.send(data);
+  //     })
       
-    } else {
-      res.send({ result: "no user found" });
-    }
-  } else {
-    res.send({ result: "no user found" });
-  }
+  //   } else {
+  //     res.send({ result: "no user found" });
+  //   }
+  // } else {
+  //   res.send({ result: "no user found" });
+  // }
 
   // console.log(data);
 })

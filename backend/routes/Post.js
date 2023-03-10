@@ -6,29 +6,36 @@ const mongoose = require('mongoose');
 
 
 // api to create the post
-router.post('/create-post',(req,res)=>{
-
-    const {title,desc,postType,collegeName,postedDate,postedBy,pic} = req.body
-    if( !desc){
-        return res.status(422).json({error:"please fill all the fields"})
-    }
-
-    const post = new Post({
-        title,
-        desc,
-        postType,
-        collegeName,
-        postedDate,
-        postedBy,
-        img:pic
-    })
-    post.save().then(result=>{
-        res.json({post:result})
-    })
-    .catch(err=>{
-        console.log(err)
-    })
+router.post('/create-post',async(req,res)=>{
+    let post = new Post(req.body)
+    
+    let data = await post.save();
+    res.send(data);
 })
+
+
+// router.post('/create-post',(req,res)=>{
+//     const {title,desc,collegeName,postedDate,postedBy,likes,comment,pic} = req.body
+
+//     const post = new Post({
+//         title,
+//         desc,
+//         postedDate,
+//         postedBy ,
+//         collegeName,
+//         likes,
+//         comment,
+//         img:pic,
+
+//     })
+//     post.save().then(result=>{
+//         res.json({post:result})
+//     })
+//     .catch(err=>{
+//         console.log(err)
+//     })
+
+// })
 
 
 //api to get all posts
@@ -80,6 +87,49 @@ router.delete('/deletePost/:postId',async(req,res)=>{
    const result = await Post.deleteOne({_id:req.params.postId});
    res.send(result)
     
+})
+
+//like api
+router.put('/like',(req,res)=>{
+    Post.findByIdAndUpdate(req.body.postedBy,{
+        $push:{likes:req.user._id}
+    },{
+        new:true
+    }).exec((err,result)=>{
+        if(err)
+        {
+            return res.json({error:err})
+        }
+        else{
+            res.json(result)
+        }
+    })
+})
+
+
+// comment api
+
+router.put('/comment',(req,res)=>{
+    const comment = {
+        commentBy:req.user._id,
+        date:req.body.date,
+        message:req.body.message,
+    }
+    Post.findByIdAndUpdate(req.body.postedBy,{
+        $push:{comments:comment}
+    },{
+        new:true
+    })
+    .populate("comments.commentBy","_id name")
+    .exec((err,result)=>{
+        if(err)
+        {
+            return res.json({error:err})
+        }
+        else{
+            res.json(result)
+        }
+    })
 })
 
 
