@@ -1,0 +1,155 @@
+.RescourcesTable {
+    margin: 30px 70px;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+}
+.res-table-div {
+    border: 1px solid rgb(216, 209, 209);
+    border-radius: 10px;
+}
+.RescourcesTable table {
+    border-radius: 10px;
+}
+
+.RescourcesTable table thead {
+    text-transform: uppercase;
+    background-color: #F9FAFC;
+}
+
+.RescourcesTable table tbody tr {
+    /* text-align: center; */
+    height: 50px;
+}
+
+.RescourcesTable table tbody tr td {
+    color: #9c9da1;
+}
+
+
+
+.RescourcesTable table tbody tr th{
+    text-align: left;
+}
+
+.res-view-download {
+    display: flex;
+    /* justify-content: center; */
+}
+
+
+.res-view-download p {
+    /* border: 2px solid black; */
+    margin: 5px;
+    font-size: 0.7rem;
+    color: #7a7e83;
+    cursor: pointer;
+}
+
+.res-view-download p:hover{
+    text-decoration: underline;
+}
+
+.res-table-head th{
+    padding-left: 10px;
+    border-radius: 10px;
+    /* border: 2px solid red; */
+}
+
+.res-navigation{
+    /* display: flex*/
+    margin: 20px;
+    color: #7a7e83;
+}
+
+.res-table-heading {
+    /* border: 2px solid; */
+    display: flex;
+    justify-content: space-between;
+    margin:20px 20px;
+}
+
+.res-heading-right {
+    display: flex;
+    /* border: 2px solid red; */
+}
+
+.res-table-search {
+    display: flex;
+    margin: 0px 20px;
+}
+
+.res-table-search input {
+    border-top-left-radius: 5x;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    height: 40px;
+}
+
+.res-table-search button {
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 0px;
+    height: 40px;
+}
+
+.res-heading-left {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.res-add-btn {
+    height: 40px;
+}
+
+.modal-add-res-section-profile{
+    margin: 10px;
+}
+
+.res-add-modal-footer {
+    display: flex;
+    /* border: 2px solid red; */
+    /* justify-content:; */
+}
+
+.modal-footer-link {
+    margin: 4px;
+    border :2px solid rgb(255, 255, 255);
+    padding: 2px;
+    border-radius: 2px;
+    transition: all 0.2s linear;
+}
+
+.res-add-modal-title input{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    width: 100%;
+    padding: 5px;
+}
+
+.res-add-modal-footer-upload {
+    margin: 5px;
+    font-weight: 700;
+}
+.res-add-modal-title input:focus {
+    outline: none;
+}
+
+.modal-footer-link:hover {
+    border: 2px solid black;
+}
+
+.add-res-add-link {
+    margin: 5px;
+}
+
+.add-res-add-link input {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    padding: 5px;
+}

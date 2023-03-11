@@ -32,6 +32,10 @@
 
 }
 
-::-webkit-scrollbar {
+.main-post-dispaly::-webkit-scrollbar {
     display: none;
   }
+
+.main-home-page-cal::-webkit-scrollbar {
+    display: none;
+}

@@ -1,0 +1,81 @@
+.PendingApprovals {
+    /* position: absolute; */
+    border: 2px solid black;
+    /* width: 60%; */
+    border-radius: 10px;
+    /* height: 300px; */
+    margin: 20px;
+}
+
+.pending-approval-top {
+    z-index: 200;
+    /* position: sticky; */
+    /* position: fixed; */
+    padding: 10px;
+    background-color: #232234;
+    color: #fff;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.pending-approval-bottom {
+    padding: 10px;
+}
+
+.pending-approval-div {
+    border: 2px solid black;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px ;
+} 
+
+.pending-approval-left {
+    display: flex;
+}
+
+.pending-approval-image img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.pending-approval-content {
+    margin-left: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.pending-approval-right button {
+    margin: 5px;
+    padding: 5px 20px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    font-weight: 600;
+    color: white;
+    transition : all 0.2s ease-in;
+}
+
+.pending-approval-button-accept {
+    background-color: green;
+    border: 2px solid green;
+}
+
+.pending-approval-button-accept:hover {
+    background-color: rgb(3, 83, 3);
+    border: 2px solid rgb(3, 83, 3);
+    color: rgb(204, 203, 203);
+}
+
+.pending-approval-button-decline{
+    background-color: rgb(171, 11, 11);
+    border: 2px solid rgb(171, 11, 11);
+}
+
+.pending-approval-button-decline:hover {
+    background-color: rgb(146, 11, 11);
+    border: 2px solid rgb(146, 11, 11);
+    color: rgb(204, 203, 203);
+}

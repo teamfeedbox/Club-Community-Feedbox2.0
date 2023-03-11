@@ -17,9 +17,9 @@ const Navbar = () => {
           <div className={hightlight === 'home' ? 'navbar-highlight' : ''}></div>
         </Link>
 
-        <Link className="navbar-link" onClick={() => setHighlight('xyz')}>
-          Xyz
-          <div className={hightlight === 'xyz' ? 'navbar-highlight' : ''}></div>
+        <Link to='/approvals' className="navbar-link" onClick={() => setHighlight('approvals')}>
+          Approvals
+          <div className={hightlight === 'approvals' ? 'navbar-highlight' : ''}></div>
         </Link>
 
         <Link className="navbar-link" onClick={() => setHighlight('calendar')}>
@@ -32,7 +32,7 @@ const Navbar = () => {
           <div className={hightlight === 'res' ? 'navbar-highlight' : ''}></div>
         </Link>
 
-        <Link className="navbar-link" onClick={() => setHighlight('faq')}>
+        <Link to='/faq' className="navbar-link" onClick={() => setHighlight('faq')}>
           FAQ
           <div className={hightlight === 'faq' ? 'navbar-highlight' : ''}></div>
         </Link>

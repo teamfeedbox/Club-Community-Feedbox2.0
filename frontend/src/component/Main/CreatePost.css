@@ -29,12 +29,18 @@
 }
 .profile-section-overall {
     /* height: 100%; */
+    /* margin: auto; */
+    z-index: 99999999;
 }
 
 .modal-input {
     height: 100%;
     width: 100%;
-    border: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    /* border-bottom: 1px solid black; */
+    border-bottom: none;
 } 
 
 .modal-body {
@@ -76,15 +82,41 @@
 .modal-footer {
     display: flex;
     justify-content: space-between;
+     /* border: 2px solid black; */
+}
+.image-chooosen-upload-overall-div {
+    /* border: 2px solid red; */
+    display: flex;
+    flex-wrap: wrap;
+}
+.image-chooosen-upload-div {
+    display: flex;
     /* border: 2px solid black; */
 }
 
+.fa-xmark-circle-create-post {
+    /* border: 2px solid black; */
+    position: relative;
+    left: 18px;
+    top: 5px;
+    color: white; 
+    padding: 2px;
+    border-radius: 50%;
+    background-color: black;
+    height: 14px;
+    width: 14px;
+}
+
+
+
 .image-chooosen-upload{
-    height: 300px;
-    width: 100%;
+    height: 100px;
+    margin: 10px;
+    width: 100px;
     object-fit: cover;
 }
 
-.image-chooosen-upload-display {
-    display: none
+.error-text-create-post {
+    color: rgb(159, 7, 7);
+    font-size: 0.9rem;
 }
