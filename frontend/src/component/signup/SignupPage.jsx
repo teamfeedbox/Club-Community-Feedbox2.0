@@ -57,10 +57,13 @@ const collectData = async (e) => {
   
   return (
     <div className="signup-page">
+      
       <div className="signup-page-img">
-        <img src="Images/signIn.png" alt="" />
+        <img src="Images/l1.jpg" alt="" />
+        {/* <img src="Images/l3.png" alt="" /> */}
       </div>
       <div className="signup-page-main">
+        <h2>Register</h2>
         <form class="">
           <div class="d-flex flex-row align-items-center mb-4">
             <FontAwesomeIcon style={{'margin' : '10px'}} icon={faUser} />

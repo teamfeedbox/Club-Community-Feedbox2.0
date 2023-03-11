@@ -37,7 +37,7 @@ const LoginHeader = () => {
 
         <div className="login-header-overall-button">
           <Link to="/register" className="joinnow-login-header">
-            Join Now
+            Register
           </Link>
           <Link to="/login" className="signin-login-header">
             Log in
