@@ -129,9 +129,9 @@ const LoginPage = () => {
         </form>
         <button
           className="joinnow-login-button"
-          onClick={() => navigate("/signup")}
+          onClick={() => navigate("/register")}
         >
-          New to LinkedIn? Join now
+          New to Community? Join now
         </button>
       </div>
       <div className="login-image">

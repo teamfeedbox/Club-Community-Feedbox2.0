@@ -22,7 +22,7 @@ const Navbar = () => {
           <div className={hightlight === 'xyz' ? 'navbar-highlight' : ''}></div>
         </Link>
 
-        <Link className="navbar-link" onClick={() => setHighlight('calendar')}>
+        <Link to='/calendar' className="navbar-link" onClick={() => setHighlight('calendar')}>
           Calendar
           <div className={hightlight === 'calendar' ? 'navbar-highlight' : ''}></div>
         </Link>
