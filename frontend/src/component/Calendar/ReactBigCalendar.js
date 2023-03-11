@@ -173,8 +173,6 @@ export default function ReactBigCalendar() {
         onSelectSlot={handleSelect}
       />
     </div> 
-
-
     <div className='Calendar-add-drop'>
         <form>
         <div className="Calendar-title" style={{display:"flex",flexDirection:"row-reverse"}}>

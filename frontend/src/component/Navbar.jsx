@@ -45,7 +45,7 @@ const Navbar = () => {
           <button>Create Event</button>
         </div>
         <div className="navbar-profile">
-          <Link>
+          <Link to="/profile">
             <img src="Images/girl.jpg" alt="" />
           </Link>
         </div>
