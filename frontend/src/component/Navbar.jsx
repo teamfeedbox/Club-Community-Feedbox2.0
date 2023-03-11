@@ -22,7 +22,7 @@ const Navbar = () => {
           <div className={hightlight === 'approvals' ? 'navbar-highlight' : ''}></div>
         </Link>
 
-        <Link className="navbar-link" onClick={() => setHighlight('calendar')}>
+        <Link to='/calendar' className="navbar-link" onClick={() => setHighlight('calendar')}>
           Calendar
           <div className={hightlight === 'calendar' ? 'navbar-highlight' : ''}></div>
         </Link>
@@ -38,8 +38,8 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="navabar-right">
-        <div className="navabar-icon">
-          <FontAwesomeIcon className="fa-xl" icon={faBell} />
+        <div className="navabar-icon cr-ptr">
+          <FontAwesomeIcon className="fa-xl " icon={faBell} />
         </div>
         <div className="navabr-button">
           <button>Create Event</button>

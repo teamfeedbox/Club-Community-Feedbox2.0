@@ -12,6 +12,7 @@ import Rescources from './component/Rescources/Rescources';
 import RescourcesDisplay from './component/Rescources/RescourcesDisplay'
 import Faq from './component/Faq';
 import Approvals from './component/approvals/Approvals';
+import CalendarPage from './component/Calendar/CalendarPage';
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <Route index path='/login' element={ <Login /> } />
           <Route index path='/register' element={ <SignUp /> } />
           <Route index path='/main' element={ <Main /> } />
+          <Route index path='/calendar' element={ <CalendarPage /> } />
           <Route index path='/rescources' element={ <Rescources /> } />
           <Route index path='/rescourcesDisplay' element={ <RescourcesDisplay /> } />
           <Route index path='/faq' element={ <Faq /> } />

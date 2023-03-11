@@ -14,6 +14,15 @@ const CreatePost = () => {
   const [show, setShow] = useState(false);
   const [file, setFile] = useState([]);
   const [textDisplay, setTextDisplay] = useState(false);
+  
+  const [image, setImage] = useState("");
+  const [desc, setDesc] = useState("");
+  const [url, setUrl] = useState("");
+  const [title, setTitle] = useState("");
+  const [collegeName, setCollegeName] = useState("");
+  const [postedBy, setPostedBy] = useState("");
+  const [postType, setPostType] = useState("");
+  const [postedDate, setPostedDate] = useState("");
 
   console.log(`kjbdkvjbl${file}`);
   let count = 0;
@@ -31,6 +40,7 @@ const CreatePost = () => {
     for (let i = count; i < e.target.files.length && i < 5 && file.length < 5 && limit<6; i++) {
       console.log(e.target.files[i]);
       setFile((arr) => [...arr, URL.createObjectURL(e.target.files[i])]);
+      setImage(e.target.files[0]);
 
       count++;
       console.log(`count : ${count}`);
@@ -55,6 +65,77 @@ const CreatePost = () => {
     console.log(s);
     count--;
   }
+
+  // var createPost = {
+  //   title:title,
+  //   desc:desc,
+  //   postedBy:localStorage.getItem('user',JSON.parse(postedBy)),
+  //   pic:url
+  // }
+
+  const auth = localStorage.getItem("user");
+ 
+  useEffect(() => {
+    if (url) {
+      fetch("http://localhost:8000/create-post", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type':' multipart/form-data'
+        },
+        body: JSON.stringify({
+          title,
+          desc,
+          postType,
+          collegeName,
+          postedDate, 
+          // postedBy,
+          img: url,
+        }),
+        //body:JSON.stringify(createPost)
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.error) {
+            console.log("error");
+          } else {
+            console.log("fine");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [url]);
+
+  // function handleChange(e) {
+  //   console.log(e.target.files);
+  //   setFile(URL.createObjectURL(e.target.files[0]));
+  //   setImage(e.target.files[0]);
+  // }
+
+  const postDetails = () => {
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", "feedbox-community-web");
+    data.append("cloud_name", "feedbox-community-web");
+    fetch(
+      "https://api.cloudinary.com/v1_1/feedbox-community-web/image/upload",
+      {
+        method: "post",
+        body: data,
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setUrl(data.url);
+        // console.log(data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -90,7 +171,9 @@ const CreatePost = () => {
               <img src="Images/girl.jpg" alt="" />
             </div>
             <div className="modal-profile-section-content">
-              <h5>Isha Bam</h5>
+              <h5>{JSON.parse(auth).name}</h5>
+              {/* <h5>Isha Bam</h5> */}
+
               <select name="type">
                 <option value="public">Public</option>
                 <option value="community">Community</option>
@@ -102,6 +185,8 @@ const CreatePost = () => {
             rows="3"
             className="modal-input"
             placeholder="what do you want to talk about ?"
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
           ></textarea>
           <div className="image-chooosen-upload-overall-div">
             {file.map((files, index) => (
@@ -143,7 +228,13 @@ const CreatePost = () => {
             />
           </div>
           <div>
-            <Button variant="primary" onClick={handleClose}>
+            <Button
+              variant="primary"
+              onClick={function (event) {
+                handleClose();
+                postDetails();
+              }}
+            >
               Post
             </Button>
           </div>

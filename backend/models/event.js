@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const user = require('./user')
+// const user = require('./user')
 const {ObjectId} = mongoose.Schema.Types
 
 const eventSchema = new mongoose.Schema({
@@ -24,7 +24,7 @@ const eventSchema = new mongoose.Schema({
   postedBy: {
     // type: String,
     type:ObjectId,
-    ref:user
+    ref:"users"
 
   },
   date: {

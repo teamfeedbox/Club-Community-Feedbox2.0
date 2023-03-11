@@ -72,6 +72,9 @@
     font-weight: 500;
     transition: all 0.2s linear;
 }
+.cr-ptr:hover{
+    cursor: pointer;
+}
 
 .navabr-button button:hover {
     background-color: #fff;
