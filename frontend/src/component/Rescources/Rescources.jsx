@@ -21,7 +21,7 @@ const Rescources = () => {
 
           <Link to='/rescourcesDisplay' className="Rescources-card">
             <div className="Rescources-card-img">
-              <img src="Images/app-development.png" alt="" />
+              <img src="Images/app-dev.png" alt="" />
             </div>
             <div className="Rescources-card-content">
               <div>App Development</div>

@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
 import "./CreatePost.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFaceSmile, faImage } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFaceSmile,
+  faImage,
+  faXmark,
+  faXmarkCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
 const CreatePost = () => {
   const [show, setShow] = useState(false);
-  const [file, setFile] = useState();
+  const [file, setFile] = useState([]);
+  const [textDisplay, setTextDisplay] = useState(false);
+  
   const [image, setImage] = useState("");
   const [desc, setDesc] = useState("");
   const [url, setUrl] = useState("");
@@ -16,6 +23,48 @@ const CreatePost = () => {
   const [postedBy, setPostedBy] = useState("");
   const [postType, setPostType] = useState("");
   const [postedDate, setPostedDate] = useState("");
+
+  console.log(`kjbdkvjbl${file}`);
+  let count = 0;
+
+  function handleChange(e) {
+    console.log(e.target.files);
+    if (file.length == 5) {
+      setTextDisplay(true);
+      setTimeout(() => {
+        setTextDisplay(false);
+      }, 5000);
+    }
+
+    let limit= file.length+e.target.files.length;
+    for (let i = count; i < e.target.files.length && i < 5 && file.length < 5 && limit<6; i++) {
+      console.log(e.target.files[i]);
+      setFile((arr) => [...arr, URL.createObjectURL(e.target.files[i])]);
+      setImage(e.target.files[0]);
+
+      count++;
+      console.log(`count : ${count}`);
+      console.log(`i: ${i}`);
+    }
+
+    if (e.target.files.length > 5 || limit>=6) {
+      setTextDisplay(true);
+      setTimeout(() => {
+        setTextDisplay(false);
+      }, 3000);
+    }
+
+    console.log(`size array : ${file.length}`);
+
+    console.log(file);
+  }
+
+  function deleteFile(e) {
+    const s = file.filter((item, index) => index !== e);
+    setFile(s);
+    console.log(s);
+    count--;
+  }
 
   // var createPost = {
   //   title:title,
@@ -60,11 +109,11 @@ const CreatePost = () => {
     }
   }, [url]);
 
-  function handleChange(e) {
-    console.log(e.target.files);
-    setFile(URL.createObjectURL(e.target.files[0]));
-    setImage(e.target.files[0]);
-  }
+  // function handleChange(e) {
+  //   console.log(e.target.files);
+  //   setFile(URL.createObjectURL(e.target.files[0]));
+  //   setImage(e.target.files[0]);
+  // }
 
   const postDetails = () => {
     const data = new FormData();
@@ -133,20 +182,33 @@ const CreatePost = () => {
           </div>
           <textarea
             type="text"
-            rows="5"
+            rows="3"
             className="modal-input"
             placeholder="what do you want to talk about ?"
             value={desc}
             onChange={(e) => setDesc(e.target.value)}
           ></textarea>
-          <img
-            src={file}
-            className={
-              file
-                ? "image-chooosen-upload"
-                : "image-chooosen-upload image-chooosen-upload-display"
-            }
-          />
+          <div className="image-chooosen-upload-overall-div">
+            {file.map((files, index) => (
+              <div className="image-chooosen-upload-div">
+                <FontAwesomeIcon
+                  icon={faXmark}
+                  className="fa-xmark-circle-create-post"
+                  onClick={() => deleteFile(index)}
+                />
+                {/* <button type="button" className="btn-close"></button> */}
+                <img src={files} className="image-chooosen-upload" />
+              </div>
+            ))}
+          </div>
+
+          {textDisplay ? (
+            <div className="error-text-create-post">
+              **upto 5 images can be uploaded.
+            </div>
+          ) : (
+            <div></div>
+          )}
         </Modal.Body>
         <Modal.Footer className="modal-footer">
           <div className="modal-footer-upload">
@@ -161,7 +223,8 @@ const CreatePost = () => {
               style={{ visibility: "hidden" }}
               type="file"
               onChange={handleChange}
-              // onChange={(e)=>setImage(e.target.files[0])}
+              accept="image/*"
+              multiple
             />
           </div>
           <div>

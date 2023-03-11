@@ -1,0 +1,15 @@
+.approvals-overall {
+    padding: 80px 40px;
+    display: flex;
+}
+.vertical-scrollbar .scrollbar-thumb {
+    background-color: black;
+}
+
+.approvals-left{
+    width: 60%;
+}
+
+.approvals-right {
+    width: 40%;
+}

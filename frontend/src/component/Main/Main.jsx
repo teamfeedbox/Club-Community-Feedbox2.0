@@ -13,7 +13,7 @@ const Main = () => {
   return (
     <div className="main_container">
       <Navbar />
-      <div className="main">
+      <section className="main">
         <div className="main-home-page-profile">
           <scrollable-component scrollbar-visibility="always">
             <HomePageProfile />
@@ -21,25 +21,23 @@ const Main = () => {
         </div>
 
         <div className="main-post-dispaly">
-        <scrollable-component scrollbar-visibility="always">
-           
-          <div>
-            <CreatePost />
-          </div>
-          <PostDisplay />
+          <scrollable-component scrollbar-visibility="always">
+            <div>
+              <CreatePost />
+            </div>
+            <PostDisplay />
           </scrollable-component>
         </div>
 
         <div className="main-home-page-cal">
-        <scrollable-component scrollbar-visibility="always">
-         
-          <div>
-            <HomePageCal />
-            <HomePageEvent />
-          </div>
+          <scrollable-component scrollbar-visibility="always">
+            <div>
+              <HomePageCal />
+              <HomePageEvent />
+            </div>
           </scrollable-component>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
