@@ -3,9 +3,10 @@ const router = express.Router()
 const Post = require('../models/post')
 const user = require('../models/user')
 const mongoose = require('mongoose');
+const requireLogin = require('../middleware/requireLogin')
 
 
-// api to create the post
+//api to create the post
 router.post('/create-post',async(req,res)=>{
     let post = new Post(req.body)
     
@@ -14,26 +15,29 @@ router.post('/create-post',async(req,res)=>{
 })
 
 
-// router.post('/create-post',(req,res)=>{
+// router.post('/create-post',requireLogin,(req,res)=>{
 //     const {title,desc,collegeName,postedDate,postedBy,likes,comment,pic} = req.body
 
-//     const post = new Post({
-//         title,
-//         desc,
-//         postedDate,
-//         postedBy ,
-//         collegeName,
-//         likes,
-//         comment,
-//         img:pic,
+//     // const post = new Post({
+//     //     title,
+//     //     desc,
+//     //     postedDate,
+//     //     postedBy:req.user ,
+//     //     collegeName,
+//     //     likes,
+//     //     comment,
+//     //     img:pic,
 
-//     })
-//     post.save().then(result=>{
-//         res.json({post:result})
-//     })
-//     .catch(err=>{
-//         console.log(err)
-//     })
+//     // })
+//     // post.save().then(result=>{
+//     //     res.json({post:result})
+//     // })
+//     // .catch(err=>{
+//     //     console.log(err)
+//     // })
+
+//     console.log(req.user)
+//     res.send("ok")
 
 // })
 

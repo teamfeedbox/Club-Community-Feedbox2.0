@@ -3,9 +3,12 @@ const user = require("../models/user");
 const router = express.Router()
 const Jwt = require('jsonwebtoken')
 const jwtKey = require('../key')
+const requireLogin = require('../middleware/requireLogin')
 
 
-
+router.get('/protected',requireLogin,(req,res)=>{
+  res.send("hello")
+})
 router.post('/register',async(req,res)=>{
     let data = new user(req.body);
     let result = await data.save(); // saving the users in the database when users signup
@@ -38,12 +41,12 @@ router.post('/login',async(req,res)=>{
   //   if (data) {
 
   //     // this code is for jwt authentication
-  //     Jwt.sign({data},jwtKey,(err,token)=>{
+  //    const token =  Jwt.sign({_id:data._id},jwtKey,(err,token)=>{
   //       if(err){
   //     res.send("Something went wrong");
 
   //       }
-  //       res.send({data,auth:token});
+  //       res.send({token});
   //       // res.send(data);
   //     })
       
