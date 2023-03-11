@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import React, { useState,useEffect } from "react";
 import { useNavigate } from 'react-router-dom'
-import Multiselect from 'multiselect-react-dropdown';
+// import Multiselect from 'multiselect-react-dropdown';
 import { Link } from "react-router-dom";
 import "./SignUp.css";
 const SignupPage = () => {
@@ -12,7 +12,7 @@ const [email,setEmail] = useState("");
 const [password,setPassword] = useState("");
 const [phone,setPhone] = useState("");
 const [college,setCollege] = useState("");
-const [skills,setSkills] = useState([]);
+// const [skills,setSkills] = useState([]);
 
 
 const navigate = useNavigate();
@@ -28,10 +28,10 @@ useEffect(()=>{
 
 const collectData = async (e) => {
   e.preventDefault();
-  console.log(name, email, password, phone, college,skills);
+  console.log(name, email, password, phone, college);
  let result = await fetch('http://localhost:8000/register',{
   method:'post',       // post method because we want to save the data
-  body:JSON.stringify({name,email,password,phone, college,skills}),
+  body:JSON.stringify({name,email,password,phone, college}),
   headers:{
     'Content-Type':'application/json',
 
@@ -49,9 +49,9 @@ const collectData = async (e) => {
 }
 
 
-let onSelectNames = skills => {
-  setSkills(skills);
-};
+// let onSelectNames = skills => {
+//   setSkills(skills);
+// };
 
 
   
@@ -116,7 +116,7 @@ let onSelectNames = skills => {
              required/>
             </div>
           </div>
-          
+{/*           
           <div class="d-flex flex-row align-items-center mb-4 multi-placeholder">
             <FontAwesomeIcon style={{'margin' : '12px'}}  icon={faSuitcase} />
             <div class="form-outline flex-fill mb-0">
@@ -138,7 +138,7 @@ let onSelectNames = skills => {
   selectedValues={{}}
 />
             </div>
-          </div>
+          </div> */}
 
          
           

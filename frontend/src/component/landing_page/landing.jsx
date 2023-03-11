@@ -45,7 +45,7 @@ function Landing() {
         {/* second section */}
         <div className='landing-second-section'>
             <b className='landing-second-head'>
-            How Startup School works
+            How FeedBox Community works
             </b>
             <div className='landing-second'>
                 <li className='landing-second-con'>Get the essential advice for ambitious startup
@@ -57,7 +57,7 @@ function Landing() {
                 </li>
             </div>
             <b className='landing-second-head'>
-            Who is Startup School for?
+            Who is FeedBox Community for?
             </b>
             <div className='landing-second'>
                 <li className='landing-second-con'>It’s for anyone at the early stages of building

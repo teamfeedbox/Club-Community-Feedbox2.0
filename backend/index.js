@@ -12,6 +12,7 @@ const user = require("./models/user");
 const post = require("./routes/Post");
 const auth = require('./routes/auth')
 const event = require('./routes/Event')
+const resource = require('./routes/Resource')
 const bodyParser = require('body-parser')
 
 
@@ -36,6 +37,7 @@ app.get("/", (req, res) => {
 app.use("/", auth);
 app.use("/", post);
 app.use("/", event);
+app.use("/", resource);
 
 
 

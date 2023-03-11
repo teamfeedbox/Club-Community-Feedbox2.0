@@ -38,8 +38,8 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="navabar-right">
-        <div className="navabar-icon">
-          <FontAwesomeIcon className="fa-xl" icon={faBell} />
+        <div className="navabar-icon cr-ptr">
+          <FontAwesomeIcon className="fa-xl " icon={faBell} />
         </div>
         <div className="navabr-button">
           <button>Create Event</button>
