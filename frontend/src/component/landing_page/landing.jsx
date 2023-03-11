@@ -1,10 +1,7 @@
 import React from 'react';
 import "./Landing.css";
-<<<<<<< HEAD
 import { Link } from 'react-router-dom';
 import Curriculum from './Curriculum';
-=======
->>>>>>> 9c5aa865e1fcbe482a86a74796752eee022f8962
 function Landing() {
   return (
     <div className='landing-container'>
