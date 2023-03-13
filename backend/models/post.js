@@ -23,9 +23,9 @@ const postSchema = new mongoose.Schema({
   //   contentType: String,
   // }],
 
-  img: {
+  img: [{
     type: String,
-  },
+  }],
 
   // postType: {
   //   type: String,
@@ -43,7 +43,7 @@ const postSchema = new mongoose.Schema({
   visible: {
     type: String,
   },
-  postedDate: {
+  date: {
     type: Date,
     default: Date.now,
   },
