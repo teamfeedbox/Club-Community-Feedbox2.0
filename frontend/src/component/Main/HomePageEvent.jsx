@@ -10,7 +10,7 @@ const HomePageEvent = () => {
  
    const getList = async (e) => {
      // await e.preventDefault();
-     let result = await fetch("http://localhost:8000/getAllEvent");
+     let result = await fetch("http://192.168.1.42:8000/getAllEvent");
      result = await result.json();
      console.log(result)
      setEvent(result);

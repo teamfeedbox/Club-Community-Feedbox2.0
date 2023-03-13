@@ -1,40 +1,57 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.css";
 
+
 const Navbar = () => {
-    const [hightlight , setHighlight] = useState('home');
+  const selectedPage = window.location.pathname;
+  console.log(`slected page : ${selectedPage}`);
   return (
     <div className="Navbar">
       <div className="Navbar-left">
         <img src="Images/logo.png" alt="" />
       </div>
       <div className="navbar-center">
-        <Link to='/main' className="navbar-link"  onClick={() => setHighlight('home')}>
+        <Link to="/main" className="navbar-link">
           Home
-          <div className={hightlight === 'home' ? 'navbar-highlight' : ''}></div>
+          <div
+            className={selectedPage === "/main" ? "navbar-highlight" : ""}
+          ></div>
         </Link>
 
-        <Link to='/approvals' className="navbar-link" onClick={() => setHighlight('approvals')}>
+        <Link to="/approvals" className="navbar-link">
           Approvals
-          <div className={hightlight === 'approvals' ? 'navbar-highlight' : ''}></div>
+          <div
+            className={selectedPage === "/approvals" ? "navbar-highlight" : ""}
+          ></div>
         </Link>
 
-        <Link to='/calendar' className="navbar-link" onClick={() => setHighlight('calendar')}>
+        <Link to="/calendar" className="navbar-link">
           Calendar
-          <div className={hightlight === 'calendar' ? 'navbar-highlight' : ''}></div>
+          <div
+            className={selectedPage === "/calendar" ? "navbar-highlight" : ""}
+          ></div>
         </Link>
 
-        <Link to='/rescources' className="navbar-link" onClick={() => setHighlight('res')}>
+        <Link to="/rescources" className="navbar-link">
           Resources
-          <div className={hightlight === 'res' ? 'navbar-highlight' : ''}></div>
+          <div
+            className={
+              selectedPage === "/rescources" ||
+              selectedPage === "/rescourcesDisplay"
+                ? "navbar-highlight"
+                : ""
+            }
+          ></div>
         </Link>
 
-        <Link to='/faq' className="navbar-link" onClick={() => setHighlight('faq')}>
+        <Link to="/faq" className="navbar-link">
           FAQ
-          <div className={hightlight === 'faq' ? 'navbar-highlight' : ''}></div>
+          <div
+            className={selectedPage === "/faq" ? "navbar-highlight" : ""}
+          ></div>
         </Link>
       </div>
       <div className="navabar-right">
@@ -45,7 +62,15 @@ const Navbar = () => {
           <button>Create Event</button>
         </div>
         <div className="navbar-profile">
+
+          {/* <select name="cars" id="cars">
+            <option value="volvo"><img src="Images/girl.jpg" alt="" /></option>
+            <option value="saab">Saab</option>
+            <option value="opel">Opel</option>
+            <option value="audi">Audi</option>
+          </select> */}
           <Link>
+
             <img src="Images/girl.jpg" alt="" />
           </Link>
         </div>

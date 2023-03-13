@@ -20,7 +20,7 @@ getList();
 
   const getList = async (e) => {
     //  e.preventDefault();
-    let result = await fetch("http://localhost:8000/getAllPost");
+    let result = await fetch("http://192.168.1.42:8000/getAllPost");
     result = await result.json();
     console.log(result)
     setData(result);

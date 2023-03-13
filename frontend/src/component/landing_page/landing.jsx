@@ -1,5 +1,5 @@
 import React from 'react';
-import "./Landing.css";
+import "./landing.css";
 import { Link } from 'react-router-dom';
 import Curriculum from './Curriculum';
 function Landing() {
