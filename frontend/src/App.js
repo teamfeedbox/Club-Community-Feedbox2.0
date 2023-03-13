@@ -13,6 +13,7 @@ import RescourcesDisplay from './component/Rescources/RescourcesDisplay'
 import Faq from './component/Faq';
 import Approvals from './component/approvals/Approvals';
 import CalendarPage from './component/Calendar/CalendarPage';
+import ProfilePage from './component/Profile/ProfilePage';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Route index path='/main' element={ <Main /> } />
           <Route index path='/calendar' element={ <CalendarPage /> } />
           <Route index path='/rescources' element={ <Rescources /> } />
+          <Route index path='/profile' element={ <ProfilePage/> } />
           <Route index path='/rescourcesDisplay' element={ <RescourcesDisplay /> } />
           <Route index path='/faq' element={ <Faq /> } />
           <Route index path='/approvals' element={ <Approvals /> } />

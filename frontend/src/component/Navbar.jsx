@@ -69,8 +69,9 @@ const Navbar = () => {
             <option value="opel">Opel</option>
             <option value="audi">Audi</option>
           </select> */}
-          <Link>
+          {/* <Link> */}
 
+          <Link to="/profile">
             <img src="Images/girl.jpg" alt="" />
           </Link>
         </div>
