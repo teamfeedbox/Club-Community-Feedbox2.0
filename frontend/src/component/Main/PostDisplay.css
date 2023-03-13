@@ -21,11 +21,20 @@
     margin: 0px 15px;
 }
 
-.post-display-heading p {
-    /* border: 2px solid black; */
-    position: relative;
-    top: -10px;
+.post-display-heading-college {
+    margin-top: -12px;
     color: #333;
+    font-size: 0.8rem;
+    font-weight: 600;
+    /* border: 2px solid red; */
+}
+
+.post-display-heading-time {
+    margin-top: -12px;
+    margin-left: 9px;
+    color: #333;
+    font-size: 0.8rem;
+    /* border: 2px solid black; */
 }
 
 .post-display-bottom {

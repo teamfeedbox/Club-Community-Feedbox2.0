@@ -2,7 +2,8 @@
    padding-top: 70px;
 }
 .profile-head{
-   background-image: url('https://mcdn.wallpapersafari.com/medium/14/36/NZQoF9.jpg');
+   background-image: url('../../../public/Images/mistbg.jpg');
+   background-size: cover;
    height: 350px;
    position: relative;
    display: flex;
@@ -23,26 +24,51 @@ margin: 0px 55px 0 55px;
    height: 100%;
    border-radius: 0px 0px 200px 200px;
 }
-.right{
-   width: 25%;
-   background-color: rgba(255, 0, 0, 0.121);
-   height: 100%;
-}
+
 .middle{
 width: 50%;
 height: 100%;
-color: #000;
-/* border: 2px solid red; */
-/* text-align: center; */
-margin-left: 20px;
+color: #fff;
+padding-top:4%;
+
 }
 .middle h3{
-   margin-top: 10%;
+   padding: 0 0 0 0;
    font-size: 60px;
-   width: fit-content;
+   display: flex;
+   margin: 10% 0 0 0;
 }
 .middle p{
    font-size: 25px;
+   padding: 0 0 0 0;
+   font-weight: 450;
+   margin: 0 0 0 0;
    text-align: center;
+}
+.middle div{
    width: fit-content;
+}
+.right{
+   width: 40%;
+   height: 100%;
+   display: flex;
+   justify-content: center;
+   text-align: center;
+   color: #fff;
+}
+.Reward-coins{
+   background-color: #000;
+   height: 65%;
+   width: 40%;
+   border-radius: 10px;
+   margin: auto auto;
+}
+.Reward-coins img{
+   width: 42%;
+   margin: 30px 0 20px 0;
+}
+.Reward-coins div{
+   font-size: 22px;
+   font-weight: 700;
+
 }

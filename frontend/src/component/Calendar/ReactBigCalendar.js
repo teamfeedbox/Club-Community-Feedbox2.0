@@ -206,8 +206,5 @@ export default function ReactBigCalendar() {
         </form>
       </div>
     </div>   
-   
-    
-    
   );
 }

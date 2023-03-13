@@ -75,7 +75,10 @@ getList();
           </div>
           <div className="post-display-heading">
             <h3>Isha Bam</h3>
-            <p>Intern</p>
+            <div style={{'display' : 'flex'}}>
+              <p className="post-display-heading-college">SVVV</p>
+              <p className="post-display-heading-time">19 hours ago</p>
+            </div>
           </div>
         </div>
         <div className="post-display-center">
@@ -104,7 +107,10 @@ getList();
           </div>
           <div className="post-display-heading">
             <h3>Isha Bam</h3>
-            <p>Intern</p>
+            <div style={{'display' : 'flex'}}>
+              <p className="post-display-heading-college">SVVV</p>
+              <p className="post-display-heading-time">19 hours ago</p>
+            </div>
           </div>
         </div>
         <div className="post-display-center">
@@ -130,7 +136,10 @@ getList();
           </div>
           <div className="post-display-heading">
             <h3>Isha Bam</h3>
-            <p>Intern</p>
+            <div style={{'display' : 'flex'}}>
+              <p className="post-display-heading-college">SVVV</p>
+              <p className="post-display-heading-time">19 hours ago</p>
+            </div>
           </div>
         </div>
         <div className="post-display-center">
@@ -149,7 +158,6 @@ getList();
         </div>
       </div>
 
-
       <div className="post-display">
         <div className="post-display-head">
           <div className="post-display-profile">
@@ -157,7 +165,10 @@ getList();
           </div>
           <div className="post-display-heading">
             <h3>Isha Bam</h3>
-            <p>Intern</p>
+            <div style={{'display' : 'flex'}}>
+              <p className="post-display-heading-college">SVVV</p>
+              <p className="post-display-heading-time">19 hours ago</p>
+            </div>
           </div>
         </div>
         <div className="post-display-center">
