@@ -18,7 +18,8 @@ const HomePageEvent = () => {
   return (
     <>
     {
-      event.slice(0,2).map((item,index)=>
+      //.slice(0,2)
+      event.map((item,index)=>
       <div className="HomePageEvent">
         <h2>{item.title}</h2>
         {/* <h2>Fundamentals of UI Development</h2> */}

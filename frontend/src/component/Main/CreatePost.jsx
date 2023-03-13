@@ -17,7 +17,7 @@ const CreatePost = () => {
   
   const [image, setImage] = useState("");
   const [desc, setDesc] = useState("");
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState('');
   const [title, setTitle] = useState("");
   const [collegeName, setCollegeName] = useState("");
   const [postedBy, setPostedBy] = useState("");

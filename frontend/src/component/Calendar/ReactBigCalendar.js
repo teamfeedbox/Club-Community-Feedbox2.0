@@ -35,7 +35,22 @@ export default function ReactBigCalendar() {
   const [time, setTime] = useState();
   const [venue, setVenue] = useState();
   const [desc, setDesc] = useState();
-
+  // const [showEvent, setShowEvent] = useState();
+  let eventData = [];
+  event &&
+    event.map((data,i) => {
+      
+      const val = {
+        id: i,
+        title: data.title,
+        // allDay: true,
+        start: new Date(data.eventDate),
+        end: new Date(data.eventDate),
+      };
+      eventData.push(val)
+    });
+// console.log(eventData)
+// console.log(eventsData)
   // const [create,setCreate]=useEffect();
   // const [view,setView]=useEffect();
 
@@ -55,7 +70,7 @@ export default function ReactBigCalendar() {
 
   // }
   useEffect(() => {
-    if (count1==0) {
+    if (count1 == 0) {
       $(".Calendar-add-drop").hide();
     } else {
       $(".Calendar-add-drop").show();
@@ -65,11 +80,10 @@ export default function ReactBigCalendar() {
       let result = await fetch("http://localhost:8000/getAllEvent");
       result = await result.json();
       setEvent(result);
-      // console.log(result);
       // console.log(result[0].eventDate);
     };
     showEvent();
-  }, );
+  });
 
   const addEvent = async (e) => {
     e.preventDefault();
@@ -89,9 +103,9 @@ export default function ReactBigCalendar() {
     // }else{
     //   console.log("error")
     // }
-    // handleSelect1(); 
-    setCount1(0)
-       // setEventsData([
+    // handleSelect1();
+    setCount1(0);
+    // setEventsData([
     //   ...eventsData,
     //   {
     //     start,
@@ -143,42 +157,48 @@ export default function ReactBigCalendar() {
     var currEventDate = currDate.getDate();
     var month = parseInt(currDate.getMonth()) + 1;
     var year = parseInt(currDate.getFullYear());
-    const startDate = currDate.getDate() + "/" + 0 + month + "/" + year;
+    // const startDate = currDate.getDate() + "-" + 0 + month + "-" + year;
+    const startDate = year + "-" + 0 + month + "-" + currDate.getDate();
 
     if (month < 10) {
       console.log(startDate);
     } else {
-      console.log(currDate.getDate() + "/" + month + "/" + year);
+      console.log(currDate.getDate() + "-" + month + "-" + year);
     }
 
     event.map(function (val, index) {
       if (val.eventDate === startDate) {
-        alert("matched");
+        
+        console.log(val)
       }
+
     });
 
-    // console.log(typeof(start))
     // const title = title;
-    if (title)
-      setEventsData([
-        ...eventsData,
-        {
-          start,
-          end,
-          title,
-        },
-      ]);
+    // if (title)
+    //   setEventsData([
+    //     ...eventsData,
+    //     {
+    //       start,
+    //       end,
+    //       title,
+    //     },
+    //   ]);
   };
   const navigate = useNavigate();
 
   return (
     <div className="Calendar-container">
+
+
       <div className="Calendar-left">
         <div
           className="Calendar-add"
           onClick={handleSelect3}
           // onClick={callIt}
         >
+
+
           <div>
             Create Event
             <FontAwesomeIcon
@@ -186,8 +206,11 @@ export default function ReactBigCalendar() {
               icon={faCirclePlus}
             />
           </div>
+
+
         </div>
 
+    
         <div className="Calendar-view">
           <div className="Calendar-view-title">Events Preview</div>
           <div className="Calendar-view-events">
@@ -236,23 +259,27 @@ export default function ReactBigCalendar() {
             <button onClick={() => {navigate('/attendance')}}>Mark Attendance</button>
           </div>
         </div>
+
+{/* onClick = {showEvent} */}
       </div>
 
       
       {/* <ReactBigCalendar className="ReactBigCalendar" /> */}
       <div className="ok" style={{ width: "98vw", margin: "0 20px 0 0" }}>
-        <Calendar
+         {eventData.length>0 && <Calendar
           views={["agenda", "month"]}
           selectable
           localizer={localizer}
           defaultDate={new Date()}
           defaultView="month"
-          events={eventsData}
+          events={eventData}
           style={{ height: "100vh" }}
           onSelectEvent={handleEvent}
           value={dates}
           onSelectSlot={handleSelect}
         />
+        // console.log(eventData,"jhjhghjg")
+        }
       </div>
 
       <div className="Calendar-add-drop">
