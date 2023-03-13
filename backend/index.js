@@ -1,11 +1,20 @@
 const express = require("express");
-require("./db/config");
+// require("./db/config");
+const mongoose = require('mongoose');
+
 
 const Post = require("./models/post");
 const port = 8000;
 const app = express();
 const cors = require("cors");
 const user = require("./models/user");  
+
+const db = "mongodb+srv://feedbox:feedbox@cluster0.f8qrcl7.mongodb.net/community?retryWrites=true&w=majority";
+mongoose.connect(db)
+.then(()=>{
+    console.log("connection successfull")
+}).catch((err)=>console.log(err))
+
 
 
 
@@ -42,3 +51,5 @@ app.use("/", resource);
 
 
 app.listen(port, console.log(`server is listening on the port: ${port}`));
+
+// mongodb+srv://feedbox:<password>@cluster0.f8qrcl7.mongodb.net/?retryWrites=true&w=majority
