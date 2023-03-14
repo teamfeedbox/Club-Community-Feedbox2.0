@@ -279,7 +279,9 @@ export default function ReactBigCalendar() {
           onSelectSlot={handleSelect}
         />
         // console.log(eventData,"jhjhghjg")
-
+        // console.log(eventData,"jhjhghjg")
+        // console.log(eventData,"jhjhghjg")
+        
         }
       </div>
 
