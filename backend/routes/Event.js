@@ -14,7 +14,9 @@ router.post('/createEvent',async(req,res)=>{
 
 //api to get all events
 router.get('/getAllEvent',(req,res)=>{
+    var mySort = { eventDate: 1 };
     Event.find()
+    .sort(mySort)
     .populate('postedBy').select("-password")
     .then(events=>{ 
         res.json(events)
