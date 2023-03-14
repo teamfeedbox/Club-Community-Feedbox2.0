@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from '../Navbar';
 import Profile from "./Profile";
-
+import Detail from './Detail';
 function ProfilePage() {
   return (
     <>
@@ -9,6 +9,7 @@ function ProfilePage() {
     <Navbar/>
     </div>
     <Profile/>
+    <Detail/>
     </>
     
   )
