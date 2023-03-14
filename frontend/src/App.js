@@ -14,6 +14,7 @@ import Faq from './component/Faq';
 import Approvals from './component/approvals/Approvals';
 import CalendarPage from './component/Calendar/CalendarPage';
 import ProfilePage from './component/Profile/ProfilePage';
+import AttendanceSheet from './component/Calendar/AttendanceSheet';
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
           <Route index path='/rescourcesDisplay' element={ <RescourcesDisplay /> } />
           <Route index path='/faq' element={ <Faq /> } />
           <Route index path='/approvals' element={ <Approvals /> } />
+          <Route index path='/attendance' element={ <AttendanceSheet /> } />
         </Routes>
       </Router>
     </div>

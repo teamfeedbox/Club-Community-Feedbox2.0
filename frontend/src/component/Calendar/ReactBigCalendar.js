@@ -16,6 +16,8 @@ import {
   faHandsAmericanSignLanguageInterpreting,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
+
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -211,6 +213,8 @@ export default function ReactBigCalendar() {
     //     },
     //   ]);
   };
+  const navigate = useNavigate();
+
   return (
     <div className="Calendar-container">
 
@@ -280,15 +284,14 @@ export default function ReactBigCalendar() {
             </div>
             <button>Interested</button>
             <button>Cancel Event</button>
-
+            <button onClick={() => {navigate('/attendance')}}>Mark Attendance</button>
           </div>
         </div>
 
 {/* onClick = {showEvent} */}
       </div>
 
-
-
+      
       {/* <ReactBigCalendar className="ReactBigCalendar" /> */}
       <div className="ok" style={{ width: "98vw", margin: "0 20px 0 0" }}>
          {eventData.length>0 && <Calendar
@@ -304,6 +307,7 @@ export default function ReactBigCalendar() {
           onSelectSlot={handleSelect}
         />
         // console.log(eventData,"jhjhghjg")
+
         }
       </div>
 

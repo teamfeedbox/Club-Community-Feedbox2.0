@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.css";
 
-
 const Navbar = () => {
   const selectedPage = window.location.pathname;
   console.log(`slected page : ${selectedPage}`);
@@ -31,7 +30,11 @@ const Navbar = () => {
         <Link to="/calendar" className="navbar-link">
           Calendar
           <div
-            className={selectedPage === "/calendar" ? "navbar-highlight" : ""}
+            className={
+              selectedPage === "/calendar" || selectedPage === "/attendance"
+                ? "navbar-highlight"
+                : ""
+            }
           ></div>
         </Link>
 
@@ -63,17 +66,26 @@ const Navbar = () => {
         </div>
         <div className="navbar-profile">
 
-          {/* <select name="cars" id="cars">
-            <option value="volvo"><img src="Images/girl.jpg" alt="" /></option>
-            <option value="saab">Saab</option>
-            <option value="opel">Opel</option>
-            <option value="audi">Audi</option>
-          </select> */}
-          {/* <Link> */}
-
           <Link to="/profile">
             <img src="Images/girl.jpg" alt="" />
-          </Link>
+          </Link> 
+
+          {/* <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Dropdown button
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="#">Action</a>
+    <a class="dropdown-item" href="#">Another action</a>
+    <a class="dropdown-item" href="#">Something else here</a>
+  </div>
+</div>  */}
+          
+          <select name="cars" id="cars">
+            <option value="volvo"></option>
+            <option value="saab">Logout</option>
+          </select> 
+
         </div>
       </div>
     </div>

@@ -1,0 +1,25 @@
+.attendance {
+    padding-top: 85px;
+    display: flex;
+}
+
+.attendance-right {
+    /* border: 2px solid black; */
+    width: 100%;
+}
+
+.attendance-right h1 {
+    text-align: center;
+}
+
+.attendance-sheet {
+    /* border: 1px solid rgb(208, 204, 204); */
+    margin: 18px;
+}
+
+.attendance-count {
+    /* border: 2px solid black; */
+    display: flex;
+    justify-content: space-around;
+    font-weight: 600;
+}
