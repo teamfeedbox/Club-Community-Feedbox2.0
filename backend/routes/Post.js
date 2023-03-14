@@ -45,7 +45,9 @@ router.post('/create-post',async(req,res)=>{
 //api to get all posts
 //it will be used to display at the homepage feed
 router.get('/getAllPost',(req,res)=>{
+    var mySort = { date: -1 };
     Post.find()
+    .sort(mySort)
     .populate('postedBy').select("-password")
     .then(posts=>{
         res.json(posts)

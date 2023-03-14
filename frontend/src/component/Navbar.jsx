@@ -1,13 +1,42 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBell,
+  faCaretDown,
+  faRightFromBracket,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.css";
 
-
 const Navbar = () => {
+  const [show, setShow] = useState(false);
+
   const selectedPage = window.location.pathname;
-  console.log(`slected page : ${selectedPage}`);
+  // console.log(`slected page : ${selectedPage}`);
+ 
+const useOutsideClick = (ref, callback) => {
+  const handleClick = e => {
+    if (ref.current && !ref.current.contains(e.target)) {
+      callback();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClick);
+
+    return () => {
+      document.removeEventListener("click", handleClick);
+    };
+  });
+};
+
+const ref = useRef();
+
+useOutsideClick(ref, () => {
+  if (show) setShow(false);
+});
+
   return (
     <div className="Navbar">
       <div className="Navbar-left">
@@ -31,7 +60,11 @@ const Navbar = () => {
         <Link to="/calendar" className="navbar-link">
           Calendar
           <div
-            className={selectedPage === "/calendar" ? "navbar-highlight" : ""}
+            className={
+              selectedPage === "/calendar" || selectedPage === "/attendance"
+                ? "navbar-highlight"
+                : ""
+            }
           ></div>
         </Link>
 
@@ -62,18 +95,31 @@ const Navbar = () => {
           <button>Create Event</button>
         </div>
         <div className="navbar-profile">
-
-          {/* <select name="cars" id="cars">
-            <option value="volvo"><img src="Images/girl.jpg" alt="" /></option>
-            <option value="saab">Saab</option>
-            <option value="opel">Opel</option>
-            <option value="audi">Audi</option>
-          </select> */}
-          {/* <Link> */}
-
           <Link to="/profile">
             <img src="Images/girl.jpg" alt="" />
           </Link>
+        </div>
+
+        <div className="navabr-dropdown">
+          <div ref={ref}  onClick={() => setShow(!show)}>
+            <FontAwesomeIcon className="dropdown-icon" icon={faCaretDown} />
+          </div>
+
+          {show ? (
+            <div className="dropdown-content" >
+              <Link className="navbar-links" to="/profile">
+                {" "}
+                <FontAwesomeIcon icon={faUser} /> <span>Isha Bam</span>{" "}
+              </Link>
+              <Link className="navbar-links">
+                {" "}
+                <FontAwesomeIcon icon={faRightFromBracket} />{" "}
+                <span>Logout</span>{" "}
+              </Link>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>

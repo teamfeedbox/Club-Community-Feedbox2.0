@@ -5,7 +5,7 @@ import events from "./events";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 // import ReactBigCalendar from "./ReactBigCalendar";
 import { useEffect } from "react";
-import $ from "jquery";
+import $, { cleanData } from "jquery";
 import {
   faCircle,
   faLocationDot,
@@ -16,6 +16,8 @@ import {
   faHandsAmericanSignLanguageInterpreting,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
+
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -30,10 +32,28 @@ export default function ReactBigCalendar() {
 
   const [title, setTitle] = useState();
   const [eventDate, setEventDate] = useState();
-  const [time, setTime] = useState();
+  const [eventTime, setEventTime] = useState();
   const [venue, setVenue] = useState();
   const [desc, setDesc] = useState();
+  const [myEvent, setMyEvent] = useState();
 
+
+
+  let eventData = [];
+  event &&
+    event.map((data,i) => {
+      
+      const val = {
+        id: i,
+        title: data.title,
+        // allDay: true,
+        start: new Date(data.eventDate),
+        end: new Date(data.eventDate),
+      };
+      eventData.push(val)
+    });
+// console.log(eventData)
+// console.log(eventsData)
   // const [create,setCreate]=useEffect();
   // const [view,setView]=useEffect();
 
@@ -53,7 +73,7 @@ export default function ReactBigCalendar() {
 
   // }
   useEffect(() => {
-    if (count1==0) {
+    if (count1 == 0) {
       $(".Calendar-add-drop").hide();
     } else {
       $(".Calendar-add-drop").show();
@@ -63,18 +83,17 @@ export default function ReactBigCalendar() {
       let result = await fetch("http://localhost:8000/getAllEvent");
       result = await result.json();
       setEvent(result);
-      // console.log(result);
       // console.log(result[0].eventDate);
     };
     showEvent();
-  }, );
+  });
 
   const addEvent = async (e) => {
     e.preventDefault();
     // const userId = JSON.parse(localStorage.getItem("users"))._id;
     let result = await fetch("http://localhost:8000/createEvent", {
       method: "post",
-      body: JSON.stringify({ title, eventDate, time, venue, desc }),
+      body: JSON.stringify({ title, eventDate, eventTime, venue, desc }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -87,9 +106,9 @@ export default function ReactBigCalendar() {
     // }else{
     //   console.log("error")
     // }
-    // handleSelect1(); 
-    setCount1(0)
-       // setEventsData([
+    // handleSelect1();
+    setCount1(0);
+    // setEventsData([
     //   ...eventsData,
     //   {
     //     start,
@@ -99,7 +118,7 @@ export default function ReactBigCalendar() {
     // ]);
   };
 
-  const handleEvent = (event, data) => {
+  const handleEvent = ({start,end},eve, data) => {
     // alert(event.title+"_______"+event.start+"________"+event.end);
     if (count2 == 0) {
       $(".Calendar-view-title").css("border-radius", "20px 20px 0px 0px");
@@ -111,7 +130,32 @@ export default function ReactBigCalendar() {
       setCount2(0);
     }
 
-    console.log("onSelectEvent", data);
+    // console.log("onSelectEvent",event);
+
+    // var currDate = start;
+    var currEventDate = start.getDate();
+    var month = parseInt(start.getMonth()) + 1;
+    var year = parseInt(start.getFullYear());
+    
+    const startDate = year + "-" + 0 + month + "-" + currEventDate;
+
+    // if (month < 10) {
+    //   console.log(startDate);
+    // } else {
+    //   console.log(currDate.getDate() + "-" + month + "-" + year);
+    // }
+
+    event.map(function (val, index) {
+      if (val.eventDate === startDate) {
+       
+        console.log(val)
+        setMyEvent(val);
+        
+      }
+
+    });
+
+    
   };
 
   const handleSelect3 = ({ start, end }) => {
@@ -137,44 +181,52 @@ export default function ReactBigCalendar() {
     // }
     // console.log(start )
     // console.log(end )
-    var currDate = start;
-    var currEventDate = currDate.getDate();
-    var month = parseInt(currDate.getMonth()) + 1;
-    var year = parseInt(currDate.getFullYear());
-    const startDate = currDate.getDate() + "/" + 0 + month + "/" + year;
+    // var currDate = start;
+    // var currEventDate = currDate.getDate();
+    // var month = parseInt(currDate.getMonth()) + 1;
+    // var year = parseInt(currDate.getFullYear());
+    // // const startDate = currDate.getDate() + "-" + 0 + month + "-" + year;
+    // const startDate = year + "-" + 0 + month + "-" + currDate.getDate();
 
-    if (month < 10) {
-      console.log(startDate);
-    } else {
-      console.log(currDate.getDate() + "/" + month + "/" + year);
-    }
+    // if (month < 10) {
+    //   console.log(startDate);
+    // } else {
+    //   console.log(currDate.getDate() + "-" + month + "-" + year);
+    // }
 
-    event.map(function (val, index) {
-      if (val.eventDate === startDate) {
-        alert("matched");
-      }
-    });
+    // event.map(function (val, index) {
+    //   if (val.eventDate === startDate) {
+       
+    //     console.log(val)
+    //   }
 
-    // console.log(typeof(start))
+    // });
+
     // const title = title;
-    if (title)
-      setEventsData([
-        ...eventsData,
-        {
-          start,
-          end,
-          title,
-        },
-      ]);
+    // if (title)
+    //   setEventsData([
+    //     ...eventsData,
+    //     {
+    //       start,
+    //       end,
+    //       title,
+    //     },
+    //   ]);
   };
+  const navigate = useNavigate();
+
   return (
     <div className="Calendar-container">
+
+
       <div className="Calendar-left">
         <div
           className="Calendar-add"
           onClick={handleSelect3}
           // onClick={callIt}
         >
+
+
           <div>
             Create Event
             <FontAwesomeIcon
@@ -182,18 +234,22 @@ export default function ReactBigCalendar() {
               icon={faCirclePlus}
             />
           </div>
+
+
         </div>
+    
+ 
 
         <div className="Calendar-view">
           <div className="Calendar-view-title">Events Preview</div>
           <div className="Calendar-view-events">
-            <div className="event-title">{"Web Development"}</div>
+            <div className="event-title">{myEvent && myEvent.title}</div>
             <div className="event-profile">
               <FontAwesomeIcon
                 style={{ margin: "0 10px 0 0" }}
                 icon={faCircle}
               />
-              {"Yash Kulshrestha"}
+              {myEvent && myEvent.speaker}
             </div>
             <div className="event-minor">
               <div>
@@ -201,7 +257,8 @@ export default function ReactBigCalendar() {
                   style={{ margin: "0 10px 0 0" }}
                   icon={faLocationDot}
                 />
-                {"Google meet"}
+                {myEvent && myEvent.venue}
+               
               </div>
 
               <div>
@@ -209,7 +266,7 @@ export default function ReactBigCalendar() {
                   style={{ margin: "0 10px 0 0" }}
                   icon={faCalendarAlt}
                 />
-                {"27/5/2023"}
+                {myEvent && myEvent.eventDate}
               </div>
 
               <div>
@@ -217,35 +274,43 @@ export default function ReactBigCalendar() {
                   style={{ margin: "0 10px 0 0" }}
                   icon={faClock}
                 />
-                {"09:40 am to 12:00 pm"}
+                {myEvent && myEvent.eventTime}
               </div>
             </div>
             <div>
               <b>Descrpition</b>
               <br />
-              {
-                "In this session you will learn about how to start the journey to become a UI/UX developer. In this session you will learn how to do research and test the market credibility of the project you are taking on and what are the regular pain of users from the competitor"
-              }
+              {myEvent && myEvent.desc}
             </div>
             <button>Interested</button>
             <button>Cancel Event</button>
+            <button onClick={() => {navigate('/attendance')}}>Mark Attendance</button>
           </div>
         </div>
+
+{/* onClick = {showEvent} */}
       </div>
+
+      
       {/* <ReactBigCalendar className="ReactBigCalendar" /> */}
       <div className="ok" style={{ width: "98vw", margin: "0 20px 0 0" }}>
-        <Calendar
+         {eventData.length>0 && <Calendar
           views={["agenda", "month"]}
           selectable
           localizer={localizer}
           defaultDate={new Date()}
           defaultView="month"
-          events={eventsData}
+          events={eventData}
           style={{ height: "100vh" }}
           onSelectEvent={handleEvent}
           value={dates}
           onSelectSlot={handleSelect}
         />
+        // console.log(eventData,"jhjhghjg")
+        // console.log(eventData,"jhjhghjg")
+        // console.log(eventData,"jhjhghjg")
+        
+        }
       </div>
 
       <div className="Calendar-add-drop">
@@ -293,8 +358,8 @@ export default function ReactBigCalendar() {
             <FontAwesomeIcon style={{ margin: "0 10px 0 0" }} icon={faClock} />
             <input
               type="time"
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
+              value={eventTime}
+              onChange={(e) => setEventTime(e.target.value)}
             ></input>
           </div>
           <div className="input-container">
