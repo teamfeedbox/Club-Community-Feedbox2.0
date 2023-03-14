@@ -8,27 +8,31 @@ const PostDisplay = () => {
   const[data,setData] = useState([])
 
   useEffect(()=>{
-// fetch("http://localhost:8000/getAllPost",{
-// }).then(res=>res.json())
-// .then(result=>{
-//   console.log(result)
-//   setData(result)
-// })
+    const getList = ()=>{
+      
+  
+fetch("http://localhost:8000/getAllPost",{
+}).then(res=>res.json())
+.then(result=>{
+  // console.log(result)
+  setData(result)
+})
+}
 getList();
 
-  },[])
+  })
 
-  const getList = async (e) => {
-    //  e.preventDefault();
-    let result = await fetch("http://192.168.1.42:8000/getAllPost");
-    result = await result.json();
-    console.log(result)
-    setData(result);
-    // if(result.desc)
-    // {
-    //   getList();
-    // }
-  };
+  // const getList = async (e) => {
+  //   //  e.preventDefault();
+  //   let result = await fetch("http://192.168.1.42:8000/getAllPost");
+  //   result = await result.json();
+  //   console.log(result)
+  //   setData(result);
+  //   // if(result.desc)
+  //   // {
+  //   //   getList();
+  //   // }
+  // };
 
 
 
