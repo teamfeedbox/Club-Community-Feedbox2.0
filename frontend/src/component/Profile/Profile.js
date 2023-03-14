@@ -1,5 +1,6 @@
 import React from 'react'
 import "./Profile.css";
+
 function Profile() {
   return (
     <div className='profile-container'>
@@ -22,6 +23,9 @@ function Profile() {
           </div>
         </div>
       </div>
+
+      {/* user detail */}
+      
     </div>
   )
 }

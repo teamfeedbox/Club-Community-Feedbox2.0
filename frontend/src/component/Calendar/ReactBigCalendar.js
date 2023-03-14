@@ -330,6 +330,19 @@ export default function ReactBigCalendar() {
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
+        
+          <div className="input-container">
+            <FontAwesomeIcon
+              style={{ margin: "0 10px 0 0" }}
+              icon={faCalendarAlt}
+            />
+            <input
+              type="Speaker Name"
+              value={eventDate}
+              onChange={(e) => setEventDate(e.target.value)}
+            ></input>
+          </div>
+
           <div className="input-container">
             <FontAwesomeIcon
               style={{ margin: "0 10px 0 0" }}
