@@ -120,15 +120,15 @@ export default function ReactBigCalendar() {
 
   const handleEvent = ({start,end},eve, data) => {
     // alert(event.title+"_______"+event.start+"________"+event.end);
-    if (count2 == 0) {
-      $(".Calendar-view-title").css("border-radius", "20px 20px 0px 0px");
-      $(".Calendar-view-events").delay("slow").show();
-      setCount2(1);
-    } else {
-      $(".Calendar-view-title").css({ "border-radius": "20px 20px 20px 20px" });
-      $(".Calendar-view-events").hide();
-      setCount2(0);
-    }
+    // if (count2 == 0) {
+    //   $(".Calendar-view-title").css("border-radius", "20px 20px 0px 0px");
+    //   $(".Calendar-view-events").delay("slow").show();
+    //   setCount2(1);
+    // } else {
+    //   $(".Calendar-view-title").css({ "border-radius": "20px 20px 20px 20px" });
+    //   $(".Calendar-view-events").hide();
+    //   setCount2(0);
+    // }
 
     // console.log("onSelectEvent",event);
 
@@ -173,7 +173,7 @@ export default function ReactBigCalendar() {
   };
 
   const handleSelect = ({ start, end }) => {
-    setCount1(1);
+    // setCount1(1);
     // if (count1 == 0) {
     //   $(".Calendar-add-drop").hide();
     // } else {
