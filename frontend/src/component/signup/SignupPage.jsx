@@ -3,17 +3,27 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import React, { useState,useEffect } from "react";
 import { useNavigate } from 'react-router-dom'
-// import Multiselect from 'multiselect-react-dropdown';
+import Multiselect from 'multiselect-react-dropdown';
 import { Link } from "react-router-dom";
 import "./SignUp.css";
+
+import Select from 'react-select'
+
+
 const SignupPage = () => {
 const [name,setName] = useState("");
 const [email,setEmail] = useState("");
 const [password,setPassword] = useState("");
 const [phone,setPhone] = useState("");
 const [college,setCollege] = useState("");
-// const [skills,setSkills] = useState([]);
+const [skills,setSkills] = useState([]);
 
+const options = [
+  { value: 'First', label: 'First' },
+  { value: 'Second', label: 'Second' },
+  { value: 'Third', label: 'Third' },
+  { value: 'Fourth', label: 'Fourth' }
+]
 
 const navigate = useNavigate();
 
@@ -49,9 +59,9 @@ const collectData = async (e) => {
 }
 
 
-// let onSelectNames = skills => {
-//   setSkills(skills);
-// };
+let onSelectNames = skills => {
+  setSkills(skills);
+};
 
 
   
@@ -102,9 +112,11 @@ const collectData = async (e) => {
           <div class="d-flex flex-row align-items-center mb-4">
           <FontAwesomeIcon style={{'margin' : '10px'}} icon={faCalendar} />
             <div class="form-outline flex-fill mb-0">
-              <input type="year" id="year" class="form-control" placeholder="Year"
-               required min='1' />
+              {/* <input type="year" id="year" class="form-control" placeholder="Year"
+              /> */}
+            <Select options={options} />
             </div>
+           
           </div>
 
           
@@ -116,7 +128,7 @@ const collectData = async (e) => {
              required/>
             </div>
           </div>
-{/*           
+
           <div class="d-flex flex-row align-items-center mb-4 multi-placeholder">
             <FontAwesomeIcon style={{'margin' : '12px'}}  icon={faSuitcase} />
             <div class="form-outline flex-fill mb-0">
@@ -138,7 +150,7 @@ const collectData = async (e) => {
   selectedValues={{}}
 />
             </div>
-          </div> */}
+          </div> 
 
          
           
