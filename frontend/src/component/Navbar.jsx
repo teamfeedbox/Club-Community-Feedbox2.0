@@ -14,6 +14,10 @@ const Navbar = () => {
 
   const selectedPage = window.location.pathname;
   // console.log(`slected page : ${selectedPage}`);
+
+const logoutHandler = () => {
+  localStorage.clear();
+}
  
 const useOutsideClick = (ref, callback) => {
   const handleClick = e => {
@@ -36,6 +40,7 @@ const ref = useRef();
 useOutsideClick(ref, () => {
   if (show) setShow(false);
 });
+
 
   return (
     <div className="Navbar">
@@ -111,7 +116,7 @@ useOutsideClick(ref, () => {
                 {" "}
                 <FontAwesomeIcon icon={faUser} /> <span>Isha Bam</span>{" "}
               </Link>
-              <Link className="navbar-links">
+              <Link to='/' className="navbar-links" onClick={logoutHandler}>
                 {" "}
                 <FontAwesomeIcon icon={faRightFromBracket} />{" "}
                 <span>Logout</span>{" "}
