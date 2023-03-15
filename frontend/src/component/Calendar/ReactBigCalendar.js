@@ -35,6 +35,7 @@ export default function ReactBigCalendar() {
   const [eventTime, setEventTime] = useState();
   const [venue, setVenue] = useState();
   const [desc, setDesc] = useState();
+  const [speaker, setSpeaker] = useState();
   const [myEvent, setMyEvent] = useState();
 
 
@@ -93,7 +94,7 @@ export default function ReactBigCalendar() {
     // const userId = JSON.parse(localStorage.getItem("users"))._id;
     let result = await fetch("http://localhost:8000/createEvent", {
       method: "post",
-      body: JSON.stringify({ title, eventDate, eventTime, venue, desc }),
+      body: JSON.stringify({ title, eventDate, eventTime, venue, desc,speaker }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -338,8 +339,8 @@ export default function ReactBigCalendar() {
             />
             <input
               type="Speaker Name"
-              value={eventDate}
-              onChange={(e) => setEventDate(e.target.value)}
+              value={speaker}
+              onChange={(e) => setSpeaker(e.target.value)}
             ></input>
           </div>
 

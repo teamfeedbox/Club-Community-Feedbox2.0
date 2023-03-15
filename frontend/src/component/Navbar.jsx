@@ -36,6 +36,8 @@ const useOutsideClick = (ref, callback) => {
 };
 
 const ref = useRef();
+const auth = localStorage.getItem("user");
+
 
 useOutsideClick(ref, () => {
   if (show) setShow(false);
@@ -114,7 +116,7 @@ useOutsideClick(ref, () => {
             <div className="dropdown-content" >
               <Link className="navbar-links" to="/profile">
                 {" "}
-                <FontAwesomeIcon icon={faUser} /> <span>Isha Bam</span>{" "}
+                <FontAwesomeIcon icon={faUser} /> <span>{JSON.parse(auth).name}</span>{" "}
               </Link>
               <Link to='/' className="navbar-links" onClick={logoutHandler}>
                 {" "}
