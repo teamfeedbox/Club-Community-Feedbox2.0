@@ -11,7 +11,7 @@ const PostDisplay = () => {
     const getList = ()=>{
       
   
-fetch("http://localhost:8000/getAllPost",{
+fetch("http://192.168.1.42:8000/getAllPost",{
 }).then(res=>res.json())
 .then(result=>{
   // console.log(result)

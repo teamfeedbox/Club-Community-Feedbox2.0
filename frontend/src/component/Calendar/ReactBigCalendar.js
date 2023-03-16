@@ -7,13 +7,16 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useEffect } from "react";
 import $, { cleanData } from "jquery";
 import {
-  faCircle,
   faLocationDot,
   faClock,
   faCirclePlus,
   faCalendarAlt,
   faAlignLeft,
-  faHandsAmericanSignLanguageInterpreting,
+  faXmark,
+  faPodcast,
+  faTextSlash,
+  faTextWidth,
+  faFileText,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
@@ -37,7 +40,6 @@ export default function ReactBigCalendar() {
   const [desc, setDesc] = useState();
   const [speaker, setSpeaker] = useState();
   const [myEvent, setMyEvent] = useState();
-
 
 
   let eventData = [];
@@ -87,6 +89,17 @@ export default function ReactBigCalendar() {
       // console.log(result[0].eventDate);
     };
     showEvent();
+
+    // for Event prview
+    if(count2==0)
+    {
+      $(".Calendar-view-events").hide(); 
+      $(".Calendar-view-title").css("border-radius", "20px 20px 20px 20px");
+    }
+    else{
+      $(".Calendar-view-title").css("border-radius", "20px 20px 0px 0px");
+      $(".Calendar-view-events").show(); 
+    }
   });
 
   const addEvent = async (e) => {
@@ -134,6 +147,7 @@ export default function ReactBigCalendar() {
     // console.log("onSelectEvent",event);
 
     // var currDate = start;
+    setCount2(1);
     var currEventDate = start.getDate();
     var month = parseInt(start.getMonth()) + 1;
     var year = parseInt(start.getFullYear());
@@ -174,12 +188,12 @@ export default function ReactBigCalendar() {
   };
 
   const handleSelect = ({ start, end }) => {
-    // setCount1(1);
-    // if (count1 == 0) {
-    //   $(".Calendar-add-drop").hide();
-    // } else {
-    //   $(".Calendar-add-drop").show();
-    // }
+    setCount1(1);
+    if (count1 == 0) {
+      $(".Calendar-add-drop").hide();
+    } else {
+      $(".Calendar-add-drop").show();
+    }
     // console.log(start )
     // console.log(end )
     // var currDate = start;
@@ -248,7 +262,8 @@ export default function ReactBigCalendar() {
             <div className="event-profile">
               <FontAwesomeIcon
                 style={{ margin: "0 10px 0 0" }}
-                icon={faCircle}
+                icon={faPodcast}
+                
               />
               {myEvent && myEvent.speaker}
             </div>
@@ -283,9 +298,13 @@ export default function ReactBigCalendar() {
               <br />
               {myEvent && myEvent.desc}
             </div>
+            <div className="preview-button">
             <button>Interested</button>
             <button>Cancel Event</button>
+            </div>
+            <div style={{textAlign:"center"}}>
             <button onClick={() => {navigate('/attendance')}}>Mark Attendance</button>
+            </div>
           </div>
         </div>
 
@@ -316,37 +335,45 @@ export default function ReactBigCalendar() {
 
       <div className="Calendar-add-drop">
         <form>
-          <div
-            className="Calendar-title"
-            style={{ display: "flex", flexDirection: "row-reverse" }}
-          >
+          <div className="calender-add-title">
+            <span>Create an Event</span>
             <div className="cancel-button" onClick={handleSelect1}>
-              X
+            <FontAwesomeIcon
+             icon={faXmark} />
             </div>
+            </div>
+          <div className="Calendar-title" >
+            <span>Title</span>
             <input
               type="text"
-              id=""
               placeholder="Add Event Title"
               value={title}
+              maxlength="50"
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
-        
+
+
+          <div style={{border:"1.5px solid black",padding:"10px 10px 15px 10px",borderRadius:"10px"}}>
+          <span style={{fontWeight:"600"}}>General</span>
           <div className="input-container">
-            <FontAwesomeIcon
-              style={{ margin: "0 10px 0 0" }}
-              icon={faCalendarAlt}
-            />
+          
+          <FontAwesomeIcon
+                style={{ margin: "7px 10px 0 0" }}
+                icon={faPodcast}
+                
+              />
             <input
               type="Speaker Name"
-              value={speaker}
-              onChange={(e) => setSpeaker(e.target.value)}
+              value={eventDate}
+              placeholder="Speaker Name"
+              onChange={(e) => setEventDate(e.target.value)}
             ></input>
           </div>
 
           <div className="input-container">
             <FontAwesomeIcon
-              style={{ margin: "0 10px 0 0" }}
+              style={{ margin: "7px 10px 0 0" }}
               icon={faCalendarAlt}
             />
             <input
@@ -356,7 +383,8 @@ export default function ReactBigCalendar() {
             ></input>
           </div>
           <div className="input-container">
-            <FontAwesomeIcon style={{ margin: "0 10px 0 0" }} icon={faClock} />
+            <FontAwesomeIcon
+             style={{ margin: "7px 10px 0 0" }} icon={faClock} />
             <input
               type="time"
               value={eventTime}
@@ -365,7 +393,7 @@ export default function ReactBigCalendar() {
           </div>
           <div className="input-container">
             <FontAwesomeIcon
-              style={{ margin: "0 10px 0 0" }}
+              style={{ margin: "7px 15px 0 0" }}
               icon={faLocationDot}
             />
             <input
@@ -375,29 +403,34 @@ export default function ReactBigCalendar() {
               onChange={(e) => setVenue(e.target.value)}
             />
           </div>
-          <div className="input-container">
-            <FontAwesomeIcon
-              style={{ margin: "0 10px 0 0" }}
-              icon={faAlignLeft}
-            />
-            Descrpition:
+          </div>
+
+          <div className="input-container input-container1" style={{margin:"25px 0 25px 0",display:"flex",flexDirection:"column"}}>
+            <div className="description">
+              {/* <FontAwesomeIcon
+                style={{ margin: "0px 10px 0 0" }}
+                icon={faAlignLeft}
+              /> */}
+              {/* <span> */}
+               Descrpition
+            </div>
+            
             <textarea
               name="message"
-              rows="4"
+              rows="3"
               cols="30"
-              style={{
-                margin: "5px 0px 0px 25px",
-                padding: "px 0px 0px 0px",
-                fontSize: "13px",
-              }}
               placeholder="About . . ."
               value={desc}
               onChange={(e) => setDesc(e.target.value)}
             ></textarea>
           </div>
+          <div className="submit-button">
           <button className="Calendar-submit" type="submit" onClick={addEvent}>
-            Add
+            Create
           </button>
+          </div>
+
+          
         </form>
       </div>
     </div>

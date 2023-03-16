@@ -34,7 +34,7 @@
     "react-icons": "^4.7.1",
     "react-is": "^18.2.0",
     "react-router-dom": "^6.8.1",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "react-select": "^5.7.0",
     "scrollable-component": "^1.2.1",
     "tui-calendar": "^1.15.3",
