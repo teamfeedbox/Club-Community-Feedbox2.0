@@ -14,9 +14,10 @@ const SignupPage = () => {
 const [name,setName] = useState("");
 const [email,setEmail] = useState("");
 const [password,setPassword] = useState("");
-const [phone,setPhone] = useState("");
-const [college,setCollege] = useState("");
+const [collegeYear,setCollegeYear] = useState("");
+const [collegeName,setCollegeName] = useState("");
 const [skills,setSkills] = useState([]);
+const [branch,setBranch] = useState([]);
 
 const options = [
   { value: 'First', label: 'First' },
@@ -38,10 +39,10 @@ useEffect(()=>{
 
 const collectData = async (e) => {
   e.preventDefault();
-  console.log(name, email, password, phone, college);
+  console.log(name, email, password, collegeYear,branch, collegeName,skills);
  let result = await fetch('http://localhost:8000/register',{
   method:'post',       // post method because we want to save the data
-  body:JSON.stringify({name,email,password,phone, college}),
+  body:JSON.stringify({name,email,password,collegeYear,branch, collegeName,skills}),
   headers:{
     'Content-Type':'application/json',
 
@@ -63,10 +64,15 @@ let onSelectNames = skills => {
   setSkills(skills);
 };
 
+let onSelectYear = collegeYear => {
+  setCollegeYear(collegeYear);
+};
+
 
   
   return (
     <div className="signup-page">
+    {/* <div className="signup-page"> */}
       
       <div className="signup-page-img">
         <img src="Images/l1.jpg" alt="" />
@@ -76,7 +82,7 @@ let onSelectNames = skills => {
         <h2>Register</h2>
         <form class="">
           <div class="d-flex flex-row align-items-center mb-4">
-            <FontAwesomeIcon style={{'margin' : '10px'}} icon={faUser} />
+            <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}} icon={faUser} /></div>
             <div class="form-outline flex-fill mb-0">
               <input type="text" id="name" class="form-control" placeholder="Your Name" 
               required value={name} onChange={(e) => setName(e.target.value)} />
@@ -84,7 +90,7 @@ let onSelectNames = skills => {
           </div>
 
           <div class="d-flex flex-row align-items-center mb-4">
-            <FontAwesomeIcon style={{'margin' : '10px'}} icon={faEnvelope} />
+            <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}} icon={faEnvelope} /></div>
             <div class="form-outline flex-fill mb-0">
               <input type="email" id="email" class="form-control" placeholder="Your Email" 
               value={email} onChange={(e) => setEmail(e.target.value)} required />
@@ -92,7 +98,7 @@ let onSelectNames = skills => {
           </div>
 
           <div class="d-flex flex-row align-items-center mb-4">
-            <FontAwesomeIcon style={{'margin' : '10px'}} icon={faLockOpen} />
+            <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}} icon={faLockOpen} /></div>
             <div class="form-outline flex-fill mb-0">
               <input type="password" id="password" class="form-control" placeholder="Your Password"
               value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete="new-password"/>
@@ -101,20 +107,20 @@ let onSelectNames = skills => {
 
 
           <div class="d-flex flex-row align-items-center mb-4">
-            <FontAwesomeIcon style={{'margin' : '10px'}}  icon={faSchool} />
+            <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}}  icon={faSchool} /></div>
             <div class="form-outline flex-fill mb-0">
               <input type="text" id="university" class="form-control" placeholder="Your University"
-              value={college} onChange={(e) => setCollege(e.target.value)} required />
+              value={collegeName} onChange={(e) => setCollegeName(e.target.value)} required />
             </div>
           </div>
 
           
           <div class="d-flex flex-row align-items-center mb-4">
-          <FontAwesomeIcon style={{'margin' : '10px'}} icon={faCalendar} />
+          <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}} icon={faCalendar} /></div>
             <div class="form-outline flex-fill mb-0">
               {/* <input type="year" id="year" class="form-control" placeholder="Year"
               /> */}
-            <Select options={options} />
+            <Select options={options} placeholder="Select Year.."/>
             </div>
            
           </div>
@@ -122,15 +128,16 @@ let onSelectNames = skills => {
           
           
           <div class="d-flex flex-row align-items-center mb-4">
-            <FontAwesomeIcon style={{'margin' : '10px'}} icon={faCodeBranch} />
+            <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}} icon={faCodeBranch} /></div>
             <div class="form-outline flex-fill mb-0">
               <input type="text" id="branch" class="form-control" placeholder="Branch"
+               value={branch} onChange={(e) => setBranch(e.target.value)}
              required/>
             </div>
           </div>
 
           <div class="d-flex flex-row align-items-center mb-4 multi-placeholder">
-            <FontAwesomeIcon style={{'margin' : '12px'}}  icon={faSuitcase} />
+            <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '12px'}}  icon={faSuitcase} /></div>
             <div class="form-outline flex-fill mb-0">
             <Multiselect
             value={skills} onChange={(e) => console.log()}
