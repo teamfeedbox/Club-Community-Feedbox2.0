@@ -83,6 +83,11 @@ const SignupPage = () => {
 
   return (
     <div className="signup-page">
+<<<<<<< HEAD
+=======
+    {/* <div className="signup-page"> */}
+      
+>>>>>>> 23df11d037b057a65a8f671d729516a2c0623b05
       <div className="signup-page-img">
         <img src="Images/l1.jpg" alt="" />
         {/* <img src="Images/l3.png" alt="" /> */}
@@ -91,7 +96,11 @@ const SignupPage = () => {
         <h2>Register</h2>
         <form class="">
           <div class="d-flex flex-row align-items-center mb-4">
+<<<<<<< HEAD
             <FontAwesomeIcon style={{ margin: "10px" }} icon={faUser} />
+=======
+            <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}} icon={faUser} /></div>
+>>>>>>> 23df11d037b057a65a8f671d729516a2c0623b05
             <div class="form-outline flex-fill mb-0">
               <input
                 type="text"
@@ -106,7 +115,11 @@ const SignupPage = () => {
           </div>
 
           <div class="d-flex flex-row align-items-center mb-4">
+<<<<<<< HEAD
             <FontAwesomeIcon style={{ margin: "10px" }} icon={faEnvelope} />
+=======
+            <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}} icon={faEnvelope} /></div>
+>>>>>>> 23df11d037b057a65a8f671d729516a2c0623b05
             <div class="form-outline flex-fill mb-0">
               <input
                 type="email"
@@ -121,7 +134,11 @@ const SignupPage = () => {
           </div>
 
           <div class="d-flex flex-row align-items-center mb-4">
+<<<<<<< HEAD
             <FontAwesomeIcon style={{ margin: "10px" }} icon={faLockOpen} />
+=======
+            <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}} icon={faLockOpen} /></div>
+>>>>>>> 23df11d037b057a65a8f671d729516a2c0623b05
             <div class="form-outline flex-fill mb-0">
               <input
                 type="password"
@@ -137,7 +154,11 @@ const SignupPage = () => {
           </div>
 
           <div class="d-flex flex-row align-items-center mb-4">
+<<<<<<< HEAD
             <FontAwesomeIcon style={{ margin: "10px" }} icon={faSchool} />
+=======
+            <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}}  icon={faSchool} /></div>
+>>>>>>> 23df11d037b057a65a8f671d729516a2c0623b05
             <div class="form-outline flex-fill mb-0">
               <input
                 type="text"
@@ -152,6 +173,7 @@ const SignupPage = () => {
           </div>
 
           <div class="d-flex flex-row align-items-center mb-4">
+<<<<<<< HEAD
             <FontAwesomeIcon style={{ margin: "10px" }} icon={faCalendar} />
             <div class="form-outline flex-fill mb-0 container ">
               {/* <input type="year" id="year" class="form-control" placeholder="Year"
@@ -169,11 +191,22 @@ const SignupPage = () => {
         <option value="Third">Third</option>
         <option value="Fourth">Fourth</option>
       </select>
+=======
+          <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}} icon={faCalendar} /></div>
+            <div class="form-outline flex-fill mb-0">
+              {/* <input type="year" id="year" class="form-control" placeholder="Year"
+              /> */}
+            <Select options={options} placeholder="Select Year.."/>
+>>>>>>> 23df11d037b057a65a8f671d729516a2c0623b05
             </div>
           </div>
 
           <div class="d-flex flex-row align-items-center mb-4">
+<<<<<<< HEAD
             <FontAwesomeIcon style={{ margin: "10px" }} icon={faCodeBranch} />
+=======
+            <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}} icon={faCodeBranch} /></div>
+>>>>>>> 23df11d037b057a65a8f671d729516a2c0623b05
             <div class="form-outline flex-fill mb-0">
               <input
                 type="text"
@@ -188,7 +221,11 @@ const SignupPage = () => {
           </div>
 
           <div class="d-flex flex-row align-items-center mb-4 multi-placeholder">
+<<<<<<< HEAD
             <FontAwesomeIcon style={{ margin: "12px" }} icon={faSuitcase} />
+=======
+            <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '12px'}}  icon={faSuitcase} /></div>
+>>>>>>> 23df11d037b057a65a8f671d729516a2c0623b05
             <div class="form-outline flex-fill mb-0">
               <Multiselect
                 value={skills}

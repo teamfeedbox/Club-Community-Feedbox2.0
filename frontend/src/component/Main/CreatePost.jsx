@@ -77,7 +77,7 @@ const CreatePost = () => {
  
   useEffect(() => {
     if (url) {
-      fetch("http://localhost:8000/create-post", {
+      fetch("http://192.168.1.42:8000/create-post", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
