@@ -5,16 +5,21 @@ import Activities from './Activities';
 
 
 function Detail() {
-  const [skills , setSkills] = useState(["UI/UX", "Illustrator", "HTML", "CSS"]);
+  const auth = localStorage.getItem("user");
+
+  // const [skills , setSkills] = useState(["UI/UX", "Illustrator", "HTML", "CSS"]);
 
   const [count,setCount]=useState(0);
-  
-  function addSkills(){
-    const enteredSkill =  prompt('please enter your skill');
-    console.log(enteredSkill);
+  let displaySkills = JSON.parse(auth).skills
 
-    setSkills((skills) => [...skills, enteredSkill])
-  }
+  
+  // function addSkills(){
+  //   const enteredSkill =  prompt('please enter your skill');
+  //   console.log(enteredSkill);
+
+  //   displaySkills((skills) => [...skills, enteredSkill])
+  // }
+
 
   return (
       <div className='detail'>
@@ -23,7 +28,7 @@ function Detail() {
           <div className='detail-top'>
             <div style={{display:"flex",flexDirection:"row"}}>
               <FontAwesomeIcon style={{margin:"5px 10px 0 0",fontSize:'25px'}} icon={faEnvelope} />
-              <div>Email:<p style={{marginTop:"5px"}}>ishabam09@gmail.com</p></div>
+              <div>Email:<p style={{marginTop:"5px"}}>{JSON.parse(auth).email}</p></div>
                 
             </div>
             <div style={{display:"flex",flexDirection:"row"}}>
@@ -39,13 +44,13 @@ function Detail() {
             <div>
               <div style={{display:"flex",flexDirection:"row"}}>
                 <FontAwesomeIcon style={{margin:"5px 10px 0 0",fontSize:'25px'}} icon={faBuildingColumns} />
-                <div>University:<p style={{marginTop:"5px"}}>Shri Vaishnav Vidyapeeth Vishwavidyalaya</p></div>
+                <div>University:<p style={{marginTop:"5px"}}>{JSON.parse(auth).collegeName}</p></div>
               </div>
             </div>
             <div>
               <div style={{display:"flex",flexDirection:"row"}}>
                 <FontAwesomeIcon style={{margin:"5px 10px 0 0",fontSize:'25px'}} icon={faGraduationCap} />
-                <div>Year:<p style={{marginTop:"5px"}}>4th</p></div>      
+                <div>Year:<p style={{marginTop:"5px"}}>{JSON.parse(auth).collegeYear}</p></div>      
               </div>
             </div>
           </div>
@@ -57,15 +62,19 @@ function Detail() {
             <div><FontAwesomeIcon style={{margin:"5px 10px 0 0",fontSize:'25px'}} icon={faLightbulb}/>Skills:</div>
               <div className='skills'>
                 {
-                  skills.map((a, i) => (
+                  displaySkills.map((a, i) => (
                   <span key={i}>
                   {a}
                   </span>
                   ))
                 }
-                <div className='skill-add' onClick={addSkills} >
+
+
+                {/* <div className='skill-add' onClick={addSkills} >
                   <FontAwesomeIcon icon={faCirclePlus}/>
-              </div> 
+              </div>  */}
+
+
             </div>
           </div>
 

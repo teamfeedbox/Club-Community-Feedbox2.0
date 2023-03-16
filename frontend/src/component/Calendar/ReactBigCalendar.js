@@ -339,6 +339,7 @@ export default function ReactBigCalendar() {
             />
             <input
               type="Speaker Name"
+              placeholder="Add Speaker Name"
               value={speaker}
               onChange={(e) => setSpeaker(e.target.value)}
             ></input>
