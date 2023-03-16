@@ -14,9 +14,10 @@ const SignupPage = () => {
 const [name,setName] = useState("");
 const [email,setEmail] = useState("");
 const [password,setPassword] = useState("");
-const [phone,setPhone] = useState("");
-const [college,setCollege] = useState("");
+const [collegeYear,setCollegeYear] = useState("");
+const [collegeName,setCollegeName] = useState("");
 const [skills,setSkills] = useState([]);
+const [branch,setBranch] = useState([]);
 
 const options = [
   { value: 'First', label: 'First' },
@@ -38,10 +39,10 @@ useEffect(()=>{
 
 const collectData = async (e) => {
   e.preventDefault();
-  console.log(name, email, password, phone, college);
+  console.log(name, email, password, collegeYear,branch, collegeName,skills);
  let result = await fetch('http://localhost:8000/register',{
   method:'post',       // post method because we want to save the data
-  body:JSON.stringify({name,email,password,phone, college}),
+  body:JSON.stringify({name,email,password,collegeYear,branch, collegeName,skills}),
   headers:{
     'Content-Type':'application/json',
 
@@ -61,6 +62,10 @@ const collectData = async (e) => {
 
 let onSelectNames = skills => {
   setSkills(skills);
+};
+
+let onSelectYear = collegeYear => {
+  setCollegeYear(collegeYear);
 };
 
 
@@ -105,7 +110,7 @@ let onSelectNames = skills => {
             <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}}  icon={faSchool} /></div>
             <div class="form-outline flex-fill mb-0">
               <input type="text" id="university" class="form-control" placeholder="Your University"
-              value={college} onChange={(e) => setCollege(e.target.value)} required />
+              value={collegeName} onChange={(e) => setCollegeName(e.target.value)} required />
             </div>
           </div>
 
@@ -126,6 +131,7 @@ let onSelectNames = skills => {
             <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}} icon={faCodeBranch} /></div>
             <div class="form-outline flex-fill mb-0">
               <input type="text" id="branch" class="form-control" placeholder="Branch"
+               value={branch} onChange={(e) => setBranch(e.target.value)}
              required/>
             </div>
           </div>
