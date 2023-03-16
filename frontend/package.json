@@ -65,6 +65,7 @@
     ]
   },
   "devDependencies": {
-    "flow-babel-webpack-plugin": "^1.1.1"
+    "flow-babel-webpack-plugin": "^1.1.1",
+    "tailwindcss": "^3.2.7"
   }
 }
