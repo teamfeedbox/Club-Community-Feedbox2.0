@@ -67,6 +67,7 @@ let onSelectNames = skills => {
   
   return (
     <div className="signup-page">
+    {/* <div className="signup-page"> */}
       
       <div className="signup-page-img">
         <img src="Images/l1.jpg" alt="" />
