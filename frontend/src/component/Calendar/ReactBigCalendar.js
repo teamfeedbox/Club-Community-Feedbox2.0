@@ -55,7 +55,6 @@ export default function ReactBigCalendar() {
       };
       eventData.push(val)
     });
-// console.log(eventData)
 // console.log(eventsData)
   // const [create,setCreate]=useEffect();
   // const [view,setView]=useEffect();
