@@ -1,6 +1,8 @@
 import React from 'react'
 import "./Profile.css";
+
 function Profile() {
+  const auth = localStorage.getItem("user");
   return (
     <div className='profile-container'>
         {/* Head section */}
@@ -10,7 +12,7 @@ function Profile() {
         </div>
         <div className='middle'> 
           <div>
-            <h3>Isha Bam</h3>
+            <h3>{JSON.parse(auth).name}</h3>
             <p>Club Member</p>
           </div>
         </div>
@@ -22,6 +24,9 @@ function Profile() {
           </div>
         </div>
       </div>
+
+      {/* user detail */}
+      
     </div>
   )
 }

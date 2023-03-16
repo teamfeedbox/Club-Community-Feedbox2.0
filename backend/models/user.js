@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
     type:String,
   },
   collegeYear: {
-    type: Number,
+    type: String,
     //required: true,
   },
   coins: {

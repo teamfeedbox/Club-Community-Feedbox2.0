@@ -24,7 +24,7 @@ const CreatePost = () => {
   const [postType, setPostType] = useState("");
   const [postedDate, setPostedDate] = useState("");
 
-  console.log(`kjbdkvjbl${file}`);
+  // console.log(`kjbdkvjbl${file}`);
   let count = 0;
 
   function handleChange(e) {
@@ -43,8 +43,8 @@ const CreatePost = () => {
       setImage(e.target.files[0]);
 
       count++;
-      console.log(`count : ${count}`);
-      console.log(`i: ${i}`);
+      // console.log(`count : ${count}`);
+      // console.log(`i: ${i}`);
     }
 
     if (e.target.files.length > 5 || limit>=6) {
@@ -56,7 +56,7 @@ const CreatePost = () => {
 
     console.log(`size array : ${file.length}`);
 
-    console.log(file);
+    // console.log(file);
   }
 
   function deleteFile(e) {
@@ -77,11 +77,13 @@ const CreatePost = () => {
  
   useEffect(() => {
     if (url) {
-      fetch("http://localhost:8000/create-post", {
+      fetch("http://192.168.1.42:8000/create-post", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
           // 'Content-Type':' multipart/form-data'
+        "Authorization":"Bearer "+localStorage.getItem("jwt")
+
         },
         body: JSON.stringify({
           title,
@@ -89,8 +91,8 @@ const CreatePost = () => {
           postType,
           collegeName,
           postedDate, 
-          // postedBy,
-          img: url,
+          postedBy,
+          pic: url,
         }),
         //body:JSON.stringify(createPost)
       })
@@ -129,8 +131,11 @@ const CreatePost = () => {
     )
       .then((res) => res.json())
       .then((data) => {
+        // console.log(data.url)
         setUrl(data.url);
         // console.log(data)
+        // console.log(data.url)
+
       })
       .catch((err) => {
         console.log(err);

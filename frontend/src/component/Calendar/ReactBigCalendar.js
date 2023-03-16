@@ -5,15 +5,18 @@ import events from "./events";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 // import ReactBigCalendar from "./ReactBigCalendar";
 import { useEffect } from "react";
-import $ from "jquery";
+import $, { cleanData } from "jquery";
 import {
-  faCircle,
   faLocationDot,
   faClock,
   faCirclePlus,
   faCalendarAlt,
   faAlignLeft,
-  faHandsAmericanSignLanguageInterpreting,
+  faXmark,
+  faPodcast,
+  faTextSlash,
+  faTextWidth,
+  faFileText,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
@@ -32,10 +35,13 @@ export default function ReactBigCalendar() {
 
   const [title, setTitle] = useState();
   const [eventDate, setEventDate] = useState();
-  const [time, setTime] = useState();
+  const [eventTime, setEventTime] = useState();
   const [venue, setVenue] = useState();
   const [desc, setDesc] = useState();
-  // const [showEvent, setShowEvent] = useState();
+  const [speaker, setSpeaker] = useState();
+  const [myEvent, setMyEvent] = useState();
+
+
   let eventData = [];
   event &&
     event.map((data,i) => {
@@ -49,7 +55,6 @@ export default function ReactBigCalendar() {
       };
       eventData.push(val)
     });
-// console.log(eventData)
 // console.log(eventsData)
   // const [create,setCreate]=useEffect();
   // const [view,setView]=useEffect();
@@ -83,6 +88,17 @@ export default function ReactBigCalendar() {
       // console.log(result[0].eventDate);
     };
     showEvent();
+
+    // for Event prview
+    if(count2==0)
+    {
+      $(".Calendar-view-events").hide(); 
+      $(".Calendar-view-title").css("border-radius", "20px 20px 20px 20px");
+    }
+    else{
+      $(".Calendar-view-title").css("border-radius", "20px 20px 0px 0px");
+      $(".Calendar-view-events").show(); 
+    }
   });
 
   const addEvent = async (e) => {
@@ -90,7 +106,7 @@ export default function ReactBigCalendar() {
     // const userId = JSON.parse(localStorage.getItem("users"))._id;
     let result = await fetch("http://localhost:8000/createEvent", {
       method: "post",
-      body: JSON.stringify({ title, eventDate, time, venue, desc }),
+      body: JSON.stringify({ title, eventDate, eventTime, venue, desc,speaker }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -115,19 +131,45 @@ export default function ReactBigCalendar() {
     // ]);
   };
 
-  const handleEvent = (event, data) => {
+  const handleEvent = ({start,end},eve, data) => {
     // alert(event.title+"_______"+event.start+"________"+event.end);
-    if (count2 == 0) {
-      $(".Calendar-view-title").css("border-radius", "20px 20px 0px 0px");
-      $(".Calendar-view-events").delay("slow").show();
-      setCount2(1);
-    } else {
-      $(".Calendar-view-title").css({ "border-radius": "20px 20px 20px 20px" });
-      $(".Calendar-view-events").hide();
-      setCount2(0);
-    }
+    // if (count2 == 0) {
+    //   $(".Calendar-view-title").css("border-radius", "20px 20px 0px 0px");
+    //   $(".Calendar-view-events").delay("slow").show();
+    //   setCount2(1);
+    // } else {
+    //   $(".Calendar-view-title").css({ "border-radius": "20px 20px 20px 20px" });
+    //   $(".Calendar-view-events").hide();
+    //   setCount2(0);
+    // }
 
-    console.log("onSelectEvent", data);
+    // console.log("onSelectEvent",event);
+
+    // var currDate = start;
+    setCount2(1);
+    var currEventDate = start.getDate();
+    var month = parseInt(start.getMonth()) + 1;
+    var year = parseInt(start.getFullYear());
+    
+    const startDate = year + "-" + 0 + month + "-" + currEventDate;
+
+    // if (month < 10) {
+    //   console.log(startDate);
+    // } else {
+    //   console.log(currDate.getDate() + "-" + month + "-" + year);
+    // }
+
+    event.map(function (val, index) {
+      if (val.eventDate === startDate) {
+       
+        console.log(val)
+        setMyEvent(val);
+        
+      }
+
+    });
+
+    
   };
 
   const handleSelect3 = ({ start, end }) => {
@@ -146,33 +188,33 @@ export default function ReactBigCalendar() {
 
   const handleSelect = ({ start, end }) => {
     setCount1(1);
-    // if (count1 == 0) {
-    //   $(".Calendar-add-drop").hide();
-    // } else {
-    //   $(".Calendar-add-drop").show();
-    // }
+    if (count1 == 0) {
+      $(".Calendar-add-drop").hide();
+    } else {
+      $(".Calendar-add-drop").show();
+    }
     // console.log(start )
     // console.log(end )
-    var currDate = start;
-    var currEventDate = currDate.getDate();
-    var month = parseInt(currDate.getMonth()) + 1;
-    var year = parseInt(currDate.getFullYear());
-    // const startDate = currDate.getDate() + "-" + 0 + month + "-" + year;
-    const startDate = year + "-" + 0 + month + "-" + currDate.getDate();
+    // var currDate = start;
+    // var currEventDate = currDate.getDate();
+    // var month = parseInt(currDate.getMonth()) + 1;
+    // var year = parseInt(currDate.getFullYear());
+    // // const startDate = currDate.getDate() + "-" + 0 + month + "-" + year;
+    // const startDate = year + "-" + 0 + month + "-" + currDate.getDate();
 
-    if (month < 10) {
-      console.log(startDate);
-    } else {
-      console.log(currDate.getDate() + "-" + month + "-" + year);
-    }
+    // if (month < 10) {
+    //   console.log(startDate);
+    // } else {
+    //   console.log(currDate.getDate() + "-" + month + "-" + year);
+    // }
 
-    event.map(function (val, index) {
-      if (val.eventDate === startDate) {
-        
-        console.log(val)
-      }
+    // event.map(function (val, index) {
+    //   if (val.eventDate === startDate) {
+       
+    //     console.log(val)
+    //   }
 
-    });
+    // });
 
     // const title = title;
     // if (title)
@@ -209,18 +251,20 @@ export default function ReactBigCalendar() {
 
 
         </div>
-
     
+ 
+
         <div className="Calendar-view">
           <div className="Calendar-view-title">Events Preview</div>
           <div className="Calendar-view-events">
-            <div className="event-title">{"Web Development"}</div>
+            <div className="event-title">{myEvent && myEvent.title}</div>
             <div className="event-profile">
               <FontAwesomeIcon
                 style={{ margin: "0 10px 0 0" }}
-                icon={faCircle}
+                icon={faPodcast}
+                
               />
-              {"Yash Kulshrestha"}
+              {myEvent && myEvent.speaker}
             </div>
             <div className="event-minor">
               <div>
@@ -228,7 +272,8 @@ export default function ReactBigCalendar() {
                   style={{ margin: "0 10px 0 0" }}
                   icon={faLocationDot}
                 />
-                {"Google meet"}
+                {myEvent && myEvent.venue}
+               
               </div>
 
               <div>
@@ -236,7 +281,7 @@ export default function ReactBigCalendar() {
                   style={{ margin: "0 10px 0 0" }}
                   icon={faCalendarAlt}
                 />
-                {"27/5/2023"}
+                {myEvent && myEvent.eventDate}
               </div>
 
               <div>
@@ -244,19 +289,21 @@ export default function ReactBigCalendar() {
                   style={{ margin: "0 10px 0 0" }}
                   icon={faClock}
                 />
-                {"09:40 am to 12:00 pm"}
+                {myEvent && myEvent.eventTime}
               </div>
             </div>
             <div>
               <b>Descrpition</b>
               <br />
-              {
-                "In this session you will learn about how to start the journey to become a UI/UX developer. In this session you will learn how to do research and test the market credibility of the project you are taking on and what are the regular pain of users from the competitor"
-              }
+              {myEvent && myEvent.desc}
             </div>
+            <div className="preview-button">
             <button>Interested</button>
             <button>Cancel Event</button>
+            </div>
+            <div style={{textAlign:"center"}}>
             <button onClick={() => {navigate('/attendance')}}>Mark Attendance</button>
+            </div>
           </div>
         </div>
 
@@ -279,30 +326,59 @@ export default function ReactBigCalendar() {
           onSelectSlot={handleSelect}
         />
         // console.log(eventData,"jhjhghjg")
-
+        // console.log(eventData,"jhjhghjg")
+        // console.log(eventData,"jhjhghjg")
+        
         }
       </div>
 
       <div className="Calendar-add-drop">
         <form>
-          <div
-            className="Calendar-title"
-            style={{ display: "flex", flexDirection: "row-reverse" }}
-          >
+          <div className="calender-add-title">
+            <span>Create an Event</span>
             <div className="cancel-button" onClick={handleSelect1}>
-              X
+            <FontAwesomeIcon
+             icon={faXmark} />
             </div>
+            </div>
+          <div className="Calendar-title" >
+            <span>Title</span>
             <input
               type="text"
-              id=""
               placeholder="Add Event Title"
               value={title}
+              maxlength="50"
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
+
+
+          <div style={{border:"1.5px solid black",padding:"10px 10px 15px 10px",borderRadius:"10px"}}>
+          <span style={{fontWeight:"600"}}>General</span>
+          <div className="input-container">
+          
+          <FontAwesomeIcon
+                style={{ margin: "7px 10px 0 0" }}
+                icon={faPodcast}
+                
+              />
+            <input
+              type="Speaker Name"
+<<<<<<< HEAD
+              placeholder="Add Speaker Name"
+              value={speaker}
+              onChange={(e) => setSpeaker(e.target.value)}
+=======
+              value={eventDate}
+              placeholder="Speaker Name"
+              onChange={(e) => setEventDate(e.target.value)}
+>>>>>>> 23df11d037b057a65a8f671d729516a2c0623b05
+            ></input>
+          </div>
+
           <div className="input-container">
             <FontAwesomeIcon
-              style={{ margin: "0 10px 0 0" }}
+              style={{ margin: "7px 10px 0 0" }}
               icon={faCalendarAlt}
             />
             <input
@@ -312,16 +388,17 @@ export default function ReactBigCalendar() {
             ></input>
           </div>
           <div className="input-container">
-            <FontAwesomeIcon style={{ margin: "0 10px 0 0" }} icon={faClock} />
+            <FontAwesomeIcon
+             style={{ margin: "7px 10px 0 0" }} icon={faClock} />
             <input
               type="time"
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
+              value={eventTime}
+              onChange={(e) => setEventTime(e.target.value)}
             ></input>
           </div>
           <div className="input-container">
             <FontAwesomeIcon
-              style={{ margin: "0 10px 0 0" }}
+              style={{ margin: "7px 15px 0 0" }}
               icon={faLocationDot}
             />
             <input
@@ -331,29 +408,34 @@ export default function ReactBigCalendar() {
               onChange={(e) => setVenue(e.target.value)}
             />
           </div>
-          <div className="input-container">
-            <FontAwesomeIcon
-              style={{ margin: "0 10px 0 0" }}
-              icon={faAlignLeft}
-            />
-            Descrpition:
+          </div>
+
+          <div className="input-container input-container1" style={{margin:"25px 0 25px 0",display:"flex",flexDirection:"column"}}>
+            <div className="description">
+              {/* <FontAwesomeIcon
+                style={{ margin: "0px 10px 0 0" }}
+                icon={faAlignLeft}
+              /> */}
+              {/* <span> */}
+               Descrpition
+            </div>
+            
             <textarea
               name="message"
-              rows="4"
+              rows="3"
               cols="30"
-              style={{
-                margin: "5px 0px 0px 25px",
-                padding: "px 0px 0px 0px",
-                fontSize: "13px",
-              }}
               placeholder="About . . ."
               value={desc}
               onChange={(e) => setDesc(e.target.value)}
             ></textarea>
           </div>
+          <div className="submit-button">
           <button className="Calendar-submit" type="submit" onClick={addEvent}>
-            Add
+            Create
           </button>
+          </div>
+
+          
         </form>
       </div>
     </div>
