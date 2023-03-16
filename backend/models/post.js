@@ -13,19 +13,11 @@ const postSchema = new mongoose.Schema({
   desc: {
     type: String,
   },
-  // profile: {
-  //   type:ObjectId,
-  //   ref: 'user',
-  // },
 
-  // img: [{
-  //   data: Buffer,
-  //   contentType: String,
-  // }],
 
-  img: [{
+  img: {
     type: String,
-  }],
+  },
 
   // postType: {
   //   type: String,

@@ -10,6 +10,33 @@ const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+  //   console.log(email, password);
+
+  //   let result = await fetch("http://localhost:8000/login", {
+  //     method: "post",
+  //     body: JSON.stringify({ email, password }),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  //   result = await result.json();
+  //   console.log(result);
+  //   console.log("first");
+
+  //   if (result.name) {
+  //     localStorage.setItem("user", JSON.stringify(result));
+  //     navigate('/main')
+  //     // alert("welcome");
+  //   } else {
+  //     alert("Please enter valid login credentials");
+  //   }
+  // };
+
+ 
+ 
+ 
   const handleLogin = async (e) => {
     e.preventDefault();
     console.log(email, password);
@@ -25,15 +52,20 @@ const LoginPage = () => {
     console.log(result);
     console.log("first");
 
-    if (result.name) {
-      localStorage.setItem("user", JSON.stringify(result));
-      navigate('/main')
-      // alert("welcome");
-    } else {
-      alert("Please enter valid login credentials");
-    }
-  };
+    localStorage.setItem("jwt",result.token);
+    // localStorage.setItem("user", JSON.stringify(result));
+    navigate('/main')
 
+    // if (result) {
+    //   localStorage.setItem("user", JSON.stringify(result));
+    //   navigate('/main')
+    //   // alert("welcome");
+    // } else {
+    //   alert("Please enter valid login credentials");
+    // }
+  };
+ 
+ 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };

@@ -7,44 +7,44 @@ const requireLogin = require('../middleware/requireLogin')
 
 
 //api to create the post
-router.post('/create-post',async(req,res)=>{
-    let post = new Post(req.body)
+// router.post('/create-post',async(req,res)=>{
+//     let post = new Post(req.body)
     
-    let data = await post.save();
-    res.send(data);
-})
+//     let data = await post.save();
+//     res.send(data);
+// })
 
 
-// router.post('/create-post',requireLogin,(req,res)=>{
-//     const {title,desc,collegeName,postedDate,postedBy,likes,comment,pic} = req.body
+router.post('/create-post',requireLogin,(req,res)=>{
+    const {title,desc,collegeName,postedDate,likes,comment,pic} = req.body
 
-//     // const post = new Post({
-//     //     title,
-//     //     desc,
-//     //     postedDate,
-//     //     postedBy:req.user ,
-//     //     collegeName,
-//     //     likes,
-//     //     comment,
-//     //     img:pic,
+    const post = new Post({
+        title,
+        desc,
+        postedDate,
+        postedBy:req.user ,
+        collegeName,
+        likes,
+        comment,
+        img:pic,
 
-//     // })
-//     // post.save().then(result=>{
-//     //     res.json({post:result})
-//     // })
-//     // .catch(err=>{
-//     //     console.log(err)
-//     // })
+    })
+    post.save().then(result=>{
+        res.json({post:result})
+    })
+    .catch(err=>{
+        console.log(err)
+    })
 
 //     console.log(req.user)
 //     res.send("ok")
 
-// })
+})
 
 
 //api to get all posts
 //it will be used to display at the homepage feed
-router.get('/getAllPost',(req,res)=>{
+router.get('/getAllPost',requireLogin,(req,res)=>{
     var mySort = { date: -1 };
     Post.find()
     .sort(mySort)

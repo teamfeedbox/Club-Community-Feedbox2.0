@@ -8,18 +8,22 @@ const PostDisplay = () => {
   const[data,setData] = useState([])
 
   useEffect(()=>{
-    const getList = ()=>{
-      
-  
-fetch("http://192.168.1.42:8000/getAllPost",{
-}).then(res=>res.json())
-.then(result=>{
-  // console.log(result)
-  setData(result)
-})
-}
-getList();
-
+    // const getList = async (e) => {
+    //   //  e.preventDefault();
+    //   let result = await fetch("http://localhost:8000/getAllPost",{
+    //   headers:{
+    //     "Authorization":"Bearer "+localStorage.getItem("jwt")
+    //   }
+    // });
+    //   result = await result.json();
+    //   // console.log(result)
+    //   setData(result);
+    //   // if(result.desc)
+    //   // {
+    //   //   getList();
+    //   // }
+    // };
+    getList();
   })
 
   // const getList = async (e) => {
@@ -35,6 +39,24 @@ getList();
   // };
 
 
+  const getList = async (e) => {
+    //  e.preventDefault();
+    let result = await fetch("http://localhost:8000/getAllPost",{
+    headers:{
+      "Authorization":"Bearer "+localStorage.getItem("jwt")
+    }
+  });
+    result = await result.json();
+    // console.log(result)
+    setData(result);
+    if(result.desc)
+    {
+      getList();
+    }
+  };
+  
+
+
 
   return (
     <div>
@@ -47,8 +69,8 @@ getList();
             <img src="Images/girl.jpg" alt="" />
           </div>
           <div className="post-display-heading">
-            {/* <h3>{item.postedBy.name}</h3>   */}
-            <p>{item.collegeName}</p>
+            <h3>{item.postedBy.name}</h3>  
+            <p>{item.postedBy.collegeName}</p>
           </div>
         </div>
         <div className="post-display-center">
