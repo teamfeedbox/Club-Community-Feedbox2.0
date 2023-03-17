@@ -1,0 +1,30 @@
+.Profile-Banner{
+    padding-top: 60px;
+}
+.Profile-Banner img{
+    height: 200px;
+    width: 100%;
+}
+.Profile-Title{
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    width: 80%;
+    border: 5px solid black;
+}
+.Profile-Title img{
+    border: 8px solid white;
+    border-radius: 100%;
+    width: 20%;
+    height: 20%;
+    transform: translateY(-35%);
+}
+.Profile-Title div p{
+ font-size: 35px;
+ font-weight: 500;
+ padding:  0 0;
+ margin: 0 0;
+}
+.Profile-Title div span{
+    font-size: 25px;
+}
