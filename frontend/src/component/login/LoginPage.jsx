@@ -34,6 +34,7 @@ const LoginPage = () => {
   //   }
   // };
 
+  const navigate = useNavigate();
  
  
  
@@ -53,8 +54,12 @@ const LoginPage = () => {
     console.log("first");
 
     localStorage.setItem("jwt",result.token);
-    // localStorage.setItem("user", JSON.stringify(result));
-    navigate('/main')
+    localStorage.setItem("user", JSON.stringify(result));
+    // if(result){
+    //   navigate('/main')
+
+    // }
+     navigate('/main')
 
     // if (result) {
     //   localStorage.setItem("user", JSON.stringify(result));
@@ -74,7 +79,7 @@ const LoginPage = () => {
     setPassword(event.target.value);
   };
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   return (
     <div className="login-page">
       <div className="login-main-page">
