@@ -27,12 +27,12 @@ const SignupPage = () => {
   const [skills, setSkills] = useState([]);
   const [branch, setBranch] = useState();
 
-  // const options = [
-  //   { value: "First", label: "First" },
-  //   { value: "Second", label: "Second" },
-  //   { value: "Third", label: "Third" },  
-  //   { value: "Fourth", label: "Fourth" },
-  // ];
+  const options = [
+    { value: "First", label: "First" },
+    { value: "Second", label: "Second" },
+    { value: "Third", label: "Third" },  
+    { value: "Fourth", label: "Fourth" },
+  ];
 
   const navigate = useNavigate();
 
