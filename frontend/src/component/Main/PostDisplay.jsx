@@ -69,8 +69,8 @@ const PostDisplay = () => {
             <img src="Images/girl.jpg" alt="" />
           </div>
           <div className="post-display-heading">
-            <h3>{item.postedBy.name}</h3>  
-            <p>{item.postedBy.collegeName}</p>
+            {/* <h3>{item.postedBy.name}</h3>   */}
+            {/* <p>{item.postedBy.collegeName}</p> */}
           </div>
         </div>
         <div className="post-display-center">
