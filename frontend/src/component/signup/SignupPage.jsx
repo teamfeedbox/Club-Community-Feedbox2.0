@@ -45,15 +45,15 @@ const SignupPage = () => {
 
   const collectData = async (e) => {
     e.preventDefault();
-    console.log(
-      name,
-      email,
-      password,
-      collegeYear,
-      branch,
-      collegeName,
-      skills
-    );
+    // console.log(
+    //   name,
+    //   email,
+    //   password,
+    //   collegeYear,
+    //   branch,
+    //   collegeName,
+    //   skills
+    // );
     let result = await fetch("http://localhost:8000/register", {
       method: "post", // post method because we want to save the data
       body: JSON.stringify({
@@ -70,7 +70,7 @@ const SignupPage = () => {
       },
     });
     result = await result.json();
-    //  console.log(result)
+     console.log(result)
     localStorage.setItem("user", JSON.stringify(result));
     if (result) {
       navigate("/login");
@@ -83,8 +83,6 @@ const SignupPage = () => {
 
   return (
     <div className="signup-page">
-    {/* <div className="signup-page"> */}
-      
       <div className="signup-page-img">
         <img src="Images/l1.jpg" alt="" />
         {/* <img src="Images/l3.png" alt="" /> */}
@@ -93,7 +91,7 @@ const SignupPage = () => {
         <h2>Register</h2>
         <form class="">
           <div class="d-flex flex-row align-items-center mb-4">
-            <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}} icon={faUser} /></div>
+            <FontAwesomeIcon style={{ margin: "10px" }} icon={faUser} />
             <div class="form-outline flex-fill mb-0">
               <input
                 type="text"
@@ -108,7 +106,7 @@ const SignupPage = () => {
           </div>
 
           <div class="d-flex flex-row align-items-center mb-4">
-            <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}} icon={faEnvelope} /></div>
+            <FontAwesomeIcon style={{ margin: "10px" }} icon={faEnvelope} />
             <div class="form-outline flex-fill mb-0">
               <input
                 type="email"
@@ -123,7 +121,7 @@ const SignupPage = () => {
           </div>
 
           <div class="d-flex flex-row align-items-center mb-4">
-            <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}} icon={faLockOpen} /></div>
+            <FontAwesomeIcon style={{ margin: "10px" }} icon={faLockOpen} />
             <div class="form-outline flex-fill mb-0">
               <input
                 type="password"
@@ -139,7 +137,7 @@ const SignupPage = () => {
           </div>
 
           <div class="d-flex flex-row align-items-center mb-4">
-            <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}}  icon={faSchool} /></div>
+            <FontAwesomeIcon style={{ margin: "10px" }} icon={faSchool} />
             <div class="form-outline flex-fill mb-0">
               <input
                 type="text"
@@ -154,16 +152,28 @@ const SignupPage = () => {
           </div>
 
           <div class="d-flex flex-row align-items-center mb-4">
-          <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}} icon={faCalendar} /></div>
-            <div class="form-outline flex-fill mb-0">
+            <FontAwesomeIcon style={{ margin: "10px" }} icon={faCalendar} />
+            <div class="form-outline flex-fill mb-0 container ">
               {/* <input type="year" id="year" class="form-control" placeholder="Year"
               /> */}
-            <Select options={options} placeholder="Select Year.."/>
+              <select
+        className="custom-select"
+        value={collegeYear}
+        onChange={(e) => {
+          const selectedYear = e.target.value;
+          setCollegeYear(selectedYear);
+        }}
+      >
+        <option value="First">First</option>
+        <option value="Second">Second</option>
+        <option value="Third">Third</option>
+        <option value="Fourth">Fourth</option>
+      </select>
             </div>
           </div>
 
           <div class="d-flex flex-row align-items-center mb-4">
-            <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '10px'}} icon={faCodeBranch} /></div>
+            <FontAwesomeIcon style={{ margin: "10px" }} icon={faCodeBranch} />
             <div class="form-outline flex-fill mb-0">
               <input
                 type="text"
@@ -178,7 +188,7 @@ const SignupPage = () => {
           </div>
 
           <div class="d-flex flex-row align-items-center mb-4 multi-placeholder">
-            <div style={{width:"40px"}}><FontAwesomeIcon style={{'margin' : '12px'}}  icon={faSuitcase} /></div>
+            <FontAwesomeIcon style={{ margin: "12px" }} icon={faSuitcase} />
             <div class="form-outline flex-fill mb-0">
               <Multiselect
                 value={skills}

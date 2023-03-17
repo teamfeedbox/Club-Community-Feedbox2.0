@@ -46,7 +46,7 @@ const RescourcesTable = () => {
           </button>
 
           {/* modal popup to add rescources  */}
-
+    
           <Modal
             show={show}
             onHide={handleClose}
@@ -117,51 +117,17 @@ const RescourcesTable = () => {
       <div className="res-table-div">
         <table class="table">
           <thead class="thead-light">
+
             <tr className="res-table-head">
               <th scope="col">Title</th>
               <th scope="col">Author</th>
               <th scope="col">Created</th>
               {/* <th scope="col">Doc / Link</th> */}
             </tr>
+            
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">
-                <div style={{ marginLeft: "10px" }}>
-                  <FontAwesomeIcon
-                    style={{ "margin-right": "10px" }}
-                    icon={faFileLines}
-                    className="fa"
-                  />
-                  Chapter 1
-                </div>
-                <div className="res-view-download">
-                  <p>View</p>
-                  <p>Download</p>
-                </div>
-              </th>
-              <td>Isha Bam</td>
-              <td>06-03-2023</td>
-            </tr>
 
-            <tr>
-              <th scope="row">
-                <div style={{ marginLeft: "10px" }}>
-                  <FontAwesomeIcon
-                    style={{ "margin-right": "10px" }}
-                    icon={faChain}
-                    className="fa"
-                  />
-                  Chapter 1
-                </div>
-                <div className="res-view-download">
-                  <p>View</p>
-                  {/* <p>Download</p> */}
-                </div>
-              </th>
-              <td>Isha Bam</td>
-              <td>06-03-2023</td>
-            </tr>
 
             <tr>
               <th scope="row">
@@ -200,6 +166,46 @@ const RescourcesTable = () => {
               <td>Isha Bam</td>
               <td>06-03-2023</td>
             </tr>
+
+            <tr>
+              <th scope="row">
+                <div style={{ marginLeft: "10px" }}>
+                  <FontAwesomeIcon
+                    style={{ "margin-right": "10px" }}
+                    icon={faFileLines}
+                    className="fa"
+                  />
+                  Chapter 1
+                </div>
+                <div className="res-view-download">
+                  <p>View</p>
+                  <p>Download</p>
+                </div>
+              </th>
+              <td>Isha Bam</td>
+              <td>06-03-2023</td>
+            </tr>
+
+            <tr>
+              <th scope="row">
+                <div style={{ marginLeft: "10px" }}>
+                  <FontAwesomeIcon
+                    style={{ "margin-right": "10px" }}
+                    icon={faChain}
+                    className="fa"
+                  />
+                  Chapter 1
+                </div>
+                <div className="res-view-download">
+                  <p>View</p>
+                  {/* <p>Download</p> */}
+                </div>
+              </th>
+              <td>Isha Bam</td>
+              <td>06-03-2023</td>
+            </tr>
+
+
           </tbody>
         </table>
       </div>

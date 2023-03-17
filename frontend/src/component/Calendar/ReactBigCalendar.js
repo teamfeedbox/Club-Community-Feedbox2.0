@@ -162,7 +162,7 @@ export default function ReactBigCalendar() {
     event.map(function (val, index) {
       if (val.eventDate === startDate) {
        
-        console.log(val)
+        // console.log(val)
         setMyEvent(val);
         
       }
