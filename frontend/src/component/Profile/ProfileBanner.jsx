@@ -1,5 +1,7 @@
 import React from 'react';
 import "./ProfileBanner.css";
+import {faPenToSquare} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function ProfileBanner() {
   return (
     <div className='Profile-Banner'>
@@ -11,9 +13,16 @@ function ProfileBanner() {
             <img src="Images/podcast.png"></img>
             <div>
                 <p>Aditya Pandey</p>
-                <span>Club Member</span>
+                <span>President</span>
             </div>
-            <button> Edit Profile</button>
+            
+            <button>
+                <FontAwesomeIcon 
+                icon={faPenToSquare} 
+                style={{margin:"0px 10px 0 0"}}
+                />
+                Edit Profile
+            </button>
         </div>
         
     </div>
