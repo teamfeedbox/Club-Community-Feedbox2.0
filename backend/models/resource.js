@@ -16,6 +16,14 @@ const resourceSchema = new mongoose.Schema({
     type:ObjectId,
     ref:"users"
   },
+  file_path: {
+    type: String,
+    // required: true
+  },
+  file_mimetype: {
+    type: String,
+    // required: true
+  },
   date: {
     type: Date,
     default: Date.now,
