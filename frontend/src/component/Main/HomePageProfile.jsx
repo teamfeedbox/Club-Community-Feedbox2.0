@@ -9,10 +9,10 @@ const HomePageProfile = () => {
       <div className="home-page-profile-card">
         <img src="Images/girl.jpg" alt="" />
       </div>
-        <p className="HomePageProfile-name">{JSON.parse(auth).name}</p>
+        <p className="HomePageProfile-name">Name</p>
         <p className="HomePageProfile-role">Club Member</p>
         <p className="HomePageProfile-skills">
-          Skills:- <span>{JSON.parse(auth).skills.join(",")}</span>{" "}
+          {/* Skills:- <span>{JSON.parse(auth).skills.join(",")}</span>{" "} */}
         </p>
       <div className="HomePageProfile-coin">
         <div>

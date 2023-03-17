@@ -45,15 +45,15 @@ const SignupPage = () => {
 
   const collectData = async (e) => {
     e.preventDefault();
-    console.log(
-      name,
-      email,
-      password,
-      collegeYear,
-      branch,
-      collegeName,
-      skills
-    );
+    // console.log(
+    //   name,
+    //   email,
+    //   password,
+    //   collegeYear,
+    //   branch,
+    //   collegeName,
+    //   skills
+    // );
     let result = await fetch("http://localhost:8000/register", {
       method: "post", // post method because we want to save the data
       body: JSON.stringify({
@@ -70,7 +70,7 @@ const SignupPage = () => {
       },
     });
     result = await result.json();
-    //  console.log(result)
+     console.log(result)
     localStorage.setItem("user", JSON.stringify(result));
     if (result) {
       navigate("/login");
@@ -83,8 +83,6 @@ const SignupPage = () => {
 
   return (
     <div className="signup-page">
-    {/* <div className="signup-page"> */}
-      
       <div className="signup-page-img">
         <img src="Images/l1.jpg" alt="" />
         {/* <img src="Images/l3.png" alt="" /> */}
