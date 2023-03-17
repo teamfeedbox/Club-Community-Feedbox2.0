@@ -10,7 +10,7 @@
     flex-direction: row;
     margin: 0 auto;
     width: 80%;
-    border: 5px solid black;
+    /* border: 5px solid black; */
 }
 .Profile-Title img{
     border: 8px solid white;

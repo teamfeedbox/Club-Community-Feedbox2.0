@@ -1,0 +1,36 @@
+.overall-profile-tabs {
+    /* border: 2px solid black; */
+    /* width: 80%; */
+    margin: auto;
+}
+.profile-tabs {
+    display: flex;
+    border-bottom: 1px solid black;
+    width: 80%;
+    margin: auto;
+}
+
+.profile-tab-content {
+    margin: 0px 30px;
+    padding-bottom: 5px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    /* border: 2px solid ; */
+}
+
+.profile-tab-content-highlight {
+    border-bottom: 3px solid #375C6B;
+    color: #375C6B;
+}
+
+.profile-tab-data {
+    /* border: 2px solid black; */
+    width: 80%;
+    margin:10px auto;
+
+}
+
+.profile-tab-data-hide {
+    display: none;
+}
