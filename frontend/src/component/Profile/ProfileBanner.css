@@ -8,7 +8,7 @@
 .Profile-Title{
     display: flex;
     flex-direction: row;
-    margin: 0 auto;
+    margin: 0 auto 40px auto;
     width: 80%;
     /* border: 5px solid black; */
 }
@@ -17,14 +17,136 @@
     border-radius: 100%;
     width: 20%;
     height: 20%;
-    transform: translateY(-35%);
+    /* left: 0; */
+    /* right: 0; */
+    margin-top: -100px;
+    transform: translate(0%,-0%);
+    margin-left: 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 6px 22px;
+}
+.Profile-Title div{
+    margin: 20px 0 0 20px;
 }
 .Profile-Title div p{
  font-size: 35px;
- font-weight: 500;
+ font-weight: 700;
  padding:  0 0;
- margin: 0 0;
+ margin: 0px 0 0 0;
 }
 .Profile-Title div span{
     font-size: 25px;
+    font-weight: 480;
+}
+.Profile-Title button{
+    margin-left: 35%;
+    font-size: 15px;
+    height: fit-content;
+    margin-top: 5%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 6px 12px;
+    padding: 8px 20px;
+    font-weight: 500;
+    border-radius: 12px;
+}
+
+/* # Mobile
+only screen and (min-width: 480px)
+
+# Tablet
+only screen and (min-width: 768px) 
+
+# Desktop
+only screen and (min-width: 992px)
+
+# Huge
+only screen and (min-width: 1280px)  */
+
+/* Mobile*/
+@media screen and (max-width: 480px){
+    .Profile-Banner{
+        padding-top: 60px;
+    }
+    .Profile-Banner img{
+        height: 110px;
+        width: 100%;
+    }
+    .Profile-Title{
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto 20px auto;
+        text-align: center;
+        width: 80%;
+        /* border: 5px solid black; */
+        position: relative;
+    }
+    .Profile-Title div{
+        margin: 0 0 0 0;
+    }
+    .Profile-Title img{
+        border: 8px solid white;
+        border-radius: 100%;
+        width: 45%;
+        height: 45%;
+        margin: -50px auto 0 auto;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 6px 22px;
+    }
+   
+    .Profile-Title div p{
+     font-size: 25px;
+     font-weight: 700;
+     padding:  0 0;
+     margin: 5px 0 0 0;
+    }
+    .Profile-Title div span{
+        font-size: 18px;
+        font-weight: 450;
+    }
+    .Profile-Title button{
+        margin-left: 35%;
+        font-size: 10px;
+        height: fit-content;
+        margin-top: 5%;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 6px 12px;
+        padding: 8px 20px;
+        font-weight: 500;
+        border-radius: 12px;
+        position: absolute;
+        top: -100px;
+        right: -10%;
+        background-color: #fff;
+    }
+}
+
+/* Tablet */
+@media screen and (min-width: 760px) and (max-width:992px) {
+    .Profile-Banner img{
+        height:150px;
+    }
+    .Profile-Title{
+        width: fit-content;
+        margin: 0 auto 30px auto;
+    }
+    .Profile-Title img{
+        width: 25%;
+        height: 25%;
+        margin-left: 15px;
+        margin-top: -100px;
+        transform: translateY(0,-0%);
+    }
+    .Profile-Title div{
+        margin: 15px 0 0 20px;
+    }
+    .Profile-Title div p{
+     font-size: 26px;
+    }
+    .Profile-Title div span{
+        font-size: 23px;
+    }
+    .Profile-Title button{
+        margin-left: 20%;
+        font-size: 15px;
+        padding: 5px 15px;
+        
+    }
+
+
 }
