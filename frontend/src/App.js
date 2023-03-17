@@ -14,7 +14,9 @@ import Faq from './component/Faq';
 import Approvals from './component/approvals/Approvals';
 import CalendarPage from './component/Calendar/CalendarPage';
 import ProfilePage from './component/Profile/ProfilePage';
+import NewLogin from './component/login/NewLogin';
 import AttendanceSheet from './component/Calendar/AttendanceSheet';
+
 
 const App = () => {
   return (
