@@ -12,7 +12,7 @@ const HomePageEvent = () => {
      // await e.preventDefault();
      let result = await fetch("http://192.168.1.42:8000/getAllEvent");
      result = await result.json();
-     console.log(result)
+    //  console.log(result)
      setEvent(result);
    };
   return (
