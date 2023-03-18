@@ -1,5 +1,5 @@
 .Calendar-container{
-    padding-top: 100px;
+    padding-top: 30px;
     display: flex;
     flex-direction: row;  
 }
@@ -42,10 +42,6 @@
 
 
 .input-container textarea{
-    /* border-top-style: line; */
-    /* border-right-style: d; */
-    /* border-left-style: dotted; */
-    /* border-bottom-style: dotted; */
     padding: 5px 5px 5px 5px;
     width: 100%;
     
@@ -84,7 +80,6 @@
     color: #fff;
     border-radius: 20px 20px 20px 20px;
     cursor: pointer;
-    /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
 }
 .Calendar-add-drop{
     padding: 20px;
@@ -97,7 +92,6 @@
     right:30%;
     top: 15%;
     width: 25%;
-    /* text-align: center; */
     
 }
 .submit-button{
@@ -107,7 +101,6 @@
 .Calendar-submit{
     padding: 8px 30px;
     border-radius: 10px;
-    /* margin-top: 5px; */
     font-size: 15px;
     margin-left: 20px;
     background-color: #3174AD;
@@ -133,7 +126,6 @@ flex-direction: column;
     flex-direction: row;
     justify-content:space-between;
     margin: 0 20px;
-    /* border: 1px solid red;     */
 }
 .calender-add-title span{
     font-weight: 700;
@@ -217,6 +209,5 @@ margin: 10px 0;
 
 .cancel-button:hover{
     background-color: #edebeba9;
-    /* border: 1px solid black; */
 }
 
