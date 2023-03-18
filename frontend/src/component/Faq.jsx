@@ -40,7 +40,7 @@ const Faq = () => {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="faq-overall">
         <div className="faq-top">
           <img src="Images/faq.jpg" alt="" />

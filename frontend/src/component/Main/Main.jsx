@@ -1,18 +1,14 @@
 import React from "react";
-import Navbar from "../Navbar";
 import PostDisplay from "./PostDisplay";
 import HomePageProfile from "./HomePageProfile";
 import HomePageCal from "./HomePageCal";
 import HomePageEvent from "./HomePageEvent";
 import CreatePost from "./CreatePost";
-import { ScrollableComponentElement } from "scrollable-component";
-// import 'scrollable-component';
 import "./Main.css";
 
 const Main = () => {
   return (
     <div className="main_container">
-      <Navbar />
       <section className="main">
         <div className="main-home-page-profile">
           <scrollable-component scrollbar-visibility="always">

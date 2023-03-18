@@ -10,7 +10,7 @@ import SuperAdmin from "./SuperAdmin";
 const Approvals = () => {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="approvals-overall">
         <div className="approvals-left">
           <PendingApprovals />
