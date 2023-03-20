@@ -7,8 +7,8 @@ import ProfileTabs from "./ProfileTabs";
 function ProfilePage() {
   return (
     <div>
-    {/* <NewNavbar/> */}
-    <Navbar />
+    <NewNavbar/>
+    {/* <Navbar /> */}
     <ProfileBanner/>
     <ProfileTabs />
     </div>

@@ -8,13 +8,11 @@ import CreatePost from "./CreatePost";
 import { ScrollableComponentElement } from "scrollable-component";
 // import 'scrollable-component';
 import "./Main.css";
-import NewNav from "../NewNav";
 
 const Main = () => {
   return (
     <div className="main_container">
-      {/* <Navbar /> */}
-      <NewNav/>
+      <Navbar />
       <section className="main">
         <div className="main-home-page-profile">
           <scrollable-component scrollbar-visibility="always">
