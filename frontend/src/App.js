@@ -9,27 +9,31 @@ import SignUp from './component/signup/SignUp';
 import Home from './component/landing_page/Home';
 import Main from './component/Main/Main';
 import Rescources from './component/Rescources/Rescources';
-import RescourcesDisplay from './component/Rescources/RescourcesDisplay'
+// import RescourcesDisplay from './component/Rescources/RescourcesDisplay'
+import RescourcesTable from './component/Rescources/RescourcesTable';
 import Faq from './component/Faq';
 import Approvals from './component/approvals/Approvals';
-import CalendarPage from './component/Calendar/CalendarPage';
 import ProfilePage from './component/Profile/ProfilePage';
 import NewLogin from './component/login/NewLogin';
 import AttendanceSheet from './component/Calendar/AttendanceSheet';
+import NavbarRes from './component/navbar/NavbarRes';
+import ReactBigCalendar from './component/Calendar/ReactBigCalendar';
+
 
 const App = () => {
   return (
-    <div className='App'>
+    <div className='App' >
+      <NavbarRes />
       <Router>
         <Routes>
           <Route path='/' element={<Home />}/>
           <Route index path='/login' element={ <Login /> } />
           <Route index path='/register' element={ <SignUp /> } />
           <Route index path='/main' element={ <Main /> } />
-          <Route index path='/calendar' element={ <CalendarPage /> } />
+          <Route index path='/calendar' element={ <ReactBigCalendar /> } />
           <Route index path='/rescources' element={ <Rescources /> } />
           <Route index path='/profile' element={ <ProfilePage/> } />
-          <Route index path='/rescourcesDisplay' element={ <RescourcesDisplay /> } />
+          <Route index path='/rescourcesDisplay' element={ <RescourcesTable /> } />
           <Route index path='/faq' element={ <Faq /> } />
           <Route index path='/approvals' element={ <Approvals /> } />
           <Route index path='/attendance' element={ <AttendanceSheet /> } />

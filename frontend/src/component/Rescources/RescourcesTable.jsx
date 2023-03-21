@@ -89,6 +89,7 @@ const RescourcesTable = () => {
 
 
   return (
+    <div className="Res-table-display">
     <div className="RescourcesTable">
       <div className="res-table-heading">
         <div className="res-heading-left">Documents </div>
@@ -268,6 +269,7 @@ const RescourcesTable = () => {
           </li>
         </ul>
       </nav> */}
+    </div>
     </div>
   );
 };

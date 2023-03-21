@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Calendar, momentLocalizer, TimeGrid } from "react-big-calendar";
 import moment from "moment";
-import events from "./events";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 // import ReactBigCalendar from "./ReactBigCalendar";
 import { useEffect } from "react";
@@ -20,13 +19,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
+import './ReactBigCalendar.css';
 
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
 
 export default function ReactBigCalendar() {
-  const [eventsData, setEventsData] = useState(events);
   const [count1, setCount1] = useState(0);
   const [count2, setCount2] = useState(0);
   const [dates, setDates] = useState(0);
