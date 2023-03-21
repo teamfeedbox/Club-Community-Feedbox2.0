@@ -5,10 +5,15 @@ import HomePageCal from "./HomePageCal";
 import HomePageEvent from "./HomePageEvent";
 import CreatePost from "./CreatePost";
 import "./Main.css";
+import bg from '../assets/mainBg.png'
 
 const Main = () => {
   return (
-    <div className="main_container">
+    <div className="main_container"
+    style={
+      {backgroundImage : `url(${bg})`, backgroundRepeat:"no-repeat", backgroundSize:"cover"  }
+    }
+    >
       <section className="main">
         <div className="main-home-page-profile">
           <scrollable-component scrollbar-visibility="always">
@@ -27,8 +32,10 @@ const Main = () => {
 
         <div className="main-home-page-cal">
           <scrollable-component scrollbar-visibility="always">
-            <div>
-              <HomePageCal />
+            <div className="">
+              <div className="ml-6">
+                <HomePageCal />
+              </div>
               <HomePageEvent />
             </div>
           </scrollable-component>
