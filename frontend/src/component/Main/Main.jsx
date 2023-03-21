@@ -53,6 +53,8 @@ const Main = () => {
           <scrollable-component scrollbar-visibility="always">
 
             <HomePageProfile />
+            <p className="up-coming-events">UP-COMING EVENTS</p>
+
               <HomePageEvent />
             </scrollable-component>
           </div>
