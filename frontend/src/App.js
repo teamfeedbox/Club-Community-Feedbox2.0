@@ -1,8 +1,8 @@
 import React from 'react'
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
 import Login from './component/login/Login';
 import SignUp from './component/signup/SignUp';

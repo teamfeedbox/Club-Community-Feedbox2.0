@@ -41,6 +41,7 @@
     "react-select": "^5.7.0",
     "scrollable-component": "^1.2.1",
     "styled-components": "^5.3.9",
+    "swiper": "^9.1.1",
     "tui-calendar": "^1.15.3",
     "web-vitals": "^2.1.4"
   },
