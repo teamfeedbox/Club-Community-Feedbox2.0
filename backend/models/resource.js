@@ -5,17 +5,31 @@ const resourceSchema = new mongoose.Schema({
   title: {
     type: String,
   },
+  name:{
+    type:String
+  },
+  url: {
+    type: String,
+  },
   link: {
     type: String,
   },
-  pdf: {
-    data: Buffer,
-    type: String,
-  },
+  // pdf: {
+  //   data: Buffer,
+  //   type: String,
+  // },
   author: {
     type:ObjectId,
     ref:"users"
   },
+  // file_path: {
+  //   type: String,
+  //   // required: true
+  // },
+  // file_mimetype: {
+  //   type: String,
+  //   // required: true
+  // },
   date: {
     type: Date,
     default: Date.now,

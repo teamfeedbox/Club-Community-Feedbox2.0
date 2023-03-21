@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./RescourcesTable.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,14 +16,78 @@ const RescourcesTable = () => {
   const [show, setShow] = useState(false);
   const [file, setFile] = useState();
   const [link, setLink] = useState(false);
+  const [title, setTitle] = useState();
+  const [pdfFile, setPdfFile] = useState();
+  const [author, setAuthor] = useState();
+  const [data, setData] = useState([]);
 
   function handleChange(e) {
     console.log(e.target.files);
     setFile(URL.createObjectURL(e.target.files[0]));
+    setPdfFile(e.target.files[0]);
+
   }
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+
+  const AddResource = async(e)=>{
+    e.preventDefault();
+  
+  
+  
+    const formData = new FormData();
+    formData.append('file', pdfFile);
+    formData.append('title', title);
+    // formData.append('author', author);
+  
+    const response = await fetch('http://localhost:8000/upload', {
+      method: 'POST',
+      body: formData
+    });
+  
+    if (response.ok) {
+      // PDF file uploaded successfully
+      console.log("uploaded")
+    } else {
+      // Error uploading PDF file
+      console.log("error")
+    }
+  
+  };
+  
+  
+  useEffect(()=>{
+   ( async ()=>{
+    await getList();
+   })();
+    // getList();
+    
+      },[])
+    
+      const getList = async (e) => {
+        //  e.preventDefault();
+        let result = await fetch("http://localhost:8000/getAllResource",{
+          headers:{
+            "Authorization":"Bearer "+localStorage.getItem("jwt")
+          }
+       
+      });
+        result = await result.json();
+        // console.log(result)
+        // console.log(result[0].url)
+        setData(result);
+        if(result)
+        {
+          getList();
+        }
+      };
+    
+
+
+
+
   return (
     <div className="Res-table-display">
     <div className="RescourcesTable">
@@ -53,7 +117,10 @@ const RescourcesTable = () => {
             onHide={handleClose}
             className="profile-section-overall"
           >
-            <form>
+
+
+
+            <form  onSubmit={AddResource} encType="multipart/form-data">
               <Modal.Header closeButton>
                 <Modal.Title>Add Rescource</Modal.Title>
               </Modal.Header>
@@ -67,7 +134,11 @@ const RescourcesTable = () => {
                   </div>
                 </div>
                 <div className="res-add-modal-title">
-                  <input type="text" placeholder="Enter Title" />
+                  <input type="text" placeholder="Enter Title" 
+                      value = {title}
+                      name="title"
+                      onChange={(e) => setTitle(e.target.value)}
+                  />
                 </div>
               </Modal.Body>
               <Modal.Footer className="modal-footer">
@@ -84,8 +155,10 @@ const RescourcesTable = () => {
                       id="files"
                       style={{ display: "none" }}
                       type="file"
+                      name="file"
+                      // value={image}
                       onChange={handleChange}
-                      accept=".doc, .docx,.ppt, .pptx,.txt,.pdf"
+                      accept="application/pdf"
                     />
                   </div>
 
@@ -108,7 +181,7 @@ const RescourcesTable = () => {
                    type="submit" variant="primary" onClick={handleClose}>
                     Add
                   </button>
-                </div>
+                </div>  
               </Modal.Footer>
             </form>
           </Modal>
@@ -130,7 +203,9 @@ const RescourcesTable = () => {
           <tbody>
 
 
-            <tr>
+          {
+            data.map((item)=>
+<tr>
               <th scope="row">
                 <div style={{ marginLeft: "10px" }}>
                   <FontAwesomeIcon
@@ -138,73 +213,20 @@ const RescourcesTable = () => {
                     icon={faFileLines}
                     className="fa"
                   />
-                  Chapter 1
+                 {item && item.title}
                 </div>
                 <div className="res-view-download">
                   <p>View</p>
-                  <p>Download</p>
+                  <a href ={item && item.url} target="_blank">Download</a>
+                  {/* <p>{item && item.url}</p> */}
                 </div>
               </th>
               <td>Isha Bam</td>
-              <td>06-03-2023</td>
+              <td>{item && item.date}</td>
             </tr>
+            )
+          }  
 
-            <tr>
-              <th scope="row">
-                <div style={{ marginLeft: "10px" }}>
-                  <FontAwesomeIcon
-                    style={{ "margin-right": "10px" }}
-                    icon={faChain}
-                    className="fa"
-                  />
-                  Chapter 1
-                </div>
-                <div className="res-view-download">
-                  <p>View</p>
-                  {/* <p>Download</p> */}
-                </div>
-              </th>
-              <td>Isha Bam</td>
-              <td>06-03-2023</td>
-            </tr>
-
-            <tr>
-              <th scope="row">
-                <div style={{ marginLeft: "10px" }}>
-                  <FontAwesomeIcon
-                    style={{ "margin-right": "10px" }}
-                    icon={faFileLines}
-                    className="fa"
-                  />
-                  Chapter 1
-                </div>
-                <div className="res-view-download">
-                  <p>View</p>
-                  <p>Download</p>
-                </div>
-              </th>
-              <td>Isha Bam</td>
-              <td>06-03-2023</td>
-            </tr>
-
-            <tr>
-              <th scope="row">
-                <div style={{ marginLeft: "10px" }}>
-                  <FontAwesomeIcon
-                    style={{ "margin-right": "10px" }}
-                    icon={faChain}
-                    className="fa"
-                  />
-                  Chapter 1
-                </div>
-                <div className="res-view-download">
-                  <p>View</p>
-                  {/* <p>Download</p> */}
-                </div>
-              </th>
-              <td>Isha Bam</td>
-              <td>06-03-2023</td>
-            </tr>
 
 
           </tbody>
