@@ -146,11 +146,11 @@ const CreatePost = () => {
   const handleShow = () => setShow(true);
 
   return (
-    <div className="CreatePost">
+    <div className="CreatePost bg-white">
       <div className="create-post-profile">
         <img src="Images/girl.jpg" alt="" />
       </div>
-      <div className="create-post-start" onClick={handleShow}>
+      <div className="create-post-start bg-gray-300 rounded-full" onClick={handleShow}>
         <div className="create-post-start-content">Start a post</div>
         <div className="create-post-start-content-icon">
           <FontAwesomeIcon
