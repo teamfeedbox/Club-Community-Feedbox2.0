@@ -1,47 +1,42 @@
 .post-display{
-    border: 2px solid black;
-    /* width: 55%; */
     margin: 20px;
     padding: 20px;
-    border-radius: 10px;
-
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
 }
 
 .post-display-head {
     display: flex;
 }
 .post-display-profile img{
-    width: 65px;
-    height: 65px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
 }
 
 .post-display-heading {
-    /* border: 2px solid black; */
-    margin: 0px 15px;
+    margin: 0px 8px;
 }
-
-.post-display-heading-college {
-    margin-top: -12px;
-    color: #333;
-    font-size: 0.8rem;
+.post-head {
+    margin: 0;
+    font-size: 1.5rem;
     font-weight: 600;
-    /* border: 2px solid red; */
 }
 
-.post-display-heading-time {
-    margin-top: -12px;
-    margin-left: 9px;
-    color: #333;
+.post-head-content p{
+    margin-bottom: 0;
     font-size: 0.8rem;
-    /* border: 2px solid black; */
+    display: flex;
+    margin-right: 10px;
+    font-weight: 600;
+    color: #333;
+    margin-top: -6px;
 }
 
-.post-display-bottom {
+.post-display-center {
+    /* border: 2px solid; */
     margin-top: 10px;
-}
-.post-display-bottom img{
-    margin: 5px;
 }
 
 .post-display-content {
@@ -49,10 +44,14 @@
     font-weight: 500;
  }
 
-
-.post-display-image img{
-    height: 30%;
-    width: 95%;
-    /* border-radius: 5px; */
-
+.post-display-bottom {
+    /* border: 2px solid; */
+    display: flex;
+}
+.post-display-bottom-content  {
+    display: flex;
+    margin-right: 15px;
+}
+.post-display-bottom img{
+    margin: 2px;
 }

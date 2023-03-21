@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Navbar from "../Navbar";
 import {
   faCircle,
   faLocationDot,
@@ -63,7 +62,6 @@ const AttendanceSheet = () => {
   const navigate = useNavigate();
   return (
     <>
-      <Navbar />
       <div className="attendance">
         <div className="Calendar-left">
           <div className="Calendar-add">Active Event</div>
