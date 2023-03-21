@@ -1,6 +1,44 @@
 const express = require('express')
 const router = express.Router()
 const Resource = require('../models/resource')
+const multer = require('multer');
+const cloudinary = require("../middleware/cloudinary");
+const uploader = require("../middleware/multer");
+
+
+
+
+
+const upload = multer({ dest: 'uploads/' });
+
+
+router.post('/upload', upload.single('file'), async (req, res) => {
+    const {title} = req.body
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      resource_type: 'raw',
+      folder: 'pdfs'
+    });
+  
+    const pdfUrl = result.secure_url;
+    console.log(pdfUrl)
+    const pdf = await new Resource({
+      title,
+      // author:req.user,
+      name: req.file.originalname,
+      url: pdfUrl
+    });
+    
+    await pdf.save();
+  });
+  
+
+
+
+
+
+
+
+
 
 
 router.post('/create-resource',async(req,res)=>{
