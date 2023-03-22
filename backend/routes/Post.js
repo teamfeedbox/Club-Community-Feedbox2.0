@@ -61,8 +61,8 @@ router.get('/getAllPost',requireLogin,(req,res)=>{
 
 
 //api to get all the post created by user in their profile page
-router.get('/myPost/:id',(req,res)=>{
-   
+router.get('/myPost/:id',requireLogin,(req,res)=>{
+//    let postedBy=req.user
     Post.find({postedBy:req.params.id})
   
     .populate('postedBy').select("-password")

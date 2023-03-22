@@ -95,9 +95,23 @@ router.put('/updateResource/:id',async(req,res)=>{
 
 //delete resource
 router.delete('/deleteResource/:eventId',async(req,res)=>{
-    const result = await Resource.ddeleteOne({_id:req.params.eventId});
+    const result = await Resource.deleteOne({_id:req.params.eventId});
     res.send(result)
      
  })
+
+
+ router.get('/search/:key', async (req,res)=>{
+    let result = await Resource.find({
+      "$or":[
+        {title: {$regex:req.params.key}}
+        
+      ]
+    })
+    res.send(result);
+    // console.log(result) 
+  
+  
+  })
 
 module.exports = router

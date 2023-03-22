@@ -147,7 +147,9 @@ router.post('/login',(req,res)=>{
       if(doMatch){
         // res.json({message:"successfully signed in"})
         const token = jwt.sign({_id:savedUser._id},jwtKey)
-        res.json({token})
+        const decodedToken = jwt.decode(token);
+
+        res.json({token,decodedToken})
       }
       else{
         return res.status(422).json({error:"invalid password"})
@@ -160,6 +162,19 @@ router.post('/login',(req,res)=>{
   })
 })
 
+
+router.get('/user/:email',(req,res)=>{
+     const email = req.params.email
+  User.findOne({email:email})
+    
+      .populate('email').select("-password")
+      .then(user=>{
+          res.json({user})
+      })
+      .catch(err=>{
+          console.log(err)
+      })
+  })
 
 
 module.exports = router;

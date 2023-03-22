@@ -1,47 +1,106 @@
 .HomePageProfile {
-    border: 2px solid black;
-    margin: 20px 0px 20px 20px;
-    border-radius: 10px;
-    padding: 20px 10px;
-    text-align: center;
-    overflow: hidden;
-    position: fixed;
-    width: 20%;
-}
-.home-page-profile-card img{
-    height: 150px;
-    width: 150px;
-    border-radius: 50%;
-}
-.HomePageProfile-name {
-    padding-top: 15px;
-    font-size: 1.4rem;
-    font-weight: 700;
-}
-.HomePageProfile-role {
     /* border: 2px solid black; */
-    margin-top: -15px;
-    font-weight: 500;
+    margin-top: 20px ;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
 }
-.HomePageProfile-skills {
-    font-size: 1.2rem;
-    font-weight: 700;
+.home-profile-visit-profile {
+    position: relative;
+    float: right;
+    width: fit-content;
+    margin: 10px;
+    top: -87px;
+}
+.home-profile-bg-doodle img{
+    width: 100%;
 }
 
-.HomePageProfile-coin {
-    /* border: 2px solid red; */
-    text-align: center;
+.home-profile-visit-profile-icon {
+    color: #fff;
+}
+
+.home-profile-main-info {
+    position: relative;
     display: flex;
-    justify-content: center;
+    margin-top: -50px;
+    transform: translate(0%,-0%);
 }
-.HomePageProfile-coin img {
-    height: 70px;
-    width: 70px;
+
+.home-profile-main-photo img {
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    margin: 10px;
+} 
+
+.home-profile-name-section  {
+    margin-top: 53px;
 }
-.reward-coin-content {
-    /* border: 2px solid red; */
-    padding-top: 5px;
-    padding-left: 20px;
-    font-size: 1.2rem;
+
+.home-profile-name-section h4{
+    font-weight: 700;
+    margin: auto;
+}
+
+.home-profile-name-section p {
+    font-weight: 500;
+}
+
+.home-profile-skill-div {
+    margin: 20px 15px 20px 15px;
+
+}
+
+.home-profile-skill-div h6 {
+    font-size: 1.3rem;
     font-weight: 600;
 }
+
+.home-profile-skills {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.home-profile-skills div {
+    /* border: 2px solid; */
+    margin: 5px;
+    padding: 2px 4px;
+    border-radius: 5px;
+    font-weight: 600;
+} 
+
+.home-profile-coin-section{
+    /* border: 2px solid; */
+    display: flex;
+    margin: 10px;
+    padding: 10px;
+}
+
+.home-profile-coins {
+    /* border: 2px solid; */
+    padding: 7px;
+    margin: 0px 20px 10px 0px;
+    border-radius: 5px;
+    background-color: #FDFFB3;
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
+}
+
+.home-profile-coins-content {
+    /* border: 2px solid; */
+    height: fit-content;
+    margin-top: 5px;
+}
+
+.home-profile-coins-content h6 {
+    /* border: 2px solid; */
+    font-size: 1.2rem;
+}
+
+.home-profile-coins-content div {
+    /* border: 2px solid; */
+    margin-top: -10px;
+    color: #787676;
+}
+
+
