@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 import './ProfileEvent.css'
 import {
   faCalendar,
@@ -7,11 +7,43 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+const id = JSON.parse(localStorage.getItem("user")).decodedToken._id;
+// console.log(id)
+
+
+
 const ProfileEvent = () => {
+  const [data, setData] = useState([]);
+
+
+// useEffect(()=>{
+//  getList();
+// },[])
+
+// const getList = async (id) => {
+//   //  e.preventDefault();
+//   let result = await fetch(`http://localhost:8000/myPost/${id}`, {
+//     headers: {
+//       Authorization: "Bearer " + localStorage.getItem("jwt"),
+//     },
+//   });
+//   result = await result.json();
+//   console.log(result)
+//   setData(result);
+//   if (result) {
+//     getList();
+//   }
+// };
+
+
+
+
   return (
     <div className="profile-event-overall">
 
-      <div className="profile-event-card">
+
+
+<div className="profile-event-card">
         <h4>Fundamentals of UI/UX</h4>
         <div className="profile-event-icon-desc">
           <FontAwesomeIcon icon={faLocationDot} className="fa-xl" style={{color:'#FE0000'}} />
@@ -41,6 +73,9 @@ const ProfileEvent = () => {
           </div>
         </div>
       </div>
+     
+
+
 
       <div className="profile-event-card">
         <h4>Fundamentals of UI/UX</h4>
