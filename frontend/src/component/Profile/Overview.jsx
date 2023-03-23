@@ -14,6 +14,8 @@ import {
   faUniversity,
   faUserTag,
 } from "@fortawesome/free-solid-svg-icons";
+
+
 function Overview() {
   function callIt() {
     alert("Clicked");
@@ -24,9 +26,11 @@ function Overview() {
   useEffect(() => {
     getUser();
   });
-
-  const getUser = async (email) => {
-    let result = await fetch(`http://localhost:8000/user/${email}`, {
+  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
+  // console.log(userId)
+  const getUser = async () => {
+    // console.log(id)
+    let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
@@ -55,7 +59,7 @@ function Overview() {
             </div>
             <div>
               <span>Email:</span>
-              <p>xyzperson@gmail.com</p>
+              <p>{data && data.email}</p>
             </div>
           </section>
           <section>
@@ -73,7 +77,7 @@ function Overview() {
             </div>
             <div>
               <span>University:</span>
-              <p>Shri Vaishnav Vidyapeeth</p>
+              <p>{data && data.collegeName}</p>
             </div>
           </section>
           <section>
@@ -82,17 +86,23 @@ function Overview() {
             </div>
             <div>
               <span>Year:</span>
-              <p>4th Year</p>
+              <p>{data && data.collegeYear}</p>
             </div>
           </section>
         </div>
         <div className="Overview-Skills">
           <div className="Skills-Title">Skills:</div>
           <div className="Overview-Sub-Skills">
-            <span className="Skills">Graphics Designing</span>
-            <span className="Skills">Content Writing</span>
+
+        {
+          data && data.skills.map((item)=>(
+            <span className="Skills">{item}</span>
+          ))
+        }
+            {/* <span className="Skills">Graphics Designing</span> */}
+            {/* <span className="Skills">Content Writing</span>
             <span className="Skills">Search Engine Optimization</span>
-            <span className="Skills">Time Management </span>
+            <span className="Skills">Time Management </span> */}
             <span className="Add-Event" onClick={callIt}>
               <FontAwesomeIcon className="fa-lg" icon={faAdd} />
             </span>

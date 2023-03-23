@@ -4,6 +4,7 @@ const Resource = require('../models/resource')
 const multer = require('multer');
 const cloudinary = require("../middleware/cloudinary");
 const uploader = require("../middleware/multer");
+const requireLogin = require('../middleware/requireLogin')
 
 
 
@@ -20,10 +21,10 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     });
   
     const pdfUrl = result.secure_url;
-    console.log(pdfUrl)
+    // console.log(pdfUrl)
     const pdf = await new Resource({
       title,
-      // author:req.user,
+      // author:req.user,  
       name: req.file.originalname,
       url: pdfUrl
     });
@@ -66,17 +67,36 @@ router.get('/getAllResource',(req,res)=>{
 
 
 //api to get all the resource created by user in their profile page
-router.get('/myResource/:id',(req,res)=>{
+// router.get('/myResource/:id',(req,res)=>{
    
-    Resource.find({author:req.params.id})
+//     Resource.find({author:req.params.id})
   
-    .populate('author').select("-password")
-    .then(resource=>{
-        res.json({resource})
-    })
-    .catch(err=>{
-        console.log(err)
-    })
+//     .populate('author').select("-password")
+//     .then(resource=>{
+//         res.json({resource})
+//     })
+//     .catch(err=>{
+//         console.log(err)
+//     })
+// })
+
+
+
+router.get('/myResource',requireLogin,async(req,res)=>{
+   
+  Resource.find({author:req.user._id})
+
+  .populate('author').select("-password")
+
+  .then(event=>{
+      // console.log(event)
+      res.json(event)
+  })
+  .catch(err=>{
+      console.log(err)
+  })
+
+
 })
 
 
