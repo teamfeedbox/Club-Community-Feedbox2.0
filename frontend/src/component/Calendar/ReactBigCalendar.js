@@ -39,6 +39,7 @@ export default function ReactBigCalendar() {
   const [desc, setDesc] = useState();
   const [speaker, setSpeaker] = useState();
   const [myEvent, setMyEvent] = useState();
+  const [postedBy, setPostedBy] = useState("");
 
 
   let eventData = [];
@@ -105,9 +106,10 @@ export default function ReactBigCalendar() {
     // const userId = JSON.parse(localStorage.getItem("users"))._id;
     let result = await fetch("http://localhost:8000/createEvent", {
       method: "post",
-      body: JSON.stringify({ title, eventDate, eventTime, venue, desc,speaker }),
+      body: JSON.stringify({ title, eventDate, eventTime, venue, desc,postedBy,speaker }),
       headers: {
         "Content-Type": "application/json",
+        "Authorization":"Bearer "+localStorage.getItem("jwt")
       },
     });
 

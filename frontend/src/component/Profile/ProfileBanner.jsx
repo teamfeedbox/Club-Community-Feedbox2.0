@@ -1,8 +1,32 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import "./ProfileBanner.css";
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function ProfileBanner() {
+
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    getUser();
+  });
+  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
+  // console.log(userId)
+  const getUser = async () => {
+    // console.log(id)
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    // console.log(result);
+    setData(result);
+    // if (result) {
+    //   getUser();
+    // }
+  };
+
+
   return (
     <div className='Profile-Banner'>
         {/* Banner background Image */}
@@ -12,7 +36,7 @@ function ProfileBanner() {
         <div className='Profile-Title'>
             <img src="Images/podcast.png"></img>
             <div>
-                <p>Aditya Pandey</p>
+                <p>{data && data.name}</p>
                 <span>President</span>
             </div>
             

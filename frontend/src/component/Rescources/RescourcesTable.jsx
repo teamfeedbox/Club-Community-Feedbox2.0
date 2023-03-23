@@ -47,8 +47,9 @@ const RescourcesTable = () => {
     const response = await fetch("http://localhost:8000/upload", {
       method: "POST",
       body: formData,
+      // mode: 'cors',
     });
-
+// console.log(response)
     if (response.ok) {
       // PDF file uploaded successfully
       console.log("uploaded");
