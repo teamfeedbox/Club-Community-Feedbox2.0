@@ -66,6 +66,7 @@ const jwtKey = require("../key");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const requireLogin = require("../middleware/requireLogin");
+const { closeDelimiter } = require("ejs");
 
 router.get("/get", requireLogin, (req, res) => {
   res.send("hello");
@@ -147,9 +148,9 @@ router.post("/login", (req, res) => {
         if (doMatch) {
           // res.json({message:"successfully signed in"})
           const token = jwt.sign({ _id: savedUser._id }, jwtKey);
-          const decodedToken = jwt.decode(token);
+          // const decodedToken = jwt.decode(token);
 
-          res.json({ token, decodedToken });
+          res.json({ token});
         } else {
           return res.status(422).json({ error: "invalid password" });
         }
@@ -178,8 +179,11 @@ router.post("/login", (req, res) => {
 
 
 router.get('/user',requireLogin, async (req, res) => {
-  const id = req.user._id;
-  const user = await User.findOne({ id }).populate("_id") .select("-password");
+  // console.log(req.user)
+  const email = req.user.email;
+  // console.log(req.user.email)
+  const user = await User.findOne({email}).populate("email") .select("-password");
+
 
   if (user) {
     res.send(user);

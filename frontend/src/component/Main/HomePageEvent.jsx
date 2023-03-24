@@ -48,7 +48,7 @@ const HomePageEvent = () => {
 
 
       <div className="main-event-carousel">
-        <Carousel autoPlay interval="5000" infiniteLoop={true} >
+        <Carousel autoPlay interval="5000" infiniteLoop={true} showThumbs={false} >
           <div>
             <div className="HomePageEvent">
               <h2>Fundamentals of UI Development</h2>

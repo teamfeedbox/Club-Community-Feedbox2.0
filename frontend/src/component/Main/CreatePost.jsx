@@ -15,7 +15,7 @@ const CreatePost = () => {
   const [file, setFile] = useState([]);
   const [textDisplay, setTextDisplay] = useState(false);
   
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState('');
   const [desc, setDesc] = useState("");
   const [url, setUrl] = useState('');
   const [title, setTitle] = useState("");
