@@ -1,13 +1,40 @@
 const express = require('express')
 const router = express.Router()
 const Event = require('../models/event')
+const requireLogin = require('../middleware/requireLogin')
 
 
 //create event api
-router.post('/createEvent',async(req,res)=>{
-    let result = new Event(req.body)
-    let data = await result.save();
-    res.send(data);
+// router.post('/createEvent',async(req,res)=>{
+//     let result = new Event(req.body)
+//     let data = await result.save();
+//     res.send(data);
+// })
+
+
+router.post('/createEvent',requireLogin,(req,res)=>{
+    const {title,eventDate,eventTime,venue,desc,speaker} = req.body
+
+    const event = new Event({
+        title,
+        eventDate,
+        eventTime,
+        venue,
+        desc,
+        speaker,
+        postedBy:req.user ,
+       
+
+    })
+    event.save().then(result=>{
+        res.json({event:result})
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+    // console.log(req.user)
+    // res.send("ok")
+
 })
 
 
@@ -29,17 +56,21 @@ router.get('/getAllEvent',(req,res)=>{
 
 
 //api to get all the events created by user in their profile page
-router.get('/myEvent/:id',(req,res)=>{
+router.get('/myEvent',requireLogin,async(req,res)=>{
    
-    Event.find({postedBy:req.params.id})
+    Event.find({postedBy:req.user._id})
   
     .populate('postedBy').select("-password")
+
     .then(event=>{
-        res.json({event})
+        // console.log(event)
+        res.json(event)
     })
     .catch(err=>{
         console.log(err)
     })
+
+
 })
 
 

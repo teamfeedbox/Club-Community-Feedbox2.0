@@ -1,8 +1,24 @@
 import { faChain, faFileInvoice } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 
 const ProfileRes = () => {
+//     const [data, setData] = useState([]);
+
+//   useEffect(() => {
+//     getResource();
+//   }, []);
+
+//   const getResource = async () => {
+//     let result = await fetch("http://localhost:8000/myResource", {
+//       headers: {
+//         Authorization: "Bearer " + localStorage.getItem("jwt"),
+//       },
+//     });
+//     result = await result.json();
+//     console.log(result);
+//     setData(result);
+//   };
   return (
     <div>
       {/* <!-- component --> */}
@@ -26,7 +42,10 @@ const ProfileRes = () => {
                     </thead>
 
                     <tbody class="text-sm divide-y divide-gray-100">
-                        {/* <!-- record 1 --> */}
+                       
+                    {
+                        
+                    }
                         <tr>
                             <td class="p-2">
                                     <FontAwesomeIcon icon={faFileInvoice} className='w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1' />
@@ -54,7 +73,7 @@ const ProfileRes = () => {
                             </td>
                         </tr>
 
-
+{/* 
                         <tr>
                             <td class="p-2">
                                     <FontAwesomeIcon icon={faChain} className='w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1' />
@@ -137,7 +156,7 @@ const ProfileRes = () => {
                                     </button>
                                 </div>
                             </td>
-                        </tr>
+                        </tr> */}
 
                        
                     </tbody>

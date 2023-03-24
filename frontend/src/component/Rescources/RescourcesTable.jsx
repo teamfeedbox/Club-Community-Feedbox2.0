@@ -25,6 +25,12 @@ const RescourcesTable = () => {
   const [searchval, setSearchVal] = useState("");
   const [enableSearch, setEnableSearch] = useState(false);
 
+
+  useEffect(() => {
+    getList();
+  }, []);
+
+
   function handleChange(e) {
     console.log(e.target.files);
     setFile(URL.createObjectURL(e.target.files[0]));
@@ -45,8 +51,9 @@ const RescourcesTable = () => {
     const response = await fetch("http://localhost:8000/upload", {
       method: "POST",
       body: formData,
+      // mode: 'cors',
     });
-
+// console.log(response)
     if (response.ok) {
       // PDF file uploaded successfully
       console.log("uploaded");
@@ -56,13 +63,7 @@ const RescourcesTable = () => {
     }
   };
 
-  useEffect(() => {
-    (async () => {
-      await getList();
-    })();
-    // getList();
-  }, []);
-
+ 
   const getList = async (e) => {
     //  e.preventDefault();
     let result = await fetch("http://localhost:8000/getAllResource", {
