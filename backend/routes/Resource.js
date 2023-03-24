@@ -13,7 +13,7 @@ const requireLogin = require('../middleware/requireLogin')
 const upload = multer({ dest: 'uploads/' });
 
 
-router.post('/upload', upload.single('file'), async (req, res) => {
+router.post('/upload', upload.single('file'),requireLogin, async (req, res) => {
     const {title} = req.body
     const result = await cloudinary.uploader.upload(req.file.path, {
       resource_type: 'raw',
@@ -22,12 +22,14 @@ router.post('/upload', upload.single('file'), async (req, res) => {
   
     const pdfUrl = result.secure_url;
     // console.log(pdfUrl)
+    // console.log(req.user)
     const pdf = await new Resource({
       title,
-      // author:req.user,  
+      author:req.user,  
       name: req.file.originalname,
       url: pdfUrl
     });
+    // console.log(pdf);
     
     await pdf.save();
   });
@@ -52,7 +54,7 @@ router.post('/create-resource',async(req,res)=>{
 
 //api to get all resource
 //it will be used to display at the resources page
-router.get('/getAllResource',(req,res)=>{
+router.get('/getAllResource',requireLogin,(req,res)=>{
     Resource.find()
     .populate('author').select("-password")
     .then(posts=>{
