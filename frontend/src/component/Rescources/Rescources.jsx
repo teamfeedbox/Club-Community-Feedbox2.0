@@ -6,7 +6,7 @@ const Rescources = () => {
   return (
     <>
       <div className="Rescources">
-        <h1>RESOURCES</h1>
+        <h1 >RESOURCES</h1>
         <div className="Rescources-overall-card">
           <Link to='/rescourcesDisplay' className="Rescources-card">
             <div className="Rescources-card-img">

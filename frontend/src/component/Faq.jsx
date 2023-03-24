@@ -1,6 +1,5 @@
 import React from "react";
 import "./Faq.css";
-import { MDBAccordion, MDBAccordionItem, MDBContainer } from "mdb-react-ui-kit";
 
 const faqs = [
   {
@@ -36,25 +35,42 @@ const faqs = [
 ];
 
 const Faq = () => {
-
   return (
     <>
       <div className="faq-overall">
         <div className="faq-top">
           <img src="Images/faq.jpg" alt="" />
           <h1>FAQ</h1>
-        </div>
-
+        </div> 
         <div className="faq-bottom">
-          <MDBContainer className="mt-5" style={{ maxWidth: "1000px" }}>
-            <MDBAccordion alwaysOpen>
-              {faqs.map((faq) => (
-                <MDBAccordionItem collapseId={1} headerTitle={faq.question}>
-                  {faq.answer}
-                </MDBAccordionItem>
-              ))}
-            </MDBAccordion>
-          </MDBContainer>
+          <div class="grid divide-y divide-neutral-200 max-w-xl mx-auto mt-8">
+            {faqs.map((faq) => (
+              <div class="py-4">
+              <details class="group">
+                <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
+                  <span> {faq.question}</span>
+                  <span class="transition group-open:rotate-180">
+                    <svg
+                      fill="none"
+                      height="24"
+                      shape-rendering="geometricPrecision"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      viewBox="0 0 24 24"
+                      width="24"
+                    >
+                      <path d="M6 9l6 6 6-6"></path>
+                    </svg>
+                  </span>
+                </summary>
+                <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
+                {faq.answer}
+                </p>
+              </details>
+            </div>))}
+          </div>
         </div>
       </div>
     </>
