@@ -108,5 +108,7 @@
     }
     .up-coming-events {
         margin: 0;
+        text-align: center;
+        color: black;
     }
 }

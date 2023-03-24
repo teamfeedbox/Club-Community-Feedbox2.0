@@ -7,7 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const id = JSON.parse(localStorage.getItem("user")).decodedToken._id;
+// const id = JSON.parse(localStorage.getItem("user")).decodedToken._id;
 // console.log(id)
 
 const ProfileEvent = () => {

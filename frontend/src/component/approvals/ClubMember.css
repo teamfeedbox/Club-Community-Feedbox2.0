@@ -1,25 +1,8 @@
-.club-memeber-to-lead-btn {
-    background-color: #232234;
-    border: 2px solid #232234;
-    transition: all 0.3s ease;
-    /* display: flex; */
-}
-
-.club-memeber-to-lead-btn:hover {
-    color: #232234;
-    background-color: #fff;
-}
-
-.make-lead-icon {
-    margin-right: 10px;
-}
-
 .club-member-modal {
     margin: auto;
     align-items: center;
     /* position: absolute; */
     z-index: 99999999;
-    /* width: 300px; */
 }
 
 .club-member-modal-footer {
@@ -59,6 +42,7 @@
     border-top: none ;
     border-left: none;
     border-right: none;
+    border-bottom: 1px solid;
     padding: 5px;
 }
 
@@ -68,7 +52,7 @@
 
 .club-member-modal-header{
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
 }
 
 .club-member-modal .modal-header .btn-close {

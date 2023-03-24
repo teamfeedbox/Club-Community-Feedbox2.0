@@ -27,37 +27,20 @@
     font-size: 1.2rem;
 }
 
-.accordion-button {
-    font-size: 1.2rem;
-    font-weight: 600;
+@media only screen and (max-width: 1000px) {
+    .faq-overall {
+        padding: 30px 40px;
+    }
 }
 
-.accordion-body {
-    padding: 1.25rem 2rem;
-}
-
-/* .faq {
-    border-bottom: 2px solid black;
-    margin: 10px;
-    padding: 10px;
-    font-size: 1.2rem;
-}
-
-.faq-question-div {
-    font-weight: 600;
-    display: flex;
-    justify-content: space-between;
-}
-
-.faq-answer-hide {
-    display: none;
-}
-
-.faq-answer {
-    margin: 15px 40px;
-} */
-
-.accordion-button:focus {
-    /* border-color: var(--bs-accordion-active-color); */
-    border-color: transparent ;
+@media only screen and (max-width: 600px) {
+    .faq-overall {
+        padding: 30px 10px;
+    }
+    .faq-top img {
+        height: 150px;
+    }
+    .faq-bottom {
+        margin:  25px;
+    }
 }
