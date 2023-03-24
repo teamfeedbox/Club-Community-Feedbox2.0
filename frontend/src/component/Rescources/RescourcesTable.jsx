@@ -8,6 +8,7 @@ import {
   faSearch,
   faImage,
   faFile,
+  faFileInvoice,
 } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
@@ -20,6 +21,9 @@ const RescourcesTable = () => {
   const [pdfFile, setPdfFile] = useState();
   const [author, setAuthor] = useState();
   const [data, setData] = useState([]);
+  const [searched, setSearched] = useState("");
+  const [searchval, setSearchVal] = useState("");
+  const [enableSearch, setEnableSearch] = useState(false);
 
 
   useEffect(() => {
@@ -71,37 +75,30 @@ const RescourcesTable = () => {
     // console.log(result)
     // console.log(result[0].url)
     setData(result);
-    // if (result) {
-    //   getList();
-    // }
+    if (result) {
+      getList();
+    }
   };
 
-  //integrating search api
-  const searchResource = async (event) => {
-    // here key means what you type in that search box
-    let key = event.target.value;
-    // console.log(key);
-    if (key) {
-      // if key is there in the product then show that product otherwise
-      let result = await fetch(`http://localhost:8000/search/${key}`, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("jwt"),
-        },
-      });
-      result = await result.json();
-      // console.log(result);
-      if (result) {
-        setData(result);
-        // console.log(result)
-      } else {
-        // otherwise show all products
-        getList();
-      }
+  const searchHandler = (e) => {
+    if (e.target.value == "") {
+      setEnableSearch(false);
+    } else {
+      setEnableSearch(true);
     }
-      if(key.length===0){
-        getList();
-      }
-    
+    let val = e.target.value;
+    setSearchVal(e.target.value);
+    let matched = [];
+    data &&
+      data.forEach((user) => {
+        console.log(user.title, val);
+        const value = user.title.toLowerCase().includes(val.toLowerCase());
+        if (value) {
+          matched.push(user);
+        }
+      });
+    console.log(matched);
+    setSearched(matched);
   };
 
   return (
@@ -113,14 +110,15 @@ const RescourcesTable = () => {
             <form class="form-inline my-2 my-lg-0" className="res-table-search">
               <input
                 class="form-control mr-sm-2"
-                type="search"
+                type="text"
+                value={searchval}
+                onChange={searchHandler}
                 placeholder="Search"
                 aria-label="Search"
-                onChange={searchResource}
               />
-              {/* <button class="btn btn-primary my-2 my-sm-0" type="submit">
-              <FontAwesomeIcon icon={faSearch} />
-            </button> */}
+              <button class="btn btn-primary " type="submit">
+                <FontAwesomeIcon icon={faSearch} />
+              </button>
             </form>
 
             <button
@@ -215,82 +213,121 @@ const RescourcesTable = () => {
           </div>
         </div>
 
-        <div className="res-table-div">
-          <table class="table">
-            <thead class="thead-light">
-              <tr className="res-table-head">
-                <th scope="col">Title</th>
-                <th scope="col">Author</th>
-                <th scope="col">Created</th>
-                {/* <th scope="col">Doc / Link</th> */}
+        {/* table to display rescources */}
+
+        <div class="overflow-x-auto p-3">
+          {!enableSearch &&
+            <table class="table-auto w-full">
+            <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+              <tr>
+                <th class="p-2">
+                  <div class="font-semibold text-left">Resource type</div>
+                </th>
+                <th class="p-2">
+                  <div class="font-semibold text-left">Resource Title</div>
+                </th>
+                <th class="p-2">
+                  <div class="font-semibold text-left">Date Created</div>
+                </th>
+                <th class="p-2">
+                  <div class="font-semibold text-left">Author</div>
+                </th>
               </tr>
             </thead>
-            <tbody>
-              {data.map((item) => (
-                <tr key={item._id}>
-                  {/* console.log({item._id}) */}
-                  <th scope="row">
-                    <div style={{ marginLeft: "10px" }}>
+
+            <tbody class="text-sm divide-y divide-gray-100">
+              {data && data.map((item) => (
+                <tr>
+                  <td class="p-2">
+                    <a
+                      href={item && item.url}
+                      target="_blank"
+                      className="text-black"
+                    >
                       <FontAwesomeIcon
-                        style={{ "margin-right": "10px" }}
-                        icon={faFileLines}
-                        className="fa"
+                        icon={faFileInvoice}
+                        className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
                       />
-                      {item.title}
+                    </a>
+                  </td>
+                  <td class="p-2">
+                    <div class="font-medium text-gray-800">
+                      {item && item.title}
                     </div>
-                    <div className="res-view-download">
-                      <p>View</p>
-                      <a href={item && item.url} target="_blank">
-                        Download
-                      </a>
-                      {/* <p>{item && item.url}</p> */}
+                  </td>
+                  <td class="p-2">
+                    <div class="text-left text-blue-600 font-bold">
+                      {item && item.date}
                     </div>
-                  </th>
-                  <td>Isha Bam</td>
-                  <td>{item && item.date}</td>
+                  </td>
+                  <td class="p-2">
+                    <div class="text-left text-black font-medium">Isha Bam</div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>}
+
+          {enableSearch &&
+            <table class="table-auto w-full">
+            <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+              <tr>
+                <th class="p-2">
+                  <div class="font-semibold text-left">Resource type</div>
+                </th>
+                <th class="p-2">
+                  <div class="font-semibold text-left">Resource Title</div>
+                </th>
+                <th class="p-2">
+                  <div class="font-semibold text-left">Date Created</div>
+                </th>
+                <th class="p-2">
+                  <div class="font-semibold text-left">Author</div>
+                </th>
+              </tr>
+            </thead>
+
+            <tbody class="text-sm divide-y divide-gray-100">
+              { searched && searched.map((item) => (
+                <tr>
+                  <td class="p-2">
+                    <a
+                      href={item && item.url}
+                      target="_blank"
+                      className="text-black"
+                    >
+                      <FontAwesomeIcon
+                        icon={faFileInvoice}
+                        className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
+                      />
+                    </a>
+                  </td>
+                  <td class="p-2">
+                    <div class="font-medium text-gray-800">
+                      {item && item.title}
+                    </div>
+                  </td>
+                  <td class="p-2">
+                    <div class="text-left text-blue-600 font-bold">
+                      {item && item.date}
+                    </div>
+                  </td>
+                  <td class="p-2">
+                    <div class="text-left text-black font-medium">Isha Bam</div>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
+          }
 
+
+        </div>
         <div className="res-navigation">
           Viewing&nbsp;<span>1</span>-<span>6</span>&nbsp; of &nbsp;
           <span>6</span>
           &nbsp;page
         </div>
-
-        {/* <nav aria-label="Page navigation example">
-        <ul class="pagination res-navigation"  >
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-              <span class="sr-only">Previous</span>
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">
-              1
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">
-              2
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">
-              3
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-              <span class="sr-only">Next</span>
-            </a>
-          </li>
-        </ul>
-      </nav> */}
       </div>
     </div>
   );
