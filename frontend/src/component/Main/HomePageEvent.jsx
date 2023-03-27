@@ -10,12 +10,12 @@ const HomePageEvent = () => {
 
   useEffect(() => {
     getList();
-  }, []);
-
-  const getList = async (e) => {
-    // await e.preventDefault();
-    let result = await fetch("http://localhost:8000/getAllEvent");
-    result = await result.json();
+   },[])
+ 
+   const getList = async (e) => {
+     // await e.preventDefault();
+     let result = await fetch("http://localhost:8000/getAllEvent");
+     result = await result.json();
     //  console.log(result)
     setEvent(result);
   };

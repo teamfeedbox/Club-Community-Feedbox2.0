@@ -1,13 +1,15 @@
 import React from 'react'
-import Landing from './Landing'
+import LandingSecondPart from "./LandingSecondPart";
 import Curriculum from './Curriculum'
+import LandingMain from './LandingMain';
 
 const Home = () => {
   return (
     <div style={{
         'background' : '#F6F6EF'
     }}>
-        <Landing />
+      <LandingMain/>
+        <LandingSecondPart/>
         <Curriculum />
     </div>
   )
