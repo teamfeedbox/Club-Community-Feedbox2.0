@@ -1,8 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 const NewLogin = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+
+
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    // console.log(email, password);
+
+    let result = await fetch("http://localhost:8000/login", {
+      method: "post",
+      body: JSON.stringify({ email, password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    result = await result.json();
+    console.log(result);
+    // console.log("first");
+    localStorage.setItem("user", JSON.stringify(result));
+
+    localStorage.setItem("jwt", result.token);
+    localStorage.setItem("jwtDecode", result.decodedToken);
+    // if(result){
+    //   navigate('/main')
+
+    // }
+    navigate("/main");
+    window.location.reload(true);
+
+
+    // if (result) {
+    //   localStorage.setItem("user", JSON.stringify(result));
+    //   navigate('/main')
+    //   // alert("welcome");
+    // } else {
+    //   alert("Please enter valid login credentials");
+    // }
+  };
+
   return (
     <div>
+      kmlkm lkm l <br /> bnijbc ikj
       <div className="bg-purple-900 absolute top-0 left-0 bg-gradient-to-b from-gray-900 via-gray-900 to-purple-800 bottom-0 leading-5 h-full w-full overflow-hidden"></div>
       <div className="relative   min-h-screen  sm:flex sm:flex-row  justify-center bg-transparent rounded-3xl shadow-xl">
         <div className="flex-col flex  self-center lg:px-14 sm:max-w-4xl xl:max-w-md  z-10">
@@ -22,7 +67,7 @@ const NewLogin = () => {
               <p className="text-gray-400">
                 Don'thave an account?{" "}
                 <a
-                  href="#"
+                  href="/register"
                   className="text-sm text-purple-700 hover:text-purple-700"
                 >
                   Sign Up
@@ -35,13 +80,18 @@ const NewLogin = () => {
                   className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
                   type=""
                   placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
               <div className="relative" x-data="{ show: true }">
                 <input
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
-                  type="show ? 'password' : 'text'"
+                  type='password'
+                  // type="show ? 'password' : 'text'"
                   className="text-sm text-gray-200 px-4 py-3 rounded-lg w-full bg-gray-200 focus:bg-gray-100 border border-gray-200 focus:outline-none focus:border-purple-400"
                 />
                 <div className="flex items-center absolute inset-y-0 right-0 mr-3  text-sm leading-5">
@@ -83,13 +133,14 @@ const NewLogin = () => {
               <div>
                 <button
                   type="submit"
+                  onClick={handleLogin}
                   className="w-full flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
                 >
                   Sign in
                 </button>
               </div>
             </div>
-            
+
             <div className="mt-7 text-center text-gray-300 text-xs">
               <span>
                 Copyright © 2021-2023
@@ -100,14 +151,13 @@ const NewLogin = () => {
                   title="Codepen aji"
                   className="text-purple-500 hover:text-purple-600 "
                 >
-                  AJI
+                  Feedbox
                 </a>
               </span>
             </div>
           </div>
         </div>
       </div>
-
       <svg
         class="absolute bottom-0 left-0 "
         xmlns="http://www.w3.org/2000/svg"
