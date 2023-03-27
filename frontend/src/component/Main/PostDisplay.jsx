@@ -416,9 +416,13 @@ const PostDisplay = () => {
               <img src="Images/girl.jpg" alt="" />
             </div>
             <div className="post-display-heading">
-              <p className="post-head" onClick={()=>{setNewS(true)}}>Isha Bam</p>
+
+              
+
+              <p className="post-head">{item && item.postedBy &&item.postedBy.name}</p>
+
               <div className="post-head-content" style={{ display: "flex" }}>
-                <p className="post-display-heading-college">SVVV</p>
+                <p className="post-display-heading-college">{item && item.postedBy &&item.postedBy.collegeName}</p>
                 <p className="post-display-heading-time">19 hours ago</p>
               </div>
             </div>

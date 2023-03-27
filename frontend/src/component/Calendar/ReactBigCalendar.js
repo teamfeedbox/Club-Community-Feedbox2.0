@@ -35,8 +35,30 @@ export default function ReactBigCalendar() {
   const [desc, setDesc] = useState();
   const [speaker, setSpeaker] = useState();
   const [myEvent, setMyEvent] = useState();
+
   const [eventPre,setEventPre]=useState("Calendar-view-events-hide");
   const [eventBtn,setEventBtn]=useState("Calendar-view-title");
+
+  const [postedBy, setPostedBy] = useState("");
+
+
+  const cancelEvent = async(id)=>{
+    console.log(id)
+    let result = await fetch(`http://localhost:8000/deleteEvent/${id}`, {
+      method: "delete",
+    });
+
+    result = await result.json();
+    // console.log(result)
+    setCount2(0);
+
+    // if (result) {
+    //   // this is done to get back the product list re render after any product is deleted
+    //   // if we do not call this function here the product will be deleted but it is visible on the
+    //   //screen and then when we refresh it disappears. so to avoid that bug we have called that function
+    //   getList();
+    // }
+  }
 
 
   let eventData = [];
@@ -85,6 +107,10 @@ export default function ReactBigCalendar() {
       // console.log(result[0].eventDate);
     };
     showEvent();
+// cancelEvent();
+
+
+    
 
     // setEventPre("Calendar-view-events");
     
@@ -95,9 +121,10 @@ export default function ReactBigCalendar() {
     // const userId = JSON.parse(localStorage.getItem("users"))._id;
     let result = await fetch("http://localhost:8000/createEvent", {
       method: "post",
-      body: JSON.stringify({ title, eventDate, eventTime, venue, desc,speaker }),
+      body: JSON.stringify({ title, eventDate, eventTime, venue, desc,postedBy,speaker }),
       headers: {
         "Content-Type": "application/json",
+        "Authorization":"Bearer "+localStorage.getItem("jwt")
       },
     });
 
@@ -286,10 +313,13 @@ export default function ReactBigCalendar() {
             </div>
             <div className="preview-button">
             <button>Interested</button>
+
             <button onClick={ ()=>{
               setEventPre("Calendar-view-events-hide");
               setEventBtn("Calendar-view-title");
+              cancelEvent(myEvent._id)
             }}>Cancel Event</button>
+
             </div>
             <div style={{textAlign:"center"}}>
             <button onClick={() => {

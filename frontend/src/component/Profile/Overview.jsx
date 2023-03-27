@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import "./Overview.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,6 +25,7 @@ function Overview(prop) {
 
   const [file, setFile] = useState('Images/girl.jpg')
   const [image, setImage] = useState(false);
+  const [data, setData] = useState();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -53,6 +55,29 @@ function Overview(prop) {
   let onSelectNames = (skills) => {
     setSkills(skills);
   };
+
+
+
+  useEffect(() => {
+    getUser();
+  });
+  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
+  // console.log(userId)
+  const getUser = async () => {
+    // console.log(id)
+    let result = await fetch('http://localhost:8000/user', {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    // console.log(result);
+    setData(result);
+    // if (result) {
+    //   getUser();
+    // }
+  };
+
 
 
   return (
@@ -146,10 +171,19 @@ function Overview(prop) {
           }
         
         <div className='Overview-Detail'>
+
+
+
+
+   
+        
+       
+
           <section>
-            <div className='Detail-icon1'>
-            <FontAwesomeIcon className="fa-lg" icon={faEnvelope} />
+            <div className="Detail-icon1">
+              <FontAwesomeIcon className="fa-lg" icon={faEnvelope} />
             </div>
+
             <div className='Profile-Edit-Mail'>
               <div>
                 <span>Email:</span>
@@ -180,14 +214,15 @@ function Overview(prop) {
                 >Save</button>
                 ):null
               }
+
             </div>
           </section>
           
           
           
           <section>
-            <div className='Detail-icon2'>
-            <FontAwesomeIcon className="fa-lg" icon={faIdCard} />
+            <div className="Detail-icon2">
+              <FontAwesomeIcon className="fa-lg" icon={faIdCard} />
             </div>
             <div>
               <span onClick={handleShow}>Unique Id: </span>
@@ -195,42 +230,49 @@ function Overview(prop) {
             </div>
           </section>
           <section>
-            <div className='Detail-icon3'>
-            <FontAwesomeIcon className="fa-lg" icon={faUniversity} />
+            <div className="Detail-icon3">
+              <FontAwesomeIcon className="fa-lg" icon={faUniversity} />
             </div>
             <div>
               <span>University:</span>
-              <p>Shri Vaishnav Vidyapeeth</p>
+              <p>{data && data.collegeName}</p>
             </div>
           </section>
           <section>
-            <div className='Detail-icon4'>
-            <FontAwesomeIcon className="fa-lg" icon={faGraduationCap} />
+            <div className="Detail-icon4">
+              <FontAwesomeIcon className="fa-lg" icon={faGraduationCap} />
             </div>
             <div>
               <span>Year:</span>
-              <p>4th Year</p>
+              <p>{data && data.collegeYear}</p>
             </div>
           </section>
         </div>
-        </form>
-        <div className='Overview-Skills'>
-          <div className='Skills-Title'>Skills:</div>
-          <div className='Overview-Sub-Skills'>
-            {
-              skills.map((data,i)=>(
-                <span key={i} className='Skills'>{data}</span>
-              ))
-            }
-          <span className='Add-Event' onClick={handleShow1}>
-            <FontAwesomeIcon className="fa-lg" icon={faAdd} />
-          </span>
-          </div> 
+
+        <div className="Overview-Skills">
+          <div className="Skills-Title">Skills:</div>
+          <div className="Overview-Sub-Skills">
+
+        {
+          data && data.skills.map((item)=>(
+            <span className="Skills">{item}</span>
+          ))
+        }
+            {/* <span className="Skills">Graphics Designing</span> */}
+            {/* <span className="Skills">Content Writing</span>
+            <span className="Skills">Search Engine Optimization</span>
+            <span className="Skills">Time Management </span> */}
+            <span className="Add-Event" onClick={handleShow1}>
+              <FontAwesomeIcon className="fa-lg" icon={faAdd} />
+            </span>
+          </div>
+
         </div>
       </div>
 {/* modal to add skilss */}
 {/* ############### */}
 {/* ############### */}
+
 
       <Modal show={show1} onHide={handleClose1}>
         <Modal.Header closeButton>
@@ -281,29 +323,68 @@ function Overview(prop) {
      
       <div className='Overview-Right'>
         <div className='Overview-Right-Statistics'>
-          <h5>
-            Community Statistics:
-          </h5>
-          <div className='statistics'>
-          <section>
-            <div className='Detail-icon5'>
-              <img src="Images/Money.png"></img>
-            </div>
-            <div className='Right-Sub'>
-              <span>40</span>
-              <p>Coins Collected</p>
-            </div>
-          </section>
 
-          <section>
-            <div className='Detail-icon Detail-icon6'>
-            <img src="Images/Stars.png"></img>
+      <div className="Overview-Right">
+        <div className="Overview-Right-Statistics">
+          <h5>Community Statistics:</h5>
+          <div className="statistics">
+            <section>
+              <div className="Detail-icon5">
+                <img src="Images/Money.png"></img>
+              </div>
+              <div className="Right-Sub">
+                <span>40</span>
+                <p>Coins Collected</p>
+              </div>
+            </section>
+
+            <section>
+              <div className="Detail-icon Detail-icon6">
+                <img src="Images/Stars.png"></img>
+              </div>
+              <div className="Right-Sub">
+                <span>05</span>
+                <p>Sessions Attended</p>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <div className="Overview-Right-Statistics Overview-Right-Statistics1">
+
+          <h5>
+            Enrolled Sessions:
+            <div></div>
+          </h5>
+          <section className="Enrolled-Section">
+            <div className="Sessions-Section">
+              <div style={{ color: "#848283" }}>TUE</div>
+              <div style={{ color: "#010001" }}>21 March</div>
+              <div style={{ color: "#ff5a5f" }}>ONLINE</div>
             </div>
-            <div className='Right-Sub'>
-              <span>05</span>
-              <p>Sessions Attended</p>
+            <div className="Sessions-Section">
+              <div style={{ color: "#848283" }}>TUE</div>
+              <div style={{ color: "#010001" }}>21 March</div>
+              <div style={{ color: "#ff5a5f" }}>ONLINE</div>
+            </div>
+            <div className="Sessions-Section">
+              <div style={{ color: "#848283" }}>TUE</div>
+              <div style={{ color: "#010001" }}>21 March</div>
+              <div style={{ color: "#ff5a5f" }}>ONLINE</div>
+            </div>
+
+            <div className="Sessions-Section">
+              <div style={{ color: "#848283" }}>TUE</div>
+              <div style={{ color: "#010001" }}>21 March</div>
+              <div style={{ color: "#ff5a5f" }}>ONLINE</div>
+            </div>
+            <div className="Add-Event-Cont">
+              <div className="Add-Event1" onClick={callIt}>
+                <FontAwesomeIcon className="fa-lg" icon={faAdd} />
+              </div>
             </div>
           </section>
+          
           </div>
         </div>  
         
@@ -346,11 +427,15 @@ function Overview(prop) {
       <div>
 
         </div>
+        <div></div>
       </div>
     </div>
 
+
     </>
   )
+
+
 }
 
-export default Overview
+export default Overview;

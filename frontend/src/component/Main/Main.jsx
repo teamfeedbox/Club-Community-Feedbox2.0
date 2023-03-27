@@ -18,6 +18,8 @@ const Main = () => {
         backgroundSize: "cover",
       }}
     >
+
+      {/* *******************webview****************** */}
       <div className="main-page-display-web">
         <section className="main">
           <div className="main-home-page-profile">
@@ -47,6 +49,8 @@ const Main = () => {
         </section>
       </div>
 
+      {/* *****************tab view ************************* */}
+
       <div className="main-page-display-tab">
         <section className="main">
           <div className='main-page-display-tab-left'>
@@ -67,6 +71,8 @@ const Main = () => {
           </div>
         </section>
       </div>
+
+      {/* ******************mobile view************************* */}
 
       <div className="main-page-display-mobile">
         <section className="main">

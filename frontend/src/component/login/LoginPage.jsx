@@ -55,6 +55,7 @@ const LoginPage = () => {
     localStorage.setItem("user", JSON.stringify(result));
 
     localStorage.setItem("jwt",result.token);
+    // localStorage.setItem("jwtDecode",result.decodedToken);
     // if(result){
     //   navigate('/main')
 
