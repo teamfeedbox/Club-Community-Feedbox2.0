@@ -25,7 +25,7 @@ const HomePageEvent = () => {
 
       {
       event.map((item,index)=>
-      <div className="HomePageEvent">
+      <div className="HomePageEvent" key={item._id}>
         <h2>{item.title}</h2>
         <div className="home-page-event-time">
           <img src="Images/clock.svg" alt="" />

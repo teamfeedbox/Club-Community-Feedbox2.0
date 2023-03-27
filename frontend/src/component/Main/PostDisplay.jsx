@@ -69,7 +69,7 @@ const PostDisplay = () => {
   return (
     <div>
       {data.map((item, index) => (
-        <div className="post-display">
+        <div className="post-display" key={item._id}>
           <div className="post-display-head">
             <div className="post-display-profile">
               <img src="Images/girl.jpg" alt="" />

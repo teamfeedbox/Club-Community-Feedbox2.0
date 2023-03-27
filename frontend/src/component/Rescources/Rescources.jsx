@@ -71,7 +71,7 @@ const Rescources = () => {
               <img src="Images/time.png" alt="" />
             </div>
             <div className="Rescources-card-content">
-              <div>Time Managment</div>
+              <div>Time Management</div>
             </div>
           </Link>
 

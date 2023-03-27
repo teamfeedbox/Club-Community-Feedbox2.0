@@ -49,7 +49,7 @@ export default function ReactBigCalendar() {
     });
 
     result = await result.json();
-    // console.log(result)
+    console.log(result)
     setCount2(0);
 
     // if (result) {

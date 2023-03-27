@@ -44,18 +44,20 @@ router.post('/upload', upload.single('file'),requireLogin, async (req, res) => {
 
 
 
-router.post('/create-resource',async(req,res)=>{
-    let resource = new Resource(req.body)
-    let data = await resource.save();
-    res.send(data);
+// router.post('/create-resource',async(req,res)=>{
+//     let resource = new Resource(req.body)
+//     let data = await resource.save();
+//     res.send(data);
     
-})
+// })
 
 
 //api to get all resource
 //it will be used to display at the resources page
 router.get('/getAllResource',requireLogin,(req,res)=>{
+  var mySort = { date: -1 };
     Resource.find()
+    .sort(mySort)
     .populate('author').select("-password")
     .then(posts=>{
         res.json(posts)
@@ -85,8 +87,12 @@ router.get('/getAllResource',requireLogin,(req,res)=>{
 
 
 router.get('/myResource',requireLogin,async(req,res)=>{
+  var mySort = { date: -1 };
+
    
   Resource.find({author:req.user._id})
+  .sort(mySort)
+
 
   .populate('author').select("-password")
 
