@@ -72,7 +72,7 @@ const HomePageProfile = () => {
   }
   
   return (
-    <div className="HomePageProfile">
+    <div className="HomePageProfile" >
       <div className="home-profile-bg-doodle">
         <img src="Images/doodle-profile-bg.png" alt="" />
         {/* <Link to='/profile' className="home-profile-visit-profile" title="Visit profile page">
@@ -99,7 +99,7 @@ const HomePageProfile = () => {
 
         {
           data && data.skills.map((item)=>(
-            <div style={{background: '#C7EDCF', color : '#2AA100'}} >{item}</div>
+            <div style={{background: '#C7EDCF', color : '#2AA100'}}>{item}</div>
 
           ))
         }

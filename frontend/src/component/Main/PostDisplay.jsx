@@ -3,12 +3,15 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
+
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FcLike,FcLikePlaceholder } from "react-icons/fc";
 
 import { Scrollbars } from "react-custom-scrollbars";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect,} from "react";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
@@ -26,72 +29,69 @@ import Comment from "./Comment";
 import "./PostDisplay.css";
 
 const PostDisplay = () => {
+ 
+
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [showAdd,setShowAdd]=useState('Hide-Comment-Add-Btn');
-  const [showView,setShowView]=useState('Hide-Comment-View-Btn');
+  const [showAdd, setShowAdd] = useState("Hide-Comment-Add-Btn");
+  const [showView, setShowView] = useState("Hide-Comment-View-Btn");
 
-  const [showReplView,setReplyView]=useState('Hide-Reply-View')
+  const [showReplView, setReplyView] = useState("Hide-Reply-View");
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  const [newS,setNewS]=useState(false);
+  const [newS, setNewS] = useState(false);
   // const [afterSubmit,setAfterSubmit]=useState("");
 
-  const [tempComment,setTempComment]=useState('');
-  const [tempReply,setTempReply]=useState('');
-  
-  const [reply,setReply]=useState('');
-  const [comment,setComments] = useState([" How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q", 
-  "How many times were you frustrated while looking out for a good collection of programming/algorithm /interview questions? What did you expect and what did you get? This portal has been created to", 
-  "How many times were you frustrated while looking out for a good collection of programming/algorithm.",
-"How many times were you frustrated while looking"]);
-  
-  function handleReply(){
-    if(showAdd=="Show-Comment-Add-Btn")
-    {
-    setShowAdd('Hide-Comment-Add-Btn')
-    }
-    else
-    {
-      setShowAdd('Show-Comment-Add-Btn') 
+  const [tempComment, setTempComment] = useState("");
+  const [tempReply, setTempReply] = useState("");
+
+  const [reply, setReply] = useState("");
+  const [comment, setComments] = useState([
+    " How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q",
+    "How many times were you frustrated while looking out for a good collection of programming/algorithm /interview questions? What did you expect and what did you get? This portal has been created to",
+    "How many times were you frustrated while looking out for a good collection of programming/algorithm.",
+    "How many times were you frustrated while looking",
+  ]);
+
+
+ 
+
+  function handleReply() {
+    if (showAdd == "Show-Comment-Add-Btn") {
+      setShowAdd("Hide-Comment-Add-Btn");
+    } else {
+      setShowAdd("Show-Comment-Add-Btn");
     }
   }
 
-  function handleView(){
-    if(showView=="Show-Comment-View-Btn")
-    {
-    setShowView('Hide-Comment-View-Btn')
-    }
-    else
-    {
-      setShowView('Show-Comment-View-Btn') 
+  function handleView() {
+    if (showView == "Show-Comment-View-Btn") {
+      setShowView("Hide-Comment-View-Btn");
+    } else {
+      setShowView("Show-Comment-View-Btn");
     }
   }
-  function handleFormSubmit(event){
+  function handleFormSubmit(event) {
     event.preventDefault();
 
-    if(tempComment!="")
-    {
-    setComments((comment) => [...comment, tempComment]);
-    // console.log(tempComment)
-    setTempComment("");
+    if (tempComment != "") {
+      setComments((comment) => [...comment, tempComment]);
+      // console.log(tempComment)
+      setTempComment("");
     }
   }
-  function handleAfterReply(event){
+  function handleAfterReply(event) {
     event.preventDefault();
-    if(tempReply!="")
-    {
+    if (tempReply != "") {
       setReply(tempReply);
-    }  
+    }
   }
 
-  function showRep(){
-    if(tempReply!="")
-    {
+  function showRep() {
+    if (tempReply != "") {
       setReplyView("Show-Reply-View");
       setShowAdd("Hide-Comment-Add-Btn");
-    }    
+    }
   }
-  
 
   useEffect(() => {
     // const getList = async (e) => {
@@ -110,6 +110,7 @@ const PostDisplay = () => {
     //   // }
     // };
     getList();
+    getUser();
   });
 
   // const getList = async (e) => {
@@ -139,18 +140,96 @@ const PostDisplay = () => {
     }
   };
 
+  const [user, setUser] = useState();
+
+  // useEffect(() => {
+  //   getUser();
+  // });
+  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
+  // console.log(userId)
+  const getUser = async () => {
+    // console.log(id)
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    // console.log(result);
+    setUser(result._id);
+    // if (result) {
+    //   getUser();
+    // }
+  };
+
+  const like = (id) => {
+    fetch("http://localhost:8000/like", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        postId: id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        // console.log(result)
+        const newData = data.map((item) => {
+          if (item._id === result._id) {
+            return result;
+          } else {
+            return item;
+          }
+        });
+        setData(newData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const unlike = (id) => {
+    fetch("http://localhost:8000/unlike", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        postId: id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        // console.log(result)
+        const newData = data.map((item) => {
+          if (item._id === result._id) {
+            return result;
+          } else {
+            return item;
+          }
+        });
+        setData(newData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div>
       {/* <Comment show={newS}/> */}
-      {showModal ?
-      (
+      {showModal ? (
         <>
           <div className="Post-Big-Model-container">
             {/* to close the model on click outof the post section */}
             <div
               className="Post-Big-Model-Close"
-              onClick={() => {setShowModal(false)
-              alert("clicked")
+              onClick={() => {
+                setShowModal(false);
+                alert("clicked");
               }}
             ></div>
 
@@ -164,9 +243,16 @@ const PostDisplay = () => {
               <section className="Post-Big-Model-Right">
                 <div className="Post-Big-Model-Profile">
                   <div className="Post-Big-Pro">
-                    <div style={{ display: "flex", flexDirection: "row",height:"fit-content",width:"95%" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        height: "fit-content",
+                        width: "95%",
+                      }}
+                    >
                       <div className="Post-Big-Pro-img">
-                      <img src="Images/alumni2.jpg" alt="profile image"></img>
+                        <img src="Images/alumni2.jpg" alt="profile image"></img>
                       </div>
                       <div className="Post-Big-Title">
                         <div className="Post-Big-Title1">Isha Bam</div>
@@ -174,7 +260,11 @@ const PostDisplay = () => {
                       </div>
                     </div>
                     <div className="Cancel-Icon-Container">
-                      <FontAwesomeIcon className="fa-lg" icon={faXmark} onClick={() => setShowModal(false)} />
+                      <FontAwesomeIcon
+                        className="fa-lg"
+                        icon={faXmark}
+                        onClick={() => setShowModal(false)}
+                      />
                     </div>
                   </div>
                   {/* Description */}
@@ -190,153 +280,149 @@ const PostDisplay = () => {
 
                 {/* Comment part */}
                 <div className="Post-Big-Comment">
-                <Scrollbars className="Scrollbar-height" style={{height:"49vh"}}>
-                                    {/* Comment 2 */}
-                                    <section className="Post-Comment-About">
-                    <div className="Comment-Left">
-                      <img src="Images/bandar.jpeg "></img>
-                    </div>
-                    <div className="Comment-Right">
-                      <div className="Comment-Right-Top">
-                        <div className="Comment-Right-User-Name">
-                          Random Person
-                        </div>
-                        <div className="Right-Comment">
-                          How many times were you frustrated while looking out
-                          for a good collection of programming/algorithm
-                          /interview questions? What did you expect and what did
-                          you get? This portal has been created to
-                        </div>
-                      </div>
-                      <div className="Comment-Right-Down">
-                        <span className="Comment-Down-Other">22h</span>
-                        <span className="Comment-Down-Other Comment-Down-Other1 " onClick={handleReply}>
-                          reply 
-                        </span>
-                      </div>
-                      <div className={showAdd}>
-                        <form>
-                      <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700">
-                        <div
-                          className="rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
-                        >
-                          
-                        </div>
-                        <textarea
-                          id="chat"
-                          rows="1"
-                          className="block mx-2 p-2.5 w-full text-sm text-green-600 bg-gray rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                          placeholder="Add a comment..."
-                        ></textarea>
-                        <button
-                          type="submit"
-                          class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
-                        >
-                         <svg aria-hidden="true" class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
-
-                        </button>
-                      </div>
-                    </form>
-                      
-                    </div>
-                    <div className={showView}>
-                        <div className="Comment-Right-User-Name">
-                          Random Person
-                        </div>
-                        <div className="Right-Comment">
-                          How many times were you frustrated while looking out
-                          for a good collection of programming/algorithm
-                          /interview questions? What did you expect and what did
-                          you get? This portal has been created to provide well
-                          written, well thought and well explained solutions for
-                          selected questions.
-                        </div>
-                    </div>
-                      <div className="Comment-Right-View-Reply" onClick={handleView}>
-                        ---- View Reply
-                      </div>
-                    </div>
-
-                  </section>
-
-                  
-                  {/* Comment 1 */}
-                  {
-                    comment.map((data)=>(
-
-                      <section className="Post-Comment-About">
-                    
-                      {/* Left part */}
+                  <Scrollbars
+                    className="Scrollbar-height"
+                    style={{ height: "49vh" }}
+                  >
+                    {/* Comment 2 */}
+                    <section className="Post-Comment-About">
                       <div className="Comment-Left">
-                        <img src="Images/bandar.jpeg"></img>
+                        <img src="Images/bandar.jpeg "></img>
                       </div>
-                      
-                      {/* Right part */}
                       <div className="Comment-Right">
-  
                         <div className="Comment-Right-Top">
                           <div className="Comment-Right-User-Name">
                             Random Person
                           </div>
                           <div className="Right-Comment">
-                          {data}
+                            How many times were you frustrated while looking out
+                            for a good collection of programming/algorithm
+                            /interview questions? What did you expect and what
+                            did you get? This portal has been created to
                           </div>
                         </div>
                         <div className="Comment-Right-Down">
                           <span className="Comment-Down-Other">22h</span>
-                          <span className="Comment-Down-Other Comment-Down-Other1 " onClick={handleReply}>
-                            reply 
+                          <span
+                            className="Comment-Down-Other Comment-Down-Other1 "
+                            onClick={handleReply}
+                          >
+                            reply
                           </span>
                         </div>
-                        <div className={showReplView}>
+                        <div className={showAdd}>
+                          <form>
+                            <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700">
+                              <div className="rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"></div>
+                              <textarea
+                                id="chat"
+                                rows="1"
+                                className="block mx-2 p-2.5 w-full text-sm text-green-600 bg-gray rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Add a comment..."
+                              ></textarea>
+                              <button
+                                type="submit"
+                                class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="w-6 h-6 rotate-90"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                                </svg>
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                        <div className={showView}>
                           <div className="Comment-Right-User-Name">
                             Random Person
                           </div>
                           <div className="Right-Comment">
-                            {
-                             reply
-                            }
+                            How many times were you frustrated while looking out
+                            for a good collection of programming/algorithm
+                            /interview questions? What did you expect and what
+                            did you get? This portal has been created to provide
+                            well written, well thought and well explained
+                            solutions for selected questions.
                           </div>
                         </div>
-                        <div className={showAdd}>
-                          <form onClick={handleAfterReply}>
-                        <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700">
-                          <div
-                            className="rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
-                          >
-                            
-                          </div>
-                          <input
-                            className="block border-solid  mx-2 p-2.5 w-full text-sm text-green-600 bg-white  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 border-black-600"
-                            placeholder="Add a comment..."
-                            onChange={(event)=>
-
-                              setTempReply(event.target.value)
-                            }
-                          
-                          ></input>
-                          <button onClick={showRep}
-                            type="submit"
-                            class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
-                          >
-                           <svg aria-hidden="true" class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
-  
-                          </button>
+                        <div
+                          className="Comment-Right-View-Reply"
+                          onClick={handleView}
+                        >
+                          ---- View Reply
                         </div>
-                      </form>
-                        
                       </div>
-                      
-                      </div>
-                      
                     </section>
 
+                    {/* Comment 1 */}
+                    {comment.map((data) => (
+                      <section className="Post-Comment-About">
+                        {/* Left part */}
+                        <div className="Comment-Left">
+                          <img src="Images/bandar.jpeg"></img>
+                        </div>
 
-                    ))
-
-                  }
-                  
-                </Scrollbars>
+                        {/* Right part */}
+                        <div className="Comment-Right">
+                          <div className="Comment-Right-Top">
+                            <div className="Comment-Right-User-Name">
+                              Random Person
+                            </div>
+                            <div className="Right-Comment">{data}</div>
+                          </div>
+                          <div className="Comment-Right-Down">
+                            <span className="Comment-Down-Other">22h</span>
+                            <span
+                              className="Comment-Down-Other Comment-Down-Other1 "
+                              onClick={handleReply}
+                            >
+                              reply
+                            </span>
+                          </div>
+                          <div className={showReplView}>
+                            <div className="Comment-Right-User-Name">
+                              Random Person
+                            </div>
+                            <div className="Right-Comment">{reply}</div>
+                          </div>
+                          <div className={showAdd}>
+                            <form onClick={handleAfterReply}>
+                              <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700">
+                                <div className="rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"></div>
+                                <input
+                                  className="block border-solid  mx-2 p-2.5 w-full text-sm text-green-600 bg-white  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 border-black-600"
+                                  placeholder="Add a comment..."
+                                  onChange={(event) =>
+                                    setTempReply(event.target.value)
+                                  }
+                                ></input>
+                                <button
+                                  onClick={showRep}
+                                  type="submit"
+                                  class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    class="w-6 h-6 rotate-90"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                                  </svg>
+                                </button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </section>
+                    ))}
+                  </Scrollbars>
                 </div>
 
                 <div className="Post-Big-Comment-Container">
@@ -346,8 +432,11 @@ const PostDisplay = () => {
                         <FontAwesomeIcon
                           className="fa-lg"
                           icon={faHeart}
-                          style={{ margin:
-                            "0px 5px 0 10px",color:"black",cursor:"pointer"}}
+                          style={{
+                            margin: "0px 5px 0 10px",
+                            color: "black",
+                            cursor: "pointer",
+                          }}
                         />
                       </spna>
                       <spna>200 Likes</spna>
@@ -357,34 +446,31 @@ const PostDisplay = () => {
                         <FontAwesomeIcon
                           className="fa-lg"
                           icon={faMessage}
-                          style={{ margin: "0px 5px 0 20px",color:"black"}}
+                          style={{ margin: "0px 5px 0 20px", color: "black" }}
                         />
                       </span>
                       <span>50 Comments</span>
                     </span>
                   </div>
 
-
                   <div className="Comment-Add-Section">
                     <form onSubmit={handleFormSubmit}>
                       <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700">
-                        <div
-                          className="rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
-                        >
-                          <img src="Images/alumni2.jpg"
+                        <div className="rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                          <img
+                            src="Images/alumni2.jpg"
                             aria-hidden="true"
                             class="w-10 h-8
                             p-0
                             rounded-full
                             "
-                          >
-                          </img>
+                          ></img>
                         </div>
                         <input
-                          className="block mx-2 p-2.5 w-full text-sm rounded-lg border text-black" style={{border:"2px solid black"
-                          }}
+                          className="block mx-2 p-2.5 w-full text-sm rounded-lg border text-black"
+                          style={{ border: "2px solid black" }}
                           placeholder="Add a comment..."
-                          onChange={(event)=> 
+                          onChange={(event) =>
                             setTempComment(event.target.value)
                           }
                           // value={afterSubmit}
@@ -393,7 +479,15 @@ const PostDisplay = () => {
                           type="submit"
                           class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
                         >
-                         <svg aria-hidden="true" class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
+                          <svg
+                            aria-hidden="true"
+                            class="w-6 h-6 rotate-90"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                          </svg>
                         </button>
                       </div>
                     </form>
@@ -405,10 +499,6 @@ const PostDisplay = () => {
         </>
       ) : null}
 
-
-
-
-
       {data.map((item, index) => (
         <div className="post-display1">
           <div className="post-display-head">
@@ -416,14 +506,15 @@ const PostDisplay = () => {
               <img src="Images/girl.jpg" alt="" />
             </div>
             <div className="post-display-heading">
-
-              
-
-              <p className="post-head">{item && item.postedBy &&item.postedBy.name}</p>
+              <p className="post-head">
+                {item && item.postedBy && item.postedBy.name}
+              </p>
 
               <div className="post-head-content" style={{ display: "flex" }}>
-                <p className="post-display-heading-college">{item && item.postedBy &&item.postedBy.collegeName}</p>
-                <p className="post-display-heading-time">19 hours ago</p>
+                <p className="post-display-heading-college">
+                  {item && item.postedBy && item.postedBy.collegeName}
+                </p>
+                <p className="post-display-heading-time">{item.date}</p>
               </div>
             </div>
           </div>
@@ -450,10 +541,10 @@ const PostDisplay = () => {
                   </SwiperSlide>
                 </Swiper>
               </div>
-              </div>
-              
-              {/* *********************carousel for web view*************************** */}
-              <div className="post-display-image flex justify-center">
+            </div>
+
+            {/* *********************carousel for web view*************************** */}
+            <div className="post-display-image flex justify-center">
               <div className="post-display-carousel-webview flex justify-center">
                 <Carousel
                   thumbWidth={60}
@@ -485,12 +576,43 @@ const PostDisplay = () => {
           </div>
 
           <div className="post-display-bottom">
+            {item.likes.includes(user) ? (
+              <div className="post-display-bottom-content">
+                <FcLike
+                 size={25}
+                  onClick={function () {
+                    unlike(item._id);
+                    // unlike(item._id);
+                  }}
+                />
+                {/* <FcLike size={25}  onClick={function () {
+                like(item._id);
+                // unlike(item._id);
+              }}/> */}
+
+                {item.likes.length}
+              </div>
+            ) : (
+              <div className="post-display-bottom-content">
+                {/* <FontAwesomeIcon className="fa-lg" icon={faHeart} style={{color:"red"}}/> */}
+                <FcLikePlaceholder
+                  size={25}
+                  onClick={function () {
+                    like(item._id);
+                    // unlike(item._id);
+                  }}
+                />
+
+                {item.likes.length}
+              </div>
+            )}
+
             <div className="post-display-bottom-content">
-              <img src="Images/heart.svg" alt="" />
-              500
-            </div>
-            <div className="post-display-bottom-content">
-              <img src="Images/message.svg" alt="" onClick={() => setShowModal(true)}/>
+              <img
+                src="Images/message.svg"
+                alt=""
+                onClick={() => setShowModal(true)}
+              />
               100
             </div>
           </div>

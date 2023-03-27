@@ -251,7 +251,7 @@ let id;
             <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
               <tr>
                 <th class="p-2">
-                  <div class="font-semibold text-left">Resource type</div>
+                  <div class="font-semibold text-left">Download</div>
                 </th>
                 <th class="p-2">
                   <div class="font-semibold text-left">Resource Title</div>
@@ -303,7 +303,7 @@ let id;
             <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
               <tr>
                 <th class="p-2">
-                  <div class="font-semibold text-left">Resource type</div>
+                  <div class="font-semibold text-left">Download</div>
                 </th>
                 <th class="p-2">
                   <div class="font-semibold text-left">Resource Title</div>
@@ -343,7 +343,7 @@ let id;
                     </div>
                   </td>
                   <td class="p-2">
-                    <div class="text-left text-black font-medium">Isha Bam</div>
+                    <div class="text-left text-black font-medium">{item && item.author && item.author.name}</div>
                   </td>
                 </tr>
               ))}
