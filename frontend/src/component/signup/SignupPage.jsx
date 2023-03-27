@@ -181,9 +181,7 @@ const SignupPage = () => {
               <Multiselect
                 value={skills}
                 onChange={(e) => console.log()}
-                // onChange={(e)=>setSkills[...skills,e.target.value]}
                 placeholder="Add Skill"
-                // style={{paddingLeft:"50px"}}
                 displayValue=""
                 isObject={false}
                 onKeyPressFn={function noRefCheck() {}}

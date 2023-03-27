@@ -49,7 +49,7 @@ const ProfileTabs = () => {
           }
           onClick={() => setTabs("Res")}
         >
-          Rescources
+          Resources
         </div>
       </div>
       <div className="profile-tab-data">

@@ -23,3 +23,33 @@
     justify-content: space-around;
     font-weight: 600;
 }
+.Attendance-Sheet-Button{
+    padding:10px 20px;
+    background-color: #0D6EFD;
+    color: #fff;
+    border-radius: 10px;
+    margin-left: 2%;
+
+}
+
+@media screen and (max-width: 480px){
+    .attendance{
+        display: flex;
+        flex-direction: column;
+        padding-top: 5px;
+    }   
+    .Attendance-Sheet-Button{
+        margin-left: 5%;
+        font-size: 12px;
+        margin-top: 10px;
+    
+    }
+}
+
+@media only screen and (min-width: 480px) and (max-width:950px){
+    .attendance{
+        display: flex;
+        flex-direction: column;
+        padding-top: 5px;
+    }   
+}

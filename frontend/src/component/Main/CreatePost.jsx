@@ -15,7 +15,7 @@ const CreatePost = () => {
   const [file, setFile] = useState([]);
   const [textDisplay, setTextDisplay] = useState(false);
   
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState('');
   const [desc, setDesc] = useState("");
   const [url, setUrl] = useState('');
   const [title, setTitle] = useState("");
@@ -23,6 +23,8 @@ const CreatePost = () => {
   const [postedBy, setPostedBy] = useState("");
   const [postType, setPostType] = useState("");
   const [postedDate, setPostedDate] = useState("");
+  const [user, setUser] = useState();
+
 
   // console.log(`kjbdkvjbl${file}`);
   let count = 0;
@@ -142,6 +144,29 @@ const CreatePost = () => {
       });
   };
 
+  useEffect(() => {
+    getUser();
+  });
+  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
+  // console.log(userId)
+  const getUser = async () => {
+    // console.log(id)
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    // console.log(result);
+    
+    // console.log(id)
+    setUser(result);
+    // if (result) {
+    //   getUser();
+    // }
+  };
+
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -177,7 +202,7 @@ const CreatePost = () => {
             </div>
             <div className="modal-profile-section-content">
               {/* <h5>{JSON.parse(auth).name}</h5> */}
-              <h5>Isha Bam</h5>
+              <h5>{user && user.name}</h5>
 
               <select name="type">
                 <option value="public">Public</option>

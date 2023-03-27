@@ -24,11 +24,36 @@ const RescourcesTable = () => {
   const [searched, setSearched] = useState("");
   const [searchval, setSearchVal] = useState("");
   const [enableSearch, setEnableSearch] = useState(false);
+  const [user, setUser] = useState();
 
 
+let id;
   useEffect(() => {
     getList();
   }, []);
+
+
+  useEffect(() => {
+    getUser();
+  });
+  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
+  // console.log(userId)
+  const getUser = async () => {
+    // console.log(id)
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    // console.log(result);
+     id = result._id
+    // console.log(id)
+    setUser(result);
+    // if (result) {
+    //   getUser();
+    // }
+  };
 
 
   function handleChange(e) {
@@ -46,11 +71,16 @@ const RescourcesTable = () => {
     const formData = new FormData();
     formData.append("file", pdfFile);
     formData.append("title", title);
-    // formData.append('author', author);
+    formData.append('author', id);
 
     const response = await fetch("http://localhost:8000/upload", {
       method: "POST",
       body: formData,
+      headers: {
+   
+      "Authorization":"Bearer "+localStorage.getItem("jwt")
+
+      },
       // mode: 'cors',
     });
 // console.log(response)
@@ -145,7 +175,7 @@ const RescourcesTable = () => {
                       <img src="Images/girl.jpg" alt="" />
                     </div>
                     <div className="modal-add-res-section-profile">
-                      <h5>Isha Bam</h5>
+                      <h5>{user && user.name}</h5>
                     </div>
                   </div>
                   <div className="res-add-modal-title">
@@ -261,7 +291,7 @@ const RescourcesTable = () => {
                     </div>
                   </td>
                   <td class="p-2">
-                    <div class="text-left text-black font-medium">Isha Bam</div>
+                    <div class="text-left text-black font-medium">{item && item.author && item.author.name}</div>
                   </td>
                 </tr>
               ))}
