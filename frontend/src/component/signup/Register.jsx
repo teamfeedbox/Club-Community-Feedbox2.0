@@ -66,7 +66,6 @@ const Register = () => {
         </div>
         <div className="flex justify-center self-center  z-10">
           <div className="p-12 bg-white mx-auto rounded-3xl w-96 ">
-
             <div className="mb-7">
               <h3 className="font-semibold text-2xl text-gray-800">Sign Up </h3>
               <p className="text-gray-400">
@@ -97,18 +96,40 @@ const Register = () => {
                         required
                         className="  w-full text-sm  px-4 py-3  bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none "
                       >
-                        <option value=" " disabled selected hidden className="text-gray-400">
+                        <option
+                          value=" "
+                          disabled
+                          selected
+                          hidden
+                          className="text-gray-400"
+                        >
                           Year
                         </option>
                         <option
                           // className="w-full text-sm h-[50px]  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
                           value="1"
+                          className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
                         >
                           I Year
                         </option>
-                        <option value="2">II Year</option>
-                        <option value="3">III Year</option>
-                        <option value="4">IV Year</option>
+                        <option
+                          className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
+                          value="2"
+                        >
+                          II Year
+                        </option>
+                        <option
+                          className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
+                          value="3"
+                        >
+                          III Year
+                        </option>
+                        <option
+                          className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
+                          value="4"
+                        >
+                          IV Year
+                        </option>
                       </select>
                     </div>
 
@@ -130,8 +151,7 @@ const Register = () => {
                             className="flex flex-wrap text-[1.2rem] font-[700] "
                           >
                             <div className="w-[85%] ">
-                            Please select skills in which you are interested!
-
+                              Please select skills in which you are interested!
                             </div>
                           </Modal.Header>
                           <Modal.Footer className="flex flex-col justify-start items-start text-[1.2rem] font-[500]">
@@ -294,12 +314,13 @@ const Register = () => {
                         className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
                         type="text"
                         placeholder="Bio"
+                        required
                       />
                     </div>
 
                     <div className="flex">
-                    <button
-                      onClick={() => setNext(!next)}
+                      <button
+                        onClick={() => setNext(!next)}
                         className="w-full mr-2 flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
                       >
                         Back
@@ -321,6 +342,7 @@ const Register = () => {
                         className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
                         type="text"
                         placeholder="Full Name"
+                        required
                       />
                     </div>
 
@@ -328,6 +350,7 @@ const Register = () => {
                       <input
                         className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
                         type=""
+                        required
                         placeholder="Email"
                       />
                     </div>
@@ -337,6 +360,7 @@ const Register = () => {
                         className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
                         type="password"
                         placeholder="Password"
+                        required
                       />
                     </div>
 
@@ -350,16 +374,27 @@ const Register = () => {
                         required
                         className="  w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none "
                       >
-                        <option value=" " disabled selected hidden className="text-gray-400">
+                        <option
+                          value=" "
+                          disabled
+                          selected
+                          hidden
+                          className="text-gray-400"
+                        >
                           University
                         </option>
                         <option
                           className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
                           value="1"
                         >
-                         IET-DAVV
+                          IET-DAVV
                         </option>
-                        <option value="2">Shri Vaishnav Vidyapeeth Vishwavidyalaya</option>
+                        <option
+                          className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
+                          value="2"
+                        >
+                          Shri Vaishnav Vidyapeeth Vishwavidyalaya
+                        </option>
                       </select>
                     </div>
 
@@ -394,7 +429,6 @@ const Register = () => {
           </div>
         </div>
       </div>
-
       <svg
         class="absolute bottom-0 left-0 "
         xmlns="http://www.w3.org/2000/svg"
