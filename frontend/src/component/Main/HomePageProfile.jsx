@@ -3,29 +3,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, {useState,useEffect} from "react";
 import "./HomePageProfile.css";
 import {Link} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+
 
 const changeColor = [
   {
-    id : 1,
-    skill : 'Graphics Designing',
     bgColor : '#C7EDCF',
     fontColor : '#2AA100'
   },
   {
-    id : 2,
-    skill : 'Graphics Designing',
     bgColor : '#EDC7E2',
     fontColor : '#9B0483'
   },
   {
-    id : 3,
-    skill : 'Graphics Designing',
     bgColor : '#EDE7C7',
     fontColor : '#A67904'
   },
   {
-    id : 4,
-    skill : 'Graphics Designing',
     bgColor : '#EDC7C7',
     fontColor : '#A10000'
   },
@@ -67,14 +61,27 @@ const HomePageProfile = () => {
     //   getUser();
     // }
   };
+
+  const navigate = useNavigate();
+
+
+  const goToProfile = () => {
+    navigate('/profile');
+    window.location.reload(true);
+
+  }
   
   return (
     <div className="HomePageProfile" >
       <div className="home-profile-bg-doodle">
         <img src="Images/doodle-profile-bg.png" alt="" />
-        <Link to='/profile' className="home-profile-visit-profile" title="Visit profile page">
+        {/* <Link to='/profile' className="home-profile-visit-profile" title="Visit profile page">
           <FontAwesomeIcon className="home-profile-visit-profile-icon" icon={faArrowUpRightFromSquare} />
-        </Link>
+        </Link> */}
+        <button className="home-profile-visit-profile" onClick={goToProfile}>
+        <FontAwesomeIcon className="home-profile-visit-profile-icon" icon={faArrowUpRightFromSquare} />
+
+        </button>
       </div>
       <div className="home-profile-main-info">
         <div className="home-profile-main-photo">

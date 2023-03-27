@@ -528,6 +528,7 @@ const PostDisplay = () => {
                   navigation={true}
                   modules={[Navigation]}
                   className="mySwiper"
+                  
                 >
                   <SwiperSlide>
                     <img className="display-img" src="Images/alumni1.jpg" />
@@ -552,6 +553,7 @@ const PostDisplay = () => {
                   autoPlay
                   interval="5000"
                   infiniteLoop={true}
+                  
                 >
                   <div>
                     <img className="display-img" src="Images/alumni1.jpg" />
