@@ -176,8 +176,8 @@ const CreatePost = () => {
               <img src="Images/girl.jpg" alt="" />
             </div>
             <div className="modal-profile-section-content">
-              <h5>{JSON.parse(auth).name}</h5>
-              {/* <h5>Isha Bam</h5> */}
+              {/* <h5>{JSON.parse(auth).name}</h5> */}
+              <h5>Isha Bam</h5>
 
               <select name="type">
                 <option value="public">Public</option>

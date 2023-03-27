@@ -1,8 +1,8 @@
 import React from 'react'
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
 import Login from './component/login/Login';
 import SignUp from './component/signup/SignUp';
@@ -22,7 +22,7 @@ import ReactBigCalendar from './component/Calendar/ReactBigCalendar';
 
 const App = () => {
   return (
-    <div className='App'>
+    <div className='App' >
       <NavbarRes />
       <Router>
         <Routes>

@@ -1,36 +1,196 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "./Overview.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdd, faCoins, faEnvelope, faEnvelopeSquare, faGraduationCap, faIdCard, faStaffSnake, faStarHalfAlt, faUniversalAccess, faUniversity, faUserTag } from "@fortawesome/free-solid-svg-icons";
-function Overview() {
+import { faAdd, faCirclePlus, faCoins, faEnvelope, faEnvelopeSquare, faGraduationCap, faIdCard, faStaffSnake, faStarHalfAlt, faUniversalAccess, faUniversity, faUserTag } from "@fortawesome/free-solid-svg-icons";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import Multiselect from "multiselect-react-dropdown";
+
+function Overview(prop) {
+  const [skills,setSkills]=useState(['Graphics Designing','Content Writing','Search Engine Optimization','Time Management'])
+
+  const [showModal, setShowModal] = useState(false);
+  const [profileSubmit,SetProfileSubmit]=useState(false);
+  const [email,setEmail]=useState("adityapandey@gmail.com");
+  // for edit profile
+  const [show, setShow] = useState(false);
+  // for skills
+  const [show1, setShow1] = useState(false);
+  const handleClose1 = () => setShow1(false);
+  const handleShow1 = () => setShow1(true);
+
+  const [value,setValue]=useState(" I converted Top MBA Calls in 2019, but decided upon continuing with my startup, Feedbox. We help businesses reach out to people through digital means and help them grow their online presence.")
+
+  const [file, setFile] = useState('Images/girl.jpg')
+  const [image, setImage] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
   function callIt(){
-    alert("Clicked")
+    const newSkill=prompt("Enter New Skill");
+    if(newSkill!="")
+    {
+    setSkills((skills)=>[...skills,newSkill]);
+    }
+  }  
+
+  function updateProfile(){
+      setValue("")
   }
+
+  function getChanges(){
+
+  }
+
+  function handleChange(e) {
+    setFile(URL.createObjectURL(e.target.files[0]));
+    setImage(!image);
+  }
+    
+  let onSelectNames = (skills) => {
+    setSkills(skills);
+  };
+
+
   return (
+    <>
     <div className='Overview-Container'>
+        <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Profile</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="name@example.com"
+                autoFocus
+              />
+            </Form.Group>
+            <Form.Group
+              className="mb-3"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Label>About </Form.Label>
+              <Form.Control as="textarea" rows={3} />
+            </Form.Group>
+            <Form.Group>
+            <div>
+              <label className="block">
+                Profile Photo
+              </label>
+              <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                {image ? 
+                <img src={file} />
+                :
+                <div className="space-y-1 text-center">
+                  <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="True">
+                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <div className="flex text-sm text-gray-600">
+                    <label for="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                      <span>Upload a file</span>
+                      <input onChange={handleChange}
+                       id="file-upload" name="file-upload" type="file" className="sr-only"/>
+                    </label>
+                    <p className="pl-1">or drag and drop</p>
+                  </div>
+                  <p className="text-xs text-gray-500">
+                    PNG, JPG, GIF up to 10MB
+                  </p>
+                </div>}
+              </div>
+            </div>
+            </Form.Group>
+
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+
+
       <div className='Overview-Left'>
         {/* Custom Tag */}
-        <p className='Overview-Left-P'>
-          I converted Top MBA Calls in 2019, but decided upon continuing with
-          my startup, Feedbox. We help businesses reach out to people through
-          digital means and help them grow their online presence.
-        </p>
+
+        <form onSubmit={updateProfile}>
+          {
+            profileSubmit?
+            (
+            <textarea className='Overview-Left-input'
+            rows="3"
+            placeholder={value}
+            // value={value
+            onChange={getChanges}
+            >
+            </textarea>
+            )
+            :
+            <p className='Overview-Left-P' onClick={() => SetProfileSubmit(true)}>
+            {
+              value
+            }
+            </p>
+          }
+        
         <div className='Overview-Detail'>
           <section>
             <div className='Detail-icon1'>
             <FontAwesomeIcon className="fa-lg" icon={faEnvelope} />
             </div>
-            <div>
-              <span>Email:</span>
-              <p>xyzperson@gmail.com</p>
+            <div className='Profile-Edit-Mail'>
+              <div>
+                <span>Email:</span>
+                {
+                  profileSubmit?
+                  (
+                  <input className='Overview-Left-input Overview-Left-input1'
+                  // rows="3"
+                  placeholder={email}
+                  // value={value
+                  onChange={getChanges}
+                  >
+                  </input>
+                  )
+                  :
+                  <p className='Overview-Left-P' onClick={() => SetProfileSubmit(true)}>
+                  {
+                    email
+                  }
+                  </p>
+                }
+               
+              </div>
+              {
+                profileSubmit?(
+                <button type="submit" 
+                
+                >Save</button>
+                ):null
+              }
             </div>
           </section>
+          
+          
+          
           <section>
             <div className='Detail-icon2'>
             <FontAwesomeIcon className="fa-lg" icon={faIdCard} />
             </div>
             <div>
-              <span>Unique Id:</span>
+              <span onClick={handleShow}>Unique Id: </span>
               <p>2019SVV0565</p>
             </div>
           </section>
@@ -53,20 +213,72 @@ function Overview() {
             </div>
           </section>
         </div>
+        </form>
         <div className='Overview-Skills'>
           <div className='Skills-Title'>Skills:</div>
           <div className='Overview-Sub-Skills'>
-          <span className='Skills'>Graphics Designing</span>
-          <span className='Skills'>Content Writing</span>
-          <span className='Skills'>Search Engine Optimization</span>
-          <span className='Skills'>Time Management </span>
-          <span className='Add-Event' onClick={callIt}>
+            {
+              skills.map((data,i)=>(
+                <span key={i} className='Skills'>{data}</span>
+              ))
+            }
+          <span className='Add-Event' onClick={handleShow1}>
             <FontAwesomeIcon className="fa-lg" icon={faAdd} />
           </span>
           </div> 
         </div>
       </div>
+{/* modal to add skilss */}
+{/* ############### */}
+{/* ############### */}
 
+      <Modal show={show1} onHide={handleClose1}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Skills</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <Multiselect
+                value={skills}
+                onChange={(e) => console.log()}
+                // onChange={(e)=>setSkills[...skills,e.target.value]}
+                placeholder="Add Skill"
+                // style={{paddingLeft:"50px"}}
+                displayValue=""
+                isObject={false}
+                onKeyPressFn={function noRefCheck() {}}
+                onRemove={function noRefCheck() {}}
+                onSearch={function noRefCheck() {}}
+                onSelect={onSelectNames}
+                options={[
+                  "Web Development",
+                  "App Development",
+                  "SEO",
+                  "Linkedin Optimization",
+                  "Graphic Design",
+                  "Video Editing",
+                  "Time Management",
+                  "Digital Marketing",
+                  "Content Writing",
+                  "Ads",
+                ]}
+                selectedValues={{}}
+              />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleClose1}>
+            Save 
+          </Button>
+        </Modal.Footer>
+      </Modal>
+     
+
+
+
+
+
+
+
+     
       <div className='Overview-Right'>
         <div className='Overview-Right-Statistics'>
           <h5>
@@ -124,7 +336,7 @@ function Overview() {
         <div style={{color:"#ff5a5f"}}>ONLINE</div>
         </div>
         <div className='Add-Event-Cont'>
-        <div className='Add-Event1' onClick={callIt}>
+        <div className='Add-Event1' >
         <FontAwesomeIcon className="fa-lg" icon={faAdd} />
         </div>
         </div>
@@ -136,6 +348,8 @@ function Overview() {
         </div>
       </div>
     </div>
+
+    </>
   )
 }
 

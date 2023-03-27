@@ -40,7 +40,7 @@ const LoginPage = () => {
  
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(email, password);
+    // console.log(email, password);
 
     let result = await fetch("http://localhost:8000/login", {
       method: "post",
@@ -51,10 +51,10 @@ const LoginPage = () => {
     });
     result = await result.json();
     console.log(result);
-    console.log("first");
+    // console.log("first");
+    localStorage.setItem("user", JSON.stringify(result));
 
     localStorage.setItem("jwt",result.token);
-    localStorage.setItem("user", JSON.stringify(result));
     // if(result){
     //   navigate('/main')
 

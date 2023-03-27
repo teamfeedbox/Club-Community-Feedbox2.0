@@ -5,17 +5,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function ProfileBanner() {
   return (
     <div className='Profile-Banner'>
-        {/* Banner background Image */}
         <img src="Images/bg5.png"></img>
-
-        {/* profle image and name */}
         <div className='Profile-Title'>
             <img src="Images/podcast.png"></img>
             <div>
                 <p>Aditya Pandey</p>
                 <span>President</span>
             </div>
-            
             <button>
                 <FontAwesomeIcon 
                 icon={faPenToSquare} 
@@ -24,7 +20,6 @@ function ProfileBanner() {
                 Edit Profile
             </button>
         </div>
-        
     </div>
   )
 }
