@@ -63,7 +63,7 @@ const AttendanceSheet = () => {
   return (
     <>
       <div className="attendance">
-        <div className="Calendar-left">
+        {/* <div className="Calendar-left">
           <div className="Calendar-add">Active Event</div>
 
           <div className="Calendar-view">
@@ -119,7 +119,7 @@ const AttendanceSheet = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="attendance-right">
           <h1>Attendance Sheet</h1>
@@ -134,7 +134,7 @@ const AttendanceSheet = () => {
               onChange={(e) => setSearchVal(e.target.value)}
               // onChange={searchHandler}
             />
-            <button class="btn btn-primary my-2 my-sm-0" type="submit">
+            <button class="btn btn-primary my-0 my-sm-0" type="submit">
               <FontAwesomeIcon icon={faSearch} />
             </button>
           </form>
@@ -191,7 +191,15 @@ const AttendanceSheet = () => {
             </div>
           </div>
         </div>
+        
       </div>
+      <button className="Attendance-Sheet-Button"
+                onClick={() => {
+                  navigate("/calendar");
+                }}
+              >
+                Back
+              </button>
     </>
   );
 };

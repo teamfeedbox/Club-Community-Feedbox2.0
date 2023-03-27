@@ -10,12 +10,8 @@ import {
   faClock,
   faCirclePlus,
   faCalendarAlt,
-  faAlignLeft,
   faXmark,
   faPodcast,
-  faTextSlash,
-  faTextWidth,
-  faFileText,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
@@ -39,6 +35,10 @@ export default function ReactBigCalendar() {
   const [desc, setDesc] = useState();
   const [speaker, setSpeaker] = useState();
   const [myEvent, setMyEvent] = useState();
+
+  const [eventPre,setEventPre]=useState("Calendar-view-events-hide");
+  const [eventBtn,setEventBtn]=useState("Calendar-view-title");
+
   const [postedBy, setPostedBy] = useState("");
 
 
@@ -112,16 +112,8 @@ export default function ReactBigCalendar() {
 
     
 
-    // for Event prview
-    if(count2==0)
-    {
-      $(".Calendar-view-events").hide(); 
-      $(".Calendar-view-title").css("border-radius", "20px 20px 20px 20px");
-    }
-    else{
-      $(".Calendar-view-title").css("border-radius", "20px 20px 0px 0px");
-      $(".Calendar-view-events").show(); 
-    }
+    // setEventPre("Calendar-view-events");
+    
   });
 
   const addEvent = async (e) => {
@@ -170,7 +162,9 @@ export default function ReactBigCalendar() {
     // console.log("onSelectEvent",event);
 
     // var currDate = start;
-    setCount2(1);
+      setEventPre("Calendar-view-events");
+      setEventBtn("Calendar-view-title-css");
+
     var currEventDate = start.getDate();
     var month = parseInt(start.getMonth()) + 1;
     var year = parseInt(start.getFullYear());
@@ -263,8 +257,6 @@ export default function ReactBigCalendar() {
           onClick={handleSelect3}
           // onClick={callIt}
         >
-
-
           <div>
             Create Event
             <FontAwesomeIcon
@@ -272,21 +264,19 @@ export default function ReactBigCalendar() {
               icon={faCirclePlus}
             />
           </div>
-
-
         </div>
     
  
 
         <div className="Calendar-view">
-          <div className="Calendar-view-title">Events Preview</div>
-          <div className="Calendar-view-events">
+          <div className={eventBtn}>Events Preview</div>
+                
+          <div className={eventPre}>
             <div className="event-title">{myEvent && myEvent.title}</div>
             <div className="event-profile">
               <FontAwesomeIcon
                 style={{ margin: "0 10px 0 0" }}
                 icon={faPodcast}
-                
               />
               {myEvent && myEvent.speaker}
             </div>
@@ -323,20 +313,28 @@ export default function ReactBigCalendar() {
             </div>
             <div className="preview-button">
             <button>Interested</button>
-            <button onClick={() => cancelEvent(myEvent._id)}>Cancel Event</button>
+
+            <button onClick={ ()=>{
+              setEventPre("Calendar-view-events-hide");
+              setEventBtn("Calendar-view-title");
+              cancelEvent(myEvent._id)
+            }}>Cancel Event</button>
+
             </div>
             <div style={{textAlign:"center"}}>
-            <button onClick={() => {navigate('/attendance')}}>Mark Attendance</button>
+            <button onClick={() => {
+              setEventPre("Calendar-view-events-hide");
+
+            navigate('/attendance')
+            }}>Mark Attendance</button>
             </div>
           </div>
         </div>
-
-{/* onClick = {showEvent} */}
       </div>
 
       
       {/* <ReactBigCalendar className="ReactBigCalendar" /> */}
-      <div className="ok" style={{ width: "98vw", margin: "0 20px 0 0" }}>
+      <div className="React-Big-Calendar-Original">
          {eventData.length>0 && <Calendar
           views={["agenda", "month"]}
           selectable
@@ -344,15 +342,10 @@ export default function ReactBigCalendar() {
           defaultDate={new Date()}
           defaultView="month"
           events={eventData}
-          style={{ height: "100vh" }}
           onSelectEvent={handleEvent}
           value={dates}
           onSelectSlot={handleSelect}
         />
-        // console.log(eventData,"jhjhghjg")
-        // console.log(eventData,"jhjhghjg")
-        // console.log(eventData,"jhjhghjg")
-        
         }
       </div>
 
@@ -369,6 +362,7 @@ export default function ReactBigCalendar() {
             <span>Title</span>
             <input
               type="text"
+              required
               placeholder="Add Event Title"
               value={title}
               maxlength="50"
@@ -390,6 +384,7 @@ export default function ReactBigCalendar() {
               type="Speaker Name"
               placeholder="Add Speaker Name"
               value={speaker}
+              required
               onChange={(e) => setSpeaker(e.target.value)}
             ></input>
           </div>
@@ -401,6 +396,7 @@ export default function ReactBigCalendar() {
             />
             <input
               type="date"
+              required
               value={eventDate}
               onChange={(e) => setEventDate(e.target.value)}
             ></input>
@@ -410,6 +406,7 @@ export default function ReactBigCalendar() {
              style={{ margin: "7px 10px 0 0" }} icon={faClock} />
             <input
               type="time"
+              required
               value={eventTime}
               onChange={(e) => setEventTime(e.target.value)}
             ></input>
@@ -423,6 +420,7 @@ export default function ReactBigCalendar() {
               type="text"
               placeholder="Add place name.."
               value={venue}
+              required
               onChange={(e) => setVenue(e.target.value)}
             />
           </div>
@@ -430,11 +428,6 @@ export default function ReactBigCalendar() {
 
           <div className="input-container input-container1" style={{margin:"25px 0 25px 0",display:"flex",flexDirection:"column"}}>
             <div className="description">
-              {/* <FontAwesomeIcon
-                style={{ margin: "0px 10px 0 0" }}
-                icon={faAlignLeft}
-              /> */}
-              {/* <span> */}
                Descrpition
             </div>
             
@@ -444,6 +437,7 @@ export default function ReactBigCalendar() {
               cols="30"
               placeholder="About . . ."
               value={desc}
+              required
               onChange={(e) => setDesc(e.target.value)}
             ></textarea>
           </div>
