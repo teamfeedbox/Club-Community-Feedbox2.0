@@ -59,8 +59,8 @@ const PendingApprovals = () => {
   };
   
   return (
-    <div className="PendingApprovals">
-      <h4 className="m-2 text-[1.7rem]">Pending Approvals</h4>
+    <div className="PendingApprovals ">
+      <h4 className=" text-[1.7rem]">Pending Approvals</h4>
       {/* search */}
       <div className="pending-approval-search">
         <div class="relative text-lg bg-transparent text-gray-800">
