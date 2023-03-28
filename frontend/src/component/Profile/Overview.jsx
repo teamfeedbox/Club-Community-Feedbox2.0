@@ -8,6 +8,10 @@ import Modal from 'react-bootstrap/Modal';
 import Multiselect from "multiselect-react-dropdown";
 import { useNavigate } from "react-router-dom";
 
+const backColor = ['#EDC7E2', '#C7EDCF','#EDE7C7', '#EDC7C7', '#B5A6E1', '#B4B4B4', '#72C4FF', '#e9f5db', '#fad643' ,'#E3B47C' ]
+
+const fColor = ['#9B0483', '#2AA100', '#A67904', '#A10000', '#5C0684', '#363636', '#035794', '#718355', '#76520E', '#744E37']
+
 
 function Overview(prop) {
   const [skills,setSkills]=useState(['Graphics Designing','Content Writing','Search Engine Optimization','Time Management'])
@@ -227,8 +231,8 @@ function Overview(prop) {
           <div className='Skills-Title'>Skills:</div>
           <div className='Overview-Sub-Skills'>
             {
-              skills.map((data,i)=>(
-                <span key={i} className='Skills'>{data}</span>
+              skills.map((data,index)=>(
+                <span style={{ background: backColor[index] , color: fColor[index] }} key={index} className='Skills'>{data}</span>
               ))
             }
           <span className='Add-Event' onClick={handleShow1}>

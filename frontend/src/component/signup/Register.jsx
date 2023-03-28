@@ -240,7 +240,7 @@ const Register = () => {
                                 {" "}
                                 Web Development{" "}
                               </label>
-                            </div>
+                            </div> 
 
                             <div className="flex w-full">
                               <input
