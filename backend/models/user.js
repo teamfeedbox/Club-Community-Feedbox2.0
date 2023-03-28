@@ -48,6 +48,9 @@ const userSchema = new mongoose.Schema({
   branch:{
     type:String
   },
+  bio:{
+    type:String
+  },
   skills: [],
   events: [],
 
