@@ -75,7 +75,7 @@ const CreatePost = () => {
   //   pic:url
   // }
 
-  const auth = localStorage.getItem("user");
+  // const auth = localStorage.getItem("user");
  
   useEffect(() => {
     if (url) {

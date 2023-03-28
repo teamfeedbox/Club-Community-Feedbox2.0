@@ -61,17 +61,38 @@ router.get('/getAllPost',requireLogin,(req,res)=>{
 
 
 //api to get all the post created by user in their profile page
-router.get('/myPost/:id',requireLogin,(req,res)=>{
-//    let postedBy=req.user
-    Post.find({postedBy:req.params.id})
+// router.get('/myPost/:id',requireLogin,(req,res)=>{
+// //    let postedBy=req.user
+//     Post.find({postedBy:req.params.id})
+  
+//     .populate('postedBy').select("-password")
+//     .then(post=>{
+//         res.json({post})
+//     })
+//     .catch(err=>{
+//         console.log(err)
+//     })
+// })
+
+
+
+router.get('/myPost',requireLogin,async(req,res)=>{
+  var mySort = { date: -1 };
+   
+    Post.find({postedBy:req.user._id})
+    .sort(mySort)
   
     .populate('postedBy').select("-password")
-    .then(post=>{
-        res.json({post})
+
+    .then(event=>{
+        // console.log(event)
+        res.json(event)
     })
     .catch(err=>{
         console.log(err)
     })
+
+
 })
 
 
@@ -96,9 +117,27 @@ router.delete('/deletePost/:postId',async(req,res)=>{
 })
 
 //like api
-router.put('/like',(req,res)=>{
-    Post.findByIdAndUpdate(req.body.postedBy,{
+router.put('/like',requireLogin,(req,res)=>{
+    Post.findByIdAndUpdate(req.body.postId,{
         $push:{likes:req.user._id}
+    },{
+        new:true
+    }).exec((err,result)=>{
+        if(err)
+        {
+            return res.json({error:err})
+        }
+        else{
+            res.json(result)
+        }
+    })
+})
+
+
+//unlike api
+router.put('/unlike',requireLogin,(req,res)=>{
+    Post.findByIdAndUpdate(req.body.postId,{
+        $pull:{likes:req.user._id}
     },{
         new:true
     }).exec((err,result)=>{
@@ -115,7 +154,7 @@ router.put('/like',(req,res)=>{
 
 // comment api
 
-router.put('/comment',(req,res)=>{
+router.put('/comment',requireLogin,(req,res)=>{
     const comment = {
         commentBy:req.user._id,
         date:req.body.date,
