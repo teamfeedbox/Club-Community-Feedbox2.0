@@ -26,6 +26,7 @@ const Register = () => {
 
   useEffect(() => {
     const auth = localStorage.getItem("user");
+    console.log(auth)
     if (auth) {
       navigate("/login");
     }
@@ -33,16 +34,16 @@ const Register = () => {
 
   const collectData = async (e) => {
     e.preventDefault();
-    console.log(
-      name,
-      email,
-      password,
-      collegeYear,
-      branch,
-      collegeName,
-      // userSkills,
-      bio
-    );
+    // console.log(
+    //   name,
+    //   email,
+    //   password,
+    //   collegeYear,
+    //   branch,
+    //   collegeName,
+  
+    //   bio
+    // );
     let result = await fetch("http://localhost:8000/register", {
       method: "post", // post method because we want to save the data
       body: JSON.stringify({
@@ -52,8 +53,8 @@ const Register = () => {
         collegeYear,
         branch,
         collegeName,
-        // userSkills,
-                bio,
+       skills:userinfo.response,
+        bio,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -62,9 +63,9 @@ const Register = () => {
     result = await result.json();
      console.log(result)
     localStorage.setItem("user", JSON.stringify(result));
-    // if (result) {
-    //   navigate("/login");
-    // }
+    if (result) {
+      navigate("/login");
+    }
   };
 
   const handleClose = () => setShow(false);
@@ -102,6 +103,10 @@ const Register = () => {
         response: skill.filter((e) => e !== value),
       });
     }
+    // setFile((arr) => [...arr, URL.createObjectURL(e.target.files[i])]);
+
+    setSkills((arr) => [...userinfo.response, skills]);
+    
   };
 
   return (
@@ -197,7 +202,7 @@ const Register = () => {
                       <textarea
                         name="response"
                         className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
-                        value={userinfo.response || userSkills}
+                        value={userinfo.response}
                         placeholder="Add skills "
                         id="floatingTextarea2"
                         // value={userSkills}
