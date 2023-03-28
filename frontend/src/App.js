@@ -18,6 +18,7 @@ import NewLogin from './component/login/NewLogin';
 import AttendanceSheet from './component/Calendar/AttendanceSheet';
 import NavbarRes from './component/navbar/NavbarRes';
 import ReactBigCalendar from './component/Calendar/ReactBigCalendar';
+import PostBigModel from './component/Main/PostBigModel';
 
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
           <Route index path='/login' element={ <Login /> } />
           <Route index path='/register' element={ <SignUp /> } />
           <Route index path='/main' element={ <Main /> } />
+          <Route index path='/comment' element={ <PostBigModel/> } />
           <Route index path='/calendar' element={ <ReactBigCalendar /> } />
           <Route index path='/rescources' element={ <Rescources /> } />
           <Route index path='/profile' element={ <ProfilePage/> } />
