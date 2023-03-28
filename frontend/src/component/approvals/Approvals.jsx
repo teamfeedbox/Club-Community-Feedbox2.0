@@ -9,7 +9,7 @@ const Approvals = () => {
   const [tabs, setTabs] = useState("club");
 
   return (
-    <div className="pb-9">
+    <div className="pb-9 pt-[70px]" >
       <PendingApprovals />
 
       <div className="mt-9">

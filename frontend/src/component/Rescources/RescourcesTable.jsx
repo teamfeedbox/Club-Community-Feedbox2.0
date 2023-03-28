@@ -132,7 +132,7 @@ let id;
   };
 
   return (
-    <div className="Res-table-display">
+    <div className="Res-table-display pt-[100px]">
       <div className="RescourcesTable">
         <div className="res-table-heading">
           <div className="res-heading-left">Documents </div>

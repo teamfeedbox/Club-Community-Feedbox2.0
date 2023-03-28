@@ -163,6 +163,11 @@ const Register = () => {
                                 value="Web Development"
                                 className="w-5 h-5 mt-[5px]"
                                 onChange={handleChange}
+                                checked={
+                                  userinfo.response.includes("Web Development")
+                                    ? true
+                                    : false
+                                }
                               />
                               <label className="ml-[10px]" htmlFor="web">
                                 {" "}
@@ -173,21 +178,31 @@ const Register = () => {
                             <div className="flex w-full">
                               <input
                                 type="checkbox"
+                                checked={
+                                  userinfo.response.includes("App Development")
+                                    ? true
+                                    : false
+                                }
                                 name="skill"
                                 id="app"
-                                value="App Development "
+                                value="App Development"
                                 className="w-5 h-5 mt-[5px]"
                                 onChange={handleChange}
                               />
                               <label className="ml-[10px]" htmlFor="app">
                                 {" "}
-                                App Development{" "}
+                                App Development
                               </label>
                             </div>
 
                             <div className="flex w-full">
                               <input
                                 type="checkbox"
+                                checked={
+                                  userinfo.response.includes("SEO")
+                                    ? true
+                                    : false
+                                }
                                 name="skill"
                                 id="seo"
                                 value="SEO"
@@ -208,6 +223,13 @@ const Register = () => {
                                 value="LinkedIn Optimization"
                                 className="w-5 h-5 mt-[5px]"
                                 onChange={handleChange}
+                                checked={
+                                  userinfo.response.includes(
+                                    "LinkedIn Optimization"
+                                  )
+                                    ? true
+                                    : false
+                                }
                               />
                               <label className="ml-[10px]" htmlFor="linkedin">
                                 {" "}
@@ -223,6 +245,11 @@ const Register = () => {
                                 value="Graphic Design"
                                 className="w-5 h-5 mt-[5px]"
                                 onChange={handleChange}
+                                checked={
+                                  userinfo.response.includes("Graphic Design")
+                                    ? true
+                                    : false
+                                }
                               />
                               <label className="ml-[10px]" htmlFor="graphic">
                                 {" "}
@@ -238,6 +265,11 @@ const Register = () => {
                                 value="Video Editing"
                                 className="w-5 h-5 mt-[5px]"
                                 onChange={handleChange}
+                                checked={
+                                  userinfo.response.includes("Video Editing")
+                                    ? true
+                                    : false
+                                }
                               />
                               <label className="ml-[10px]" htmlFor="video">
                                 {" "}
@@ -253,6 +285,11 @@ const Register = () => {
                                 value="Time Management"
                                 className="w-5 h-5 mt-[5px]"
                                 onChange={handleChange}
+                                checked={
+                                  userinfo.response.includes("Time Management")
+                                    ? true
+                                    : false
+                                }
                               />
                               <label className="ml-[10px]" htmlFor="time">
                                 {" "}
@@ -268,6 +305,13 @@ const Register = () => {
                                 value="Digital Marketing"
                                 className="w-5 h-5 mt-[5px]"
                                 onChange={handleChange}
+                                checked={
+                                  userinfo.response.includes(
+                                    "Digital Marketing"
+                                  )
+                                    ? true
+                                    : false
+                                }
                               />
                               <label className="ml-[10px]" htmlFor="digital">
                                 {" "}
@@ -283,6 +327,11 @@ const Register = () => {
                                 value="Content Writing"
                                 className="w-5 h-5 mt-[5px]"
                                 onChange={handleChange}
+                                checked={
+                                  userinfo.response.includes("Content Writing")
+                                    ? true
+                                    : false
+                                }
                               />
                               <label className="ml-[10px]" htmlFor="content">
                                 {" "}
@@ -298,6 +347,11 @@ const Register = () => {
                                 value="Ads"
                                 className="w-5 h-5 mt-[5px]"
                                 onChange={handleChange}
+                                checked={
+                                  userinfo.response.includes("Ads")
+                                    ? true
+                                    : false
+                                }
                               />
                               <label className="ml-[10px]" htmlFor="ads">
                                 {" "}
