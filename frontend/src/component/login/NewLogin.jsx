@@ -65,7 +65,7 @@ const NewLogin = () => {
             <div className="mb-7">
               <h3 className="font-semibold text-2xl text-gray-800">Sign In </h3>
               <p className="text-gray-400">
-                Don'thave an account?{" "}
+                Don't have an account?{" "}
                 <a
                   href="/register"
                   className="text-sm text-purple-700 hover:text-purple-700"
@@ -92,7 +92,7 @@ const NewLogin = () => {
                   placeholder="Password"
                   type='password'
                   // type="show ? 'password' : 'text'"
-                  className="text-sm text-gray-200 px-4 py-3 rounded-lg w-full bg-gray-200 focus:bg-gray-100 border border-gray-200 focus:outline-none focus:border-purple-400"
+                  className="text-sm text-black px-4 py-3 rounded-lg w-full bg-gray-200 focus:bg-gray-100 border border-gray-200 focus:outline-none focus:border-purple-400"
                 />
                 <div className="flex items-center absolute inset-y-0 right-0 mr-3  text-sm leading-5">
                   <svg
@@ -125,9 +125,9 @@ const NewLogin = () => {
 
               <div className="flex items-center justify-between">
                 <div className="text-sm ml-auto">
-                  <a href="#" className="text-purple-700 hover:text-purple-600">
+                  {/* <a href="#" className="text-purple-700 hover:text-purple-600">
                     Forgot your password?
-                  </a>
+                  </a> */}
                 </div>
               </div>
               <div>

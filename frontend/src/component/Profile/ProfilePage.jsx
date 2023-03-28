@@ -4,7 +4,7 @@ import ProfileTabs from "./ProfileTabs";
 
 function ProfilePage() {
   return (
-    <div>
+    <div className="pt-[60px]">
     <ProfileBanner/>
     <ProfileTabs />
     </div>
