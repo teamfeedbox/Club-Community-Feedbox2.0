@@ -84,6 +84,7 @@ router.post("/register", (req, res) => {
     role,
     position,
     collegeYear,
+    bio,
   } = req.body;
   if (!email || !password || !name) {
     return res.status(422).json({ error: "please add all the fields" });
@@ -108,6 +109,7 @@ router.post("/register", (req, res) => {
           role,
           position,
           collegeYear,
+          bio,
           // pic
         });
 

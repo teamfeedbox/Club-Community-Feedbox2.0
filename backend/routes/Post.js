@@ -161,11 +161,11 @@ router.put('/comment',requireLogin,(req,res)=>{
         message:req.body.message,
     }
     Post.findByIdAndUpdate(req.body.postedBy,{
-        $push:{comments:comment}
+        $push:{comment:comment}
     },{
         new:true
     })
-    .populate("comments.commentBy","_id name")
+    .populate("comment.commentBy","_id name")
     .exec((err,result)=>{
         if(err)
         {
