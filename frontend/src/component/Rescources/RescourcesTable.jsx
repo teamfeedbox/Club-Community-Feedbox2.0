@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {  useLocation } from "react-router-dom";
 import "./RescourcesTable.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,7 +14,12 @@ import {
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
-const RescourcesTable = () => {
+const RescourcesTable = (props) => {
+
+  const location = useLocation();
+  const propsData = location.state;
+let skillName = propsData.name
+
   const [show, setShow] = useState(false);
   const [file, setFile] = useState();
   const [link, setLink] = useState(false);
@@ -29,7 +35,8 @@ const RescourcesTable = () => {
 
 let id;
   useEffect(() => {
-    getList();
+    getList(skillName);
+    // console.log(skillName)
   }, []);
 
 
@@ -69,9 +76,10 @@ let id;
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("file", pdfFile);
+    formData.append("file", pdfFile); 
     formData.append("title", title);
     formData.append('author', id);
+    formData.append('skill', skillName);
 
     const response = await fetch("http://localhost:8000/upload", {
       method: "POST",
@@ -94,9 +102,10 @@ let id;
   };
 
  
-  const getList = async (e) => {
+  const getList = async (skillName) => {
+    // console.log(skillName)
     //  e.preventDefault();
-    let result = await fetch("http://localhost:8000/getAllResource", {
+    let result = await fetch(`http://localhost:8000/getAllResource/${skillName}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
@@ -106,7 +115,7 @@ let id;
     // console.log(result[0].url)
     setData(result);
     if (result) {
-      getList();
+      getList(skillName);
     }
   };
 
@@ -136,6 +145,7 @@ let id;
       <div className="RescourcesTable">
         <div className="res-table-heading">
           <div className="res-heading-left">Documents </div>
+          {/* <div className="res-heading-left">{propsData.name} </div> */}
           <div className="res-heading-right">
             <form class="form-inline my-2 my-lg-0" className="res-table-search">
               <input
@@ -266,7 +276,12 @@ let id;
             </thead>
 
             <tbody class="text-sm divide-y divide-gray-100">
-              {data && data.map((item) => (
+
+
+              {
+                
+              
+              data && data.map((item) => (
                 <tr>
                   <td class="p-2">
                     <a
@@ -295,6 +310,8 @@ let id;
                   </td>
                 </tr>
               ))}
+
+
             </tbody>
           </table>}
 

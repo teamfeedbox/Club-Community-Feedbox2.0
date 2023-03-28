@@ -117,7 +117,7 @@ const myPost = async()=>{
       <div className="post-display-bottom">
         <div className="post-display-bottom-content">
           <img src="Images/heart.svg" alt="" />
-          500
+          {item.likes.length}
         </div>
         <div className="post-display-bottom-content">
           <img src="Images/message.svg" alt="" onClick={() => setShowModal(true)}/>

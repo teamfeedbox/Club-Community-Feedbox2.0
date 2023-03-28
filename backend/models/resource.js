@@ -27,7 +27,7 @@ const resourceSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  skills:{
+  skill:{
     type: String,
   },
 });

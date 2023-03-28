@@ -611,7 +611,10 @@ const PostDisplay = () => {
               <img
                 src="Images/message.svg"
                 alt=""
-                onClick={() => setShowModal(true)}
+                onClick={function () {
+                   setShowModal(true)
+                   
+                  }}
               />
               100
             </div>
