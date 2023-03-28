@@ -70,6 +70,8 @@ const Link = styled.a`
 
 export function Accessibility(props) {
 
+  const selectedPage = window.location.pathname;
+
   const logoutHandler = () => {
     localStorage.clear();
   };
@@ -77,7 +79,7 @@ export function Accessibility(props) {
   return (
     <AccessibilityContainer>
        {/* *********************profile icon*************************** */}
-       <Link href='/profile' title="Profile Page">
+       <Link href='/profile' title="Profile Page" className={selectedPage === '/profile' ? 'hidden' : 'block'}>
         <LoginButton >
           <FontAwesomeIcon icon={faUser} className="fa-xl" />
         </LoginButton>
