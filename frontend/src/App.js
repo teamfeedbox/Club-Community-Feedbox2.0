@@ -3,7 +3,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+// import { Redirect } from 'react-router'
 import Login from "./component/login/Login";
 import Register from "./component/signup/Register";
 import SignUp from "./component/signup/SignUp";
@@ -19,6 +19,8 @@ import NewLogin from "./component/login/NewLogin";
 import AttendanceSheet from "./component/Calendar/AttendanceSheet";
 import NavbarRes from "./component/navbar/NavbarRes";
 import ReactBigCalendar from "./component/Calendar/ReactBigCalendar";
+import Error from "./component/Error";
+import Loader from "./component/Loader";
 
 const App = () => {
   const selectedPage = window.location.pathname;
@@ -36,15 +38,16 @@ const App = () => {
       >
         <NavbarRes />
       </div> */}
+        {/* <NavbarRes /> */}
 
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route index path="/login" element={<NewLogin />} />
           <Route index path="/register" element={<Register />} />
-        </Routes>
+        {/* </Routes>
         <NavbarRes />
-        <Routes>
+        <Routes> */}
           <Route index path="/main" element={<Main />} />
           <Route index path="/calendar" element={<ReactBigCalendar />} />
           <Route index path="/rescources" element={<Rescources />} />
@@ -56,6 +59,11 @@ const App = () => {
           />
           <Route index path="/faq" element={<Faq />} />
           <Route index path="/approvals" element={<Approvals />} />
+          {/* <Route index path="/attendance" element={<AttendanceSheet />} /> */}
+          <Route index path='/load' element={<Loader />} />
+          <Route index path="*" element={<Error />} />
+          {/* <Redirect from='*' to='/404' /> */}
+
           <Route index path="/attendance/:name" element={<AttendanceSheet />} />
         </Routes>
       </Router>

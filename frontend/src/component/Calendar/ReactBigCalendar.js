@@ -17,6 +17,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import './ReactBigCalendar.css';
+import NavbarRes from "../navbar/NavbarRes";
 
 
 moment.locale("en-GB");
@@ -296,6 +297,8 @@ export default function ReactBigCalendar() {
   const navigate = useNavigate();
 
   return (
+    <>
+    <NavbarRes />
     <div className="Calendar-container">
 
 
@@ -506,5 +509,6 @@ export default function ReactBigCalendar() {
         </form>
       </div>
     </div>
+    </>
   );
 }

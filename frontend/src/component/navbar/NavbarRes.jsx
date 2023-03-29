@@ -16,7 +16,7 @@ const NavbarContainer = styled.div`
   align-items: center;
   padding: 0 1.5em;
   background : white;
-  z-index : 99999999;
+  z-index : 99;
 `;
 
 const LeftSection = styled.div`
@@ -36,9 +36,10 @@ const RightSection = styled.div`
 
 export  default function NavbarRes(props) {
   const isMobile = useMediaQuery({ maxWidth: DeviceSize.mobile });
+  const selectedPage = window.location.pathname;
 
   return (
-    <NavbarContainer>
+      <NavbarContainer>
       <LeftSection>
         <Logo />
       </LeftSection>
