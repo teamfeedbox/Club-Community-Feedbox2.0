@@ -198,7 +198,9 @@ function showRep(){
               <img src="Images/heart.svg" alt="" />
               500
             </div>
-            <Link to="/comment" className="post-display-bottom-content">
+            <Link to="/comment" className="post-display-bottom-content"
+            
+            >
               <img src="Images/message.svg" alt="" 
               // onClick={() => setShowModal(true)}
               />

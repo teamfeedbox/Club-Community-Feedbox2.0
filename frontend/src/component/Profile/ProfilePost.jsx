@@ -2,6 +2,7 @@ import React from 'react'
 import { Carousel } from "react-responsive-carousel";
 import  {useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import {Link} from "react-router-dom";
 
 // Import Swiper styles
 import "swiper/css";
@@ -39,7 +40,7 @@ const ProfilePost = () => {
           </div>
 
           <div className="post-display-center">
-            <div className="post-display-content">sasd fbgh   gfh</div>
+            <div className="post-display-content">Showing our work to you</div>
             <div className="post-display-image ">
               {/* *****************carousel for mobile view********************* */}
               <div className="post-display-carousel-mobileview">
@@ -97,10 +98,10 @@ const ProfilePost = () => {
               <img src="Images/heart.svg" alt="" />
               500
             </div>
-            <div className="post-display-bottom-content">
+            <Link to="/comment" className="post-display-bottom-content" style={{textDecoration:"none"}}>
               <img src="Images/message.svg" alt="" onClick={() => setShowModal(true)}/>
               100
-            </div>
+            </Link>
           </div>
         </div>
     

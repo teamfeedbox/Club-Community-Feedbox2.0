@@ -61,8 +61,8 @@ const ProfileTabs = () => {
 
         <div className={tabs === "Post" ? "" : "profile-tab-data-hide"}>
           {/* <ProfilePost /> */}
-          <PostDisplayPage/>r
-          {/* <ProfilePostPage/> */}
+          {/* <PostDisplayPage/> */}
+          <ProfilePostPage/>
         </div>
 
         <div className={tabs === "Event" ? "" : "profile-tab-data-hide"}>
