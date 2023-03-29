@@ -96,6 +96,28 @@ router.get('/myPost',requireLogin,async(req,res)=>{
 })
 
 
+router.get('/post/:postId',requireLogin,async(req,res)=>{
+    var mySort = { date: -1 };
+     
+      Post.find({_id:req.params.postId})
+      .sort(mySort)
+    
+      .populate('postedBy').select("-password")
+  
+      .then(event=>{
+          // console.log(event)
+          res.json(event)
+      })
+      .catch(err=>{
+          console.log(err)
+      })
+  
+  
+  })
+
+
+
+
 //update post api
   router.put('/updatePost/:postId',async(req,res)=>{
     let result = await Post.updateOne(
