@@ -94,36 +94,12 @@ const PostDisplay = () => {
   }
 
   useEffect(() => {
-    // const getList = async (e) => {
-    //   //  e.preventDefault();
-    //   let result = await fetch("http://localhost:8000/getAllPost",{
-    //   headers:{
-    //     "Authorization":"Bearer "+localStorage.getItem("jwt")
-    //   }
-    // });
-    //   result = await result.json();
-    //   // console.log(result)
-    //   setData(result);
-    //   // if(result.desc)
-    //   // {
-    //   //   getList();
-    //   // }
-    // };
+ 
     getList();
     getUser();
   });
 
-  // const getList = async (e) => {
-  //   //  e.preventDefault();
-  //   let result = await fetch("http://192.168.1.42:8000/getAllPost");
-  //   result = await result.json();
-  //   console.log(result)
-  //   setData(result);
-  //   // if(result.desc)
-  //   // {
-  //   //   getList();
-  //   // }
-  // };
+
 
   const getList = async (e) => {
     //  e.preventDefault();
@@ -142,11 +118,7 @@ const PostDisplay = () => {
 
   const [user, setUser] = useState();
 
-  // useEffect(() => {
-  //   getUser();
-  // });
-  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
-  // console.log(userId)
+
   const getUser = async () => {
     // console.log(id)
     let result = await fetch(`http://localhost:8000/user`, {

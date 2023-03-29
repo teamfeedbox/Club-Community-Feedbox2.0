@@ -9,10 +9,12 @@ const app = express();
 const cors = require("cors");
 const user = require("./models/user");  
 
+mongoose.set("strictQuery", false);
+
 const db = "mongodb+srv://feedbox:feedbox@cluster0.f8qrcl7.mongodb.net/community?retryWrites=true&w=majority";
-mongoose.connect(db)
+mongoose.connect(db,{ useNewUrlParser: true, useUnifiedTopology: true })
 .then(()=>{
-    console.log("connection successfull")
+    console.log("connection successful 😎😎")
 }).catch((err)=>console.log(err))
 
 
@@ -52,4 +54,3 @@ app.use("/", resource);
 
 app.listen(port, console.log(`server is listening on the port: ${port}`));
 
-// mongodb+srv://feedbox:<password>@cluster0.f8qrcl7.mongodb.net/?retryWrites=true&w=majority

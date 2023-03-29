@@ -13,7 +13,7 @@ const requireLogin = require('../middleware/requireLogin')
 
 
 router.post('/createEvent',requireLogin,(req,res)=>{
-    const {title,eventDate,eventTime,venue,desc,speaker} = req.body
+    const {title,eventDate,eventTime,venue,desc,speaker,attendance} = req.body
 
     const event = new Event({
         title,
@@ -23,6 +23,7 @@ router.post('/createEvent',requireLogin,(req,res)=>{
         desc,
         speaker,
         postedBy:req.user ,
+        attendance,
        
 
     })
@@ -39,6 +40,26 @@ router.post('/createEvent',requireLogin,(req,res)=>{
 
 
 
+
+// router.post('/attendance',requireLogin,(req,res)=>{
+//     // const {attendance} = req.body
+
+//     const event = new Event({
+//         attendance:req.user
+//     })
+//     event.save().then(result=>{
+//         res.json(result)
+//     })
+//     .catch(err=>{
+//         console.log(err)
+//     })
+//     // console.log(req.user)
+//     // res.send("ok")
+
+// })
+
+
+
 //api to get all events
 router.get('/getAllEvent',(req,res)=>{
     var mySort = { eventDate: 1 };
@@ -52,6 +73,22 @@ router.get('/getAllEvent',(req,res)=>{
         console.log(err)
     })
 })
+
+
+
+router.get('/getEvent/:name',requireLogin,(req,res)=>{
+    var mySort = { date: -1 };
+    Event.find({title:req.params.name})
+      .sort(mySort)
+      .populate('postedBy').select("-password")
+      .then(posts=>{
+        // console.log(posts)
+          res.json(posts)
+      })
+      .catch(err=>{
+          console.log(err)
+      })
+  })
 
 
 
@@ -76,16 +113,29 @@ router.get('/myEvent',requireLogin,async(req,res)=>{
 
 
 //update event api
-router.put('/updateEvent/:eventId',async(req,res)=>{
+router.put('/updateEvent/:eventId',requireLogin, async(req,res)=>{
     let result = await Event.updateOne(
         {_id:req.params.eventId},
         {
-            $set:req.body
+           $push:{attendance:req.user}
         }
     )
     res.send(result)
   })
 
+
+// router.put('/updateEvent/:id',requireLogin, (req, res) => {
+//     const _id = req.params.id;
+//     const attendance = req.body;
+  
+//     Event.findByIdAndUpdate(_id, attendance, { new: true }, (err, user) => {
+//       if (err) {
+//         res.status(500).send(err);
+//       } else {
+//         res.send(user);
+//       }
+//     });
+//   });
 
 
 
