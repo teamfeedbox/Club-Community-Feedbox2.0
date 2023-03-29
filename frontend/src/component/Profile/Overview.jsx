@@ -71,7 +71,7 @@ function Overview(prop) {
   return (
     <>
     <div className='Overview-Container'>
-        <Modal show={show} onHide={handleClose}>
+        {/* <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Profile</Modal.Title>
         </Modal.Header>
@@ -131,7 +131,7 @@ function Overview(prop) {
             Save Changes
           </Button>
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
 
 
 
@@ -241,15 +241,15 @@ function Overview(prop) {
           </div> 
         </div>
  {/* ********************************************logout***************************************** */}
-        <button 
+        {/* <button 
         className='text-white bg-red-600 text-[1.2rem] p-2 mt-3 rounded hover:bg-red-700 ease-in duration-100	ml-5 lg:ml-0 '
         onClick={logoutHandler}>
           Logout <FontAwesomeIcon icon={faRightFromBracket}  />
-        </button>
+        </button> */}
 
       </div>
 
-{/* modal to add skilss */}
+{/* modal to add skills */}
 
       <Modal show={show1} onHide={handleClose1}>
         <Modal.Header closeButton>

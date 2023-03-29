@@ -9,6 +9,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./AttendanceSheet.css";
 import { useNavigate } from "react-router-dom";
+import NavbarRes from "../navbar/NavbarRes";
 // import axios from 'axios';
 
 const array = [
@@ -74,6 +75,7 @@ const AttendanceSheet = () => {
 
   return (
     <>
+    <NavbarRes />
       <div className="attendance">
         <div className="attendance-right">
           <h1>Attendance Sheet</h1>
