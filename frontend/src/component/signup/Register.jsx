@@ -517,13 +517,13 @@ const Register = () => {
                         </option>
                         <option
                           className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
-                          value="1"
+                          value=" IET-DAVV"
                         >
                           IET-DAVV
                         </option>
                         <option
                           className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
-                          value="2"
+                          value="Shri Vaishnav Vidyapeeth Vishwavidyalaya"
                         >
                           Shri Vaishnav Vidyapeeth Vishwavidyalaya
                         </option>

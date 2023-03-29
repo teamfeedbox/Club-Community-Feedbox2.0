@@ -56,7 +56,7 @@ const App = () => {
           />
           <Route index path="/faq" element={<Faq />} />
           <Route index path="/approvals" element={<Approvals />} />
-          <Route index path="/attendance" element={<AttendanceSheet />} />
+          <Route index path="/attendance/:name" element={<AttendanceSheet />} />
         </Routes>
       </Router>
     </div>
