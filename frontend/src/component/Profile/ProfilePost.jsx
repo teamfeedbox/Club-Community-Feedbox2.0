@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { Carousel } from "react-responsive-carousel";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import {Link} from "react-router-dom";
+
 
 // Import Swiper styles
 import "swiper/css";
@@ -18,7 +20,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDeleteLeft, faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
 
-const ProfilePost = () => {
+const ProfilePost = (prop) => {
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [newS, setNewS] = useState(false);
@@ -139,7 +141,8 @@ const ProfilePost = () => {
             </div>
           </div>
         </div>
-      ))}
+      ))
+      }
     </div>
   );
 };
