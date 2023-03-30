@@ -18,7 +18,7 @@ function Overview(prop) {
 
   const [showModal, setShowModal] = useState(false);
   const [profileSubmit,SetProfileSubmit]=useState(false);
-  const [email,setEmail]=useState("adityapandey@gmail.com");
+  const [email,setEmail]=useState("");
   // for edit profile
   const [show, setShow] = useState(false);
   // for skills
@@ -26,7 +26,7 @@ function Overview(prop) {
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
 
-  const [value,setValue]=useState(" I converted Top MBA Calls in 2019, but decided upon continuing with my startup, Feedbox. We help businesses reach out to people through digital means and help them grow their online presence.")
+  const [value,setValue]=useState("")
 
   const [file, setFile] = useState('Images/girl.jpg')
   const [image, setImage] = useState(false);
@@ -176,7 +176,7 @@ function Overview(prop) {
             :
             <p className='Overview-Left-P' onClick={() => SetProfileSubmit(true)}>
             {
-              value
+              data && data.bio
             }
             </p>
           }
@@ -189,13 +189,14 @@ function Overview(prop) {
             <div className='Profile-Edit-Mail'>
               <div>
                 <span>Email:</span>
-                {
+                
+                { 
                   profileSubmit?
                   (
                   <input className='Overview-Left-input Overview-Left-input1'
                   // rows="3"
-                  placeholder={email}
-                  // value={value
+                  placeholder=''
+                 
                   onChange={getChanges}
                   >
                   </input>
@@ -203,7 +204,7 @@ function Overview(prop) {
                   :
                   <p className='Overview-Left-P' onClick={() => SetProfileSubmit(true)}>
                   {
-                    email
+                    data && data.email
                   }
                   </p>
                 }
