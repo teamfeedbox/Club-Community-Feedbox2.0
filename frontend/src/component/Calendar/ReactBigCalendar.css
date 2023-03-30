@@ -8,7 +8,6 @@
 .Calendar-left{
     width: 25%;
     margin: 0px 20px 20px 20px;
-    
 }
 .Calendar-right{
     width: 75%;
@@ -92,16 +91,32 @@ button a{
 }
 .Calendar-add-drop{
     padding: 20px;
-    display:none;
+    
     border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    z-index: 100;
-    position: absolute;
+    z-index: 100000000000000000000;
+    /* position: absolute; */
     background-color: #fff;
     right:30%;
-    top: 15%;
-    width: 25%;   
+    /* top: 15%; */
+    width: 25%;  
+    max-height: 80%; 
+    margin:auto 0;
+    /* display:none; */
 }
+.Calendar-add-drop-container{
+    width: 100vw;
+    
+    height: 100vh;
+    position: absolute;
+    background-color: #00000099;
+    z-index: 100000000;
+    display:none;
+    display: flex;
+    justify-content: center;
+    margin-top: -6%;
+}
+
 .submit-button{
     text-align: center;
 }
@@ -247,9 +262,10 @@ margin: 10px 0;
         padding-top: 0px;
         flex-direction: column;  
     }
+
     .Calendar-left{
         width: 80%;
-        margin:0 auto 20px auto;
+        margin:14% auto 20px auto;
         display: flex;
         flex-direction: row;
         justify-content:space-between;
@@ -311,12 +327,14 @@ margin: 10px 0;
     }
     .Calendar-add-drop{
         padding: 20px;
-        display:none;
         right:12%;
         top: 10%;
         width: 75%;
         font-size: 14.5px;
         /*    */
+    }
+    .Calendar-add-drop-container{
+        /* display:none; */
     }
     .submit-button{
         text-align: center;
@@ -392,18 +410,7 @@ margin: 10px 0;
     .Calendar-view-events-hide{
         display: none;
     }
-        /* 
-        padding: 20px;
-    display:none;
-    border-radius: 20px;
-    
-    z-index: 100;
-    position: absolute;
-    background-color: #fff;
-    right:30%;
-    top: 15%;
-    width: 25%; 
-         */
+       
     
     .preview-button{
         display: flex;
@@ -485,7 +492,7 @@ margin: 10px 0;
     }
     .Calendar-left{
         width: 50%;
-        margin:0 auto 20px auto;
+        margin:7% auto 20px auto;
         display: flex;
         flex-direction: row;
         justify-content:space-between;
@@ -510,9 +517,12 @@ margin: 10px 0;
         font-size: 13px;
     }
     .Calendar-add-drop{
-    top:22%;
-    right:25%;
-    width:50%;
+     top:22%; 
+     right:25%; 
+     width:50%;
+    }
+    .Calendar-add-drop-container{
+
     }
 
     .Calendar-view-events{

@@ -4,6 +4,8 @@ import Overview from "./Overview";
 import ProfilePost from "./ProfilePost";
 import ProfileEvent from "./ProfileEvent";
 import ProfileRes from "./ProfileRes";
+import PostDisplayPage from "../Main/PostDisplayPage";
+import ProfilePostPage from "./ProfilePostPage";
 
 const ProfileTabs = () => {
   const [tabs, setTabs] = useState("Overview");
@@ -58,7 +60,9 @@ const ProfileTabs = () => {
         </div>
 
         <div className={tabs === "Post" ? "" : "profile-tab-data-hide"}>
-          <ProfilePost />
+          {/* <ProfilePost /> */}
+          {/* <PostDisplayPage/> */}
+          <ProfilePostPage/>
         </div>
 
         <div className={tabs === "Event" ? "" : "profile-tab-data-hide"}>
