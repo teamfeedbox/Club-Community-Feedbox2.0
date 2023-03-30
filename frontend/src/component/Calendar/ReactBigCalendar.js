@@ -30,12 +30,12 @@ export default function ReactBigCalendar() {
 
   const [event, setEvent] = useState([]);
 
-  const [title, setTitle] = useState();
-  const [eventDate, setEventDate] = useState();
-  const [eventTime, setEventTime] = useState();
-  const [venue, setVenue] = useState();
-  const [desc, setDesc] = useState();
-  const [speaker, setSpeaker] = useState();
+  const [title, setTitle] = useState('');
+  const [eventDate, setEventDate] = useState('');
+  const [eventTime, setEventTime] = useState('');
+  const [venue, setVenue] = useState('');
+  const [desc, setDesc] = useState('');
+  const [speaker, setSpeaker] = useState('');
   const [myEvent, setMyEvent] = useState();
 
   const [eventPre, setEventPre] = useState("Calendar-view-events-hide");
@@ -139,8 +139,8 @@ export default function ReactBigCalendar() {
     showEvent();
     // cancelEvent();
 
-    // setEventPre("Calendar-view-events");
-  });
+    
+  }, []);
 
   const attendanceUpdate = async (id)=>{
    
@@ -249,9 +249,6 @@ export default function ReactBigCalendar() {
     }
   };
 
-  const handleSelect1 = ({ start, end }) => {
-    setCount1(0);
-  };
 
   const handleSelect = ({ start, end }) => {
     setCount1(1);
@@ -407,24 +404,37 @@ export default function ReactBigCalendar() {
           />
         )}
       </div>
-      <div className="Calendar-add-drop-container" onClick={handleSelect1}>
-        <div className="Calendar-add-drop">
-          <form>
-            <div className="calender-add-title">
-              <span>Create an Event</span>
-              <div className="cancel-button" onClick={handleSelect1}>
-                <FontAwesomeIcon icon={faXmark} />
-              </div>
+
+      <div className="Calendar-add-drop">
+        <form onSubmit={addEvent}>
+          <div className="calender-add-title">
+            <span>Create an Event</span>
+            <div className="cancel-button" onClick={() => { setCount1(0) }}>
+            <FontAwesomeIcon
+             icon={faXmark} />
             </div>
-            <div className="Calendar-title">
-              <span>Title</span>
-              <input
-                type="text"
-                required
-                placeholder="Add Event Title"
-                value={title}
-                maxlength="50"
-                onChange={(e) => setTitle(e.target.value)}
+            </div>
+          <div className="Calendar-title" >
+            <span>Title</span>
+            <input
+              type="text"
+              required
+              placeholder="Add Event Title"
+              value={title}
+              maxLength="50"
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+
+
+          <div style={{border:"1.5px solid black",padding:"10px 10px 15px 10px",borderRadius:"10px"}}>
+          <span style={{fontWeight:"600"}}>General</span>
+          <div className="input-container">
+          
+          <FontAwesomeIcon
+                style={{ margin: "7px 10px 0 0" }}
+                icon={faPodcast}
+                
               />
             </div>
 
@@ -519,8 +529,24 @@ export default function ReactBigCalendar() {
               </button>
             </div>
             
-          </form>
-        </div>
+            <textarea
+              name="message"
+              rows="3"
+              cols="30"
+              placeholder="About . . ."
+              value={desc}
+              required
+              onChange={(e) => setDesc(e.target.value)}
+            ></textarea>
+          </div>
+          <div className="submit-button">
+          <button className="Calendar-submit" type="submit">
+            Create
+          </button>
+          </div>
+
+          
+        </form>
       </div>
     </div>
     
