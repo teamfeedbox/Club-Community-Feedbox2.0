@@ -1,21 +1,128 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 const EditProfile = ({ open, setOpen }) => {
+  const [data, setData] = useState('');
+
   const [show, setShow] = useState(false);
   const [file, setFile] = useState("Images/girl.jpg");
   const [image, setImage] = useState(false);
+  const [imgg, setImgg] = useState();
+  const [img, setImg] = useState("");
+  const [url, setUrl] = useState("");
+  const [email, setEmail] = useState("");
+  const [bio, setBio] = useState("");
+ 
 
-  console.log(`prop : ${open}`);
+  // console.log(`prop : ${open}`);
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () =>{
+    setOpen(false);
+    uploadPic();
+
+
+  } 
   const handleShow = () => setShow(true);
   function handleChange(e) {
     setFile(URL.createObjectURL(e.target.files[0]));
+    setImgg(e.target.files[0]);
     setImage(!image);
   }
+
+  useEffect(()=>{
+    if (url) {
+     update(data);
+    }
+  },[url])
+
+  const update = async(data)=>{
+    // console.log(data)
+    let result = await fetch(`http://localhost:8000/updatePic/${data}`,{
+      method:'put',
+      body: JSON.stringify({url}),
+      headers:{
+          "Content-Type":"application/json",
+      "Authorization":"Bearer "+localStorage.getItem("jwt")
+
+      }
+
+  })
+
+  result = await result.json();
+ 
+  console.log(result)
+  }
+
+
+  const updateDetail = async(data)=>{
+    // console.log(data)
+    let result = await fetch(`http://localhost:8000/updateDetail/${data}`,{
+      method:'put',
+      body: JSON.stringify({email,bio}),
+      headers:{
+          "Content-Type":"application/json",
+      "Authorization":"Bearer "+localStorage.getItem("jwt")
+
+      }
+
+  })
+
+  result = await result.json();
+ 
+  console.log(result)
+  }
+
+
+// update(data);
+  const uploadPic  = ()=>{
+    const data = new FormData();
+    data.append("file", imgg);
+    data.append("upload_preset", "feedbox-community-web");
+    data.append("cloud_name", "feedbox-community-web");
+    fetch(
+      "https://api.cloudinary.com/v1_1/feedbox-community-web/image/upload",
+      {
+        method: "post",
+        body: data,
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.url)
+        setUrl(data.url);
+        // console.log(data)
+        // console.log(data.url)
+
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+
+  
+
+  useEffect(() => {
+    getUser();
+  },[]);
+  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
+  // console.log(userId)
+  const getUser = async () => {
+    // console.log(id)
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    // console.log(result.email);
+    setData(result._id);
+    // if (result) {
+    //   getUser();
+    // }
+  };
 
   return (
     <div>
@@ -38,6 +145,8 @@ const EditProfile = ({ open, setOpen }) => {
                   type="email"
                   placeholder="name@example.com"
                   autoFocus
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </Form.Group>
               <Form.Group
@@ -45,7 +154,10 @@ const EditProfile = ({ open, setOpen }) => {
                 controlId="exampleForm.ControlTextarea1"
               >
                 <Form.Label>About </Form.Label>
-                <Form.Control as="textarea" rows={3} />
+                <Form.Control as="textarea" rows={3}
+                 value={bio}
+                 onChange={(e) => setBio(e.target.value)}
+                />
               </Form.Group>
               <Form.Group>
                 <div>
@@ -99,7 +211,11 @@ const EditProfile = ({ open, setOpen }) => {
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={handleClose}>
+            <Button variant="primary" onClick={()=>{
+              handleClose()
+               updateDetail(data) 
+
+            }}>
               Save Changes
             </Button>
           </Modal.Footer>

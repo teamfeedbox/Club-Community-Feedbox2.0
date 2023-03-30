@@ -21,6 +21,11 @@ const Register = () => {
   const [userSkills, setUserSkills] = useState();
   const [branch, setBranch] = useState();
   const [bio, setBio] = useState();
+  const [role, setRole] = useState();
+  const [coins, setCoins] = useState();
+  const [position, setPosition] = useState();
+  const [events, setEvents] = useState([]);
+  const [img, setImg] = useState("");
 
   const navigate = useNavigate();
 
@@ -55,6 +60,11 @@ const Register = () => {
         collegeName,
        skills:userinfo.response,
         bio,
+        img,
+        role,
+        coins,
+        position,
+        events
       }),
       headers: {
         "Content-Type": "application/json",

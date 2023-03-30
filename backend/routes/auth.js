@@ -85,6 +85,9 @@ router.post("/register", (req, res) => {
     position,
     collegeYear,
     bio,
+    img,
+    events
+    
   } = req.body;
   if (!email || !password || !name) {
     return res.status(422).json({ error: "please add all the fields" });
@@ -106,11 +109,13 @@ router.post("/register", (req, res) => {
           branch,
           skills,
           coins,
-          role,
+         role,
           position,
           collegeYear,
           bio,
-          // pic
+          img,
+          events,
+      
         });
 
         user
@@ -196,6 +201,34 @@ router.get('/user',requireLogin, async (req, res) => {
 });
 
 
+
+router.put('/updatePic/:id',requireLogin, async(req,res)=>{
+  // console.log(req.params.email)
+  // console.log(req.body.url)
+
+  let result = await User.updateOne(
+      {_id:req.params.id},
+      { $set: { img: req.body.url} }
+  )
+  res.send(result)
+})
+
+router.put('/updateDetail/:id',requireLogin, async(req,res)=>{
+  
+//  console.log(req.body.email)
+//   console.log(req.body.bio)
+  let result = await User.updateMany(
+    {_id:req.params.id},
+
+      {
+        //  $set: {email:req.body.email},
+        //  $set: {bio:req.body.bio}
+        $set: req.body
+    
+    }
+  )
+  res.send(result)
+})
 
 
 
