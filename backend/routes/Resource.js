@@ -14,7 +14,8 @@ const upload = multer({ dest: 'uploads/' });
 
 
 router.post('/upload', upload.single('file'),requireLogin, async (req, res) => {
-    const {title} = req.body
+    const {title,skill} = req.body
+    // console.log(title,skill)
     const result = await cloudinary.uploader.upload(req.file.path, {
       resource_type: 'raw',
       folder: 'pdfs'
@@ -25,6 +26,7 @@ router.post('/upload', upload.single('file'),requireLogin, async (req, res) => {
     // console.log(req.user)
     const pdf = await new Resource({
       title,
+      skill,
       author:req.user,  
       name: req.file.originalname,
       url: pdfUrl
@@ -44,26 +46,44 @@ router.post('/upload', upload.single('file'),requireLogin, async (req, res) => {
 
 
 
-router.post('/create-resource',async(req,res)=>{
-    let resource = new Resource(req.body)
-    let data = await resource.save();
-    res.send(data);
+// router.post('/create-resource',async(req,res)=>{
+//     let resource = new Resource(req.body)
+//     let data = await resource.save();
+//     res.send(data);
     
-})
+// })
 
 
 //api to get all resource
 //it will be used to display at the resources page
-router.get('/getAllResource',requireLogin,(req,res)=>{
-    Resource.find()
+router.get('/getAllResource/:skill',requireLogin,(req,res)=>{
+  var mySort = { date: -1 };
+    Resource.find({skill:req.params.skill})
+    .sort(mySort)
     .populate('author').select("-password")
     .then(posts=>{
+      // console.log(posts)
         res.json(posts)
     })
     .catch(err=>{
         console.log(err)
     })
 })
+
+
+// router.get('/getAllResource',requireLogin,(req,res)=>{
+//   var mySort = { date: -1 };
+//     Resource.find()
+//     .sort(mySort)
+//     .populate('author').select("-password")
+//     .then(posts=>{
+//       // console.log(posts)
+//         res.json(posts)
+//     })
+//     .catch(err=>{
+//         console.log(err)
+//     })
+// })
 
 
 
@@ -85,8 +105,12 @@ router.get('/getAllResource',requireLogin,(req,res)=>{
 
 
 router.get('/myResource',requireLogin,async(req,res)=>{
+  var mySort = { date: -1 };
+
    
   Resource.find({author:req.user._id})
+  .sort(mySort)
+
 
   .populate('author').select("-password")
 

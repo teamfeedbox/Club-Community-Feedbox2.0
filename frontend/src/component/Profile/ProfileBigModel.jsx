@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
@@ -8,16 +8,16 @@ import { Scrollbars } from "react-custom-scrollbars";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import { useState } from "react";
-import {Link, useAsyncError} from "react-router-dom";
+import {Link} from "react-router-dom";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import "./PostBigModel.css";
+import "./ProfileBigModel.css";
 
 
-function PostBigModel() {
+function ProfileBigModel() {
     const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(true);
   const [showAdd,setShowAdd]=useState('Hide-Comment-Add-Btn');
@@ -30,10 +30,7 @@ function PostBigModel() {
 
   const [tempComment,setTempComment]=useState('');
   const [tempReply,setTempReply]=useState('');
-
-  const[showReply,setShowReply]=useState(true);
-  const [changeText,setText]=useState(true);
-  const [showViewReply,setShowViewReply]=useState("Comment-Right-View-Reply-Hide");
+  const[showreply,setShowReply]=useState(false);
 
   const [reply,setReply]=useState('');
   const [comment,setComments] = useState([" How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q", 
@@ -52,17 +49,6 @@ function handleReply(){
   }
 
   function handleView(){
-    if(changeText==true)
-    {
-      setText(false)
-    }
-    else
-    {
-      setText(true)
-    }
-
-
-
     if(showView=="Show-Comment-View-Btn")
     {
     setShowView('Hide-Comment-View-Btn')
@@ -104,7 +90,7 @@ function handleReply(){
     <>
           <div className="Post-Big-Model-container">
             {/* to close the model on click outof the post section */}
-            <Link to="/main"
+            <Link to="/profile"
               className="Post-Big-Model-Close"
               
             ></Link>
@@ -165,7 +151,7 @@ function handleReply(){
                         <div className="Post-Big-Title2">Feedbox Member</div>
                       </div>
                     </div>
-                    <Link to="/main" className="Cancel-Icon-Container" style={{textDecoration: 'none'}}>
+                    <Link to="/profile" className="Cancel-Icon-Container">
                       <FontAwesomeIcon className="fa-lg" icon={faXmark} onClick={() => setShowModal(false)} />
                     </Link>
                   </div>
@@ -206,25 +192,11 @@ function handleReply(){
                           {data}
                           </div>
                         </div>
-
-
                         <div className="Comment-Right-Down">
                           <span className="Comment-Down-Other">22h</span>
-
-                          {
-                            showReply==true?
-                            <span className="Comment-Down-Other Comment-Down-Other1 " onClick={handleReply}>
-                              reply 
-                            </span>:
-                          <span style={{display:"none"}}></span>
-
-                          }
-                          
-                          
-                            
-                          
-
-
+                          <span className="Comment-Down-Other Comment-Down-Other1 " onClick={handleReply}>
+                            reply 
+                          </span>
                         </div>
                         <div className={showReplView}>
                           <div className="Comment-Right-User-Name">
@@ -249,23 +221,11 @@ function handleReply(){
                           selected questions.
                         </div>
                     </div>
-
-                    {
-                      changeText==true?
-                      <div className={showViewReply} onClick={handleView}>
-                      ---- View Reply
-                    </div>
-                      :
-                      <div className={showViewReply} onClick={handleView}>
-                      ---- Hide Reply
-                    </div>
-                    }
-                      
-
-                      {
-                         showReply==true?
-                         <div className={showAdd}>
-                      <form onClick={handleAfterReply}>
+                        <div className="Comment-Right-View-Reply" onClick={handleView}>
+                        ---- View Reply
+                      </div>
+                        <div className={showAdd}>
+                          <form onClick={handleAfterReply}>
                         <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700">
                           <div
                             className="rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
@@ -273,14 +233,14 @@ function handleReply(){
                             
                           </div>
                           <input
-                            className="block border-solid  mx-2 p-2.5 w-full text-sm text-black-600 bg-white  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 border-black-600"
-                            placeholder="Reply..."
+                            className="block border-solid  mx-2 p-2.5 w-full text-sm text-green-600 bg-white  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 border-black-600"
+                            placeholder="Add a comment..."
                             onChange={(event)=>
                               setTempReply(event.target.value)
                             }
                           
                           ></input>
-                          <button onClick={()=>(showRep, setShowReply(true),setShowViewReply("Comment-Right-View-Reply"),setShowReply(false) )}
+                          <button onClick={()=>(showRep, setShowReply(true))}
                             type="submit"
                             class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
                           >
@@ -290,10 +250,7 @@ function handleReply(){
                         </div>
                       </form>
                         
-                      </div>:<></>
-                      }
-
-                      
+                      </div>
                       
                       </div>  
                     </section>
@@ -369,4 +326,4 @@ function handleReply(){
   )
 }
 
-export default PostBigModel
+export default ProfileBigModel

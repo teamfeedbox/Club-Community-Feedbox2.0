@@ -90,16 +90,7 @@
     .Cancel-Icon-Container{
         margin:10px 15px 0 0;
         cursor:pointer;
-       
     }
-    a{
-        color: #000;
-        text-decoration: none;
-    }
-    a:hover{
-        color: #0000;
-    }
-
     .Post-Big-Title{
         display: flex;
         flex-direction: column;
@@ -202,10 +193,6 @@
         margin-top: 3px;
         cursor: pointer;
     }
-    .Comment-Right-View-Reply-Hide{
-        display: none;
-    }
-
     .Comment-Right-View-Reply:hover{
         color: black;
     }

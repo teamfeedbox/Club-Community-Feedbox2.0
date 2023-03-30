@@ -54,6 +54,8 @@ const LoginButton = styled.button`
   &:hover {
     color: #fff;
     background-color: #00c9ff;
+  margin-right : 10px;
+
   }
 
   &:not(:last-of-type) {
@@ -68,23 +70,26 @@ const Link = styled.a`
 
 export function Accessibility(props) {
 
+  const selectedPage = window.location.pathname;
+
   const logoutHandler = () => {
     localStorage.clear();
   };
 
   return (
     <AccessibilityContainer>
+       {/* *********************profile icon*************************** */}
+       <Link href='/profile' title="Profile Page" className={selectedPage === '/profile' ? 'hidden' : 'block'}>
+        <LoginButton >
+          <FontAwesomeIcon icon={faUser} className="fa-xl" />
+        </LoginButton>
+      </Link>
       {/* *******************notification bell**************** */}
       <RegisterButton>
         <FontAwesomeIcon icon={faBell} className="fa-xl" />
       </RegisterButton>
 
-      {/* *********************Logout icon*************************** */}
-      <Link href='/'>
-        <LoginButton onClick={logoutHandler}>
-          <FontAwesomeIcon icon={faRightFromBracket} className="fa-xl" />
-        </LoginButton>
-      </Link>
+     
 
     </AccessibilityContainer>
   );

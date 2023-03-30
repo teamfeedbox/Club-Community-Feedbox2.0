@@ -1,48 +1,15 @@
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, {useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "./HomePageProfile.css";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const changeColor = [
-  {
-    id : 1,
-    skill : 'Graphics Designing',
-    bgColor : '#C7EDCF',
-    fontColor : '#2AA100'
-  },
-  {
-    id : 2,
-    skill : 'Graphics Designing',
-    bgColor : '#EDC7E2',
-    fontColor : '#9B0483'
-  },
-  {
-    id : 3,
-    skill : 'Graphics Designing',
-    bgColor : '#EDE7C7',
-    fontColor : '#A67904'
-  },
-  {
-    id : 4,
-    skill : 'Graphics Designing',
-    bgColor : '#EDC7C7',
-    fontColor : '#A10000'
-  },
-]
+const backColor = ['#EDC7E2', '#C7EDCF','#EDE7C7', '#EDC7C7', '#B5A6E1', '#B4B4B4', '#72C4FF', '#e9f5db', '#fad643' ,'#E3B47C' ]
 
-const skills = ['Graphics Designing','Content Writing', 'Search Engine Optimization', 'Time Management' ]
+const fColor = ['#9B0483', '#2AA100', '#A67904', '#A10000', '#5C0684', '#363636', '#035794', '#718355', '#76520E', '#744E37']
 
 const HomePageProfile = () => {
-  const [selectedColourIndex, setColourIndex] = useState(0);
-
-    const nextColour = () => {
-        const newColourIndex = selectedColourIndex + 1;
-        if (changeColor[newColourIndex]) 
-            setColourIndex(newColourIndex);
-        else
-            setColourIndex(0);
-    }
 
   const auth = localStorage.getItem("user");
 
@@ -67,14 +34,27 @@ const HomePageProfile = () => {
     //   getUser();
     // }
   };
-  
+
+  const navigate = useNavigate();
+
+  const goToProfile = () => {
+    navigate("/profile");
+    window.location.reload(true);
+  };
+
   return (
     <div className="HomePageProfile">
       <div className="home-profile-bg-doodle">
         <img src="Images/doodle-profile-bg.png" alt="" />
-        <Link to='/profile' className="home-profile-visit-profile" title="Visit profile page">
+        {/* <Link to='/profile' className="home-profile-visit-profile" title="Visit profile page">
           <FontAwesomeIcon className="home-profile-visit-profile-icon" icon={faArrowUpRightFromSquare} />
-        </Link>
+        </Link> */}
+        <button className="home-profile-visit-profile" onClick={goToProfile}>
+          <FontAwesomeIcon
+            className="home-profile-visit-profile-icon"
+            icon={faArrowUpRightFromSquare}
+          />
+        </button>
       </div>
       <div className="home-profile-main-info">
         <div className="home-profile-main-photo">
@@ -89,13 +69,12 @@ const HomePageProfile = () => {
       <div className="home-profile-skill-div">
         <h6>Skills:</h6>
         <div className="home-profile-skills">
-
-        {
-          data && data.skills.map((item)=>(
-            <div style={{background: '#C7EDCF', color : '#2AA100'}} >{item}</div>
-
-          ))
-        }
+          {data &&
+            data.skills.map((item, index) => (
+              <div style={{ background: backColor[index] , color: fColor[index] }}>
+                {item}
+              </div>
+            ))}
           {/* <div style={{background: '#C7EDCF', color : '#2AA100'}} >Graphics Designing</div> */}
 
           {/* <div style={{background: '#EDC7E2', color : '#9B0483'}} >Content Writing</div>
@@ -113,8 +92,6 @@ const HomePageProfile = () => {
           <div>Coins Collected</div>
         </div>
       </div>
-
-
     </div>
   );
 };

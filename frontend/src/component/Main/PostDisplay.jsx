@@ -3,12 +3,14 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+
+import { FcLike,FcLikePlaceholder } from "react-icons/fc";
 
 import { Scrollbars } from "react-custom-scrollbars";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect,} from "react";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import {Link} from "react-router-dom";
 // Import Swiper styles
@@ -26,14 +28,16 @@ import Comment from "./Comment";
 import "./PostDisplay.css";
 
 const PostDisplay = () => {
+ 
+
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(true);
   const [showAdd,setShowAdd]=useState('Hide-Comment-Add-Btn');
   const [showView,setShowView]=useState('Hide-Comment-View-Btn');
 
-  const [showReplView,setReplyView]=useState('Hide-Reply-View')
+  const [showReplView, setReplyView] = useState("Hide-Reply-View");
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  const [newS,setNewS]=useState(false);
+  const [newS, setNewS] = useState(false);
   // const [afterSubmit,setAfterSubmit]=useState("");
 
   const [tempComment,setTempComment]=useState('');
@@ -55,26 +59,29 @@ function handleReply(){
   {
     setShowAdd('Show-Comment-Add-Btn') 
   }
-}
 
-function handleView(){
-  if(showView=="Show-Comment-View-Btn")
-  {
-  setShowView('Hide-Comment-View-Btn')
-  }
-  else
-  {
-    setShowView('Show-Comment-View-Btn') 
-  }
-}
-function handleFormSubmit(event){
-  event.preventDefault();
 
-  if(tempComment!="")
-  {
-  setComments((comment) => [...comment, tempComment]);
-  // console.log(tempComment)
-  setTempComment("");
+  function handleView() {
+    if (showView == "Show-Comment-View-Btn") {
+      setShowView("Hide-Comment-View-Btn");
+    } else {
+      setShowView("Show-Comment-View-Btn");
+    }
+  }
+  function handleFormSubmit(event) {
+    event.preventDefault();
+
+    if (tempComment != "") {
+      setComments((comment) => [...comment, tempComment]);
+      // console.log(tempComment)
+      setTempComment("");
+    }
+  }
+  function handleAfterReply(event) {
+    event.preventDefault();
+    if (tempReply != "") {
+      setReply(tempReply);
+    }
   }
 }
 function handleAfterReply(event){
@@ -111,6 +118,7 @@ function showRep(){
     //   // }
     // };
     getList();
+    getUser();
   });
 
   // const getList = async (e) => {
@@ -140,6 +148,84 @@ function showRep(){
     }
   };
 
+  const [user, setUser] = useState();
+
+  // useEffect(() => {
+  //   getUser();
+  // });
+  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
+  // console.log(userId)
+  const getUser = async () => {
+    // console.log(id)
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    // console.log(result);
+    setUser(result._id);
+    // if (result) {
+    //   getUser();
+    // }
+  };
+
+  const like = (id) => {
+    fetch("http://localhost:8000/like", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        postId: id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        // console.log(result)
+        const newData = data.map((item) => {
+          if (item._id === result._id) {
+            return result;
+          } else {
+            return item;
+          }
+        });
+        setData(newData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const unlike = (id) => {
+    fetch("http://localhost:8000/unlike", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        postId: id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        // console.log(result)
+        const newData = data.map((item) => {
+          if (item._id === result._id) {
+            return result;
+          } else {
+            return item;
+          }
+        });
+        setData(newData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div>
       {data.map((item, index) => (
@@ -149,22 +235,45 @@ function showRep(){
               <img src="Images/girl.jpg" alt="" />
             </div>
             <div className="post-display-heading">
-
-              
-
-              <p className="post-head">{item && item.postedBy &&item.postedBy.name}</p>
+              <p className="post-head">
+                {item && item.postedBy && item.postedBy.name}
+              </p>
 
               <div className="post-head-content" style={{ display: "flex" }}>
-                <p className="post-display-heading-college">{item && item.postedBy &&item.postedBy.collegeName}</p>
-                <p className="post-display-heading-time">19 hours ago</p>
+                <p className="post-display-heading-college">
+                  {item && item.postedBy && item.postedBy.collegeName}
+                </p>
+                <p className="post-display-heading-time">{item.date}</p>
               </div>
             </div>
           </div>
 
           <div className="post-display-center">
             <div className="post-display-content">{item.desc}</div>
-              {/* *********************carousel for web view*************************** */}
-              <div className="post-display-image flex justify-center">
+            <div className="post-display-image ">
+              {/* *****************carousel for mobile view********************* */}
+              <div className="post-display-carousel-mobileview">
+                <Swiper
+                  navigation={true}
+                  modules={[Navigation]}
+                  className="mySwiper"
+                  
+                >
+                  <SwiperSlide>
+                    <img className="display-img" src="Images/alumni1.jpg" />
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <img className="display-img" src="Images/alumni1.jpg" />
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <img className="display-img" src="Images/alumni1.jpg" />
+                  </SwiperSlide>
+                </Swiper>
+              </div>
+            </div>
+
+            {/* *********************carousel for web view*************************** */}
+            <div className="post-display-image flex justify-center">
               <div className="post-display-carousel-webview flex justify-center">
                 <Carousel
                   thumbWidth={60}
@@ -172,6 +281,7 @@ function showRep(){
                   autoPlay
                   interval="5000"
                   infiniteLoop={true}
+                  
                 >
                   <div>
                     <img className="display-img" src="Images/alumni1.jpg" />
@@ -194,15 +304,39 @@ function showRep(){
           </div>
 
           <div className="post-display-bottom">
-            <div className="post-display-bottom-content">
-              <img src="Images/heart.svg" alt="" />
-              500
-            </div>
-            <Link to="/comment" className="post-display-bottom-content"
-            
-            >
+            {item.likes.includes(user) ? (
+              <div className="post-display-bottom-content">
+                <FcLike
+                 size={25}
+                  onClick={function () {
+                    unlike(item._id);
+                    // unlike(item._id);
+                  }}
+                />
+                {/* <FcLike size={25}  onClick={function () {
+                like(item._id);
+                // unlike(item._id);
+              }}/> */}
+
+                {item.likes.length}
+              </div>
+            ) : (
+              <div className="post-display-bottom-content">
+                {/* <FontAwesomeIcon className="fa-lg" icon={faHeart} style={{color:"red"}}/> */}
+                <FcLikePlaceholder
+                  size={25}
+                  onClick={function () {
+                    like(item._id);
+                    // unlike(item._id);
+                  }}
+                />
+
+                {item.likes.length}
+              </div>
+            )}
+
+            <Link to="/comment" className="post-display-bottom-content">
               <img src="Images/message.svg" alt="" 
-              // onClick={() => setShowModal(true)}
               />
               100
             </Link>
@@ -211,6 +345,6 @@ function showRep(){
       ))}
     </div>
   );
-};
-
+  
+  }
 export default PostDisplay;

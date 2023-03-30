@@ -15,8 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
-import './ReactBigCalendar.css';
-
+import "./ReactBigCalendar.css";
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -36,20 +35,19 @@ export default function ReactBigCalendar() {
   const [speaker, setSpeaker] = useState();
   const [myEvent, setMyEvent] = useState();
 
-  const [eventPre,setEventPre]=useState("Calendar-view-events-hide");
-  const [eventBtn,setEventBtn]=useState("Calendar-view-title");
+  const [eventPre, setEventPre] = useState("Calendar-view-events-hide");
+  const [eventBtn, setEventBtn] = useState("Calendar-view-title");
 
   const [postedBy, setPostedBy] = useState("");
 
-
-  const cancelEvent = async(id)=>{
-    console.log(id)
+  const cancelEvent = async (id) => {
+    console.log(id);
     let result = await fetch(`http://localhost:8000/deleteEvent/${id}`, {
       method: "delete",
     });
 
     result = await result.json();
-    // console.log(result)
+    console.log(result);
     setCount2(0);
 
     // if (result) {
@@ -58,13 +56,11 @@ export default function ReactBigCalendar() {
     //   //screen and then when we refresh it disappears. so to avoid that bug we have called that function
     //   getList();
     // }
-  }
-
+  };
 
   let eventData = [];
   event &&
-    event.map((data,i) => {
-      
+    event.map((data, i) => {
       const val = {
         id: i,
         title: data.title,
@@ -72,9 +68,9 @@ export default function ReactBigCalendar() {
         start: new Date(data.eventDate),
         end: new Date(data.eventDate),
       };
-      eventData.push(val)
+      eventData.push(val);
     });
-// console.log(eventsData)
+  // console.log(eventsData)
   // const [create,setCreate]=useEffect();
   // const [view,setView]=useEffect();
 
@@ -95,9 +91,9 @@ export default function ReactBigCalendar() {
   // }
   useEffect(() => {
     if (count1 == 0) {
-      $(".Calendar-add-drop").hide();
+      $(".Calendar-add-drop-container").hide();
     } else {
-      $(".Calendar-add-drop").show();
+      $(".Calendar-add-drop-container").show();
     }
 
     const showEvent = async () => {
@@ -107,13 +103,9 @@ export default function ReactBigCalendar() {
       // console.log(result[0].eventDate);
     };
     showEvent();
-// cancelEvent();
-
-
-    
+    // cancelEvent();
 
     // setEventPre("Calendar-view-events");
-    
   });
 
   const addEvent = async (e) => {
@@ -121,10 +113,18 @@ export default function ReactBigCalendar() {
     // const userId = JSON.parse(localStorage.getItem("users"))._id;
     let result = await fetch("http://localhost:8000/createEvent", {
       method: "post",
-      body: JSON.stringify({ title, eventDate, eventTime, venue, desc,postedBy,speaker }),
+      body: JSON.stringify({
+        title,
+        eventDate,
+        eventTime,
+        venue,
+        desc,
+        postedBy,
+        speaker,
+      }),
       headers: {
         "Content-Type": "application/json",
-        "Authorization":"Bearer "+localStorage.getItem("jwt")
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     });
 
@@ -147,7 +147,7 @@ export default function ReactBigCalendar() {
     // ]);
   };
 
-  const handleEvent = ({start,end},eve, data) => {
+  const handleEvent = ({ start, end }, eve, data) => {
     // alert(event.title+"_______"+event.start+"________"+event.end);
     // if (count2 == 0) {
     //   $(".Calendar-view-title").css("border-radius", "20px 20px 0px 0px");
@@ -162,13 +162,13 @@ export default function ReactBigCalendar() {
     // console.log("onSelectEvent",event);
 
     // var currDate = start;
-      setEventPre("Calendar-view-events");
-      setEventBtn("Calendar-view-title-css");
+    setEventPre("Calendar-view-events");
+    setEventBtn("Calendar-view-title-css");
 
     var currEventDate = start.getDate();
     var month = parseInt(start.getMonth()) + 1;
     var year = parseInt(start.getFullYear());
-    
+
     const startDate = year + "-" + 0 + month + "-" + currEventDate;
 
     // if (month < 10) {
@@ -179,15 +179,10 @@ export default function ReactBigCalendar() {
 
     event.map(function (val, index) {
       if (val.eventDate === startDate) {
-       
         // console.log(val)
         setMyEvent(val);
-        
       }
-
     });
-
-    
   };
 
   const handleSelect3 = ({ start, end }) => {
@@ -207,9 +202,9 @@ export default function ReactBigCalendar() {
   const handleSelect = ({ start, end }) => {
     setCount1(1);
     if (count1 == 0) {
-      $(".Calendar-add-drop").hide();
+      $(".Calendar-add-drop-container").hide();
     } else {
-      $(".Calendar-add-drop").show();
+      $(".Calendar-add-drop-container").show();
     }
     // console.log(start )
     // console.log(end )
@@ -228,7 +223,7 @@ export default function ReactBigCalendar() {
 
     // event.map(function (val, index) {
     //   if (val.eventDate === startDate) {
-       
+
     //     console.log(val)
     //   }
 
@@ -249,9 +244,7 @@ export default function ReactBigCalendar() {
 
   return (
     <div className="Calendar-container">
-
-
-      <div className="Calendar-left">
+        <div className="Calendar-left">
         <div
           className="Calendar-add"
           onClick={handleSelect3}
@@ -265,13 +258,12 @@ export default function ReactBigCalendar() {
             />
           </div>
         </div>
-    
- 
 
         <div className="Calendar-view">
           <div className={eventBtn}>Events Preview</div>
-                
-          <div className={eventPre}>
+
+          <div className="Calendar-view-events-container">
+            <div className={eventPre}>
             <div className="event-title">{myEvent && myEvent.title}</div>
             <div className="event-profile">
               <FontAwesomeIcon
@@ -287,7 +279,6 @@ export default function ReactBigCalendar() {
                   icon={faLocationDot}
                 />
                 {myEvent && myEvent.venue}
-               
               </div>
 
               <div>
@@ -312,143 +303,163 @@ export default function ReactBigCalendar() {
               {myEvent && myEvent.desc}
             </div>
             <div className="preview-button">
-            <button>Interested</button>
+              <button>Interested</button>
 
-            <button onClick={ ()=>{
-              setEventPre("Calendar-view-events-hide");
-              setEventBtn("Calendar-view-title");
-              cancelEvent(myEvent._id)
-            }}>Cancel Event</button>
-
+              <button
+                onClick={() => {
+                  setEventPre("Calendar-view-events-hide");
+                  setEventBtn("Calendar-view-title");
+                  cancelEvent(myEvent._id);
+                }}
+              >
+                Cancel Event
+              </button>
             </div>
-            <div style={{textAlign:"center"}}>
-            <button onClick={() => {
-              setEventPre("Calendar-view-events-hide");
+            <div style={{ textAlign: "center" }}>
+              <button
+                onClick={() => {
+                  setEventPre("Calendar-view-events-hide");
 
-            navigate('/attendance')
-            }}>Mark Attendance</button>
+                  navigate("/attendance");
+                }}
+              >
+                Mark Attendance
+              </button>
+            </div>
             </div>
           </div>
         </div>
-      </div>
+        </div>
 
-      
       {/* <ReactBigCalendar className="ReactBigCalendar" /> */}
       <div className="React-Big-Calendar-Original">
-         {eventData.length>0 && <Calendar
-          views={["agenda", "month"]}
-          selectable
-          localizer={localizer}
-          defaultDate={new Date()}
-          defaultView="month"
-          events={eventData}
-          onSelectEvent={handleEvent}
-          value={dates}
-          onSelectSlot={handleSelect}
-        />
-        }
+        {eventData.length > 0 && (
+          <Calendar
+            views={["agenda", "month"]}
+            selectable
+            localizer={localizer}
+            defaultDate={new Date()}
+            defaultView="month"
+            events={eventData}
+            onSelectEvent={handleEvent}
+            value={dates}
+            onSelectSlot={handleSelect}
+          />
+        )}
       </div>
-
-      <div className="Calendar-add-drop">
-        <form>
-          <div className="calender-add-title">
-            <span>Create an Event</span>
-            <div className="cancel-button" onClick={handleSelect1}>
-            <FontAwesomeIcon
-             icon={faXmark} />
+      <div className="Calendar-add-drop-container" onClick={handleSelect1}>
+        <div className="Calendar-add-drop">
+          <form>
+            <div className="calender-add-title">
+              <span>Create an Event</span>
+              <div className="cancel-button" onClick={handleSelect1}>
+                <FontAwesomeIcon icon={faXmark} />
+              </div>
             </div>
-            </div>
-          <div className="Calendar-title" >
-            <span>Title</span>
-            <input
-              type="text"
-              required
-              placeholder="Add Event Title"
-              value={title}
-              maxlength="50"
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </div>
-
-
-          <div style={{border:"1.5px solid black",padding:"10px 10px 15px 10px",borderRadius:"10px"}}>
-          <span style={{fontWeight:"600"}}>General</span>
-          <div className="input-container">
-          
-          <FontAwesomeIcon
-                style={{ margin: "7px 10px 0 0" }}
-                icon={faPodcast}
-                
+            <div className="Calendar-title">
+              <span>Title</span>
+              <input
+                type="text"
+                required
+                placeholder="Add Event Title"
+                value={title}
+                maxlength="50"
+                onChange={(e) => setTitle(e.target.value)}
               />
-            <input
-              type="Speaker Name"
-              placeholder="Add Speaker Name"
-              value={speaker}
-              required
-              onChange={(e) => setSpeaker(e.target.value)}
-            ></input>
-          </div>
-
-          <div className="input-container">
-            <FontAwesomeIcon
-              style={{ margin: "7px 10px 0 0" }}
-              icon={faCalendarAlt}
-            />
-            <input
-              type="date"
-              required
-              value={eventDate}
-              onChange={(e) => setEventDate(e.target.value)}
-            ></input>
-          </div>
-          <div className="input-container">
-            <FontAwesomeIcon
-             style={{ margin: "7px 10px 0 0" }} icon={faClock} />
-            <input
-              type="time"
-              required
-              value={eventTime}
-              onChange={(e) => setEventTime(e.target.value)}
-            ></input>
-          </div>
-          <div className="input-container">
-            <FontAwesomeIcon
-              style={{ margin: "7px 15px 0 0" }}
-              icon={faLocationDot}
-            />
-            <input
-              type="text"
-              placeholder="Add place name.."
-              value={venue}
-              required
-              onChange={(e) => setVenue(e.target.value)}
-            />
-          </div>
-          </div>
-
-          <div className="input-container input-container1" style={{margin:"25px 0 25px 0",display:"flex",flexDirection:"column"}}>
-            <div className="description">
-               Descrpition
             </div>
-            
-            <textarea
-              name="message"
-              rows="3"
-              cols="30"
-              placeholder="About . . ."
-              value={desc}
-              required
-              onChange={(e) => setDesc(e.target.value)}
-            ></textarea>
-          </div>
-          <div className="submit-button">
-          <button className="Calendar-submit" type="submit" onClick={addEvent}>
-            Create
-          </button>
-          </div>
 
-          
-        </form>
+            <div
+              style={{
+                border: "1.5px solid black",
+                padding: "10px 10px 15px 10px",
+                borderRadius: "10px",
+              }}
+            >
+              <span style={{ fontWeight: "600" }}>General</span>
+              <div className="input-container">
+                <FontAwesomeIcon
+                  style={{ margin: "7px 10px 0 0" }}
+                  icon={faPodcast}
+                />
+                <input
+                  type="Speaker Name"
+                  placeholder="Add Speaker Name"
+                  value={speaker}
+                  required
+                  onChange={(e) => setSpeaker(e.target.value)}
+                ></input>
+              </div>
+
+              <div className="input-container">
+                <FontAwesomeIcon
+                  style={{ margin: "7px 10px 0 0" }}
+                  icon={faCalendarAlt}
+                />
+                <input
+                  type="date"
+                  required
+                  value={eventDate}
+                  onChange={(e) => setEventDate(e.target.value)}
+                ></input>
+              </div>
+              <div className="input-container">
+                <FontAwesomeIcon
+                  style={{ margin: "7px 10px 0 0" }}
+                  icon={faClock}
+                />
+                <input
+                  type="time"
+                  required
+                  value={eventTime}
+                  onChange={(e) => setEventTime(e.target.value)}
+                ></input>
+              </div>
+              <div className="input-container">
+                <FontAwesomeIcon
+                  style={{ margin: "7px 15px 0 0" }}
+                  icon={faLocationDot}
+                />
+                <input
+                  type="text"
+                  placeholder="Add place name.."
+                  value={venue}
+                  required
+                  onChange={(e) => setVenue(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div
+              className="input-container input-container1"
+              style={{
+                margin: "25px 0 25px 0",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <div className="description">Descrpition</div>
+
+              <textarea
+                name="message"
+                rows="3"
+                cols="30"
+                placeholder="About . . ."
+                value={desc}
+                required
+                onChange={(e) => setDesc(e.target.value)}
+              ></textarea>
+            </div>
+            <div className="submit-button">
+              <button
+                className="Calendar-submit"
+                type="submit"
+                onClick={addEvent}
+              >
+                Create
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

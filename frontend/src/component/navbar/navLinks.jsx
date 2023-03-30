@@ -99,7 +99,7 @@ export function NavLinks(props) {
           </LinkItemHighlight>
         ) : (
           <LinkItem>
-            <Link href="/rescources">Rescources</Link>
+            <Link href="/rescources">Resources</Link>
           </LinkItem>
         )}
 

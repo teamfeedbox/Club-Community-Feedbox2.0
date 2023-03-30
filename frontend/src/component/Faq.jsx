@@ -37,13 +37,18 @@ const faqs = [
 const Faq = () => {
   return (
     <>
-      <div className="faq-overall">
-        <div className="faq-top">
+      <div className="faq-overall ">
+        {/* <div className="faq-top">
           <img src="Images/faq.jpg" alt="" />
           <h1>FAQ</h1>
-        </div> 
-        <div className="faq-bottom">
-          <div class="grid divide-y divide-neutral-200 max-w-xl mx-auto mt-8">
+        </div>  */}
+        <div className="bg-white faq-bottom flex rounded-xl shadow-xl w-[1200px] h-[600px] justify-around">
+          <div className=" w-[45%] ">
+            <img className="absolute w-[500px] h-[550px]" src="Images/faqDesktop (1).svg" alt="" />
+          </div>
+          <div class="grid divide-y divide-neutral-200 w-[55%] mr-4">
+          <h2>FAQ</h2>
+
             {faqs.map((faq) => (
               <div class="py-4">
               <details class="group">

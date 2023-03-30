@@ -1,8 +1,10 @@
 .Res-tabel-display {
     background-color: #f1f3f6;
+    padding: 70px;
 }
 
 .RescourcesTable {
+    /* padding-top: 90px; */
     margin: 30px 70px;
     background-color: #fff;
     border-radius: 15px;
