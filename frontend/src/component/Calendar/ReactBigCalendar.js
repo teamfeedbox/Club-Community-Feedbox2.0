@@ -30,12 +30,12 @@ export default function ReactBigCalendar() {
 
   const [event, setEvent] = useState([]);
 
-  const [title, setTitle] = useState();
-  const [eventDate, setEventDate] = useState();
-  const [eventTime, setEventTime] = useState();
-  const [venue, setVenue] = useState();
-  const [desc, setDesc] = useState();
-  const [speaker, setSpeaker] = useState();
+  const [title, setTitle] = useState('');
+  const [eventDate, setEventDate] = useState('');
+  const [eventTime, setEventTime] = useState('');
+  const [venue, setVenue] = useState('');
+  const [desc, setDesc] = useState('');
+  const [speaker, setSpeaker] = useState('');
   const [myEvent, setMyEvent] = useState();
 
   const [eventPre,setEventPre]=useState("Calendar-view-events-hide");
@@ -141,7 +141,7 @@ export default function ReactBigCalendar() {
     showEvent();
 
     
-  });
+  }, []);
 
   const attendanceUpdate = async (id)=>{
    
@@ -249,9 +249,6 @@ export default function ReactBigCalendar() {
     }
   };
 
-  const handleSelect1 = ({ start, end }) => {
-    setCount1(0);
-  };
 
   const handleSelect = ({ start, end }) => {
     setCount1(1);
@@ -408,10 +405,10 @@ export default function ReactBigCalendar() {
       </div>
 
       <div className="Calendar-add-drop">
-        <form>
+        <form onSubmit={addEvent}>
           <div className="calender-add-title">
             <span>Create an Event</span>
-            <div className="cancel-button" onClick={handleSelect1}>
+            <div className="cancel-button" onClick={() => { setCount1(0) }}>
             <FontAwesomeIcon
              icon={faXmark} />
             </div>
@@ -423,7 +420,7 @@ export default function ReactBigCalendar() {
               required
               placeholder="Add Event Title"
               value={title}
-              maxlength="50"
+              maxLength="50"
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
@@ -500,7 +497,7 @@ export default function ReactBigCalendar() {
             ></textarea>
           </div>
           <div className="submit-button">
-          <button className="Calendar-submit" type="submit" onClick={addEvent}>
+          <button className="Calendar-submit" type="submit">
             Create
           </button>
           </div>
