@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   faCircle,
   faLocationDot,
@@ -7,8 +7,11 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useParams,useNavigate } from 'react-router-dom';
+
 import "./AttendanceSheet.css";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+import NavbarRes from "../navbar/NavbarRes";
 // import axios from 'axios';
 
 const array = [
@@ -47,9 +50,33 @@ const array = [
 const AttendanceSheet = () => {
   const [searched, setSearched] = useState("");
   const [searchval, setSearchVal] = useState("");
+  const [data, setData] = useState([]);
   const [enableSearch, setEnableSearch] = useState(false);
 
   const navigate = useNavigate();
+  const params = useParams();
+
+ useEffect(()=>{
+  getEvent();
+ })
+
+  const getEvent = async () => {
+    // console.log(params.name)
+    //  e.preventDefault();
+    let result = await fetch(`http://localhost:8000/getEvent/${params.name}`,
+     {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    }
+    );
+    result = await result.json();
+    // console.log(result[0].attendance)
+    setData(result[0].attendance);
+    // if (result) {
+    //   getEvent();
+    // }
+  };
 
   const searchHandler = (e) => {
     if (e.target.value == "") {
@@ -74,6 +101,7 @@ const AttendanceSheet = () => {
 
   return (
     <>
+    <NavbarRes />
       <div className="attendance">
         <div className="attendance-right">
           <h1>Attendance Sheet</h1>
@@ -107,13 +135,15 @@ const AttendanceSheet = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {array &&
-                    array.map((arr) => (
+
+
+                  {data &&
+                    data.map((item,index) => (
                       <tr>
-                        <th scope="row"> {arr.index} </th>
-                        <td> {arr.name} </td>
-                        <td>{arr.branch}</td>
-                        <td>{arr.year}</td>
+                        <th scope="row"> {index+1} </th>
+                        <td> {item.name} </td>
+                        <td>{item.branch}</td>
+                        <td>{item.collegeYear }</td>
                         <td>
                           <div class="form-check">
                             <input
@@ -129,6 +159,7 @@ const AttendanceSheet = () => {
                 </tbody>
               </table>
             )}
+            
 
             {enableSearch && (
               <table class="table table-hover" rowKey="name">
@@ -173,7 +204,7 @@ const AttendanceSheet = () => {
               Total Attendee: <span>20</span>     
             </div>
             <div>
-              Total Enrolled: <span>30</span>
+              Total Enrolled: <span>{data && data.length}</span>
             </div>
           </div>
         </div>

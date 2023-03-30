@@ -13,6 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import NavbarRes from "../navbar/NavbarRes";
 
 const RescourcesTable = (props) => {
 
@@ -141,10 +142,12 @@ let id;
   };
 
   return (
+    <>
+    <NavbarRes />
     <div className="Res-table-display pt-[100px]">
       <div className="RescourcesTable">
         <div className="res-table-heading">
-          <div className="res-heading-left">Documents </div>
+          <div className="res-heading-left"> {skillName} Documents </div>
           {/* <div className="res-heading-left">{propsData.name} </div> */}
           <div className="res-heading-right">
             <form class="form-inline my-2 my-lg-0" className="res-table-search">
@@ -184,8 +187,11 @@ let id;
                     <div className="modal-profile-section-image">
                       <img src="Images/girl.jpg" alt="" />
                     </div>
-                    <div className="modal-add-res-section-profile">
+                    <div className="modal-add-res-section-profile relative bottom-2">
                       <h5>{user && user.name}</h5>
+                      <p 
+                      className="text-gray-500 bottom-3 relative text-[16px] font-semibold"
+                      > {skillName} </p>
                     </div>
                   </div>
                   <div className="res-add-modal-title">
@@ -377,6 +383,7 @@ let id;
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -2,13 +2,16 @@ import React,{useState,useEffect} from 'react';
 import "./ProfileBanner.css";
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import EditProfile from './EditProfile';
+
 function ProfileBanner() {
 
   const [data, setData] = useState();
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     getUser();
-  });
+  },[]);
   // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
   // console.log(userId)
   const getUser = async () => {
@@ -36,7 +39,9 @@ function ProfileBanner() {
                 <p>{data && data.name}</p>
                 <span>President</span>
             </div>
-            <button>
+            <EditProfile open={open} setOpen={setOpen}/>
+
+            <button onClick={() => {setOpen(!open)}} >
                 <FontAwesomeIcon 
                 icon={faPenToSquare} 
                 style={{margin:"0px 10px 0 0"}}

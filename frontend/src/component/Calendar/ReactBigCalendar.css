@@ -24,6 +24,12 @@
     
 }
 
+button a{
+    text-decoration: none;
+    color:white;
+}
+
+
 .Calendar-title input{
     border-top-style: hidden;
     border-right-style: hidden;

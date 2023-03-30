@@ -4,6 +4,7 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 // import ReactBigCalendar from "./ReactBigCalendar";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import $, { cleanData } from "jquery";
 import {
   faLocationDot,
@@ -15,7 +16,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
-import "./ReactBigCalendar.css";
+import './ReactBigCalendar.css';
+import NavbarRes from "../navbar/NavbarRes";
+
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -40,8 +43,9 @@ export default function ReactBigCalendar() {
 
   const [postedBy, setPostedBy] = useState("");
 
-  const cancelEvent = async (id) => {
-    console.log(id);
+
+  const cancelEvent = async(id)=>{
+    // console.log(id)
     let result = await fetch(`http://localhost:8000/deleteEvent/${id}`, {
       method: "delete",
     });
@@ -89,6 +93,36 @@ export default function ReactBigCalendar() {
   //   }
 
   // }
+
+
+  const [user, setUser] = useState();
+  const [attendance, setAttendance] = useState([]);
+
+
+
+
+
+
+  let id;
+  useEffect(() => {
+    getUser();
+  });
+
+  const getUser = async () => {
+   
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    // console.log(result);
+     id = result._id
+
+    setUser(result);
+   
+  };
+
   useEffect(() => {
     if (count1 == 0) {
       $(".Calendar-add-drop-container").hide();
@@ -107,6 +141,26 @@ export default function ReactBigCalendar() {
 
     // setEventPre("Calendar-view-events");
   });
+
+  const attendanceUpdate = async (id)=>{
+   
+    let result = await fetch(`http://localhost:8000/updateEvent/${id}`,{
+        method:'put',
+        body: JSON.stringify({attendance}),
+        headers:{
+            "Content-Type":"application/json",
+        "Authorization":"Bearer "+localStorage.getItem("jwt")
+
+        }
+
+    })
+
+    result = await result.json();
+   
+    console.log(result)
+
+}
+
 
   const addEvent = async (e) => {
     e.preventDefault();
@@ -243,6 +297,8 @@ export default function ReactBigCalendar() {
   const navigate = useNavigate();
 
   return (
+    <>
+    <NavbarRes />
     <div className="Calendar-container">
         <div className="Calendar-left">
         <div
@@ -303,8 +359,9 @@ export default function ReactBigCalendar() {
               {myEvent && myEvent.desc}
             </div>
             <div className="preview-button">
-              <button>Interested</button>
+            <button onClick={()=>{attendanceUpdate(myEvent._id)}}>Interested</button>
 
+            
               <button
                 onClick={() => {
                   setEventPre("Calendar-view-events-hide");
@@ -315,19 +372,22 @@ export default function ReactBigCalendar() {
                 Cancel Event
               </button>
             </div>
-            <div style={{ textAlign: "center" }}>
-              <button
-                onClick={() => {
-                  setEventPre("Calendar-view-events-hide");
+            <div style={{textAlign:"center"}}>
+            {/* <button onClick={() => {
+              setEventPre("Calendar-view-events-hide");
 
-                  navigate("/attendance");
-                }}
-              >
-                Mark Attendance
-              </button>
-            </div>
+            navigate('/attendance')
+            }}>Mark Attendance</button> */}
+
+            <button><Link to={"/attendance/" + (myEvent && myEvent.title)} onClick={() => {
+              setEventPre("Calendar-view-events-hide");
+
+            // navigate('/attendance')
+            }}>Mark Attendance</Link></button>
+
             </div>
           </div>
+        </div>
         </div>
         </div>
 
@@ -458,9 +518,12 @@ export default function ReactBigCalendar() {
                 Create
               </button>
             </div>
+            
           </form>
         </div>
       </div>
     </div>
+    
+    </>
   );
 }

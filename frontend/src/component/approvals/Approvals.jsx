@@ -4,11 +4,14 @@ import ClubMember from "./ClubMember";
 import Lead from "./Leads";
 import Admin from "./Admin";
 import SuperAdmin from "./SuperAdmin";
+import NavbarRes from "../navbar/NavbarRes";
 
 const Approvals = () => {
   const [tabs, setTabs] = useState("club");
 
   return (
+    <>
+    <NavbarRes />
     <div className="pb-9 pt-[70px]" >
       <PendingApprovals />
 
@@ -82,6 +85,7 @@ const Approvals = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

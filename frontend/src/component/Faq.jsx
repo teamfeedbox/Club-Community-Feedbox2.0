@@ -1,5 +1,6 @@
 import React from "react";
 import "./Faq.css";
+import NavbarRes from "./navbar/NavbarRes";
 
 const faqs = [
   {
@@ -37,6 +38,7 @@ const faqs = [
 const Faq = () => {
   return (
     <>
+    <NavbarRes />
       <div className="faq-overall ">
         {/* <div className="faq-top">
           <img src="Images/faq.jpg" alt="" />

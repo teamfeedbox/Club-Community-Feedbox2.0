@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import "./Overview.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faCirclePlus, faCoins,faRightFromBracket, faEnvelope, faEnvelopeSquare, faGraduationCap, faIdCard, faStaffSnake, faStarHalfAlt, faUniversalAccess, faUniversity, faUserTag } from "@fortawesome/free-solid-svg-icons";
@@ -68,10 +68,32 @@ function Overview(prop) {
   };
 
 
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    getUser();
+  });
+  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
+  // console.log(userId)
+  const getUser = async () => {
+    // console.log(id)
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    // console.log(result);
+    setData(result);
+    // if (result) {
+    //   getUser();
+    // }
+  };
+
   return (
     <>
     <div className='Overview-Container'>
-        <Modal show={show} onHide={handleClose}>
+        {/* <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Profile</Modal.Title>
         </Modal.Header>
@@ -131,7 +153,7 @@ function Overview(prop) {
             Save Changes
           </Button>
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
 
 
 
@@ -144,10 +166,11 @@ function Overview(prop) {
             (
             <textarea className='Overview-Left-input'
             rows="3"
-            placeholder={value}
+            placeholder=''
             // value={value
             onChange={getChanges}
             >
+              
             </textarea>
             )
             :
@@ -213,7 +236,7 @@ function Overview(prop) {
             </div>
             <div>
               <span>University:</span>
-              <p>Shri Vaishnav Vidyapeeth</p>
+              <p>{data && data.collegeName}</p>
             </div>
           </section>
           <section>
@@ -222,7 +245,7 @@ function Overview(prop) {
             </div>
             <div>
               <span>Year:</span>
-              <p>4th Year</p>
+              <p>{data && data.collegeYear}</p>
             </div>
           </section>
         </div>
@@ -231,7 +254,7 @@ function Overview(prop) {
           <div className='Skills-Title'>Skills:</div>
           <div className='Overview-Sub-Skills'>
             {
-              skills.map((data,index)=>(
+              data && data.skills && data.skills.map((data,index)=>(
                 <span style={{ background: backColor[index] , color: fColor[index] }} key={index} className='Skills'>{data}</span>
               ))
             }
@@ -241,15 +264,15 @@ function Overview(prop) {
           </div> 
         </div>
  {/* ********************************************logout***************************************** */}
-        <button 
+        {/* <button 
         className='text-white bg-red-600 text-[1.2rem] p-2 mt-3 rounded hover:bg-red-700 ease-in duration-100	ml-5 lg:ml-0 '
         onClick={logoutHandler}>
           Logout <FontAwesomeIcon icon={faRightFromBracket}  />
-        </button>
+        </button> */}
 
       </div>
 
-{/* modal to add skilss */}
+{/* modal to add skills */}
 
       <Modal show={show1} onHide={handleClose1}>
         <Modal.Header closeButton>

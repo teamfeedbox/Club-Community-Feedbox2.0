@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Rescources.css";
 import { Link } from "react-router-dom";
 import RescourcesTable from "./RescourcesTable";
+import NavbarRes from "../navbar/NavbarRes";
 
 const Rescources = () => {
   //   const getText = (e)=>{
@@ -24,6 +25,7 @@ const Rescources = () => {
 
   return (
     <>
+    <NavbarRes />
       <div className="Rescources">
         <h1>RESOURCES</h1>
 

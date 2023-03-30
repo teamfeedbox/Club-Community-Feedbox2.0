@@ -8,9 +8,12 @@ import "./Main.css";
 import bg from "../assets/mainBg.png";
 import { Scrollbars } from "react-custom-scrollbars";
 import PostDisplayPage from "./PostDisplayPage";
+import NavbarRes from "../navbar/NavbarRes";
 
 const Main = () => {
   return (
+    <>
+    <NavbarRes />
     <div
       className="main_container"
       style={{
@@ -85,6 +88,7 @@ const Main = () => {
         </section>
       </div>
     </div>
+    </>
   );
 };
 

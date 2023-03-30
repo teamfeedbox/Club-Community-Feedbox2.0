@@ -52,9 +52,9 @@ const LoginButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    color: #fff;
-    background-color: #00c9ff;
-  margin-right : 10px;
+    color: gray;
+  //   background-color: #00c9ff;
+  // margin-right : 10px;
 
   }
 
@@ -84,10 +84,20 @@ export function Accessibility(props) {
           <FontAwesomeIcon icon={faUser} className="fa-xl" />
         </LoginButton>
       </Link>
+      {/* *************************logout************************************ */}
+      <Link href='/' title="Logout" onClick={logoutHandler} className={selectedPage === '/profile' ? 'block' : 'hidden'}>
+        <LoginButton >
+          <FontAwesomeIcon icon={faRightFromBracket} className="fa-xl" />
+        </LoginButton>
+      </Link>
       {/* *******************notification bell**************** */}
       <RegisterButton>
         <FontAwesomeIcon icon={faBell} className="fa-xl" />
       </RegisterButton>
+
+     
+
+
 
      
 
