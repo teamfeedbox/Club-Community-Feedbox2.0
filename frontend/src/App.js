@@ -11,17 +11,21 @@ import Home from "./component/landing_page/Home";
 import Main from "./component/Main/Main";
 import Rescources from "./component/Rescources/Rescources";
 // import RescourcesDisplay from './component/Rescources/RescourcesDisplay'
-import RescourcesTable from "./component/Rescources/RescourcesTable";
-import Faq from "./component/Faq";
-import Approvals from "./component/approvals/Approvals";
-import ProfilePage from "./component/Profile/ProfilePage";
-import NewLogin from "./component/login/NewLogin";
-import AttendanceSheet from "./component/Calendar/AttendanceSheet";
-import NavbarRes from "./component/navbar/NavbarRes";
-import ReactBigCalendar from "./component/Calendar/ReactBigCalendar";
+import RescourcesTable from './component/Rescources/RescourcesTable';
+import Faq from './component/Faq';
+import Approvals from './component/approvals/Approvals';
+import ProfilePage from './component/Profile/ProfilePage';
+import NewLogin from './component/login/NewLogin';
+import AttendanceSheet from './component/Calendar/AttendanceSheet';
+import NavbarRes from './component/navbar/NavbarRes';
+import ReactBigCalendar from './component/Calendar/ReactBigCalendar';
+import PostBigModel from './component/Main/PostBigModel';
+import ProfileBigModel from "./component/Profile/ProfileBigModel";
+import ProfilePostPage from "./component/Profile/ProfilePostPage";
+import ProfileBanner from "./component/Profile/ProfileBanner";
+import ProfileTabs from "./component/Profile/ProfileTabs";
 import Error from "./component/Error";
 import Loader from "./component/Loader";
-
 const App = () => {
   const selectedPage = window.location.pathname;
 
@@ -49,11 +53,18 @@ const App = () => {
         <NavbarRes />
         <Routes> */}
           <Route index path="/main" element={<Main />} />
+          <Route index path='/comment' element={ <PostBigModel/> } />
           <Route index path="/calendar" element={<ReactBigCalendar />} />
           <Route index path="/rescources" element={<Rescources />} />
           <Route index path="/profile" element={<ProfilePage />} />
-          <Route
-            index
+         
+
+          {/* Routes for profile component */}
+          <Route index path='/profileComment' element={<ProfileBigModel/> } />
+          {/* <Route index path='/profilePost' element={<ProfilePostPage/>}/> */}
+          
+          
+          <Route index
             path="/rescourcesDisplay"
             element={<RescourcesTable />}
           />

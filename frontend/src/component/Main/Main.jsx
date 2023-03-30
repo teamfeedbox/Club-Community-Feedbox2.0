@@ -7,6 +7,7 @@ import CreatePost from "./CreatePost";
 import "./Main.css";
 import bg from "../assets/mainBg.png";
 import { Scrollbars } from "react-custom-scrollbars";
+import PostDisplayPage from "./PostDisplayPage";
 import NavbarRes from "../navbar/NavbarRes";
 
 const Main = () => {
@@ -36,7 +37,8 @@ const Main = () => {
               <div>
                 <CreatePost />
               </div>
-              <PostDisplay />
+              {/* <PostDisplay /> */}
+              <PostDisplayPage/>
             </scrollable-component>
           </div>
 
