@@ -44,23 +44,7 @@ export default function ReactBigCalendar() {
   const [postedBy, setPostedBy] = useState("");
 
 
-  const cancelEvent = async(id)=>{
-    // console.log(id)
-    let result = await fetch(`http://localhost:8000/deleteEvent/${id}`, {
-      method: "delete",
-    });
 
-    result = await result.json();
-    console.log(result);
-    setCount2(0);
-
-    // if (result) {
-    //   // this is done to get back the product list re render after any product is deleted
-    //   // if we do not call this function here the product will be deleted but it is visible on the
-    //   //screen and then when we refresh it disappears. so to avoid that bug we have called that function
-    //   getList();
-    // }
-  };
 
   let eventData = [];
   event &&
@@ -99,6 +83,23 @@ export default function ReactBigCalendar() {
   const [attendance, setAttendance] = useState([]);
 
 
+  const cancelEvent = async(id)=>{
+    // console.log(id)
+    let result = await fetch(`http://localhost:8000/deleteEvent/${id}`, {
+      method: "delete",
+    });
+
+    result = await result.json();
+    console.log(result);
+    setCount2(0);
+
+    // if (result) {
+    //   // this is done to get back the product list re render after any product is deleted
+    //   // if we do not call this function here the product will be deleted but it is visible on the
+    //   //screen and then when we refresh it disappears. so to avoid that bug we have called that function
+    //   // showEvent();
+    // }
+  };
 
 
 
@@ -140,7 +141,7 @@ export default function ReactBigCalendar() {
     // cancelEvent();
 
     
-  }, []);
+  });
 
   const attendanceUpdate = async (id)=>{
    
@@ -200,6 +201,7 @@ export default function ReactBigCalendar() {
     //   },
     // ]);
   };
+
 
   const handleEvent = ({ start, end }, eve, data) => {
     // alert(event.title+"_______"+event.start+"________"+event.end);
@@ -406,7 +408,7 @@ export default function ReactBigCalendar() {
       </div>
 
       <div className="Calendar-add-drop">
-        <form onSubmit={addEvent}>
+        <form>
           <div className="calender-add-title">
             <span>Create an Event</span>
             <div className="cancel-button" onClick={() => { setCount1(0) }}>

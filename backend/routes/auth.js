@@ -85,6 +85,7 @@ router.post("/register", (req, res) => {
     position,
     collegeYear,
     bio,
+    uniqueId,
     img,
     events
     
@@ -111,6 +112,7 @@ router.post("/register", (req, res) => {
           coins,
          role,
           position,
+          uniqueId,
           collegeYear,
           bio,
           img,
@@ -230,6 +232,14 @@ router.put('/updateDetail/:id',requireLogin, async(req,res)=>{
   res.send(result)
 })
 
-
+router.put('/updateSkills/:eventId',requireLogin, async(req,res)=>{
+  let result = await Event.updateOne(
+      {_id:req.params.eventId},
+      {
+         $push:{skills:req.body}
+      }
+  )
+  res.send(result)
+})
 
 module.exports = router;

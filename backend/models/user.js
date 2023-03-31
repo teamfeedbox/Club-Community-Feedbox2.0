@@ -53,6 +53,9 @@ const userSchema = new mongoose.Schema({
   bio:{
     type:String
   },
+  uniqueId:{
+    type:String
+  },
   skills: [],
   events: [],
 

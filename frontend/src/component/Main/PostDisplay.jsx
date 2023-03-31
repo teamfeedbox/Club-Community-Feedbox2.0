@@ -204,7 +204,7 @@ function showRep(){
         <div className="post-display1">
           <div className="post-display-head">
             <div className="post-display-profile">
-              <img src="Images/girl.jpg" alt="" />
+              <img src={item && item.postedBy && item.postedBy.img} alt="" />
             </div>
             <div className="post-display-heading">
               <p className="post-head">
