@@ -19,6 +19,7 @@ import "./ProfilePost.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDeleteLeft, faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
+import ProfileBigModel from "./ProfileBigModel";
 
 const ProfilePost = (prop) => {
   const [data, setData] = useState([]);
@@ -27,6 +28,10 @@ const ProfilePost = (prop) => {
 
   const [post, setPost] = useState([]);
   const [open, setOpen] = useState(false)
+
+  // <------------ To show and hide comment model--------------->
+  const [openComment,setOpenComment]=useState(false);
+
 
   useEffect(() => {
     myPost();
@@ -131,18 +136,20 @@ const ProfilePost = (prop) => {
               <img src="Images/heart.svg" alt="" />
               {item.likes.length}
             </div>
-            <div className="post-display-bottom-content">
-              <img
-                src="Images/message.svg"
-                alt=""
-                onClick={() => setShowModal(true)}
+            <button className="post-display-bottom-content"
+            onClick={()=>setOpenComment(!openComment)}
+            >
+              <img src="Images/message.svg" alt=""
               />
               100
-            </div>
+            </button>
           </div>
         </div>
-      ))
-      }
+      ))}
+      <ProfileBigModel
+      openComment={openComment}
+      setOpenComment={setOpenComment}
+      />
     </div>
   );
 };
