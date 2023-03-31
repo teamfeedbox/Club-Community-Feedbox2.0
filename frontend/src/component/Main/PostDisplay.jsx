@@ -1,6 +1,5 @@
 // import React, { useEffect, useState } from "react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
 
@@ -26,6 +25,7 @@ import { FreeMode, Navigation, Thumbs } from "swiper";
 
 import Comment from "./Comment";
 import "./PostDisplay.css";
+import PostBigModel from "./PostBigModel";
 
 const PostDisplay = () => {
  
@@ -43,6 +43,9 @@ const PostDisplay = () => {
   const [tempComment,setTempComment]=useState('');
   const [tempReply,setTempReply]=useState('');
   const[showreply,setShowReply]=useState(false);
+
+  // To open the Comment Model
+  const[openComment,setOpenComment]=useState(false);
 
   const [reply,setReply]=useState('');
   const [comment,setComments] = useState([" How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q", 
@@ -307,14 +310,21 @@ function showRep(){
               </div>
             )}
 
-            <Link to="/comment" className="post-display-bottom-content">
+           
+            <button onClick={()=>setOpenComment(!openComment) } className="post-display-bottom-content">
               <img src="Images/message.svg" alt="" 
               />
               100
-            </Link>
+            </button>
           </div>
         </div>
+        
       ))}
+      <PostBigModel 
+            openComment={openComment}
+            setOpenComment={setOpenComment}
+      />
+       
     </div>
   );
   

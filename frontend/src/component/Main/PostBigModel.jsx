@@ -14,12 +14,15 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
+
 import "./PostBigModel.css";
 
 
-function PostBigModel() {
-    const [data, setData] = useState([]);
+function PostBigModel({openComment,setOpenComment}) {
   const [showModal, setShowModal] = useState(true);
+  
+  const [data, setData] = useState([]);
+  
   const [showAdd,setShowAdd]=useState('Hide-Comment-Add-Btn');
   const [showView,setShowView]=useState('Hide-Comment-View-Btn');
 
@@ -99,15 +102,26 @@ function handleReply(){
   }
 
 
+  // to show and hide whole component
+  const handleShow=()=>{
+    setOpenComment(true)
+  }
+  const handleClose=()=>{
+    setOpenComment(false);
+  }
 
   return (
     <>
+
+      {
+        openComment?(
+
           <div className="Post-Big-Model-container">
             {/* to close the model on click outof the post section */}
-            <Link to="/main"
+            <div 
               className="Post-Big-Model-Close"
-              
-            ></Link>
+              onClick={handleClose}
+            ></div>
 
             <div className="Post-Big-Model1">
               
@@ -166,7 +180,7 @@ function handleReply(){
                       </div>
                     </div>
                     <Link to="/main" className="Cancel-Icon-Container" style={{textDecoration: 'none'}}>
-                      <FontAwesomeIcon className="fa-lg" icon={faXmark} onClick={() => setShowModal(false)} />
+                      <FontAwesomeIcon className="fa-lg" icon={faXmark} onClick={ handleClose }/>
                     </Link>
                   </div>
                   {/* Description */}
@@ -365,6 +379,9 @@ function handleReply(){
               </section>
             </div>
           </div>
+        ):("")
+      }
+          
         </>
   )
 }

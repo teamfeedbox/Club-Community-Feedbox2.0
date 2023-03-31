@@ -203,6 +203,17 @@ router.get('/user',requireLogin, async (req, res) => {
 });
 
 
+router.get('/user/:id',requireLogin,async (req,res)=>{
+  let result = await User.findOne({_id:req.params.id});
+  if(result){
+    res.send(result)
+  }
+  else{
+    res.send("no product found")
+  }
+})
+
+
 
 router.put('/updatePic/:id',requireLogin, async(req,res)=>{
   // console.log(req.params.email)
