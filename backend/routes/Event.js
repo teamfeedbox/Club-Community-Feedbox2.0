@@ -124,18 +124,7 @@ router.put('/updateEvent/:eventId',requireLogin, async(req,res)=>{
   })
 
 
-// router.put('/updateEvent/:id',requireLogin, (req, res) => {
-//     const _id = req.params.id;
-//     const attendance = req.body;
-  
-//     Event.findByIdAndUpdate(_id, attendance, { new: true }, (err, user) => {
-//       if (err) {
-//         res.status(500).send(err);
-//       } else {
-//         res.send(user);
-//       }
-//     });
-//   });
+
 
 
 

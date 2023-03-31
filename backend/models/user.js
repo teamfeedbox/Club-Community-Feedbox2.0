@@ -41,10 +41,12 @@ const userSchema = new mongoose.Schema({
     type: Number,
     // required:true,
   },
-  profileImg: {
-    data: Buffer,
-    contentType: String,
+  img: {
+    type: String,
   },
+
+ 
+
   branch:{
     type:String
   },

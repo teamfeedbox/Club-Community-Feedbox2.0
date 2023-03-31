@@ -12,7 +12,7 @@
 }
 
 .Post-Big-Model-container{
-    z-index: 10;
+    z-index: 1000;
     position: fixed;
     overflow-y: hidden;
     inset: 0;

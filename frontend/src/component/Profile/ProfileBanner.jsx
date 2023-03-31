@@ -11,7 +11,7 @@ function ProfileBanner() {
 
   useEffect(() => {
     getUser();
-  },[]);
+  });
   // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
   // console.log(userId)
   const getUser = async () => {
@@ -34,7 +34,7 @@ function ProfileBanner() {
     <div className='Profile-Banner'>
         <img src="Images/bg5.png"></img>
         <div className='Profile-Title'>
-            <img src="Images/podcast.png"></img>
+            <img src={data && data.img}></img>
             <div>
                 <p>{data && data.name}</p>
                 <span>President</span>

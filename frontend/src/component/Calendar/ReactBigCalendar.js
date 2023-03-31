@@ -16,9 +16,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
-import './ReactBigCalendar.css';
+import "./ReactBigCalendar.css";
 import NavbarRes from "../navbar/NavbarRes";
-
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -44,8 +43,37 @@ export default function ReactBigCalendar() {
   const [postedBy, setPostedBy] = useState("");
   const [showModal, setShowModel] = useState(false)
 
+  const [user, setUser] = useState();
+  const [attendance, setAttendance] = useState([]);
 
-  const cancelEvent = async(id)=>{
+  // state for Add Event pop up
+  const [addEventModel, setAddEventModel] = useState(false);
+
+  // State for preview Event
+  const [preEventModel,setPreEventModel]=useState(false);
+
+
+  //<---------------------Functions-------------------------->
+
+  // Funciton to show and hide Add Event Model
+  // const handelAddEventShow = () => {
+    // setAddEventModel(true);
+    // alert(addEventModel);
+  // };
+  // const handelAddEventHide = () => {
+    // setAddEventModel(false);
+    // alert(addEventModel);
+  // };
+
+  // Funciton to show and hide Add Event Model
+  // const handelPreEventShow = () => {
+    // setPreEventModel(true);
+  // };
+  // const handelPreEventHide = () => {
+    // setPreEventModel(false);
+  // };
+
+  const cancelEvent = async (id) => {
     // console.log(id)
     let result = await fetch(`http://localhost:8000/deleteEvent/${id}`, {
       method: "delete",
@@ -76,8 +104,7 @@ export default function ReactBigCalendar() {
       eventData.push(val);
     });
   // console.log(eventsData)
-  // const [create,setCreate]=useEffect();
-  // const [view,setView]=useEffect();
+  
 
   // function callIt(){
   //   if(count1==0)
@@ -95,22 +122,12 @@ export default function ReactBigCalendar() {
 
   // }
 
-
-  const [user, setUser] = useState();
-  const [attendance, setAttendance] = useState([]);
-
-
-
-
-
-
   let id;
   useEffect(() => {
     getUser();
   });
 
   const getUser = async () => {
-   
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -118,18 +135,17 @@ export default function ReactBigCalendar() {
     });
     result = await result.json();
     // console.log(result);
-     id = result._id
+    id = result._id;
 
     setUser(result);
-   
   };
 
   useEffect(() => {
-    if (count1 == 0) {
-      $(".Calendar-add-drop-container").hide();
-    } else {
-      $(".Calendar-add-drop-container").show();
-    }
+    // if (count1 == 0) {
+    //   $(".Calendar-add-drop-container").hide();
+    // } else {
+    //   $(".Calendar-add-drop-container").show();
+    // }
 
     const showEvent = async () => {
       let result = await fetch("http://localhost:8000/getAllEvent");
@@ -143,25 +159,20 @@ export default function ReactBigCalendar() {
     
   }, []);
 
-  const attendanceUpdate = async (id)=>{
-   
-    let result = await fetch(`http://localhost:8000/updateEvent/${id}`,{
-        method:'put',
-        body: JSON.stringify({attendance}),
-        headers:{
-            "Content-Type":"application/json",
-        "Authorization":"Bearer "+localStorage.getItem("jwt")
-
-        }
-
-    })
+  const attendanceUpdate = async (id) => {
+    let result = await fetch(`http://localhost:8000/updateEvent/${id}`, {
+      method: "put",
+      body: JSON.stringify({ attendance }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
 
     result = await result.json();
-   
-    console.log(result)
 
-}
-
+    console.log(result);
+  };
 
   const addEvent = async (e) => {
     e.preventDefault();
@@ -217,6 +228,10 @@ export default function ReactBigCalendar() {
     // console.log("onSelectEvent",event);
 
     // var currDate = start;
+
+
+    setPreEventModel(true)
+
     setEventPre("Calendar-view-events");
     setEventBtn("Calendar-view-title-css");
 
@@ -240,24 +255,10 @@ export default function ReactBigCalendar() {
     });
   };
 
-  const handleSelect3 = ({ start, end }) => {
-    if (count1 === 0) {
-      $(".Calendar-add-drop").show();
-      setCount1(1);
-    } else {
-      $(".Calendar-add-drop").hide();
-      setCount1(0);
-    }
-  };
-
-
   const handleSelect = ({ start, end }) => {
     setCount1(1);
-    if (count1 == 0) {
-      $(".Calendar-add-drop-container").hide();
-    } else {
-      $(".Calendar-add-drop-container").show();
-    }
+    
+    setAddEventModel(true)
     // console.log(start )
     // console.log(end )
     // var currDate = start;
@@ -296,261 +297,288 @@ export default function ReactBigCalendar() {
 
   return (
     <>
-    <NavbarRes />
-    <div className="Calendar-container">
+      <NavbarRes />
+      <div className="Calendar-container">
         <div className="Calendar-left">
-        <div
-          className="Calendar-add"
-          onClick={handleSelect3}
-          // onClick={callIt}
-        >
+
+           {/* -----------Button to add event in calendar------------------*/}
+          <div
+            className="Calendar-add"
+            // onClick={handelAddEventShow}
+            onClick={()=>{setAddEventModel(true)}}
+            // onClick={callIt}
+          >
           <div>
-            Create Event
-            <FontAwesomeIcon
-              style={{ margin: "0px 0px 0px 10px" }}
-              icon={faCirclePlus}
-            />
-          </div>
-        </div>
-
-        <div className="Calendar-view">
-          <div className={eventBtn}>Events Preview</div>
-
-          <div className="Calendar-view-events-container">
-            <div className={eventPre}>
-            <div className="event-title">{myEvent && myEvent.title}</div>
-            <div className="event-profile">
+              Create Event
               <FontAwesomeIcon
-                style={{ margin: "0 10px 0 0" }}
-                icon={faPodcast}
+                style={{ margin: "0px 0px 0px 10px" }}
+                icon={faCirclePlus}
               />
-              {myEvent && myEvent.speaker}
             </div>
-            <div className="event-minor">
-              <div>
-                <FontAwesomeIcon
-                  style={{ margin: "0 10px 0 0" }}
-                  icon={faLocationDot}
-                />
-                {myEvent && myEvent.venue}
-              </div>
+          </div>
 
-              <div>
-                <FontAwesomeIcon
-                  style={{ margin: "0 10px 0 0" }}
-                  icon={faCalendarAlt}
-                />
-                {myEvent && myEvent.eventDate}
-              </div>
+          {/* ------------Already created------------------------*/}
+          <div className="Calendar-view">
+             {
+              preEventModel?<div className="Calendar-view-title"
+              
+              style={{borderRadius:"30px 30px 0px 0px"}}
+              >Events Preview</div>
+              :
+              <div className="Calendar-view-title"
+              style={{borderRadius:"30px"}}
+              >Events Preview</div>
+             }
+          </div>
+           {/* ------------Model to show already created event-------------------- */}
+          {
+              preEventModel?
+              (
+                
+                <div className="Calendar-view-events-container" 
+                // onClick={()=>{setPreEventModel(false)}}
+                >
+                 
+              <div className={eventPre}>
+                <div className="event-pre-handle">
+                  <div className="event-title">{myEvent && myEvent.title}</div>
+                  <div className="cancel-view-event"
+                    //  onClick={handelAddEventHide}
+                    onClick={()=>{setPreEventModel(false)}}
+                   >
+                    <FontAwesomeIcon icon={faXmark} />
+                  </div>
+                </div>
+                <div className="event-profile">
+                  <FontAwesomeIcon
+                    style={{ margin: "0 10px 0 0" }}
+                    icon={faPodcast}
+                  />
+                  {myEvent && myEvent.speaker}
+                </div>
+                <div className="event-minor">
+                  <div>
+                    <FontAwesomeIcon
+                      style={{ margin: "0 10px 0 0" }}
+                      icon={faLocationDot}
+                    />
+                    {myEvent && myEvent.venue}
+                  </div>
 
-              <div>
-                <FontAwesomeIcon
-                  style={{ margin: "0 10px 0 0" }}
-                  icon={faClock}
-                />
-                {myEvent && myEvent.eventTime}
-              </div>
-            </div>
-            <div>
-              <b>Descrpition</b>
-              <br />
-              {myEvent && myEvent.desc}
-            </div>
-            <div className="preview-button">
-            <button onClick={()=>{attendanceUpdate(myEvent._id)}}>Interested</button>
+                  <div>
+                    <FontAwesomeIcon
+                      style={{ margin: "0 10px 0 0" }}
+                      icon={faCalendarAlt}
+                    />
+                    {myEvent && myEvent.eventDate}
+                  </div>
 
-            
-              <button
-                onClick={() => {
-                  setEventPre("Calendar-view-events-hide");
-                  setEventBtn("Calendar-view-title");
-                  cancelEvent(myEvent._id);
-                }}
-              >
-                Cancel Event
-              </button>
-            </div>
-            <div style={{textAlign:"center"}}>
-            {/* <button onClick={() => {
+                  <div>
+                    <FontAwesomeIcon
+                      style={{ margin: "0 10px 0 0" }}
+                      icon={faClock}
+                    />
+                    {myEvent && myEvent.eventTime}
+                  </div>
+                </div>
+                <div>
+                  <b>Descrpition</b>
+                  <br />
+                  {myEvent && myEvent.desc}
+                </div>
+                <div className="preview-button">
+                  <button
+                    onClick={() => {
+                      attendanceUpdate(myEvent._id);
+                    }}
+                  >
+                    Interested
+                  </button>
+
+                  <button
+                    onClick={() => {
+                    setPreEventModel(false);
+                      cancelEvent(myEvent._id);
+                    }}
+                  >
+                    Cancel Event
+                  </button>
+                </div>
+                <div style={{ textAlign: "center" }}>
+                  {/* <button onClick={() => {
               setEventPre("Calendar-view-events-hide");
 
             navigate('/attendance')
             }}>Mark Attendance</button> */}
 
-            <button><Link to={"/attendance/" + (myEvent && myEvent.title)} onClick={() => {
-              setEventPre("Calendar-view-events-hide");
+                  <button>
+                    <Link
+                      to={"/attendance/" + (myEvent && myEvent.title)}
+                      onClick={() => {
+                        setEventPre("Calendar-view-events-hide");
 
-            // navigate('/attendance')
-            }}>Mark Attendance</Link></button>
+                        // navigate('/attendance')
+                      }}
+                    >
+                      Mark Attendance
+                    </Link>
+                  </button>
+                </div>
+              </div>
+                </div>
+              ):("")
+            }
+        </div>
 
+        {/* -----------------Large right side Calendar------------------- */}
+        {/* <ReactBigCalendar className="ReactBigCalendar" /> */}
+        <div className="React-Big-Calendar-Original">
+          {eventData.length > 0 && (
+            <Calendar
+              views={["agenda", "month"]}
+              selectable
+              localizer={localizer}
+              defaultDate={new Date()}
+              defaultView="month"
+              events={eventData}
+              onSelectEvent={handleEvent}
+              value={dates}
+              onSelectSlot={
+                handleSelect
+                }
+            />
+          )}
+        </div>
+
+        {/* -----------------------Model to show popup to add event (Add Event)----------------------------- */}
+
+        {
+        addEventModel ? (
+          <div
+            className="Calendar-add-drop-container"
+            // onClick={handelAddEventHide}
+            // onClick={()=>{setAddEventModel(false)}}
+          >
+            <div className="Calendar-add-drop">
+              <form onSubmit={addEvent}>
+                <div className="calender-add-title">
+                  <span>Create an Event</span>
+                  <div className="cancel-button"
+                  //  onClick={handelAddEventHide}
+                  onClick={()=>{setAddEventModel(false)}}
+                   >
+                    <FontAwesomeIcon icon={faXmark} />
+                  </div>
+                </div>
+                <div className="Calendar-title">
+                  <span>Title</span>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Add Event Title"
+                    value={title}
+                    maxlength="50"
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </div>
+
+                <div
+                  style={{
+                    border: "1.5px solid black",
+                    padding: "10px 10px 15px 10px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <span style={{ fontWeight: "600" }}>General</span>
+                  <div className="input-container">
+                    <FontAwesomeIcon
+                      style={{ margin: "7px 10px 0 0" }}
+                      icon={faPodcast}
+                    />
+                    <input
+                      type="Speaker Name"
+                      placeholder="Add Speaker Name"
+                      value={speaker}
+                      required
+                      onChange={(e) => setSpeaker(e.target.value)}
+                    ></input>
+                  </div>
+
+                  <div className="input-container">
+                    <FontAwesomeIcon
+                      style={{ margin: "7px 10px 0 0" }}
+                      icon={faCalendarAlt}
+                    />
+                    <input
+                      type="date"
+                      required
+                      value={eventDate}
+                      onChange={(e) => setEventDate(e.target.value)}
+                    ></input>
+                  </div>
+                  <div className="input-container">
+                    <FontAwesomeIcon
+                      style={{ margin: "7px 10px 0 0" }}
+                      icon={faClock}
+                    />
+                    <input
+                      type="time"
+                      required
+                      value={eventTime}
+                      onChange={(e) => setEventTime(e.target.value)}
+                    ></input>
+                  </div>
+                  <div className="input-container">
+                    <FontAwesomeIcon
+                      style={{ margin: "7px 15px 0 0" }}
+                      icon={faLocationDot}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Add place name.."
+                      value={venue}
+                      required
+                      onChange={(e) => setVenue(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div
+                  className="input-container input-container1"
+                  style={{
+                    margin: "25px 0 25px 0",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <div className="description">Descrpition</div>
+
+                  <textarea
+                    name="message"
+                    rows="3"
+                    cols="30"
+                    placeholder="About . . ."
+                    value={desc}
+                    required
+                    onChange={(e) => setDesc(e.target.value)}
+                  ></textarea>
+                </div>
+                <div className="submit-button">
+                  <button
+                    className="Calendar-submit"
+                    type="submit"
+                    // onClick={addEvent}
+                  >
+                    Create
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
-        </div>
-        </div>
-        </div>
-
-      {/* <ReactBigCalendar className="ReactBigCalendar" /> */}
-      <div className="React-Big-Calendar-Original">
-        {eventData.length > 0 && (
-          <Calendar
-            views={["agenda", "month"]}
-            selectable
-            localizer={localizer}
-            defaultDate={new Date()}
-            defaultView="month"
-            events={eventData}
-            onSelectEvent={handleEvent}
-            value={dates}
-            onSelectSlot={handleSelect}
-          />
+        ) : (
+          ""
         )}
       </div>
-
-      <div className="Calendar-add-drop">
-        <form onSubmit={addEvent}>
-          <div className="calender-add-title">
-            <span>Create an Event</span>
-            <div className="cancel-button" onClick={() => { setCount1(0) }}>
-            <FontAwesomeIcon
-             icon={faXmark} />
-            </div>
-            </div>
-          <div className="Calendar-title" >
-            <span>Title</span>
-            <input
-              type="text"
-              required
-              placeholder="Add Event Title"
-              value={title}
-              maxLength="50"
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </div>
-
-
-          <div style={{border:"1.5px solid black",padding:"10px 10px 15px 10px",borderRadius:"10px"}}>
-          <span style={{fontWeight:"600"}}>General</span>
-          <div className="input-container">
-          
-          <FontAwesomeIcon
-                style={{ margin: "7px 10px 0 0" }}
-                icon={faPodcast}
-                
-              />
-            </div>
-
-            <div
-              style={{
-                border: "1.5px solid black",
-                padding: "10px 10px 15px 10px",
-                borderRadius: "10px",
-              }}
-            >
-              <span style={{ fontWeight: "600" }}>General</span>
-              <div className="input-container">
-                <FontAwesomeIcon
-                  style={{ margin: "7px 10px 0 0" }}
-                  icon={faPodcast}
-                />
-                <input
-                  type="Speaker Name"
-                  placeholder="Add Speaker Name"
-                  value={speaker}
-                  required
-                  onChange={(e) => setSpeaker(e.target.value)}
-                ></input>
-              </div>
-
-              <div className="input-container">
-                <FontAwesomeIcon
-                  style={{ margin: "7px 10px 0 0" }}
-                  icon={faCalendarAlt}
-                />
-                <input
-                  type="date"
-                  required
-                  value={eventDate}
-                  onChange={(e) => setEventDate(e.target.value)}
-                ></input>
-              </div>
-              <div className="input-container">
-                <FontAwesomeIcon
-                  style={{ margin: "7px 10px 0 0" }}
-                  icon={faClock}
-                />
-                <input
-                  type="time"
-                  required
-                  value={eventTime}
-                  onChange={(e) => setEventTime(e.target.value)}
-                ></input>
-              </div>
-              <div className="input-container">
-                <FontAwesomeIcon
-                  style={{ margin: "7px 15px 0 0" }}
-                  icon={faLocationDot}
-                />
-                <input
-                  type="text"
-                  placeholder="Add place name.."
-                  value={venue}
-                  required
-                  onChange={(e) => setVenue(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div
-              className="input-container input-container1"
-              style={{
-                margin: "25px 0 25px 0",
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <div className="description">Descrpition</div>
-
-              <textarea
-                name="message"
-                rows="3"
-                cols="30"
-                placeholder="About . . ."
-                value={desc}
-                required
-                onChange={(e) => setDesc(e.target.value)}
-              ></textarea>
-            </div>
-            <div className="submit-button">
-              <button
-                className="Calendar-submit"
-                type="submit"
-                onClick={addEvent}
-              >
-                Create
-              </button>
-            </div>
-            
-            <textarea
-              name="message"
-              rows="3"
-              cols="30"
-              placeholder="About . . ."
-              value={desc}
-              required
-              onChange={(e) => setDesc(e.target.value)}
-            ></textarea>
-          </div>
-          <div className="submit-button">
-          <button className="Calendar-submit" type="submit">
-            Create
-          </button>
-          </div>
-
-          
-        </form>
-      </div>
-    </div>
-    
     </>
   );
 }
