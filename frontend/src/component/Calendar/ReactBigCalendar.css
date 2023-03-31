@@ -268,7 +268,6 @@ margin: 10px 0;
     }
     .Calendar-right{
         width: 100%;
-        border: 1px solid black;
     }
     .input-container{
         margin: 15px 0px 10px 0px;
@@ -297,9 +296,7 @@ margin: 10px 0;
         padding: 5px 5px 5px 5px;
         width: 100%;
     }
-    .description{
-        font-weight: 600;
-    }
+   
     .Calendar-title{
         margin-bottom: 20px;
     }
@@ -357,10 +354,7 @@ margin: 10px 0;
         font-weight: 700;
         font-size: 17px;
     }
-
     /*  View */
-    
-    
     .Calendar-view-events-container{
         position: absolute;
         z-index: 100;
@@ -514,6 +508,8 @@ margin: 10px 0;
      top:22%; 
      right:25%; 
      width:50%;
+     max-height: 60%;
+     min-height: 50%;
     }
     .Calendar-view-events-container{
         position: absolute;
