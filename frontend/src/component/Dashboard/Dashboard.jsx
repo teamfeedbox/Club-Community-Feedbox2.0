@@ -6,7 +6,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import NavbarRes from "../navbar/NavbarRes";
-import { BarChart } from "./BarChart";
 import Chart from "chart.js/auto";
 import { Bar, Line, Pie } from "react-chartjs-2";
 
@@ -44,19 +43,14 @@ const Dashboard = () => {
   return (
     <div>
       <NavbarRes />
-      <div className=" pt-[60px] w-[70%] m-auto">
-        <div className="flex mt-4 ml-4  ">
-          {/* <p>
-            <img
-              className="w-[35px] h-[35px]"
-              src="Images/dashboard1.png"
-              alt=""
-            />
-          </p> */}
-          <p className="ml-2 text-[24px] font-semibold">Dashboard</p>
+      <div className=" pt-[60px] w-[90%] md:w-[90%] lg:w-[70%] m-auto">
+        <div className="flex lg:mt-4 lg:ml-4 mt-2 ml-1">
+          <p className="ml-2 text-[28px] font-semibold mb-0">Dashboard</p>
         </div>
-        <div className=" flex flex-wrap justify-around">
-          <div className="flex  w-[30%] rounded shadow-sm h-[80px] ">
+
+        <div className=" flex flex-wrap justify-around lg:flex md:flex-row flex-col">
+
+          <div className="flex mt-2 lg:mt-0 w-[100%] md:w-[33%] lg:w-[30%] rounded shadow-sm h-[80px] ">
             <div className=" w-[50px] h-[50px] mt-3  ml-3 rounded bg-blue-200">
               <FontAwesomeIcon
                 className="w-[30px] h-[30px] m-2.5 text-blue-800"
@@ -64,7 +58,7 @@ const Dashboard = () => {
               />
             </div>
             <div className=" flex flex-col m-2 pl-3">
-              <h className="pt-1 text-[18px]  m-0 pb-0 font-semibold">
+              <h className="pt-1 text-[18px] md:text-[16px]  m-0 pb-0 font-semibold">
                 Total Students:
               </h>
               <p className=" text-[25px] font-bold p-0 relative bottom-2">
@@ -73,7 +67,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="flex  w-[30%] rounded shadow-sm h-[80px] ">
+          <div className="flex mt-2 lg:mt-0 w-[100%] md:w-[33%] lg:w-[30%] rounded shadow-sm h-[80px] ">
             <div className=" w-[50px] h-[50px] mt-3  ml-3 rounded bg-green-200">
               <FontAwesomeIcon
                 className="w-[30px] h-[30px] m-2.5 text-green-800"
@@ -81,14 +75,14 @@ const Dashboard = () => {
               />
             </div>
             <div className=" flex flex-col m-2 pl-3">
-              <h className="pt-1 text-[18px]  m-0 pb-0 font-semibold">
+              <h className="pt-1 text-[18px] md:text-[16px]  m-0 pb-0 font-semibold">
                 Total Colleges:
               </h>
               <p className=" text-[25px] font-bold p-0 relative bottom-2">15</p>
             </div>
           </div>
 
-          <div className="flex  w-[30%] rounded shadow-sm h-[80px] ">
+          <div className="flex mt-2 lg:mt-0 w-[100%] md:w-[33%] lg:w-[30%] rounded shadow-sm h-[80px] ">
             <div className=" w-[50px] h-[50px] mt-3  ml-3 rounded bg-red-200">
               <FontAwesomeIcon
                 className="w-[30px] h-[30px] m-2.5 text-red-800"
@@ -96,7 +90,7 @@ const Dashboard = () => {
               />
             </div>
             <div className=" flex flex-col m-2 pl-3">
-              <h className="pt-1 text-[18px]  m-0 pb-0 font-semibold">
+              <h className="pt-1 text-[18px] md:text-[16px]  m-0 pb-0 font-semibold">
                 Upcoming Events:
               </h>
               <p className=" text-[25px] font-bold p-0 relative bottom-2">10</p>
@@ -106,33 +100,33 @@ const Dashboard = () => {
 
         <div className="mt-3 flex flex-wrap justify-around">
 
-          <div className="w-[320px] m-3 rounded-md shadow-md p-2" >
+          <div className="w-[320px] md:w-[300px] m-3 rounded-md shadow-md p-2" >
             <Bar width={300} height={300}  data={data} />
             <div className="m-3">
             <h5 className="pt-1 text-[16px]  m-0 pb-0 font-semibold">
                 Total Number of events held:
               </h5>
-              <p className=" text-[25px] font-bold p-0 relative bottom-2">10</p>
+              <p className=" text-[25px] mt-1  font-bold p-0 relative bottom-2">10</p>
             </div>
           </div>
 
-          <div className="w-[320px] m-3 rounded-md shadow-md p-2" >
+          <div className="w-[320px] md:w-[300px] m-3 rounded-md shadow-md p-2" >
             <Line width={300} height={300}  data={data} />
             <div className="m-3">
             <h5 className="pt-1 text-[16px]  m-0 pb-0 font-semibold">
                 Total Number of hours events held:
               </h5>
-              <p className=" text-[25px] font-bold p-0 relative bottom-2">12 hrs</p>
+              <p className=" text-[25px] mt-1  font-bold p-0 relative bottom-2">12 hrs</p>
             </div>
           </div>
 
-          <div className="w-[320px] m-3 rounded-md shadow-md p-2" >
+          <div className="w-[320px] md:w-[300px] m-3 rounded-md shadow-md p-2" >
             <Pie width={300} height={300}  data={data} />
             <div className="m-3">
             <h5 className="pt-1 text-[16px]  m-0 pb-0 font-semibold">
                 Total Number of hours student studied:
               </h5>
-              <p className=" text-[25px] font-bold p-0 relative bottom-2">8 hrs</p>
+              <p className=" text-[25px] mt-1  font-bold p-0 relative bottom-2">8 hrs</p>
             </div>
           </div>
 

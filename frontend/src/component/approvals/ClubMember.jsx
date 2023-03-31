@@ -138,6 +138,7 @@ const ClubMember = () => {
                               </div>
                               {confirm ? (
                                 <div className="club-member-modal-confirm">
+                                  <form>
                                   <div>
                                     <input
                                       type="text"
@@ -148,6 +149,7 @@ const ClubMember = () => {
                                   <div>
                                     <button>Confirm</button>
                                   </div>
+                                  </form>
                                 </div>
                               ) : (
                                 ""
