@@ -29,12 +29,12 @@ export default function ReactBigCalendar() {
 
   const [event, setEvent] = useState([]);
 
-  const [title, setTitle] = useState();
-  const [eventDate, setEventDate] = useState();
-  const [eventTime, setEventTime] = useState();
-  const [venue, setVenue] = useState();
-  const [desc, setDesc] = useState();
-  const [speaker, setSpeaker] = useState();
+  const [title, setTitle] = useState('');
+  const [eventDate, setEventDate] = useState('');
+  const [eventTime, setEventTime] = useState('');
+  const [venue, setVenue] = useState('');
+  const [desc, setDesc] = useState('');
+  const [speaker, setSpeaker] = useState('');
   const [myEvent, setMyEvent] = useState();
 
   const [eventPre, setEventPre] = useState("Calendar-view-events-hide");
@@ -155,8 +155,8 @@ export default function ReactBigCalendar() {
     showEvent();
     // cancelEvent();
 
-    // setEventPre("Calendar-view-events");
-  });
+    
+  }, []);
 
   const attendanceUpdate = async (id) => {
     let result = await fetch(`http://localhost:8000/updateEvent/${id}`, {

@@ -14,38 +14,38 @@ import "./AttendanceSheet.css";
 import NavbarRes from "../navbar/NavbarRes";
 // import axios from 'axios';
 
-const array = [
-  {
-    index: 1,
-    name: "Isha Bam",
-    branch: "IT",
-    year: "4th",
-  },
-  {
-    index: 2,
-    name: "Anushka Shah",
-    branch: "IT",
-    year: "4th",
-  },
-  {
-    index: 3,
-    name: "Khushi ",
-    branch: "IT",
-    year: "4th",
-  },
-  {
-    index: 4,
-    name: "Shraddha",
-    branch: "IT",
-    year: "4th",
-  },
-  {
-    index: 5,
-    name: "Isha Bam",
-    branch: "IT",
-    year: "4th",
-  },
-];
+// const array = [
+//   {
+//     index: 1,
+//     name: "Isha Bam",
+//     branch: "IT",
+//     year: "4th",
+//   },
+//   {
+//     index: 2,
+//     name: "Anushka Shah",
+//     branch: "IT",
+//     year: "4th",
+//   },
+//   {
+//     index: 3,
+//     name: "Khushi ",
+//     branch: "IT",
+//     year: "4th",
+//   },
+//   {
+//     index: 4,
+//     name: "Shraddha",
+//     branch: "IT",
+//     year: "4th",
+//   },
+//   {
+//     index: 5,
+//     name: "Isha Bam",
+//     branch: "IT",
+//     year: "4th",
+//   },
+// ];
 
 const AttendanceSheet = () => {
   const [searched, setSearched] = useState("");
@@ -87,8 +87,8 @@ const AttendanceSheet = () => {
     let val = e.target.value;
     setSearchVal(e.target.value);
     let matched = [];
-    array &&
-      array.forEach((user) => {
+    data &&
+      data.forEach((user) => {
         console.log(user.name, val);
         const value = user.name.toLowerCase().includes(val.toLowerCase());
         if (value) {

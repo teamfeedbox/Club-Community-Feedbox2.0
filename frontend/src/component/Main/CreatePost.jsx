@@ -68,14 +68,6 @@ const CreatePost = () => {
     count--;
   }
 
-  // var createPost = {
-  //   title:title,
-  //   desc:desc,
-  //   postedBy:localStorage.getItem('user',JSON.parse(postedBy)),
-  //   pic:url
-  // }
-
-  // const auth = localStorage.getItem("user");
  
   useEffect(() => {
     if (url) {
