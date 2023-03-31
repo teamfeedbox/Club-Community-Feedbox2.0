@@ -165,7 +165,7 @@ const CreatePost = () => {
   return (
     <div className="CreatePost">
       <div className="create-post-profile">
-        <img src="Images/girl.jpg" alt="" />
+        <img src={user && user.img} alt="" />
       </div>
       <div className="create-post-start" onClick={handleShow}>
         <div className="create-post-start-content">Start a post</div>
@@ -190,7 +190,7 @@ const CreatePost = () => {
         <Modal.Body className="modal-body">
           <div className="modal-profile-section">
             <div className="modal-profile-section-image">
-              <img src="Images/girl.jpg" alt="" />
+              <img src={user && user.img} alt="" />
             </div>
             <div className="modal-profile-section-content">
               {/* <h5>{JSON.parse(auth).name}</h5> */}

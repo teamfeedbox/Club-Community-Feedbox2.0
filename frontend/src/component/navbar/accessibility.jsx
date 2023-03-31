@@ -5,7 +5,7 @@ import {
   faBell,
   faCaretDown,
   faRightFromBracket,
-  faUser,
+  faUser,faObjectsColumn
 } from "@fortawesome/free-solid-svg-icons";
 
 
@@ -79,13 +79,19 @@ export function Accessibility(props) {
   return (
     <AccessibilityContainer>
        {/* *********************profile icon*************************** */}
-       <Link href='/profile' title="Profile Page" className={selectedPage === '/profile' ? 'hidden' : 'block'}>
+       <Link href='/profile' title="Profile Page" className={selectedPage === '/profile' || selectedPage === '/dashboard' ? 'hidden' : 'block'}>
         <LoginButton >
           <FontAwesomeIcon icon={faUser} className="fa-xl" />
         </LoginButton>
       </Link>
+      {/* *************************Dashboard****************************** */}
+      <Link href='/dashboard' title="Dashboard" className={selectedPage === '/dashboard' || selectedPage === '/profile' ? 'hidden' : 'block'}>
+        <LoginButton >
+          <img src="Images/Dashboard.png" alt="" />
+        </LoginButton>
+      </Link>
       {/* *************************logout************************************ */}
-      <Link href='/' title="Logout" onClick={logoutHandler} className={selectedPage === '/profile' ? 'block' : 'hidden'}>
+      <Link href='/' title="Logout" onClick={logoutHandler} className={selectedPage === '/profile' || selectedPage === '/dashboard' ? 'block' : 'hidden'}>
         <LoginButton >
           <FontAwesomeIcon icon={faRightFromBracket} className="fa-xl" />
         </LoginButton>

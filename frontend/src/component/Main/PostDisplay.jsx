@@ -27,6 +27,8 @@ import Comment from "./Comment";
 import "./PostDisplay.css";
 import PostBigModel from "./PostBigModel";
 
+import Loader from '../Loader.jsx'
+
 const PostDisplay = () => {
  
 
@@ -52,6 +54,7 @@ const PostDisplay = () => {
   "How many times were you frustrated while looking out for a good collection of programming/algorithm /interview questions? What did you expect and what did you get? This portal has been created to", 
   "How many times were you frustrated while looking out for a good collection of programming/algorithm.",
 "How many times were you frustrated while looking"]);
+ const[loading, setLoading] = useState(false);
   
 function handleReply(){
   if(showAdd=="Show-Comment-Add-Btn")
@@ -118,13 +121,16 @@ function showRep(){
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
+      
     });
+    
     result = await result.json();
     // console.log(result)
     setData(result);
     if (result.desc) {
       getList();
     }
+    setLoading(false);
   };
 
   const [user, setUser] = useState();
@@ -203,11 +209,13 @@ function showRep(){
 
   return (
     <div>
+      { !loading ? 
+      <div>
       {data.map((item, index) => (
         <div className="post-display1">
           <div className="post-display-head">
             <div className="post-display-profile">
-              <img src="Images/girl.jpg" alt="" />
+              <img src={item && item.postedBy && item.postedBy.img} alt="" />
             </div>
             <div className="post-display-heading">
               <p className="post-head">
@@ -320,6 +328,8 @@ function showRep(){
         </div>
         
       ))}
+      </div>
+      : <Loader />}
       <PostBigModel 
             openComment={openComment}
             setOpenComment={setOpenComment}

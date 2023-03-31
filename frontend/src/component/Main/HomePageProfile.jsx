@@ -45,7 +45,7 @@ const HomePageProfile = () => {
   return (
     <div className="HomePageProfile">
       <div className="home-profile-bg-doodle">
-        <img src="Images/doodle-profile-bg.png" alt="" />
+        <img src={"Images/doodle-profile-bg.png"} alt="" />
         {/* <Link to='/profile' className="home-profile-visit-profile" title="Visit profile page">
           <FontAwesomeIcon className="home-profile-visit-profile-icon" icon={faArrowUpRightFromSquare} />
         </Link> */}
@@ -58,7 +58,7 @@ const HomePageProfile = () => {
       </div>
       <div className="home-profile-main-info">
         <div className="home-profile-main-photo">
-          <img src="Images/podcast.png" alt="" />
+          <img src={data && data.img} alt="" />
         </div>
         <div className="home-profile-name-section">
           <h4>{data && data.name}</h4>
