@@ -13,11 +13,14 @@ import {
   faCalendarAlt,
   faXmark,
   faPodcast,
+  faFlag,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import "./ReactBigCalendar.css";
 import NavbarRes from "../navbar/NavbarRes";
+
+
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -51,6 +54,13 @@ export default function ReactBigCalendar() {
   // State for preview Event
   const [preEventModel,setPreEventModel]=useState(false);
 
+  // Show and hide interested button
+  const [interestedBtn,setInterestedBtn]=useState(true);
+
+  // Show Toast messgae
+  const [showA, setShowA] = useState(true);
+  const [showB, setShowB] = useState(true);
+
 
   //<---------------------Functions-------------------------->
 
@@ -71,6 +81,11 @@ export default function ReactBigCalendar() {
   // const handelPreEventHide = () => {
     // setPreEventModel(false);
   // };
+
+
+  // function to handle Toast message
+  const toggleShowA = () => setShowA(!showA);
+  const toggleShowB = () => setShowB(!showB);
 
   const cancelEvent = async (id) => {
     // console.log(id)
@@ -386,22 +401,43 @@ export default function ReactBigCalendar() {
                   {myEvent && myEvent.desc}
                 </div>
                 <div className="preview-button">
-                  <button
-                    onClick={() => {
-                      attendanceUpdate(myEvent._id);
-                    }}
-                  >
-                    Interested
-                  </button>
 
+
+                {
+                  interestedBtn?
+                  (
+                  <button
+                  type="button"
+                  onClick={() => {
+                    attendanceUpdate(myEvent._id);
+                    setInterestedBtn(false);
+                  }}
+                >
+                  Interested
+                </button>
+                  ):
+                  (
+                  <button
+                  type="button"
+                  style={{pointerEvents:"none",backgroundColor:"gray"}}
+                  onClick={toggleShowA}
+                >
+                  Interested
+                </button>
+                  )
+                } 
+                 
                   <button
                     onClick={() => {
                     setPreEventModel(false);
                       cancelEvent(myEvent._id);
+                      
                     }}
                   >
                     Cancel Event
                   </button>
+                  
+
                 </div>
                 <div style={{ textAlign: "center" }}>
                   {/* <button onClick={() => {
@@ -462,6 +498,7 @@ export default function ReactBigCalendar() {
               <form onSubmit={addEvent}>
                 <div className="calender-add-title">
                   <span>Create an Event</span>
+                  
                   <div className="cancel-button"
                   //  onClick={handelAddEventHide}
                   onClick={()=>{setAddEventModel(false)}}
@@ -471,6 +508,7 @@ export default function ReactBigCalendar() {
                 </div>
                 <div className="Calendar-title">
                   <span>Title</span>
+                  
                   <input
                     type="text"
                     required
@@ -479,6 +517,8 @@ export default function ReactBigCalendar() {
                     maxlength="50"
                     onChange={(e) => setTitle(e.target.value)}
                   />
+                 
+                  
                 </div>
 
                 <div
@@ -488,7 +528,19 @@ export default function ReactBigCalendar() {
                     borderRadius: "10px",
                   }}
                 >
-                  <span style={{ fontWeight: "600" }}>General</span>
+                <span style={{ fontWeight: "600" }}>General
+                
+                  </span>
+                  <div className="input-container">
+                  <FontAwesomeIcon
+                      style={{ margin: "7px 10px 0 0" }}
+                      icon={faFlag}
+                    />
+                  <select name="type" >
+                <option value="public">Public</option>
+                <option value="community">Community</option>
+              </select>
+                  </div>
                   <div className="input-container">
                     <FontAwesomeIcon
                       style={{ margin: "7px 10px 0 0" }}
@@ -501,6 +553,8 @@ export default function ReactBigCalendar() {
                       required
                       onChange={(e) => setSpeaker(e.target.value)}
                     ></input>
+                     
+                    
                   </div>
 
                   <div className="input-container">
@@ -514,6 +568,7 @@ export default function ReactBigCalendar() {
                       value={eventDate}
                       onChange={(e) => setEventDate(e.target.value)}
                     ></input>
+                    
                   </div>
                   <div className="input-container">
                     <FontAwesomeIcon
@@ -526,6 +581,7 @@ export default function ReactBigCalendar() {
                       value={eventTime}
                       onChange={(e) => setEventTime(e.target.value)}
                     ></input>
+                    
                   </div>
                   <div className="input-container">
                     <FontAwesomeIcon
@@ -534,11 +590,13 @@ export default function ReactBigCalendar() {
                     />
                     <input
                       type="text"
-                      placeholder="Add place name.."
+                      placeholder="Add Venue...."
                       value={venue}
                       required
                       onChange={(e) => setVenue(e.target.value)}
                     />
+                  
+                     
                   </div>
                 </div>
 

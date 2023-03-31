@@ -3,6 +3,18 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
+import {
+  faLocationDot,
+  faClock,
+  faCirclePlus,
+  faCalendarAlt,
+  faXmark,
+  faPodcast,
+  faFlag,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./EditProfile.css";
+
 const EditProfile = ({ open, setOpen }) => {
   const [data, setData] = useState('');
 
@@ -160,13 +172,25 @@ const EditProfile = ({ open, setOpen }) => {
                 />
               </Form.Group>
               <Form.Group>
-                <div>
+                <div >
                   <label className="block">Profile Photo</label>
-                  <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                  <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md"
+                  style={{maxHeight:"250px",minHeight:"250px",width:"250px",margin:"0 auto"}}
+                  >
                     {image ? (
-                      <img src={file} />
-                    ) : (
+                      <div >
+                      <FontAwesomeIcon icon={faXmark}
+                      onClick={()=>setImage(false)}
+                      className="Edit-Profile-cancel"
+                      />
+                      <img src={file} style={{
+                        maxHeight:"200px",minHeight:"200px",width:"200px",marginTop:"-25px"
+                      }} />
+                      </div>
+                      
+                    ) : ( 
                       <div className="space-y-1 text-center">
+                        
                         <svg
                           className="mx-auto h-12 w-12 text-gray-400"
                           stroke="currentColor"
