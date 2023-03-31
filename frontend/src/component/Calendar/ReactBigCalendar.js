@@ -42,6 +42,7 @@ export default function ReactBigCalendar() {
   const [eventBtn, setEventBtn] = useState("Calendar-view-title");
 
   const [postedBy, setPostedBy] = useState("");
+  const [showModal, setShowModel] = useState(false)
 
 
   const cancelEvent = async(id)=>{
