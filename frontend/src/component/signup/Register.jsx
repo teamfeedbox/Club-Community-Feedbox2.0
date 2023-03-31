@@ -24,6 +24,7 @@ const Register = () => {
   const [role, setRole] = useState();
   const [coins, setCoins] = useState();
   const [position, setPosition] = useState();
+  const [uniqueId, setUniqueId] = useState();
   const [events, setEvents] = useState([]);
   const [img, setImg] = useState("");
 
@@ -64,6 +65,7 @@ const Register = () => {
         role,
         coins,
         position,
+        uniqueId,
         events
       }),
       headers: {

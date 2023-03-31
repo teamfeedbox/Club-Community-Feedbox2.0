@@ -214,7 +214,7 @@ export default function ReactBigCalendar() {
   };
 
   const handleEvent = ({ start, end }, eve, data) => {
-    // alert(event.title+"_______"+event.start+"________"+event.end);
+    // alert(event.title+"__"+event.start+"___"+event.end);
     // if (count2 == 0) {
     //   $(".Calendar-view-title").css("border-radius", "20px 20px 0px 0px");
     //   $(".Calendar-view-events").delay("slow").show();

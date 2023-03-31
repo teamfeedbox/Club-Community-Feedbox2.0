@@ -85,6 +85,7 @@ router.post("/register", (req, res) => {
     position,
     collegeYear,
     bio,
+    uniqueId,
     img,
     events
     
@@ -111,6 +112,7 @@ router.post("/register", (req, res) => {
           coins,
          role,
           position,
+          uniqueId,
           collegeYear,
           bio,
           img,
@@ -201,6 +203,17 @@ router.get('/user',requireLogin, async (req, res) => {
 });
 
 
+router.get('/user/:id',requireLogin,async (req,res)=>{
+  let result = await User.findOne({_id:req.params.id});
+  if(result){
+    res.send(result)
+  }
+  else{
+    res.send("no product found")
+  }
+})
+
+
 
 router.put('/updatePic/:id',requireLogin, async(req,res)=>{
   // console.log(req.params.email)
@@ -230,6 +243,14 @@ router.put('/updateDetail/:id',requireLogin, async(req,res)=>{
   res.send(result)
 })
 
-
+router.put('/updateSkills/:eventId',requireLogin, async(req,res)=>{
+  let result = await Event.updateOne(
+      {_id:req.params.eventId},
+      {
+         $push:{skills:req.body}
+      }
+  )
+  res.send(result)
+})
 
 module.exports = router;

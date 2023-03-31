@@ -37,6 +37,10 @@ const EditProfile = ({ open, setOpen }) => {
     }
   },[url])
 
+  useEffect(()=>{
+    getUserDetails();
+},[])
+
   const update = async(data)=>{
     // console.log(data)
     let result = await fetch(`http://localhost:8000/updatePic/${data}`,{
@@ -55,6 +59,15 @@ const EditProfile = ({ open, setOpen }) => {
   console.log(result)
   }
 
+
+  const getUserDetails = async ()=>{
+    // console.log(params)
+    let result = await fetch(`http://localhost:8000/user/${data}`);
+    result = await result.json();
+setEmail(result.email);
+setBio(result.bio);
+
+}
 
   const updateDetail = async(data)=>{
     // console.log(data)

@@ -47,7 +47,7 @@ const PostDisplay = () => {
   const[showreply,setShowReply]=useState(false);
 
   // To open the Comment Model
-  const[openComment,setOpenComment]=useState(true);
+  const[openComment,setOpenComment]=useState(false);
 
   const [reply,setReply]=useState('');
   const [comment,setComments] = useState([" How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q", 
@@ -215,7 +215,7 @@ function showRep(){
         <div className="post-display1">
           <div className="post-display-head">
             <div className="post-display-profile">
-              <img src="Images/girl.jpg" alt="" />
+              <img src={item && item.postedBy && item.postedBy.img} alt="" />
             </div>
             <div className="post-display-heading">
               <p className="post-head">

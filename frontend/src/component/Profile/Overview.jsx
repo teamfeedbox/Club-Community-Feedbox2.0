@@ -14,7 +14,7 @@ const fColor = ['#9B0483', '#2AA100', '#A67904', '#A10000', '#5C0684', '#363636'
 
 
 function Overview(prop) {
-  const [skills,setSkills]=useState(['Graphics Designing','Content Writing','Search Engine Optimization','Time Management'])
+  const [skills,setSkills]=useState([])
 
   const [showModal, setShowModal] = useState(false);
   const [profileSubmit,SetProfileSubmit]=useState(false);
@@ -30,6 +30,7 @@ function Overview(prop) {
 
   const [file, setFile] = useState('Images/girl.jpg')
   const [image, setImage] = useState(false);
+  // const [skills, setSkills] = useState([]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -89,6 +90,8 @@ function Overview(prop) {
     //   getUser();
     // }
   };
+
+  
 
   return (
     <>

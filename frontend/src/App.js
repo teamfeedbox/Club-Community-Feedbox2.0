@@ -46,7 +46,7 @@ const App = () => {
           <Route index path="/login" element={<NewLogin />} />
           <Route index path="/register" element={<Register />} />
           <Route index path="/main" element={<Main />} />
-          <Route index path='/comment' element={ <PostBigModel/> } />
+          <Route index path='/comment/:id' element={ <PostBigModel/> } />
           <Route index path="/calendar" element={<ReactBigCalendar />} />
           <Route index path="/rescources" element={<Rescources />} />
           <Route index path="/profile" element={<ProfilePage />} />
