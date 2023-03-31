@@ -61,18 +61,18 @@ router.get('/getAllPost',requireLogin,(req,res)=>{
 
 
 //api to get all the post created by user in their profile page
-// router.get('/myPost/:id',requireLogin,(req,res)=>{
-// //    let postedBy=req.user
-//     Post.find({postedBy:req.params.id})
+router.get('/myPost/:id',requireLogin,(req,res)=>{
+//    let postedBy=req.user
+    Post.find({_id:req.params.id})
   
-//     .populate('postedBy').select("-password")
-//     .then(post=>{
-//         res.json({post})
-//     })
-//     .catch(err=>{
-//         console.log(err)
-//     })
-// })
+    .populate('postedBy').select("-password")
+    .then(post=>{
+        res.json({post})
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
 
 
 

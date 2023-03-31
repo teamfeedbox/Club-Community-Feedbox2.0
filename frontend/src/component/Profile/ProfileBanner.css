@@ -2,8 +2,10 @@
     /* padding-top: 60px; */
 }
 .Profile-Banner img{
-    height: 200px;
+    min-height: 200px;
+    max-height: 200px;
     width: 100%;
+    /* width: 100px; */
 }
 .Profile-Title{
     display: flex;
@@ -16,9 +18,10 @@
     border: 8px solid white;
     border-radius: 100%;
     width: 20%;
-    height: 20%;
-    /* left: 0; */
-    /* right: 0; */
+    max-height: 250px;
+    min-height: 250px;
+    max-width: 250px;
+    min-width: 250px;
     margin-top: -100px;
     transform: translate(0%,-0%);
     margin-left: 20px;
@@ -66,7 +69,7 @@ only screen and (min-width: 1280px)  */
         /* padding-top: 60px; */
     }
     .Profile-Banner img{
-        height: 110px;
+        height: 50px;
         width: 100%;
     }
     .Profile-Title{
@@ -85,9 +88,11 @@ only screen and (min-width: 1280px)  */
     .Profile-Title img{
         border: 8px solid white;
         border-radius: 100%;
-        width: 45%;
-        height: 45%;
-        margin: -50px auto 0 auto;
+        max-height: 180px;
+        min-height: 180px;
+        max-width: 180px;
+        min-width: 180px;
+        margin: -80px auto 0 auto;
         box-shadow: rgba(0, 0, 0, 0.24) 0px 6px 22px;
     }
    
@@ -123,14 +128,18 @@ only screen and (min-width: 1280px)  */
         height:150px;
     }
     .Profile-Title{
-        width: fit-content;
+        width: 90%;
         margin: 0 auto 30px auto;
+        display: flex;
+        justify-content: center;
     }
     .Profile-Title img{
-        width: 25%;
-        height: 25%;
+        max-height: 200px;
+        min-height: 200px;
+        max-width: 200px;
+        min-width: 200px;
         margin-left: 15px;
-        margin-top: -100px;
+        margin-top: -60px;
         transform: translateY(0,-0%);
     }
     .Profile-Title div{
