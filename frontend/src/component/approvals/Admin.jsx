@@ -6,53 +6,45 @@ import { Scrollbars } from "react-custom-scrollbars";
 import Modal from "react-bootstrap/Modal";
 import "./ClubMember.css";
 
-const Admins = [
-  {
-    name: "Isha Bam",
-    desg : 'President',
-  },
-  {
-    name: "Anushka Shah",
-    desg : 'Vice President',
-  },
-  {
-    name: "Khushi ",
-    desg : 'Lead Graphic Designer',
-  },
-  {
-    name: "Shraddha Vishwakarama",
-    desg : 'Lead Content Writer',
-  },
-  {
-    name: "Elena Gilbert",
-    desg: "Lead Designer",
-  },
-];
-
-const Admin = () => {
-  const [searched, setSearched] = useState("");
+const Admin = (props) => {
   const [searchval, setSearchVal] = useState("");
-  const [enableSearch, setEnableSearch] = useState(false);
+  const [data,setData]= useState([]);
+  const [admin,setAdmin]= useState([]);
 
+  const getUser = async () => {
+    const result = await fetch(`http://localhost:8000/get`);
+    const res = await result.json();
+    let admin = [];
+    res && res.map((data) => {
+      if (data.role == 'Admin') {
+        admin.push(data)
+      }
+    })
+    setAdmin(admin);
+    setData(admin);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, [props])
+
+  // search user
   const searchHandler = (e) => {
-    if (e.target.value == "") {
-      setEnableSearch(false);
-    } else {
-      setEnableSearch(true);
-    }
     let val = e.target.value;
     setSearchVal(e.target.value);
-    let matched = [];
-    Admins &&
-      Admins.forEach((user) => {
-        console.log(user.name, val);
-        const value = user.name.toLowerCase().includes(val.toLowerCase());
-        if (value) {
-          matched.push(user);
-        }
-      });
-    console.log(matched);
-    setSearched(matched);
+    if (e.target.value != "") {
+      let matched = [];
+      data.length > 0 &&
+        data.forEach((user) => {
+          const value = user.name.toLowerCase().includes(val.toLowerCase());
+          if (value) {
+            matched.push(user);
+          }
+        });
+      setAdmin(matched);
+    } else {
+      setAdmin(data);
+    }
   };
 
   return (
@@ -78,11 +70,10 @@ const Admin = () => {
       {/* table  */}
       <div className="lg:border">
         <Scrollbars style={{ height: "230px" }}>
-          {!enableSearch && (
             <table class="table-auto w-full max-w-[1300px]">
               <tbody class="text-sm divide-y  divide-gray-100 max-w-[1150px]">
-                {Admins &&
-                  Admins.map((member) => (
+                {admin.length>0 ?
+                  admin.map((member) => (
                     <tr className="flex justify-between ">
                       <td class=" p-2 w-[170px] lg:w-[400px]">
                         <div className="flex items-center">
@@ -99,44 +90,13 @@ const Admin = () => {
                       </td>
                       <td class="p-2 w-[170px] lg:w-[500px] flex items-center mr-8 justify-end">
                         <div class="font-medium text-gray-800">
-                          {member.desg}
+                          {member.position}
                         </div>
                       </td>
                     </tr>
-                  ))}
+                  )) : 'No Admins...'}
               </tbody>
             </table>
-          )}
-
-          {enableSearch && (
-            <table class="table-auto w-full max-w-[1300px]">
-              <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
-                {searched &&
-                  searched.map((member) => (
-                    <tr className="flex justify-between max-w-[1150px]">
-                      <td class="p-2 w-[200px]  lg:w-[300px]">
-                        <div className="flex items-center">
-                          <img
-                            class="rounded-full"
-                            src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                            width="40"
-                            height="40"
-                            alt="Alex Shatov"
-                          />
-
-                          <div className="ml-2"> {member.name} </div>
-                        </div>
-                      </td>
-                      <td class="p-2 lg:flex  items-center  md:block">
-                        <div class="font-medium text-gray-800">
-                          {member.desg}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          )}
         </Scrollbars>
       </div>
     </div>

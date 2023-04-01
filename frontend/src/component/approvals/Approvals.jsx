@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PendingApprovals from "./PendingApprovals";
 import ClubMember from "./ClubMember";
 import Lead from "./Leads";
@@ -8,12 +8,19 @@ import NavbarRes from "../navbar/NavbarRes";
 
 const Approvals = () => {
   const [tabs, setTabs] = useState("club");
+  const [cM,setCM]=useState(false);
+  const [click,setClick]=useState(false);
+
+  const pull_data = (data) => {
+      setCM(data);
+  }
+  
 
   return (
     <>
     <NavbarRes />
     <div className="pb-9 pt-[70px]" >
-      <PendingApprovals />
+      <PendingApprovals func={pull_data}/>
 
       <div className="mt-9">
         <div className="overall-profile-tabs  ">
@@ -35,7 +42,7 @@ const Approvals = () => {
                   ? "profile-tab-content profile-tab-content-highlight"
                   : "profile-tab-content"
               }
-              onClick={() => setTabs("Lead")}
+              onClick={() => {setClick(true); setTabs("Lead")}}
             >
               Leads
             </div>
@@ -65,15 +72,15 @@ const Approvals = () => {
 
           <div className="profile-tab-data">
             <div className={tabs === "club" ? "" : "profile-tab-data-hide"}>
-              <ClubMember />
+              <ClubMember props={cM?true:false} />
             </div>
 
             <div className={tabs === "Lead" ? "" : "profile-tab-data-hide"}>
-              <Lead />
+              <Lead props={click && true} />
             </div>
 
             <div className={tabs === "Admin" ? "" : "profile-tab-data-hide"}>
-              <Admin />
+              <Admin props={click && true}/>
             </div>
 
             <div

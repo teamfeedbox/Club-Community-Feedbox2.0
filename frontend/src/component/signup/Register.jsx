@@ -184,26 +184,26 @@ const Register = () => {
                         </option>
                         <option
                           // className="w-full text-sm h-[50px]  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
-                          value="1"
+                          value="1st"
                           className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
                         >
                           I Year
                         </option>
                         <option
                           className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
-                          value="2"
+                          value="2nd"
                         >
                           II Year
                         </option>
                         <option
                           className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
-                          value="3"
+                          value="3rd"
                         >
                           III Year
                         </option>
                         <option
                           className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
-                          value="4"
+                          value="4th"
                         >
                           IV Year
                         </option>
