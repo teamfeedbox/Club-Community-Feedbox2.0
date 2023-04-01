@@ -255,12 +255,15 @@ function handleReply(){
                           Random Person
                         </div>
                         <div className="Right-Comment">
-                          How many times were you frustrated while looking out
+                          {/* How many times were you frustrated while looking out
                           for a good collection of programming/algorithm
                           /interview questions? What did you expect and what did
                           you get? This portal has been created to provide well
                           written, well thought and well explained solutions for
-                          selected questions.
+                          selected questions. */}
+                          {
+                            tempReply
+                          }
                         </div>
                     </div>
 
@@ -287,7 +290,7 @@ function handleReply(){
                             
                           </div>
                           <input
-                            className="block border-solid  mx-2 p-2.5 w-full text-sm text-black-600 bg-white  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 border-black-600"
+                            className="mx-2 p-2.5 w-full text-sm rounded-lg border text-black dark:text-black" 
                             placeholder="Reply..."
                             onChange={(event)=>
                               setTempReply(event.target.value)
@@ -317,7 +320,7 @@ function handleReply(){
                 </div>
 
                 <div className="Post-Big-Comment-Container">
-                  <div className="Post-Big-Comment-Icons">
+                  {/* <div className="Post-Big-Comment-Icons">
                     <span>
                       <span>
                         <FontAwesomeIcon
@@ -339,7 +342,7 @@ function handleReply(){
                       </span>
                       <span>50 Comments</span>
                     </span>
-                  </div>
+                  </div> */}
 
 
                   <div className="Comment-Add-Section">
