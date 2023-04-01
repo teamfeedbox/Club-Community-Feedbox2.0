@@ -1,63 +1,3 @@
-// const express = require("express")
-// const user = require("../models/user");
-// const router = express.Router()
-// const Jwt = require('jsonwebtoken')
-// const jwtKey = require('../key')
-// const requireLogin = require('../middleware/requireLogin')
-
-// router.get('/protected',requireLogin,(req,res)=>{
-//   res.send("hello")
-// })
-// router.post('/register',async(req,res)=>{
-//     let data = new user(req.body);
-//     let result = await data.save(); // saving the users in the database when users signup
-//     result = result.toObject();// this is done not to show the password in res
-//     delete result.password;
-//     res.send(result);
-//     // console.log(result)
-// });
-
-// router.post('/login',async(req,res)=>{
-
-//     if (req.body.password && req.body.email) {
-//         let data = await user.findOne(req.body).select("-password");
-//         if (data) {
-
-//           res.send(data);
-//         } else {
-//           res.send({ result: "no user found" });
-//         }
-//       } else {
-//         res.send({ result: "no user found" });
-//       }
-
-//     //with jwt authentication
-//   //   if (req.body.password && req.body.email) {
-//   //   let data = await user.findOne(req.body).select("-password");
-//   //   if (data) {
-
-//   //     // this code is for jwt authentication
-//   //    const token =  Jwt.sign({_id:data._id},jwtKey,(err,token)=>{
-//   //       if(err){
-//   //     res.send("Something went wrong");
-
-//   //       }
-//   //       res.send({token});
-//   //       // res.send(data);
-//   //     })
-
-//   //   } else {
-//   //     res.send({ result: "no user found" });
-//   //   }
-//   // } else {
-//   //   res.send({ result: "no user found" });
-//   // }
-
-//   // console.log(data);
-// })
-
-// module.exports = router;
-
 const express = require("express");
 const User = require("../models/user");
 const router = express.Router();
@@ -68,8 +8,13 @@ const bcrypt = require("bcryptjs");
 const requireLogin = require("../middleware/requireLogin");
 const { closeDelimiter } = require("ejs");
 
-router.get("/get", requireLogin, (req, res) => {
-  res.send("hello");
+router.get("/get", async (req, res) => {
+  try {
+    const data = await User.find({});
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
 router.post("/register", (req, res) => {
@@ -88,7 +33,6 @@ router.post("/register", (req, res) => {
     uniqueId,
     img,
     events
-    
   } = req.body;
   if (!email || !password || !name) {
     return res.status(422).json({ error: "please add all the fields" });
@@ -110,14 +54,14 @@ router.post("/register", (req, res) => {
           branch,
           skills,
           coins,
-         role,
+          role,
           position,
           uniqueId,
           collegeYear,
           bio,
           img,
           events,
-      
+
         });
 
         user
@@ -159,7 +103,7 @@ router.post("/login", (req, res) => {
           const token = jwt.sign({ _id: savedUser._id }, jwtKey);
           // const decodedToken = jwt.decode(token);
 
-          res.json({ token});
+          res.json({ token });
         } else {
           return res.status(422).json({ error: "invalid password" });
         }
@@ -187,13 +131,11 @@ router.post("/login", (req, res) => {
 // });
 
 
-router.get('/user',requireLogin, async (req, res) => {
+router.get('/user', requireLogin, async (req, res) => {
   // console.log(req.user)
   const email = req.user.email;
   // console.log(req.user.email)
-  const user = await User.findOne({email}).populate("email") .select("-password");
-
-
+  const user = await User.findOne({ email }).populate("email").select("-password");
   if (user) {
     res.send(user);
     // console.log(user)
@@ -203,52 +145,56 @@ router.get('/user',requireLogin, async (req, res) => {
 });
 
 
-router.get('/user/:id',requireLogin,async (req,res)=>{
-  let result = await User.findOne({_id:req.params.id});
-  if(result){
+router.get('/user/:id', requireLogin, async (req, res) => {
+  let result = await User.findOne({ _id: req.params.id });
+  if (result) {
     res.send(result)
   }
-  else{
+  else {
     res.send("no product found")
   }
 })
 
 
 
-router.put('/updatePic/:id',requireLogin, async(req,res)=>{
-  // console.log(req.params.email)
-  // console.log(req.body.url)
-
+router.put('/updatePic/:id', requireLogin, async (req, res) => {
   let result = await User.updateOne(
-      {_id:req.params.id},
-      { $set: { img: req.body.url} }
+    { _id: req.params.id },
+    { $set: { img: req.body.url } }
   )
   res.send(result)
 })
 
-router.put('/updateDetail/:id',requireLogin, async(req,res)=>{
-  
-//  console.log(req.body.email)
-//   console.log(req.body.bio)
-  let result = await User.updateMany(
-    {_id:req.params.id},
 
-      {
-        //  $set: {email:req.body.email},
-        //  $set: {bio:req.body.bio}
-        $set: req.body
-    
+// update details of a user
+router.put('/updateDetail/:id', async (req, res) => {
+  console.log(req.body,req.params.id);
+  try {
+    let result = await User.findOneAndUpdate({ _id: req.params.id }, { $set: req.body}, { new: true })
+    res.status(200).json(result)
+  } catch (error) {
+    res.status(500).json(error);
+  }
+})
+
+// delete a user
+router.delete('/user/:id', async (req, res) => {
+  const data = await User.findByIdAndDelete(req.params.id).then((user) => {
+    if (!user) {
+      return res.status(404).send();
     }
-  )
-  res.send(result)
+    res.send(user);
+  }).catch((error) => {
+    res.status(500).send(error);
+  })
 })
 
-router.put('/updateSkills/:eventId',requireLogin, async(req,res)=>{
+router.put('/updateSkills/:eventId', requireLogin, async (req, res) => {
   let result = await Event.updateOne(
-      {_id:req.params.eventId},
-      {
-         $push:{skills:req.body}
-      }
+    { _id: req.params.eventId },
+    {
+      $push: { skills: req.body }
+    }
   )
   res.send(result)
 })

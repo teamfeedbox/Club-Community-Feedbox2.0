@@ -12,26 +12,26 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     //required: true,
-   // minlength: 5,
+    // minlength: 5,
     //maxlength: 50,
-   // unique: true,
+    // unique: true,
   },
   password: {
     type: String,
     //required: true,
     //minlength: 5,
-   // maxlength: 20,
+    // maxlength: 20,
   },
   collegeName: {
     type: String,
     //required: true,
   },
   role: {
-    type: String,
+    type: String, enum: ['user', 'Club_Member', 'Lead', 'Admin', 'Super_Admin']
     //required: true,
   },
-  position:{
-    type:String,
+  position: {
+    type: String,
   },
   collegeYear: {
     type: String,
@@ -45,21 +45,21 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
 
- 
 
-  branch:{
-    type:String
+
+  branch: {
+    type: String
   },
-  bio:{
-    type:String
+  bio: {
+    type: String
   },
-  uniqueId:{
-    type:String
+  uniqueId: {
+    type: String
   },
   skills: [],
   events: [],
 
 
- });
+});
 
 module.exports = mongoose.model("users", userSchema);
