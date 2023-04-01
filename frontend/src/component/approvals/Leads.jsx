@@ -6,63 +6,74 @@ import { Scrollbars } from "react-custom-scrollbars";
 import Modal from "react-bootstrap/Modal";
 import "./ClubMember.css";
 
-const Lead = [
-  {
-    name: "Isha Bam",
-    desg : 'Event Co-ordinator',
-  },
-  {
-    name: "Anushka Shah",
-    desg : 'Event Speaker',
-  },
-  {
-    name: "Khushi ",
-    desg : 'Event Planner',
-  },
-  {
-    name: "Shraddha Vishwakarama",
-    desg : 'Co-ordinator',
-  },
-  {
-    name: "Elena Gilbert",
-    branch: "Designer",
-  },
-];
 
-const Leads = () => {
-  const [searched, setSearched] = useState("");
+
+const Leads = (props) => {
   const [searchval, setSearchVal] = useState("");
-  const [enableSearch, setEnableSearch] = useState(false);
   const [show, setShow] = useState(false);
   const [confirm, setConfirm] = useState(false);
+  const [data, setData] = useState([]);
+  const [lead, setLead] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [position, setPosition] = useState();
+  const [id,setId]=useState();
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {setShow(false); setConfirm(false)};
   const handleShow = () => setShow(true);
 
+  const getUser = async () => {
+    const result = await fetch(`http://localhost:8000/get`);
+    const res = await result.json();
+    let lead = [];
+    res && res.map((data) => {
+      if (data.role == 'Lead') {
+        lead.push(data)
+      }
+    })
+    setLead(lead);
+    setData(lead);
+  };
+
+  useEffect(() => {
+    getUser();
+    setLoading(false);
+  }, [loading,props])
+
+  // search user
   const searchHandler = (e) => {
-    if (e.target.value == "") {
-      setEnableSearch(false);
-    } else {
-      setEnableSearch(true);
-    }
     let val = e.target.value;
     setSearchVal(e.target.value);
-    let matched = [];
-    Lead &&
-      Lead.forEach((user) => {
-        console.log(user.name, val);
-        const value = user.name.toLowerCase().includes(val.toLowerCase());
-        if (value) {
-          matched.push(user);
-        }
-      });
-    console.log(matched);
-    setSearched(matched);
+    if (e.target.value != "") {
+      let matched = [];
+      data.length > 0 &&
+        data.forEach((user) => {
+          const value = user.name.toLowerCase().includes(val.toLowerCase());
+          if (value) {
+            matched.push(user);
+          }
+        });
+      setLead(matched);
+    } else {
+      setLead(data);
+    }
   };
+
+  // submit handler for making club member as lead
+  const submitHandler = async () => {
+    const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ role: 'Admin',position:position })
+    })
+    const res = await data.json();
+    console.log(res)
+    setConfirm(false);
+    setShow(false)
+    setLoading(true)
+  }
 
   return (
     <div>
-      {/* search */}
       <div className="pending-approval-search">
         <div class="relative text-lg bg-transparent text-gray-800">
           <div class="flex items-center border-b-2 border-[#6F6F6F] py-2 mt-3">
@@ -79,167 +90,86 @@ const Leads = () => {
           </div>
         </div>
       </div>
-      {/* table  */}
+      
       <div className="lg:border">
         <Scrollbars style={{ height: "230px" }}>
-          {!enableSearch && (
-            <table class="table-auto w-full max-w-[1300px]">
-              <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
-                {Lead &&
-                  Lead.map((member) => (
-                    <tr className="flex justify-between max-w-[1150px]">
-                      <td class="p-2 w-[200px] lg:w-[300px]">
-                        <div className="flex items-center">
-                          <img
-                            class="rounded-full"
-                            src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                            width="40"
-                            height="40"
-                            alt="Alex Shatov"
-                          />
+          <table class="table-auto w-full max-w-[1300px]">
+            <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
+              {lead.length > 0 ?
+                lead.map((member) => (
+                  <tr className="flex justify-between max-w-[1150px]">
+                    <td class="p-2 w-[200px] lg:w-[300px]">
+                      <div className="flex items-center">
+                        <img
+                          class="rounded-full"
+                          src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
+                          width="40"
+                          height="40"
+                          alt="Alex Shatov"
+                        />
 
-                          <div className="ml-2"> {member.name} </div>
-                        </div>
-                      </td>
-                      <td class="p-2 lg:flex items-center hidden md:block">
-                        <div class="font-medium text-gray-800">
-                          {member.desg}
-                        </div>
-                      </td>
-                      <td class="pt-2 pb-2 flex justify-end">
-                        <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
-                          <button
-                            onClick={handleShow}
-                            className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
-                          >
-                            <FontAwesomeIcon icon={faUser} className="mr-2" />
-                            Make Admin
-                          </button>
-                        </div>
-
-                        <Modal
-                          show={show}
-                          onHide={handleClose}
-                          className="club-member-modal"
+                        <div className="ml-2"> {member.name} </div>
+                      </div>
+                    </td>
+                    <td class="p-2 lg:flex items-center hidden md:block">
+                      <div class="font-medium text-gray-800">
+                        {member.position}
+                      </div>
+                    </td>
+                    <td class="pt-2 pb-2 flex justify-end">
+                      <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
+                        <button
+                          onClick={()=>{setId(member._id); handleShow()}}
+                          className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
                         >
-                          <form>
-                            <Modal.Header
-                              closeButton
-                              className="club-member-modal-header"
-                            >
-                              Are you sure to make this lead as admin ?
-                            </Modal.Header>
-                            <Modal.Footer className="modal-footer club-member-modal-footer">
-                              <div className="modal-footer-club-member-yes-no-div">
-                                <div onClick={() => setConfirm(!confirm)}>
-                                  Yes
-                                </div>
-                                <button>No</button>
-                              </div>
-                              {confirm ? (
-                                <div className="club-member-modal-confirm">
-                                  <div>
-                                    <input
-                                      type="text"
-                                      placeholder="Specify Position"
-                                      required
-                                    />
-                                  </div>
-                                  <div>
-                                    <button>Confirm</button>
-                                  </div>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </Modal.Footer>
-                          </form>
-                        </Modal>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          )}
+                          <FontAwesomeIcon icon={faUser} className="mr-2" />
+                          Make Admin
+                        </button>
+                      </div>
 
-          {enableSearch && (
-            <table class="table-auto w-full max-w-[1300px]">
-              <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
-                {searched &&
-                  searched.map((member) => (
-                    <tr className="flex justify-between max-w-[1150px]">
-                      <td class="p-2 w-[200px]  lg:w-[300px]">
-                        <div className="flex items-center">
-                          <img
-                            class="rounded-full"
-                            src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                            width="40"
-                            height="40"
-                            alt="Alex Shatov"
-                          />
-
-                          <div className="ml-2"> {member.name} </div>
-                        </div>
-                      </td>
-                      <td class="p-2 lg:flex items-center hidden md:block">
-                        <div class="font-medium text-gray-800">
-                          {member.desg}
-                        </div>
-                      </td>
-                      <td class="pt-2 pb-2 flex justify-end">
-                        <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
-                          <button
-                            onClick={handleShow}
-                            className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
+                      <Modal
+                        show={show}
+                        onHide={handleClose}
+                        className="club-member-modal"
+                      >
+                        <form>
+                          <Modal.Header
+                            closeButton
+                            className="club-member-modal-header"
                           >
-                            <FontAwesomeIcon icon={faUser} className="mr-2" />
-                            Make Admin
-                          </button>
-                        </div>
-                        <Modal
-                          show={show}
-                          onHide={handleClose}
-                          className="club-member-modal"
-                        >
-                          <form>
-                            <Modal.Header
-                              closeButton
-                              className="club-member-modal-header"
-                            >
-                              Are you sure to make this lead as admin ?
-                            </Modal.Header>
-                            <Modal.Footer className="modal-footer club-member-modal-footer">
-                              <div className="modal-footer-club-member-yes-no-div">
-                                <div onClick={() => setConfirm(!confirm)}>
-                                  Yes
-                                </div>
-                                <button>No</button>
+                            Are you sure to make this lead as admin ?
+                          </Modal.Header>
+                          <Modal.Footer className="modal-footer club-member-modal-footer">
+                            <div className="modal-footer-club-member-yes-no-div">
+                              <div onClick={() => setConfirm(!confirm)}>
+                                Yes
                               </div>
-                              {confirm ? (
-                                <div className="club-member-modal-confirm">
-                                  <div>
-                                    <input
-                                      type="text"
-                                      placeholder="Specify Position"
-                                      required
-                                    />
-                                  </div>
-                                  <div>
-                                    <button>Confirm</button>
-                                  </div>
+                              <button onClick={(e) => { e.preventDefault(); setShow(false); setConfirm(false) }}>No</button>
+                            </div>
+                            {confirm ? (
+                              <form className="club-member-modal-confirm">
+                                <div>
+                                  <input
+                                    type="text"
+                                    placeholder="Specify Position"
+                                    required onChange={(e) => setPosition(e.target.value)}
+                                  />
                                 </div>
-                              ) : (
-                                ""
-                              )}
-                            </Modal.Footer>
-                          </form>
-                        </Modal>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          )}
+                                <div>
+                                  <button onClick={(e) => { e.preventDefault(); submitHandler() }}>Confirm</button>
+                                </div>
+                              </form>
+                            ) : (
+                              ""
+                            )}
+                          </Modal.Footer>
+                        </form>
+                      </Modal>
+                    </td>
+                  </tr>
+                )) : 'No Lead Members...'}
+            </tbody>
+          </table>
         </Scrollbars>
       </div>
     </div>
