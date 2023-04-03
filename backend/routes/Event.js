@@ -1,19 +1,13 @@
 const express = require('express')
 const router = express.Router()
 const Event = require('../models/event')
+const User = require('../models/user')
 const requireLogin = require('../middleware/requireLogin')
+const { default: mongoose } = require('mongoose')
 
-
-//create event api
-// router.post('/createEvent',async(req,res)=>{
-//     let result = new Event(req.body)
-//     let data = await result.save();
-//     res.send(data);
-// })
-
-
-router.post('/createEvent',requireLogin,(req,res)=>{
-    const {title,eventDate,eventTime,venue,desc,speaker,attendance} = req.body
+// Create event
+router.post('/createEvent', requireLogin, (req, res) => {
+    const { title, eventDate, eventTime, venue, desc, speaker, attendance, scope } = req.body
 
     const event = new Event({
         title,
@@ -22,24 +16,17 @@ router.post('/createEvent',requireLogin,(req,res)=>{
         venue,
         desc,
         speaker,
-        postedBy:req.user ,
+        postedBy: req.user,
         attendance,
-       
-
+        scope
     })
-    event.save().then(result=>{
-        res.json({event:result})
+    event.save().then(result => {
+        res.json({ event: result })
     })
-    .catch(err=>{
-        console.log(err)
-    })
-    // console.log(req.user)
-    // res.send("ok")
-
+        .catch(err => {
+            console.log(err)
+        })
 })
-
-
-
 
 // router.post('/attendance',requireLogin,(req,res)=>{
 //     // const {attendance} = req.body
@@ -61,85 +48,82 @@ router.post('/createEvent',requireLogin,(req,res)=>{
 
 
 //api to get all events
-router.get('/getAllEvent',(req,res)=>{
+router.get('/getAllEvent', (req, res) => {
     var mySort = { eventDate: 1 };
     Event.find()
-    .sort(mySort)
-    .populate('postedBy').select("-password")
-    .then(events=>{ 
-        res.json(events)
-    })
-    .catch(err=>{
-        console.log(err)
-    })
+        .sort(mySort)
+        .populate('postedBy').select("-password")
+        .then(events => {
+            res.json(events)
+        })
+        .catch(err => {
+            console.log(err)
+        })
 })
 
 
-
-router.get('/getEvent/:name',requireLogin,(req,res)=>{
+// get event by name
+router.get('/getEvent/:id', requireLogin, (req, res) => {
     var mySort = { date: -1 };
-    Event.find({title:req.params.name})
-      .sort(mySort)
-      .populate('postedBy').select("-password")
-      .then(posts=>{
-        // console.log(posts)
-          res.json(posts)
-      })
-      .catch(err=>{
-          console.log(err)
-      })
-  })
+    Event.find({ _id: req.params.id })
+        .sort(mySort)
+        .populate('postedBy').select("-password")
+        .then(posts => {
+            res.json(posts)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+})
 
 
 
 //api to get all the events created by user in their profile page
-router.get('/myEvent',requireLogin,async(req,res)=>{
-   
-    Event.find({postedBy:req.user._id})
-  
-    .populate('postedBy').select("-password")
-
-    .then(event=>{
-        // console.log(event)
-        res.json(event)
-    })
-    .catch(err=>{
-        console.log(err)
-    })
+router.get('/myEvent', requireLogin, async (req, res) => {
+    Event.find({ postedBy: req.user._id })
+        .populate('postedBy').select("-password")
+        .then(event => {
+            // console.log(event)
+            res.json(event)
+        })
+        .catch(err => {
+            console.log(err)
+        })
 
 
 })
 
+// update attendance of a event
+router.put('/update/Event/:eventId', requireLogin, async (req, res) => {
+    try {
+        // console.log(req.body, req.params.eventId);
+        let ids = req.body.absentees;
+        console.log(ids)
+        ids.map(async (data) => {
+            const response = await Event.updateOne({ _id: req.params.eventId }, {
+                $pull: { attendance: { _id: mongoose.Types.ObjectId(data) } },
+                $set:{attendanceSubmitted:true}
+            })
+        })
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
 
-
-//update event api
-router.put('/updateEvent/:eventId',requireLogin, async(req,res)=>{
+//add interested student to event's attendance list
+router.put('/updateEvent/:eventId', requireLogin, async (req, res) => {
     let result = await Event.updateOne(
-        {_id:req.params.eventId},
-        {
-           $push:{attendance:req.user}
-        }
+        { _id: req.params.eventId },
+        { $push: { attendance: req.user } }
     )
     res.send(result)
-  })
-
-
-
-
-
+})
 
 //delete event api
-router.delete('/deleteEvent/:eventId',async(req,res)=>{
-    const result = await Event.deleteOne({_id:req.params.eventId});
+router.delete('/deleteEvent/:eventId', async (req, res) => {
+    const result = await Event.deleteOne({ _id: req.params.eventId });
     res.send(result)
-     
- })
 
-
-
-
-
-
-
+})
 
 module.exports = router

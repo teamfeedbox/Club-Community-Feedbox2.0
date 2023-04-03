@@ -155,8 +155,6 @@ router.get('/user/:id', requireLogin, async (req, res) => {
   }
 })
 
-
-
 router.put('/updatePic/:id', requireLogin, async (req, res) => {
   let result = await User.updateOne(
     { _id: req.params.id },
@@ -198,5 +196,22 @@ router.put('/updateSkills/:eventId', requireLogin, async (req, res) => {
   )
   res.send(result)
 })
+
+
+// updatte event attendance and coins of a user
+router.put('/update/coins/events/', async (req, res) => {
+  try {
+    req.body.attendees.map(async (data)=>{
+      const response = await User.updateOne({_id:data.id},{
+        $set :{coins:data.coins},
+        $push:{events:req.body.currentEvent}
+      })
+      console.log(response);
+    })
+  } catch (error) {
+   res.status(500).json(error) 
+  }
+})
+
 
 module.exports = router;

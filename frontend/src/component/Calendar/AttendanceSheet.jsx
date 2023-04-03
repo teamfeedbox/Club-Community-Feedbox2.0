@@ -1,215 +1,194 @@
 import React, { useEffect, useState } from "react";
-import {
-  faCircle,
-  faLocationDot,
-  faClock,
-  faCalendarAlt,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useParams,useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 import "./AttendanceSheet.css";
-// import { useNavigate } from "react-router-dom";
 import NavbarRes from "../navbar/NavbarRes";
-// import axios from 'axios';
-
-// const array = [
-//   {
-//     index: 1,
-//     name: "Isha Bam",
-//     branch: "IT",
-//     year: "4th",
-//   },
-//   {
-//     index: 2,
-//     name: "Anushka Shah",
-//     branch: "IT",
-//     year: "4th",
-//   },
-//   {
-//     index: 3,
-//     name: "Khushi ",
-//     branch: "IT",
-//     year: "4th",
-//   },
-//   {
-//     index: 4,
-//     name: "Shraddha",
-//     branch: "IT",
-//     year: "4th",
-//   },
-//   {
-//     index: 5,
-//     name: "Isha Bam",
-//     branch: "IT",
-//     year: "4th",
-//   },
-// ];
 
 const AttendanceSheet = () => {
-  const [searched, setSearched] = useState("");
-  const [searchval, setSearchVal] = useState("");
-  const [data, setData] = useState([]);
-  const [enableSearch, setEnableSearch] = useState(false);
-
+  const location = useLocation();
   const navigate = useNavigate();
-  const params = useParams();
+  const [data, setData] = useState([]);
+  const [value, setValue] = useState([]);
+  const [checkedUsers, setCheckedUsers] = useState([]);
+  const [currentEvent, setCurrentEvent] = useState();
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const eventId = location.state.eventId;
 
- useEffect(()=>{
-  getEvent();
- })
+  useEffect(() => {
+    getEvent();
+    setLoading(false);
+  }, [loading])
 
   const getEvent = async () => {
-    // console.log(params.name)
-    //  e.preventDefault();
-    let result = await fetch(`http://localhost:8000/getEvent/${params.name}`,
-     {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    }
+    let result = await fetch(`http://localhost:8000/getEvent/${eventId}`,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      }
     );
     result = await result.json();
-    // console.log(result[0].attendance)
+    setCurrentEvent(result[0]);
     setData(result[0].attendance);
-    // if (result) {
-    //   getEvent();
-    // }
+    setValue(result[0].attendance)
   };
 
   const searchHandler = (e) => {
-    if (e.target.value == "") {
-      setEnableSearch(false);
+    if (e.target.value != "") {
+      let val = e.target.value;
+      let matched = [];
+      value.length > 0 &&
+        value.forEach((user) => {
+          const data = user.name.toLowerCase().includes(val.toLowerCase());
+          if (data) {
+            matched.push(user);
+          }
+        });
+      setData(matched);
     } else {
-      setEnableSearch(true);
+      setData(value)
     }
-    let val = e.target.value;
-    setSearchVal(e.target.value);
-    let matched = [];
-    data &&
-      data.forEach((user) => {
-        console.log(user.name, val);
-        const value = user.name.toLowerCase().includes(val.toLowerCase());
-        if (value) {
-          matched.push(user);
-        }
-      });
-    console.log(matched);
-    setSearched(matched);
   };
+
+  const handleCheckbox = (value) => {
+    if (value.checked) {
+      if (!checkedUsers.includes(value.val)) {
+        setCheckedUsers(arr => [...arr, value.val])
+      }
+    } else {
+      if (checkedUsers.includes(value.val)) {
+        setCheckedUsers(checkedUsers.filter(item => item != value.val))
+      }
+    }
+  }
+
+  const handleSubmit = async (e) => {
+    console.log(checkedUsers);
+    if (checkedUsers.length > 0) {
+      let absentees = [];
+      let attendees = [];
+      data.map((val) => {
+        if (!checkedUsers.includes(val._id)) {
+          absentees.push(val._id);
+        } else {
+          let obj = {
+            id: val._id,
+            coins: val.coins ? val.coins + 10 : 10,
+          }
+          attendees.push(obj)
+        }
+      })
+      // console.log(absentees);
+      // console.log(attendees);
+      // console.log(currentEvent)
+
+
+      // delete absentee from events attendance array
+      // let result = await fetch(`http://localhost:8000/update/event/${currentEvent._id}`, {
+      //   method: "PUT",
+      //   body: JSON.stringify({absentees}),
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: "Bearer " + localStorage.getItem("jwt"),
+      //   },
+      // });
+      // const res = await result.json();
+      // console.log(res)
+
+      // update users coins and events aaray
+      // let userData = await fetch(`http://localhost:8000/update/coins/events`, {
+      //   method: "PUT",
+      //   body: JSON.stringify({attendees,currentEvent}),
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: "Bearer " + localStorage.getItem("jwt"),
+      //   },
+      // });
+      // const res = await result.json();
+      // console.log(res)
+      setSubmitted(true);
+      setLoading(true)
+    }
+
+  }
 
   return (
     <>
-    <NavbarRes />
+      <NavbarRes />
       <div className="attendance">
         <div className="attendance-right">
           <h1>Attendance Sheet</h1>
 
           {/* ****************search functionality***************** */}
-          <form class="form-inline my-2 my-lg-0" className="res-table-search">
+          <form className="form-inline my-2 my-lg-0 res-table-search">
             <input
-              class="form-control mr-sm-2"
+              className="form-control mr-sm-2"
               type="text"
               placeholder="Search by name"
               aria-label="Search"
               onChange={searchHandler}
             />
-            <button class="btn btn-primary my-0 my-sm-0" type="submit">
+            <button className="btn btn-primary my-0 my-sm-0" type="submit">
               <FontAwesomeIcon icon={faSearch} />
             </button>
           </form>
 
           {/* ***********attendance sheet display in the form of table************** */}
-
           <div className="attendance-sheet">
-            {!enableSearch && (
-              <table class="table table-hover" rowKey="name">
-                <thead>
-                  <tr>
-                    <th scope="col">S. No.</th>
-                    <th scope="col">Attendee</th>
-                    <th scope="col">Branch</th>
-                    <th scope="col">Year</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
+            <table className="table table-hover" rowKey="name">
+              <thead>
+                <tr>
+                  <th scope="col">S. No.</th>
+                  <th scope="col">Attendee</th>
+                  <th scope="col">Branch</th>
+                  <th scope="col">Year</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
 
 
-                  {data &&
-                    data.map((item,index) => (
-                      <tr>
-                        <th scope="row"> {index+1} </th>
-                        <td> {item.name} </td>
-                        <td>{item.branch}</td>
-                        <td>{item.collegeYear }</td>
-                        <td>
-                          <div class="form-check">
-                            <input
-                              class="form-check-input"
-                              type="checkbox"
-                              value=""
-                              id="flexCheckDefault"
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            )}
-            
+                {data.length > 0 &&
+                  data.map((item, index) => (
+                    <tr key={index}>
+                      <th scope="row"> {index + 1} </th>
+                      <td> {item.name} </td>
+                      <td>{item.branch}</td>
+                      <td>{item.collegeYear}</td>
+                      <td>
+                        <div className="form-check">
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            value={item._id}
+                            id="flexCheckDefault"
+                            onChange={(e) => handleCheckbox({ checked: e.target.checked, val: e.target.value })}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
 
-            {enableSearch && (
-              <table class="table table-hover" rowKey="name">
-                <thead>
-                  <tr>
-                    <th scope="col">S. No.</th>
-                    <th scope="col">Attendee</th>
-                    <th scope="col">Branch</th>
-                    <th scope="col">Year</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {searched &&
-                    searched.map((arr) => (
-                      <tr>
-                        <th scope="row"> {arr.index} </th>
-                        <td> {arr.name} </td>
-                        <td>{arr.branch}</td>
-                        <td>{arr.year}</td>
-                        <td>
-                          <div class="form-check">
-                            <input
-                              class="form-check-input"
-                              type="checkbox"
-                              value=""
-                              id="flexCheckDefault"
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            )}
           </div>
-
-          {/* ***************attendance count**************** */}
-
-          <div className="attendance-count">
-            <div>
-              Total Attendee: <span>20</span>     
-            </div>
-            <div>
-              Total Enrolled: <span>{data && data.length}</span>
-            </div>
-          </div>
+          {
+            data.length > 0 ?
+              <div className="attendance-count">
+                <div>
+                  Total Attendee: <span>{checkedUsers.length > 0 ? checkedUsers.length : 0}</span>
+                </div>
+                <div>
+                  Total Enrolled: <span>{data.length > 0 && data.length}</span>
+                </div>
+              </div> : "No Interested Students"
+          }
         </div>
       </div>
-      <div className="flex justify-between mx-12 my-5">
+      {data.length > 0 ? <div className="flex justify-between mx-12 my-5">
         <button
           className="btn btn-primary"
           onClick={() => {
@@ -219,11 +198,9 @@ const AttendanceSheet = () => {
           Back
         </button>
         <button
-        onClick={() => {
-          navigate("/calendar")
-        }} 
-        className="btn btn-primary">Submit</button>
-      </div>
+          onClick={() => { handleSubmit() }}
+          className="btn btn-primary">Submit</button>
+      </div> : ""}
     </>
   );
 };
