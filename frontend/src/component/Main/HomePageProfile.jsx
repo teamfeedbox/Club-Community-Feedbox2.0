@@ -78,6 +78,26 @@ const HomePageProfile = () => {
     setCollege(e.target.value);
   };
 
+  const handleAddSubmit = async (e) => {
+    e.preventDefault();
+    console.log(college);
+    if (college) {
+      let val = {
+        name: college
+      }
+      let data = await fetch(`http://localhost:8000/college/add`, {
+        method: "POST",
+        body: JSON.stringify(val),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      });
+      const res = await data.json();
+      console.log(res);
+    }
+  }
+
   return (
     <div className="HomePageProfile pb-3">
       {/* profile section */}
@@ -127,7 +147,7 @@ const HomePageProfile = () => {
 
       <div className="m-3 flex  flex-col">
         <div className="mb-2">
-          <form action="">
+          <form onSubmit={handleAddSubmit}>
             <input
               type="text"
               className="border rounded p-1 w-[210px]"
@@ -137,9 +157,7 @@ const HomePageProfile = () => {
             />
             <button
               className=" p-1 rounded w-[60px] ml-2 bg-green-600 text-white font-[600] text-[1rem] hover:bg-green-800 transition-all ease-linear duration-2000 "
-              onClick={() => {
-                alert(`${college} added!!`);
-              }}
+              type="submit"
             >
               Add
             </button>
