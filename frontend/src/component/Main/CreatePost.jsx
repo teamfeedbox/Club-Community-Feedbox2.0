@@ -15,9 +15,9 @@ const CreatePost = () => {
   const [file, setFile] = useState([]);
   const [textDisplay, setTextDisplay] = useState(false);
   
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState([]);
   const [desc, setDesc] = useState("");
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState([]);
   const [title, setTitle] = useState("");
   const [collegeName, setCollegeName] = useState("");
   const [postedBy, setPostedBy] = useState("");
@@ -69,41 +69,41 @@ const CreatePost = () => {
   }
 
  
-  useEffect(() => {
-    if (url) {
-      fetch("http://localhost:8000/create-post", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-          // 'Content-Type':' multipart/form-data'
-        "Authorization":"Bearer "+localStorage.getItem("jwt")
+  // useEffect(() => {
+  //   if (url) {
+  //     fetch("http://localhost:8000/create-post", {
+  //       method: "post",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         // 'Content-Type':' multipart/form-data'
+  //       "Authorization":"Bearer "+localStorage.getItem("jwt")
 
-        },
-        body: JSON.stringify({
-          title,
-          desc,
-          postType,
-          collegeName,
-          postedDate, 
-          postedBy,
-          pic: url,
-        }),
-        //body:JSON.stringify(createPost)
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          if (data.error) {
-            console.log("error");
-          } else {
-            console.log("fine");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [url]);
+  //       },
+  //       body: JSON.stringify({
+  //         title,
+  //         desc,
+  //         postType,
+  //         collegeName,
+  //         postedDate, 
+  //         postedBy,
+  //         pic: url,
+  //       }),
+  //       //body:JSON.stringify(createPost)
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         console.log(data);
+  //         if (data.error) {
+  //           console.log("error");
+  //         } else {
+  //           console.log("fine");
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // }, [url]);
 
   // function handleChange(e) {
   //   console.log(e.target.files);
@@ -125,7 +125,7 @@ const CreatePost = () => {
     )
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data.url)
+        console.log(data.url)
         setUrl(data.url);
         // console.log(data)
         // console.log(data.url)

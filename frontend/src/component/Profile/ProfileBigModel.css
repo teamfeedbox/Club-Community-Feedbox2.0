@@ -269,6 +269,7 @@
         height: 62.4vh;
     }
 
+   
 }
 @media only screen and (max-width: 600px) {
 
@@ -290,5 +291,7 @@
         width: 89%;
         margin-left: 0;
     }
+
+   
 
 }

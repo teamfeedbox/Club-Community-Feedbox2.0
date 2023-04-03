@@ -25,7 +25,7 @@ const PostDisplay = () => {
   const [showReplView, setReplyView] = useState("Hide-Reply-View");
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [newS, setNewS] = useState(false);
-  // const [afterSubmit,setAfterSubmit]=useState("");
+  const [id , setId]=useState("");
 
   const [tempComment,setTempComment]=useState('');
   const [tempReply,setTempReply]=useState('');
@@ -197,7 +197,7 @@ function showRep(){
       { !loading ? 
       <div>
       {data.map((item, index) => (
-        <div className="post-display1">
+        <div key={item._id} className="post-display1">
           <div className="post-display-head">
             <div className="post-display-profile">
               <img src={item && item.postedBy && item.postedBy.img} alt="" />
@@ -304,10 +304,13 @@ function showRep(){
             )}
 
            
-            <button onClick={()=>setOpenComment(!openComment) } className="post-display-bottom-content">
+            <button onClick={()=>{
+              setOpenComment(!openComment)
+              setId(item._id)
+              } } className="post-display-bottom-content">
               <img src="Images/message.svg" alt="" 
               />
-              100
+             {item.comment.length}
             </button>
           </div>
         </div>
@@ -318,6 +321,7 @@ function showRep(){
       <PostBigModel 
             openComment={openComment}
             setOpenComment={setOpenComment}
+            id={id}
       />
        
     </div>

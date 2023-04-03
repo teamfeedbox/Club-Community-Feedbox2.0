@@ -17,6 +17,10 @@ import "swiper/css/thumbs";
 
 import "./ProfileBigModel.css";
 
+// Bootstrap
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+
 
 function PostBigModel({openComment,setOpenComment}) {
   const [showModal, setShowModal] = useState(true);
@@ -39,10 +43,20 @@ function PostBigModel({openComment,setOpenComment}) {
   const [showViewReply,setShowViewReply]=useState("Comment-Right-View-Reply-Hide");
 
   const [reply,setReply]=useState('');
-  const [comment,setComments] = useState([" How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q", 
+  const [comment,setComments] = useState(["How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q", 
   "How many times were you frustrated while looking out for a good collection of programming/algorithm /interview questions? What did you expect and what did you get? This portal has been created to", 
   "How many times were you frustrated while looking out for a good collection of programming/algorithm.",
 "How many times were you frustrated while looking"]);
+
+// To set state to show delete the comment
+const [show, setShow] = useState(false);
+
+// To store deleted comment
+const [deleteVar,setDeleteVar]=useState('');
+
+
+
+
 function handleReply(){
     if(showAdd=="Show-Comment-Add-Btn")
     {
@@ -103,16 +117,50 @@ function handleReply(){
 
 
   // to show and hide whole component
-  const handleShow=()=>{
-    setOpenComment(true)
-  }
   const handleClose=()=>{
     setOpenComment(false);
   }
 
+  // To show and hide delete comment model
+  const handleCloseDelete = () => setShow(false);
+  const handleShowDelete = () => setShow(true);
+
   return (
     <>
-
+      {/* Model to delete the comment */}
+      <Modal show={show} onHide={handleCloseDelete}
+      className='edit-modal-container'
+      >
+        <Modal.Body 
+        className='modal-dialog1'>
+          <div style={{display:"flex",flexDirection:"column"}}
+        
+          >
+            <button className='delete-btn'  onClick={
+              ()=>{
+                handleCloseDelete()
+                let array=[];
+                comment.map((item)=>{
+                if(item!=deleteVar){
+                  array.push(item)
+                }
+                });
+                setComments(array);
+              }
+              
+             
+            }>
+              Delete
+            </button>
+            <button  className='delete-btn' onClick={handleCloseDelete}>
+              Cancel
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
+      
+      
+      
       {
         openComment?(
 
@@ -179,12 +227,12 @@ function handleReply(){
                         <div className="Post-Big-Title2">Feedbox Member</div>
                       </div>
                     </div>
-                    <Link to="/main" className="Cancel-Icon-Container" style={{textDecoration: 'none'}}>
+                    <Link to="/profile" className="Cancel-Icon-Container" style={{textDecoration: 'none'}}>
                       <FontAwesomeIcon className="fa-lg" icon={faXmark} onClick={ handleClose }/>
                     </Link>
                   </div>
                   {/* Description */}
-                  <div className="Post-Big-Description">
+                  <div className="Post-Big-Description" >
                     MIUI 14 is the latest version of Xiaomi's custom Android
                     operating system, featuring a refreshed design and new
                     features.
@@ -200,7 +248,6 @@ function handleReply(){
                   {/* Comment 1 */}
                   {
                     comment.map((data)=>(
-
                       <section className="Post-Comment-About">
                     
                       {/* Left part */}
@@ -224,6 +271,11 @@ function handleReply(){
 
                         <div className="Comment-Right-Down">
                           <span className="Comment-Down-Other">22h</span>
+                          <span className="Comment-Down-Other Comment-Down-Other1" onClick={()=>{
+                              handleShowDelete()
+                              setDeleteVar(data);
+                            }
+                          }>edit</span>
 
                           {
                             showReply==true?
@@ -233,12 +285,6 @@ function handleReply(){
                           <span style={{display:"none"}}></span>
 
                           }
-                          
-                          
-                            
-                          
-
-
                         </div>
                         <div className={showReplView}>
                           <div className="Comment-Right-User-Name">
@@ -273,9 +319,19 @@ function handleReply(){
                       ---- View Reply
                     </div>
                       :
-                      <div className={showViewReply} onClick={handleView}>
+                      <>
+                      <span className={showViewReply} onClick={handleView}>
                       ---- Hide Reply
-                    </div>
+                      </span>
+                       <span className="Comment-Down-Other Comment-Down-Other1" onClick={()=>{
+                        handleShowDelete()
+                        
+                      }}
+                      
+                      style={{marginLeft:'20px'}}
+                      >
+                        edit</span>
+                        </>
                     }
                       
 
