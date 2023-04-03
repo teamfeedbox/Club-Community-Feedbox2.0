@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Accessibility } from "./accessibility";
 import { MenuToggle } from "./menuToggle";
+import {Link} from 'react-router-dom'
+
 
 const NavLinksContainer = styled.div`
   height: 100%;
@@ -48,7 +50,7 @@ const LinkItemHighlight = styled.li`
   margin-bottom: 10px;
 `;
 
-const Link = styled.a`
+const Links = styled(Link)`
   text-decoration: none;
   color: inherit;
   font-size: inherit;
@@ -70,62 +72,62 @@ export function MobileNavLinks(props) {
         <LinksWrapper>
           {selectedPage === "/main" ? (
             <LinkItemHighlight>
-              <Link href="/main">Home</Link>
+              <Links to="/main">Home</Links>
             </LinkItemHighlight>
           ) : (
             <LinkItem>
-              <Link href="/main">Home</Link>
+              <Links to="/main">Home</Links>
             </LinkItem>
           )}
 
           {/* {selectedPage === "/profile" ? (
             <LinkItemHighlight>
-              <Link href="/profile">Profile</Link>
+              <Link to="/profile">Profile</Link>
             </LinkItemHighlight>
           ) : (
             <LinkItem>
-              <Link href="/profile">Profile</Link>
+              <Link to="/profile">Profile</Link>
             </LinkItem>
           )} */}
 
           {selectedPage === "/calendar" || selectedPage === "/attendance" ? (
             <LinkItemHighlight>
-              <Link href="/calendar">Calendar</Link>
+              <Links to="/calendar">Calendar</Links>
             </LinkItemHighlight>
           ) : (
             <LinkItem>
-              <Link href="/calendar">Calendar</Link>
+              <Links to="/calendar">Calendar</Links>
             </LinkItem>
           )}
 
           {selectedPage === "/approvals" ? (
             <LinkItemHighlight>
-              <Link href="/approvals">Approvals</Link>
+              <Links to="/approvals">Approvals</Links>
             </LinkItemHighlight>
           ) : (
             <LinkItem>
-              <Link href="/approvals">Approvals</Link>
+              <Links to="/approvals">Approvals</Links>
             </LinkItem>
           )}
 
           {selectedPage === "/rescources" ||
           selectedPage === "/rescourcesDisplay" ? (
             <LinkItemHighlight>
-              <Link href="/rescources">Rescources</Link>
+              <Links to="/rescources">Rescources</Links>
             </LinkItemHighlight>
           ) : (
             <LinkItem>
-              <Link href="/rescources">Rescources</Link>
+              <Links to="/rescources">Rescources</Links>
             </LinkItem>
           )}
 
           {selectedPage === "/faq" ? (
             <LinkItemHighlight>
-              <Link href="/faq">FAQs</Link>
+              <Links to="/faq">FAQs</Links>
             </LinkItemHighlight>
           ) : (
             <LinkItem>
-              <Link href="/faq">FAQs</Link>
+              <Links to="/faq">FAQs</Links>
             </LinkItem>
           )}
 

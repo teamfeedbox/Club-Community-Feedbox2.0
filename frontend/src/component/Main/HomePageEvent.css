@@ -109,4 +109,7 @@
         font-weight: 500;
         font-size: 1rem;
     }
+.carousel .carousel-status{
+    color: #000;
+}
 }

@@ -1,8 +1,4 @@
 .CreatePost {
-    /* border-radius: 10px;
-    margin: 20px;
-    padding: 10px;
-    background-color: white; */
     margin: 20px;
     padding: 10px;
     border-radius: 8px;
@@ -16,6 +12,7 @@
     height: 45px;
     width: 45px;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .create-post-start {
@@ -50,9 +47,6 @@
     border-bottom: none;
 }
 
-.modal-body {
-    /* height: 200px; */
-}
 
 .modal-body textarea:focus {
     outline: none;
@@ -69,6 +63,7 @@
     height: 50px;
     width: 50px;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .modal-profile-section-content {
@@ -139,5 +134,5 @@
     .CreatePost {
         margin: 10px 0px;
     }
-    
+
 }
