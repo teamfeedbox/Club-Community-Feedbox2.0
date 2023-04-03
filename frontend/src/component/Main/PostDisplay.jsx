@@ -1,11 +1,8 @@
-<<<<<<< HEAD
 // import React, { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
 
-=======
->>>>>>> 82e55e95b4d45844b8850350ade2be3e965eb5c4
 import { FcLike,FcLikePlaceholder } from "react-icons/fc";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
