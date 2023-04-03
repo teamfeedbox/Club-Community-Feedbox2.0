@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 const NavLinksContainer = styled.div`
   height: 100%;
@@ -58,6 +58,31 @@ const Links = styled(Link)`
 `;
 
 export function NavLinks(props) {
+  const [user, setUser] = useState();
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    getUser();
+  }, []);
+  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
+  // console.log(userId)
+  const getUser = async () => {
+    // console.log(id)
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    setRole(result.role);
+
+    // console.log(id)
+    setUser(result);
+
+    // if (result) {
+    //   getUser();
+    // }
+  };
   const selectedPage = window.location.pathname;
 
   return (
@@ -83,14 +108,20 @@ export function NavLinks(props) {
           </LinkItem>
         )}
 
-        {selectedPage === "/approvals" ? (
-          <LinkItemHighlight>
-            <Links to="/approvals">Approvals</Links>
-          </LinkItemHighlight>
+        {role !== "Club_Member" ? (
+          <div>
+            {selectedPage === "/approvals" ? (
+              <LinkItemHighlight>
+                <Links to="/approvals">Approvals</Links>
+              </LinkItemHighlight>
+            ) : (
+              <LinkItem>
+                <Links to="/approvals">Approvals</Links>
+              </LinkItem>
+            )}
+          </div>
         ) : (
-          <LinkItem>
-            <Links to="/approvals">Approvals</Links>
-          </LinkItem>
+          ""
         )}
 
         {selectedPage === "/rescources" ||

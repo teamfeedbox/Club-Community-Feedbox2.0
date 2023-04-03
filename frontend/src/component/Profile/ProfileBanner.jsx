@@ -8,6 +8,7 @@ function ProfileBanner() {
 
   const [data, setData] = useState();
   const [open, setOpen] = useState(false);
+  const [role, setRole] = useState('');
 
   useEffect(() => {
     getUser();
@@ -22,6 +23,7 @@ function ProfileBanner() {
       },
     });
     result = await result.json();
+    setRole(result.role);
     // console.log(result);
     setData(result);
     // if (result) {
@@ -37,9 +39,16 @@ function ProfileBanner() {
             <img src={data && data.img}></img>
             <div>
                 <p>{data && data.name}</p>
-                <span>President</span>
+                {role === "Club_Member" ? (
+            <span> Club Member </span>
+          ) : role === "Super_Admin" ? (
+            <span> Super Admin </span>
+          ) : (
+            <span> {role} </span>
+          )}
             </div>
-            <EditProfile open={open} setOpen={setOpen}/>
+            <EditProfile open={open} setOpen={setOpen
+            }/>
 
             <button onClick={() => {setOpen(!open)}} >
                 <FontAwesomeIcon 
