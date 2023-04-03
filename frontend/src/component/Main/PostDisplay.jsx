@@ -1,3 +1,8 @@
+// import React, { useEffect, useState } from "react";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
+
 import { FcLike,FcLikePlaceholder } from "react-icons/fc";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
@@ -275,7 +280,7 @@ function showRep(){
             {item.likes.includes(user) ? (
               <div className="post-display-bottom-content">
                 <FcLike
-                 size={25}
+                 size={28}
                   onClick={function () {
                     unlike(item._id);
                     // unlike(item._id);
@@ -286,20 +291,26 @@ function showRep(){
                 // unlike(item._id);
               }}/> */}
 
-                {item.likes.length}
+                <span>{item.likes.length}</span>
               </div>
             ) : (
               <div className="post-display-bottom-content">
-                {/* <FontAwesomeIcon className="fa-lg" icon={faHeart} style={{color:"red"}}/> */}
-                <FcLikePlaceholder
-                  size={25}
+                <FontAwesomeIcon className="fa-lg" icon={faHeart} style={{fontSize:"25px"}}
+                onClick={function () {
+                  like(item._id);
+                }}
+                />
+                {/* <FcLikePlaceholder
+                  size={30}
                   onClick={function () {
                     like(item._id);
                     // unlike(item._id);
                   }}
-                />
-
-                {item.likes.length}
+                /> */}
+              <span>
+              {item.likes.length}
+              </span>
+                
               </div>
             )}
 
