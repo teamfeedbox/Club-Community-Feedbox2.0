@@ -1,6 +1,7 @@
 import React from "react";
 import "./Faq.css";
 import NavbarRes from "./navbar/NavbarRes";
+import { Scrollbars } from "react-custom-scrollbars";
 
 const faqs = [
   {
@@ -40,50 +41,54 @@ const Faq = () => {
     <div className="">
       <NavbarRes />
       <div className="lg:p-[85px] pt-[85px] pb-[80px] bg-gray-200">
-        <div className="shadow m-auto lg:w-[80%] md:w-[85%] w-[100%] bg-white rounded-2xl"> 
-        <div className="lg:pt-5 pt-4 flex m-auto lg:flex-row flex-col ">
-          <div className="lg:w-[45%]  m-auto">
-            <img
-              className="lg:h-[350px] lg:w-[480px] md:h-[250px] md:w-[300px] m-auto rounded h-[200px]"
-              src="Images/faqImg.png"
-              alt=""
-            />
+        <div className="shadow m-auto lg:w-[80%] md:w-[85%] w-[100%] bg-white rounded-2xl">
+          <div className="lg:pt-5 pt-4 flex m-auto lg:flex-row flex-col ">
+            <div className="lg:w-[45%]  m-auto">
+              <img
+                className="lg:h-[350px] lg:w-[480px] md:h-[250px] md:w-[300px] m-auto rounded h-[200px]"
+                src="Images/faqImg.png"
+                alt=""
+              />
+            </div>
+            <div class="grid divide-y divide-neutral-200 lg:w-[50%]  pt-4 m-2  lg:pr-6 ">
+              <Scrollbars style={{ height: "350px" }}>
+                {faqs.map((faq) => (
+                  <div class="py-3 px-2 z-20 relative">
+                    <details class="group">
+                      <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
+                        <span className="font-bold"> {faq.question}</span>
+                        <span class="transition group-open:rotate-180">
+                          <svg
+                            fill="none"
+                            height="24"
+                            shape-rendering="geometricPrecision"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="1.5"
+                            viewBox="0 0 24 24"
+                            width="24"
+                          >
+                            <path d="M6 9l6 6 6-6"></path>
+                          </svg>
+                        </span>
+                      </summary>
+                      <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
+                        {faq.answer}
+                      </p>
+                    </details>
+                  </div>
+                ))}
+              </Scrollbars>
+            </div>
           </div>
-          <div class="grid divide-y divide-neutral-200 lg:w-[50%]  pt-4 m-2  lg:pr-6 ">
-            {faqs.map((faq) => (
-              <div class="py-3 px-2 z-20 relative">
-                <details class="group">
-                  <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
-                    <span className="font-bold"> {faq.question}</span>
-                    <span class="transition group-open:rotate-180">
-                      <svg
-                        fill="none"
-                        height="24"
-                        shape-rendering="geometricPrecision"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.5"
-                        viewBox="0 0 24 24"
-                        width="24"
-                      >
-                        <path d="M6 9l6 6 6-6"></path>
-                      </svg>
-                    </span>
-                  </summary>
-                  <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
-                    {faq.answer}
-                  </p>
-                </details>
-              </div>
-            ))}
-          </div>
+          <img
+            className="w-[100%] h-[16%] lg:h-[35%] z-10"
+            src="Images/faqFooter.png"
+            alt=""
+          />
         </div>
-      {/* <div className="fixed w-[100%]"> */}
-        <img className="w-[100%] h-[16%] lg:h-[35%] z-10" src="Images/faqFooter.png" alt="" />
       </div>
-      </div>
-      {/* </div> */}
     </div>
   );
 };

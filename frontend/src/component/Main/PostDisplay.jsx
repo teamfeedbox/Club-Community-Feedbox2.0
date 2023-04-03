@@ -1,29 +1,22 @@
+<<<<<<< HEAD
 // import React, { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
 
+=======
+>>>>>>> 82e55e95b4d45844b8850350ade2be3e965eb5c4
 import { FcLike,FcLikePlaceholder } from "react-icons/fc";
-
-import { Scrollbars } from "react-custom-scrollbars";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import React, { useRef, useState, useEffect,} from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import {Link} from "react-router-dom";
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-
-// import "./styles.css";
-
-// import required modules
 import { FreeMode, Navigation, Thumbs } from "swiper";
-
-import Comment from "./Comment";
 import "./PostDisplay.css";
 import PostBigModel from "./PostBigModel";
 
@@ -222,7 +215,7 @@ function showRep(){
                 {item && item.postedBy && item.postedBy.name}
               </p>
 
-              <div className="post-head-content" style={{ display: "flex" }}>
+              <div className="post-head-content">
                 <p className="post-display-heading-college">
                   {item && item.postedBy && item.postedBy.collegeName}
                 </p>

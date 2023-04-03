@@ -124,7 +124,9 @@ const PendingApprovals = (props) => {
                     </div>
                   </td>
                 </tr>
-              )) : "No Pending Approvals"}
+              )) : <div>
+                No Pending Requests...
+              </div> }
             </tbody>
           </table>
         </Scrollbars>
