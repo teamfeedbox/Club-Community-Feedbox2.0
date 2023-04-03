@@ -39,6 +39,11 @@ const EditProfile = ({ open, setOpen }) => {
 
   useEffect(()=>{
     getUserDetails();
+    updateDetail(data)
+})
+
+useEffect(()=>{
+  handleClose()
 },[])
 
   const update = async(data)=>{

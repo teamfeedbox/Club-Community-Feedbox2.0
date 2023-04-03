@@ -28,6 +28,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
+    enum:[ "Club_Member", "Lead", "Admin","Super_Admin","user"]
     //required: true,
   },
   position:{

@@ -226,7 +226,7 @@ router.put('/updatePic/:id',requireLogin, async(req,res)=>{
   res.send(result)
 })
 
-router.put('/updateDetail/:id',requireLogin, async(req,res)=>{
+router.put('/updateDetail/:id', async(req,res)=>{
   
 //  console.log(req.body.email)
 //   console.log(req.body.bio)

@@ -71,7 +71,7 @@ const HomePageProfile = () => {
         <div className="home-profile-skills">
           {data &&
             data.skills.map((item, index) => (
-              <div style={{ background: backColor[index] , color: fColor[index] }}>
+              <div key={item._id} style={{ background: backColor[index] , color: fColor[index] }}>
                 {item}
               </div>
             ))}

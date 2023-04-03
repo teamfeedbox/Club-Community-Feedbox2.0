@@ -18,7 +18,9 @@ import "swiper/css/thumbs";
 import "./PostBigModel.css";
 
 
-function PostBigModel({openComment,setOpenComment}) {
+function PostBigModel({openComment,setOpenComment,id}) {
+  // console.log(id);
+
   const [showModal, setShowModal] = useState(true);
   
   const [data, setData] = useState([]);
@@ -36,13 +38,19 @@ function PostBigModel({openComment,setOpenComment}) {
 
   const[showReply,setShowReply]=useState(true);
   const [changeText,setText]=useState(true);
+  const [user, setUser]=useState();
   const [showViewReply,setShowViewReply]=useState("Comment-Right-View-Reply-Hide");
+  const [loading, setLoading] = useState(false)
 
-  const [reply,setReply]=useState('');
-  const [comment,setComments] = useState([" How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q", 
-  "How many times were you frustrated while looking out for a good collection of programming/algorithm /interview questions? What did you expect and what did you get? This portal has been created to", 
-  "How many times were you frustrated while looking out for a good collection of programming/algorithm.",
-"How many times were you frustrated while looking"]);
+  const [replyMsg,setReplyMsg]=useState('');
+const [postData, setPostData] = useState();
+const [commentId, setCommentId] = useState('');
+
+  const [message,setMessage] = useState('');
+
+
+
+
 function handleReply(){
     if(showAdd=="Show-Comment-Add-Btn")
     {
@@ -75,21 +83,29 @@ function handleReply(){
       setShowView('Show-Comment-View-Btn') 
     }
   }
-  function handleFormSubmit(event){
-    event.preventDefault();
 
-    if(tempComment!="")
-    {
-    setComments((comment) => [...comment, tempComment]);
-    // console.log(tempComment)
-    setTempComment("");
-    }
-  }
+
+
+  // function handleFormSubmit(event){
+
+
+  //   event.preventDefault();
+
+  //   if(tempComment!="")
+  //   {
+  //   setComments((comment) => [...comment, tempComment]);
+  //   // console.log(tempComment)
+  //   setTempComment("");
+  //   }
+  // }
+
+
+
   function handleAfterReply(event){
     event.preventDefault();
     if(tempReply!="")
     {
-      setReply(tempReply);
+      // setReply(tempReply);
     }  
   }
 
@@ -109,6 +125,106 @@ function handleReply(){
   const handleClose=()=>{
     setOpenComment(false);
   }
+
+
+  useEffect(()=>{
+    if(id){
+      getPost()
+    }
+   setLoading(false)
+  },[id,loading])
+
+const getPost = async()=>{
+  // console.log(id)
+let result = await fetch(`http://localhost:8000/userPost/${id}`,{
+  headers:{
+    Authorization: "Bearer " + localStorage.getItem("jwt"),
+
+  },
+})
+result = await result.json();
+// console.log(result) 
+setUser(result)
+// if(result._id===id){
+//   getPost()
+// }
+}
+
+
+
+
+// console.log(reply)
+// useEffect(()=>{
+//   updateComment();
+// },[commentId])
+
+
+
+const updateComment = () => {
+  console.log(id,"",message);
+  fetch("http://localhost:8000/comment", {
+    method: "put",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("jwt"),
+    },
+    body: JSON.stringify({id,message}),
+
+  })
+    .then((res) => res.json())
+    .then((result) => {
+      setPostData(result)
+      console.log(result)
+      setLoading(true);
+      setMessage('');
+
+      // const newData = data.map((item) => {
+      //   if (item._id === result._id) {
+      //     return result;
+      //   } else {
+      //     return item;
+      //   }
+      // });
+      // setData(newData);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+
+const updateReply = () => {
+  console.log(commentId,"",replyMsg);
+  fetch(`http://localhost:8000/reply/${commentId}`, {
+    method: "put",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("jwt"),
+    },
+    body: JSON.stringify({id,replyMsg}),
+
+  })
+    .then((res) => res.json())
+    .then((result) => {
+      // setPostData(result)
+      console.log(result)
+      setLoading(true);
+      setReplyMsg('');
+
+      // const newData = data.map((item) => {
+      //   if (item._id === result._id) {
+      //     return result;
+      //   } else {
+      //     return item;
+      //   }
+      // });
+      // setData(newData);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 
   return (
     <>
@@ -165,17 +281,17 @@ function handleReply(){
 
         </div>
       {/* </section> */}
-
+      
               {/* Right side */}
               <section className="Post-Big-Model-Right">
                 <div className="Post-Big-Model-Profile">
                   <div className="Post-Big-Pro">
                     <div style={{ display: "flex", flexDirection: "row",height:"fit-content",width:"95%" }}>
                       <div className="Post-Big-Pro-img">
-                      <img src="Images/alumni2.jpg" alt="profile image"></img>
+                      <img src={user && user.postedBy && user.postedBy.img} alt="profile image"></img>
                       </div>
                       <div className="Post-Big-Title">
-                        <div className="Post-Big-Title1">Isha Bam</div>
+                        <div className="Post-Big-Title1">{user && user.postedBy && user.postedBy.name}</div>
                         <div className="Post-Big-Title2">Feedbox Member</div>
                       </div>
                     </div>
@@ -185,134 +301,154 @@ function handleReply(){
                   </div>
                   {/* Description */}
                   <div className="Post-Big-Description">
-                    MIUI 14 is the latest version of Xiaomi's custom Android
-                    operating system, featuring a refreshed design and new
-                    features.
+                   {user && user.desc}
                   </div>
                 </div>
 
                 {/* Line to seprate pofile and comment */}
                 {/* <div className="Post-Big-Line"></div> */}
 
+               
+               
+               
+               
                 {/* Comment part */}
                 <div className="Post-Big-Comment">
                 <Scrollbars className="Scrollbar-height" >
                   {/* Comment 1 */}
-                  {
-                    comment.map((data)=>(
-
-                      <section className="Post-Comment-About">
+               {
+                user && user.comment.map((item)=>
+ 
+                <section className="Post-Comment-About" key={item._id}>
                     
-                      {/* Left part */}
-                      <div className="Comment-Left">
-                        <img src="Images/bandar.jpeg"></img>
+                {/* Left part */}
+                <div className="Comment-Left">
+                  <img src={item && item.postedBy && item.postedBy.img}></img>
 
-                      </div>
+                </div>
+                
+                {/* Right part */}
+                <div className="Comment-Right">
+
+                  <div className="Comment-Right-Top">
+                    <div className="Comment-Right-User-Name">
+                      {item && item.postedBy && item.postedBy.name}
                       
-                      {/* Right part */}
-                      <div className="Comment-Right">
-  
-                        <div className="Comment-Right-Top">
-                          <div className="Comment-Right-User-Name">
-                            Random Person
-                          </div>
-                          <div className="Right-Comment">
-                          {data}
-                          </div>
-                        </div>
-
-
-                        <div className="Comment-Right-Down">
-                          <span className="Comment-Down-Other">22h</span>
-
-                          {
-                            showReply==true?
-                            <span className="Comment-Down-Other Comment-Down-Other1 " onClick={handleReply}>
-                              reply 
-                            </span>:
-                          <span style={{display:"none"}}></span>
-
-                          }
-                          
-                          
-                            
-                          
-
-
-                        </div>
-                        <div className={showReplView}>
-                          <div className="Comment-Right-User-Name">
-                            Random Person
-                          </div>
-                          <div className="Right-Comment">
-                            {
-                             reply
-                            }
-                          </div>
-                        </div>
-                        <div className={showView}>
-                        <div className="Comment-Right-User-Name">
-                          Random Person
-                        </div>
-                        <div className="Right-Comment">
-                          How many times were you frustrated while looking out
-                          for a good collection of programming/algorithm
-                          /interview questions? What did you expect and what did
-                          you get? This portal has been created to provide well
-                          written, well thought and well explained solutions for
-                          selected questions.
-                        </div>
                     </div>
+                    <div className="Right-Comment">
+                    {item.message}
+                    </div>
+                  </div>
+
+
+                  <div className="Comment-Right-Down">
+                    <span className="Comment-Down-Other">22h</span>
 
                     {
-                      changeText==true?
-                      <div className={showViewReply} onClick={handleView}>
-                      ---- View Reply
-                    </div>
-                      :
-                      <div className={showViewReply} onClick={handleView}>
-                      ---- Hide Reply
-                    </div>
+                      showReply==true?
+                      <span className="Comment-Down-Other Comment-Down-Other1 " onClick={()=>{
+                        handleReply()
+                        setCommentId(item._id)
+                        console.log(item._id)
+                        }}>
+                        reply 
+                      </span>:
+                    <span style={{display:"none"}}></span>
+
                     }
+                    
+                    
                       
+                    
 
+
+                  </div>
+                  {/* <div className={showReplView}>
+                    <div className="Comment-Right-User-Name">
+                      {user && user.postedBy && user.postedBy.name}
+                    </div>
+                    <div className="Right-Comment">
                       {
-                         showReply==true?
-                         <div className={showAdd}>
-                      <form onClick={handleAfterReply}>
-                        <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700">
-                          <div
-                            className="rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
-                          >
-                            
-                          </div>
-                          <input
-                            className="block border-solid  mx-2 p-2.5 w-full text-sm text-black-600 bg-white  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 border-black-600"
-                            placeholder="Reply..."
-                            onChange={(event)=>
-                              setTempReply(event.target.value)
-                            }
-                          
-                          ></input>
-                          <button onClick={()=>(showRep, setShowReply(true),setShowViewReply("Comment-Right-View-Reply"),setShowReply(false) )}
-                            type="submit"
-                            class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
-                          >
-                           <svg aria-hidden="true" class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
-  
-                          </button>
-                        </div>
-                      </form>
-                        
-                      </div>:<></>
+                       user && user.reply && user.reply.replyMsg
                       }
+                    </div>
+                  </div> */}
 
+
+                  <div className={showView}>
+                  <div className="Comment-Right-User-Name">
+                    Random Person
+                  </div>
+                  <div className="Right-Comment">
+               
+                  </div>
+              </div>
+
+              {
+                changeText==true?
+                <div className={showViewReply} onClick={handleView}>
+                ---- View Reply
+              </div>
+                :
+                <div className={showViewReply} onClick={handleView}>
+                ---- Hide Reply
+              </div>
+              }
+                
+
+                {
+                   showReply===true && item._id===commentId?
+                   <div className={showAdd}>
+                <form onSubmit={(e)=>{
+                e.preventDefault();
+                // setReply(e.target[0].value)
+                updateReply()
+                // updateComment()
+                // console.log(e.target[0].value)
+              }}
+                
+                >
+                  <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700">
+                    <div
+                      className="rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
+                    >
                       
-                      
-                      </div>  
-                    </section>
-                    ))
-                  }
+                    </div>
+                    <input
+                      className="block border-solid  mx-2 p-2.5 w-full text-sm text-black-600 bg-white  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 border-black-600"
+                      placeholder="Reply..."
+                      value={replyMsg}
+                      onChange={(event)=>
+                        setReplyMsg(event.target.value)
+
+                      }
+                    
+                    ></input>
+                    <button onClick={()=>(showRep, setShowReply(true),setShowViewReply("Comment-Right-View-Reply"),setShowReply(false) )}
+                      type="button"
+                      className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
+                    >
+                     <svg aria-hidden="true" className="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
+
+                    </button>
+                  </div>
+                </form>
+                  
+                </div>:<></>
+                }
+
+                
+                
+                </div>  
+              </section>
+              
+                )
+               }
+                 
+
+                    
+
+
                 </Scrollbars>
                 </div>
 
@@ -327,7 +463,7 @@ function handleReply(){
                             "0px 5px 0 10px",color:"black",cursor:"pointer"}}
                         />
                       </span>
-                      <span>200 Likes</span>
+                      <span>{user && user.likes.length}</span>
                     </span>
                     <span>
                       <span>
@@ -343,14 +479,19 @@ function handleReply(){
 
 
                   <div className="Comment-Add-Section">
-                    <form onSubmit={handleFormSubmit}>
+                    <form onSubmit={(e)=>{
+                      e.preventDefault();
+                      // setMessage(e.target[0].value)
+                      updateComment()
+                      // console.log(e.target[0].value)
+                    }}>
                       <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700">
                         <div
                           className="rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
                         >
                           <img src="Images/alumni2.jpg"
                             aria-hidden="true"
-                            class="w-10 h-8
+                            className="w-10 h-8
                             p-0
                             rounded-full
                             "
@@ -361,16 +502,20 @@ function handleReply(){
                           className="block mx-2 p-2.5 w-full text-sm rounded-lg border text-black" style={{border:"2px solid black"
                           }}
                           placeholder="Add a comment..."
+                          // type='button'
+                          value={message}
                           onChange={(event)=> 
-                            setTempComment(event.target.value)
+                            setMessage(event.target.value)
+                        //  console.log(event.target.value)
+
                           }
                           // value={afterSubmit}
                         ></input>
                         <button
                           type="submit"
-                          class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
+                          className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
                         >
-                         <svg aria-hidden="true" class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
+                         <svg aria-hidden="true" className="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
                         </button>
                       </div>
                     </form>

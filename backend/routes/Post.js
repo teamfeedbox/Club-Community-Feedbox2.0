@@ -96,17 +96,19 @@ router.get('/myPost',requireLogin,async(req,res)=>{
 })
 
 
-router.get('/post/:postId',requireLogin,async(req,res)=>{
-    var mySort = { date: -1 };
-     
-      Post.find({_id:req.params.postId})
-      .sort(mySort)
+router.get('/userPost/:postId',requireLogin,async(req,res)=>{
+    // var mySort = { date: -1 };
+    //  console.log(req.params.postId)
+      Post.findOne({_id:req.params.postId})
+    //   .sort(mySort)
     
       .populate('postedBy').select("-password")
+      .populate('comment.postedBy').select("-password")
+      .populate('reply.postedBy').select("-password")
   
-      .then(event=>{
-          // console.log(event)
-          res.json(event)
+      .then(post=>{
+        //   console.log(post)
+          res.json(post)
       })
       .catch(err=>{
           console.log(err)
@@ -177,27 +179,61 @@ router.put('/unlike',requireLogin,(req,res)=>{
 // comment api
 
 router.put('/comment',requireLogin,(req,res)=>{
+    // console.log(req.body.id)
     const comment = {
-        commentBy:req.user._id,
-        date:req.body.date,
+        postedBy:req.user,
+        // date:req.body.date,
         message:req.body.message,
+        // reply:{
+        //     postedBy:req.user,
+        //     replyMsg:req.body.replyMsg,
+        // }
+        // reply.replyMsg:req.body.replyMsg
     }
-    Post.findByIdAndUpdate(req.body.postedBy,{
+    Post.findByIdAndUpdate(req.body.id,{
         $push:{comment:comment}
     },{
         new:true
     })
-    .populate("comment.commentBy","_id name")
+    .populate("comment.postedBy")
     .exec((err,result)=>{
         if(err)
         {
             return res.json({error:err})
         }
         else{
+            // console.log(result)
             res.json(result)
         }
     })
 })
+
+
+router.put('/reply/:commentId',requireLogin,async(req,res)=>{
+
+   const reply = {
+        postedBy:req.user,
+        // date:req.body.date,
+        replyMsg:req.body.replyMsg,
+       
+    }
+    Post.findByIdAndUpdate(req.body.id,{
+        $set:{reply:reply}
+    },{
+        new:true
+    })
+    .populate("reply.postedBy")
+    .exec((err,result)=>{
+        if(err)
+        {
+            return res.json({error:err})
+        }
+        else{
+            console.log(result)
+            res.json(result)
+        }
+    })
+  })
 
 
 

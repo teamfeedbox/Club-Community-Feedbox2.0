@@ -21,7 +21,7 @@ const Register = () => {
   const [userSkills, setUserSkills] = useState();
   const [branch, setBranch] = useState();
   const [bio, setBio] = useState();
-  const [role, setRole] = useState();
+  const [role, setRole] = useState('user');
   const [coins, setCoins] = useState();
   const [position, setPosition] = useState();
   const [uniqueId, setUniqueId] = useState();
@@ -30,13 +30,13 @@ const Register = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const auth = localStorage.getItem("user");
-    console.log(auth)
-    if (auth) {
-      navigate("/login");
-    }
-  });
+  // useEffect(() => {
+  //   const auth = localStorage.getItem("user");
+  //   console.log(auth)
+  //   if (auth) {
+  //     navigate("/login");
+  //   }
+  // });
 
   const collectData = async (e) => {
     e.preventDefault();
@@ -74,7 +74,7 @@ const Register = () => {
     });
     result = await result.json();
      console.log(result)
-    localStorage.setItem("user", JSON.stringify(result));
+    // localStorage.setItem("user", JSON.stringify(result));
     if (result) {
       navigate("/login");
     }
