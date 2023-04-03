@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Accessibility } from "./accessibility";
 import { MenuToggle } from "./menuToggle";
-import {Link} from 'react-router-dom'
-
+import { Link } from "react-router-dom";
 
 const NavLinksContainer = styled.div`
   height: 100%;
@@ -62,6 +61,31 @@ const Marginer = styled.div`
 
 export function MobileNavLinks(props) {
   const [isOpen, setOpen] = useState(false);
+  const [user, setUser] = useState();
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    getUser();
+  }, []);
+  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
+  // console.log(userId)
+  const getUser = async () => {
+    // console.log(id)
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    setRole(result.role);
+
+    // console.log(id)
+    setUser(result);
+
+    // if (result) {
+    //   getUser();
+    // }
+  };
 
   const selectedPage = window.location.pathname;
 
@@ -100,14 +124,20 @@ export function MobileNavLinks(props) {
             </LinkItem>
           )}
 
-          {selectedPage === "/approvals" ? (
-            <LinkItemHighlight>
-              <Links to="/approvals">Approvals</Links>
-            </LinkItemHighlight>
+          {role !== "Club_Member" ? (
+            <div>
+              {selectedPage === "/approvals" ? (
+                <LinkItemHighlight>
+                  <Links to="/approvals">Approvals</Links>
+                </LinkItemHighlight>
+              ) : (
+                <LinkItem>
+                  <Links to="/approvals">Approvals</Links>
+                </LinkItem>
+              )}{" "}
+            </div>
           ) : (
-            <LinkItem>
-              <Links to="/approvals">Approvals</Links>
-            </LinkItem>
+            ""
           )}
 
           {selectedPage === "/rescources" ||
@@ -121,6 +151,48 @@ export function MobileNavLinks(props) {
             </LinkItem>
           )}
 
+          {selectedPage === "/notification" ? (
+            <LinkItemHighlight>
+              <Links to="/notification">Notification</Links>
+            </LinkItemHighlight>
+          ) : (
+            <LinkItem>
+              <Links to="/notification">Notification</Links>
+            </LinkItem>
+          )}
+
+          {role !== "Super_Admin" ? (
+            <div>
+              {selectedPage === "/profile" ? (
+                <LinkItemHighlight>
+                  <Links to="/profile">Profile</Links>
+                </LinkItemHighlight>
+              ) : (
+                <LinkItem>
+                  <Links to="/profile">Profile</Links>
+                </LinkItem>
+              )}
+            </div>
+          ) : (
+            ""
+          )}
+
+          {role === "Super_Admin" ? (
+            <div>
+              {selectedPage === "/dashboard" ? (
+                <LinkItemHighlight>
+                  <Links to="/dashboard">Dashboard</Links>
+                </LinkItemHighlight>
+              ) : (
+                <LinkItem>
+                  <Links to="/dashboard">Dashboard</Links>
+                </LinkItem>
+              )}
+            </div>
+          ) : (
+            ""
+          )}
+
           {selectedPage === "/faq" ? (
             <LinkItemHighlight>
               <Links to="/faq">FAQs</Links>
@@ -132,7 +204,7 @@ export function MobileNavLinks(props) {
           )}
 
           <Marginer />
-          <Accessibility />
+          {/* <Accessibility /> */}
         </LinksWrapper>
       )}
     </NavLinksContainer>

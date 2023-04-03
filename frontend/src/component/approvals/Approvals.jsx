@@ -10,10 +10,35 @@ const Approvals = () => {
   const [tabs, setTabs] = useState("club");
   const [cM,setCM]=useState(false);
   const [click,setClick]=useState(false);
+  const [role, setRole] = useState('');
+  const [user, setUser] = useState();
 
   const pull_data = (data) => {
       setCM(data);
   }
+
+  useEffect(() => {
+    getUser();
+  },[]);
+  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
+  // console.log(userId)
+  const getUser = async () => {
+    // console.log(id)
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    setRole(result.role);
+    
+    // console.log(id)
+    setUser(result);
+
+    // if (result) {
+    //   getUser();
+    // }
+  };
   
 
   return (
@@ -36,7 +61,7 @@ const Approvals = () => {
               Club Members
             </div>
 
-            <div
+              <div
               className={
                 tabs === "Lead"
                   ? "profile-tab-content profile-tab-content-highlight"
@@ -45,9 +70,10 @@ const Approvals = () => {
               onClick={() => {setClick(true); setTabs("Lead")}}
             >
               Leads
-            </div>
+            </div> 
 
-            <div
+            {role === 'Admin' || role === 'Super_Admin' ?
+              <div
               className={
                 tabs === "Admin"
                   ? "profile-tab-content profile-tab-content-highlight"
@@ -56,9 +82,10 @@ const Approvals = () => {
               onClick={() => setTabs("Admin")}
             >
               Admins
-            </div>
+            </div> : ''}
 
-            <div
+            {role === 'Super_Admin' ?
+              <div
               className={
                 tabs === "SuperAdmin"
                   ? "profile-tab-content profile-tab-content-highlight"
@@ -67,7 +94,7 @@ const Approvals = () => {
               onClick={() => setTabs("SuperAdmin")}
             >
               SuperAdmin
-            </div>
+            </div> : ''}
           </div>
 
           <div className="profile-tab-data">
