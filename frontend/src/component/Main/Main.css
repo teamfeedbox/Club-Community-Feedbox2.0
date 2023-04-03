@@ -1,48 +1,47 @@
-.main_container{
+.main_container {
     width: 100%;
     padding-top: 65px;
-    /* padding-bottom: 500px; */
-    /* background-image: url('Images/main-bg-community-web.png'); */
 }
-.main-page-display-web{
+
+.main-page-display-web {
     display: block;
 }
+
 .main-page-display-mobile {
     display: none;
 }
+
 .main {
     display: flex;
-    margin: 0% 3%;
+    margin: auto;
     padding: 0px 10px 250px 10px;
-    /* width: 100%; */
     height: 100vh;
     overflow: hidden;
 }
 
 .main-home-page-profile {
-    width: 23%;
+    width: 22%;
+    overflow-y: scroll;
+    height: 100vh;
 }
 
 .main-post-dispaly {
     overflow-y: scroll;
     height: 100vh;
-    width: 50%;
-    /* padding-bottom: 100px; */
+    width: 40%;
 }
 
 
 .main-home-page-cal {
     overflow-y: scroll;
-    width: 27%;
-    /* position: absolute; */
+    width: 24%;
     height: 100vh;
     padding-bottom: 100px;
-
 }
 
 .main-post-dispaly::-webkit-scrollbar {
     display: none;
-  }
+}
 
 .main-home-page-cal::-webkit-scrollbar {
     display: none;
@@ -59,54 +58,73 @@
     font-weight: 600;
     margin-left: 5px;
 }
+
+.main-page-display-tab {
+    height: 100%;
+}
+
 .main-page-display-tab-left {
     overflow-y: scroll;
     height: 100vh;
+    width: 40%;
+    margin-left: 15px;
 }
+
 .main-page-display-tab-right {
     overflow-y: scroll;
     height: 100vh;
+    width: 60%;
 }
+
 .main-page-display-tab-right::-webkit-scrollbar {
     display: none;
-  }
+}
 
-  .main-page-display-tab-left::-webkit-scrollbar {
+.main-page-display-tab-left::-webkit-scrollbar {
+    display: none;
+}
+.main-home-page-profile::-webkit-scrollbar {
     display: none;
 }
 
 @media only screen and (max-width: 1000px) {
-    .main-page-display-web{
+    .main-page-display-web {
         display: none;
     }
+
     .main-page-display-mobile {
         display: none;
     }
+
     .main-page-display-tab {
         display: block;
     }
-    .main{
+
+    .main {
         padding: 0;
         /* margin: 0; */
     }
 }
 
 @media only screen and (max-width: 600px) {
-    .main-page-display-web{
+    .main-page-display-web {
         display: none;
     }
+
     .main-page-display-mobile {
         display: block;
     }
+
     .main-page-display-tab {
         display: none;
     }
-    
+
     .main {
         flex-direction: column;
         overflow: scroll;
         padding: 0;
     }
+
     .up-coming-events {
         margin: 0;
         text-align: center;

@@ -6,7 +6,6 @@ function PostDisplayPage() {
   return (
     <div>
         <PostDisplay/>
-        
     </div>
   )
 }

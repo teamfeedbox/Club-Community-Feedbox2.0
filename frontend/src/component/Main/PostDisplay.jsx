@@ -1,29 +1,19 @@
 // import React, { useEffect, useState } from "react";
 
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
 
 import { FcLike,FcLikePlaceholder } from "react-icons/fc";
-
-import { Scrollbars } from "react-custom-scrollbars";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import React, { useRef, useState, useEffect,} from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import {Link} from "react-router-dom";
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-
-// import "./styles.css";
-
-// import required modules
 import { FreeMode, Navigation, Thumbs } from "swiper";
-
-import Comment from "./Comment";
 import "./PostDisplay.css";
 import PostBigModel from "./PostBigModel";
 
@@ -40,7 +30,7 @@ const PostDisplay = () => {
   const [showReplView, setReplyView] = useState("Hide-Reply-View");
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [newS, setNewS] = useState(false);
-  // const [afterSubmit,setAfterSubmit]=useState("");
+  const [id , setId]=useState("");
 
   const [tempComment,setTempComment]=useState('');
   const [tempReply,setTempReply]=useState('');
@@ -212,7 +202,7 @@ function showRep(){
       { !loading ? 
       <div>
       {data.map((item, index) => (
-        <div className="post-display1">
+        <div key={item._id} className="post-display1">
           <div className="post-display-head">
             <div className="post-display-profile">
               <img src={item && item.postedBy && item.postedBy.img} alt="" />
@@ -222,7 +212,7 @@ function showRep(){
                 {item && item.postedBy && item.postedBy.name}
               </p>
 
-              <div className="post-head-content" style={{ display: "flex" }}>
+              <div className="post-head-content">
                 <p className="post-display-heading-college">
                   {item && item.postedBy && item.postedBy.collegeName}
                 </p>
@@ -290,7 +280,7 @@ function showRep(){
             {item.likes.includes(user) ? (
               <div className="post-display-bottom-content">
                 <FcLike
-                 size={25}
+                 size={28}
                   onClick={function () {
                     unlike(item._id);
                     // unlike(item._id);
@@ -301,28 +291,37 @@ function showRep(){
                 // unlike(item._id);
               }}/> */}
 
-                {item.likes.length}
+                <span>{item.likes.length}</span>
               </div>
             ) : (
               <div className="post-display-bottom-content">
-                {/* <FontAwesomeIcon className="fa-lg" icon={faHeart} style={{color:"red"}}/> */}
-                <FcLikePlaceholder
-                  size={25}
+                <FontAwesomeIcon className="fa-lg" icon={faHeart} style={{fontSize:"25px"}}
+                onClick={function () {
+                  like(item._id);
+                }}
+                />
+                {/* <FcLikePlaceholder
+                  size={30}
                   onClick={function () {
                     like(item._id);
                     // unlike(item._id);
                   }}
-                />
-
-                {item.likes.length}
+                /> */}
+              <span>
+              {item.likes.length}
+              </span>
+                
               </div>
             )}
 
            
-            <button onClick={()=>setOpenComment(!openComment) } className="post-display-bottom-content">
+            <button onClick={()=>{
+              setOpenComment(!openComment)
+              setId(item._id)
+              } } className="post-display-bottom-content">
               <img src="Images/message.svg" alt="" 
               />
-              100
+             {item.comment.length}
             </button>
           </div>
         </div>
@@ -333,6 +332,7 @@ function showRep(){
       <PostBigModel 
             openComment={openComment}
             setOpenComment={setOpenComment}
+            id={id}
       />
        
     </div>

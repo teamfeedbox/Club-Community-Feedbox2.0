@@ -256,7 +256,7 @@ export default function ReactBigCalendar() {
                         setEventPre("Calendar-view-events-hide");
                       }}
                     >
-                      Mark Attendance
+                     {myEvent.attendanceSubmitted ? 'View Attendance' :'Mark Attendance'}
                     </Link>
                   </button>
                 </div>

@@ -50,7 +50,7 @@ const postSchema = new mongoose.Schema({
 
   comment: [
     {
-      commentBy: {
+      postedBy: {
         // type: String,
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",
@@ -63,7 +63,7 @@ const postSchema = new mongoose.Schema({
         type: String,
       },
       reply: {
-        userId: {
+        postedBy: {
           // type: String,
           type: mongoose.Schema.Types.ObjectId,
           ref: "users",
@@ -78,6 +78,22 @@ const postSchema = new mongoose.Schema({
       },
     },
   ],
+
+  // reply:{
+  //   postedBy:{
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     ref: "users",
+  //   },
+  //   replyMsg:{
+  //   type: String,
+    
+  //   },
+  //   date: {
+  //     type: Date,
+  //     default: Date.now,
+  //   },
+
+  // }
 });
 
 module.exports = mongoose.model("posts", postSchema);

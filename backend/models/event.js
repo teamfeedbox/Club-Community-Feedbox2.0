@@ -22,6 +22,7 @@ const eventSchema = new mongoose.Schema({
     type: String,
   },
   attendanceSubmitted:{type:Boolean,default:false},
+  eventDuration:{type:Number,default:0},
   postedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",

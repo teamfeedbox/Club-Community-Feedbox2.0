@@ -1,19 +1,51 @@
-import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowUpRightFromSquare,
+  faHandSparkles,
+  faUserGroup,
+  faWandSparkles
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import "./HomePageProfile.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+// import {
+//   faCalendar,
+//   faUniversity,
+//   faUserGroup,
+// } from "@fortawesome/free-solid-svg-icons";
 
-const backColor = ['#EDC7E2', '#C7EDCF','#EDE7C7', '#EDC7C7', '#B5A6E1', '#B4B4B4', '#72C4FF', '#e9f5db', '#fad643' ,'#E3B47C' ]
+const backColor = [
+  "#EDC7E2",
+  "#C7EDCF",
+  "#EDE7C7",
+  "#EDC7C7",
+  "#B5A6E1",
+  "#B4B4B4",
+  "#72C4FF",
+  "#e9f5db",
+  "#fad643",
+  "#E3B47C",
+];
 
-const fColor = ['#9B0483', '#2AA100', '#A67904', '#A10000', '#5C0684', '#363636', '#035794', '#718355', '#76520E', '#744E37']
+const fColor = [
+  "#9B0483",
+  "#2AA100",
+  "#A67904",
+  "#A10000",
+  "#5C0684",
+  "#363636",
+  "#035794",
+  "#718355",
+  "#76520E",
+  "#744E37",
+];
 
 const HomePageProfile = () => {
-
   const auth = localStorage.getItem("user");
 
   const [data, setData] = useState();
+  const [college, setCollege] = useState("");
 
   useEffect(() => {
     getUser();
@@ -42,13 +74,15 @@ const HomePageProfile = () => {
     window.location.reload(true);
   };
 
+  const onAddCollege = (e) => {
+    setCollege(e.target.value);
+  };
+
   return (
-    <div className="HomePageProfile">
+    <div className="HomePageProfile pb-3">
+      {/* profile section */}
       <div className="home-profile-bg-doodle">
         <img src={"Images/doodle-profile-bg.png"} alt="" />
-        {/* <Link to='/profile' className="home-profile-visit-profile" title="Visit profile page">
-          <FontAwesomeIcon className="home-profile-visit-profile-icon" icon={faArrowUpRightFromSquare} />
-        </Link> */}
         <button className="home-profile-visit-profile" onClick={goToProfile}>
           <FontAwesomeIcon
             className="home-profile-visit-profile-icon"
@@ -65,21 +99,17 @@ const HomePageProfile = () => {
           <p>Club Member</p>
         </div>
       </div>
+      {/* not for super admin */}
 
-      <div className="home-profile-skill-div">
+      {/* <div className="home-profile-skill-div">
         <h6>Skills:</h6>
         <div className="home-profile-skills">
           {data &&
             data.skills.map((item, index) => (
-              <div style={{ background: backColor[index] , color: fColor[index] }}>
+              <div key={item._id} style={{ background: backColor[index] , color: fColor[index] }}>
                 {item}
               </div>
             ))}
-          {/* <div style={{background: '#C7EDCF', color : '#2AA100'}} >Graphics Designing</div> */}
-
-          {/* <div style={{background: '#EDC7E2', color : '#9B0483'}} >Content Writing</div>
-          <div style={{background: '#EDE7C7', color : '#A67904'}} >Search Engine Optimization</div>
-          <div style={{background: '#EDC7C7', color : '#A10000'}} >Time Management</div> */}
         </div>
       </div>
 
@@ -90,6 +120,94 @@ const HomePageProfile = () => {
         <div className="home-profile-coins-content">
           <h6>40</h6>
           <div>Coins Collected</div>
+        </div>
+      </div> */}
+
+      {/* for super admin */}
+
+      <div className="m-3 flex  flex-col">
+        <div className="mb-2">
+          <form action="">
+            <input
+              type="text"
+              className="border rounded p-1 w-[210px]"
+              placeholder="Add College"
+              required
+              onChange={onAddCollege}
+            />
+            <button
+              className=" p-1 rounded w-[60px] ml-2 bg-green-600 text-white font-[600] text-[1rem] hover:bg-green-800 transition-all ease-linear duration-2000 "
+              onClick={() => {
+                alert(`${college} added!!`);
+              }}
+            >
+              Add
+            </button>
+          </form>
+        </div>
+
+        <div className="font-[700] text-[1.1rem]">Select College:</div>
+        <div className=" ">
+          <select
+            name="College"
+            id="College"
+            className="border w-[280px] rounded p-1 mt-1"
+          >
+            <option disabled selected className="hidden">
+              College
+            </option>
+            <option value="IET-DAVV">IET-DAVV</option>
+            <option value="Shri Vaishnav Vidyapeeth Vishwavidyalaya">
+              Shri Vaishnav Vidyapeeth Vishwavidyalaya
+            </option>
+          </select>
+        </div>
+
+        <div className="mt-2">
+          {/* <div className="m-2 border rounded p-2 w-fit">
+            <p className="m-0">Total Students:</p>
+            <p className="m-0">100</p>
+          </div>
+          <div className="m-2 border rounded p-2 w-fit">
+            <p className="m-0">Total Students:</p>
+            <p className="m-0">100</p>
+          </div> */}
+
+          <div className="flex mt-2 w-[280px] rounded shadow-sm h-[60px] ">
+            <div className=" w-[45px] h-[45px] mt-1  ml-3 rounded bg-blue-200">
+              <FontAwesomeIcon
+                className="w-[25px] h-[25px] m-2.5 text-blue-800"
+                icon={faUserGroup}
+              />
+            </div>
+            <div className=" flex flex-col  pl-2">
+              <h className=" text-[18px] md:text-[16px]   font-semibold">
+                Total Students:
+              </h>
+              <p className=" text-[23px] font-bold p-0 relative bottom-2">
+                1,190
+              </p>
+            </div>
+          </div>
+
+          <div className="flex mt-2 w-[280px] rounded shadow-sm h-[60px] ">
+            <div className=" w-[45px] h-[45px] mt-1  ml-3 rounded bg-green-200">
+              <FontAwesomeIcon
+                className="w-[25px] h-[25px] m-2.5 text-green-800"
+                icon={faWandSparkles}
+              />
+            </div>
+            <div className=" flex flex-col  pl-2">
+              <h className=" text-[18px] md:text-[16px]   font-semibold">
+                Total Events:
+              </h>
+              <p className=" text-[23px] font-bold p-0 relative bottom-2">
+                10
+              </p>
+            </div>
+          </div>
+
+
         </div>
       </div>
     </div>

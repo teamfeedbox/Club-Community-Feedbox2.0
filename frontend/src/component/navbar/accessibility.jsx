@@ -9,7 +9,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 
-// import { Link } from "react-router-dom";
+
+import { Link } from "react-router-dom";
 
 const AccessibilityContainer = styled.div`
   display: flex;
@@ -62,7 +63,7 @@ const LoginButton = styled.button`
     margin-right: 7px;
   }
 `;
-const Link = styled.a`
+const Links = styled(Link)`
   // text-decoration: none;
   // color: inherit;
   // font-size: inherit;
@@ -79,23 +80,23 @@ export function Accessibility(props) {
   return (
     <AccessibilityContainer>
        {/* *********************profile icon*************************** */}
-       <Link href='/profile' title="Profile Page" className={selectedPage === '/profile' || selectedPage === '/dashboard' ? 'hidden' : 'block'}>
+       <Links to='/profile' title="Profile Page" className={selectedPage === '/profile' || selectedPage === '/dashboard' ? 'hidden' : 'block'}>
         <LoginButton >
           <FontAwesomeIcon icon={faUser} className="fa-xl" />
         </LoginButton>
-      </Link>
+      </Links>
       {/* *************************Dashboard****************************** */}
-      <Link href='/dashboard' title="Dashboard" className={selectedPage === '/dashboard' || selectedPage === '/profile' ? 'hidden' : 'block'}>
+      <Links to='/dashboard' title="Dashboard" className={selectedPage === '/dashboard' || selectedPage === '/profile' ? 'hidden' : 'block'}>
         <LoginButton >
           <img src="Images/Dashboard.png" alt="" />
         </LoginButton>
-      </Link>
+      </Links>
       {/* *************************logout************************************ */}
-      <Link href='/' title="Logout" onClick={logoutHandler} className={selectedPage === '/profile' || selectedPage === '/dashboard' ? 'block' : 'hidden'}>
+      <Links to='/' title="Logout" onClick={logoutHandler} className={selectedPage === '/profile' || selectedPage === '/dashboard' ? 'block' : 'hidden'}>
         <LoginButton >
           <FontAwesomeIcon icon={faRightFromBracket} className="fa-xl" />
         </LoginButton>
-      </Link>
+      </Links>
       {/* *******************notification bell**************** */}
       <RegisterButton>
         <FontAwesomeIcon icon={faBell} className="fa-xl" />
