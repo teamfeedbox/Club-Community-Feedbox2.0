@@ -63,7 +63,15 @@
 }
 .post-display-bottom-content  {
     display: flex;
+    flex-direction: column;
     margin-right: 15px;
+    text-align: center;
+    justify-content: center;
+}
+.post-display-bottom-content span{
+    font-weight: 500;
+    font-size: 12px;
+    margin: 0 auto;
 }
 .post-display-bottom img{
     margin: 2px;

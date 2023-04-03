@@ -5,7 +5,8 @@
 
 .attendance-right {
     /* border: 2px solid black; */
-    width: 100%;
+    width: 80%;
+    margin: 0 auto;
 }
 
 .attendance-right h1 {

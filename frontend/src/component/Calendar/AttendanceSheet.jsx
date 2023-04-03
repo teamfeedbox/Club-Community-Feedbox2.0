@@ -207,9 +207,8 @@ const AttendanceSheet = () => {
               Total Enrolled: <span>{data && data.length}</span>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="flex justify-between mx-12 my-5">
+
+          <div className="flex justify-between mx-12 my-5">
         <button
           className="btn btn-primary"
           onClick={() => {
@@ -224,6 +223,9 @@ const AttendanceSheet = () => {
         }} 
         className="btn btn-primary">Submit</button>
       </div>
+        </div>
+      </div>
+      
     </>
   );
 };

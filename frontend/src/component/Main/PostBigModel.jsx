@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-
 import { Scrollbars } from "react-custom-scrollbars";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
@@ -14,34 +11,24 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-
 import "./PostBigModel.css";
-
 // Bootstrap
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-
-
 function PostBigModel({openComment,setOpenComment}) {
   const [showModal, setShowModal] = useState(true);
-  
   const [data, setData] = useState([]);
-  
   const [showAdd,setShowAdd]=useState('Hide-Comment-Add-Btn');
   const [showView,setShowView]=useState('Hide-Comment-View-Btn');
-
   const [showReplView,setReplyView]=useState('Hide-Reply-View')
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [newS,setNewS]=useState(false);
   // const [afterSubmit,setAfterSubmit]=useState("");
-
   const [tempComment,setTempComment]=useState('');
   const [tempReply,setTempReply]=useState('');
-
   const[showReply,setShowReply]=useState(true);
   const [changeText,setText]=useState(true);
   const [showViewReply,setShowViewReply]=useState("Comment-Right-View-Reply-Hide");
-
   const [reply,setReply]=useState('');
   const [comment,setComments] = useState(["How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q", 
   "How many times were you frustrated while looking out for a good collection of programming/algorithm /interview questions? What did you expect and what did you get? This portal has been created to", 
@@ -114,8 +101,6 @@ function handleReply(){
       setShowAdd("Hide-Comment-Add-Btn");
     }    
   }
-
-
   // to show and hide whole component
   const handleClose=()=>{
     setOpenComment(false);
@@ -147,8 +132,6 @@ function handleReply(){
                 });
                 setComments(array);
               }
-              
-             
             }>
               Delete
             </button>
@@ -158,9 +141,6 @@ function handleReply(){
           </div>
         </Modal.Body>
       </Modal>
-      
-      
-      
       {
         openComment?(
 
@@ -178,7 +158,6 @@ function handleReply(){
           <div className="post-display-center1">
             <div className="post-display-image ">
               </div>
-              
               {/* *********************carousel for web view*************************** */}
               <div className="post-display-image flex justify-center">
               <div className="post-display-carousel-webview1 flex justify-center">
@@ -188,8 +167,6 @@ function handleReply(){
                   autoPlay
                   interval="5000"
                   infiniteLoop={true}
-
-                  
                 >
                   <div>
                     <img className="display-img" src="Images/alumni1.jpg" />
@@ -213,7 +190,6 @@ function handleReply(){
 
         </div>
       {/* </section> */}
-
               {/* Right side */}
               <section className="Post-Big-Model-Right">
                 <div className="Post-Big-Model-Profile">
@@ -239,26 +215,19 @@ function handleReply(){
                   </div>
                 </div>
 
-                {/* Line to seprate pofile and comment */}
-                {/* <div className="Post-Big-Line"></div> */}
-
                 {/* Comment part */}
                 <div className="Post-Big-Comment">
                 <Scrollbars className="Scrollbar-height" >
-                  {/* Comment 1 */}
                   {
                     comment.map((data)=>(
                       <section className="Post-Comment-About">
                     
-                      {/* Left part */}
+                      {/* Left part,profile image of comment */}
                       <div className="Comment-Left">
                         <img src="Images/bandar.jpeg"></img>
-
                       </div>
-                      
                       {/* Right part */}
                       <div className="Comment-Right">
-  
                         <div className="Comment-Right-Top">
                           <div className="Comment-Right-User-Name">
                             Random Person
@@ -267,8 +236,6 @@ function handleReply(){
                           {data}
                           </div>
                         </div>
-
-
                         <div className="Comment-Right-Down">
                           <span className="Comment-Down-Other">22h</span>
                           <span className="Comment-Down-Other Comment-Down-Other1" onClick={()=>{
@@ -286,33 +253,26 @@ function handleReply(){
 
                           }
                         </div>
-                        <div className={showReplView}>
+                        {/* <div className={showReplView}>
                           <div className="Comment-Right-User-Name">
-                            Random Person
+                            Random Person 1
                           </div>
                           <div className="Right-Comment">
                             {
                              reply
                             }
                           </div>
-                        </div>
+                        </div> */}
                         <div className={showView}>
                         <div className="Comment-Right-User-Name">
-                          Random Person
+                          Random Person 2
                         </div>
                         <div className="Right-Comment">
-                          {/* How many times were you frustrated while looking out
-                          for a good collection of programming/algorithm
-                          /interview questions? What did you expect and what did
-                          you get? This portal has been created to provide well
-                          written, well thought and well explained solutions for
-                          selected questions. */}
                           {
                             tempReply
                           }
                         </div>
                     </div>
-
                     {
                       changeText==true?
                       <div className={showViewReply} onClick={handleView}>
@@ -333,8 +293,6 @@ function handleReply(){
                         edit</span>
                         </>
                     }
-                      
-
                       {
                          showReply==true?
                          <div className={showAdd}>
@@ -365,9 +323,6 @@ function handleReply(){
                         
                       </div>:<></>
                       }
-
-                      
-                      
                       </div>  
                     </section>
                     ))
@@ -376,31 +331,6 @@ function handleReply(){
                 </div>
 
                 <div className="Post-Big-Comment-Container">
-                  {/* <div className="Post-Big-Comment-Icons">
-                    <span>
-                      <span>
-                        <FontAwesomeIcon
-                          className="fa-lg"
-                          icon={faHeart}
-                          style={{ margin:
-                            "0px 5px 0 10px",color:"black",cursor:"pointer"}}
-                        />
-                      </span>
-                      <span>200 Likes</span>
-                    </span>
-                    <span>
-                      <span>
-                        <FontAwesomeIcon
-                          className="fa-lg"
-                          icon={faMessage}
-                          style={{ margin: "0px 5px 0 20px",color:"black"}}
-                        />
-                      </span>
-                      <span>50 Comments</span>
-                    </span>
-                  </div> */}
-
-
                   <div className="Comment-Add-Section">
                     <form onSubmit={handleFormSubmit}>
                       <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700">
@@ -423,7 +353,6 @@ function handleReply(){
                           onChange={(event)=> 
                             setTempComment(event.target.value)
                           }
-                          // value={afterSubmit}
                         ></input>
                         <button
                           type="submit"
@@ -440,9 +369,7 @@ function handleReply(){
           </div>
         ):("")
       }
-          
         </>
   )
 }
-
 export default PostBigModel
