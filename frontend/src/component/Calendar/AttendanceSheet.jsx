@@ -5,13 +5,19 @@ import {
   faClock,
   faCalendarAlt,
   faSearch,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useParams,useNavigate } from 'react-router-dom';
 
 import "./AttendanceSheet.css";
 // import { useNavigate } from "react-router-dom";
 import NavbarRes from "../navbar/NavbarRes";
+
+// Bootstrap
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 // import axios from 'axios';
 
 // const array = [
@@ -52,6 +58,11 @@ const AttendanceSheet = () => {
   const [searchval, setSearchVal] = useState("");
   const [data, setData] = useState([]);
   const [enableSearch, setEnableSearch] = useState(false);
+  
+  // Bootstrap
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const navigate = useNavigate();
   const params = useParams();
@@ -102,9 +113,52 @@ const AttendanceSheet = () => {
   return (
     <>
     <NavbarRes />
+    
+      <Modal show={show} onHide={handleClose}>
+        <form onSubmit={handleClose}>
+        <Modal.Header >
+          <Modal.Title>Are you sure you want to submit</Modal.Title>
+          <FontAwesomeIcon
+                      className="fa-lg"
+                      icon={faXmark}
+                      onClick={handleClose}
+                      style={{cursor:"pointer"}}
+                    />
+        </Modal.Header>
+        <Modal.Body>
+        <input
+          className="block border-solid   p-2.5 w-full text-sm text-black-600 bg-white  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500 border-black-600"
+          placeholder="Event duration in minute"
+          type="number"
+          min={1}
+          name="number"
+          required
+        ></input>
+        </Modal.Body>
+        <Modal.Footer>
+          <div className="flex justify-between w-[100vw]">
+            
+            <button className="attendance-model-btn" type="submit">Submit Attendence</button>
+
+            {/* <button className="attendance-model-btn" onClick={handleClose}>Close</button> */}
+          </div>
+         
+        </Modal.Footer>
+        </form>
+      </Modal>
       <div className="attendance">
         <div className="attendance-right">
           <h1>Attendance Sheet</h1>
+
+
+        {/* *********Containing Title of event and search functionality********* */}
+
+
+          <section className="attendence-title">
+            {/* *****************Event title******************** */}
+            <h5 className="ml-4 mt-2 pl-2">
+              Web Development 
+            </h5>
 
           {/* ****************search functionality***************** */}
           <form class="form-inline my-2 my-lg-0" className="res-table-search">
@@ -119,6 +173,8 @@ const AttendanceSheet = () => {
               <FontAwesomeIcon icon={faSearch} />
             </button>
           </form>
+          </section>
+          
 
           {/* ***********attendance sheet display in the form of table************** */}
 
@@ -198,7 +254,6 @@ const AttendanceSheet = () => {
           </div>
 
           {/* ***************attendance count**************** */}
-
           <div className="attendance-count">
             <div>
               Total Attendee: <span>20</span>     
@@ -207,9 +262,8 @@ const AttendanceSheet = () => {
               Total Enrolled: <span>{data && data.length}</span>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="flex justify-between mx-12 my-5">
+
+          <div className="flex justify-between mx-12 my-5">
         <button
           className="btn btn-primary"
           onClick={() => {
@@ -220,10 +274,16 @@ const AttendanceSheet = () => {
         </button>
         <button
         onClick={() => {
-          navigate("/calendar")
+          
+          handleShow()
         }} 
-        className="btn btn-primary">Submit</button>
+        className="btn btn-primary"
+        
+        >Submit</button>
       </div>
+        </div>
+      </div>
+      
     </>
   );
 };

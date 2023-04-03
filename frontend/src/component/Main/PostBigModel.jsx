@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-
 import { Scrollbars } from "react-custom-scrollbars";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
@@ -14,9 +11,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-
 import "./PostBigModel.css";
-
 // Bootstrap
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -106,7 +101,6 @@ function PostBigModel({ openComment, setOpenComment, id }) {
       setShowAdd("Hide-Comment-Add-Btn");
     }
   }
-
   // to show and hide whole component
   const handleClose = () => {
     setOpenComment(false);
