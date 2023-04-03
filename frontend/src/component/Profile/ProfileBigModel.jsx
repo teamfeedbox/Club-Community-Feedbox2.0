@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
@@ -8,18 +8,25 @@ import { Scrollbars } from "react-custom-scrollbars";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import { useState } from "react";
-import {Link} from "react-router-dom";
+import {Link, useAsyncError} from "react-router-dom";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
+
 import "./ProfileBigModel.css";
 
+// Bootstrap
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
-function ProfileBigModel() {
-    const [data, setData] = useState([]);
+
+function PostBigModel({openComment,setOpenComment}) {
   const [showModal, setShowModal] = useState(true);
+  
+  const [data, setData] = useState([]);
+  
   const [showAdd,setShowAdd]=useState('Hide-Comment-Add-Btn');
   const [showView,setShowView]=useState('Hide-Comment-View-Btn');
 
@@ -30,13 +37,26 @@ function ProfileBigModel() {
 
   const [tempComment,setTempComment]=useState('');
   const [tempReply,setTempReply]=useState('');
-  const[showreply,setShowReply]=useState(false);
+
+  const[showReply,setShowReply]=useState(true);
+  const [changeText,setText]=useState(true);
+  const [showViewReply,setShowViewReply]=useState("Comment-Right-View-Reply-Hide");
 
   const [reply,setReply]=useState('');
-  const [comment,setComments] = useState([" How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q", 
+  const [comment,setComments] = useState(["How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q", 
   "How many times were you frustrated while looking out for a good collection of programming/algorithm /interview questions? What did you expect and what did you get? This portal has been created to", 
   "How many times were you frustrated while looking out for a good collection of programming/algorithm.",
 "How many times were you frustrated while looking"]);
+
+// To set state to show delete the comment
+const [show, setShow] = useState(false);
+
+// To store deleted comment
+const [deleteVar,setDeleteVar]=useState('');
+
+
+
+
 function handleReply(){
     if(showAdd=="Show-Comment-Add-Btn")
     {
@@ -49,6 +69,17 @@ function handleReply(){
   }
 
   function handleView(){
+    if(changeText==true)
+    {
+      setText(false)
+    }
+    else
+    {
+      setText(true)
+    }
+
+
+
     if(showView=="Show-Comment-View-Btn")
     {
     setShowView('Hide-Comment-View-Btn')
@@ -85,15 +116,60 @@ function handleReply(){
   }
 
 
+  // to show and hide whole component
+  const handleClose=()=>{
+    setOpenComment(false);
+  }
+
+  // To show and hide delete comment model
+  const handleCloseDelete = () => setShow(false);
+  const handleShowDelete = () => setShow(true);
 
   return (
     <>
+      {/* Model to delete the comment */}
+      <Modal show={show} onHide={handleCloseDelete}
+      className='edit-modal-container'
+      >
+        <Modal.Body 
+        className='modal-dialog1'>
+          <div style={{display:"flex",flexDirection:"column"}}
+        
+          >
+            <button className='delete-btn'  onClick={
+              ()=>{
+                handleCloseDelete()
+                let array=[];
+                comment.map((item)=>{
+                if(item!=deleteVar){
+                  array.push(item)
+                }
+                });
+                setComments(array);
+              }
+              
+             
+            }>
+              Delete
+            </button>
+            <button  className='delete-btn' onClick={handleCloseDelete}>
+              Cancel
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
+      
+      
+      
+      {
+        openComment?(
+
           <div className="Post-Big-Model-container">
             {/* to close the model on click outof the post section */}
-            <Link to="/profile"
+            <div 
               className="Post-Big-Model-Close"
-              
-            ></Link>
+              onClick={handleClose}
+            ></div>
 
             <div className="Post-Big-Model1">
               
@@ -151,12 +227,12 @@ function handleReply(){
                         <div className="Post-Big-Title2">Feedbox Member</div>
                       </div>
                     </div>
-                    <Link to="/profile" className="Cancel-Icon-Container">
-                      <FontAwesomeIcon className="fa-lg" icon={faXmark} onClick={() => setShowModal(false)} />
+                    <Link to="/profile" className="Cancel-Icon-Container" style={{textDecoration: 'none'}}>
+                      <FontAwesomeIcon className="fa-lg" icon={faXmark} onClick={ handleClose }/>
                     </Link>
                   </div>
                   {/* Description */}
-                  <div className="Post-Big-Description">
+                  <div className="Post-Big-Description" >
                     MIUI 14 is the latest version of Xiaomi's custom Android
                     operating system, featuring a refreshed design and new
                     features.
@@ -172,7 +248,6 @@ function handleReply(){
                   {/* Comment 1 */}
                   {
                     comment.map((data)=>(
-
                       <section className="Post-Comment-About">
                     
                       {/* Left part */}
@@ -192,11 +267,24 @@ function handleReply(){
                           {data}
                           </div>
                         </div>
+
+
                         <div className="Comment-Right-Down">
                           <span className="Comment-Down-Other">22h</span>
-                          <span className="Comment-Down-Other Comment-Down-Other1 " onClick={handleReply}>
-                            reply 
-                          </span>
+                          <span className="Comment-Down-Other Comment-Down-Other1" onClick={()=>{
+                              handleShowDelete()
+                              setDeleteVar(data);
+                            }
+                          }>edit</span>
+
+                          {
+                            showReply==true?
+                            <span className="Comment-Down-Other Comment-Down-Other1 " onClick={handleReply}>
+                              reply 
+                            </span>:
+                          <span style={{display:"none"}}></span>
+
+                          }
                         </div>
                         <div className={showReplView}>
                           <div className="Comment-Right-User-Name">
@@ -213,19 +301,44 @@ function handleReply(){
                           Random Person
                         </div>
                         <div className="Right-Comment">
-                          How many times were you frustrated while looking out
+                          {/* How many times were you frustrated while looking out
                           for a good collection of programming/algorithm
                           /interview questions? What did you expect and what did
                           you get? This portal has been created to provide well
                           written, well thought and well explained solutions for
-                          selected questions.
+                          selected questions. */}
+                          {
+                            tempReply
+                          }
                         </div>
                     </div>
-                        <div className="Comment-Right-View-Reply" onClick={handleView}>
-                        ---- View Reply
-                      </div>
-                        <div className={showAdd}>
-                          <form onClick={handleAfterReply}>
+
+                    {
+                      changeText==true?
+                      <div className={showViewReply} onClick={handleView}>
+                      ---- View Reply
+                    </div>
+                      :
+                      <>
+                      <span className={showViewReply} onClick={handleView}>
+                      ---- Hide Reply
+                      </span>
+                       <span className="Comment-Down-Other Comment-Down-Other1" onClick={()=>{
+                        handleShowDelete()
+                        
+                      }}
+                      
+                      style={{marginLeft:'20px'}}
+                      >
+                        edit</span>
+                        </>
+                    }
+                      
+
+                      {
+                         showReply==true?
+                         <div className={showAdd}>
+                      <form onClick={handleAfterReply}>
                         <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700">
                           <div
                             className="rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
@@ -233,14 +346,14 @@ function handleReply(){
                             
                           </div>
                           <input
-                            className="block border-solid  mx-2 p-2.5 w-full text-sm text-green-600 bg-white  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 border-black-600"
-                            placeholder="Add a comment..."
+                            className="mx-2 p-2.5 w-full text-sm rounded-lg border text-black dark:text-black" 
+                            placeholder="Reply..."
                             onChange={(event)=>
                               setTempReply(event.target.value)
                             }
                           
                           ></input>
-                          <button onClick={()=>(showRep, setShowReply(true))}
+                          <button onClick={()=>(showRep, setShowReply(true),setShowViewReply("Comment-Right-View-Reply"),setShowReply(false) )}
                             type="submit"
                             class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
                           >
@@ -250,7 +363,10 @@ function handleReply(){
                         </div>
                       </form>
                         
-                      </div>
+                      </div>:<></>
+                      }
+
+                      
                       
                       </div>  
                     </section>
@@ -260,7 +376,7 @@ function handleReply(){
                 </div>
 
                 <div className="Post-Big-Comment-Container">
-                  <div className="Post-Big-Comment-Icons">
+                  {/* <div className="Post-Big-Comment-Icons">
                     <span>
                       <span>
                         <FontAwesomeIcon
@@ -282,7 +398,7 @@ function handleReply(){
                       </span>
                       <span>50 Comments</span>
                     </span>
-                  </div>
+                  </div> */}
 
 
                   <div className="Comment-Add-Section">
@@ -322,8 +438,11 @@ function handleReply(){
               </section>
             </div>
           </div>
+        ):("")
+      }
+          
         </>
   )
 }
 
-export default ProfileBigModel
+export default PostBigModel

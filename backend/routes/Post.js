@@ -104,7 +104,7 @@ router.get('/userPost/:postId',requireLogin,async(req,res)=>{
     
       .populate('postedBy').select("-password")
       .populate('comment.postedBy').select("-password")
-      .populate('reply.postedBy').select("-password")
+    //   .populate('reply.postedBy').select("-password")
   
       .then(post=>{
         //   console.log(post)
