@@ -32,6 +32,7 @@ let skillName = propsData.name
   const [searchval, setSearchVal] = useState("");
   const [enableSearch, setEnableSearch] = useState(false);
   const [user, setUser] = useState();
+  const [role, setRole] = useState('');
 
 
 let id;
@@ -56,6 +57,7 @@ let id;
     result = await result.json();
     // console.log(result);
      id = result._id
+     setRole(result.role);
     // console.log(id)
     setUser(result);
     // if (result) {
@@ -164,12 +166,13 @@ let id;
               </button>
             </form>
 
-            <button
+            {role !== 'Club_Member' ?
+              <button
               onClick={handleShow}
               className="btn btn-primary res-add-btn"
             >
               <FontAwesomeIcon icon={faPlus} /> Add
-            </button>
+            </button> : ''}
 
             {/* modal popup to add rescources  */}
 

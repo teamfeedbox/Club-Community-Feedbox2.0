@@ -2,9 +2,9 @@ const express = require("express");
 const College = require("../models/college");
 const router = express.Router();
 
-router.get("/get", async (req, res) => {
+router.get("/colleges/get", async (req, res) => {
   try {
-    const data = await User.find({});
+    const data = await College.find({});
     res.status(200).json(data);
   } catch (error) {
     res.status(500).json(error);
