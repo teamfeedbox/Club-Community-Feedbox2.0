@@ -110,7 +110,7 @@ export function Accessibility(props) {
   return (
     <AccessibilityContainer>
       {/* *********************profile icon*************************** */}
-      {role === "Admin" ? (
+      {role !== "Super_Admin" ? (
         <Links
           to="/profile"
           title="Profile Page"
