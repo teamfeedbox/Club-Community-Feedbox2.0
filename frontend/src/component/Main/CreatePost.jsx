@@ -57,6 +57,36 @@ const CreatePost = () => {
     count--;
   }
 
+  // const postDetails = () => {
+  //   const data = new FormData();
+  //   data.append("file", image);
+  //   data.append("upload_preset", "feedbox-community-web");
+  //   data.append("cloud_name", "feedbox-community-web");
+  //   fetch(
+  //     "https://api.cloudinary.com/v1_1/feedbox-community-web/image/upload",
+  //     {
+  //       method: "post",
+  //       body: data,
+  //     }
+  //   )
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data.url)
+  //       setUrl(data.url);
+  //       // console.log(data)
+  //       // console.log(data.url)
+
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
+  useEffect(() => {
+    getUser();
+  },[]);
+  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
+  // console.log(userId)
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {

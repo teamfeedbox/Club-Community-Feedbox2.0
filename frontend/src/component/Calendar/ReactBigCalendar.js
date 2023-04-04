@@ -46,6 +46,7 @@ export default function ReactBigCalendar() {
   const [preEventModel, setPreEventModel] = useState(false);
   // Show and hide interested button
   const [interestedBtn, setInterestedBtn] = useState(true);
+  const [role, setRole] = useState('');
 
   let eventData = [];
   event &&
@@ -69,6 +70,7 @@ export default function ReactBigCalendar() {
     result = await result.json();
     id = result._id;
     setUser(result);
+    setRole(result.role);
   };
 
   useEffect(() => {
@@ -243,13 +245,17 @@ export default function ReactBigCalendar() {
                     </button>
                   }
 
-                  <button onClick={() => { setPreEventModel(false); cancelEvent(myEvent._id); }}>
+                  {role !== 'Club_Member' ?
+                    <button onClick={() => { setPreEventModel(false); cancelEvent(myEvent._id); }}>
                     Cancel Event
-                  </button>
+                  </button> : ''}
+
+
                 </div>
                 <div style={{ textAlign: "center" }}>
 
-                  <button>
+                  {role !== 'Club_Member' ? 
+                    <button>
                     <Link
                       to={"/attendance/" + (myEvent && myEvent.title)} state={{eventId:myEvent._id}}
                       onClick={() => {
@@ -258,7 +264,8 @@ export default function ReactBigCalendar() {
                     >
                      {myEvent.attendanceSubmitted ? 'View Attendance' :'Mark Attendance'}
                     </Link>
-                  </button>
+                  </button>: ''}
+
                 </div>
               </div>
             </div>

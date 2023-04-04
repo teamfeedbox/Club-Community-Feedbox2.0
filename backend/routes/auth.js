@@ -206,7 +206,7 @@ router.put('/updateSkills/:eventId', requireLogin, async (req, res) => {
 
 // updatte event attendance and coins of a user
 router.put('/update/coins/events/', async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   try {
     req.body.attendees.map(async (data)=>{
       const response = await User.updateOne({_id:data.id},{
