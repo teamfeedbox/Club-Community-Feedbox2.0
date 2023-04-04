@@ -110,10 +110,11 @@ const CreatePost = () => {
     
     // console.log(id)
     setUser(result);
-
+    
     // if (result) {
-    //   getUser();
-    // }
+      //   getUser();
+      // }
+      console.log(`lihjcnok ${result}`);
   };
 
   console.log(role);

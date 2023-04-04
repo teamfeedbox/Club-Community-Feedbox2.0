@@ -1,4 +1,4 @@
-import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faTrash, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import "./PendingApprovals.css";
@@ -100,7 +100,7 @@ const Leads = (props) => {
               {lead.length > 0 ?
                 lead.map((member) => (
                   <tr className="flex justify-between max-w-[1150px]">
-                    <td class="p-2 w-[200px] lg:w-[300px]">
+                    <td class="p-2 w-[120px]  lg:w-[300px]">
                       <div className="flex items-center">
                         <img
                           class="rounded-full"
@@ -113,13 +113,13 @@ const Leads = (props) => {
                         <div className="ml-2"> {member.name} </div>
                       </div>
                     </td>
-                    <td class="p-2 lg:flex items-center hidden md:block">
+                    <td class="p-2 lg:flex items-center hidden md:block  w-[10%]">
                       <div class="font-medium text-gray-800">
                         {member.position}
                       </div>
                     </td>
-                    { role === 'Admin' || role === 'Super_Admin' ?
-                    <td class="pt-2 pb-2 flex justify-end">
+                    {/* { role === 'Admin' || role === 'Super_Admin' ? */}
+                    <td class="pt-2 pb-2 flex  justify-end ">
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                         <button
                           onClick={()=>{setId(member._id); handleShow()}}
@@ -168,7 +168,13 @@ const Leads = (props) => {
                           </Modal.Footer>
                         </form>
                       </Modal>
-                    </td> : ''}
+                    </td> 
+                    {/* : ''} */}
+                    <td className=" my-auto ">
+                      <div className="">
+                        <FontAwesomeIcon icon={faTrash} className="h-[20px] text-red-500" />
+                      </div>
+                    </td>
                   </tr>
                 )) : 'No Lead Members...'}
             </tbody>

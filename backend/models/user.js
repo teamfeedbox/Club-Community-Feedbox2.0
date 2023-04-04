@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
     //required: true,
   },
   role: {
-    type: String, enum: ['user', 'Club_Member', 'Lead', 'Admin', 'Super_Admin']
+    type: String, enum: ['user', 'Club_Member', 'Lead', 'Admin', 'Super_Admin'], default:'user'
     //required: true,
   },
   position: {
@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema({
     default:0
   },
   img: {
-    type: String,
+    type: String,default:"Images/defaultImg.png"
   },
   branch: {
     type: String
