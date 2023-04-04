@@ -61,6 +61,11 @@ const CreatePost = () => {
     console.log(result);
     setRole(result.role);
     setUser(result);
+    
+    // if (result) {
+      //   getUser();
+      // }
+      console.log(`lihjcnok ${result}`);
   };
 
   useEffect(() => {

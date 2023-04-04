@@ -49,7 +49,8 @@ export default function ReactBigCalendar() {
   const [preEventModel, setPreEventModel] = useState(false);
   // Show and hide interested button
   const [interestedBtn, setInterestedBtn] = useState(true);
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   let eventData = [];
   event &&
@@ -183,6 +184,18 @@ export default function ReactBigCalendar() {
       <NavbarRes />
       <div className="Calendar-container">
         <div className="Calendar-left">
+
+          {/* ----------------college dropdown for super admin--------------- */}
+
+          <div className=" my-4 mx-1 ">
+            <select className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl w-[100%]">
+              <option className=" " hidden selected disabled>College</option>
+              <option>Shri Vaishnav Vidyapeeth Vishwavidyalaya</option>
+              <option>IET-DAVV</option>
+            </select>
+
+          </div>
+
           {/* -----------Button to add event in calendar------------------*/}
           <div
             className="Calendar-add"
