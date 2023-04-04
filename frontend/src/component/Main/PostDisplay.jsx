@@ -1,5 +1,3 @@
-// import React, { useEffect, useState } from "react";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
 
@@ -98,10 +96,9 @@ function showRep(){
   
 
   useEffect(() => {
- 
     getList();
     getUser();
-  });
+  },[]);
 
 
 

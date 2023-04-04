@@ -28,19 +28,6 @@ const App = () => {
 
   return (
     <div className="App">
-      {/* <div
-        className={
-          selectedPage == "/" ||
-          selectedPage == "/login" ||
-          selectedPage == "/register"
-            ? "hidden"
-            : "block"
-        }
-      >
-        <NavbarRes />
-      </div> */}
-        {/* <NavbarRes /> */}
-
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
