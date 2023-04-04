@@ -73,7 +73,7 @@ export function Accessibility(props) {
   const [notification, setNotification] = useState(false);
 
   const [user, setUser] = useState();
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState();
 
   useEffect(() => {
     getUser();
@@ -110,7 +110,7 @@ export function Accessibility(props) {
   return (
     <AccessibilityContainer>
       {/* *********************profile icon*************************** */}
-      {role !== "Super_Admin" ? (
+      {role === "Admin" ? (
         <Links
           to="/profile"
           title="Profile Page"
@@ -128,7 +128,7 @@ export function Accessibility(props) {
         ""
       )}
       {/* *************************Dashboard****************************** */}
-      {role === "Super_Admin" ? (
+      {role && role === "Super_Admin" ? (
         <Links
           to="/dashboard"
           title="Dashboard"
