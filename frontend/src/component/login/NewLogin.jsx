@@ -9,10 +9,10 @@ const NewLogin = () => {
 
 
   const navigate = useNavigate();
-
+let auth = localStorage.getItem('user')
   const handleLogin = async (e) => {
     e.preventDefault();
-    // console.log(email, password);
+    console.log(email, password);
 
     let result = await fetch("http://localhost:8000/login", {
       method: "post",
@@ -22,27 +22,17 @@ const NewLogin = () => {
       },
     });
     result = await result.json();
-    console.log(result);
-    // console.log("first");
+    console.log(result.token);
     localStorage.setItem("user", JSON.stringify(result));
+    localStorage.setItem("jwt", result.token);  
 
-    localStorage.setItem("jwt", result.token);
-    localStorage.setItem("jwtDecode", result.decodedToken);
-    // if(result){
-    //   navigate('/main')
-
-    // }
-    navigate("/main");
-    window.location.reload(true);
-
-
-    // if (result) {
-    //   localStorage.setItem("user", JSON.stringify(result));
-    //   navigate('/main')
-    //   // alert("welcome");
-    // } else {
-    //   alert("Please enter valid login credentials");
-    // }
+    if(result.token){
+         
+          navigate('/main')   
+    }else{
+      alert("not valid")
+    }
+   
   };
 
   return (

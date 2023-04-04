@@ -58,6 +58,31 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
   // To store deleted comment
   const [deleteVar, setDeleteVar] = useState("");
+  const [profile, setProfile] = useState("");
+
+
+
+  useEffect(() => {
+    getUser();
+  });
+  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
+  // console.log(userId)
+  const getUser = async () => {
+    // console.log(id)
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    // console.log(result);
+    
+    // console.log(id)
+    setProfile(result.img);
+    // if (result) {
+    //   getUser();
+    // }
+  };
 
   function handleReply() {
     if (showAdd == "Show-Comment-Add-Btn") {
@@ -101,10 +126,10 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   }
 
   function showRep() {
-    if (tempReply != "") {
+    // if (tempReply != "") {
       setReplyView("Show-Reply-View");
-      setShowAdd("Hide-Comment-Add-Btn");
-    }
+      setShowAdd("show-Comment-Add-Btn");
+    // }
   }
 
   // to show and hide whole component
@@ -171,7 +196,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   };
 
   const updateReply = () => {
-    console.log(commentId, "", replyMsg);
+    console.log(commentId, "", replyMsg,);
     fetch(`http://localhost:8000/reply/${commentId}`, {
       method: "put",
       headers: {
@@ -395,14 +420,20 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                     </div>
                   </div> */}
 
-                          <div className={showView}>
-                            <div className="Comment-Right-User-Name">
-                              Random Person
-                            </div>
-                            <div className="Right-Comment"></div>
-                          </div>
+                          {
+                          item._id === commentId?(
 
-                          {changeText == true ? (
+                            <div className={showView}>
+                            <div className="Comment-Right-User-Name">
+                              {/* {item.reply.postedBy} */}
+                              Random
+                            </div>
+                            <div className="Right-Comment">{ item.reply.replyMsg}</div>
+                          </div>
+                          ):("")
+                          }
+
+                          {/* {changeText == true ? (
                             <div className={showViewReply} onClick={handleView}>
                               ---- View Reply
                             </div>
@@ -424,7 +455,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                 edit
                               </span>
                             </>
-                          )}
+                          )} */}
 
                           {showReply === true && item._id === commentId ? (
                             <div className={showAdd}>
@@ -449,7 +480,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                   ></input>
                                   <button
                                     onClick={() => (
-                                      showRep,
+                                      showRep(),
                                       setShowReply(true),
                                       setShowViewReply(
                                         "Comment-Right-View-Reply"
@@ -518,7 +549,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                     <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700">
                       <div className="rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
                         <img
-                          src="Images/alumni2.jpg"
+                         src={profile}
                           aria-hidden="true"
                           className="w-10 h-8
                             p-0

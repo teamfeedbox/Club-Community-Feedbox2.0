@@ -16,7 +16,7 @@ const postSchema = new mongoose.Schema({
 
 
   img: [{
-    type: String,
+    type: String, 
   }],
 
   // postType: {
@@ -64,7 +64,6 @@ const postSchema = new mongoose.Schema({
       },
       reply: {
         postedBy: {
-          // type: String,
           type: mongoose.Schema.Types.ObjectId,
           ref: "users",
         },

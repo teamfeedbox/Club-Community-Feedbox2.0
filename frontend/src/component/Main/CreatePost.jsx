@@ -42,12 +42,15 @@ const CreatePost = () => {
     for (let i = count; i < e.target.files.length && i < 5 && file.length < 5 && limit<6; i++) {
       console.log(e.target.files[i]);
       setFile((arr) => [...arr, URL.createObjectURL(e.target.files[i])]);
-      setImage(e.target.files[0]);
+      setImage([...image, e.target.files[i]]);
 
       count++;
       // console.log(`count : ${count}`);
       // console.log(`i: ${i}`);
     }
+    console.log(file)
+
+    console.log(image)
 
     if (e.target.files.length > 5 || limit>=6) {
       setTextDisplay(true);
@@ -56,7 +59,7 @@ const CreatePost = () => {
       }, 3000);
     }
 
-    console.log(`size array : ${file.length}`);
+    // console.log(`size array : ${file.length}`);
 
     // console.log(file);
   }
@@ -86,7 +89,7 @@ const CreatePost = () => {
   //         collegeName,
   //         postedDate, 
   //         postedBy,
-  //         pic: url,
+  //         img: url,
   //       }),
   //       //body:JSON.stringify(createPost)
   //     })
@@ -112,8 +115,11 @@ const CreatePost = () => {
   // }
 
   const postDetails = () => {
-    const data = new FormData();
-    data.append("file", image);
+for(let i=0;i<image.length;i++)
+    {
+      // console.log(file)
+      const data = new FormData();
+    data.append("file", image[i]);
     data.append("upload_preset", "feedbox-community-web");
     data.append("cloud_name", "feedbox-community-web");
     fetch(
@@ -126,14 +132,16 @@ const CreatePost = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data.url)
-        setUrl(data.url);
-        // console.log(data)
+        setUrl(...url ,data.url);
+        // console.log(url)
         // console.log(data.url)
 
       })
       .catch((err) => {
         console.log(err);
       });
+    }
+    console.log(url)
   };
 
   useEffect(() => {

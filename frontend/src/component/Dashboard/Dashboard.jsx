@@ -4,12 +4,13 @@ import {
   faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState,useEffect } from "react";
 import NavbarRes from "../navbar/NavbarRes";
 import Chart from "chart.js/auto";
 import { Bar, Line, Pie } from "react-chartjs-2";
 
 const Dashboard = () => {
+  const [user , setUser] = useState('')
   const labels = [
     "Jan",
     "Feb",
@@ -40,6 +41,19 @@ const Dashboard = () => {
       },
     ],
   };
+
+useEffect(()=>{
+  getUser()
+},[])
+
+  const getUser = async()=>{
+    let result = await fetch("http://localhost:8000/getAllUser");
+    result = await result.json();
+    setUser(result.length)
+    console.log(result.length);
+  }
+
+
   return (
     <div>
       <NavbarRes />
@@ -62,7 +76,7 @@ const Dashboard = () => {
                 Total Students:
               </h>
               <p className=" text-[25px] font-bold p-0 relative bottom-2">
-                1,190
+               {user}
               </p>
             </div>
           </div>

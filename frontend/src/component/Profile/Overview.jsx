@@ -31,6 +31,8 @@ function Overview(prop) {
   const [file, setFile] = useState('Images/girl.jpg')
   const [image, setImage] = useState(false);
   // const [skills, setSkills] = useState([]);
+  // const [updateSkills, setUpdateSkills] = useState([]);
+  const [userId, setUserId] = useState('');
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -83,8 +85,26 @@ function Overview(prop) {
     });
     result = await result.json();
     setData(result);
+    setUserId(result._id)
   };
 
+
+  const updateSkill = async(userId)=>{
+    let result = await fetch(`http://localhost:8000/updateDetail/${userId}`,{
+      method:'put',
+      body: JSON.stringify({skills}),
+      headers:{
+          "Content-Type":"application/json",
+      "Authorization":"Bearer "+localStorage.getItem("jwt")
+
+      }
+
+  })
+
+  result = await result.json();
+ 
+  console.log(result)
+  }
   
 
   return (
@@ -289,6 +309,7 @@ function Overview(prop) {
                 onRemove={function noRefCheck() {}}
                 onSearch={function noRefCheck() {}}
                 onSelect={onSelectNames}
+                selectedValues={data && data.skills }
                 options={[
                   "Web Development",
                   "App Development",
@@ -301,11 +322,14 @@ function Overview(prop) {
                   "Content Writing",
                   "Ads",
                 ]}
-                selectedValues={{}}
+                // selectedValues={{}}
               />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={handleClose1}>
+          <Button variant="primary" onClick={()=>{
+            handleClose1()
+            updateSkill(userId)
+            }}>
             Save 
           </Button>
         </Modal.Footer>
