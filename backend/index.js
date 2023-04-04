@@ -24,6 +24,7 @@ const post = require("./routes/Post");
 const auth = require('./routes/auth')
 const event = require('./routes/Event')
 const resource = require('./routes/Resource')
+const college = require('./routes/College')
 const bodyParser = require('body-parser')
 
 
@@ -49,8 +50,7 @@ app.use("/", auth);
 app.use("/", post);
 app.use("/", event);
 app.use("/", resource);
-
-
+app.use("/", college);
 
 app.listen(port, console.log(`server is listening on the port: ${port}`));
 
