@@ -59,7 +59,6 @@ const CreatePost = () => {
 
     console.log(`size array : ${file.length}`);
 
-    // console.log(file);
   }
 
   function deleteFile(e) {
@@ -68,49 +67,6 @@ const CreatePost = () => {
     console.log(s);
     count--;
   }
-
- 
-  // useEffect(() => {
-  //   if (url) {
-  //     fetch("http://localhost:8000/create-post", {
-  //       method: "post",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         // 'Content-Type':' multipart/form-data'
-  //       "Authorization":"Bearer "+localStorage.getItem("jwt")
-
-  //       },
-  //       body: JSON.stringify({
-  //         title,
-  //         desc,
-  //         postType,
-  //         collegeName,
-  //         postedDate, 
-  //         postedBy,
-  //         pic: url,
-  //       }),
-  //       //body:JSON.stringify(createPost)
-  //     })
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         console.log(data);
-  //         if (data.error) {
-  //           console.log("error");
-  //         } else {
-  //           console.log("fine");
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }
-  // }, [url]);
-
-  // function handleChange(e) {
-  //   console.log(e.target.files);
-  //   setFile(URL.createObjectURL(e.target.files[0]));
-  //   setImage(e.target.files[0]);
-  // }
 
   const postDetails = () => {
     const data = new FormData();
