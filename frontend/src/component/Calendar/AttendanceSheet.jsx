@@ -67,6 +67,8 @@ const AttendanceSheet = () => {
   const navigate = useNavigate();
   const params = useParams();
 
+
+
  useEffect(()=>{
   getEvent();
  })
@@ -127,7 +129,7 @@ const AttendanceSheet = () => {
         </Modal.Header>
         <Modal.Body>
         <input
-          className="block border-solid   p-2.5 w-full text-sm text-black-600 bg-white  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500 border-black-600"
+          className="block border-solid p-2.5 w-full text-sm text-black-600 bg-white  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500 border-black-600"
           placeholder="Event duration in minute"
           type="number"
           min={1}
@@ -136,9 +138,9 @@ const AttendanceSheet = () => {
         ></input>
         </Modal.Body>
         <Modal.Footer>
-          <div className="flex justify-between w-[100vw]">
+          <div className="flex justify-center w-[100vw]">
             
-            <button className="attendance-model-btn" type="submit">Submit Attendence</button>
+            <button className="attendance-model-btn " type="submit">Submit Attendence</button>
 
             {/* <button className="attendance-model-btn" onClick={handleClose}>Close</button> */}
           </div>
@@ -146,6 +148,7 @@ const AttendanceSheet = () => {
         </Modal.Footer>
         </form>
       </Modal>
+      
       <div className="attendance">
         <div className="attendance-right">
           <h1>Attendance Sheet</h1>
@@ -161,17 +164,20 @@ const AttendanceSheet = () => {
             </h5>
 
           {/* ****************search functionality***************** */}
-          <form class="form-inline my-2 my-lg-0" className="res-table-search">
+          <form class="form-inline my-2 my-lg-0" className="res-table-search ">
             <input
-              class="form-control mr-sm-2"
+              class=" mr-sm-2 form-control"
               type="text"
               placeholder="Search by name"
               aria-label="Search"
               onChange={searchHandler}
             />
-            <button class="btn btn-primary my-0 my-sm-0" type="submit">
+            
+              <button class="btn btn-primary" type="submit">
               <FontAwesomeIcon icon={faSearch} />
             </button>
+            
+           
           </form>
           </section>
           

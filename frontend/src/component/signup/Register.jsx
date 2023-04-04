@@ -30,6 +30,16 @@ const Register = () => {
 
   const navigate = useNavigate();
 
+  // To handle in register page
+  const [nameError,setNameError]=useState(false);
+  const [emailError,setEmailError]=useState(false);
+  const [passError,setPassError]=useState(false);
+  const [universityError,setUniversityError]=useState(false);
+  const [university,setUniversity]=useState(0);
+  
+
+  const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
   // useEffect(() => {
   //   const auth = localStorage.getItem("user");
   //   console.log(auth)
@@ -85,18 +95,61 @@ const Register = () => {
 
   const changenext = (e) => {
     e.preventDefault();
-    setNext(!next);
+    if(nameError==false && emailError==false && passError==false && collegeName!="")
+    {
+      setNext(!next);
+    }
+    else
+    {
+      alert("All field are required")
+    }
+    
   };
 
   let onSelectNames = (skills) => {
     setSkills(skills);
   };
 
+  const signupHandleChange=(e)=>{
+
+  }
+
   const handleChange = (e) => {
+    const eventValue=e.target.value;
+    switch(e.target.name)
+    {
+      case "name":
+        if (eventValue.length < 3) {
+          setNameError(true);
+        } else {
+          setNameError(false);
+        }
+        setName(eventValue);
+
+      break;
+
+      case "email":
+        if (!eventValue.match(emailRegex)) {
+          setEmailError(true);
+        } else {
+          setEmailError(false);
+        }
+        setEmail(eventValue);
+        break;
+
+        case "password":
+          if (!eventValue.match(passwordRegex)) {
+            setPassError(true);
+          } else {
+            setPassError(false);
+          }
+          setPassword(eventValue);
+          break;
+    }
+
     // Destructuring
     const { value, checked } = e.target;
     const { skill } = userinfo;
-
     console.log(`${value} is ${checked}`);
     setUserSkills(e.target.value)
 
@@ -121,9 +174,10 @@ const Register = () => {
     
   };
 
+
+
   return (
     <div className="overflow-hidden">
-      kmlkm lkm l <br /> bnijbc ikj
       <div className="bg-purple-900 absolute top-0 left-0 bg-gradient-to-b from-gray-900 via-gray-900 to-purple-800 bottom-0 leading-5 h-full w-full overflow-hidden"></div>
       <div className="relative   min-h-screen sm:flex sm:flex-row  justify-center bg-transparent rounded-3xl shadow-xl">
         <div className="flex-col flex  self-center lg:px-14 sm:max-w-4xl xl:max-w-md  z-10">
@@ -152,13 +206,14 @@ const Register = () => {
               </p>
             </div>
             <div>
-              <form>
+              <form onSubmit={collectData}>
                 <div className={next ? "block" : "hidden"}>
                   <div className="space-y-6">
                     <div className="">
                       <input
                         className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
                         type="text"
+                        name="branch"
                         placeholder="Branch"
                         value={branch}
                         onChange={(e) => setBranch(e.target.value)}
@@ -174,16 +229,15 @@ const Register = () => {
                         onChange={(e) => setCollegeYear(e.target.value)}
                       >
                         <option
-                          value=" "
+                          value=""
                           disabled
                           selected
-                          hidden
+                          // hidden
                           className="text-gray-400"
                         >
                           Year
                         </option>
                         <option
-                          // className="w-full text-sm h-[50px]  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
                           value="1st"
                           className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
                         >
@@ -208,6 +262,7 @@ const Register = () => {
                           IV Year
                         </option>
                       </select>
+                      
                     </div>
 
                     <div className="">
@@ -218,7 +273,7 @@ const Register = () => {
                         placeholder="Add skills "
                         id="floatingTextarea2"
                         // value={userSkills}
-                       
+                       required
                         onChange={handleChange}
                         onClick={handleShow}
                       ></textarea>
@@ -440,6 +495,7 @@ const Register = () => {
                           </Modal.Footer>
                         </form>
                       </Modal>
+                      
                     </div>
 
                     <div className="">
@@ -462,7 +518,7 @@ const Register = () => {
                       </button>
                       <button
                         type="submit"
-                        onClick={collectData}
+                        // onClick={collectData}
                         className="w-full flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
                       >
                         Sign Up
@@ -477,69 +533,109 @@ const Register = () => {
                       <input
                         className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
                         type="text"
+                        name="name"
                         placeholder="Full Name"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        // onChange={(e) => setName(e.target.value)}
+                        onChange={handleChange}
                         required
                       />
+                      {
+                        nameError?(
+                          <span className="registerError">
+                          *name should be more than 3 letters
+                        </span>
+                        ):("")
+                      }
                     </div>
 
                     <div className="">
                       <input
                         className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
-                        type=""
+                        type="email"
+                        name="email"
                         required
                         placeholder="Email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={handleChange}
                       />
+                      {emailError ? (
+                        <span className="registerError">
+                          *enter a valid email address
+                        </span>
+                      ) : (
+                        ""
+                      )}
                     </div>
 
                     <div className="">
                       <input
                         className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
                         type="password"
+                        name="password"
                         placeholder="Password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        // onChange={(e) => setPassword(e.target.value)}
+                        onChange={handleChange}
                         required
                       />
+                      {passError ? (
+                        <span className="registerError">
+                          {" "}
+                          *6 to 20 characters which contain at least one numeric
+                          digit, one uppercase and one lowercase letter{" "}
+                        </span>
+                      ) : (
+                        ""
+                      )}
                     </div>
 
                     <div className="">
-                      {/* <input
-                        className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
-                        type="text"
-                        placeholder="University"
-                      /> */}
                       <select
                         required
                         className="  w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none "
                         value={collegeName}
-                        onChange={(e) => setCollegeName(e.target.value)}
+                        onChange={(e) => {
+                          setCollegeName(e.target.value)
+                        }}
+                        // onClick={()=>{log(e.target.value)}}
                       >
                         <option
-                          value=" "
-                          disabled
+                          value="none"
+                          // disabled
                           selected
-                          hidden
+                          // hidden
                           className="text-gray-400"
+                          // onClick={()=>{setUniversityError(true)}}
                         >
                           University
                         </option>
                         <option
                           className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
-                          value=" IET-DAVV"
+                          value="IET-DAVV"
+                          // onClick={()=>{setUniversityError(false)}}
+                          onClick={()=>{
+                             setUniversity(1)
+                            alert(university)
+                          }}
                         >
                           IET-DAVV
                         </option>
                         <option
                           className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
                           value="Shri Vaishnav Vidyapeeth Vishwavidyalaya"
+                          // onClick={()=>{setUniversityError(false)}}
                         >
                           Shri Vaishnav Vidyapeeth Vishwavidyalaya
                         </option>
                       </select>
+                      {universityError ? (
+                        <span className="registerError">
+                          select university
+                        </span>
+                      ) : (
+                        ""
+                      )}
                     </div>
 
                     <div>

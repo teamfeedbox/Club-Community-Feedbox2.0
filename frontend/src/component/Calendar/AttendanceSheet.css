@@ -1,12 +1,17 @@
 .attendance {
     padding-top: 75px;
     display: flex;
+    
+
+
 }
 
 .attendance-right {
     /* border: 2px solid black; */
     width: 80%;
     margin: 0 auto;
+    padding-top: 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .attendance-right h1 {
@@ -46,6 +51,7 @@
     color: #fff;
     padding: 5px 10px;
     border-radius: 5px;
+    right: 0;
 }
 
 @media screen and (max-width: 480px) {
