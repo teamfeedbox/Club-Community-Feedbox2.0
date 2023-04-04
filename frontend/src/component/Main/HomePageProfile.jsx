@@ -45,10 +45,8 @@ const HomePageProfile = () => {
   useEffect(() => {
     getUser();
   });
-  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
-  // console.log(userId)
+
   const getUser = async () => {
-    // console.log(id)
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -56,11 +54,7 @@ const HomePageProfile = () => {
     });
     result = await result.json();
     setRole(result.role);
-    // console.log(result);
     setData(result);
-    // if (result) {
-    //   getUser();
-    // }
   };
 
   const navigate = useNavigate();
@@ -135,6 +129,8 @@ const HomePageProfile = () => {
           </div>
         </div>
       ) : '' }
+      
+      {/* for super admin */}
       {role === 'Super_Admin'
        ? (
         <div className="m-3 flex  flex-col">

@@ -12,7 +12,7 @@
     height: 45px;
     width: 45px;
     border-radius: 50%;
-    object-fit: cover;
+    object-fit: fit;
 }
 
 .create-post-start {

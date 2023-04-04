@@ -64,10 +64,7 @@ export function NavLinks(props) {
   useEffect(() => {
     getUser();
   }, []);
-  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
-  // console.log(userId)
   const getUser = async () => {
-    // console.log(id)
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -75,13 +72,7 @@ export function NavLinks(props) {
     });
     result = await result.json();
     setRole(result.role);
-
-    // console.log(id)
     setUser(result);
-
-    // if (result) {
-    //   getUser();
-    // }
   };
   const selectedPage = window.location.pathname;
 
@@ -108,7 +99,8 @@ export function NavLinks(props) {
           </LinkItem>
         )}
 
-        {role !== "Club_Member" ? (
+        {role && (role === "Admin" || role === 'Lead' 
+        || role === 'Super_Admin') ? (
           <div>
             {selectedPage === "/approvals" ? (
               <LinkItemHighlight>
