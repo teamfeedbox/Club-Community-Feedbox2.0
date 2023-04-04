@@ -78,6 +78,10 @@
     display: none;
 }
 
+.control-arrow{
+    display: none;
+}
+
 @media only screen and (max-width: 600px) {
     .event-main-div-res {
         display: none;

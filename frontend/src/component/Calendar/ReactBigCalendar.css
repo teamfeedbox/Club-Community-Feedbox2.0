@@ -177,6 +177,7 @@ flex-direction: column;
 .Calendar-view-events-hide{
     display: none;
 }
+
 .preview-button{
     display: flex;
     flex-direction: row;
@@ -184,21 +185,24 @@ flex-direction: column;
     margin-top: 10px;
 }
 
-
 .ReactBigCalendar{
     width: 90%;
 }
+
 .event-title{
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 15px;
 }
+
 .event-minor{
     margin: 20px 0px 20px 0px ;
 }
+
 .event-minor div{
     margin: 3px 0;
 }
+
 .Calendar-view-events button{
     border: none;
     background-color: #000;
@@ -211,6 +215,7 @@ flex-direction: column;
 }
 .Calendar-view-events button:hover{
     background-color: #000000bd;
+    color:white;
 }
 .event-profile{
 font-size: 15px;
