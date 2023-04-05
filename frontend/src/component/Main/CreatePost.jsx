@@ -42,7 +42,6 @@ const CreatePost = () => {
         setTextDisplay(false);
       }, 3000);
     }
-    console.log(`size array : ${file.length}`);
   }
 
   function deleteFile(e) {
@@ -58,7 +57,6 @@ const CreatePost = () => {
       },
     });
     result = await result.json();
-    console.log(result);
     setRole(result.role);
     setUser(result);
   };
@@ -84,7 +82,6 @@ const CreatePost = () => {
         const urls = responses.map(
           (res) => res.data.secure_url
         );
-        console.log(urls)
         CreatePost(urls);
       })
       .catch((err) => {
@@ -93,7 +90,6 @@ const CreatePost = () => {
   }
 
   const CreatePost = (urls) => {
-    console.log(urls, scope);
     const data = fetch("http://localhost:8000/create-post", {
       method: "post",
       headers: {
@@ -105,15 +101,15 @@ const CreatePost = () => {
         scope,
         collegeName: user && user.collegeName,
         img: urls,
-      }),
+      })
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.error) {
           console.log("error");
         } else {
           alert("Posted Successfully...")
+          setImage([]);
           setLoading(true);
         }
       })
@@ -160,7 +156,7 @@ const CreatePost = () => {
                 {/* <h5>{JSON.parse(auth).name}</h5> */}
                 <h5>{user && user.name}</h5>
 
-                <select name="type" onChange={(e) => { console.log(e.target.value); setScope(e.target.value) }}>
+                <select name="type" onChange={(e) => {setScope(e.target.value) }}>
                   <option disabled hidden selected value="Select">Select</option>
                   <option value="public">Public</option>
                   <option value="community">Community</option>
