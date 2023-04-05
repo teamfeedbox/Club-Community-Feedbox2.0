@@ -15,11 +15,7 @@ import "./PostBigModel.css";
 import Modal from "react-bootstrap/Modal";
 
 function PostBigModel({ openComment, setOpenComment, id }) {
-  // console.log(id);
 
-  // const [showAdd, setShowAdd] = useState(false);
-  // const [showView, setShowView] = useState("Hide-Comment-View-Btn");
-  // const [tempComment, setTempComment] = useState("");
   const [tempReply, setTempReply] = useState("");
   const [changeText, setText] = useState(true);
   const [user, setUser] = useState();
@@ -48,10 +44,6 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
   // To show the reply written by user
   const [showReply,setShowReply]=useState(true);
-
-  
-
-  
 
   // function handleFormSubmit(event){
 

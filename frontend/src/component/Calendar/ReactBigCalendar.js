@@ -84,8 +84,8 @@ export default function ReactBigCalendar() {
     };
     showEvent();
     getUser();
-    // setLoading(false);
-  }, [myEvent]);
+    setLoading(false);
+  }, [myEvent,loading]);
 
   const attendanceUpdate = async (id) => {
     let result = await fetch(`http://localhost:8000/updateEvent/${id}`, {
@@ -174,7 +174,7 @@ export default function ReactBigCalendar() {
     console.log(result);
     setDeleteBtn(false);
     setPreEventModel(false);
-    setLoading(false);
+    setLoading(true);
   };
 
 

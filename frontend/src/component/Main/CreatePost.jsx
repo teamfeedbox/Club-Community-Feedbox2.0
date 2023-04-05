@@ -13,11 +13,9 @@ const CreatePost = (userData) => {
   const [image, setImage] = useState([]);
   const [desc, setDesc] = useState("");
   const [scope, setScope] = useState();
-
   const [loading, setLoading] = useState(false);
 
   let user = userData && userData.userData;
-  console.log(user,"dfhegfyugefu");
 
   let count = 0;
   function handleChange(e) {
@@ -53,6 +51,7 @@ const CreatePost = (userData) => {
     setLoading(false);
   }, [loading]);
 
+  /// get all cloudinary images
   const postDetails = () => {
     const promises = image.map((file) => {
       const formData = new FormData();
@@ -76,6 +75,7 @@ const CreatePost = (userData) => {
       });
   }
 
+  // Create a post
   const CreatePost = (urls) => {
     const data = fetch("http://localhost:8000/create-post", {
       method: "post",
