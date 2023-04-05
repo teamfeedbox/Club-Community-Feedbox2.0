@@ -39,8 +39,9 @@ const ClubMember = ({ props }) => {
 
   useEffect(() => {
     getUser();
-    setLoading(false);
-  }, [loading, props]);
+    // setLoading(false);
+  }, [props]);
+
 
   // search user
   const searchHandler = (e) => {
@@ -63,6 +64,8 @@ const ClubMember = ({ props }) => {
 
   // submit handler for making club member as lead
   const submitHandler = async () => {
+    setLoading(true);
+
     console.log(id);
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
       method: "PUT",
@@ -73,7 +76,8 @@ const ClubMember = ({ props }) => {
     console.log(res);
     setConfirm(false);
     setShow(false);
-    setLoading(true);
+    setLoading(false);
+
   };
 
   return (
@@ -123,16 +127,35 @@ const ClubMember = ({ props }) => {
                       </td>
                       <td class="pt-2 pb-2 flex justify-end">
                         <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
+                          
                           <button
-                            onClick={() => {
-                              setId(member._id);
-                              handleShow();
-                            }}
-                            className="h-[25px] py-3 flex items-center px-1.5 rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
+                              className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
                           >
-                            <FontAwesomeIcon icon={faUser} className="mr-2" />
-                              Make Lead / Admin
+                            {loading ? (
+                              <div
+                                class="spinner-border text-white"
+                                role="status"
+                                style={{
+                                  height: "15px",
+                                  width: "15px",
+                                  marginLeft: "2px",
+                                }}
+                              >
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            ) : (
+                              <div
+                              onClick={() => {
+                                setId(member._id);
+                                handleShow();
+                              }}
+                              >
+                              <FontAwesomeIcon icon={faUser} className="mr-2" />
+                              Make Lead
+                              </div>
+                            )}
                           </button>
+
                         </div>
 
                         <Modal
@@ -145,28 +168,8 @@ const ClubMember = ({ props }) => {
                               closeButton
                               className="club-member-modal-header"
                             >
-                              Are you sure to make this club member as Lead /
-                              Admin ?
+                              Are you sure to make this club member as lead ?
                             </Modal.Header>
-                            <Modal.Body>
-                              <div className="flex">
-                                <p className="m-1 p-1 font-semibold">Select Designation :</p>
-                                <select
-                                  name="designation"
-                                  id="designation"
-                                  className="border w-[280px] rounded  "
-                                >
-                                  <option disabled selected className="hidden">
-                                    Club Member
-                                  </option>
-                                  <option value='Lead'>Lead</option>
-                                  <option value='Admin'>Admin</option>
-                                </select>
-                              </div>
-                              <p className="m-1 pt-1 pl-1 font-semibold text-[1.1rem]">
-                                {member.name} will be Lead!
-                              </p>
-                            </Modal.Body>
                             <Modal.Footer className="modal-footer club-member-modal-footer">
                               <div className="modal-footer-club-member-yes-no-div">
                                 <div onClick={() => setConfirm(!confirm)}>
