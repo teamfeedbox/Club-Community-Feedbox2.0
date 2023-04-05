@@ -1,22 +1,24 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
-import { FcLike, FcLikePlaceholder } from "react-icons/fc";
+import { faHeart} from "@fortawesome/free-regular-svg-icons";
+import { FcLike} from "react-icons/fc";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
-import React, { useRef, useState, useEffect, } from "react";
-
+import React, {useState, useEffect, } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import {Navigation } from "swiper";
+import { Navigation } from "swiper";
 import "./PostDisplay.css";
 import PostBigModel from "./PostBigModel";
 import Loader from '../Loader.jsx'
+import TimeAgo from "javascript-time-ago";
+import en from 'javascript-time-ago/locale/en'
 
-const PostDisplay = () => {
-
+const PostDisplay = (userData) => {
+  TimeAgo.addLocale(en);
+  const timeAgo = new TimeAgo("en-US");
   const [data, setData] = useState([]);
   const [showAdd, setShowAdd] = useState('Hide-Comment-Add-Btn');
   const [showView, setShowView] = useState('Hide-Comment-View-Btn');
@@ -26,7 +28,6 @@ const PostDisplay = () => {
   const [tempReply, setTempReply] = useState('');
   // To open the Comment Model
   const [openComment, setOpenComment] = useState(false);
-  const [user, setUser] = useState();
   const [reply, setReply] = useState('');
   const [comment, setComments] = useState([" How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q",
     "How many times were you frustrated while looking out for a good collection of programming/algorithm /interview questions? What did you expect and what did you get? This portal has been created to",
@@ -71,7 +72,6 @@ const PostDisplay = () => {
       setReply(tempReply);
     }
   }
-
   function showRep() {
     if (tempReply != "") {
       setReplyView("Show-Reply-View");
@@ -79,12 +79,13 @@ const PostDisplay = () => {
     }
   }
 
+  let user = userData && userData.userData;
 
   useEffect(() => {
     getList();
-    getUser();
   }, []);
 
+  // get All Post
   const getList = async () => {
     let result = await fetch("http://localhost:8000/getAllPost", {
       headers: {
@@ -92,19 +93,10 @@ const PostDisplay = () => {
       },
     });
     result = await result.json();
-    setData(result);
+    setData(result.reverse());
   };
 
-  const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    setUser(result._id);
-  };
-
+  // Like a post
   const like = (id) => {
     fetch("http://localhost:8000/like", {
       method: "put",
@@ -133,6 +125,7 @@ const PostDisplay = () => {
       });
   };
 
+  // Unlike a Post
   const unlike = (id) => {
     fetch("http://localhost:8000/unlike", {
       method: "put",
@@ -179,7 +172,8 @@ const PostDisplay = () => {
                     <p className="post-display-heading-college">
                       {item && item.postedBy && item.postedBy.collegeName}
                     </p>
-                    <p className="post-display-heading-time">{item.date}</p>
+                    {/* <p className="post-display-heading-time">{item.postedDate}</p> */}
+                    <p className="post-display-heading-time">{item.postedDate && timeAgo.format(new Date(item.postedDate).getTime() - 60 * 1000)}</p>
                   </div>
                 </div>
               </div>
@@ -229,7 +223,7 @@ const PostDisplay = () => {
               </div>
 
               <div className="post-display-bottom">
-                {item.likes.includes(user) ? (
+                {item.likes.includes(user._id) ? (
                   <div className="post-display-bottom-content">
                     <FcLike
                       size={28}
@@ -271,7 +265,6 @@ const PostDisplay = () => {
         setOpenComment={setOpenComment}
         id={id}
       />
-
     </div>
   );
 
