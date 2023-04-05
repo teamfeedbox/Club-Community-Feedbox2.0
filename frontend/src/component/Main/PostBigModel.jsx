@@ -214,7 +214,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
               <div className="post-display-center1">
                 <div className="post-display-image "></div>
 
-                {/* *********************carousel for web view*************************** */}
+                {/* ********carousel for web view********** */}
                 <div className="post-display-image flex justify-center">
                   <div className="post-display-carousel-webview1 flex justify-center">
                     <Carousel
@@ -362,7 +362,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                   </div> */}
 
 
-                  {/* ********* Section which will contain the reply on a comment************ */}
+                  {/* *** Section which will contain the reply on a comment****** */}
 
                         {
                           showReply==true && replyInputBtnId==item._id?(
@@ -792,7 +792,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                             ):("")
                             
                         }
-                          {/* ********************Hide and show reply****************** */}
+                          {/* *******Hide and show reply******* */}
 
                           {
                           checkReply? (

@@ -145,7 +145,7 @@ router.get('/user/:id', requireLogin, async (req, res) => {
     res.send(result)
   }
   else {
-    res.send("no product found")
+    res.send("not found")
   }
 })
 
@@ -157,6 +157,16 @@ router.put('/updatePic/:id', requireLogin, async (req, res) => {
   res.send(result)
 })
 
+
+router.put('/updateSkill/:id', requireLogin, async (req, res) => {
+  let result = await User.updateOne(
+    { _id: req.params.id },
+    { $push: { skills: req.body.skill } }
+  )
+  res.send(result)
+})
+
+
 // router.put('/updateDetail/:id', async(req,res)=>{
 
 // //  console.log(req.body.email)
@@ -166,7 +176,7 @@ router.put('/updatePic/:id', requireLogin, async (req, res) => {
 
 // update details of a user
 router.put('/updateDetail/:id', async (req, res) => {
-  console.log(req.body, req.params.id);
+  // console.log(req.body,req.params.id);
   try {
     let result = await User.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true })
     res.status(200).json(result)
@@ -187,14 +197,29 @@ router.delete('/user/:id', async (req, res) => {
   })
 })
 
-router.put('/updateSkills/:eventId', requireLogin, async (req, res) => {
-  let result = await Event.updateOne(
-    { _id: req.params.eventId },
-    {
-      $push: { skills: req.body }
-    }
-  )
-  res.send(result)
+// router.put('/updateSkills/:eventId', requireLogin, async (req, res) => {
+//   let result = await Event.updateOne(
+//     { _id: req.params.eventId },
+//     {
+//       $push: { skills: req.body }
+//     }
+//   )
+//   res.send(result)
+// })
+
+
+
+router.get('/getAllUser',(req,res)=>{
+  // var mySort = { date: -1 };
+  User.find()
+  // .sort(mySort)
+  // .populate('postedBy').select("-password")
+  .then(user=>{
+      res.json(user)
+  })
+  .catch(err=>{
+      console.log(err)
+  })
 })
 
 
