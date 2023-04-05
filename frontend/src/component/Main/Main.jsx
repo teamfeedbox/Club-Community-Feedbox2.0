@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PostDisplay from "./PostDisplay";
 import HomePageProfile from "./HomePageProfile";
 import HomePageCal from "./HomePageCal";
@@ -6,12 +6,25 @@ import HomePageEvent from "./HomePageEvent";
 import CreatePost from "./CreatePost";
 import "./Main.css";
 import bg from "../assets/mainBg.png";
-import { Scrollbars } from "react-custom-scrollbars";
-import PostDisplayPage from "./PostDisplayPage";
 import NavbarRes from "../navbar/NavbarRes";
-// import CollegeSort from "./CollegeSort";
 
 const Main = () => {
+  const [user,setUser]=useState();
+
+  const getUser = async () => {
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    setUser(result);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, [])
+
   return (
     <>
       <NavbarRes />
@@ -29,28 +42,26 @@ const Main = () => {
             <div className="flex m-auto justify-center">
               <div className="main-home-page-profile">
                 <scrollable-component scrollbar-visibility="always">
-                  <HomePageProfile />
-                  {/* <CollegeSort /> */}
+                  <HomePageProfile userData={user && user} />
                 </scrollable-component>
               </div>
 
               <div className="main-post-dispaly">
                 <scrollable-component scrollbar-visibility="always">
                   <div>
-                    <CreatePost />
+                    <CreatePost userData={user && user}/>
                   </div>
-                  {/* <PostDisplay /> */}
-                  <PostDisplayPage />
+                  <PostDisplay userData={user && user}/>
                 </scrollable-component>
               </div>
 
               <div className="main-home-page-cal">
                 <scrollable-component scrollbar-visibility="always">
                   <div className="home-page-cal-div">
-                    <HomePageCal />
+                    <HomePageCal userData={user && user}/>
                   </div>
                   <p className="up-coming-events">UP-COMING EVENTS</p>
-                  <HomePageEvent />
+                  <HomePageEvent userData={user && user}/>
                 </scrollable-component>
               </div>
             </div>
@@ -63,33 +74,32 @@ const Main = () => {
           <section className="main">
             <div className="main-page-display-tab-left ">
               <scrollable-component scrollbar-visibility="always">
-                <HomePageProfile />
+                <HomePageProfile  userData={user && user}/>
                 <p className="up-coming-events">UP-COMING EVENTS</p>
 
-                <HomePageEvent />
+                <HomePageEvent userData={user && user}/>
               </scrollable-component>
             </div>
             <div className="main-page-display-tab-right">
               <scrollable-component scrollbar-visibility="always">
-                <CreatePost />
-                <PostDisplay />
+                <CreatePost userData={user && user}/>
+                <PostDisplay userData={user && user}/>
               </scrollable-component>
             </div>
           </section>
         </div>
 
         {/* ******************mobile view************************* */}
-
         <div className="main-page-display-mobile">
           <section className="main ">
             <div className="w-[92%] ml-[4%]">
-              <CreatePost />
+              <CreatePost userData={user && user}/>
             </div>
             <p className="up-coming-events">UP-COMING EVENTS</p>
             <div className="w-[92%] ml-[4%]">
-              <HomePageEvent />
+              <HomePageEvent userData={user && user}/>
             </div>
-            <PostDisplay />
+            <PostDisplay userData={user && user}/>
           </section>
         </div>
       </div>

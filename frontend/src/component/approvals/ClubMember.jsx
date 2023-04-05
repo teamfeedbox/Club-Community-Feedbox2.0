@@ -6,28 +6,32 @@ import { Scrollbars } from "react-custom-scrollbars";
 import Modal from "react-bootstrap/Modal";
 import "./ClubMember.css";
 
-const ClubMember = ({props}) => {
+const ClubMember = ({ props }) => {
   const [searchval, setSearchVal] = useState("");
   const [clubMember, setClubMember] = useState([]);
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [data, setData] = useState([]);
-  const [position,setPosition] =useState();
-  const [id,setId]=useState('');
-  
-  const handleClose = () => {setShow(false); setConfirm(false)}
+  const [position, setPosition] = useState();
+  const [id, setId] = useState("");
+
+  const handleClose = () => {
+    setShow(false);
+    setConfirm(false);
+  };
   const handleShow = () => setShow(true);
 
   const getUser = async () => {
     const result = await fetch(`http://localhost:8000/get`);
     const res = await result.json();
     let cm = [];
-    res && res.map((data) => {
-      if (data.role == 'Club_Member') {
-        cm.push(data)
-      }
-    })
+    res &&
+      res.map((data) => {
+        if (data.role == "Club_Member") {
+          cm.push(data);
+        }
+      });
     console.log(cm);
     setClubMember(cm);
     setData(cm);
@@ -35,8 +39,9 @@ const ClubMember = ({props}) => {
 
   useEffect(() => {
     getUser();
-    setLoading(false);
-  }, [loading,props])
+    // setLoading(false);
+  }, [props]);
+
 
   // search user
   const searchHandler = (e) => {
@@ -58,19 +63,22 @@ const ClubMember = ({props}) => {
   };
 
   // submit handler for making club member as lead
-  const submitHandler=async ()=>{
+  const submitHandler = async () => {
+    setLoading(true);
+
     console.log(id);
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ role: 'Lead',position:position })
-    })
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ role: "Lead", position: position }),
+    });
     const res = await data.json();
-    console.log(res)
+    console.log(res);
     setConfirm(false);
-    setShow(false)
-    setLoading(true)
-  }
+    setShow(false);
+    setLoading(false);
+
+  };
 
   return (
     <div>
@@ -96,79 +104,120 @@ const ClubMember = ({props}) => {
         <Scrollbars style={{ height: "230px" }}>
           <table class="table-auto w-full max-w-[1300px]">
             <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
-              {clubMember.length > 0 ?
-                clubMember.map((member) => (
-                  <tr className="flex justify-between max-w-[1150px]">
-                    <td class="p-2 w-[200px] lg:w-[300px]">
-                      <div className="flex items-center">
-                        <img
-                          class="rounded-full"
-                          src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                          width="40"
-                          height="40"
-                          alt="Alex Shatov"
-                        />
+              {clubMember.length > 0
+                ? clubMember.map((member) => (
+                    <tr className="flex justify-between max-w-[1150px]">
+                      <td class="p-2 w-[200px] lg:w-[300px]">
+                        <div className="flex items-center">
+                          <img
+                            class="rounded-full"
+                            src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
+                            width="40"
+                            height="40"
+                            alt="Alex Shatov"
+                          />
 
-                        <div className="ml-2"> {member.name} </div>
-                      </div>
-                    </td>
-                    <td class="p-2 lg:flex items-center hidden md:block">
-                      <div class="font-medium text-gray-800">
-                        {member.branch}
-                      </div>
-                    </td>
-                    <td class="pt-2 pb-2 flex justify-end">
-                      <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
-                        <button
-                          onClick={()=>{setId(member._id); handleShow();}}
-                          className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
-                        >
-                          <FontAwesomeIcon icon={faUser} className="mr-2"/>
-                          Make Lead
-                        </button>
-                      </div>
-
-                      <Modal
-                        show={show}
-                        onHide={handleClose}
-                        className="club-member-modal"
-                      >
-                        <form>
-                          <Modal.Header
-                            closeButton
-                            className="club-member-modal-header"
+                          <div className="ml-2"> {member.name} </div>
+                        </div>
+                      </td>
+                      <td class="p-2 lg:flex items-center hidden md:block">
+                        <div class="font-medium text-gray-800">
+                          {member.branch}
+                        </div>
+                      </td>
+                      <td class="pt-2 pb-2 flex justify-end">
+                        <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
+                          
+                          <button
+                              className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
                           >
-                            Are you sure to make this club member as lead ?
-                          </Modal.Header>
-                          <Modal.Footer className="modal-footer club-member-modal-footer">
-                            <div className="modal-footer-club-member-yes-no-div">
-                              <div onClick={() => setConfirm(!confirm)}>
-                                Yes
+                            {loading ? (
+                              <div
+                                class="spinner-border text-white"
+                                role="status"
+                                style={{
+                                  height: "15px",
+                                  width: "15px",
+                                  marginLeft: "2px",
+                                }}
+                              >
+                                <span class="visually-hidden">Loading...</span>
                               </div>
-                              <button onClick={(e)=>{e.preventDefault(); setShow(false); setConfirm(false)}}>No</button>
-                            </div>
-                            {confirm ? (
-                              <form className="club-member-modal-confirm">
-                                <div>
-                                  <input
-                                    type="text"
-                                    placeholder="Specify Position"
-                                    required onChange={(e)=>setPosition(e.target.value)}
-                                  />
-                                </div>
-                                <div>
-                                  <button onClick={(e)=>{e.preventDefault();submitHandler()}}>Confirm</button>
-                                </div>
-                              </form>
                             ) : (
-                              ""
+                              <div
+                              onClick={() => {
+                                setId(member._id);
+                                handleShow();
+                              }}
+                              >
+                              <FontAwesomeIcon icon={faUser} className="mr-2" />
+                              Make Lead
+                              </div>
                             )}
-                          </Modal.Footer>
-                        </form>
-                      </Modal>
-                    </td>
-                  </tr>
-                )) : "No Club Members..."}
+                          </button>
+
+                        </div>
+
+                        <Modal
+                          show={show}
+                          onHide={handleClose}
+                          className="club-member-modal"
+                        >
+                          <form>
+                            <Modal.Header
+                              closeButton
+                              className="club-member-modal-header"
+                            >
+                              Are you sure to make this club member as lead ?
+                            </Modal.Header>
+                            <Modal.Footer className="modal-footer club-member-modal-footer">
+                              <div className="modal-footer-club-member-yes-no-div">
+                                <div onClick={() => setConfirm(!confirm)}>
+                                  Yes
+                                </div>
+                                <button
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    setShow(false);
+                                    setConfirm(false);
+                                  }}
+                                >
+                                  No
+                                </button>
+                              </div>
+                              {confirm ? (
+                                <form className="club-member-modal-confirm">
+                                  <div>
+                                    <input
+                                      type="text"
+                                      placeholder="Specify Position"
+                                      required
+                                      onChange={(e) =>
+                                        setPosition(e.target.value)
+                                      }
+                                    />
+                                  </div>
+                                  <div>
+                                    <button
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        submitHandler();
+                                      }}
+                                    >
+                                      Confirm
+                                    </button>
+                                  </div>
+                                </form>
+                              ) : (
+                                ""
+                              )}
+                            </Modal.Footer>
+                          </form>
+                        </Modal>
+                      </td>
+                    </tr>
+                  ))
+                : "No Club Members..."}
             </tbody>
           </table>
         </Scrollbars>

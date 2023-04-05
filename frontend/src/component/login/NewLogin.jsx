@@ -71,6 +71,7 @@ let auth = localStorage.getItem('user')
                   type=""
                   placeholder="Email"
                   value={email}
+                  required
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
@@ -80,6 +81,7 @@ let auth = localStorage.getItem('user')
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
+                  required
                   type='password'
                   // type="show ? 'password' : 'text'"
                   className="text-sm text-black px-4 py-3 rounded-lg w-full bg-gray-200 focus:bg-gray-100 border border-gray-200 focus:outline-none focus:border-purple-400"

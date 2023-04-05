@@ -54,7 +54,7 @@ const EditProfile = ({ open, setOpen }) => {
       getUserDetails();
     
     updateDetail(data)
-},[])
+}, [])
 
 useEffect(()=>{
   handleClose()

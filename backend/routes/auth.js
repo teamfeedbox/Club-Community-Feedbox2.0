@@ -114,34 +114,28 @@ router.post("/login", (req, res) => {
   });
 });
 
-// router.get("/user/:email", (req, res) => {
-//   const email = req.params.email;
-
-//   User.findOne({ email: email })
-
-//     .populate("email")
-//     .select("-password")
-//     .then((user) => {
-//       res.json({ user });
-//       // console.log(user)
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// });
-
 
 router.get('/user', requireLogin, async (req, res) => {
-  // console.log(req.user)
-  const email = req.user.email;
-  // console.log(req.user.email)
-  const user = await User.findOne({ email }).populate("email").select("-password");
-  if (user) {
-    res.send(user);
-    // console.log(user)
-  } else {
+  try {
+    const email = req.user.email;
+    const user = await User.findOne({ email }).populate("email").select("-password");
+    if(user){
+      console.log(user,"dslkfjhwgefhuewbflakge");
+      res.status(200).json(user);
+    }else{
+      res.status(404).json("This user doesn't exists...")
+    }
+  } catch (error) {
     res.status(404).send('User not found');
   }
+  // const email = req.user.email;
+  // const user = await User.findOne({ email }).populate("email").select("-password");
+  // if (user) {
+  //   console.log(user);
+  //   res.send(user);
+  // } else {
+  //   res.status(404).send('User not found');
+  // }
 });
 
 
@@ -174,7 +168,7 @@ router.put('/updateSkill/:id', requireLogin, async (req, res) => {
 
 
 // router.put('/updateDetail/:id', async(req,res)=>{
-  
+
 // //  console.log(req.body.email)
 // //   console.log(req.body.bio)
 //   let result = await User.updateMany(
@@ -184,7 +178,7 @@ router.put('/updateSkill/:id', requireLogin, async (req, res) => {
 router.put('/updateDetail/:id', async (req, res) => {
   // console.log(req.body,req.params.id);
   try {
-    let result = await User.findOneAndUpdate({ _id: req.params.id }, { $set: req.body}, { new: true })
+    let result = await User.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true })
     res.status(200).json(result)
   } catch (error) {
     res.status(500).json(error);
@@ -231,17 +225,17 @@ router.get('/getAllUser',(req,res)=>{
 
 // updatte event attendance and coins of a user
 router.put('/update/coins/events/', async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   try {
-    req.body.attendees.map(async (data)=>{
-      const response = await User.updateOne({_id:data.id},{
-        $set :{coins:data.coins},
-        $push:{events:req.body.currentEvent}
+    req.body.attendees.map(async (data) => {
+      const response = await User.updateOne({ _id: data.id }, {
+        $set: { coins: data.coins },
+        $push: { events: req.body.currentEvent }
       })
     })
     res.status(200).json(true);
   } catch (error) {
-   res.status(500).json(error) 
+    res.status(500).json(error)
   }
 })
 

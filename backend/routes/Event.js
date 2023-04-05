@@ -96,14 +96,20 @@ router.get('/myEvent', requireLogin, async (req, res) => {
 // update attendance of a event
 router.put('/update/Event/:eventId', requireLogin, async (req, res) => {
     try {
-        // console.log(req.body, req.params.eventId);
+        console.log(req.body, req.params.eventId);
         let ids = req.body.absentees;
-        ids.map(async (data) => {
-            const response = await Event.updateOne({ _id: req.params.eventId }, {
-                $pull: { attendance: { _id: mongoose.Types.ObjectId(data) } },
-                $set:{attendanceSubmitted:true,eventDuration:req.body.eventDuration}
+        if (ids.length > 0) {
+            ids.map(async (data) => {
+                const response = await Event.updateOne({ _id: req.params.eventId }, {
+                    $pull: { attendance: { _id: mongoose.Types.ObjectId(data) } },
+                    $set: { attendanceSubmitted: true, eventDuration: req.body.eventDuration }
+                })
             })
-        })
+        } else {
+            const response = await Event.updateOne({ _id: req.params.eventId }, {
+                $set: { attendanceSubmitted: true, eventDuration: req.body.eventDuration }
+            })
+        }
         res.status(200).json(true);
     } catch (error) {
         res.status(500).json(error)
