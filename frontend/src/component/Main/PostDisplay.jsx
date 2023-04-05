@@ -35,7 +35,7 @@ const PostDisplay = () => {
   const[showreply,setShowReply]=useState(false);
 
   // To open the Comment Model
-  const[openComment,setOpenComment]=useState(false);
+  const[openComment,setOpenComment]=useState(true);
 
   const [reply,setReply]=useState('');
   const [comment,setComments] = useState([" How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q", 

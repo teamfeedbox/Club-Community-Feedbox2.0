@@ -27,12 +27,7 @@ const userSchema = new mongoose.Schema({
     //required: true,
   },
   role: {
-<<<<<<< HEAD
-    type: String, enum: ['user', 'Club_Member', 'Lead', 'Admin', 'Super_Admin'], default:'user'
-    //required: true,
-=======
     type: String, enum: ['user', 'Club_Member', 'Lead', 'Admin', 'Super_Admin'],default:"user"
->>>>>>> 56ea03a7b8a356450686a55b4167c1743760eec1
   },
   position: {
     type: String,
