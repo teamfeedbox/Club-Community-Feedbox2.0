@@ -1,40 +1,46 @@
-import { faCircleCheck, faCircleXmark, faFileInvoice, faSearch,} from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleCheck,
+  faCircleXmark,
+  faFileInvoice,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import "./PendingApprovals.css";
 import { Scrollbars } from "react-custom-scrollbars";
 
 const PendingApprovals = (props) => {
-  const [data,setData] = useState([]);
+  const [data, setData] = useState([]);
   const [searchval, setSearchVal] = useState("");
   const [pendingUsers, setPendingUsers] = useState([]);
-  const [loading,setLoading] = useState(false);
-  const [val,setVal]=useState(false);
+  const [loading, setLoading] = useState(false);
+  const [val, setVal] = useState(false);
 
   const getUser = async () => {
     const result = await fetch(`http://localhost:8000/get`);
     const res = await result.json();
-    let user=[];
-    res && res.map((data)=>{
-      if(data.role=='user'){
-        user.push(data)
-      }
-    })
+    let user = [];
+    res &&
+      res.map((data) => {
+        if (data.role == "user") {
+          user.push(data);
+        }
+      });
     setPendingUsers(user);
     setData(user);
   };
 
   useEffect(() => {
     getUser();
-    setLoading(false);
-  }, [loading])
+    // setLoading(false);
+  });
 
   // search for a pending user
   const searchHandler = (e) => {
     let val = e.target.value;
     setSearchVal(e.target.value);
     let matched = [];
-    if (e.target.value != '') {
+    if (e.target.value != "") {
       data.length > 0 &&
         data.forEach((user) => {
           const value = user.name.toLowerCase().includes(val.toLowerCase());
@@ -44,33 +50,35 @@ const PendingApprovals = (props) => {
         });
       setPendingUsers(matched);
     } else {
-      setPendingUsers(data.length>0 && data);
+      setPendingUsers(data.length > 0 && data);
     }
   };
 
   // Decline request for club member
   const handleDecline = async (id) => {
+    setLoading(true);
     console.log(id);
     const data = await fetch(`http://localhost:8000/user/${id}`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' }
-    })
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
     const res = await data.json();
-    setLoading(true)
-  }
+    setLoading(false);
+  };
 
   // Accept request for club member
   const handleAccept = async (id) => {
+    setLoading(true);
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ role: 'Club_Member' })
-    })
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ role: "Club_Member" }),
+    });
     const res = await data.json();
-    setLoading(true)
-    setVal(!val)
+    setVal(!val);
     props.func(!val);
-  }
+    setLoading(false);
+  };
 
   return (
     <div className="PendingApprovals ">
@@ -96,37 +104,59 @@ const PendingApprovals = (props) => {
         <Scrollbars style={{ height: "230px" }}>
           <table class="table-auto w-full max-w-[1300px] ">
             <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
-              {pendingUsers.length > 0 ? pendingUsers.map((approval) => (
-                <tr className="flex justify-between max-w-[1150px]">
-                  <td class="p-2  lg:w-[300px]">
-                    <div className="flex items-center">
-                      <img
-                        class="rounded-full"
-                        src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                        width="40"
-                        height="40"
-                        alt="Alex Shatov"
-                      />
-                      <div className="ml-2"> {approval.name} </div>
-                    </div>
-                  </td>
-                  <td class="p-2 lg:flex items-center hidden md:block">
-                    <div class="font-medium text-gray-800">{approval.collegeYear} year-{approval.branch}</div>
-                  </td>
-                  <td class="pt-2 pb-2 flex justify-end">
-                    <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
-                      <button className="h-[30px] rounded-xl text-[#616161] font-bold hover:bg-gray-300 mr-2" onClick={() => handleDecline(approval._id)}>
-                        Decline
-                      </button>
-                      <button className="h-[25px] w-[60px] rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]" onClick={() => handleAccept(approval._id)}>
-                        Accept
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              )) : <div>
-                No Pending Requests...
-              </div> }
+              {pendingUsers.length > 0 ? (
+                pendingUsers.map((approval) => (
+                  <tr className="flex justify-between max-w-[1150px]">
+                    <td class="p-2  lg:w-[300px]">
+                      <div className="flex items-center">
+                        <img
+                          class="rounded-full"
+                          src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
+                          width="40"
+                          height="40"
+                          alt="Alex Shatov"
+                        />
+                        <div className="ml-2"> {approval.name} </div>
+                      </div>
+                    </td>
+                    <td class="p-2 lg:flex items-center hidden md:block">
+                      <div class="font-medium text-gray-800">
+                        {approval.collegeYear} year-{approval.branch}
+                      </div>
+                    </td>
+                    <td class="pt-2 pb-2 flex justify-end">
+                      <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
+                        <button
+                          className="h-[30px] rounded-xl text-[#616161] font-bold hover:bg-gray-300 mr-2"
+                          onClick={() => handleDecline(approval._id)}
+                        >
+                          Decline
+                        </button>
+                        {loading  ? (
+                          <div
+                            class="spinner-border text-success"
+                            role="status"
+                            style={{ height: "15px", width: "15px" }}
+                          >
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        ) : 
+                        <button
+                            className="h-[25px] w-[60px] rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
+                            onClick={() => handleAccept(approval._id)}
+                          >
+                            Accept
+                          </button>
+                        }
+
+                        
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <div>No Pending Requests...</div>
+              )}
             </tbody>
           </table>
         </Scrollbars>
