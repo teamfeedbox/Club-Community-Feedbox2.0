@@ -18,38 +18,65 @@ const CreatePost = () => {
   const [user, setUser] = useState();
   const [role, setRole] = useState('');
   const [loading, setLoading] = useState(false);
+  const [zeroImage, setZeroImage] = useState(false);
+  const [required, setRequired] = useState(false);
 
   let count = 0;
 
+  function handleSelect(e) {
+    // selectValue = e.target.value;
+    setScope(e.target.value)
+    console.log(`scope of select ${e.target.value}`);
+
+  }
+
   function handleChange(e) {
+    console.log(file.length);
+    if(file.length >= 0) {
+      setZeroImage(true);
+    }
+   
+
     if (file.length == 5) {
       setTextDisplay(true);
       setTimeout(() => {
         setTextDisplay(false);
       }, 5000);
     }
-
+    
     let limit = file.length + e.target.files.length;
     for (let i = count; i < e.target.files.length && i < 5 && file.length < 5 && limit < 6; i++) {
       setFile((arr) => [...arr, URL.createObjectURL(e.target.files[i])]);
+      console.log(e.target.files[i]);
       setImage(arr => [...arr, e.target.files[i]]);
       count++;
     }
-
+    
     if (e.target.files.length > 5 || limit >= 6) {
       setTextDisplay(true);
       setTimeout(() => {
         setTextDisplay(false);
       }, 3000);
     }
+    console.log(`image array :${e.target.files}`);
   }
 
   function deleteFile(e) {
+    console.log(` delte file e : ${e}`);
     const s = file.filter((item, index) => index !== e);
+    const s2 = image.filter((item, index) => index !== e);
+    console.log(s.length);
     setFile(s);
+    setImage(s2);
+
+    if(s.length == 0) {
+      setZeroImage(false);
+    }
+    
+
     count--;
   }
-
+ 
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
@@ -63,7 +90,7 @@ const CreatePost = () => {
     // if (result) {
       //   getUser();
       // }
-      console.log(`lihjcnok ${result}`);
+      // console.log(`lihjcnok ${result}`);
   };
 
   useEffect(() => {
@@ -72,7 +99,7 @@ const CreatePost = () => {
   }, [loading]);
 
   const postDetails = () => {
-    const promises = image.map((file) => {
+      const promises = image.map((file) => {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", "feedbox-community-web");
@@ -92,6 +119,17 @@ const CreatePost = () => {
       .catch((err) => {
         console.log(err);
       });
+
+      console.log(`select details ${scope}`);
+
+      if(scope === '')
+      {
+        setRequired(true);
+        setTimeout(() => {
+          setRequired(false)
+        }, 3000);
+      }
+
   }
 
   const CreatePost = (urls) => {
@@ -123,7 +161,12 @@ const CreatePost = () => {
       });
   }
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false)
+    setFile([]);
+    setImage([]);
+    setDesc([]);
+  };
   const handleShow = () => setShow(true);
 
   return (
@@ -153,6 +196,7 @@ const CreatePost = () => {
             <Modal.Title>Create a post</Modal.Title>
           </Modal.Header>
           <Modal.Body className="modal-body">
+            <form>
             <div className="modal-profile-section">
               <div className="modal-profile-section-image">
                 <img src={user && user.img} alt="" />
@@ -161,11 +205,16 @@ const CreatePost = () => {
                 {/* <h5>{JSON.parse(auth).name}</h5> */}
                 <h5>{user && user.name}</h5>
 
-                <select name="type" onChange={(e) => {setScope(e.target.value) }}>
+                <select required name="type" onChange={handleSelect}>
                   <option disabled hidden selected value="Select">Select</option>
                   <option value="public">Public</option>
                   <option value="community">Community</option>
                 </select>
+                {
+                  required ? <div className="error-text-create-post" >
+                    **select type of post you want to create.
+                  </div> :''
+                }
               </div>
             </div>
             <textarea
@@ -197,6 +246,7 @@ const CreatePost = () => {
             ) : (
               <div></div>
             )}
+            </form>
           </Modal.Body>
           <Modal.Footer className="modal-footer">
             <div className="modal-footer-upload">
@@ -216,7 +266,9 @@ const CreatePost = () => {
               />
             </div>
             <div>
-              <Button
+              {
+                (zeroImage || desc.length > 0) && scope ? 
+                <Button  
                 variant="primary"
                 onClick={function (event) {
                   handleClose();
@@ -224,7 +276,18 @@ const CreatePost = () => {
                 }}
               >
                 Post
-              </Button>
+              </Button> :
+              <Button disabled 
+              variant="primary"
+              onClick={function (event) {
+                handleClose();
+                postDetails();
+              }}
+            >
+              Post
+            </Button>
+              }
+              
             </div>
           </Modal.Footer>
         </Modal>
