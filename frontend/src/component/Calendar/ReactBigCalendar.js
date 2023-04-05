@@ -39,7 +39,6 @@ export default function ReactBigCalendar() {
   const [deletebtn, setDeleteBtn] = useState(false);
   const [show, setShow] = useState(false);
   const [eventPre, setEventPre] = useState("Calendar-view-events-hide");
-
   const [postedBy, setPostedBy] = useState("");
   const [user, setUser] = useState();
   const [attendance, setAttendance] = useState([]);
@@ -85,8 +84,8 @@ export default function ReactBigCalendar() {
     };
     showEvent();
     getUser();
-    setLoading(false);
-  }, [loading, myEvent]);
+    // setLoading(false);
+  }, [myEvent]);
 
   const attendanceUpdate = async (id) => {
     let result = await fetch(`http://localhost:8000/updateEvent/${id}`, {
@@ -167,17 +166,17 @@ export default function ReactBigCalendar() {
 
   // Delete Event
   const cancelEvent = async (id) => {
+    setLoading(true);
     let result = await fetch(`http://localhost:8000/deleteEvent/${id}`, {
       method: "delete",
     });
     result = await result.json();
     console.log(result);
-    setLoading(true);
     setDeleteBtn(false);
     setPreEventModel(false);
+    setLoading(false);
   };
 
-  const handleClose = () => setShow(false);
 
   return (
     <>
@@ -328,9 +327,20 @@ export default function ReactBigCalendar() {
                       be undone.
                       </Modal.Body>
                       <Modal.Footer style={{justifyContent:"right"}}>
+                      {loading ? (
+                         <div
+                         class="spinner-border text-danger"
+                         role="status"
+                         style={{ height: "15px", width: "15px" }}
+                       >
+                         <span class="visually-hidden">Loading...</span>
+                       </div>
+                      ) : (
                         <Button variant="danger" onClick={()=>cancelEvent(myEvent._id)}>
                           Delete
                         </Button>
+                      )}
+                        
                         <Button
                           variant="light"
                           onClick={() => setDeleteBtn(false)}
