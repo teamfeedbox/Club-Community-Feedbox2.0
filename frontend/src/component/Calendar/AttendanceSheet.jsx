@@ -174,6 +174,7 @@ const AttendanceSheet = () => {
           </Modal.Footer>
         </form>
       </Modal>
+      
       <div className="attendance">
         <div className="attendance-right">
           <h1>Attendance Sheet</h1>
