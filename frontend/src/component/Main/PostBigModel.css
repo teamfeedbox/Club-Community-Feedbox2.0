@@ -237,14 +237,14 @@
 }
 .delete-btn{
     background-color: black;
-    margin: 5px 0px 5px 0px;
-    padding: 10px;
+    margin: 5px 0px 2px 0px;
+    padding: 10px 10px 10px 10px;
     border-radius: 7px;
     color: #fff;
 }
 .edit-modal-container{
     top:40%;
-    width: 250px;
+    width: 270px;
     left: 45%;
     
 }
