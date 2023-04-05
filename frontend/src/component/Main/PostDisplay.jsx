@@ -186,16 +186,29 @@ const PostDisplay = (userData) => {
                     <Swiper
                       navigation={true}
                       modules={[Navigation]}
+                      autoplay
                       className="mySwiper">
-                      <SwiperSlide>
+
+                      {
+                        item.img.length > 0 &&
+                        item.img.map((data) => (
+                            <SwiperSlide>
+                          <div>
+                            <img className="display-img" src={data} />
+                          </div>
+                      </SwiperSlide>
+                        ))
+                      }
+
+                        {/* <img className="display-img" src="Images/alumni1.jpg" /> */}
+
+
+                      {/* <SwiperSlide>
                         <img className="display-img" src="Images/alumni1.jpg" />
                       </SwiperSlide>
                       <SwiperSlide>
                         <img className="display-img" src="Images/alumni1.jpg" />
-                      </SwiperSlide>
-                      <SwiperSlide>
-                        <img className="display-img" src="Images/alumni1.jpg" />
-                      </SwiperSlide>
+                      </SwiperSlide> */}
                     </Swiper>
                   </div>
                 </div>
@@ -204,7 +217,8 @@ const PostDisplay = (userData) => {
                   <div className="post-display-carousel-webview flex justify-center">
                     <Carousel
                       thumbWidth={60}
-                      width={380}
+                      width={450}
+                      dynamicHeight
                       autoPlay
                       interval="5000"
                       infiniteLoop={true}
