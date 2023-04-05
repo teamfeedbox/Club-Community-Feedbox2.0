@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Multiselect from "multiselect-react-dropdown";
 import Modal from "react-bootstrap/Modal";
@@ -17,16 +17,10 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [collegeYear, setCollegeYear] = useState();
-  const [collegeName, setCollegeName] = useState("");
-  const [userSkills, setUserSkills] = useState();
+  const [collegeName, setCollegeName] = useState("University");
   const [branch, setBranch] = useState();
   const [bio, setBio] = useState();
-  const [role, setRole] = useState('user');
-  const [coins, setCoins] = useState();
-  const [position, setPosition] = useState();
-  const [uniqueId, setUniqueId] = useState();
-  const [events, setEvents] = useState([]);
-  const [img, setImg] = useState("");
+  const [allClgs, setAllClgs] = useState([]);
 
   const navigate = useNavigate();
 
@@ -47,19 +41,22 @@ const Register = () => {
   //     navigate("/login");
   //   }
   // });
+  const getColleges = async () => {
+    const data = await fetch(`http://localhost:8000/colleges/get`);
+    const res = await data.json();
+    let val = [];
+    res.map((data) => {
+      val.push(data.name)
+    })
+    setAllClgs(val);
+  }
+
+  useEffect(() => {
+    getColleges();
+  }, [])
 
   const collectData = async (e) => {
     e.preventDefault();
-    // console.log(
-    //   name,
-    //   email,
-    //   password,
-    //   collegeYear,
-    //   branch,
-    //   collegeName,
-  
-    //   bio
-    // );
     let result = await fetch("http://localhost:8000/register", {
       method: "post", // post method because we want to save the data
       body: JSON.stringify({
@@ -69,22 +66,14 @@ const Register = () => {
         collegeYear,
         branch,
         collegeName,
-       skills:userinfo.response,
-        bio,
-        img,
-        role,
-        coins,
-        position,
-        uniqueId,
-        events
+        skills: userinfo.response,
       }),
       headers: {
         "Content-Type": "application/json",
       },
     });
     result = await result.json();
-     console.log(result)
-    // localStorage.setItem("user", JSON.stringify(result));
+    console.log(result)
     if (result) {
       navigate("/login");
     }
@@ -151,7 +140,6 @@ const Register = () => {
     const { value, checked } = e.target;
     const { skill } = userinfo;
     console.log(`${value} is ${checked}`);
-    setUserSkills(e.target.value)
 
     // Case 1 : The user checks the box
     if (checked) {
@@ -168,10 +156,7 @@ const Register = () => {
         response: skill.filter((e) => e !== value),
       });
     }
-    // setFile((arr) => [...arr, URL.createObjectURL(e.target.files[i])]);
-
     setSkills((arr) => [...userinfo.response, skills]);
-    
   };
 
 
@@ -195,12 +180,8 @@ const Register = () => {
             <div className="mb-7">
               <h3 className="font-semibold text-2xl text-gray-800">Sign Up </h3>
               <p className="text-gray-400">
-                Have an account?{" "}
-                <a
-                  href="/login"
-                  className="text-sm text-purple-700 hover:text-purple-700"
-                  
-                >
+                Have an account?
+                <a href="/login" className="text-sm text-purple-700 hover:text-purple-700">
                   Sign In
                 </a>
               </p>
@@ -307,7 +288,7 @@ const Register = () => {
                                 {" "}
                                 Web Development{" "}
                               </label>
-                            </div> 
+                            </div>
 
                             <div className="flex w-full">
                               <input
@@ -594,40 +575,21 @@ const Register = () => {
                       <select
                         required
                         className="  w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none "
-                        value={collegeName}
-                        onChange={(e) => {
-                          setCollegeName(e.target.value)
-                        }}
-                        // onClick={()=>{log(e.target.value)}}
+                        // value={collegeName}
+                        onChange={(e) => setCollegeName(e.target.value)}
                       >
-                        <option
-                          value="none"
-                          // disabled
-                          selected
-                          // hidden
-                          className="text-gray-400"
-                          // onClick={()=>{setUniversityError(true)}}
-                        >
+                        <option disabled 
+                        selected 
+                        // hidden 
+                        className="text-gray-400">
                           University
                         </option>
-                        <option
-                          className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
-                          value="IET-DAVV"
-                          // onClick={()=>{setUniversityError(false)}}
-                          onClick={()=>{
-                             setUniversity(1)
-                            alert(university)
-                          }}
-                        >
-                          IET-DAVV
-                        </option>
-                        <option
-                          className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
-                          value="Shri Vaishnav Vidyapeeth Vishwavidyalaya"
-                          // onClick={()=>{setUniversityError(false)}}
-                        >
-                          Shri Vaishnav Vidyapeeth Vishwavidyalaya
-                        </option>
+                        {
+                          allClgs.length > 0 &&
+                          allClgs.map(data => (
+                            <option value={data}>{data}</option>
+                          ))
+                        }
                       </select>
                       {universityError ? (
                         <span className="registerError">

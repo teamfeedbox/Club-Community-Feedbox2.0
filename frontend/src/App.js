@@ -21,25 +21,13 @@ import ProfileBigModel from "./component/Profile/ProfileBigModel";
 import Error from "./component/Error";
 import Loader from "./component/Loader";
 import Dashboard from "./component/Dashboard/Dashboard";
+import MobileNotification from "./component/navbar/MobileNotification";
 
 const App = () => {
   const selectedPage = window.location.pathname;
 
   return (
     <div className="App">
-      {/* <div
-        className={
-          selectedPage == "/" ||
-          selectedPage == "/login" ||
-          selectedPage == "/register"
-            ? "hidden"
-            : "block"
-        }
-      >
-        <NavbarRes />
-      </div> */}
-        {/* <NavbarRes /> */}
-
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -58,6 +46,7 @@ const App = () => {
           <Route index path="*" element={<Error />} />
           <Route index path="/attendance/:name" element={<AttendanceSheet />} />
           <Route index path="/dashboard" element={<Dashboard />} />
+          <Route index path="/notification" element={<MobileNotification />} />
         </Routes>
       </Router>
     </div>

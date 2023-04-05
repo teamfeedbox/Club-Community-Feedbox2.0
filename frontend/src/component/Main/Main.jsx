@@ -30,7 +30,6 @@ const Main = () => {
               <div className="main-home-page-profile">
                 <scrollable-component scrollbar-visibility="always">
                   <HomePageProfile />
-                  {/* <CollegeSort /> */}
                 </scrollable-component>
               </div>
 
@@ -79,7 +78,6 @@ const Main = () => {
         </div>
 
         {/* ******************mobile view************************* */}
-
         <div className="main-page-display-mobile">
           <section className="main ">
             <div className="w-[92%] ml-[4%]">

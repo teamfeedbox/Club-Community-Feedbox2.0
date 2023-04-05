@@ -13,22 +13,12 @@ const postSchema = new mongoose.Schema({
   desc: {
     type: String,
   },
-
-
   img: [{
     type: String,
   }],
-
-  // postType: {
-  //   type: String,
-  //   enum: ['public', 'private'],
-  //   // default: 'public',
-  // },
-
   postType: {
     type: String,
   },
-
   collegeName: {
     type: String,
   },

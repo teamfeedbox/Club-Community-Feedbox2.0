@@ -105,11 +105,6 @@ function PostBigModel({ openComment, setOpenComment, id }) {
     // }
   };
 
-  // console.log(reply)
-  // useEffect(()=>{
-  //   updateComment();
-  // },[commentId])
-
   const updateComment = () => {
     console.log(id, "", message);
     fetch("http://localhost:8000/comment", {

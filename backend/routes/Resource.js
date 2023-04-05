@@ -5,11 +5,6 @@ const multer = require('multer');
 const cloudinary = require("../middleware/cloudinary");
 const uploader = require("../middleware/multer");
 const requireLogin = require('../middleware/requireLogin')
-
-
-
-
-
 const upload = multer({ dest: 'uploads/' });
 
 
@@ -35,16 +30,6 @@ router.post('/upload', upload.single('file'),requireLogin, async (req, res) => {
     
     await pdf.save();
   });
-  
-
-
-
-
-
-
-
-
-
 
 // router.post('/create-resource',async(req,res)=>{
 //     let resource = new Resource(req.body)
@@ -52,7 +37,6 @@ router.post('/upload', upload.single('file'),requireLogin, async (req, res) => {
 //     res.send(data);
     
 // })
-
 
 //api to get all resource
 //it will be used to display at the resources page

@@ -43,40 +43,67 @@ const fColor = [
 
 const HomePageProfile = () => {
   const auth = localStorage.getItem("user");
-
   const [data, setData] = useState();
   const [college, setCollege] = useState("");
+  const [allClgs, setAllClgs] = useState([]);
+  const [loading,setLoading]=useState(false);
 
   useEffect(() => {
     getUser();
-  });
-  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
-  // console.log(userId)
+    getColleges();
+    setLoading(false);
+  }, [loading]);
+
+  const getColleges = async () => {
+    const data = await fetch(`http://localhost:8000/colleges/get`);
+    const res = await data.json();
+    console.log(res);
+    let val = [];
+    res.map((data) => {
+      val.push(data.name)
+    })
+    setAllClgs(val);
+  }
+
   const getUser = async () => {
-    // console.log(id)
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     });
     result = await result.json();
-    // console.log(result);
     setData(result);
-    // if (result) {
-    //   getUser();
-    // }
   };
 
-  const navigate = useNavigate();
-
   const goToProfile = () => {
-    navigate("/profile");
-    window.location.reload(true);
+    window.location.href = '/profile';
   };
 
   const onAddCollege = (e) => {
     setCollege(e.target.value);
   };
+
+  const handleAddSubmit = async (e) => {
+    e.preventDefault();
+    console.log(college);
+    if (college) {
+      let val = {
+        name: college
+      }
+      let data = await fetch(`http://localhost:8000/college/add`, {
+        method: "POST",
+        body: JSON.stringify(val),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      });
+      const res = await data.json();
+      setCollege("");
+      alert(res);
+      setLoading(true);
+    }
+  }
 
   return (
     <div className="HomePageProfile pb-3">
@@ -95,51 +122,25 @@ const HomePageProfile = () => {
           <img src={data && data.img} alt="" />
         </div>
         <div className="home-profile-name-section">
-          <h4>{data && data.name}</h4>
-          <p>Club Member</p>
+          <p className="home-profile-name-section-name">{data && data.name}</p>
+          <p className="home-profile-name-section-desig" >{data && data.role == 'Super_Admin'  ? 'Super Admin': data && data.role == 'Club_Member' ? 'Club Member' : data && data.role}</p>
         </div>
       </div>
-      {/* not for super admin */}
-
-      {/* <div className="home-profile-skill-div">
-        <h6>Skills:</h6>
-        <div className="home-profile-skills">
-          {data &&
-            data.skills.map((item, index) => (
-              <div key={item._id} style={{ background: backColor[index] , color: fColor[index] }}>
-                {item}
-              </div>
-            ))}
-        </div>
-      </div>
-
-      <div className="home-profile-coin-section">
-        <div className="home-profile-coins">
-          <img src="Images/Money.png" alt="" />
-        </div>
-        <div className="home-profile-coins-content">
-          <h6>40</h6>
-          <div>Coins Collected</div>
-        </div>
-      </div> */}
-
-      {/* for super admin */}
 
       <div className="m-3 flex  flex-col">
         <div className="mb-2">
-          <form action="">
+          <form onSubmit={handleAddSubmit}>
             <input
               type="text"
               className="border rounded p-1 w-[210px]"
               placeholder="Add College"
+              value={college}
               required
               onChange={onAddCollege}
             />
             <button
               className=" p-1 rounded w-[60px] ml-2 bg-green-600 text-white font-[600] text-[1rem] hover:bg-green-800 transition-all ease-linear duration-2000 "
-              onClick={() => {
-                alert(`${college} added!!`);
-              }}
+              type="submit"
             >
               Add
             </button>
@@ -156,10 +157,13 @@ const HomePageProfile = () => {
             <option disabled selected className="hidden">
               College
             </option>
-            <option value="IET-DAVV">IET-DAVV</option>
-            <option value="Shri Vaishnav Vidyapeeth Vishwavidyalaya">
-              Shri Vaishnav Vidyapeeth Vishwavidyalaya
-            </option>
+            {allClgs.length > 0 &&
+              allClgs.map((clg) => (
+                <option value={clg}>
+                  {clg}
+                </option>
+              ))
+            }
           </select>
         </div>
 
