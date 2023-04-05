@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart} from "@fortawesome/free-regular-svg-icons";
-import { FcLike} from "react-icons/fc";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { FcLike } from "react-icons/fc";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
-import React, {useState, useEffect, } from "react";
+import React, { useState, useEffect, } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -223,12 +223,12 @@ const PostDisplay = (userData) => {
               </div>
 
               <div className="post-display-bottom">
-                {item.likes.includes(user._id) ? (
+                {item.likes.includes(user && user._id) ? (
                   <div className="post-display-bottom-content">
                     <FcLike
                       size={28}
                       onClick={function () {
-                        unlike(item._id);
+                        unlike(item && item._id);
                       }}
                     />
                     <span>{item.likes.length}</span>

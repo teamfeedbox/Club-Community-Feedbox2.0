@@ -8,6 +8,7 @@ const Notification = (props) => {
     e.preventDefault();
     props.props.handleCross(true);
   };
+  
   return (
     <div className="absolute top-[110%] right-5 bg-white rounded py-2 px-2.5 w-[23%] shadow max-h-[500px]  ">
       <div className="flex justify-between">

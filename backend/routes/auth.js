@@ -120,7 +120,6 @@ router.get('/user', requireLogin, async (req, res) => {
     const email = req.user.email;
     const user = await User.findOne({ email }).populate("email").select("-password");
     if(user){
-      console.log(user,"dslkfjhwgefhuewbflakge");
       res.status(200).json(user);
     }else{
       res.status(404).json("This user doesn't exists...")
@@ -128,14 +127,6 @@ router.get('/user', requireLogin, async (req, res) => {
   } catch (error) {
     res.status(404).send('User not found');
   }
-  // const email = req.user.email;
-  // const user = await User.findOne({ email }).populate("email").select("-password");
-  // if (user) {
-  //   console.log(user);
-  //   res.send(user);
-  // } else {
-  //   res.status(404).send('User not found');
-  // }
 });
 
 

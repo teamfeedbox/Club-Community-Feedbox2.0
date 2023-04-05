@@ -78,10 +78,8 @@ export function Accessibility(props) {
   useEffect(() => {
     getUser();
   }, []);
-  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
-  // console.log(userId)
+
   const getUser = async () => {
-    // console.log(id)
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
