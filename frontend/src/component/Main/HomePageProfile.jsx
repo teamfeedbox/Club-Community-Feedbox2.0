@@ -1,8 +1,4 @@
-import {
-  faArrowUpRightFromSquare,
-  faUserGroup,
-  faWandSparkles,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowUpRightFromSquare, faUserGroup,faWandSparkles,} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import "./HomePageProfile.css";
@@ -36,16 +32,32 @@ const fColor = [
 const HomePageProfile = (userData) => {
   const [college, setCollege] = useState("");
   const [allClgs, setAllClgs] = useState([]);
-
   const [loading,setLoading]=useState(false);
-
+  const [event,setEvent]=useState([]);
+  const [clgEvents,setClgEvents]=useState([]);
+  const [clgUsers,setClgUsers]=useState([]);
+  const [allUsers,setAllUsers]=useState([]);
+  const [selected,setSelected] = useState(false);
   let data = userData && userData.userData;
-  console.log(data);
   
   useEffect(() => {
     getColleges();
-    // setLoading(false);
-  });
+    getList();
+    getAllUsers();
+    setLoading(false);
+  },[]);
+
+  const getList = async (e) => {
+    let result = await fetch("http://localhost:8000/getAllEvent");
+    result = await result.json();
+    setEvent(result);
+  };
+
+  const getAllUsers =async ()=>{
+    let result = await fetch("http://localhost:8000/get");
+    result = await result.json();
+    setAllUsers(result);
+  }
 
   const getColleges = async () => {
     const data = await fetch(`http://localhost:8000/colleges/get`);
@@ -55,11 +67,6 @@ const HomePageProfile = (userData) => {
       val.push(data.name);
     });
     setAllClgs(val);
-  };
-
-  const goToProfile = () => {
-
-      window.location.href = "/profile";
   };
 
   const onAddCollege = (e) => {
@@ -90,14 +97,40 @@ const HomePageProfile = (userData) => {
       console.log(`user schema data 
       : ${data}`);
     }
-    setLoading(false);
+    setLoading(true);
   };
+
+  const goToProfile=(name)=>{
+    if(name==="superAdmin"){
+      window.location.href="/dashboard"
+    }else if(name==="user"){
+      window.location.href="/profile"
+    }
+  }
+
+  const handleCollege =(e)=>{
+    setCollege(e.target.value)
+    let clgEvents=[],usercount=0;
+    event.map((eve)=>{
+      if(eve.postedBy.college===e.target.value){
+        clgEvents.push(eve)
+      }
+    })
+    allUsers.map((user)=>{
+      if(user.collegeName===e.target.value){
+        usercount++;
+      }
+    })
+    setClgEvents(clgEvents)
+    setClgUsers(clgUsers)
+    setSelected(true);
+  }
 
   return (
     <div className="HomePageProfile pb-3">
       <div className="home-profile-bg-doodle">
         <img src={"Images/doodle-profile-bg.png"} alt="" />
-        <button className="home-profile-visit-profile" onClick={goToProfile}>
+        <button className="home-profile-visit-profile" onClick={data && data.role=='Super_Admin' ? ()=>goToProfile('superAdmin'):()=>goToProfile('user') }>
           <FontAwesomeIcon
             className="home-profile-visit-profile-icon"
             icon={faArrowUpRightFromSquare}
@@ -173,7 +206,6 @@ const HomePageProfile = (userData) => {
               >
                 <span class="visually-hidden">Loading...</span>
               </div>
-              
             ) : (
               <div>
                 Add
@@ -189,7 +221,7 @@ const HomePageProfile = (userData) => {
           <select
             name="College"
             id="College"
-            className="border w-[280px] rounded p-1 mt-1"
+            className="border w-[280px] rounded p-1 mt-1" onChange={handleCollege}
           >
             <option disabled selected className="hidden">
               College
@@ -212,7 +244,7 @@ const HomePageProfile = (userData) => {
                 Total Students:
               </h>
               <p className=" text-[23px] font-bold p-0 relative bottom-2">
-                1,190
+                {selected ? clgUsers.length>0 && clgUsers.length :allUsers.length>0 && allUsers.length}
               </p>
             </div>
           </div>
@@ -228,7 +260,7 @@ const HomePageProfile = (userData) => {
               <h className=" text-[18px] md:text-[16px]   font-semibold">
                 Total Events:
               </h>
-              <p className=" text-[23px] font-bold p-0 relative bottom-2">10</p>
+              <p className=" text-[23px] font-bold p-0 relative bottom-2">{selected ?clgEvents.length>0 && clgEvents.length : event.length>0 && event.length}</p>
             </div>
           </div>
         </div>

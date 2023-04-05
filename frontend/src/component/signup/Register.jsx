@@ -48,6 +48,7 @@ const Register = () => {
     res.map((data) => {
       val.push(data.name)
     })
+    console.log(val);
     setAllClgs(val);
   }
 
@@ -73,10 +74,11 @@ const Register = () => {
       },
     });
     result = await result.json();
-    console.log(result)
-    if (result) {
-      navigate("/login");
-    }
+     console.log(result)
+    localStorage.setItem("user", JSON.stringify(result));
+    // if (result) {
+    //   navigate("/login");
+    // }
   };
 
   const handleClose = () => setShow(false);
@@ -575,12 +577,12 @@ const Register = () => {
                       <select
                         required
                         className="  w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none "
-                        // value={collegeName}
+                        value={collegeName}
                         onChange={(e) => setCollegeName(e.target.value)}
                       >
                         <option disabled 
                         selected 
-                        // hidden 
+                        hidden 
                         className="text-gray-400">
                           University
                         </option>

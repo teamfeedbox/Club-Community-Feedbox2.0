@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-
 import { Scrollbars } from "react-custom-scrollbars";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
@@ -16,7 +13,6 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 
 import "./ProfileBigModel.css";
-
 // Bootstrap
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -24,9 +20,7 @@ import Modal from 'react-bootstrap/Modal';
 
 function PostBigModel({openComment,setOpenComment}) {
   const [showModal, setShowModal] = useState(true);
-  
   const [data, setData] = useState([]);
-  
   const [showAdd,setShowAdd]=useState('Hide-Comment-Add-Btn');
   const [showView,setShowView]=useState('Hide-Comment-View-Btn');
 
@@ -298,7 +292,7 @@ function handleReply(){
                         </div>
                         <div className={showView}>
                         <div className="Comment-Right-User-Name">
-                          Random Person
+                          Random Person1
                         </div>
                         <div className="Right-Comment">
                           {/* How many times were you frustrated while looking out
@@ -365,9 +359,6 @@ function handleReply(){
                         
                       </div>:<></>
                       }
-
-                      
-                      
                       </div>  
                     </section>
                     ))
@@ -376,30 +367,6 @@ function handleReply(){
                 </div>
 
                 <div className="Post-Big-Comment-Container">
-                  {/* <div className="Post-Big-Comment-Icons">
-                    <span>
-                      <span>
-                        <FontAwesomeIcon
-                          className="fa-lg"
-                          icon={faHeart}
-                          style={{ margin:
-                            "0px 5px 0 10px",color:"black",cursor:"pointer"}}
-                        />
-                      </span>
-                      <span>200 Likes</span>
-                    </span>
-                    <span>
-                      <span>
-                        <FontAwesomeIcon
-                          className="fa-lg"
-                          icon={faMessage}
-                          style={{ margin: "0px 5px 0 20px",color:"black"}}
-                        />
-                      </span>
-                      <span>50 Comments</span>
-                    </span>
-                  </div> */}
-
 
                   <div className="Comment-Add-Section">
                     <form onSubmit={handleFormSubmit}>
