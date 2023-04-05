@@ -4,23 +4,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFaceSmile, faImage, faXmark, } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import { FcDataBackup } from "react-icons/fc";
 import axios from "axios"
 
-const CreatePost = () => {
+const CreatePost = (userData) => {
   const [show, setShow] = useState(false);
   const [file, setFile] = useState([]);
   const [textDisplay, setTextDisplay] = useState(false);
-
   const [image, setImage] = useState([]);
   const [desc, setDesc] = useState("");
   const [scope, setScope] = useState();
-  const [user, setUser] = useState();
-  const [role, setRole] = useState('');
+
   const [loading, setLoading] = useState(false);
 
-  let count = 0;
+  let user = userData && userData.userData;
+  console.log(user,"dfhegfyugefu");
 
+  let count = 0;
   function handleChange(e) {
     if (file.length == 5) {
       setTextDisplay(true);
@@ -50,24 +49,7 @@ const CreatePost = () => {
     count--;
   }
 
-  const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    setRole(result.role);
-    setUser(result);
-    
-    // if (result) {
-      //   getUser();
-      // }
-      console.log(`lihjcnok ${result}`);
-  };
-
   useEffect(() => {
-    getUser();
     setLoading(false);
   }, [loading]);
 

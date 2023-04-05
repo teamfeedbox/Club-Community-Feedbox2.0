@@ -4,7 +4,6 @@ import Overview from "./Overview";
 import ProfilePost from "./ProfilePost";
 import ProfileEvent from "./ProfileEvent";
 import ProfileRes from "./ProfileRes";
-import PostDisplayPage from "../Main/PostDisplayPage";
 import ProfilePostPage from "./ProfilePostPage";
 
 const ProfileTabs = () => {

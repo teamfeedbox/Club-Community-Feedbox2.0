@@ -1,19 +1,11 @@
 import {
   faArrowUpRightFromSquare,
-  faHandSparkles,
   faUserGroup,
   faWandSparkles
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import "./HomePageProfile.css";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-// import {
-//   faCalendar,
-//   faUniversity,
-//   faUserGroup,
-// } from "@fortawesome/free-solid-svg-icons";
 
 const backColor = [
   "#EDC7E2",
@@ -41,17 +33,15 @@ const fColor = [
   "#744E37",
 ];
 
-const HomePageProfile = () => {
-  const auth = localStorage.getItem("user");
-  const [data, setData] = useState();
+const HomePageProfile = (userData) => {
   const [college, setCollege] = useState("");
   const [allClgs, setAllClgs] = useState([]);
   const [loading,setLoading]=useState(false);
-  const [role, setRole] = useState();
-  // const [img, setImg] = useState('Images/defaultImg.png')
 
+  let data = userData && userData.userData;
+  console.log(data);
+  
   useEffect(() => {
-    getUser();
     getColleges();
     setLoading(false);
   }, [loading]);
@@ -59,24 +49,12 @@ const HomePageProfile = () => {
   const getColleges = async () => {
     const data = await fetch(`http://localhost:8000/colleges/get`);
     const res = await data.json();
-    console.log(res);
     let val = [];
     res.map((data) => {
       val.push(data.name)
     })
     setAllClgs(val);
   }
-
-  const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    setData(result);
-    setRole(result.role);
-  };
 
   const goToProfile = () => {
     window.location.href = '/profile';
@@ -105,7 +83,6 @@ const HomePageProfile = () => {
       setCollege("");
       alert(res);
       setLoading(true);
-      // setImg(data.img);
       console.log(`user schema data 
       : ${data}`);
     }
@@ -113,7 +90,6 @@ const HomePageProfile = () => {
 
   return (
     <div className="HomePageProfile pb-3">
-      {/* profile section */}
       <div className="home-profile-bg-doodle">
         <img src={"Images/doodle-profile-bg.png"} alt="" />
         <button className="home-profile-visit-profile" onClick={goToProfile}>
@@ -134,8 +110,7 @@ const HomePageProfile = () => {
       </div>
 
       {/* not for super admin */}
-
-      {role === 'Admin' || role === 'Lead' || role === 'Club_Member'
+      {data && (data.role === 'Admin' || data.role === 'Lead' || data.role === 'Club_Member')
         ?
         <div> 
         <div className="home-profile-skill-div">
@@ -163,8 +138,7 @@ const HomePageProfile = () => {
 
 
       {/* for super admin */}
-
-     { role === 'Super_Admin'
+     { data && data.role === 'Super_Admin'
      ? <div className="m-3 flex  flex-col">
         <div className="mb-2">
           <form onSubmit={handleAddSubmit}>
@@ -206,15 +180,6 @@ const HomePageProfile = () => {
         </div>
 
         <div className="mt-2">
-          {/* <div className="m-2 border rounded p-2 w-fit">
-            <p className="m-0">Total Students:</p>
-            <p className="m-0">100</p>
-          </div>
-          <div className="m-2 border rounded p-2 w-fit">
-            <p className="m-0">Total Students:</p>
-            <p className="m-0">100</p>
-          </div> */}
-
           <div className="flex mt-2 w-[280px] rounded shadow-sm h-[60px] ">
             <div className=" w-[45px] h-[45px] mt-1  ml-3 rounded bg-blue-200">
               <FontAwesomeIcon
@@ -248,8 +213,6 @@ const HomePageProfile = () => {
               </p>
             </div>
           </div>
-
-
         </div>
       </div>: ""}
     </div>
