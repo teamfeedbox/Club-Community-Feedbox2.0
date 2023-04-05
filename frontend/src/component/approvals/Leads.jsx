@@ -17,6 +17,7 @@ const Leads = (props) => {
   const [loading, setLoading] = useState(false);
   const [position, setPosition] = useState();
   const [id,setId]=useState();
+  const [role, setRole] = useState('');
 
   const handleClose = () => {setShow(false); setConfirm(false)};
   const handleShow = () => setShow(true);
@@ -32,6 +33,7 @@ const Leads = (props) => {
     })
     setLead(lead);
     setData(lead);
+    setRole(data.role);
   };
 
   useEffect(() => {
@@ -116,6 +118,7 @@ const Leads = (props) => {
                         {member.position}
                       </div>
                     </td>
+                    { role === 'Admin' || role === 'Super_Admin' ?
                     <td class="pt-2 pb-2 flex justify-end">
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                         <button
@@ -165,7 +168,7 @@ const Leads = (props) => {
                           </Modal.Footer>
                         </form>
                       </Modal>
-                    </td>
+                    </td> : ''}
                   </tr>
                 )) : 'No Lead Members...'}
             </tbody>

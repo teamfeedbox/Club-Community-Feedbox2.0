@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const NavLinksContainer = styled.div`
   height: 100%;
@@ -46,7 +47,7 @@ const LinkItemHighlight = styled.li`
   border-bottom: 3px solid #00c9ff;
 `;
 
-const Link = styled.a`
+const Links = styled(Link)`
   text-decoration: none;
   color: inherit;
   font-size: inherit;
@@ -57,6 +58,31 @@ const Link = styled.a`
 `;
 
 export function NavLinks(props) {
+  const [user, setUser] = useState();
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    getUser();
+  }, []);
+  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
+  // console.log(userId)
+  const getUser = async () => {
+    // console.log(id)
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    setRole(result.role);
+
+    // console.log(id)
+    setUser(result);
+
+    // if (result) {
+    //   getUser();
+    // }
+  };
   const selectedPage = window.location.pathname;
 
   return (
@@ -64,52 +90,58 @@ export function NavLinks(props) {
       <LinksWrapper>
         {selectedPage === "/main" ? (
           <LinkItemHighlight>
-            <Link href="/main">Home</Link>
+            <Links to="/main">Home</Links>
           </LinkItemHighlight>
         ) : (
           <LinkItem>
-            <Link href="/main">Home</Link>
+            <Links to="/main">Home</Links>
           </LinkItem>
         )}
 
         {selectedPage === "/calendar" || selectedPage === "/attendance" ? (
           <LinkItemHighlight>
-            <Link href="/calendar">Calendar</Link>
+            <Links to="/calendar">Calendar</Links>
           </LinkItemHighlight>
         ) : (
           <LinkItem>
-            <Link href="/calendar">Calendar</Link>
+            <Links to="/calendar">Calendar</Links>
           </LinkItem>
         )}
 
-        {selectedPage === "/approvals" ? (
-          <LinkItemHighlight>
-            <Link href="/approvals">Approvals</Link>
-          </LinkItemHighlight>
+        {role !== "Club_Member" ? (
+          <div>
+            {selectedPage === "/approvals" ? (
+              <LinkItemHighlight>
+                <Links to="/approvals">Approvals</Links>
+              </LinkItemHighlight>
+            ) : (
+              <LinkItem>
+                <Links to="/approvals">Approvals</Links>
+              </LinkItem>
+            )}
+          </div>
         ) : (
-          <LinkItem>
-            <Link href="/approvals">Approvals</Link>
-          </LinkItem>
+          ""
         )}
 
         {selectedPage === "/rescources" ||
         selectedPage === "/rescourcesDisplay" ? (
           <LinkItemHighlight>
-            <Link href="/rescources">Rescources</Link>
+            <Links to="/rescources">Rescources</Links>
           </LinkItemHighlight>
         ) : (
           <LinkItem>
-            <Link href="/rescources">Resources</Link>
+            <Links to="/rescources">Resources</Links>
           </LinkItem>
         )}
 
         {selectedPage === "/faq" ? (
           <LinkItemHighlight>
-            <Link href="/faq">FAQs</Link>
+            <Links to="/faq">FAQs</Links>
           </LinkItemHighlight>
         ) : (
           <LinkItem>
-            <Link href="/faq">FAQs</Link>
+            <Links to="/faq">FAQs</Links>
           </LinkItem>
         )}
       </LinksWrapper>

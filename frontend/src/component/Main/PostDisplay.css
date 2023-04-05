@@ -24,6 +24,7 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
+    object-fit: contain
 }
 .post-display-heading {
     margin: 0px 8px;
@@ -33,14 +34,20 @@
     font-size: 1.5rem;
     font-weight: 600;
 }
+.post-head-content {
+    display: flex;
+    /* font-size: 1.8rem;
+    width: 100%; */
+}
 .post-head-content p{
     margin-bottom: 0;
-    font-size: 0.8rem;
+    font-size: 1.8rem;
     display: flex;
     margin-right: 10px;
     font-weight: 600;
     color: #333;
     margin-top: -6px;
+    
 }
 .post-display-center {
     /* border: 2px solid; */
@@ -63,7 +70,15 @@
 }
 .post-display-bottom-content  {
     display: flex;
+    flex-direction: column;
     margin-right: 15px;
+    text-align: center;
+    justify-content: center;
+}
+.post-display-bottom-content span{
+    font-weight: 500;
+    font-size: 12px;
+    margin: 0 auto;
 }
 .post-display-bottom img{
     margin: 2px;
@@ -79,26 +94,6 @@
     height: 30%;
     width: 95%;
 }
-
-
-
-
-
-/* Model */
-/* Post Large View Model */
-/* #################### */
-
-
-
-
-
-/* ############################################################## */
-/* ############################################################## */
-/* ############################################################## */
-/* ############################################################## */
-
-
-
 
 .swiper-button-prev:after, .swiper-rtl .swiper-button-next:after {
     content: 'prev';
@@ -137,14 +132,18 @@
     .post-display{
         margin: 20px 0px;
     }
-    
-    
     .post-display-carousel-mobileview {
         display: block;
     }
     .post-display-carousel-webview{
         display: none;
     }
-    
+    .post-head-content {
+        flex-direction: column; 
+        width: 120%;
+    }
+    .post-head-content p{
+        padding-top: 4px;
+    }
     
 }

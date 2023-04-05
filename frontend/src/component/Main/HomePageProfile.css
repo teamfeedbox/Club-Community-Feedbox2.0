@@ -32,18 +32,20 @@
     height: 100px;
     width: 100px;
     margin: 10px;
+    object-fit:inherit;
 } 
 
 .home-profile-name-section  {
     margin-top: 53px;
 }
 
-.home-profile-name-section h4{
+.home-profile-name-section-name{
     font-weight: 700;
     margin: auto;
+    font-size: 21px;
 }
 
-.home-profile-name-section p {
+.home-profile-name-section-desig  {
     font-weight: 500;
 }
 

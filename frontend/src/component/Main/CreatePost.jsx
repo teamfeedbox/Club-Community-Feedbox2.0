@@ -24,6 +24,7 @@ const CreatePost = () => {
   const [postType, setPostType] = useState("");
   const [postedDate, setPostedDate] = useState("");
   const [user, setUser] = useState();
+  const [role, setRole] = useState('');
 
 
   // console.log(`kjbdkvjbl${file}`);
@@ -146,7 +147,7 @@ for(let i=0;i<image.length;i++)
 
   useEffect(() => {
     getUser();
-  });
+  },[]);
   // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
   // console.log(userId)
   const getUser = async () => {
@@ -157,21 +158,27 @@ for(let i=0;i<image.length;i++)
       },
     });
     result = await result.json();
-    // console.log(result);
+    setRole(result.role);
     
     // console.log(id)
     setUser(result);
+
     // if (result) {
     //   getUser();
     // }
   };
 
+  console.log(role);
+
+  
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   return (
-    <div className="CreatePost">
+    <>
+    { role === 'Admin' || role === 'Lead' || role === 'Super_Admin' ?
+      <div className="CreatePost">
       <div className="create-post-profile">
         <img src={user && user.img} alt="" />
       </div>
@@ -270,7 +277,8 @@ for(let i=0;i<image.length;i++)
           </div>
         </Modal.Footer>
       </Modal>
-    </div>
+    </div>:''}
+    </>
   );
 };
 
