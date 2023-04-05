@@ -12,7 +12,7 @@ const NewLogin = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // console.log(email, password);
+    console.log(email, password);
 
     let result = await fetch("http://localhost:8000/login", {
       method: "post",
@@ -22,18 +22,20 @@ const NewLogin = () => {
       },
     });
     result = await result.json();
+    
     console.log(result);
+    // alert(result.error)
     // console.log("first");
     localStorage.setItem("user", JSON.stringify(result));
-
     localStorage.setItem("jwt", result.token);
-    localStorage.setItem("jwtDecode", result.decodedToken);
-    // if(result){
-    //   navigate('/main')
+    // localStorage.setItem("jwtDecode", result.decodedToken);
+    if(result.token){
+      navigate('/main')
 
-    // }
-    navigate("/main");
-    window.location.reload(true);
+    }else{
+      alert('not valid')
+    }
+    // navigate("/main");
 
 
     // if (result) {
@@ -81,6 +83,7 @@ const NewLogin = () => {
                   type=""
                   placeholder="Email"
                   value={email}
+                  required
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
@@ -90,6 +93,7 @@ const NewLogin = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
+                  required
                   type='password'
                   // type="show ? 'password' : 'text'"
                   className="text-sm text-black px-4 py-3 rounded-lg w-full bg-gray-200 focus:bg-gray-100 border border-gray-200 focus:outline-none focus:border-purple-400"

@@ -42,6 +42,7 @@ const ClubMember = ({ props }) => {
     // setLoading(false);
   }, [props]);
 
+
   // search user
   const searchHandler = (e) => {
     let val = e.target.value;
@@ -64,6 +65,7 @@ const ClubMember = ({ props }) => {
   // submit handler for making club member as lead
   const submitHandler = async () => {
     setLoading(true);
+
     console.log(id);
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
       method: "PUT",
@@ -75,6 +77,7 @@ const ClubMember = ({ props }) => {
     setConfirm(false);
     setShow(false);
     setLoading(false);
+
   };
 
   return (

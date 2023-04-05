@@ -4,70 +4,30 @@ const Post = require('../models/post')
 const user = require('../models/user')
 const mongoose = require('mongoose');
 const requireLogin = require('../middleware/requireLogin')
-const multer = require('multer');
-const cloudinary = require("../middleware/cloudinary");
-// const cloudinary = require('cloudinary');
 
-const upload = multer({
-    storage: multer.diskStorage({}),
-    limits: { fileSize: 5000000 }
-});
-
-cloudinary.config({
-    cloud_name: 'feedbox-community-web',
-    api_key: '686381213319472',
-    api_secret: 'Un53tuDFktDhVEz_gbl7Jnx2jDY',
-    allowed_formats: ['pdf'],
-});
-
-const uploads = (file, folder) => {
-    return new Promise(resolve => {
-        cloudinary.uploader.upload(file, (result) => {
-            resolve({
-                url: result.url,
-                id: result.public._id
-            })
-        }, {
-            resource_type: "auto",
-            folder: folder
-        })
-    })
-}
-
-router.post('/upload/images/cloudinary',(req,res)=>{
-
+router.post("/upload/images/get/link", async (req, res) => {
+    try {
+        console.log(req.body)
+    } catch (error) {
+        res.status(500).json(error)
+    }
 })
 
-//api to create the post
-// router.post('/create-post',async(req,res)=>{
-//     let post = new Post(req.body)
-
-//     let data = await post.save();
-//     res.send(data);
-// })
-
-
 router.post('/create-post', requireLogin, (req, res) => {
-    const { title, desc, collegeName, postedDate, likes, comment, pic } = req.body
+    const { desc, collegeName, img, scope } = req.body
+    console.log(scope);
     const post = new Post({
-        title,
         desc,
-        postedDate,
         postedBy: req.user,
         collegeName,
-        likes,
-        comment,
-        img: pic,
-
+        img: img,
+        scope
     })
     post.save().then(result => {
         res.json({ post: result })
+    }).catch(err => {
+        console.log(err)
     })
-        .catch(err => {
-            console.log(err)
-        })
-    //     console.log(req.user)
-    //     res.send("ok")
 })
 
 

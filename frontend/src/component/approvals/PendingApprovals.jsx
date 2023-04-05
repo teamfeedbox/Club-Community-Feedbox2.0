@@ -35,6 +35,7 @@ const PendingApprovals = (props) => {
     // setLoading(false);
   });
 
+
   // search for a pending user
   const searchHandler = (e) => {
     let val = e.target.value;
@@ -64,6 +65,7 @@ const PendingApprovals = (props) => {
     });
     const res = await data.json();
     setLoading(false);
+
   };
 
   // Accept request for club member
@@ -78,11 +80,29 @@ const PendingApprovals = (props) => {
     setVal(!val);
     props.func(!val);
     setLoading(false);
+
   };
 
   return (
     <div className="PendingApprovals ">
-      <h4 className=" text-[1.7rem]">Pending Approvals</h4>
+      <div className="flex flex-col lg:flex-row md:flex-row justify-between">
+        <div>
+          <h4 className=" text-[1.7rem] my-0 lg:my-3">Pending Approvals</h4>
+        </div>
+        <div>
+          {/* ----------------college dropdown for super admin--------------- */}
+
+          <div className="lg:my-3 my-0 mx-1 ">
+            <select className="p-2 border-2 font-semibold border-[#000] rounded-3xl w-[100%]">
+              <option className=" " selected disabled>
+                College
+              </option>
+              <option>Shri Vaishnav Vidyapeeth Vishwavidyalaya</option>
+              <option>IET-DAVV</option>
+            </select>
+          </div>
+        </div>
+      </div>
       {/* search */}
       <div className="pending-approval-search">
         <div class="relative text-lg bg-transparent text-gray-800">
@@ -149,7 +169,6 @@ const PendingApprovals = (props) => {
                           </button>
                         }
 
-                        
                       </div>
                     </td>
                   </tr>

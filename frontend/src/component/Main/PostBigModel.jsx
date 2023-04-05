@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Scrollbars } from "react-custom-scrollbars";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
-import { useState } from "react";
 import { Link, useAsyncError } from "react-router-dom";
 // Import Swiper styles
 import "swiper/css";
@@ -13,33 +12,17 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import "./PostBigModel.css";
 // Bootstrap
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 function PostBigModel({ openComment, setOpenComment, id }) {
   // console.log(id);
 
-  const [showModal, setShowModal] = useState(true);
-
-  const [data, setData] = useState([]);
-
-  const [showAdd, setShowAdd] = useState("Hide-Comment-Add-Btn");
-  const [showView, setShowView] = useState("Hide-Comment-View-Btn");
-
-  const [showReplView, setReplyView] = useState("Hide-Reply-View");
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  const [newS, setNewS] = useState(false);
-  // const [afterSubmit,setAfterSubmit]=useState("");
-
-  const [tempComment, setTempComment] = useState("");
+  // const [showAdd, setShowAdd] = useState(false);
+  // const [showView, setShowView] = useState("Hide-Comment-View-Btn");
+  // const [tempComment, setTempComment] = useState("");
   const [tempReply, setTempReply] = useState("");
-
-  const [showReply, setShowReply] = useState(true);
   const [changeText, setText] = useState(true);
   const [user, setUser] = useState();
-  const [showViewReply, setShowViewReply] = useState(
-    "Comment-Right-View-Reply-Hide"
-  );
   const [loading, setLoading] = useState(false);
 
   const [replyMsg, setReplyMsg] = useState("");
@@ -54,27 +37,21 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   // To store deleted comment
   const [deleteVar, setDeleteVar] = useState("");
 
-  function handleReply() {
-    if (showAdd == "Show-Comment-Add-Btn") {
-      setShowAdd("Hide-Comment-Add-Btn");
-    } else {
-      setShowAdd("Show-Comment-Add-Btn");
-    }
-  }
+  //To hide the reply button after the reply is added\
+  const [replyBtn,setReplyBtn]=useState(true);
 
-  function handleView() {
-    if (changeText == true) {
-      setText(false);
-    } else {
-      setText(true);
-    }
+  // To show reply input field
+  const [showReplyInputField, setShowReplyInputField] = useState(false);
 
-    if (showView == "Show-Comment-View-Btn") {
-      setShowView("Hide-Comment-View-Btn");
-    } else {
-      setShowView("Show-Comment-View-Btn");
-    }
-  }
+  // To store the state of set reply input field button
+  const [replyInputBtnId,setReplyInputBtnId]=useState("");
+
+  // To show the reply written by user
+  const [showReply,setShowReply]=useState(true);
+
+  
+
+  
 
   // function handleFormSubmit(event){
 
@@ -95,12 +72,12 @@ function PostBigModel({ openComment, setOpenComment, id }) {
     }
   }
 
-  function showRep() {
-    if (tempReply != "") {
-      setReplyView("Show-Reply-View");
-      setShowAdd("Hide-Comment-Add-Btn");
-    }
-  }
+  // function showRep() {
+  //   if (tempReply != "") {
+  //     setReplyView("Show-Reply-View");
+  //     setShowAdd("Hide-Comment-Add-Btn");
+  //   }
+  // }
   // to show and hide whole component
   const handleClose = () => {
     setOpenComment(false);
@@ -358,20 +335,23 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                               >
                                 edit
                               </span>
-                            {showReply == true ? (
+
+                            {
+                                replyBtn==true?(
                               <span
                                 className="Comment-Down-Other Comment-Down-Other1 "
                                 onClick={() => {
-                                  handleReply();
+                                  setShowReplyInputField(!showReplyInputField)
+                                    // alert(showReplyInput)
                                   setCommentId(item._id);
-                                  console.log(item._id);
+                                  // console.log(item._id);
                                 }}
                               >
                                 reply
                               </span>
-                            ) : (
-                              <span style={{ display: "none" }}></span>
-                            )}
+                              ):("")
+                            }
+                              
                           </div>
                           {/* <div className={showReplView}>
                     <div className="Comment-Right-User-Name">
@@ -384,14 +364,19 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                     </div>
                   </div> */}
 
-                          <div className={showView}>
+                        {
+                          showReply==true && replyInputBtnId==item._id?(
+                            <div className="Show-Comment-View-Btn">
                             <div className="Comment-Right-User-Name">
                               Random Person
                             </div>
                             <div className="Right-Comment"></div>
                           </div>
+                          ):("")
+                        }
+                          
 
-                          {changeText == true ? (
+                          {/* {changeText == true ? (
                             <div className={showViewReply} onClick={handleView}>
                               ---- View Reply
                             </div>
@@ -413,10 +398,10 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                 edit
                               </span>
                             </>
-                          )}
+                          )} */}
 
-                          {showReply === true && item._id === commentId ? (
-                            <div className={showAdd}>
+                          {showReplyInputField === true && item._id === commentId ? (
+                            <div className="Show-comment-Add-Btn">
                               <form
                                 onSubmit={(e) => {
                                   e.preventDefault();
@@ -427,9 +412,9 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                 }}
                               >
                                 <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700">
-                                  <div className="rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"></div>
+                                  <div className="rounded-lg cursor-pointer hover:text-black-900 hover:bg-gray-100 dark:text-black-400 dark:hover:text-black dark:hover:bg-gray-600"></div>
                                   <input
-                                    className="block border-solid  mx-2 p-2.5 w-full text-sm text-black-600 bg-white  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 border-black-600"
+                                    className="block border-solid  mx-2 p-2.5 w-full text-sm text-black-600 bg-white  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500 border-black-600"
                                     placeholder="Reply..."
                                     value={replyMsg}
                                     onChange={(event) =>
@@ -438,12 +423,14 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                   ></input>
                                   <button
                                     onClick={() => (
-                                      showRep,
-                                      setShowReply(true),
-                                      setShowViewReply(
-                                        "Comment-Right-View-Reply"
-                                      ),
-                                      setShowReply(false)
+                                      setShowReplyInputField(false),
+                                      setReplyInputBtnId(item._id),
+                                      console.log(replyInputBtnId),
+                                      setReplyBtn(false),
+                                      // setCommentId(item._id),
+                                      // showRep(),
+                                      setShowReply(true)
+                                      // setShowViewReply("Comment-Right-View-Reply")
                                     )}
                                     type="button"
                                     className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
