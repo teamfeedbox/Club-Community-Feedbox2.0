@@ -32,8 +32,9 @@ const PendingApprovals = (props) => {
 
   useEffect(() => {
     getUser();
-    setLoading(false);
-  }, [loading]);
+    // setLoading(false);
+  });
+
 
   // search for a pending user
   const searchHandler = (e) => {
@@ -56,26 +57,30 @@ const PendingApprovals = (props) => {
 
   // Decline request for club member
   const handleDecline = async (id) => {
+    setLoading(true);
     console.log(id);
     const data = await fetch(`http://localhost:8000/user/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
     const res = await data.json();
-    setLoading(true);
+    setLoading(false);
+
   };
 
   // Accept request for club member
   const handleAccept = async (id) => {
+    setLoading(true);
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ role: "Club_Member" }),
     });
     const res = await data.json();
-    setLoading(true);
     setVal(!val);
     props.func(!val);
+    setLoading(false);
+
   };
 
   return (
@@ -147,12 +152,23 @@ const PendingApprovals = (props) => {
                         >
                           Decline
                         </button>
+                        {loading  ? (
+                          <div
+                            class="spinner-border text-success"
+                            role="status"
+                            style={{ height: "15px", width: "15px" }}
+                          >
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        ) : 
                         <button
-                          className="h-[25px] w-[60px] rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
-                          onClick={() => handleAccept(approval._id)}
-                        >
-                          Accept
-                        </button>
+                            className="h-[25px] w-[60px] rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
+                            onClick={() => handleAccept(approval._id)}
+                          >
+                            Accept
+                          </button>
+                        }
+
                       </div>
                     </td>
                   </tr>

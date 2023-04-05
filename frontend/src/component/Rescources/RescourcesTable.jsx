@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {  useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "./RescourcesTable.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,11 +16,11 @@ import Button from "react-bootstrap/Button";
 import NavbarRes from "../navbar/NavbarRes";
 
 const RescourcesTable = (props) => {
-
   const location = useLocation();
   const propsData = location.state;
-let skillName = propsData.name
+  let skillName = propsData.name;
 
+  const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
   const [file, setFile] = useState();
   const [link, setLink] = useState(false);
@@ -32,15 +32,13 @@ let skillName = propsData.name
   const [searchval, setSearchVal] = useState("");
   const [enableSearch, setEnableSearch] = useState(false);
   const [user, setUser] = useState();
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState("");
 
-
-let id;
+  let id;
   useEffect(() => {
     getList(skillName);
     // console.log(skillName)
   }, []);
-
 
   useEffect(() => {
     getUser();
@@ -56,15 +54,14 @@ let id;
     });
     result = await result.json();
     // console.log(result);
-     id = result._id
-     setRole(result.role);
+    id = result._id;
+    setRole(result.role);
     // console.log(id)
     setUser(result);
     // if (result) {
     //   getUser();
     // }
   };
-
 
   function handleChange(e) {
     console.log(e.target.files);
@@ -76,25 +73,24 @@ let id;
   const handleShow = () => setShow(true);
 
   const AddResource = async (e) => {
+    setLoading(true);
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("file", pdfFile); 
+    formData.append("file", pdfFile);
     formData.append("title", title);
-    formData.append('author', id);
-    formData.append('skill', skillName);
+    formData.append("author", id);
+    formData.append("skill", skillName);
 
     const response = await fetch("http://localhost:8000/upload", {
       method: "POST",
       body: formData,
       headers: {
-   
-      "Authorization":"Bearer "+localStorage.getItem("jwt")
-
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
       // mode: 'cors',
     });
-// console.log(response)
+    // console.log(response)
     if (response.ok) {
       // PDF file uploaded successfully
       console.log("uploaded");
@@ -102,17 +98,20 @@ let id;
       // Error uploading PDF file
       console.log("error");
     }
+    setLoading(false);
   };
 
- 
   const getList = async (skillName) => {
     // console.log(skillName)
     //  e.preventDefault();
-    let result = await fetch(`http://localhost:8000/getAllResource/${skillName}`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
+    let result = await fetch(
+      `http://localhost:8000/getAllResource/${skillName}`,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      }
+    );
     result = await result.json();
     // console.log(result)
     // console.log(result[0].url)
@@ -145,247 +144,268 @@ let id;
 
   return (
     <>
-    <NavbarRes />
-    <div className="Res-table-display pt-[100px]">
-      <div className="RescourcesTable">
-        <div className="res-table-heading">
-          <div className="res-heading-left"> {skillName} Documents </div>
-          {/* <div className="res-heading-left">{propsData.name} </div> */}
-          <div className="res-heading-right">
-            <form class="form-inline my-2 my-lg-0" className="res-table-search">
-              <input
-                class="form-control mr-sm-2"
-                type="text"
-                value={searchval}
-                onChange={searchHandler}
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button class="btn btn-primary " type="submit">
-                <FontAwesomeIcon icon={faSearch} />
-              </button>
-            </form>
+      <NavbarRes />
+      <div className="Res-table-display pt-[100px]">
+        <div className="RescourcesTable">
+          <div className="res-table-heading">
+            <div className="res-heading-left"> {skillName} Documents </div>
+            {/* <div className="res-heading-left">{propsData.name} </div> */}
+            <div className="res-heading-right">
+              <form
+                class="form-inline my-2 my-lg-0"
+                className="res-table-search"
+              >
+                <input
+                  class="form-control mr-sm-2"
+                  type="text"
+                  value={searchval}
+                  onChange={searchHandler}
+                  placeholder="Search"
+                  aria-label="Search"
+                />
+                <button class="btn btn-primary " type="submit">
+                  <FontAwesomeIcon icon={faSearch} />
+                </button>
+              </form>
 
-            {role !== 'Club_Member' ?
-              <button
-              onClick={handleShow}
-              className="btn btn-primary res-add-btn"
-            >
-              <FontAwesomeIcon icon={faPlus} /> Add
-            </button> : ''}
+              {role !== "Club_Member" ? (
+                <button
+                  onClick={handleShow}
+                  className="btn btn-primary res-add-btn"
+                >
+                  <FontAwesomeIcon icon={faPlus} /> Add
+                </button>
+              ) : (
+                ""
+              )}
 
-            {/* modal popup to add rescources  */}
+              {/* modal popup to add rescources  */}
 
-            <Modal
-              show={show}
-              onHide={handleClose}
-              className="profile-section-overall"
-            >
-              <form onSubmit={AddResource} encType="multipart/form-data">
-                <Modal.Header closeButton>
-                  <Modal.Title>Add Rescource</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="modal-body">
-                  <div className="modal-profile-section">
-                    <div className="modal-profile-section-image">
-                      <img src="Images/girl.jpg" alt="" />
+              <Modal
+                show={show}
+                onHide={handleClose}
+                className="profile-section-overall"
+              >
+                <form onSubmit={AddResource} encType="multipart/form-data">
+                  <Modal.Header closeButton>
+                    <Modal.Title>Add Rescource</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body className="modal-body">
+                    <div className="modal-profile-section">
+                      <div className="modal-profile-section-image">
+                        <img src="Images/girl.jpg" alt="" />
+                      </div>
+                      <div className="modal-add-res-section-profile relative bottom-2">
+                        <h5>{user && user.name}</h5>
+                        <p className="text-gray-500 bottom-3 relative text-[16px] font-semibold">
+                          {" "}
+                          {skillName}{" "}
+                        </p>
+                      </div>
                     </div>
-                    <div className="modal-add-res-section-profile relative bottom-2">
-                      <h5>{user && user.name}</h5>
-                      <p 
-                      className="text-gray-500 bottom-3 relative text-[16px] font-semibold"
-                      > {skillName} </p>
-                    </div>
-                  </div>
-                  <div className="res-add-modal-title">
-                    <input
-                      type="text"
-                      placeholder="Enter Title"
-                      value={title}
-                      name="title"
-                      onChange={(e) => setTitle(e.target.value)}
-                    />
-                  </div>
-                </Modal.Body>
-                <Modal.Footer className="modal-footer">
-                  <div className="res-add-modal-footer">
-                    <div className="res-add-modal-footer-upload">Upload : </div>
-                    <div>
-                      <label for="files" class="btn">
-                        <FontAwesomeIcon
-                          icon={faFile}
-                          className="fa-xl"
-                        ></FontAwesomeIcon>
-                      </label>
+                    <div className="res-add-modal-title">
                       <input
-                        id="files"
-                        style={{ display: "none" }}
-                        type="file"
-                        name="file"
-                        // value={image}
-                        onChange={handleChange}
-                        accept="application/pdf"
+                        type="text"
+                        placeholder="Enter Title"
+                        value={title}
+                        name="title"
+                        onChange={(e) => setTitle(e.target.value)}
                       />
                     </div>
+                  </Modal.Body>
+                  <Modal.Footer className="modal-footer">
+                    <div className="res-add-modal-footer">
+                      <div className="res-add-modal-footer-upload">
+                        Upload :{" "}
+                      </div>
+                      <div>
+                        <label for="files" class="btn">
+                          <FontAwesomeIcon
+                            icon={faFile}
+                            className="fa-xl"
+                          ></FontAwesomeIcon>
+                        </label>
+                        <input
+                          id="files"
+                          style={{ display: "none" }}
+                          type="file"
+                          name="file"
+                          // value={image}
+                          onChange={handleChange}
+                          accept="application/pdf"
+                        />
+                      </div>
 
-                    <div
-                      className="modal-footer-link"
-                      onClick={() => {
-                        setLink(!link);
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faChain} className="fa-xl" />
+                      <div
+                        className="modal-footer-link"
+                        onClick={() => {
+                          setLink(!link);
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faChain} className="fa-xl" />
+                      </div>
+
+                      {link ? (
+                        <div className="add-res-add-link">
+                          <input type="text" placeholder="Enter Link" />
+                        </div>
+                      ) : (
+                        ""
+                      )}
                     </div>
 
-                    {link ? (
-                      <div className="add-res-add-link">
-                        <input type="text" placeholder="Enter Link" />
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                  </div>
+                    <div>
+                      <button
+                        className="btn btn-primary"
+                        type="submit"
+                        variant="primary"
+                      >
+                        {loading ? (
+                          <div
+                            class="spinner-border text-white"
+                            role="status"
+                            style={{
+                              height: "15px",
+                              width: "15px",
+                              marginLeft: "2px",
+                            }}
+                          >
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        ) : (
+                          <div onClick={handleClose}>Add</div>
+                        )}
+                      </button>
 
-                  <div>
-                    <button
-                      className="btn btn-primary"
-                      type="submit"
-                      variant="primary"
-                      onClick={handleClose}
-                    >
-                      Add
-                    </button>
-                  </div>
-                </Modal.Footer>
-              </form>
-            </Modal>
+                    </div>
+                  </Modal.Footer>
+                </form>
+              </Modal>
+            </div>
+          </div>
+
+          {/* table to display rescources */}
+
+          <div class="overflow-x-auto p-3">
+            {!enableSearch && (
+              <table class="table-auto w-full">
+                <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+                  <tr>
+                    <th class="p-2">
+                      <div class="font-semibold text-left">Download</div>
+                    </th>
+                    <th class="p-2">
+                      <div class="font-semibold text-left">Resource Title</div>
+                    </th>
+                    <th class="p-2">
+                      <div class="font-semibold text-left">Date Created</div>
+                    </th>
+                    <th class="p-2">
+                      <div class="font-semibold text-left">Author</div>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody class="text-sm divide-y divide-gray-100">
+                  {data &&
+                    data.map((item) => (
+                      <tr>
+                        <td class="p-2">
+                          <a
+                            href={item && item.url}
+                            target="_blank"
+                            className="text-black"
+                          >
+                            <FontAwesomeIcon
+                              icon={faFileInvoice}
+                              className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
+                            />
+                          </a>
+                        </td>
+                        <td class="p-2">
+                          <div class="font-medium text-gray-800">
+                            {item && item.title}
+                          </div>
+                        </td>
+                        <td class="p-2">
+                          <div class="text-left text-blue-600 font-bold">
+                            {item && item.date}
+                          </div>
+                        </td>
+                        <td class="p-2">
+                          <div class="text-left text-black font-medium">
+                            {item && item.author && item.author.name}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            )}
+
+            {enableSearch && (
+              <table class="table-auto w-full">
+                <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+                  <tr>
+                    <th class="p-2">
+                      <div class="font-semibold text-left">Download</div>
+                    </th>
+                    <th class="p-2">
+                      <div class="font-semibold text-left">Resource Title</div>
+                    </th>
+                    <th class="p-2">
+                      <div class="font-semibold text-left">Date Created</div>
+                    </th>
+                    <th class="p-2">
+                      <div class="font-semibold text-left">Author</div>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody class="text-sm divide-y divide-gray-100">
+                  {searched &&
+                    searched.map((item) => (
+                      <tr>
+                        <td class="p-2">
+                          <a
+                            href={item && item.url}
+                            target="_blank"
+                            className="text-black"
+                          >
+                            <FontAwesomeIcon
+                              icon={faFileInvoice}
+                              className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
+                            />
+                          </a>
+                        </td>
+                        <td class="p-2">
+                          <div class="font-medium text-gray-800">
+                            {item && item.title}
+                          </div>
+                        </td>
+                        <td class="p-2">
+                          <div class="text-left text-blue-600 font-bold">
+                            {item && item.date}
+                          </div>
+                        </td>
+                        <td class="p-2">
+                          <div class="text-left text-black font-medium">
+                            {item && item.author && item.author.name}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+          <div className="res-navigation">
+            Viewing&nbsp;<span>1</span>-<span>6</span>&nbsp; of &nbsp;
+            <span>6</span>
+            &nbsp;page
           </div>
         </div>
-
-        {/* table to display rescources */}
-
-        <div class="overflow-x-auto p-3">
-          {!enableSearch &&
-            <table class="table-auto w-full">
-            <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
-              <tr>
-                <th class="p-2">
-                  <div class="font-semibold text-left">Download</div>
-                </th>
-                <th class="p-2">
-                  <div class="font-semibold text-left">Resource Title</div>
-                </th>
-                <th class="p-2">
-                  <div class="font-semibold text-left">Date Created</div>
-                </th>
-                <th class="p-2">
-                  <div class="font-semibold text-left">Author</div>
-                </th>
-              </tr>
-            </thead>
-
-            <tbody class="text-sm divide-y divide-gray-100">
-
-
-              {
-                
-              
-              data && data.map((item) => (
-                <tr>
-                  <td class="p-2">
-                    <a
-                      href={item && item.url}
-                      target="_blank"
-                      className="text-black"
-                    >
-                      <FontAwesomeIcon
-                        icon={faFileInvoice}
-                        className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
-                      />
-                    </a>
-                  </td>
-                  <td class="p-2">
-                    <div class="font-medium text-gray-800">
-                      {item && item.title}
-                    </div>
-                  </td>
-                  <td class="p-2">
-                    <div class="text-left text-blue-600 font-bold">
-                      {item && item.date}
-                    </div>
-                  </td>
-                  <td class="p-2">
-                    <div class="text-left text-black font-medium">{item && item.author && item.author.name}</div>
-                  </td>
-                </tr>
-              ))}
-
-
-            </tbody>
-          </table>}
-
-          {enableSearch &&
-            <table class="table-auto w-full">
-            <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
-              <tr>
-                <th class="p-2">
-                  <div class="font-semibold text-left">Download</div>
-                </th>
-                <th class="p-2">
-                  <div class="font-semibold text-left">Resource Title</div>
-                </th>
-                <th class="p-2">
-                  <div class="font-semibold text-left">Date Created</div>
-                </th>
-                <th class="p-2">
-                  <div class="font-semibold text-left">Author</div>
-                </th>
-              </tr>
-            </thead>
-
-            <tbody class="text-sm divide-y divide-gray-100">
-              { searched && searched.map((item) => (
-                <tr>
-                  <td class="p-2">
-                    <a
-                      href={item && item.url}
-                      target="_blank"
-                      className="text-black"
-                    >
-                      <FontAwesomeIcon
-                        icon={faFileInvoice}
-                        className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
-                      />
-                    </a>
-                  </td>
-                  <td class="p-2">
-                    <div class="font-medium text-gray-800">
-                      {item && item.title}
-                    </div>
-                  </td>
-                  <td class="p-2">
-                    <div class="text-left text-blue-600 font-bold">
-                      {item && item.date}
-                    </div>
-                  </td>
-                  <td class="p-2">
-                    <div class="text-left text-black font-medium">{item && item.author && item.author.name}</div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          }
-
-
-        </div>
-        <div className="res-navigation">
-          Viewing&nbsp;<span>1</span>-<span>6</span>&nbsp; of &nbsp;
-          <span>6</span>
-          &nbsp;page
-        </div>
       </div>
-    </div>
     </>
   );
 };
