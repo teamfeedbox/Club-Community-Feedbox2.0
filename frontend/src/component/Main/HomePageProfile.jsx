@@ -47,6 +47,8 @@ const HomePageProfile = () => {
   const [college, setCollege] = useState("");
   const [allClgs, setAllClgs] = useState([]);
   const [loading,setLoading]=useState(false);
+  const [role, setRole] = useState();
+  // const [img, setImg] = useState('Images/defaultImg.png')
 
   useEffect(() => {
     getUser();
@@ -73,6 +75,7 @@ const HomePageProfile = () => {
     });
     result = await result.json();
     setData(result);
+    setRole(result.role);
   };
 
   const goToProfile = () => {
@@ -102,6 +105,9 @@ const HomePageProfile = () => {
       setCollege("");
       alert(res);
       setLoading(true);
+      // setImg(data.img);
+      console.log(`user schema data 
+      : ${data}`);
     }
   }
 
@@ -127,7 +133,39 @@ const HomePageProfile = () => {
         </div>
       </div>
 
-      <div className="m-3 flex  flex-col">
+      {/* not for super admin */}
+
+      {role === 'Admin' || role === 'Lead' || role === 'Club_Member'
+        ?
+        <div> 
+        <div className="home-profile-skill-div">
+        <h6>Skills:</h6>
+        <div className="home-profile-skills">
+          {data &&
+            data.skills.map((item, index) => (
+              <div key={item._id} style={{ background: backColor[index] , color: fColor[index] }}>
+                {item}
+              </div>
+            ))}
+        </div>
+      </div>
+
+      <div className="home-profile-coin-section">
+        <div className="home-profile-coins">
+          <img src="Images/Money.png" alt="" />
+        </div>
+        <div className="home-profile-coins-content">
+          <h6> {data && data.coins} </h6>
+          <div>Coins Collected</div>
+        </div>
+      </div></div>
+      :''}
+
+
+      {/* for super admin */}
+
+     { role === 'Super_Admin'
+     ? <div className="m-3 flex  flex-col">
         <div className="mb-2">
           <form onSubmit={handleAddSubmit}>
             <input
@@ -213,7 +251,7 @@ const HomePageProfile = () => {
 
 
         </div>
-      </div>
+      </div>: ""}
     </div>
   );
 };

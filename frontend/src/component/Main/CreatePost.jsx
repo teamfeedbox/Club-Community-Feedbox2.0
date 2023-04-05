@@ -14,15 +14,10 @@ const CreatePost = () => {
 
   const [image, setImage] = useState([]);
   const [desc, setDesc] = useState("");
-  const [url, setUrl] = useState([]);
   const [scope, setScope] = useState();
-  const [title, setTitle] = useState("");
-  const [collegeName, setCollegeName] = useState("");
-  const [postedBy, setPostedBy] = useState("");
-  const [postType, setPostType] = useState("");
-  const [postedDate, setPostedDate] = useState("");
   const [user, setUser] = useState();
   const [role, setRole] = useState('');
+  const [loading, setLoading] = useState(false);
 
   let count = 0;
 
@@ -53,40 +48,9 @@ const CreatePost = () => {
   function deleteFile(e) {
     const s = file.filter((item, index) => index !== e);
     setFile(s);
-    // console.log(s);
     count--;
   }
 
-  // const postDetails = () => {
-  //   const data = new FormData();
-  //   data.append("file", image);
-  //   data.append("upload_preset", "feedbox-community-web");
-  //   data.append("cloud_name", "feedbox-community-web");
-  //   fetch(
-  //     "https://api.cloudinary.com/v1_1/feedbox-community-web/image/upload",
-  //     {
-  //       method: "post",
-  //       body: data,
-  //     }
-  //   )
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data.url)
-  //       setUrl(data.url);
-  //       // console.log(data)
-  //       // console.log(data.url)
-
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
-  useEffect(() => {
-    getUser();
-  },[]);
-  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
-  // console.log(userId)
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
@@ -94,95 +58,75 @@ const CreatePost = () => {
       },
     });
     result = await result.json();
-    // console.log(result);
+    console.log(result);
     setRole(result.role);
     setUser(result);
+    
+    // if (result) {
+      //   getUser();
+      // }
+      console.log(`lihjcnok ${result}`);
   };
 
   useEffect(() => {
-    // if (url.length > 0) {
-    //   CreatePost();
-    // }
     getUser();
-  }, [url]);
+    setLoading(false);
+  }, [loading]);
 
   const postDetails = () => {
-    // console.log(file, "file");
-    // console.log(image, "image")
-    // const data = new FormData();
-    // var images = [];
-    // image.length > 0 &&
-    //   image.map((img) => {
-    //     data.append("file", img);
-    //     data.append("upload_preset", "feedbox-community-web");
-    //     data.append("cloud_name", "feedbox-community-web");
-    //     const imgdata = fetch("https://api.cloudinary.com/v1_1/feedbox-community-web/image/upload", {
-    //       method: "post",
-    //       body: data,
-    //     }).then((res) => res.json())
-    //       .then((data) => {
-    //         images.push(data.url);
-    //         setUrl(arr => [...arr, data.url]);
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //       });
-    //   })
-    const uploaders = image.length > 0 && image.map(async (img) => {
-      const data = new FormData();
-      data.append("file", img);
-      data.append("upload_preset", "feedbox-community-web");
-      data.append("cloud_name", "feedbox-community-web");
-      return axios.post('https://api.cloudinary.com/v1_1/feedbox-community-web/image/upload', data, {
-        headers: { "X-Requested-With": "XMLHttpRequest" },
-      }).then((response) => {
-        const data = response.data;
-        const imageUrl = data.secure_url
-        console.log(imageUrl);
-        setUrl(arr=>[...arr,imageUrl])
+    const promises = image.map((file) => {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "feedbox-community-web");
+      // formData.append("cloud_name", "feedbox-community-web");
+      return axios.post(
+        "https://api.cloudinary.com/v1_1/feedbox-community-web/image/upload",
+        formData
+      );
+    });
+    Promise.all(promises)
+      .then((responses) => {
+        const urls = responses.map(
+          (res) => res.data.secure_url
+        );
+        console.log(urls)
+        CreatePost(urls);
       })
-    })
-
-    axios.all(uploaders).then(axios.spread((...res)=>{
-      console.log(res);
-       CreatePost();
-    }))
-    // fetch("http://localhost:8000/create-post", {
-    //   method: "post",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "Authorization": "Bearer " + localStorage.getItem("jwt")
-    //   },
-    //   body: JSON.stringify({
-    //     title,
-    //     desc,
-    //     postType,
-    //     collegeName,
-    //     postedDate,
-    //     postedBy,
-    //     pic: url,
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //     if (data.error) {
-    //       console.log("error");
-    //     } else {
-    //       // console.log("fine");
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-
-  };
-
-  const CreatePost = () => {
-    console.log(url, "url");
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
-  // console.log(role);
+  const CreatePost = (urls) => {
+    console.log(urls, scope);
+    const data = fetch("http://localhost:8000/create-post", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("jwt")
+      },
+      body: JSON.stringify({
+        desc,
+        scope,
+        collegeName: user && user.collegeName,
+        img: urls,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.error) {
+          console.log("error");
+        } else {
+          alert("Posted Successfully...")
+          setLoading(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -221,7 +165,8 @@ const CreatePost = () => {
                 {/* <h5>{JSON.parse(auth).name}</h5> */}
                 <h5>{user && user.name}</h5>
 
-                <select name="type" onChange={(e) => setScope(e.target.value)}>
+                <select name="type" onChange={(e) => { console.log(e.target.value); setScope(e.target.value) }}>
+                  <option disabled hidden selected value="Select">Select</option>
                   <option value="public">Public</option>
                   <option value="community">Community</option>
                 </select>

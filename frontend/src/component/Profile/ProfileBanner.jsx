@@ -9,14 +9,14 @@ function ProfileBanner() {
   const [data, setData] = useState();
   const [open, setOpen] = useState(false);
   const [role, setRole] = useState('');
+  // const [img, setImg] = useState('Images/defaultImg.png')
+
 
   useEffect(() => {
     getUser();
-  });
-  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
-  // console.log(userId)
+  }, []);
+
   const getUser = async () => {
-    // console.log(id)
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -24,11 +24,8 @@ function ProfileBanner() {
     });
     result = await result.json();
     setRole(result.role);
-    // console.log(result);
     setData(result);
-    // if (result) {
-    //   getUser();
-    // }
+    // setImg(result.img)
   };
 
 

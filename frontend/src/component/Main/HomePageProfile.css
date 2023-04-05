@@ -27,11 +27,19 @@
     transform: translate(0%,-0%);
 }
 
-.home-profile-main-photo img {
+.home-profile-main-photo{
+    background-color: white;
     border-radius: 50%;
     height: 100px;
     width: 100px;
     margin: 10px;
+}
+
+.home-profile-main-photo img {
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    /* margin: 10px; */
     object-fit:inherit;
 } 
 
@@ -50,7 +58,7 @@
 }
 
 .home-profile-skill-div {
-    margin: 20px 15px 20px 15px;
+    margin: 5px 5px 10px 15px;
 
 }
 
