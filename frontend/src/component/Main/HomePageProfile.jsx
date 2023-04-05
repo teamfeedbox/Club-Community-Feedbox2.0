@@ -58,7 +58,8 @@ const HomePageProfile = (userData) => {
   };
 
   const goToProfile = () => {
-    window.location.href = "/profile";
+
+      window.location.href = "/profile";
   };
 
   const onAddCollege = (e) => {

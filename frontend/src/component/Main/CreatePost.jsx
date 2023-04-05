@@ -275,6 +275,6 @@ const CreatePost = (userData) => {
       </div>
     </>
   );
-};
+}; 
 
 export default CreatePost;
