@@ -2,7 +2,7 @@ import {
   faArrowUpRightFromSquare,
   faHandSparkles,
   faUserGroup,
-  faWandSparkles
+  faWandSparkles,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
@@ -46,6 +46,7 @@ const HomePageProfile = () => {
   const [data, setData] = useState();
   const [college, setCollege] = useState("");
   const [allClgs, setAllClgs] = useState([]);
+
   const [loading,setLoading]=useState(false);
   const [role, setRole] = useState();
   // const [img, setImg] = useState('Images/defaultImg.png')
@@ -53,8 +54,8 @@ const HomePageProfile = () => {
   useEffect(() => {
     getUser();
     getColleges();
-    setLoading(false);
-  }, [loading]);
+    // setLoading(false);
+  });
 
   const getColleges = async () => {
     const data = await fetch(`http://localhost:8000/colleges/get`);
@@ -62,10 +63,10 @@ const HomePageProfile = () => {
     console.log(res);
     let val = [];
     res.map((data) => {
-      val.push(data.name)
-    })
+      val.push(data.name);
+    });
     setAllClgs(val);
-  }
+  };
 
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
@@ -79,7 +80,7 @@ const HomePageProfile = () => {
   };
 
   const goToProfile = () => {
-    window.location.href = '/profile';
+    window.location.href = "/profile";
   };
 
   const onAddCollege = (e) => {
@@ -87,12 +88,13 @@ const HomePageProfile = () => {
   };
 
   const handleAddSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     console.log(college);
     if (college) {
       let val = {
-        name: college
-      }
+        name: college,
+      };
       let data = await fetch(`http://localhost:8000/college/add`, {
         method: "POST",
         body: JSON.stringify(val),
@@ -104,12 +106,14 @@ const HomePageProfile = () => {
       const res = await data.json();
       setCollege("");
       alert(res);
+
       setLoading(true);
       // setImg(data.img);
       console.log(`user schema data 
       : ${data}`);
     }
-  }
+    setLoading(false);
+  };
 
   return (
     <div className="HomePageProfile pb-3">
@@ -129,7 +133,13 @@ const HomePageProfile = () => {
         </div>
         <div className="home-profile-name-section">
           <p className="home-profile-name-section-name">{data && data.name}</p>
-          <p className="home-profile-name-section-desig" >{data && data.role == 'Super_Admin'  ? 'Super Admin': data && data.role == 'Club_Member' ? 'Club Member' : data && data.role}</p>
+          <p className="home-profile-name-section-desig">
+            {data && data.role == "Super_Admin"
+              ? "Super Admin"
+              : data && data.role == "Club_Member"
+              ? "Club Member"
+              : data && data.role}
+          </p>
         </div>
       </div>
 
@@ -177,11 +187,25 @@ const HomePageProfile = () => {
               onChange={onAddCollege}
             />
             <button
-              className=" p-1 rounded w-[60px] ml-2 bg-green-600 text-white font-[600] text-[1rem] hover:bg-green-800 transition-all ease-linear duration-2000 "
-              type="submit"
+            className=" p-1 rounded w-[60px] ml-2 bg-green-600 text-white font-[600] text-[1rem] hover:bg-green-800 transition-all ease-linear duration-2000 "
+            type="submit"
             >
-              Add
+            {loading ? (
+              <div
+                class="spinner-border text-white"
+                role="status"
+                style={{ height: "15px", width: "15px",marginLeft:"2px"}}
+              >
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              
+            ) : (
+              <div>
+                Add
+              </div>
+            )}
             </button>
+            
           </form>
         </div>
 
@@ -196,12 +220,7 @@ const HomePageProfile = () => {
               College
             </option>
             {allClgs.length > 0 &&
-              allClgs.map((clg) => (
-                <option value={clg}>
-                  {clg}
-                </option>
-              ))
-            }
+              allClgs.map((clg) => <option value={clg}>{clg}</option>)}
           </select>
         </div>
 
@@ -243,13 +262,9 @@ const HomePageProfile = () => {
               <h className=" text-[18px] md:text-[16px]   font-semibold">
                 Total Events:
               </h>
-              <p className=" text-[23px] font-bold p-0 relative bottom-2">
-                10
-              </p>
+              <p className=" text-[23px] font-bold p-0 relative bottom-2">10</p>
             </div>
           </div>
-
-
         </div>
       </div>: ""}
     </div>
