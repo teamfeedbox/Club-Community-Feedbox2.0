@@ -59,6 +59,11 @@ const CreatePost = () => {
     result = await result.json();
     setRole(result.role);
     setUser(result);
+    
+    // if (result) {
+      //   getUser();
+      // }
+      console.log(`lihjcnok ${result}`);
   };
 
   useEffect(() => {

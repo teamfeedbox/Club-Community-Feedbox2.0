@@ -1,8 +1,7 @@
 .Calendar-container{
     padding-top: 90px;
     display: flex;
-    flex-direction: row;  
-}
+    flex-direction: row;  }
 .Calendar-left{
     width: 25%;
     margin: 0px 20px 20px 20px;
@@ -18,23 +17,17 @@
 }
 .input-container1{
     display: flex;
-    flex-direction: column;
-    
-}
-
+    flex-direction: column;}
 button a{
     text-decoration: none;
     color:white;
 }
-
-
 .Calendar-title input{
     border-top-style: hidden;
     border-right-style: hidden;
     border-left-style: hidden;
     border-bottom-style: groove;
     width: 90%;
-
 }
 .input-container input{
     border-top-style: hidden;
@@ -43,38 +36,26 @@ button a{
     border-bottom-style: groove;
     width: 90%;
 }
-
-
 .input-container textarea{
     padding: 5px 5px 5px 5px;
     width: 100%;
     border: 1px solid black;
     border-radius: 10px;
-    
 }
 .description{
     font-weight: 600;
 }
- 
-
 .Calendar-title{
     margin-bottom: 30px;
-    
 }
-
   .Calendar-title input:focus {
     outline: none;
   }
-
   .Calendar-title span{
     font-weight: 550;
     margin: 15px 0 0 0;
     font-size: 18px;
   }
-
-
- 
-
 .Calendar-add{
     display: flex;
     flex-direction: row;
@@ -109,11 +90,9 @@ button a{
     z-index: 100;
     margin-top: -6%;
 }
-
 .submit-button{
     text-align: center;
 }
-
 .Calendar-submit{
     padding: 8px 30px;
     border-radius: 10px;
@@ -122,7 +101,6 @@ button a{
     background-color: #3174AD;
     border: 0px solid black;
     color: #fff;
-    
 }
 .Calendar-submit:hover{
     background-color: #3173adca;
@@ -136,7 +114,6 @@ flex-direction: column;
 .Calendar-title input{
     width: 100%;
 }
-
 .calender-add-title{
     display: flex;
     flex-direction: row;
@@ -164,8 +141,6 @@ flex-direction: column;
     border-radius: 20px 20px 20px 20px;
     text-align: center;
 }
-
-
 .Calendar-view-events{
     padding-top: 20px;
     border: 2px solid #3174AD;
@@ -173,36 +148,29 @@ flex-direction: column;
     padding:12px 10px 12px 10px;
     box-shadow: #2e5f8aaf 0px 2px 9px 0px;
 }
-
 .Calendar-view-events-hide{
     display: none;
 }
-
 .preview-button{
     display: flex;
     flex-direction: row;
     justify-content:space-evenly;
     margin-top: 10px;
 }
-
 .ReactBigCalendar{
     width: 90%;
 }
-
 .event-title{
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 15px;
 }
-
 .event-minor{
     margin: 20px 0px 20px 0px ;
 }
-
 .event-minor div{
     margin: 3px 0;
 }
-
 .Calendar-view-events button{
     border: none;
     background-color: #000;
@@ -222,7 +190,6 @@ font-size: 15px;
 font-weight: bold;
 margin: 10px 0;
 }
-
 .cancel-button{
     width:fit-content;
     margin-left:40px;
@@ -233,35 +200,28 @@ margin: 10px 0;
     padding:0px 10px;
     border-radius: 10px;
 }
-
 .cancel-button:hover{
     background-color: #edebeba9;
 }
-
 .React-Big-Calendar-Original{
     width: 98vw;
     margin: 0 20px 0 0;
     height: 87vh;
 }
-
 .event-pre-handle{
     display: flex;
     flex-direction: column;
-
 }
 .cancel-view-event{
     font-size: 14px;
     height: fit-content;
     display: none;
 }
-
 @media screen and (max-width:376px){
-    
     .Calendar-container{
         padding-top: 0px;
         flex-direction: column;  
     }
-
     .Calendar-left{
         width: 80%;
         margin:14% auto 20px auto;
@@ -299,7 +259,6 @@ margin: 10px 0;
         padding: 5px 5px 5px 5px;
         width: 100%;
     }
-   
     .Calendar-title{
         margin-bottom: 20px;
     }
@@ -329,12 +288,6 @@ margin: 10px 0;
         max-height: 85%;
         min-height:85%;
         font-size: 14.5px;
-        /* margin: 0 auto; */
-        /*    */
-    }
-   
-    .Calendar-add-drop-container{
-        /* display:none; */
     }
     .submit-button{
         text-align: center;
@@ -393,7 +346,6 @@ margin: 10px 0;
         display: none;
         
     }
-    
     .preview-button{
         display: flex;
         flex-direction: row;
@@ -401,7 +353,6 @@ margin: 10px 0;
         margin-top: 10px;
         font-size: 13px;
     }
-
     .ReactBigCalendar{
         width: 90%;
     }
@@ -444,25 +395,19 @@ margin: 10px 0;
         padding:0px 10px;
         border-radius: 10px;
     }
-    
     .cancel-button:hover{
-        background-color: #edebeba9;
-    }
+        background-color: #edebeba9;}
     .React-Big-Calendar-Original{
     width: 95vw;
-    /* height: 600px; */
-    /* margin: 0 20px 0 0; */
     margin: 0 auto;
     height: 75vh;
     }
     .rbc-btn-group{
         margin-top: 10px;
     }
-
     .rbc-toolbar{
         display: flex;
         flex-direction: row;
-
     }
     .event-title{
         width: 95%;
@@ -479,20 +424,19 @@ margin: 10px 0;
         color: #0000005e;
     }
 }
-
 @media screen and (min-width:376px)and (max-width: 480px)
 {
     .Calendar-container{
         padding-top: 0px;
         flex-direction: column;  
     }
-
     .Calendar-left{
-        width: 80%;
+        width: 100%;
         margin:14% auto 20px auto;
         display: flex;
         flex-direction: row;
-        justify-content:center;
+        justify-content:space-between;
+        /* border: 2px solid black; */
     }
     .Calendar-right{
         width: 100%;
@@ -524,7 +468,6 @@ margin: 10px 0;
         padding: 5px 5px 5px 5px;
         width: 100%;
     }
-   
     .Calendar-title{
         margin-bottom: 20px;
     }
@@ -554,10 +497,6 @@ margin: 10px 0;
         max-height:68%;
         min-height:68%;
         font-size: 14.5px;
-        /*    */
-    }
-    .Calendar-add-drop-container{
-        /* display:none; */
     }
     .submit-button{
         text-align: center;
@@ -614,9 +553,7 @@ margin: 10px 0;
     }
     .Calendar-view-title{
         display: none;
-        
     }
-    
     .preview-button{
         display: flex;
         flex-direction: row;
@@ -624,7 +561,6 @@ margin: 10px 0;
         margin-top: 10px;
         font-size: 13px;
     }
-
     .ReactBigCalendar{
         width: 90%;
     }
@@ -673,15 +609,12 @@ margin: 10px 0;
     }
     .React-Big-Calendar-Original{
     width: 95vw;
-    /* height: 600px; */
-    /* margin: 0 20px 0 0; */
     margin: 0 auto;
     height: 75vh;
     }
     .rbc-btn-group{
         margin-top: 10px;
     }
-
     .rbc-toolbar{
         display: flex;
         flex-direction: row;
@@ -702,7 +635,6 @@ margin: 10px 0;
         color: #0000005e;
     }
 }
-
 /* Tab View */
 @media only screen and (min-width: 480px) and (max-width:950px){
     .Calendar-container{
@@ -710,11 +642,11 @@ margin: 10px 0;
         flex-direction: column;  
     }
     .Calendar-left{
-        width: 50%;
+        width: 100%;
         margin:7% auto 20px auto;
         display: flex;
         flex-direction: row;
-        justify-content:center;
+        justify-content:space-between;
     }
     .Calendar-add{
         padding: 10px;
@@ -731,9 +663,7 @@ margin: 10px 0;
     }
     .Calendar-view-title{
         display: none;
-        
     }
-    
     .Calendar-add-drop{
      top:22%; 
      right:25%; 
@@ -767,7 +697,6 @@ margin: 10px 0;
     .Calendar-view-events-hide{
         display: none;
     }
-
     .event-title{
         width: 95%;
     }
@@ -782,5 +711,4 @@ margin: 10px 0;
     .cancel-view-event:hover{
         color: #0000005e;
     }
-
 }

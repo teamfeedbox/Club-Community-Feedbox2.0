@@ -1,4 +1,4 @@
-import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faUser, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import "./PendingApprovals.css";
@@ -74,8 +74,8 @@ const Admin = (props) => {
               <tbody class="text-sm divide-y  divide-gray-100 max-w-[1150px]">
                 {admin.length>0 ?
                   admin.map((member) => (
-                    <tr className="flex justify-between ">
-                      <td class=" p-2 w-[170px] lg:w-[400px]">
+                    <tr className="">
+                      <td class=" p-2 w-[170px] lg:w-[400px] ">
                         <div className="flex items-center">
                           <img
                             class="rounded-full"
@@ -88,11 +88,16 @@ const Admin = (props) => {
                           <div className="ml-2"> {member.name} </div>
                         </div>
                       </td>
-                      <td class="p-2 w-[170px] lg:w-[500px] flex items-center mr-8 justify-end">
+                      <td class="p-2 w-[170px] lg:w-[400px]  items-center mr-8 ">
                         <div class="font-medium text-gray-800">
                           {member.position}
                         </div>
                       </td>
+                      <td className=" w-[100px] my-auto">
+                      <div className="text-red-500">
+                        <FontAwesomeIcon icon={faTrash} className="h-[20px] text-red-500" />
+                      </div>
+                    </td>
                     </tr>
                   )) : 'No Admins...'}
               </tbody>
