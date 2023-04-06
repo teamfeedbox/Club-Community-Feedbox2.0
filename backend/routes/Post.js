@@ -3,11 +3,13 @@ const router = express.Router()
 const Post = require('../models/post')
 const user = require('../models/user')
 const mongoose = require('mongoose');
-const requireLogin = require('../middleware/requireLogin')
+const multer = require('multer')
+const requireLogin = require('../middleware/requireLogin');
+const { closeDelimiter } = require('ejs');
 
 router.post("/upload/images/get/link", async (req, res) => {
     try {
-        console.log(req.body)
+        // console.log(req.body)
     } catch (error) {
         res.status(500).json(error)
     }
@@ -15,7 +17,7 @@ router.post("/upload/images/get/link", async (req, res) => {
 
 router.post('/create-post', requireLogin, (req, res) => {
     const { desc, collegeName, img, scope } = req.body
-    console.log(scope);
+    // console.log(scope);
     const post = new Post({
         desc,
         postedBy: req.user,
@@ -88,23 +90,23 @@ router.get('/myPost', requireLogin, async (req, res) => {
 router.get('/userPost/:postId', requireLogin, async (req, res) => {
     // var mySort = { date: -1 };
     //  console.log(req.params.postId)
-    Post.findOne({ _id: req.params.postId })
-        //   .sort(mySort)
-
-        .populate('postedBy').select("-password")
-        .populate('comment.postedBy').select("-password")
-        //   .populate('reply.postedBy').select("-password")
-
-        .then(post => {
-            //   console.log(post)
-            res.json(post)
-        })
-        .catch(err => {
-            console.log(err)
-        })
-
-
-})
+      Post.findOne({_id:req.params.postId})
+    //   .sort(mySort)
+    
+      .populate('postedBy').select("-password")
+      .populate('comment.postedBy').select("-password")
+      .populate('comment.reply.postedBy').select("-password")
+  
+      .then(post=>{
+        //   console.log(post)
+          res.json(post)
+      })
+      .catch(err=>{
+          console.log(err)
+      })
+  
+  
+  })
 
 
 
@@ -195,7 +197,9 @@ router.put('/comment', requireLogin, (req, res) => {
 })
 
 
-router.put('/reply/:commentId', requireLogin, async (req, res) => {
+router.put('/reply/:commentId',requireLogin,async(req,res)=>{
+    // console.log(req.params.commentId)
+    // console.log(req.body.id)
 
     const reply = {
         postedBy: req.user,
@@ -203,10 +207,10 @@ router.put('/reply/:commentId', requireLogin, async (req, res) => {
         replyMsg: req.body.replyMsg,
 
     }
-    Post.findByIdAndUpdate(req.body.id, {
-        $set: { reply: reply }
-    }, {
-        new: true
+    Post.updateOne({_id: req.body.id,"comment._id":req.params.commentId},{
+        $push:{"comment.$.reply":reply}
+    },{
+        new:true
     })
         .populate("reply.postedBy")
         .exec((err, result) => {
@@ -214,11 +218,34 @@ router.put('/reply/:commentId', requireLogin, async (req, res) => {
                 return res.json({ error: err })
             }
             else {
-                console.log(result)
+                // console.log(result)
                 res.json(result)
             }
         })
 })
+
+//delete comment
+router.put('/commentDel/:commentId', requireLogin,async (req, res) => {
+
+    const result = await Post.updateOne({_id: req.body.id,"comment._id": req.params.commentId },{
+        $pull:{comment : {_id: req.params.commentId} }
+    });
+    res.send(result)
+
+})
+
+
+
+router.put('/replyDel/:replyId', requireLogin,async (req, res) => {
+ 
+        const result = await Post.updateOne({_id: req.body.id,"comment._id":req.body.commentId, },{
+            $pull:{"comment.$.reply" : {_id: req.params.replyId} }
+        });
+        res.send(result)
+    
+    })
+
+
 
 
 

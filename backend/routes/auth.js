@@ -106,32 +106,17 @@ router.post("/login", (req, res) => {
   });
 });
 
-// router.get("/user/:email", (req, res) => {
-//   const email = req.params.email;
-
-//   User.findOne({ email: email })
-
-//     .populate("email")
-//     .select("-password")
-//     .then((user) => {
-//       res.json({ user });
-//       // console.log(user)
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// });
-
 
 router.get('/user', requireLogin, async (req, res) => {
-  // console.log(req.user)
-  const email = req.user.email;
-  // console.log(req.user.email)
-  const user = await User.findOne({ email }).populate("email").select("-password");
-  if (user) {
-    res.send(user);
-    // console.log(user)
-  } else {
+  try {
+    const email = req.user.email;
+    const user = await User.findOne({ email }).populate("email").select("-password");
+    if(user){
+      res.status(200).json(user);
+    }else{
+      res.status(404).json("This user doesn't exists...")
+    }
+  } catch (error) {
     res.status(404).send('User not found');
   }
 });
@@ -143,7 +128,7 @@ router.get('/user/:id', requireLogin, async (req, res) => {
     res.send(result)
   }
   else {
-    res.send("no product found")
+    res.send("not found")
   }
 })
 
@@ -155,18 +140,23 @@ router.put('/updatePic/:id', requireLogin, async (req, res) => {
   res.send(result)
 })
 
-// router.put('/updateDetail/:id', async(req,res)=>{
-  
-// //  console.log(req.body.email)
-// //   console.log(req.body.bio)
-//   let result = await User.updateMany(
-//     {_id:req.params.id},
+
+router.put('/updateSkill/:id', requireLogin, async (req, res) => {
+  let result = await User.updateOne(
+    { _id: req.params.id },
+    { $push: { skills: req.body.skill } }
+  )
+  res.send(result)
+})
+
+
+
 
 // update details of a user
 router.put('/updateDetail/:id', async (req, res) => {
-  console.log(req.body,req.params.id);
+  // console.log(req.body,req.params.id);
   try {
-    let result = await User.findOneAndUpdate({ _id: req.params.id }, { $set: req.body}, { new: true })
+    let result = await User.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true })
     res.status(200).json(result)
   } catch (error) {
     res.status(500).json(error);
@@ -214,30 +204,45 @@ router.delete('/user/:id', async (req, res) => {
   })
 })
 
-router.put('/updateSkills/:eventId', requireLogin, async (req, res) => {
-  let result = await Event.updateOne(
-    { _id: req.params.eventId },
-    {
-      $push: { skills: req.body }
-    }
-  )
-  res.send(result)
+// router.put('/updateSkills/:eventId', requireLogin, async (req, res) => {
+//   let result = await Event.updateOne(
+//     { _id: req.params.eventId },
+//     {
+//       $push: { skills: req.body }
+//     }
+//   )
+//   res.send(result)
+// })
+
+
+
+router.get('/getAllUser',(req,res)=>{
+  // var mySort = { date: -1 };
+  User.find()
+  // .sort(mySort)
+  // .populate('postedBy').select("-password")
+  .then(user=>{
+      res.json(user)
+  })
+  .catch(err=>{
+      console.log(err)
+  })
 })
 
 
-// updatte event attendance and coins of a user
+
 router.put('/update/coins/events/', async (req, res) => {
   // console.log(req.body);
   try {
-    req.body.attendees.map(async (data)=>{
-      const response = await User.updateOne({_id:data.id},{
-        $set :{coins:data.coins},
-        $push:{events:req.body.currentEvent}
+    req.body.attendees.map(async (data) => {
+      const response = await User.updateOne({ _id: data.id }, {
+        $set: { coins: data.coins },
+        $push: { events: req.body.currentEvent }
       })
     })
     res.status(200).json(true);
   } catch (error) {
-   res.status(500).json(error) 
+    res.status(500).json(error)
   }
 })
 

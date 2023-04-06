@@ -49,16 +49,21 @@ router.post('/createEvent', requireLogin, (req, res) => {
 
 //api to get all events
 router.get('/getAllEvent', (req, res) => {
-    var mySort = { eventDate: 1 };
-    Event.find()
-        .sort(mySort)
-        .populate('postedBy').select("-password")
-        .then(events => {
-            res.json(events)
-        })
-        .catch(err => {
-            console.log(err)
-        })
+    try {
+        var mySort = { eventDate: 1 };
+        Event.find()
+            .sort(mySort)
+            .populate('postedBy').select("-password")
+            .then(events => {
+                console.log(events, "lkdnvugfrye");
+                res.status(200).json(events)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    } catch (error) {
+        res.status(500).json(error)
+    }
 })
 
 
@@ -89,14 +94,12 @@ router.get('/myEvent', requireLogin, async (req, res) => {
         .catch(err => {
             console.log(err)
         })
-
-
 })
 
 // update attendance of a event
 router.put('/update/Event/:eventId', requireLogin, async (req, res) => {
     try {
-        console.log(req.body, req.params.eventId);
+        // console.log(req.body, req.params.eventId);
         let ids = req.body.absentees;
         if (ids.length > 0) {
             ids.map(async (data) => {

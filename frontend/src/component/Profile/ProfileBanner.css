@@ -17,7 +17,7 @@
 }
 .Profile-Title img{
     border: 8px solid white;
-    border-radius: 100%;
+    border-radius: 50%;
     width: 20%;
     max-height: 250px;
     min-height: 250px;
@@ -28,7 +28,7 @@
     margin-left: 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 6px 22px;
     background-color: #fff;
-    object-fit: cover;
+    object-fit :cover;
 }
 .Profile-Title div{
     margin: 20px 0 0 20px;

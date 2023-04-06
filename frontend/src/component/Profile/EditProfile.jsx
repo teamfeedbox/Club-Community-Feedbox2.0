@@ -26,17 +26,19 @@ const EditProfile = ({ open, setOpen }) => {
   const [url, setUrl] = useState("");
   const [email, setEmail] = useState("");
   const [bio, setBio] = useState("");
+  
  
 
   // console.log(`prop : ${open}`);
 
   const handleClose = () =>{
     setOpen(false);
-    uploadPic();
+    // uploadPic();
 
 
   } 
   const handleShow = () => setShow(true);
+
   function handleChange(e) {
     setFile(URL.createObjectURL(e.target.files[0]));
     setImgg(e.target.files[0]);
@@ -50,13 +52,12 @@ const EditProfile = ({ open, setOpen }) => {
   },[url])
 
   useEffect(()=>{
-    getUserDetails();
-    updateDetail(data)
+      getUserDetails();
+    // updateDetail(data)
+  handleClose()
+  getUser();
 }, [])
 
-useEffect(()=>{
-  handleClose()
-},[])
 
   const update = async(data)=>{
     // console.log(data)
@@ -73,7 +74,7 @@ useEffect(()=>{
 
   result = await result.json();
  
-  console.log(result)
+  // console.log(result)
   }
 
 
@@ -90,7 +91,7 @@ setBio(result.bio);
     // console.log(data)
     let result = await fetch(`http://localhost:8000/updateDetail/${data}`,{
       method:'put',
-      body: JSON.stringify({email,bio}),
+      body: JSON.stringify({bio}),
       headers:{
           "Content-Type":"application/json",
       "Authorization":"Bearer "+localStorage.getItem("jwt")
@@ -101,7 +102,7 @@ setBio(result.bio);
 
   result = await result.json();
  
-  console.log(result)
+  // console.log(result)
   }
 
 
@@ -120,7 +121,7 @@ setBio(result.bio);
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.url)
+        // console.log(data.url)
         setUrl(data.url);
         // console.log(data)
         // console.log(data.url)
@@ -134,9 +135,9 @@ setBio(result.bio);
 
   
 
-  useEffect(() => {
-    getUser();
-  },[]);
+  // useEffect(() => {
+  //   getUser();
+  // },[]);
   // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
   // console.log(userId)
   const getUser = async () => {
@@ -166,7 +167,7 @@ setBio(result.bio);
           </Modal.Header>
           <Modal.Body>
             <Form>
-              <Form.Group
+              {/* <Form.Group
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
@@ -178,15 +179,16 @@ setBio(result.bio);
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-              </Form.Group>
+              </Form.Group> */}
               <Form.Group
                 className="mb-3"
                 controlId="exampleForm.ControlTextarea1"
               >
                 <Form.Label>About </Form.Label>
                 <Form.Control as="textarea" rows={3}
-                 value={bio}
                  onChange={(e) => setBio(e.target.value)}
+                 value={bio}
+
                 />
               </Form.Group>
               <Form.Group>
@@ -255,7 +257,9 @@ setBio(result.bio);
             </Button>
             <Button variant="primary" onClick={()=>{
               handleClose()
-               updateDetail(data) 
+               updateDetail(data)
+              //  update(data) 
+              uploadPic()
 
             }}>
               Save Changes
