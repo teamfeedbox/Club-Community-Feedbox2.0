@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart} from "@fortawesome/free-regular-svg-icons";
+import { faHeart, faMessage} from "@fortawesome/free-regular-svg-icons";
 import { FcLike} from "react-icons/fc";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
@@ -226,21 +226,22 @@ const PostDisplay = (userData) => {
                 {item.likes.includes(user._id) ? (
                   <div className="post-display-bottom-content">
                     <FcLike
-                      size={28}
+                      size={26}
                       onClick={function () {
                         unlike(item._id);
                       }}
+                      style={{marginLeft:"-1.4px",marginTop:"-3px",cursor:"pointer"}}
                     />
-                    <span>{item.likes.length}</span>
+                    <span> style={{fontSize:""}}{item.likes.length}</span>
                   </div>
                 ) : (
                   <div className="post-display-bottom-content">
-                    <FontAwesomeIcon className="fa-lg" icon={faHeart} style={{ fontSize: "25px" }}
+                    <FontAwesomeIcon className="fa-lg" icon={faHeart} style={{ fontSize: "24.5px",cursor:"pointer"}}
                       onClick={function () {
                         like(item._id);
                       }}
                     />
-                    <span>
+                    <span style={{fontSize:""}}>
                       {item.likes.length}
                     </span>
 
@@ -250,9 +251,13 @@ const PostDisplay = (userData) => {
                   setOpenComment(!openComment)
                   setId(item._id)
                 }} className="post-display-bottom-content">
-                  <img src="Images/message.svg" alt=""
-                  />
+                  <FontAwesomeIcon
+                      style={{ fontSize: "22.5px",cursor:"pointer",marginTop:"1px"}}
+                      icon={faMessage}
+                    />
+                  <span style={{fontSize:""}}>
                   {item.comment.length}
+                  </span>
                 </button>
               </div>
             </div>
