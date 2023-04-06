@@ -487,7 +487,6 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
                           </section>
                             ):("")
-                            
                         }
                           {/* *******Hide and show reply******* */}
 

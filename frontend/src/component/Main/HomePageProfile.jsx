@@ -1,8 +1,4 @@
-import {
-  faArrowUpRightFromSquare,
-  faUserGroup,
-  faWandSparkles,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowUpRightFromSquare, faUserGroup, faWandSparkles, } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import "./HomePageProfile.css";
@@ -33,20 +29,52 @@ const fColor = [
   "#744E37",
 ];
 
-const HomePageProfile = (userData) => {
+const HomePageProfile = (props) => {
   const [college, setCollege] = useState("");
   const [allClgs, setAllClgs] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [event, setEvent] = useState([]);
+  const [clgEvents, setClgEvents] = useState([]);
+  const [clgUsers, setClgUsers] = useState(0);
+  const [allUsers, setAllUsers] = useState([]);
+  const [selected, setSelected] = useState(false);
+  const [addclg, setaddclg] = useState();
+  const [data, setData] = useState();
 
-  const [loading,setLoading]=useState(false);
-
-  let data = userData && userData.userData;
-  // console.log(data);
-  
   useEffect(() => {
     getColleges();
-    // setLoading(false);
-  });
+    getUser();
+    getList();
+    getAllUsers();
+    setLoading(false);
+  }, []);
 
+  // get logged in user
+  const getUser = async () => {
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    setData(result);
+  };
+
+  // get all events 
+  const getList = async (e) => {
+    let result = await fetch("http://localhost:8000/getAllEvent");
+    result = await result.json();
+    setEvent(result);
+  };
+
+  // get all users
+  const getAllUsers = async () => {
+    let result = await fetch("http://localhost:8000/get");
+    result = await result.json();
+    setAllUsers(result);
+  }
+
+  // get all colleges
   const getColleges = async () => {
     const data = await fetch(`http://localhost:8000/colleges/get`);
     const res = await data.json();
@@ -57,21 +85,17 @@ const HomePageProfile = (userData) => {
     setAllClgs(val);
   };
 
-  const goToProfile = () => {
-    window.location.href = "/profile";
-  };
-
   const onAddCollege = (e) => {
-    setCollege(e.target.value);
+    setaddclg(e.target.value);
   };
 
+  // Add clg functionality for super admin
   const handleAddSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
-    console.log(college);
-    if (college) {
+    if (addclg) {
       let val = {
-        name: college,
+        name: addclg,
       };
       let data = await fetch(`http://localhost:8000/college/add`, {
         method: "POST",
@@ -86,17 +110,45 @@ const HomePageProfile = (userData) => {
       alert(res);
 
       setLoading(true);
-      console.log(`user schema data 
-      : ${data}`);
     }
-    setLoading(false);
+    setLoading(true);
   };
 
+  const goToProfile = (name) => {
+    if (name === "superAdmin") {
+      window.location.href = "/dashboard"
+    } else if (name === "user") {
+      window.location.href = "/profile"
+    }
+  }
+
+  const handleCollege = (e) => {
+    setCollege(e.target.value)
+    let clgEvents = [], usercount = 0;
+
+    event.map((eve) => {
+      if (eve.postedBy.collegeName === e.target.value && new Date(eve.eventDate) < new Date()) {
+        clgEvents.push(eve)
+      }
+    })
+    allUsers.map((user) => {
+      if (user.collegeName === e.target.value) {
+        usercount++;
+      }
+    })
+    setClgEvents(clgEvents)
+    setClgUsers(usercount)
+    props.sendData(e.target.value)
+    setSelected(true);
+  }
+
   return (
-    <div className="HomePageProfile pb-3">
+    <div className="HomePageProfile mt-[10px] md:mt-[20px] lg:mt-[20px] pb-3">
+      {/*-------------- for web and tab view------------- */}
+      <div className="hidden md:block lg:block">
       <div className="home-profile-bg-doodle">
         <img src={"Images/doodle-profile-bg.png"} alt="" />
-        <button className="home-profile-visit-profile" onClick={goToProfile}>
+        <button className="home-profile-visit-profile" onClick={data && data.role == 'Super_Admin' ? () => goToProfile('superAdmin') : () => goToProfile('user')}>
           <FontAwesomeIcon
             className="home-profile-visit-profile-icon"
             icon={faArrowUpRightFromSquare}
@@ -113,8 +165,8 @@ const HomePageProfile = (userData) => {
             {data && data.role == "Super_Admin"
               ? "Super Admin"
               : data && data.role == "Club_Member"
-              ? "Club Member"
-              : data && data.role}
+                ? "Club Member"
+                : data && data.role}
           </p>
         </div>
       </div>
@@ -122,46 +174,133 @@ const HomePageProfile = (userData) => {
       {/* not for super admin */}
       {data && (data.role === 'Admin' || data.role === 'Lead' || data.role === 'Club_Member')
         ?
-        <div> 
-        <div className="home-profile-skill-div">
-        <h6>Skills:</h6>
-        <div className="home-profile-skills">
-          {data &&
-            data.skills.map((item, index) => (
-              <div key={item._id} style={{ background: backColor[index] , color: fColor[index] }}>
-                {item}
-              </div>
-            ))}
-        </div>
-      </div>
+        <div>
+          <div className="home-profile-skill-div">
+            <h6>Skills:</h6>
+            <div className="home-profile-skills">
+              {data &&
+                data.skills.map((item, index) => (
+                  <div key={item._id} style={{ background: backColor[index], color: fColor[index] }}>
+                    {item}
+                  </div>
+                ))}
+            </div>
+          </div>
 
-      <div className="home-profile-coin-section">
-        <div className="home-profile-coins">
-          <img src="Images/Money.png" alt="" />
-        </div>
-        <div className="home-profile-coins-content">
-          <h6> {data && data.coins} </h6>
-          <div>Coins Collected</div>
-        </div>
-      </div></div>
-      :''}
+          <div className="home-profile-coin-section">
+            <div className="home-profile-coins">
+              <img src="Images/Money.png" alt="" />
+            </div>
+            <div className="home-profile-coins-content">
+              <h6> {data && data.coins} </h6>
+              <div>Coins Collected</div>
+            </div>
+          </div></div>
+        : ''}
 
 
       {/* for super admin */}
-     { data && data.role === 'Super_Admin'
-     ? <div className="m-3 flex  flex-col">
-        <div className="mb-2">
+      {data && data.role === 'Super_Admin'
+        ? <div className="m-3 flex  flex-col">
+          <div className="mb-2">
+            <form onSubmit={handleAddSubmit}>
+              <input
+                type="text"
+                className="border rounded p-1 w-[210px]"
+                placeholder="Add College"
+                value={addclg}
+                required
+                onChange={onAddCollege}
+              />
+              <button
+                className=" p-1 rounded w-[60px] ml-2 bg-green-600 text-white font-[600] text-[1rem] hover:bg-green-800 transition-all ease-linear duration-2000 "
+                type="submit"
+              >
+                {loading ? (
+                  <div
+                    class="spinner-border text-white"
+                    role="status"
+                    style={{ height: "15px", width: "15px", marginLeft: "2px" }}
+                  >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                ) : (
+                  <div>
+                    Add
+                  </div>
+                )}
+              </button>
+
+            </form>
+          </div>
+
+          <div className="font-[700] text-[1.1rem]">Select College:</div>
+          <div className=" ">
+            <select
+              name="College"
+              id="College"
+              className="border w-[280px] rounded p-1 mt-1" onChange={handleCollege}
+            >
+              <option disabled selected className="hidden">
+                College
+              </option>
+              {allClgs.length > 0 &&
+                allClgs.map((clg) => <option value={clg}>{clg}</option>)}
+            </select>
+          </div>
+
+          <div className="mt-2">
+            <div className="flex mt-2 w-[280px] rounded shadow-sm h-[60px] ">
+              <div className=" w-[45px] h-[45px] mt-1  ml-3 rounded bg-blue-200">
+                <FontAwesomeIcon
+                  className="w-[25px] h-[25px] m-2.5 text-blue-800"
+                  icon={faUserGroup}
+                />
+              </div>
+              <div className=" flex flex-col  pl-2">
+                <h className=" text-[18px] md:text-[16px]   font-semibold">
+                  Total Students:
+                </h>
+                <p className=" text-[23px] font-bold p-0 relative bottom-2">
+                  {selected ? clgUsers ? clgUsers : 0: allUsers.length > 0 && allUsers.length}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex mt-2 w-[280px] rounded shadow-sm h-[60px] ">
+              <div className=" w-[45px] h-[45px] mt-1  ml-3 rounded bg-green-200">
+                <FontAwesomeIcon
+                  className="w-[25px] h-[25px] m-2.5 text-green-800"
+                  icon={faWandSparkles}
+                />
+              </div>
+              <div className=" flex flex-col  pl-2">
+                <h className=" text-[18px] md:text-[16px]   font-semibold">
+                  Total Events:
+                </h>
+                <p className=" text-[23px] font-bold p-0 relative bottom-2">{selected ? clgEvents.length > 0 ? clgEvents.length :0 : event.length > 0 ? event.length :0}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    : ""}
+      </div>
+
+      {/* --------------------for mobile view (only for super admin) -------------------- */}
+      <div className="block md:hidden lg:hidden px-3 pt-3">
+      <div className="mb-2  w-[100%]">
           <form onSubmit={handleAddSubmit}>
             <input
               type="text"
-              className="border rounded p-1 w-[210px]"
+              className="border rounded p-1 w-[75%]"
               placeholder="Add College"
               value={college}
               required
               onChange={onAddCollege}
+              
             />
             <button
-            className=" p-1 rounded w-[60px] ml-2 bg-green-600 text-white font-[600] text-[1rem] hover:bg-green-800 transition-all ease-linear duration-2000 "
+            className=" p-1 rounded w-[22%] bg-green-600 ml-2 text-white font-[600] text-[1rem] hover:bg-green-800 transition-all ease-linear duration-2000 "
             type="submit"
             >
             {loading ? (
@@ -172,7 +311,6 @@ const HomePageProfile = (userData) => {
               >
                 <span class="visually-hidden">Loading...</span>
               </div>
-              
             ) : (
               <div>
                 Add
@@ -183,12 +321,11 @@ const HomePageProfile = (userData) => {
           </form>
         </div>
 
-        <div className="font-[700] text-[1.1rem]">Select College:</div>
-        <div className=" ">
+      <div className=" ">
           <select
             name="College"
             id="College"
-            className="border w-[280px] rounded p-1 mt-1"
+            className="border w-[100%] rounded p-1" onChange={handleCollege}
           >
             <option disabled selected className="hidden">
               College
@@ -197,41 +334,7 @@ const HomePageProfile = (userData) => {
               allClgs.map((clg) => <option key={clg._id} value={clg}>{clg}</option>)}
           </select>
         </div>
-
-        <div className="mt-2">
-          <div className="flex mt-2 w-[280px] rounded shadow-sm h-[60px] ">
-            <div className=" w-[45px] h-[45px] mt-1  ml-3 rounded bg-blue-200">
-              <FontAwesomeIcon
-                className="w-[25px] h-[25px] m-2.5 text-blue-800"
-                icon={faUserGroup}
-              />
-            </div>
-            <div className=" flex flex-col  pl-2">
-              <h className=" text-[18px] md:text-[16px]   font-semibold">
-                Total Students:
-              </h>
-              <p className=" text-[23px] font-bold p-0 relative bottom-2">
-                1,190
-              </p>
-            </div>
-          </div>
-
-          <div className="flex mt-2 w-[280px] rounded shadow-sm h-[60px] ">
-            <div className=" w-[45px] h-[45px] mt-1  ml-3 rounded bg-green-200">
-              <FontAwesomeIcon
-                className="w-[25px] h-[25px] m-2.5 text-green-800"
-                icon={faWandSparkles}
-              />
-            </div>
-            <div className=" flex flex-col  pl-2">
-              <h className=" text-[18px] md:text-[16px]   font-semibold">
-                Total Events:
-              </h>
-              <p className=" text-[23px] font-bold p-0 relative bottom-2">10</p>
-            </div>
-          </div>
-        </div>
-      </div>: ""}
+      </div>
     </div>
   );
 };

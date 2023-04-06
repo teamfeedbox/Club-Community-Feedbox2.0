@@ -9,7 +9,12 @@ import bg from "../assets/mainBg.png";
 import NavbarRes from "../navbar/NavbarRes";
 
 const Main = () => {
-  const [user,setUser]=useState();
+  const [user, setUser] = useState();
+  const [clg,setClg]=useState();
+
+  useEffect(() => {
+    getUser();
+  }, [])
 
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
@@ -21,13 +26,13 @@ const Main = () => {
     setUser(result);
   };
 
-  useEffect(() => {
-    getUser();
-  }, [])
+  const handleDataChange = (newData) => {
+    setClg(newData);
+  };
 
   return (
     <>
-      <NavbarRes />
+      {/* <NavbarRes /> */}
       <div
         className="main_container"
         style={{
@@ -42,26 +47,26 @@ const Main = () => {
             <div className="flex m-auto justify-center">
               <div className="main-home-page-profile">
                 <scrollable-component scrollbar-visibility="always">
-                  <HomePageProfile userData={user && user} />
+                  <HomePageProfile sendData={handleDataChange} />
                 </scrollable-component>
               </div>
 
               <div className="main-post-dispaly">
                 <scrollable-component scrollbar-visibility="always">
                   <div>
-                    <CreatePost userData={user && user}/>
+                    {user && user.role === "Club_Member" ? '' : <CreatePost userData={user && user} />}
                   </div>
-                  <PostDisplay userData={user && user}/>
+                  <PostDisplay clgData={clg && clg} />
                 </scrollable-component>
               </div>
 
               <div className="main-home-page-cal">
                 <scrollable-component scrollbar-visibility="always">
                   <div className="home-page-cal-div">
-                    <HomePageCal userData={user && user}/>
+                    <HomePageCal />
                   </div>
                   <p className="up-coming-events">UP-COMING EVENTS</p>
-                  <HomePageEvent userData={user && user}/>
+                  <HomePageEvent clgData={clg && clg}/>
                 </scrollable-component>
               </div>
             </div>
@@ -74,16 +79,16 @@ const Main = () => {
           <section className="main">
             <div className="main-page-display-tab-left ">
               <scrollable-component scrollbar-visibility="always">
-                <HomePageProfile  userData={user && user}/>
+                <HomePageProfile userData={user && user} />
                 <p className="up-coming-events">UP-COMING EVENTS</p>
 
-                <HomePageEvent userData={user && user}/>
+                <HomePageEvent clgData={clg && clg}/>
               </scrollable-component>
             </div>
             <div className="main-page-display-tab-right">
               <scrollable-component scrollbar-visibility="always">
-                <CreatePost userData={user && user}/>
-                <PostDisplay userData={user && user}/>
+                {user && user.role === "Club_Member" ? '' : <CreatePost userData={user && user} />}
+                <PostDisplay clgData={clg && clg} />
               </scrollable-component>
             </div>
           </section>
@@ -92,14 +97,17 @@ const Main = () => {
         {/* ******************mobile view************************* */}
         <div className="main-page-display-mobile">
           <section className="main ">
+          <div className="w-[92%] ml-[4%]">
+            <HomePageProfile userData={user && user} />
+            </div>
             <div className="w-[92%] ml-[4%]">
-              <CreatePost userData={user && user}/>
+              {user && user.role === "Club_Member" ? '' : <CreatePost userData={user && user} />}
             </div>
             <p className="up-coming-events">UP-COMING EVENTS</p>
             <div className="w-[92%] ml-[4%]">
-              <HomePageEvent userData={user && user}/>
+              <HomePageEvent clgData={clg && clg}/>
             </div>
-            <PostDisplay userData={user && user}/>
+            <PostDisplay clgData={clg && clg} />
           </section>
         </div>
       </div>

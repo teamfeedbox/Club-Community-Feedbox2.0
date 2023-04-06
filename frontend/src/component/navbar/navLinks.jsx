@@ -85,7 +85,7 @@ export function NavLinks(props) {
           </LinkItemHighlight>
         ) : (
           <LinkItem>
-            <Links to="/main">Home</Links>
+            <Link to="/main">Home</Link>
           </LinkItem>
         )}
 

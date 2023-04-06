@@ -38,7 +38,6 @@ const userSchema = new mongoose.Schema({
   },
   coins: {
     type: Number,
-    // required:true,
     default:0
   },
   img: {
@@ -55,6 +54,15 @@ const userSchema = new mongoose.Schema({
   },
   skills: [],
   events: [],
+  notifications:[
+    {
+        type:{type:String},
+        message:{type:String},
+        date:{type:String},
+        status:{type:String},
+        id:{type:String}
+    }
+]
 
 
 });

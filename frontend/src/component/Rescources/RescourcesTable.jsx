@@ -144,7 +144,6 @@ const RescourcesTable = (props) => {
 
   return (
     <>
-      <NavbarRes />
       <div className="Res-table-display pt-[100px]">
         <div className="RescourcesTable">
           <div className="res-table-heading">

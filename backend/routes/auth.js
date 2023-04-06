@@ -7,6 +7,7 @@ const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const requireLogin = require("../middleware/requireLogin");
 const { closeDelimiter } = require("ejs");
+const nodemailer = require('nodemailer');
 
 router.get("/get", async (req, res) => {
   try {
@@ -120,7 +121,6 @@ router.get('/user', requireLogin, async (req, res) => {
     const email = req.user.email;
     const user = await User.findOne({ email }).populate("email").select("-password");
     if(user){
-      // console.log(user,"dslkfjhwgefhuewbflakge");
       res.status(200).json(user);
     }else{
       res.status(404).json("This user doesn't exists...")
@@ -128,14 +128,6 @@ router.get('/user', requireLogin, async (req, res) => {
   } catch (error) {
     res.status(404).send('User not found');
   }
-  // const email = req.user.email;
-  // const user = await User.findOne({ email }).populate("email").select("-password");
-  // if (user) {
-  //   console.log(user);
-  //   res.send(user);
-  // } else {
-  //   res.status(404).send('User not found');
-  // }
 });
 
 
@@ -175,6 +167,35 @@ router.put('/updateDetail/:id', async (req, res) => {
   try {
     let result = await User.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true })
     res.status(200).json(result)
+  } catch (error) {
+    res.status(500).json(error);
+  }
+})
+
+router.post('/sendmail/:id', async (req, res) => {
+  try {
+    let result = await User.findOne({ _id: req.params.id })
+    console.log(result);
+    const transporter = nodemailer.createTransport({
+      service:"gmail",
+      port:465,
+      secure:false,
+      auth: {
+          user: 'anushkashah02.feedbox@gmail.com',
+          pass: 'dvtjbrrqhgjypuya' // this requires apps password not original password
+      }
+  });
+
+  let info = await transporter.sendMail({
+      from: '<anushkashah02.feedbox@gmail.com>', // sender address
+      to: `${result.email}`, // list of receivers
+      subject: "Hello Isha", // Subject line
+      text: "Hello Isha", // plain text body
+      html: "<b>Hello Isha</b>", // html body
+    });
+  
+    console.log("Message sent: %s", info.messageId);
+    res.status(200).json(info);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -233,6 +254,8 @@ router.put('/update/coins/events/', async (req, res) => {
     res.status(500).json(error)
   }
 })
+
+
 
 
 module.exports = router;
