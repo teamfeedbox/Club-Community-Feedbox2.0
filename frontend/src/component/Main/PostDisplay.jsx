@@ -252,7 +252,7 @@ const PostDisplay = (props) => {
                       {
                         item.img.length > 0 &&
                         item.img.map((data) => (
-                          <div>
+                          <div key={data._id}>
                             <img className="display-img" src={data} />
                           </div>
                         ))

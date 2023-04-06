@@ -9,7 +9,7 @@ const { closeDelimiter } = require('ejs');
 
 router.post("/upload/images/get/link", async (req, res) => {
     try {
-        console.log(req.body)
+        // console.log(req.body)
     } catch (error) {
         res.status(500).json(error)
     }
@@ -17,7 +17,7 @@ router.post("/upload/images/get/link", async (req, res) => {
 
 router.post('/create-post', requireLogin, (req, res) => {
     const { desc, collegeName, img, scope } = req.body
-    console.log(scope);
+    // console.log(scope);
     const post = new Post({
         desc,
         postedBy: req.user,
@@ -198,8 +198,8 @@ router.put('/comment', requireLogin, (req, res) => {
 
 
 router.put('/reply/:commentId',requireLogin,async(req,res)=>{
-    console.log(req.params.commentId)
-    console.log(req.body.id)
+    // console.log(req.params.commentId)
+    // console.log(req.body.id)
 
     const reply = {
         postedBy: req.user,
@@ -208,7 +208,7 @@ router.put('/reply/:commentId',requireLogin,async(req,res)=>{
 
     }
     Post.updateOne({_id: req.body.id,"comment._id":req.params.commentId},{
-        $set:{"comment.$.reply":reply}
+        $push:{"comment.$.reply":reply}
     },{
         new:true
     })
@@ -218,11 +218,34 @@ router.put('/reply/:commentId',requireLogin,async(req,res)=>{
                 return res.json({ error: err })
             }
             else {
-                console.log(result)
+                // console.log(result)
                 res.json(result)
             }
         })
 })
+
+//delete comment
+router.put('/commentDel/:commentId', requireLogin,async (req, res) => {
+
+    const result = await Post.updateOne({_id: req.body.id,"comment._id": req.params.commentId },{
+        $pull:{comment : {_id: req.params.commentId} }
+    });
+    res.send(result)
+
+})
+
+
+
+router.put('/replyDel/:replyId', requireLogin,async (req, res) => {
+ 
+        const result = await Post.updateOne({_id: req.body.id,"comment._id":req.body.commentId, },{
+            $pull:{"comment.$.reply" : {_id: req.params.replyId} }
+        });
+        res.send(result)
+    
+    })
+
+
 
 
 

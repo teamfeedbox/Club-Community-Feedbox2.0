@@ -31,9 +31,7 @@ const Dashboard = () => {
   const [nov, setNov] = useState(0);const [novHr, setNovHr] = useState(0);const [novAvgHr, setNovAvgHr] = useState(0);
   const [dec, setDec] = useState(0);const [decHr, setDecHr] = useState(0);const [decAvgHr, setDecAvgHr] = useState(0);
 
-  // const arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  // console.log(arr.length)
-
+ 
   const labels = [
     "Jan",
     "Feb",

@@ -85,7 +85,11 @@ export default function ReactBigCalendar() {
     showEvent();
     getUser();
     setLoading(false);
+<<<<<<< HEAD
+  }, [myEvent, loading]);
+=======
   }, [myEvent,loading]);
+>>>>>>> d2c4a7fcede279f49ffc6cc8128a45959e8aaafa
 
   const attendanceUpdate = async (id) => {
     let result = await fetch(`http://localhost:8000/updateEvent/${id}`, {
@@ -166,7 +170,7 @@ export default function ReactBigCalendar() {
 
   // Delete Event
   const cancelEvent = async (id) => {
-    setLoading(true);
+    // setLoading(true);
     let result = await fetch(`http://localhost:8000/deleteEvent/${id}`, {
       method: "delete",
     });

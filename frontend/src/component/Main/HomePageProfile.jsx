@@ -331,7 +331,7 @@ const HomePageProfile = (props) => {
               College
             </option>
             {allClgs.length > 0 &&
-              allClgs.map((clg) => <option value={clg}>{clg}</option>)}
+              allClgs.map((clg) => <option key={clg._id} value={clg}>{clg}</option>)}
           </select>
         </div>
       </div>
