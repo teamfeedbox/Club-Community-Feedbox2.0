@@ -3,11 +3,8 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBell,
-  faCaretDown,
   faRightFromBracket,
-  faUser,
-  faObjectsColumn,
-} from "@fortawesome/free-solid-svg-icons";
+  faUser,} from "@fortawesome/free-solid-svg-icons";
 import Notification from "./Notification";
 
 import { Link } from "react-router-dom";
@@ -87,13 +84,7 @@ export function Accessibility(props) {
     });
     result = await result.json();
     setRole(result.role);
-
-    // console.log(id)
     setUser(result);
-
-    // if (result) {
-    //   getUser();
-    // }
   };
   const selectedPage = window.location.pathname;
 

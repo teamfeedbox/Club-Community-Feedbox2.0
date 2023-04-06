@@ -130,8 +130,6 @@ const AttendanceSheet = () => {
           Authorization: "Bearer " + localStorage.getItem("jwt"),
         },
       });
-      // const res = await result.json();
-      // console.log(res)
       setShow(false);
       setSubmitted(true);
       setLoading(true)
@@ -141,8 +139,6 @@ const AttendanceSheet = () => {
 
   return (
     <>
-      <NavbarRes />
-
       <Modal show={show} onHide={handleClose}>
         <form onSubmit={handleSubmit}>
           <Modal.Header >
