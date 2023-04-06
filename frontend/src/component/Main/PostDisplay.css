@@ -91,9 +91,13 @@
     display: block;
 }
 .post-display-image img{
-    height: 30%;
+    height: 300px;
     width: 95%;
 }
+
+/* .display-img {
+    height: 300px;
+} */
 
 .swiper-button-prev:after, .swiper-rtl .swiper-button-next:after {
     content: 'prev';

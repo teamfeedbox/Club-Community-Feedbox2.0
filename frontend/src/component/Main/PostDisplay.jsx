@@ -1,9 +1,14 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+<<<<<<< HEAD
 import { faHeart, faMessage} from "@fortawesome/free-regular-svg-icons";
 import { FcLike} from "react-icons/fc";
+=======
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { FcLike } from "react-icons/fc";
+>>>>>>> 911f61b31d856234ead46274d8a4a58b638c982c
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
-import React, {useState, useEffect, } from "react";
+import React, { useState, useEffect, } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -186,16 +191,29 @@ const PostDisplay = (userData) => {
                     <Swiper
                       navigation={true}
                       modules={[Navigation]}
+                      autoplay
                       className="mySwiper">
-                      <SwiperSlide>
+
+                      {
+                        item.img.length > 0 &&
+                        item.img.map((data) => (
+                            <SwiperSlide>
+                          <div>
+                            <img className="display-img" src={data} />
+                          </div>
+                      </SwiperSlide>
+                        ))
+                      }
+
+                        {/* <img className="display-img" src="Images/alumni1.jpg" /> */}
+
+
+                      {/* <SwiperSlide>
                         <img className="display-img" src="Images/alumni1.jpg" />
                       </SwiperSlide>
                       <SwiperSlide>
                         <img className="display-img" src="Images/alumni1.jpg" />
-                      </SwiperSlide>
-                      <SwiperSlide>
-                        <img className="display-img" src="Images/alumni1.jpg" />
-                      </SwiperSlide>
+                      </SwiperSlide> */}
                     </Swiper>
                   </div>
                 </div>
@@ -204,7 +222,8 @@ const PostDisplay = (userData) => {
                   <div className="post-display-carousel-webview flex justify-center">
                     <Carousel
                       thumbWidth={60}
-                      width={380}
+                      width={450}
+                      dynamicHeight
                       autoPlay
                       interval="5000"
                       infiniteLoop={true}
@@ -223,12 +242,12 @@ const PostDisplay = (userData) => {
               </div>
 
               <div className="post-display-bottom">
-                {item.likes.includes(user._id) ? (
+                {item.likes.includes(user && user._id) ? (
                   <div className="post-display-bottom-content">
                     <FcLike
                       size={26}
                       onClick={function () {
-                        unlike(item._id);
+                        unlike(item && item._id);
                       }}
                       style={{marginLeft:"-1.4px",marginTop:"-3px",cursor:"pointer"}}
                     />
