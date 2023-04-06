@@ -6,7 +6,6 @@ import ProfileTabs from "./ProfileTabs";
 function ProfilePage() {
   return (
     <>
-    <NavbarRes />
     <div className="pt-[60px]">
     <ProfileBanner/>
     <ProfileTabs />

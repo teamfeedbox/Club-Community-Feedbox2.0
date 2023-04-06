@@ -25,7 +25,6 @@ const Rescources = () => {
 
   return (
     <>
-    <NavbarRes />
       <div className="Rescources">
         <h1>RESOURCES</h1>
 
