@@ -16,7 +16,7 @@ input::-webkit-inner-spin-button {
 .attendance-right {
     /* border: 2px solid black; */
     width: 80%;
-    margin: 0 auto;
+    margin: 70px auto;
     padding-top: 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }

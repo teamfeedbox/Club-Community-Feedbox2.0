@@ -43,7 +43,6 @@ const Approvals = () => {
 
   return (
     <>
-    <NavbarRes />
     <div className="pb-9 pt-[70px]" >
       <PendingApprovals func={pull_data}/>
 

@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { FcLike } from "react-icons/fc";
+import { faHeart, faMessage} from "@fortawesome/free-regular-svg-icons";
+import { FcLike} from "react-icons/fc";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import React, { useState, useEffect, } from "react";
@@ -16,10 +16,12 @@ import Loader from '../Loader.jsx'
 import TimeAgo from "javascript-time-ago";
 import en from 'javascript-time-ago/locale/en'
 
-const PostDisplay = (userData) => {
+const PostDisplay = (props) => {
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
   const [data, setData] = useState([]);
+  const [user,setUser]=useState([]);
+  const [val,setVal]=useState([]);
   const [showAdd, setShowAdd] = useState('Hide-Comment-Add-Btn');
   const [showView, setShowView] = useState('Hide-Comment-View-Btn');
   const [showReplView, setReplyView] = useState("Hide-Reply-View");
@@ -79,11 +81,19 @@ const PostDisplay = (userData) => {
     }
   }
 
-  let user = userData && userData.userData;
-
   useEffect(() => {
     getList();
-  }, []);
+    const getUser = async () => {
+      let result = await fetch(`http://localhost:8000/user`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      });
+      result = await result.json();
+      setUser(result);
+    };
+    getUser();
+  }, [props,props.clgData]);
 
   // get All Post
   const getList = async () => {
@@ -93,7 +103,26 @@ const PostDisplay = (userData) => {
       },
     });
     result = await result.json();
-    setData(result.reverse());
+    setVal(result.reverse())
+    if (props.clgData) {
+      if (val.length > 0) {
+        let array = [];
+        val.map((eve) => {
+          console.log(eve);
+          if (eve.collegeName === props.clgData) {
+            array.push(eve);
+          }
+        })
+        if (array.length > 0) {
+          setData(array);
+        } else {
+          setData([])
+        }
+      }
+    }else{
+      console.log("ki");
+      setData(result)
+    }
   };
 
   // Like a post
@@ -157,7 +186,7 @@ const PostDisplay = (userData) => {
     <div>
       {!loading ?
         <div>
-          {data.map((item, index) => (
+          {data.length>0 ? data.map((item, index) => (
             <div key={item._id} className="post-display1">
               <div className="post-display-head">
                 <div className="post-display-profile">
@@ -172,7 +201,6 @@ const PostDisplay = (userData) => {
                     <p className="post-display-heading-college">
                       {item && item.postedBy && item.postedBy.collegeName}
                     </p>
-                    {/* <p className="post-display-heading-time">{item.postedDate}</p> */}
                     <p className="post-display-heading-time">{item.postedDate && timeAgo.format(new Date(item.postedDate).getTime() - 60 * 1000)}</p>
                   </div>
                 </div>
@@ -238,21 +266,22 @@ const PostDisplay = (userData) => {
                 {item.likes.includes(user && user._id) ? (
                   <div className="post-display-bottom-content">
                     <FcLike
-                      size={28}
+                      size={26}
                       onClick={function () {
                         unlike(item && item._id);
                       }}
+                      style={{marginLeft:"-1.4px",marginTop:"-3px",cursor:"pointer"}}
                     />
-                    <span>{item.likes.length}</span>
+                    <span> {item.likes.length}</span>
                   </div>
                 ) : (
                   <div className="post-display-bottom-content">
-                    <FontAwesomeIcon className="fa-lg" icon={faHeart} style={{ fontSize: "25px" }}
+                    <FontAwesomeIcon className="fa-lg" icon={faHeart} style={{ fontSize: "24.5px",cursor:"pointer"}}
                       onClick={function () {
                         like(item._id);
                       }}
                     />
-                    <span>
+                    <span style={{fontSize:""}}>
                       {item.likes.length}
                     </span>
 
@@ -262,14 +291,18 @@ const PostDisplay = (userData) => {
                   setOpenComment(!openComment)
                   setId(item._id)
                 }} className="post-display-bottom-content">
-                  <img src="Images/message.svg" alt=""
-                  />
+                  <FontAwesomeIcon
+                      style={{ fontSize: "22.5px",cursor:"pointer",marginTop:"1px"}}
+                      icon={faMessage}
+                    />
+                  <span style={{fontSize:""}}>
                   {item.comment.length}
+                  </span>
                 </button>
               </div>
             </div>
 
-          ))}
+          )) : "No Post Yet..."}
         </div>
         : <Loader />}
       <PostBigModel

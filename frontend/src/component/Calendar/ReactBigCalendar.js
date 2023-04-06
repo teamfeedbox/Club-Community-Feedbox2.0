@@ -180,14 +180,13 @@ export default function ReactBigCalendar() {
 
   return (
     <>
-      <NavbarRes />
       <div className="Calendar-container">
         <div className="Calendar-left">
 
           {/* ----------------college dropdown for super admin--------------- */}
 
           <div className=" my-4 mx-1 ">
-            <select className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl w-[100%]">
+            <select className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl sm:w-[40%] lg:w-[100%]">
               <option className=" " hidden selected disabled>College</option>
               <option>Shri Vaishnav Vidyapeeth Vishwavidyalaya</option>
               <option>IET-DAVV</option>
@@ -276,7 +275,7 @@ export default function ReactBigCalendar() {
                     {myEvent && myEvent.eventTime}
                   </div>
                 </div>
-                <div>
+                <div className="Pre-Event-desc">
                   <b>Descrpition</b>
                   <br />
                   {myEvent && myEvent.desc}
