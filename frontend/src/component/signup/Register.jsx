@@ -86,13 +86,13 @@ const Register = () => {
 
   const changenext = (e) => {
     e.preventDefault();
-    if(nameError==false && emailError==false && passError==false && collegeName!="")
+    if(nameError==false && emailError==false && passError==false && collegeName!="" && name!="" && email!="" && password!="")
     {
       setNext(!next);
     }
     else
     {
-      alert("All field are required")
+      alert("All fields are required")
     }
     
   };
@@ -110,7 +110,7 @@ const Register = () => {
     switch(e.target.name)
     {
       case "name":
-        if (eventValue.length < 3) {
+        if (eventValue.length < 3 ) {
           setNameError(true);
         } else {
           setNameError(false);

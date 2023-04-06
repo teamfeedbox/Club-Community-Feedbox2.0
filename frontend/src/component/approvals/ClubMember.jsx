@@ -16,6 +16,7 @@ const ClubMember = ({ props }) => {
   const [position, setPosition] = useState();
   const [id, setId] = useState("");
 
+  
   const handleClose = () => {
     setShow(false);
     setConfirm(false);
@@ -74,8 +75,30 @@ const ClubMember = ({ props }) => {
     const res = await data.json();
     console.log(res);
 
+
     // Generate Notification
+    var date=new Date();
+    // console.log(today);  
+    const notifi=
+    {
+      type:"role",
+      message:"You are upgraded from Club Member to Lead!",
+      date: date,
+      status:"unseen"
+    }
     
+
+    const generateNotifi = await fetch(
+      `http://localhost:8000/user/user/addnotifi/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(notifi),
+      }
+    );
     setConfirm(false);
     setShow(false);
     setLoading(false);

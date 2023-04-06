@@ -1,11 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-<<<<<<< HEAD
 import { faHeart, faMessage} from "@fortawesome/free-regular-svg-icons";
 import { FcLike} from "react-icons/fc";
-=======
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { FcLike } from "react-icons/fc";
->>>>>>> 911f61b31d856234ead46274d8a4a58b638c982c
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import React, { useState, useEffect, } from "react";
@@ -251,7 +246,7 @@ const PostDisplay = (userData) => {
                       }}
                       style={{marginLeft:"-1.4px",marginTop:"-3px",cursor:"pointer"}}
                     />
-                    <span> style={{fontSize:""}}{item.likes.length}</span>
+                    <span>{item.likes.length}</span>
                   </div>
                 ) : (
                   <div className="post-display-bottom-content">

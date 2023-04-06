@@ -69,6 +69,32 @@ const Leads = (props) => {
     })
     const res = await data.json();
     console.log(res)
+
+    // Generate Notification
+    var date=new Date();
+    const notifi=
+    {
+      type:"role",
+      message:"You are upgraded from Lead to Admin!",
+      date: date,
+      status:"unseen"
+    }
+    
+
+    const generateNotifi = await fetch(
+      `http://localhost:8000/user/user/addnotifi/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(notifi),
+      }
+
+    );
+
+    console.log(notifi);
     setConfirm(false);
     setShow(false)
     setLoading(true)

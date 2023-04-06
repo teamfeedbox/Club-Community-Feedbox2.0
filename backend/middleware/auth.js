@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const jwtKey = require("../key");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
-const requireLogin = require("../middleware/requireLogin");
+const requireLogin = require("./requireLogin");
 const { closeDelimiter } = require("ejs");
 
 router.get("/get", async (req, res) => {
@@ -230,35 +230,5 @@ router.put('/update/coins/events/', async (req, res) => {
   }
 })
 
-
-// ******************* Notification ***************************//
-// Add notification to a specific user
-router.put('/user/user/addnotifi/:id',async (req,res)=>{
-  try {
-      const user = await User.findOneAndUpdate({_id:req.params.id},{$push:{notifications:req.body}},{new:true},
-          function (err, docs) {
-              if (err){
-                  console.log(err)
-              }
-              else{
-                  res.status(200).json(docs);
-              }
-      })
-  } catch (error) {
-      // res.status(500).json(error);
-  }
-})
-
-
-//Get all notifications of a user
-router.get('/user/get/user/all/notifi/:id',async(req,res)=>{
-  try {
-      const result = await User.aggregate([{ $match : { _id :req.params.id} },{$project : { notifications:1 }}]);
-      console.log(result,"lllllll");
-      res.status(200).json(result)
-  } catch (error) {
-      res.status(401).json(error);
-  }
-})
 
 module.exports = router;

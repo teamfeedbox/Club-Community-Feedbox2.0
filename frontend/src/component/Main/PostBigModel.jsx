@@ -68,7 +68,6 @@ function PostBigModel({ openComment, setOpenComment, id }) {
       // setReply(tempReply);
     }
   }
-
   // function showRep() {
   //   if (tempReply != "") {
   //     setReplyView("Show-Reply-View");
@@ -788,12 +787,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                           </section>
                             ):("")
                         }
-<<<<<<< HEAD
                           {/* ********************Hide and show reply****************** */}
-=======
-                          {/* *******Hide and show reply******* */}
-
->>>>>>> 911f61b31d856234ead46274d8a4a58b638c982c
                           {
                           checkReply? (
                             <span onClick={()=>{
