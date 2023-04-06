@@ -22,7 +22,7 @@ const HomePageEvent = () => {
     <div className="overall-main-page-event">
       <div className="event-main-div-res">
         {event.map((item) => (
-          <div className="HomePageEvent" key={item._id}>
+          <div  className="HomePageEvent" key={item._id}>
             <h2>{item.title}</h2>
             <div className="home-page-event-time">
               <img src="Images/clock.svg" alt="" />
@@ -53,7 +53,7 @@ const HomePageEvent = () => {
           showThumbs={false}
         >
           {event.map((item, index) => (
-            <div className="HomePageEvent">
+            <div key={item._id} className="HomePageEvent">
               <h2> {item.title} </h2>
               <div className="home-page-event-time">
                 <FontAwesomeIcon icon={faClock} className="fa-xl" />

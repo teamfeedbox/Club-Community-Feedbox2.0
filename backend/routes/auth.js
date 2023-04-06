@@ -120,7 +120,7 @@ router.get('/user', requireLogin, async (req, res) => {
     const email = req.user.email;
     const user = await User.findOne({ email }).populate("email").select("-password");
     if(user){
-      console.log(user,"dslkfjhwgefhuewbflakge");
+      // console.log(user,"dslkfjhwgefhuewbflakge");
       res.status(200).json(user);
     }else{
       res.status(404).json("This user doesn't exists...")
@@ -167,12 +167,7 @@ router.put('/updateSkill/:id', requireLogin, async (req, res) => {
 })
 
 
-// router.put('/updateDetail/:id', async(req,res)=>{
 
-// //  console.log(req.body.email)
-// //   console.log(req.body.bio)
-//   let result = await User.updateMany(
-//     {_id:req.params.id},
 
 // update details of a user
 router.put('/updateDetail/:id', async (req, res) => {
@@ -223,7 +218,7 @@ router.get('/getAllUser',(req,res)=>{
 })
 
 
-// updatte event attendance and coins of a user
+
 router.put('/update/coins/events/', async (req, res) => {
   // console.log(req.body);
   try {

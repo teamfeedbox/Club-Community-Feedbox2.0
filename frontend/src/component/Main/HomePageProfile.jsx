@@ -40,7 +40,7 @@ const HomePageProfile = (userData) => {
   const [loading,setLoading]=useState(false);
 
   let data = userData && userData.userData;
-  console.log(data);
+  // console.log(data);
   
   useEffect(() => {
     getColleges();
@@ -194,7 +194,7 @@ const HomePageProfile = (userData) => {
               College
             </option>
             {allClgs.length > 0 &&
-              allClgs.map((clg) => <option value={clg}>{clg}</option>)}
+              allClgs.map((clg) => <option key={clg._id} value={clg}>{clg}</option>)}
           </select>
         </div>
 
