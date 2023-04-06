@@ -283,7 +283,7 @@ const HomePageProfile = (props) => {
             </div>
           </div>
         </div>
-      </div>: ""}
+    : ""}
       </div>
 
       {/* --------------------for mobile view (only for super admin) -------------------- */}

@@ -95,6 +95,7 @@ const HomePageEvent = (props) => {
 
       {/* mobile view */}
       <div className="main-event-carousel">
+        {/* zkmklxm */}
 
         <Carousel
           autoPlay interval="5000" 
