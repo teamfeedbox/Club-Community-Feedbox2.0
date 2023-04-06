@@ -54,6 +54,15 @@ const userSchema = new mongoose.Schema({
   },
   skills: [],
   events: [],
+  notifications:[
+    {
+        type:{type:String},
+        message:{type:String},
+        date:{type:String},
+        status:{type:String},
+        id:{type:String}
+    }
+]
 
 
 });
