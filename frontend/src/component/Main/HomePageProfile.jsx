@@ -52,12 +52,14 @@ const HomePageProfile = () => {
   // const [img, setImg] = useState('Images/defaultImg.png')
 
   useEffect(() => {
+    // setLoading(true);
     getUser();
     getColleges();
     // setLoading(false);
-  });
+  },[college]);
 
   const getColleges = async () => {
+    setLoading(true);
     const data = await fetch(`http://localhost:8000/colleges/get`);
     const res = await data.json();
     console.log(res);
@@ -66,9 +68,11 @@ const HomePageProfile = () => {
       val.push(data.name);
     });
     setAllClgs(val);
+    setLoading(false);
   };
 
   const getUser = async () => {
+    setLoading(true);
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -77,6 +81,7 @@ const HomePageProfile = () => {
     result = await result.json();
     setData(result);
     setRole(result.role);
+    setLoading(false);
   };
 
   const goToProfile = () => {
@@ -116,7 +121,9 @@ const HomePageProfile = () => {
   };
 
   return (
-    <div className="HomePageProfile pb-3">
+    <div>
+      
+      <div className="HomePageProfile pb-3">
       {/* profile section */}
       <div className="home-profile-bg-doodle">
         <img src={"Images/doodle-profile-bg.png"} alt="" />
@@ -267,7 +274,9 @@ const HomePageProfile = () => {
           </div>
         </div>
       </div>: ""}
+       </div>
     </div>
+   
   );
 };
 

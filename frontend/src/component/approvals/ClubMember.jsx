@@ -15,12 +15,15 @@ const ClubMember = ({ props }) => {
   const [data, setData] = useState([]);
   const [position, setPosition] = useState();
   const [id, setId] = useState("");
-
+  const [value,setValue]=useState("");
+  const [name,setName]=useState("");
   const handleClose = () => {
     setShow(false);
     setConfirm(false);
   };
-  const handleShow = () => setShow(true);
+  const handleShow = () =>{
+    setShow(true);
+  } 
 
   const getUser = async () => {
     const result = await fetch(`http://localhost:8000/get`);
@@ -41,7 +44,6 @@ const ClubMember = ({ props }) => {
     getUser();
     // setLoading(false);
   }, [props]);
-
 
   // search user
   const searchHandler = (e) => {
@@ -77,7 +79,6 @@ const ClubMember = ({ props }) => {
     setConfirm(false);
     setShow(false);
     setLoading(false);
-
   };
 
   return (
@@ -127,10 +128,7 @@ const ClubMember = ({ props }) => {
                       </td>
                       <td class="pt-2 pb-2 flex justify-end">
                         <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
-                          
-                          <button
-                              className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
-                          >
+                          <button className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]">
                             {loading ? (
                               <div
                                 class="spinner-border text-white"
@@ -145,17 +143,21 @@ const ClubMember = ({ props }) => {
                               </div>
                             ) : (
                               <div
-                              onClick={() => {
-                                setId(member._id);
-                                handleShow();
-                              }}
+                                onClick={() => {
+                                  setId(member._id);
+                                  setName(member.name)
+                                  console.log(id,name);
+                                  handleShow();
+                                }}
                               >
-                              <FontAwesomeIcon icon={faUser} className="mr-2" />
-                              Make Lead
+                                <FontAwesomeIcon
+                                  icon={faUser}
+                                  className="mr-2"
+                                />
+                                Make Lead/ Make Admin
                               </div>
                             )}
                           </button>
-
                         </div>
 
                         <Modal
@@ -168,8 +170,36 @@ const ClubMember = ({ props }) => {
                               closeButton
                               className="club-member-modal-header"
                             >
-                              Are you sure to make this club member as lead ?
+                              Select Role of a Club Member !
                             </Modal.Header>
+
+                            <Modal.Body>
+                             <div style={{display:"flex",flexDirection:"column",gap:"20px"}}>
+                             <div style={{fontWeight:"600",fontSize:"20px"}}>You want to make {name} as Lead/Admin ? </div>
+                              <div style={{display:"flex",gap:"18px"}}>
+                              <div>
+                                <select 
+                                  value="Select Role"
+                                  name="val"
+                                  onChange={(e)=>setValue(e.target.value)}
+                                   className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl w-[110%]">
+                                  <option
+                                  className=" "
+                                    hidden
+                                    // selected
+                                    disabled
+                                  >
+                                    Select Role
+                                  </option>
+                                  <option value="Lead" > Lead</option>
+                                  <option value="Admin" >Admin</option>
+                                </select>
+                              </div>
+                              { value === "" ? "" : <div className="selected-val">{name} has been selected as a {value}</div> } 
+                              </div>
+                             </div>
+                            </Modal.Body>
+
                             <Modal.Footer className="modal-footer club-member-modal-footer">
                               <div className="modal-footer-club-member-yes-no-div">
                                 <div onClick={() => setConfirm(!confirm)}>
