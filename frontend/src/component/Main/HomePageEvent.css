@@ -1,6 +1,7 @@
 .HomePageEvent {
     margin: 20px 0px;
-    padding: 10px;
+    padding: 20px;
+    /* padding-bottom: 50px; */
     border-radius: 8px;
     background-color: #fff;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
@@ -78,19 +79,38 @@
     display: none;
 }
 
-.control-arrow{
+.carousel .control-dots {
     display: none;
 }
 
+.carousel.carousel-slider .control-arrow {
+    top: 0;
+    background-color: transparent;
+    color: #000;
+    font-size: 26px;
+    bottom: 0;
+    margin-top: 0;
+    padding: 5px;
+}
+
+.carousel .control-next.control-arrow:before {
+    border-left: 8px solid #000;
+}
+.carousel .control-prev.control-arrow:before {
+    border-right: 8px solid #000;
+}
 @media only screen and (max-width: 600px) {
     .event-main-div-res {
         display: none;
     }
     .main-event-carousel {
         display: block;
+
     }
     .HomePageEvent{
         text-align: left;
+        /* border: 2px solid red; */
+        /* height: 200px; */
     }
     .HomePageEvent h2 {
         font-size: 1.5rem;

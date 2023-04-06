@@ -4,6 +4,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
+import Scrollbars from "react-custom-scrollbars";
 
 const HomePageEvent = (props) => {
   const [event, setEvent] = useState([]);
@@ -96,13 +97,17 @@ const HomePageEvent = (props) => {
       <div className="main-event-carousel">
 
         <Carousel
-          autoPlay
-          interval="2000"
-          infiniteLoop={true}
+          autoPlay interval="5000" 
+          showArrows={true}
+          showIndicators={true}
           showThumbs={false}
+          infiniteLoop
+          // dynamicHeight
+          // className=""
         >
           {event.map((item, index) => (
-            <div className="HomePageEvent">
+            <div className="HomePageEvent ">
+              <Scrollbars style={{ height: "150px" }}>
               <h2> {item.title} </h2>
               <div className="home-page-event-time">
                 <FontAwesomeIcon icon={faClock} className="fa-xl" />
@@ -119,6 +124,7 @@ const HomePageEvent = (props) => {
                   Interested
                 </button>
               </div>
+              </Scrollbars>
             </div>
           ))}
         </Carousel>
