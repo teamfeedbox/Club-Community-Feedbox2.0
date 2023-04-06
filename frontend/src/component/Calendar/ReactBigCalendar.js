@@ -180,7 +180,6 @@ export default function ReactBigCalendar() {
 
   return (
     <>
-      <NavbarRes />
       <div className="Calendar-container">
         <div className="Calendar-left">
 

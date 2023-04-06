@@ -39,7 +39,6 @@ const faqs = [
 const Faq = () => {
   return (
     <div className="">
-      <NavbarRes />
       <div className="lg:p-[85px] pt-[85px] pb-[80px] bg-gray-200">
         <div className="shadow m-auto lg:w-[80%] md:w-[85%] w-[100%] bg-white rounded-2xl">
           <div className="lg:pt-5 pt-4 flex m-auto lg:flex-row flex-col ">
