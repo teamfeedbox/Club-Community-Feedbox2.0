@@ -7,6 +7,7 @@ const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const requireLogin = require("../middleware/requireLogin");
 const { closeDelimiter } = require("ejs");
+const nodemailer = require('nodemailer');
 
 router.get("/get", async (req, res) => {
   try {
@@ -181,6 +182,35 @@ router.put('/updateDetail/:id', async (req, res) => {
   }
 })
 
+router.post('/sendmail/:id', async (req, res) => {
+  try {
+    let result = await User.findOne({ _id: req.params.id })
+    console.log(result);
+    const transporter = nodemailer.createTransport({
+      service:"gmail",
+      port:465,
+      secure:false,
+      auth: {
+          user: 'anushkashah02.feedbox@gmail.com',
+          pass: 'dvtjbrrqhgjypuya' // this requires apps password not original password
+      }
+  });
+
+  let info = await transporter.sendMail({
+      from: '<anushkashah02.feedbox@gmail.com>', // sender address
+      to: `${result.email}`, // list of receivers
+      subject: "Hello Isha", // Subject line
+      text: "Hello Isha", // plain text body
+      html: "<b>Hello Isha</b>", // html body
+    });
+  
+    console.log("Message sent: %s", info.messageId);
+    res.status(200).json(info);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+})
+
 // delete a user
 router.delete('/user/:id', async (req, res) => {
   const data = await User.findByIdAndDelete(req.params.id).then((user) => {
@@ -219,6 +249,8 @@ router.put('/update/coins/events/', async (req, res) => {
    res.status(500).json(error) 
   }
 })
+
+
 
 
 module.exports = router;
