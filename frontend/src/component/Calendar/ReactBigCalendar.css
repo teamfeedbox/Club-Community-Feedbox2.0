@@ -151,6 +151,11 @@ flex-direction: column;
 .Calendar-view-events-hide{
     display: none;
 }
+
+.Pre-Event-desc{
+    max-width:100%;
+    min-width: 100%;
+}
 .preview-button{
     display: flex;
     flex-direction: row;
@@ -223,10 +228,10 @@ margin: 10px 0;
         flex-direction: column;  
     }
     .Calendar-left{
-        width: 80%;
-        margin:14% auto 20px auto;
+        width: 95%;
+        margin:12% auto 20px auto;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content:center;
     }
     .Calendar-right{
@@ -273,8 +278,8 @@ margin: 10px 0;
     .Calendar-add{
         display: flex;
         flex-direction: column;
-        padding: 10px;
-        margin-top: 20px;
+        padding: 10px 10px 10px 10px;
+        margin: 0 auto;
         justify-content: center;
         text-align: center;
         width: 45%;
@@ -650,12 +655,13 @@ margin: 10px 0;
     }
     .Calendar-add{
         padding: 10px;
-        margin-top: 20px;
+        margin: auto 10px auto 0;
         justify-content: center;
         text-align: center;
-        width: 45%;
+        width: 35%;
+        height: fit-content;
         font-size: 15px;
-        padding: 7px 8px 7px 8px;
+        padding: 13px 8px;
         font-size: 13px;
     }
     .Calendar-view{

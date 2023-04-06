@@ -7,7 +7,7 @@ const postSchema = new mongoose.Schema({
     type: String,
   },
   img: [{
-    type: String,
+    type: String, 
   }],
   scope: {
     type: String,
@@ -43,7 +43,6 @@ const postSchema = new mongoose.Schema({
       },
       reply: {
         postedBy: {
-          // type: String,
           type: mongoose.Schema.Types.ObjectId,
           ref: "users",
         },

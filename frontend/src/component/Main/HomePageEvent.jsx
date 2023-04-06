@@ -5,24 +5,69 @@ import { Carousel } from "react-responsive-carousel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 
-const HomePageEvent = () => {
+const HomePageEvent = (props) => {
   const [event, setEvent] = useState([]);
+  const [data, setData] = useState([]);
+  const [clg, setClg] = useState();
+  data.length>0 && data.map((d)=>{
+    console.log(d,"ds;lmnfj")
+  })
+
+  const getUser = async () => {
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    // id = result._id;
+  };
 
   useEffect(() => {
     getList();
-  }, []);
+    getUser();
+  }, [props, props.clgData]);
 
   const getList = async (e) => {
-    // await e.preventDefault();
     let result = await fetch("http://localhost:8000/getAllEvent");
     result = await result.json();
-    //  console.log(result)
-    setEvent(result);
+    setData(result.reverse());
+    if (props.clgData) {
+      if (data.length > 0) {
+        let array = [];
+        data.map((eve) => {
+          if (eve.postedBy.collegeName === props.clgData) {
+            array.push(eve);
+          }
+        })
+        if (array.length > 0) {
+          setEvent(array);
+        } else {
+          setEvent([])
+        }
+      }
+    } else {
+      setEvent(result)
+    }
   };
+
+  const attendanceUpdate = async (id) => {
+    let result = await fetch(`http://localhost:8000/updateEvent/`, {
+      method: "put",
+      // body: JSON.stringify({ attendance }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    console.log(result);
+  };
+
   return (
     <div className="overall-main-page-event">
       <div className="event-main-div-res">
-        {event.map((item, index) => (
+        {event && event.length > 0 ? event.map((item) => (
           <div className="HomePageEvent" key={item._id}>
             <h2>{item.title}</h2>
             <div className="home-page-event-time">
@@ -33,7 +78,10 @@ const HomePageEvent = () => {
             </div>
             <div className="home-page-event-description">{item.desc}</div>
             <div className="home-page-event-button">
-              <button className="home-page-event-button-interested">
+              <button className="home-page-event-button-interested" onClick={() => {
+                attendanceUpdate(item._id);
+                // setInterestedBtn(false);
+              }}>
                 Interested
               </button>
               <button className="home-page-event-button-knowmore">
@@ -41,11 +89,10 @@ const HomePageEvent = () => {
               </button>
             </div>
           </div>
-        ))}
+        )) : "No Upcoming Events..."}
       </div>
 
       {/* mobile view */}
-
       <div className="main-event-carousel">
 
         <Carousel
@@ -53,8 +100,7 @@ const HomePageEvent = () => {
           interval="2000"
           infiniteLoop={true}
           showThumbs={false}
-          >
-            {/* <div> */}
+        >
           {event.map((item, index) => (
             <div className="HomePageEvent">
               <h2> {item.title} </h2>
@@ -63,7 +109,7 @@ const HomePageEvent = () => {
                 <p className="home-page-event-time-p">{item.eventDate}</p>
               </div>
               <div className="home-page-event-description">
-              {item.desc}
+                {item.desc}
               </div>
               <div className="home-page-event-button">
                 <button className="home-page-event-button-knowmore">
@@ -74,52 +120,7 @@ const HomePageEvent = () => {
                 </button>
               </div>
             </div>
-        ))}
-
-          {/* </div> */}
-
-          {/* <div>
-            <div className="HomePageEvent">
-              <h2>Fundamentals of UI Development</h2>
-              <div className="home-page-event-time">
-                <FontAwesomeIcon icon={faClock} className="fa-xl" />
-                <p className="home-page-event-time-p">March 5, 2023</p>
-              </div>
-              <div className="home-page-event-description">
-                Learn basics of UI development and learn what industry requires
-                from you as a freshers.
-              </div>
-              <div className="home-page-event-button">
-                <button className="home-page-event-button-knowmore">
-                  Know More
-                </button>
-                <button className="home-page-event-button-interested">
-                  Interested
-                </button>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className="HomePageEvent">
-              <h2>Fundamentals of UI Development</h2>
-              <div className="home-page-event-time">
-                <FontAwesomeIcon icon={faClock} className="fa-xl" />
-                <p className="home-page-event-time-p">March 5, 2023</p>
-              </div>
-              <div className="home-page-event-description">
-                Learn basics of UI development and learn what industry requires
-                from you as a freshers.
-              </div>
-              <div className="home-page-event-button">
-                <button className="home-page-event-button-knowmore">
-                  Know More
-                </button>
-                <button className="home-page-event-button-interested">
-                  Interested
-                </button>
-              </div>
-            </div>
-          </div> */}
+          ))}
         </Carousel>
       </div>
     </div>
