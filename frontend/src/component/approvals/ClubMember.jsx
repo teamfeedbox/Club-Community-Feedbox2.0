@@ -65,7 +65,6 @@ const ClubMember = ({ props }) => {
   // submit handler for making club member as lead
   const submitHandler = async () => {
     setLoading(true);
-
     console.log(id);
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
       method: "PUT",
@@ -74,6 +73,9 @@ const ClubMember = ({ props }) => {
     });
     const res = await data.json();
     console.log(res);
+
+    // Generate Notification
+    
     setConfirm(false);
     setShow(false);
     setLoading(false);

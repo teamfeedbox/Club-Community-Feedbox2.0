@@ -785,15 +785,15 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                               </span>
                           </div>
                           </div>
-
-                          
-
                           </section>
                             ):("")
-                            
                         }
+<<<<<<< HEAD
+                          {/* ********************Hide and show reply****************** */}
+=======
                           {/* *******Hide and show reply******* */}
 
+>>>>>>> 911f61b31d856234ead46274d8a4a58b638c982c
                           {
                           checkReply? (
                             <span onClick={()=>{
