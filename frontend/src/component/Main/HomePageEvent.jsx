@@ -90,7 +90,11 @@ const HomePageEvent = (props) => {
               </button>
             </div>
           </div>
-        )) : "No Upcoming Events..."}
+        )) : 
+        <div className="HomePageEvent">
+        <div style={{justifyContent:"center",textAlign:"center"}}>No Upcoming Events !</div> 
+        </div>
+        }
       </div>
 
       {/* mobile view */}

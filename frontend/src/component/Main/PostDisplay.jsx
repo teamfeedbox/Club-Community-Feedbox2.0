@@ -302,7 +302,11 @@ const PostDisplay = (props) => {
               </div>
             </div>
 
-          )) : "No Post Yet..."}
+          )) : 
+          <div className="post-display1">
+           <div style={{justifyContent:"center",textAlign:"center"}}>No Post Yet !</div> 
+          </div>
+          }
         </div>
         : <Loader />}
       <PostBigModel

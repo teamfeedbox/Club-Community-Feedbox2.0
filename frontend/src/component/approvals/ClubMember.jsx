@@ -249,7 +249,17 @@ const ClubMember = ({ props }) => {
                       </td>
                     </tr>
                   ))
-                : "No Club Members..."}
+                : 
+                <div className="nopending">
+                  <div>No Club Members</div>
+                  <div className="mycontainer">
+                    <span className="mycircle"></span>
+                    <span className="mycircle"></span>
+                    <span className="mycircle"></span>
+                    <span className="mycircle"></span>
+                  </div>
+                </div>
+                }
             </tbody>
           </table>
         </Scrollbars>

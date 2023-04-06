@@ -176,7 +176,17 @@ const Leads = (props) => {
                       </div>
                     </td>
                   </tr>
-                )) : 'No Lead Members...'}
+                )) :
+                <div className="nopending">
+                <div>No Lead Members</div>
+                <div className="mycontainer">
+                  <span className="mycircle"></span>
+                  <span className="mycircle"></span>
+                  <span className="mycircle"></span>
+                  <span className="mycircle"></span>
+                </div>
+              </div>
+                }
             </tbody>
           </table>
         </Scrollbars>
