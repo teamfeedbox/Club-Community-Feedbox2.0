@@ -111,6 +111,7 @@ export default function ReactBigCalendar() {
       data.end = new Date(data.eventDate);
       data.id = i
     });
+    console.log(result);
     setEventData(result)
     setDupliEvents(result)
   };

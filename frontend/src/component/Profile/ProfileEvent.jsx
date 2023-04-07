@@ -6,11 +6,15 @@ import {
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
 
 // const id = JSON.parse(localStorage.getItem("user")).decodedToken._id;
 // console.log(id)
 
 const ProfileEvent = () => {
+  TimeAgo.addLocale(en);
+  const timeAgo = new TimeAgo("en-US");
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -30,142 +34,69 @@ const ProfileEvent = () => {
 
   return (
     <div className="profile-event-overall">
-
-      {
-        data.map((item)=>(
+      {data.length ? (
+        data.map((item) => (
           <div key={item._id} className="profile-event-card">
-          <h4>{item.title}</h4>
-          <div className="profile-event-icon-desc">
-            <FontAwesomeIcon
-              icon={faLocationDot}
-              className="fa-xl"
-              style={{ color: "#FE0000" }}
-            />
-            <p>{item.venue}</p>
-          </div>
-  
-          <div className="profile-event-icon-desc-flex">
+            <h4>{item.title}</h4>
             <div className="profile-event-icon-desc">
               <FontAwesomeIcon
-                icon={faCalendar}
+                icon={faLocationDot}
                 className="fa-xl"
-                style={{ color: "#0028B7" }}
+                style={{ color: "#FE0000" }}
               />
-              <p>{item.eventDate}</p>
+              <p>{item.venue}</p>
             </div>
-            <div className="profile-event-icon-desc">
-              <FontAwesomeIcon
-                icon={faClock}
-                className="fa-xl"
-                style={{ color: "#B70099" }}
-              />
-              <p>{item.eventTime}</p>
+
+            <div className="profile-event-icon-desc-flex">
+              <div className="profile-event-icon-desc">
+                <FontAwesomeIcon
+                  icon={faCalendar}
+                  className="fa-xl"
+                  style={{ color: "#0028B7" }}
+                />
+                <p>{item.eventDate}</p>
+              </div>
+              <div className="profile-event-icon-desc">
+                <FontAwesomeIcon
+                  icon={faClock}
+                  className="fa-xl"
+                  style={{ color: "#B70099" }}
+                />
+                <p>{item.eventTime}</p>
+              </div>
+            </div>
+
+            <div className="profile-event-description">
+              <div style={{ fontWeight: "700", fontSize: "1.1rem" }}>
+                Description:
+              </div>
+              <div
+                style={{
+                  marginLeft: "10px",
+                  fontWeight: "400",
+                  fontSize: "1.1rem",
+                }}
+              >
+                {item.desc}
+              </div>
+            </div>
+
+            <div className="profile-event-footer">
+              <div className="profile-event-date">
+                {" "}
+                {item &&
+                  item.date &&
+                  timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}
+              </div>
+              <div className="profile-event-button">View In Calendar</div>
             </div>
           </div>
-  
-          <div className="profile-event-description">
-            <div style={{ fontWeight: "700" }}>Description:</div>
-            <div style={{ marginLeft: "10px" }}>
-              {item.desc}
-            </div>
-          </div>
-  
-          <div className="profile-event-footer">
-            <div className="profile-event-date">{item.date}</div>
-            <div className="profile-event-button">View In Calendar</div>
-          </div>
-        </div>
         ))
-      }
-     
-
-      {/* <div className="profile-event-card">
-        <h4>Fundamentals of UI/UX</h4>
-        <div className="profile-event-icon-desc">
-          <FontAwesomeIcon
-            icon={faLocationDot}
-            className="fa-xl"
-            style={{ color: "#FE0000" }}
-          />
-          <p>GOOGLE MEET</p>
+      ) : (
+        <div className="font-[700] text-[1.1rem] pt-2 text-center m-auto">
+          You haven't posted any event yet!
         </div>
-
-        <div className="profile-event-icon-desc-flex">
-          <div className="profile-event-icon-desc">
-            <FontAwesomeIcon
-              icon={faCalendar}
-              className="fa-xl"
-              style={{ color: "#0028B7" }}
-            />
-            <p>March 25 2023</p>
-          </div>
-          <div className="profile-event-icon-desc">
-            <FontAwesomeIcon
-              icon={faClock}
-              className="fa-xl"
-              style={{ color: "#B70099" }}
-            />
-            <p>11:00 A.M.</p>
-          </div>
-        </div>
-
-        <div className="profile-event-description">
-          <div style={{ fontWeight: "700" }}>Description:</div>
-          <div style={{ marginLeft: "10px" }}>
-            In this session you will learn about how to start the journey to
-            become a UI/UX developer.
-          </div>
-        </div>
-
-        <div className="profile-event-footer">
-          <div className="profile-event-date">TUE 21 March</div>
-          <div className="profile-event-button">View In Calendar</div>
-        </div>
-      </div>
-
-      <div className="profile-event-card">
-        <h4>Fundamentals of UI/UX</h4>
-        <div className="profile-event-icon-desc">
-          <FontAwesomeIcon
-            icon={faLocationDot}
-            className="fa-xl"
-            style={{ color: "#FE0000" }}
-          />
-          <p>GOOGLE MEET</p>
-        </div>
-
-        <div className="profile-event-icon-desc-flex">
-          <div className="profile-event-icon-desc">
-            <FontAwesomeIcon
-              icon={faCalendar}
-              className="fa-xl"
-              style={{ color: "#0028B7" }}
-            />
-            <p>March 25 2023</p>
-          </div>
-          <div className="profile-event-icon-desc">
-            <FontAwesomeIcon
-              icon={faClock}
-              className="fa-xl"
-              style={{ color: "#B70099" }}
-            />
-            <p>11:00 A.M.</p>
-          </div>
-        </div>
-
-        <div className="profile-event-description">
-          <div style={{ fontWeight: "700" }}>Description:</div>
-          <div style={{ marginLeft: "10px" }}>
-            In this session you will learn about how to start the journey to
-            become a UI/UX developer.
-          </div>
-        </div>
-
-        <div className="profile-event-footer">
-          <div className="profile-event-date">TUE 21 March</div>
-          <div className="profile-event-button">View In Calendar</div>
-        </div>
-      </div> */}
+      )}
     </div>
   );
 };
