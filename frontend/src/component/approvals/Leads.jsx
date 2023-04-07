@@ -163,7 +163,8 @@ const Leads = (props) => {
                     <td class="pt-2 pb-2 flex  justify-end ">
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                         <button
-                          onClick={() => { setId(member._id); handleShow() }}
+                          onClick={()=>{setId(member._id); handleShow()}}
+
                           className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] text-[1.05rem] font-[500] hover:bg-[#03821f]"
                         >
                           <FontAwesomeIcon icon={faUser} className="mr-2" />
@@ -229,10 +230,11 @@ const Leads = (props) => {
                       </Modal>
                     </td>
                     {/* : ''} */}
-                    <td className=" my-auto " style={{ marginRight: "10px" }}>
+                    <td className=" my-auto " style={{marginRight:"10px"}}>
                       <div className="">
-                        <button
-                          onClick={() => { setId(member._id); handleDelShow() }}
+                      <button
+                          onClick={()=>{setId(member._id); handleShow()}}
+
                           className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000] text-[1.05rem] font-[500] hover:bg-[#bf1004]"
                         >Delete</button>
                       </div>
@@ -240,9 +242,10 @@ const Leads = (props) => {
                   </tr>
                 )) :
                 <div className="nopending">
-                  <div className="text-[1rem] font-[400]">No Lead Members !!</div>
+                <div className="text-[1rem] font-[400]">No Lead Members !!</div>
                 </div>
-              }
+                }
+
             </tbody>
           </table>
         </Scrollbars>
