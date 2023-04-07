@@ -234,27 +234,6 @@ router.put('/update/coins/events/', async (req, res) => {
   }
 })
 
-<<<<<<< HEAD
-
-// ******************* Notification ***************************//
-// Add notification to a specific user
-router.put('/user/user/addnotifi/:id',async (req,res)=>{
-  try {
-      const user = await User.findOneAndUpdate({_id:req.params.id},{$push:{notifications:req.body}},{new:true},
-          function (err, docs) {
-              if (err){
-                  console.log(err)
-              }
-              else{
-                  res.status(200).json(docs);
-              }
-      })
-  } catch (error) {
-      // res.status(500).json(error);
-  }
-})
-
-=======
 // Update Interested events 
 router.put('/update/interested/events/:userId', async (req, res) => {
   console.log(req.body);
@@ -265,18 +244,6 @@ router.put('/update/interested/events/:userId', async (req, res) => {
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json(error)
-  }
-})
->>>>>>> 791fb78438d013c4e4aad745a0bef1634d88de89
-
-//Get all notifications of a user
-router.get('/user/get/user/all/notifi/:id',async(req,res)=>{
-  try {
-      const result = await User.aggregate([{ $match : { _id :req.params.id} },{$project : { notifications:1 }}]);
-      console.log(result,"lllllll");
-      res.status(200).json(result)
-  } catch (error) {
-      res.status(401).json(error);
   }
 })
 

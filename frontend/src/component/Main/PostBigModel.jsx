@@ -270,14 +270,15 @@ function PostBigModel({ openComment, setOpenComment, id }) {
               Cancel
             </button>
           </div>
-        </Modal.Body>
-      </Modal>
+          </Modal.Body>
+        
+        </Modal>
 
 
 
-{/* 
+
       <Modal
-        // show={show}
+        show={show}
         onHide={handleShowDeleteReply}
         className="edit-modal-container"
       >
@@ -289,7 +290,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                 ()=>{
                   
                   deleteReply(replyId)
-                  // handleCloseDelete()
+                  handleCloseDelete()
                 }
 
               }
@@ -301,7 +302,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
             </button>
           </div>
         </Modal.Body>
-      </Modal> */}
+      </Modal>
 
       {openComment ? (
         <div className="Post-Big-Model-container">
@@ -467,7 +468,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                 }}
                                 style={{ marginLeft: "20px" }}
                               >
-                                delete reply
+                                delete
                               </span>
                           </div>
                             </div>
@@ -558,13 +559,10 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                   ></input>
                                   <button
                                     onClick={() => {
-                                  updateReply();
-
+                                      updateReply();
                                       setShowReplyInputField(false)
                                       setReplyInputBtnId(item._id)
-                                      // setCommentId("")
                                       setReplyBtn(false)
-                                      
                                       if(replyMsg!="")
                                       {
                                         setCheckreply(true)
