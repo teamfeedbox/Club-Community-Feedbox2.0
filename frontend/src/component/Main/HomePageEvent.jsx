@@ -4,16 +4,14 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
+import Button from "react-bootstrap/Button"
+import {Link} from "react-router-dom"
 import Scrollbars from "react-custom-scrollbars";
 
 const HomePageEvent = (props) => {
   const [event, setEvent] = useState([]);
   const [data, setData] = useState([]);
-  const [clg, setClg] = useState();
-  data.length>0 && data.map((d)=>{
-    console.log(d,"ds;lmnfj")
-  })
-
+  let userId, role;
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
@@ -21,7 +19,8 @@ const HomePageEvent = (props) => {
       },
     });
     result = await result.json();
-    // id = result._id;
+    userId = result._id;
+    role = result.role
   };
 
   useEffect(() => {
@@ -32,6 +31,20 @@ const HomePageEvent = (props) => {
   const getList = async (e) => {
     let result = await fetch("http://localhost:8000/getAllEvent");
     result = await result.json();
+    result.map((data) => {
+      if (data.attendance.length > 0) {
+        data.attendance.map((attend) => {
+          if (attend._id === userId && userId) {
+            data.isInterested = true
+            return;
+          } else {
+            data.isInterested = false
+          }
+        })
+      } else {
+        data.isInterested = false
+      }
+    })
     setData(result.reverse());
     if (props.clgData) {
       if (data.length > 0) {
@@ -79,15 +92,16 @@ const HomePageEvent = (props) => {
             </div>
             <div className="home-page-event-description">{item.desc}</div>
             <div className="home-page-event-button">
-              <button className="home-page-event-button-interested" onClick={() => {
+              {role && role !== "Super_Admin" && <Button className="" disabled={item.isInterested} onClick={() => {
                 attendanceUpdate(item._id);
-                // setInterestedBtn(false);
               }}>
                 Interested
-              </button>
-              <button className="home-page-event-button-knowmore">
-                Know More
-              </button>
+              </Button>}
+              <Link to='/calendar' state={{eventId:item._id}}>
+                <button className="home-page-event-button-knowmore">
+                  Know More
+                </button>
+              </Link>
             </div>
           </div>
         )) : "No Upcoming Events..."}
