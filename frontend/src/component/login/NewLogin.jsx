@@ -24,7 +24,7 @@ let auth = localStorage.getItem('user')
     });
     result = await result.json();
 
-    // console.log(result);
+    console.log(result);
     
     if(result.token){
       navigate('/main')   

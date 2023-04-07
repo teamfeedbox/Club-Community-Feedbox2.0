@@ -5,7 +5,9 @@ const notificationSchema = new mongoose.Schema({
     messageScope:{type:String},
     userId:{type:String},
     date: {type:String},
+    time:{type:String},
     venue:{type:String},
+    role:{type:String}
 });
 
 module.exports = mongoose.model("Notification", notificationSchema);

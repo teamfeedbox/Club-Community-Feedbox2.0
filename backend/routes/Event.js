@@ -31,7 +31,7 @@ router.post('/createEvent', requireLogin, (req, res) => {
 
 // add notification
 router.post('/addNotifications' , (req,res)=>{
-  const { message, messageScope, userId, date, venue} = req.body
+  const { message, messageScope, userId, date, venue, time, role} = req.body
 
   const notification = new Notification({
     message,
@@ -40,6 +40,8 @@ router.post('/addNotifications' , (req,res)=>{
     date,
     userId,
     venue,
+    time,
+    role,
   })
 
   notification.save().then(result => {
@@ -53,7 +55,10 @@ router.post('/addNotifications' , (req,res)=>{
 // get all notifications
 router.get('/getNotifications', (req, res) => {
     try {
+        var mySort = { message: 1 };
         Notification.find({})
+        .sort(mySort)
+        
             .then(events => {
                 res.status(200).json(events)
             })

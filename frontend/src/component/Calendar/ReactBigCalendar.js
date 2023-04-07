@@ -227,6 +227,7 @@ export default function ReactBigCalendar() {
         date: eventDate,
         userId:id,
         venue:venue,
+        time:eventTime,
         
       }),
       headers: {
