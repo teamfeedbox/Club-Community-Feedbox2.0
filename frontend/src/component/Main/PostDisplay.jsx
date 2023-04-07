@@ -282,7 +282,7 @@ const PostDisplay = (props) => {
                         like(item._id);
                       }}
                     />
-                    <span style={{fontSize:""}}>
+                    <span style={{fontSize:'0.8rem', fontWeight:'600'}}>
                       {item.likes.length}
                     </span>
 
@@ -296,14 +296,18 @@ const PostDisplay = (props) => {
                       style={{ fontSize: "22.5px",cursor:"pointer",marginTop:"1px"}}
                       icon={faMessage}
                     />
-                  <span style={{fontSize:""}}>
+                  <span style={{fontSize:'0.8rem', fontWeight:'600'}}>
                   {item.comment.length}
                   </span>
                 </button>
               </div>
             </div>
 
-          )) : "No Post Yet..."}
+          )) : 
+          <div className="post-display1">
+           <div style={{justifyContent:"center",textAlign:"center"}}>No Post Yet !</div> 
+          </div>
+          }
         </div>
         : <Loader />}
       <PostBigModel

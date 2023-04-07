@@ -1,6 +1,7 @@
 .faq-overall {
     padding: 30px 100px;
-    background-color: linear-gradient(#af67e9,#6565e7);
+    /* background-color: linear-gradient(#af67e9,#6565e7); */
+     /* background-color: var(--primary_color); */
 }
 .faq-top{
     position: relative;

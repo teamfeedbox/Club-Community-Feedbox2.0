@@ -1,6 +1,6 @@
 .HomePageEvent {
     margin: 20px 0px;
-    padding: 20px;
+    padding: 15px;
     /* padding-bottom: 50px; */
     border-radius: 8px;
     background-color: #fff;
@@ -8,6 +8,13 @@
 }
 .event-main-div-res {
     display: block;
+}
+
+.upcoming_event_title {
+    font-size: var(--heading-font-size);
+    font-weight: var(--heading-font-weight);
+    margin-bottom: 15px;
+    margin-left: 10px;
 }
 
 .HomePageEvent h2 {
@@ -26,13 +33,14 @@
 
 .home-page-event-time-p{
     padding-left: 10px;
-    font-weight: 600;
+    font-size: var(--subheading-font-size);
+    font-weight: var(--subheading-font-weight);
 }
 
 .home-page-event-description {
     padding-left: 10px;
-    font-weight: 500;
-    font-size: 1rem;
+    font-weight: var(--content-font-weight);
+    font-size: var(--content-font-size);
 }
 .home-page-event-button {
     /* border: 2px solid; */
@@ -44,8 +52,8 @@
     margin: 10px;
     padding: 5px 15px;
     border-radius: 25px;
-    font-weight: 500;
-    font-size: 1.05rem;
+    font-weight: var(--button-font-weight);
+    font-size: var(--button-font-size);
 }
 
 .home-page-event-button-knowmore {
@@ -62,7 +70,7 @@
 .home-page-event-button-interested {
     background: none;
     border: 2px solid white;
-    font-weight: 600;
+    /* font-weight: 600; */
     transition: all 0.2s ease-in-out;
 }
 
