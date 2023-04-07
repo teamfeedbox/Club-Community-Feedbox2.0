@@ -7,7 +7,7 @@ const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const requireLogin = require("../middleware/requireLogin");
 const { closeDelimiter } = require("ejs");
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
 router.get("/get", async (req, res) => {
   try {
@@ -34,7 +34,7 @@ router.post("/register", (req, res) => {
     bio,
     uniqueId,
     img,
-    events
+    events,
   } = req.body;
   if (!email || !password || !name) {
     return res.status(422).json({ error: "please add all the fields" });
@@ -88,8 +88,10 @@ router.post("/login", (req, res) => {
   User.findOne({ email: email }).then((savedUser) => {
     if (!savedUser) {
       return res.status(422).json({ err: "invalid email or password" });
-    } else if(savedUser.role == 'user') {
-      return res.status(500).json({ err: "You are not a part of club right now." });
+    } else if (savedUser.role == "user") {
+      return res
+        .status(500)
+        .json({ err: "You are not a part of club right now." });
     }
     bcrypt
       .compare(password, savedUser.password)
@@ -109,6 +111,10 @@ router.post("/login", (req, res) => {
   });
 });
 
+<<<<<<< HEAD
+// Get a user
+router.get("/user", requireLogin, async (req, res) => {
+=======
 
 
 router.post("/login/superAdmin", (req, res) => {
@@ -142,129 +148,157 @@ router.post("/login/superAdmin", (req, res) => {
 
 
 router.get('/user', requireLogin, async (req, res) => {
+>>>>>>> 92566a39d4633a17b335540cd3aa27dd918ea8fb
   try {
     const email = req.user.email;
-    const user = await User.findOne({ email }).populate("email").select("-password");
+    const user = await User.findOne({ email })
+      .populate("email")
+      .select("-password");
     if (user) {
       res.status(200).json(user);
     } else {
-      res.status(404).json("This user doesn't exists...")
+      res.status(404).json("This user doesn't exists...");
     }
   } catch (error) {
-    res.status(404).send('User not found');
+    res.status(404).send("User not found");
   }
 });
 
-
-router.get('/user/:id', requireLogin, async (req, res) => {
+router.get("/user/:id", requireLogin, async (req, res) => {
   let result = await User.findOne({ _id: req.params.id });
   if (result) {
-    res.send(result)
+    res.send(result);
+  } else {
+    res.send("not found");
   }
-  else {
-    res.send("not found")
-  }
-})
+});
 
 // Update picture
-router.put('/updatePic/:id', requireLogin, async (req, res) => {
+router.put("/updatePic/:id", requireLogin, async (req, res) => {
   let result = await User.updateOne(
     { _id: req.params.id },
     { $set: { img: req.body.url } }
-  )
-  res.send(result)
-})
+  );
+  res.send(result);
+});
 
 // Update Skills
-router.put('/updateSkill/:id', requireLogin, async (req, res) => {
+router.put("/updateSkill/:id", requireLogin, async (req, res) => {
   let result = await User.updateOne(
     { _id: req.params.id },
     { $push: { skills: req.body.skill } }
-  )
-  res.send(result)
-})
+  );
+  res.send(result);
+});
 
 // update details of a user
-router.put('/updateDetail/:id', async (req, res) => {
+router.put("/updateDetail/:id", async (req, res) => {
   // console.log(req.body,req.params.id);
   try {
-    let result = await User.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true })
-    res.status(200).json(result)
+    let result = await User.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: req.body },
+      { new: true }
+    );
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json(error);
   }
-})
+});
 
-router.post('/sendmail/:id', async (req, res) => {
+router.post("/sendmail/:id", async (req, res) => {
   try {
-    let result = await User.findOne({ _id: req.params.id })
+    let result = await User.findOne({ _id: req.params.id });
     // console.log(result);
     const transporter = nodemailer.createTransport({
       service: "gmail",
       port: 465,
       secure: false,
       auth: {
-        user: 'anushkashah02.feedbox@gmail.com',
-        pass: 'dvtjbrrqhgjypuya' // this requires apps password not original password
-      }
+        user: "anushkashah02.feedbox@gmail.com",
+        pass: "dvtjbrrqhgjypuya", // this requires apps password not original password
+      },
     });
 
     let info = await transporter.sendMail({
-      from: '<anushkashah02.feedbox@gmail.com>', // sender address
+      from: "<anushkashah02.feedbox@gmail.com>", // sender address
       to: `${result.email}`, // list of receivers
-      subject: `Hello ${result.name}`, // Subject line
+      subject: ` Your Account has been Verified`, // Subject line
       text: "Hello Isha", // plain text body
-      html: "<b>You have registered successfully</b>", // html body
+      html: `<div> 
+      Dear ${result.name}, <br /> <br />
+
+      We are pleased to inform you that your account has been successfully verified. You can now login to your account and 
+      start using all the features and services that our platform has to offer.
+      <br />
+      To access your account, please visit our website at [website URL] and click on the login button. 
+      If you have any questions or concerns, please do not hesitate to contact us. 
+      Our support team is available 24/7 to assist you with any issues you may have.
+
+      <br /><br />
+      Best regards,
+      <br /> <br />
+      Team Feedbox
+       </div>`, // html body
     });
-  
+
     // console.log("Message sent: %s", info.messageId);
     res.status(200).json(info);
   } catch (error) {
     res.status(500).json(error);
   }
-})
+});
 
 // delete a user
-router.delete('/user/:id', async (req, res) => {
-  const data = await User.findByIdAndDelete(req.params.id).then((user) => {
-    if (!user) {
-      return res.status(404).send();
-    }
-    res.send(user);
-  }).catch((error) => {
-    res.status(500).send(error);
-  })
-})
+router.delete("/user/:id", async (req, res) => {
+  const data = await User.findByIdAndDelete(req.params.id)
+    .then((user) => {
+      if (!user) {
+        return res.status(404).send();
+      }
+      res.send(user);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
 
-router.get('/getAllUser', (req, res) => {
+router.get("/getAllUser", (req, res) => {
   // var mySort = { date: -1 };
   User.find()
     // .sort(mySort)
     // .populate('postedBy').select("-password")
-    .then(user => {
-      res.json(user)
+    .then((user) => {
+      res.json(user);
     })
-    .catch(err => {
-      console.log(err)
-    })
-})
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
-// Update Coins and events 
-router.put('/update/coins/events/', async (req, res) => {
+// Update Coins and events
+router.put("/update/coins/events/", async (req, res) => {
   // console.log(req.body);
   try {
     req.body.attendees.map(async (data) => {
-      const response = await User.updateOne({ _id: data.id }, {
-        $set: { coins: data.coins },
-        $push: { events: req.body.currentEvent }
-      })
-    })
+      const response = await User.updateOne(
+        { _id: data.id },
+        {
+          $set: { coins: data.coins },
+          $push: { events: req.body.currentEvent },
+        }
+      );
+    });
     res.status(200).json(true);
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json(error);
   }
-})
+});
 
+<<<<<<< HEAD
+// Update Interested events
+router.put("/update/interested/events/:userId", async (req, res) => {
+=======
 <<<<<<< HEAD
 
 // ******************* Notification ***************************//
@@ -288,15 +322,23 @@ router.put('/user/user/addnotifi/:id',async (req,res)=>{
 =======
 // Update Interested events 
 router.put('/update/interested/events/:userId', async (req, res) => {
+>>>>>>> 92566a39d4633a17b335540cd3aa27dd918ea8fb
   console.log(req.body);
   try {
-    const response = await User.updateOne({ _id: req.params.userId }, {
-      $push: { interestedEvents: req.body.event }
-    }, { new: true })
+    const response = await User.updateOne(
+      { _id: req.params.userId },
+      {
+        $push: { interestedEvents: req.body.event },
+      },
+      { new: true }
+    );
     res.status(200).json(response);
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json(error);
   }
+<<<<<<< HEAD
+});
+=======
 })
 >>>>>>> 791fb78438d013c4e4aad745a0bef1634d88de89
 
@@ -310,5 +352,6 @@ router.get('/user/get/user/all/notifi/:id',async(req,res)=>{
       res.status(401).json(error);
   }
 })
+>>>>>>> 92566a39d4633a17b335540cd3aa27dd918ea8fb
 
 module.exports = router;

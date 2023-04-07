@@ -119,7 +119,7 @@ export function MobileNavLinks(props) {
     <NavLinksContainer>
       <MenuToggle isOpen={isOpen} toggle={() => setOpen(!isOpen)} />
       {isOpen && (
-        <LinksWrapper>
+        <LinksWrapper onClick={() => {setOpen(!isOpen)}}>
           {selectedPage === "/main" ? (
             <LinkItemHighlight>
               <Links to="/main">Home</Links>
