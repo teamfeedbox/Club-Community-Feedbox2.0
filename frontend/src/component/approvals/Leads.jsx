@@ -172,11 +172,22 @@ const Leads = (props) => {
                     {/* : ''} */}
                     <td className=" my-auto ">
                       <div className="">
-                        <FontAwesomeIcon icon={faTrash} className="h-[20px] text-red-500" />
+                        <button className="dlt-btn">Delete</button>
+                        {/* <FontAwesomeIcon icon={faTrash} className="h-[20px] text-red-500" /> */}
                       </div>
                     </td>
                   </tr>
-                )) : 'No Lead Members...'}
+                )) :
+                <div className="nopending">
+                <div>No Lead Members</div>
+                <div className="mycontainer">
+                  <span className="mycircle"></span>
+                  <span className="mycircle"></span>
+                  <span className="mycircle"></span>
+                  <span className="mycircle"></span>
+                </div>
+              </div>
+                }
             </tbody>
           </table>
         </Scrollbars>

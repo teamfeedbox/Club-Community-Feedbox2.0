@@ -9,7 +9,7 @@ const upload = multer({ dest: 'uploads/' });
 
 
 router.post('/upload', upload.single('file'),requireLogin, async (req, res) => {
-    const {title,skill} = req.body
+    const {title,skill,pdfLink} = req.body
     // console.log(title,skill)
     const result = await cloudinary.uploader.upload(req.file.path, {
       resource_type: 'raw',
@@ -24,7 +24,8 @@ router.post('/upload', upload.single('file'),requireLogin, async (req, res) => {
       skill,
       author:req.user,  
       name: req.file.originalname,
-      url: pdfUrl
+      url: pdfUrl,
+      link:pdfLink
     });
     // console.log(pdf);
     

@@ -198,8 +198,9 @@ router.put('/comment', requireLogin, (req, res) => {
 
 
 router.put('/reply/:commentId',requireLogin,async(req,res)=>{
-    // console.log(req.params.commentId)
+    console.log(req.params.commentId,req.body.id)
     // console.log(req.body.id)
+    const{ userId } = req.user._id
 
     const reply = {
         postedBy: req.user,
@@ -207,7 +208,15 @@ router.put('/reply/:commentId',requireLogin,async(req,res)=>{
         replyMsg: req.body.replyMsg,
 
     }
-    Post.updateOne({_id: req.body.id,"comment._id":req.params.commentId},{
+    const post=Post.findOne({_id:req.body.id,"comment._id":req.params.commentId,"comment.reply.postedBy._id":userId}) .exec((err, result) => {
+        if (err) {
+            return res.json({ error: err })
+        }
+        else {
+            console.log(result)
+            if(!result){
+  Post.updateOne({_id: req.body.id,"comment._id":req.params.commentId},{
+       
         $push:{"comment.$.reply":reply}
     },{
         new:true
@@ -222,6 +231,13 @@ router.put('/reply/:commentId',requireLogin,async(req,res)=>{
                 res.json(result)
             }
         })
+            }else{
+                res.json("you are not allowed to reply more than one's")
+            }
+        }
+    });
+    // console.log(post)
+  
 })
 
 //delete comment

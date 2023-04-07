@@ -95,7 +95,7 @@ const HomePageEvent = (props) => {
       <div className="event-main-div-res">
         {event && event.length > 0 ? event.map((item) => (
           <div className="HomePageEvent" key={item._id}>
-            <h2>{item.title}</h2>
+            <div className="upcoming_event_title">{item.title}</div>
             <div className="home-page-event-time">
               <img src="Images/clock.svg" alt="" />
               <p className="home-page-event-time-p">
@@ -118,7 +118,11 @@ const HomePageEvent = (props) => {
               </Link>
             </div>
           </div>
-        )) : "No Upcoming Events..."}
+        )) : 
+        <div className="HomePageEvent">
+        <div style={{justifyContent:"center",textAlign:"center"}}>No Upcoming Events !</div> 
+        </div>
+        }
       </div>
 
       {/* mobile view */}

@@ -27,7 +27,7 @@ export default function ReactBigCalendar() {
   const [scope, setScope] = useState();
   const [speaker, setSpeaker] = useState("");
   const [myEvent, setMyEvent] = useState();
-  const [loading, setLoading] = useState(false);
+  const [loading,   setLoading] = useState(false);
   const [deletebtn, setDeleteBtn] = useState(false);
   const [clgSelected, setClgSelected] = useState();
   const [allClgs, setAllClgs] = useState([]);

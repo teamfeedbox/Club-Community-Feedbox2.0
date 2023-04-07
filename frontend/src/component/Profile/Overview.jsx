@@ -112,8 +112,9 @@ function Overview(prop) {
   
 
   
-  const noRefCheck = ()=>{
-// console.log(skills)
+  const handleRemove = (e)=>{
+    setSkills(e)
+    // console.log(e)
   }
 
   return (
@@ -183,15 +184,13 @@ function Overview(prop) {
             </div>
           </section>
           
-          
-          
           <section>
             <div className='Detail-icon2'>
             <FontAwesomeIcon className="fa-lg" icon={faIdCard} />
             </div>
             <div>
               <span onClick={handleShow}>Unique Id: </span>
-              <p>2019SVV0565</p>
+              <p>{data && data.uniqueId}</p>
             </div>
           </section>
           <section>
@@ -252,7 +251,7 @@ function Overview(prop) {
                 displayValue=""
                 isObject={false}
                 onKeyPressFn={function noRefCheck() {}}
-                onRemove={noRefCheck()}
+                onRemove={(e)=>{handleRemove(e)}}
                 onSearch={function noRefCheck() {}}
                 onSelect={onSelectNames}
                 selectedValues={data && data.skills }

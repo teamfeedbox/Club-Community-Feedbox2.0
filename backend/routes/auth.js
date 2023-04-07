@@ -50,7 +50,6 @@ router.post("/register", (req, res) => {
         const user = new User({
           email,
           password: hashedPassword,
-          // password,
           name,
           collegeName,
           branch,
@@ -63,19 +62,11 @@ router.post("/register", (req, res) => {
           bio,
           img,
           events,
-
         });
 
         user
           .save()
           .then((user) => {
-            // transporter.sendMail({
-            //     to:user.email,
-            //     from:"no-reply@insta.com",
-            //     subject:"signup success",
-            //     html:"<h1>welcome to instagram</h1>"
-            // })
-            // res.json({message:"saved successfully"})
             res.send(user);
           })
           .catch((err) => {
@@ -97,6 +88,8 @@ router.post("/login", (req, res) => {
   User.findOne({ email: email }).then((savedUser) => {
     if (!savedUser) {
       return res.status(422).json({ err: "invalid email or password" });
+    } else if(savedUser.role == 'user') {
+      return res.status(500).json({ err: "You are not a part of club right now." });
     }
     bcrypt
       .compare(password, savedUser.password)
@@ -174,7 +167,7 @@ router.put('/updateDetail/:id', async (req, res) => {
 router.post('/sendmail/:id', async (req, res) => {
   try {
     let result = await User.findOne({ _id: req.params.id })
-    console.log(result);
+    // console.log(result);
     const transporter = nodemailer.createTransport({
       service: "gmail",
       port: 465,
@@ -188,12 +181,12 @@ router.post('/sendmail/:id', async (req, res) => {
     let info = await transporter.sendMail({
       from: '<anushkashah02.feedbox@gmail.com>', // sender address
       to: `${result.email}`, // list of receivers
-      subject: "Hello Isha", // Subject line
+      subject: `Hello ${result.name}`, // Subject line
       text: "Hello Isha", // plain text body
-      html: "<b>Hello Isha</b>", // html body
+      html: "<b>You have registered successfully</b>", // html body
     });
-
-    console.log("Message sent: %s", info.messageId);
+  
+    // console.log("Message sent: %s", info.messageId);
     res.status(200).json(info);
   } catch (error) {
     res.status(500).json(error);
