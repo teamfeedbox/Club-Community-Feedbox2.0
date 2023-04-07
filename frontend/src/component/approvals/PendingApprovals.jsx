@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import "./PendingApprovals.css";
 import { Scrollbars } from "react-custom-scrollbars";
- 
+
 const PendingApprovals = (props) => {
   const [data, setData] = useState([]);
   const [searchval, setSearchVal] = useState("");
@@ -17,7 +17,8 @@ const PendingApprovals = (props) => {
   const [val, setVal] = useState(false);
   const [email, setEmail] = useState("");
   const [id, setId] = useState("");
-  const [load,setload]=useState(false);
+  const [load, setload] = useState(false);
+
 
   const getUser = async () => {
     const result = await fetch(`http://localhost:8000/get`);
@@ -29,14 +30,30 @@ const PendingApprovals = (props) => {
           user.push(data);
         }
       });
-    setPendingUsers(user);
-    setData(user.reverse());
+    let clgSel = [];
+    if (props.clg) {
+      if (props.clg == "All") {
+        setPendingUsers(user.reverse());
+        setData(user.reverse());
+      } else {
+        user.map(data => {
+          if (data.collegeName === props.clg) {
+            clgSel.push(data)
+          }
+        })
+        setPendingUsers(clgSel.reverse());
+        setData(clgSel.reverse());
+      }
+    } else {
+      setPendingUsers(user.reverse());
+      setData(user.reverse());
+    }
   };
 
   useEffect(() => {
     getUser();
     setload(false)
-  },[load]);
+  }, [load, props]);
 
   // search for a pending user
   const searchHandler = (e) => {
@@ -159,13 +176,13 @@ const PendingApprovals = (props) => {
                             <div
                               class="spinner-border text-white"
                               role="status"
-                              style={{ height: "15px", width: "15px",marginTop:"-8px" }}
+                              style={{ height: "15px", width: "15px", marginTop: "-8px" }}
                             >
                               <span class="visually-hidden">Loading...</span>
                             </div>
                           ) : (
                             <div
-                             style={{marginTop:"-10px"}}
+                              style={{ marginTop: "-10px" }}
                               onClick={() => handleAccept(approval._id, index)}
                             >
                               Accept
@@ -179,7 +196,7 @@ const PendingApprovals = (props) => {
               ) : (
                 <div className="nopending">
                   <div className="text-[1rem] font-[400]">No Pending Requests !!</div>
-                 </div>
+                </div>
               )}
             </tbody>
           </table>

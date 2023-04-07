@@ -17,8 +17,7 @@ const ClubMember = ({ props }) => {
   const [id, setId] = useState("");
   const [value, setValue] = useState("");
   const [name, setName] = useState("");
-  console.log(props);
-
+  
   const handleClose = () => {
     setShow(false);
     setConfirm(false);
@@ -40,15 +39,20 @@ const ClubMember = ({ props }) => {
       });
     let clgSel = [];
     if (props.clg) {
-      cm.map(data => {
-        if (data.collegeName === props.clg){
-          clgSel.push(data)
-        }
-      })
-      setData(clgSel.reverse())
+      if (props.clg == "All") {
+        setData(cm.reverse())
+        setClubMember(cm.reverse());
+      } else {
+        cm.map(data => {
+          if (data.collegeName === props.clg) {
+            clgSel.push(data)
+          }
+        })
+        setData(clgSel.reverse())
+        setClubMember(clgSel.reverse());
+      }
     } else {
-      console.log(cm);
-      setClubMember(cm);
+      setClubMember(cm.reverse());
       setData(cm.reverse());
     }
   };

@@ -78,7 +78,7 @@ const SuperAdmin = () => {
                         <div className="flex items-center">
                           <img
                             class="rounded-full"
-                            src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
+                            src={member.img}
                             width="40"
                             height="40"
                             alt="Alex Shatov"
