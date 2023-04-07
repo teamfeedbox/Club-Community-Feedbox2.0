@@ -6,12 +6,15 @@ import "./Notification.css";
 const Notification = (props) => {
 
   const [notification, setNotification] = useState()
+  const [currentUser, setcurrentUser] = useState()
 
   const handleClose = (e) => {
     e.preventDefault();
     props.props.handleCross(true);
   };
 
+  // const user = localStorage.getItem("user")
+  // setcurrentUser(user)
 
   const getData = async () => {
     let notifi = await fetch(`http://localhost:8000/getNotifications`, {
@@ -25,7 +28,8 @@ const Notification = (props) => {
   }
   useEffect(() => {
     getData()
-    console.log(notification)
+    // console.log(notification)
+    // console.log(currentUser.id)
   }, [])
   return (
     <div className="absolute top-[110%] right-5 bg-white rounded py-2 px-2.5 w-[23%] shadow max-h-[500px]  ">
@@ -50,19 +54,24 @@ const Notification = (props) => {
         {notification && notification.map((data) => {
           return (
             data.messageScope === "public" ?
-            (<div className="flex bg-blue-200 mt-2 rounded-sm">
+            (<div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
+            <div className="bg-blue-800 p-1 w-[5px]  text-blue-800"></div>
+            <div className="p-1">
+              Alert: Join {data.message} on {data.date} at {data.venue}
+
+            </div>
+          </div>)
+              
+              :
+              (<div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
               <div className="bg-blue-800 p-1 w-[5px]  text-blue-800"></div>
               <div className="p-1">
-                Alert: Join {data.message} on {data.date} at {data.venue}
+                {data.message}
+
               </div>
             </div>)
-            :
-            (<div className="flex bg-blue-200 mt-2 rounded-sm">
-              <div className="bg-blue-800 p-1 w-[5px]  text-blue-800"></div>
-              <div className="p-1">
-               {data.message}
-              </div>
-            </div>)
+
+
           )
         })}
       </div>
