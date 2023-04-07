@@ -71,7 +71,7 @@ const ProfilePost = (prop) => {
 
   return (
     <div>
-      {post.length>0 && post.map((item) => (
+      {post.length>0 ? post.map((item) => (
         <div className="post-display">
           <div className="flex justify-between">
             <p className="post-display-heading-time"> Posted : {item && item.postedDate && timeAgo.format(new Date(item.postedDate).getTime() - 60 * 1000)}</p>
@@ -174,7 +174,7 @@ const ProfilePost = (prop) => {
             </button>
           </div>
         </div>
-      ))}
+      )) : <div className="font-[700] text-[1.1rem] pt-2 text-center">You haven't posted anything yet!</div>} 
       <ProfileBigModel
       openComment={openComment}
       setOpenComment={setOpenComment}

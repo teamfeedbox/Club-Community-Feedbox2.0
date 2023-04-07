@@ -55,10 +55,7 @@ router.get('/getAllEvent', (req, res) => {
             .sort(mySort)
             .populate('postedBy').select("-password")
             .then(events => {
-<<<<<<< HEAD
                 // console.log(events, "lkdnvugfrye");
-=======
->>>>>>> d8223c32452dc372d7902674528066577b6b8c09
                 res.status(200).json(events)
             })
             .catch(err => {
