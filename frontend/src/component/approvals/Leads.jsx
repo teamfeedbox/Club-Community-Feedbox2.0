@@ -22,8 +22,10 @@ const Leads = (props) => {
 
   const handleClose = () => { setShow(false); setConfirm(false) };
   const handleShow = () => setShow(true);
-  const handleDelShow =()=> setDelShow(true);
-  const handleDelClose =()=> setDelShow(false);
+  const handleDelShow = () => setDelShow(true);
+  const handleDelClose = () => setDelShow(false);
+
+  console.log(props, "props")
 
   const getUser = async () => {
     const result = await fetch(`http://localhost:8000/get`);
@@ -34,9 +36,25 @@ const Leads = (props) => {
         lead.push(data)
       }
     })
-    setLead(lead);
-    setData(lead);
     setRole(data.role);
+    let clgSel = [];
+    if (props.clg) {
+      if (props.clg == "All") {
+        setLead(lead.reverse());
+        setData(lead.reverse());
+      } else {
+        lead.map(data => {
+          if (data.collegeName === props.clg) {
+            clgSel.push(data)
+          }
+        })
+        setLead(clgSel.reverse());
+        setData(clgSel.reverse());
+      }
+    } else {
+      setLead(lead.reverse());
+      setData(lead.reverse());
+    }
   };
 
   useEffect(() => {
@@ -77,11 +95,11 @@ const Leads = (props) => {
     setLoading(true)
   }
 
-  const handleDeleteAdmin=async ()=>{
+  const handleDeleteAdmin = async () => {
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ role: 'Club_Member'})
+      body: JSON.stringify({ role: 'Club_Member' })
     })
     const res = await data.json();
     console.log(res)
@@ -119,7 +137,7 @@ const Leads = (props) => {
                       <div className="flex items-center">
                         <img
                           class="rounded-full"
-                          src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
+                          src={member.img}
                           width="40"
                           height="40"
                           alt="Alex Shatov"
@@ -189,14 +207,14 @@ const Leads = (props) => {
                             closeButton
                             className="club-member-modal-header"
                           >
-                            Are you sure to make this lead as admin ?
+                            Are you sure to make this Lead as Club Member ?
                           </Modal.Header>
                           <Modal.Footer className="modal-footer club-member-modal-footer">
                             <div className="modal-footer-club-member-yes-no-div">
                               <div onClick={handleDeleteAdmin}>
                                 Yes
                               </div>
-                              <button onClick={(e) => { e.preventDefault(); setDelShow(false);}}>No</button>
+                              <button onClick={(e) => { e.preventDefault(); setDelShow(false); }}>No</button>
                             </div>
                           </Modal.Footer>
                         </form>
