@@ -15,7 +15,10 @@ import "./PostBigModel.css";
 import Modal from "react-bootstrap/Modal";
 
 function PostBigModel({ openComment, setOpenComment, id }) {
+
   const [tempReply, setTempReply] = useState("");
+  const [deleteComId, setDeleteComId] = useState("");
+  const [replyId, setReplyId] = useState("");
   const [changeText, setText] = useState(true);
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(false);
@@ -26,7 +29,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
   const [message, setMessage] = useState("");
 
-  // To set state to show delete the comment
+  // 
   const [show, setShow] = useState(false);
 
   // To store deleted comment
@@ -45,7 +48,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   const [showReply,setShowReply]=useState(true);
 
   // To show and hide "view reply" 
-  const [checkReply,setCheckreply]=useState(false);
+  const [checkReply,setCheckreply]=useState(true);
 
   // To show and hide "hide reply" 
   const [hideReply,setHidereply]=useState(false);
@@ -94,7 +97,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
       },
     });
     result = await result.json();
-    // console.log(result)
+    console.log(result)
     setUser(result);
     // if(result._id===id){
     //   getPost()
@@ -113,7 +116,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
     })
       .then((res) => res.json())
       .then((result) => {
-        setPostData(result);
+        // setPostData(result);
         console.log(result);
         setLoading(true);
         setMessage("");
@@ -131,6 +134,8 @@ function PostBigModel({ openComment, setOpenComment, id }) {
         console.log(err);
       });
   };
+  // console.log(commentId, "", replyMsg);
+
 
   const updateReply = () => {
     console.log(commentId, "", replyMsg);
@@ -163,9 +168,57 @@ function PostBigModel({ openComment, setOpenComment, id }) {
       });
   };
 
+  // console.log(deleteComId," ",id);
+
+  //delete comment
+  const deleteComment = async (deleteComId) => {
+    console.log(deleteComId," ",id);
+    let result = await fetch(`http://localhost:8000/commentDel/${deleteComId}`, {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({id}),
+    });
+
+    result = await result.json();
+    console.log(result)
+    setLoading(true);
+
+    // if (result) {
+    //   updateComment();
+    // }
+  };
+
+  const deleteReply = async (replyId) => {
+    console.log(replyId," ",id);
+    let result = await fetch(`http://localhost:8000/replyDel/${replyId}`, {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({id,commentId}),
+    });
+
+    result = await result.json();
+    console.log(result)
+    setLoading(true);
+
+    // if (result) {
+    //   updateComment();
+    // }
+  };
+
+
+
   // To show and hide delete comment model
   const handleCloseDelete = () => setShow(false);
   const handleShowDelete = () => setShow(true);
+  const handleShowDeleteReply = () => setShow(true);
 
   return (
     <>
@@ -179,19 +232,41 @@ function PostBigModel({ openComment, setOpenComment, id }) {
           <div style={{ display: "flex", flexDirection: "column" }}>
             <button
               className="delete-btn"
-              //  onClick={
-              //   ()=>{
-              //     handleCloseDelete()
-              //     let array=[];
-              //     comment.map((item)=>{
-              //     if(item!=deleteVar){
-              //       array.push(item)
-              //     }
-              //     });
-              //     setComments(array);
-              //   }
+               onClick={
+                ()=>{
+                  
+                  deleteComment(deleteComId)
+                  handleCloseDelete()
+                }
 
-              // }
+              }
+            >
+              Delete
+            </button>
+            <button className="delete-btn" onClick={handleCloseDelete}>
+              Cancel
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={show}
+        onHide={handleShowDeleteReply}
+        className="edit-modal-container"
+      >
+        <Modal.Body className="modal-dialog1">
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <button
+              className="delete-btn"
+               onClick={
+                ()=>{
+                  
+                  deleteReply(replyId)
+                  handleCloseDelete()
+                }
+
+              }
             >
               Delete
             </button>
@@ -223,29 +298,14 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                       interval="5000"
                       infiniteLoop={true}
                     >
-                      <div>
-                        <img className="display-img" src="Images/alumni1.jpg" />
+                      {
+                        user && user.img.map((data)=>
+                        <div key={data._id}>
+                        <img className="display-img" src={data} />
                       </div>
-                      <div>
-                        <img className="display-img" src="Images/alumni2.jpg" />
-                      </div>
-                      <div>
-                        <img className="display-img" src="Images/alumni3.jpg" />
-                      </div>
-                      <div>
-                        <img
-                          className="display-img"
-                          src="Images/l1.jpg"
-                          alt=""
-                        />
-                      </div>
-                      <div>
-                        <img
-                          className="display-img"
-                          src="Images/l3.png"
-                          alt=""
-                        />
-                      </div>
+                        )
+                      }
+
                     </Carousel>
                   </div>
                 </div>
@@ -321,11 +381,16 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                           </div>
 
                           <div className="Comment-Right-Down">
-                            <span className="Comment-Down-Other">22h</span>
+                            <span className="Comment-Down-Other" 
+                            // onClick={()=>{console.log(item.reply.length)}}
+                            >22h</span>
                             <span
                                 className="Comment-Down-Other Comment-Down-Other1"
                                 onClick={() => {
                                   handleShowDelete();
+                                  setDeleteComId(item._id);
+                                  console.log(item._id)
+
                                 }}
                                 style={{ marginLeft: "20px" }}
                               >
@@ -340,7 +405,8 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                   setShowReplyInputField(!showReplyInputField)
                                     // alert(showReplyInput)
                                   setCommentId(item._id);
-                                  // console.log(item._id);
+                                  console.log(item._id);
+                                  
                                 }}
                               >
                                 reply
@@ -349,30 +415,27 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                             }
                               
                           </div>
-                          {/* <div className={showReplView}>
-                    <div className="Comment-Right-User-Name">
-                      {user && user.postedBy && user.postedBy.name}
-                    </div>
-                    <div className="Right-Comment">
-                      {
-                       user && user.reply && user.reply.replyMsg
-                      }
-                    </div>
-                  </div> */}
 
-
-                  {/* *** Section which will contain the reply on a comment****** */}
-
+                  {/* ******** Section which will contain the reply on a comment****** */}
                         {
-                          showReply==true && replyInputBtnId==item._id?(
-                            <section style={{display:"flex",flexDirection:"column",marginLeft:"20px"}}>
-                              
-                            <div className="Comment-Right">
+                          showReply==true && commentId==item._id?(
+                           <section style={{display:"flex",flexDirection:"column"}}>
+                            
+                           {
+                            item && item.reply.map((data)=>
+                            <div style={{display:"flex",flexDirection:"row"}}>
+                            <div className="Comment-Left">
+                            <img
+                            src={item && item.postedBy && item.postedBy.img}
+                            ></img>
+                            </div>
+
+                            <div key={data._id} className="Comment-Right">
                               <div className="Comment-Right-Top">
                               <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
+                                {data && data.postedBy && data.postedBy.name}
                               </div>
-                              <div className="Right-Comment">item.message</div>
+                              <div className="Right-Comment"> {data && data.replyMsg}</div>
                             </div>
 
                             <div className="Comment-Right-Down">
@@ -380,421 +443,34 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                               <span
                                 className="Comment-Down-Other Comment-Down-Other1"
                                 onClick={() => {
-                                  handleShowDelete();
+                                  handleShowDeleteReply();
+                                  setReplyId(data._id);
+                                  
+
                                 }}
                                 style={{ marginLeft: "20px" }}
                               >
                                 edit
                               </span>
                           </div>
-                          </div>
-
-                          <div className="Comment-Right">
-                              <div className="Comment-Right-Top">
-                              <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
-                              </div>
-                              <div className="Right-Comment">item.message</div>
                             </div>
-
-                            <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
-                              <span
-                                className="Comment-Down-Other Comment-Down-Other1"
-                                onClick={() => {
-                                  handleShowDelete();
-                                }}
-                                style={{ marginLeft: "20px" }}
-                              >
-                                edit
-                              </span>
-                          </div>
-                          </div>
-
-                          <div className="Comment-Right">
-                              <div className="Comment-Right-Top">
-                              <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
-                              </div>
-                              <div className="Right-Comment">item.message</div>
                             </div>
-
-                            <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
-                              <span
-                                className="Comment-Down-Other Comment-Down-Other1"
-                                onClick={() => {
-                                  handleShowDelete();
-                                }}
-                                style={{ marginLeft: "20px" }}
-                              >
-                                edit
-                              </span>
-                          </div>
-                          </div>
-
-                          <div className="Comment-Right">
-                              <div className="Comment-Right-Top">
-                              <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
-                              </div>
-                              <div className="Right-Comment">item.message</div>
-                            </div>
-
-                            <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
-                              <span
-                                className="Comment-Down-Other Comment-Down-Other1"
-                                onClick={() => {
-                                  handleShowDelete();
-                                }}
-                                style={{ marginLeft: "20px" }}
-                              >
-                                edit
-                              </span>
-                          </div>
-                          </div>
-
-                          <div className="Comment-Right">
-                              <div className="Comment-Right-Top">
-                              <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
-                              </div>
-                              <div className="Right-Comment">item.message</div>
-                            </div>
-
-                            <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
-                              <span
-                                className="Comment-Down-Other Comment-Down-Other1"
-                                onClick={() => {
-                                  handleShowDelete();
-                                }}
-                                style={{ marginLeft: "20px" }}
-                              >
-                                edit
-                              </span>
-                          </div>
-                          </div>
-
-                          <div className="Comment-Right">
-                              <div className="Comment-Right-Top">
-                              <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
-                              </div>
-                              <div className="Right-Comment">item.message</div>
-                            </div>
-
-                            <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
-                              <span
-                                className="Comment-Down-Other Comment-Down-Other1"
-                                onClick={() => {
-                                  handleShowDelete();
-                                }}
-                                style={{ marginLeft: "20px" }}
-                              >
-                                edit
-                              </span>
-                          </div>
-                          </div>
-
-                          <div className="Comment-Right">
-                              <div className="Comment-Right-Top">
-                              <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
-                              </div>
-                              <div className="Right-Comment">item.message</div>
-                            </div>
-
-                            <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
-                              <span
-                                className="Comment-Down-Other Comment-Down-Other1"
-                                onClick={() => {
-                                  handleShowDelete();
-                                }}
-                                style={{ marginLeft: "20px" }}
-                              >
-                                edit
-                              </span>
-                          </div>
-                          </div>
-
-                          <div className="Comment-Right">
-                              <div className="Comment-Right-Top">
-                              <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
-                              </div>
-                              <div className="Right-Comment">item.message</div>
-                            </div>
-
-                            <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
-                              <span
-                                className="Comment-Down-Other Comment-Down-Other1"
-                                onClick={() => {
-                                  handleShowDelete();
-                                }}
-                                style={{ marginLeft: "20px" }}
-                              >
-                                edit
-                              </span>
-                          </div>
-                          </div>
-
-                          <div className="Comment-Right">
-                              <div className="Comment-Right-Top">
-                              <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
-                              </div>
-                              <div className="Right-Comment">item.message</div>
-                            </div>
-
-                            <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
-                              <span
-                                className="Comment-Down-Other Comment-Down-Other1"
-                                onClick={() => {
-                                  handleShowDelete();
-                                }}
-                                style={{ marginLeft: "20px" }}
-                              >
-                                edit
-                              </span>
-                          </div>
-                          </div>
-
-                          <div className="Comment-Right">
-                              <div className="Comment-Right-Top">
-                              <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
-                              </div>
-                              <div className="Right-Comment">item.message</div>
-                            </div>
-
-                            <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
-                              <span
-                                className="Comment-Down-Other Comment-Down-Other1"
-                                onClick={() => {
-                                  handleShowDelete();
-                                }}
-                                style={{ marginLeft: "20px" }}
-                              >
-                                edit
-                              </span>
-                          </div>
-                          </div>
-
-                          <div className="Comment-Right">
-                              <div className="Comment-Right-Top">
-                              <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
-                              </div>
-                              <div className="Right-Comment">item.message</div>
-                            </div>
-
-                            <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
-                              <span
-                                className="Comment-Down-Other Comment-Down-Other1"
-                                onClick={() => {
-                                  handleShowDelete();
-                                }}
-                                style={{ marginLeft: "20px" }}
-                              >
-                                edit
-                              </span>
-                          </div>
-                          </div>
-
-                          <div className="Comment-Right">
-                              <div className="Comment-Right-Top">
-                              <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
-                              </div>
-                              <div className="Right-Comment">item.message</div>
-                            </div>
-
-                            <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
-                              <span
-                                className="Comment-Down-Other Comment-Down-Other1"
-                                onClick={() => {
-                                  handleShowDelete();
-                                }}
-                                style={{ marginLeft: "20px" }}
-                              >
-                                edit
-                              </span>
-                          </div>
-                          </div>
-                          
-                          <div className="Comment-Right">
-                              <div className="Comment-Right-Top">
-                              <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
-                              </div>
-                              <div className="Right-Comment">item.message</div>
-                            </div>
-
-                            <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
-                              <span
-                                className="Comment-Down-Other Comment-Down-Other1"
-                                onClick={() => {
-                                  handleShowDelete();
-                                }}
-                                style={{ marginLeft: "20px" }}
-                              >
-                                edit
-                              </span>
-                          </div>
-                          </div>
-
-                          <div className="Comment-Right">
-                              <div className="Comment-Right-Top">
-                              <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
-                              </div>
-                              <div className="Right-Comment">item.message</div>
-                            </div>
-
-                            <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
-                              <span
-                                className="Comment-Down-Other Comment-Down-Other1"
-                                onClick={() => {
-                                  handleShowDelete();
-                                }}
-                                style={{ marginLeft: "20px" }}
-                              >
-                                edit
-                              </span>
-                          </div>
-                          </div>
-
-                          <div className="Comment-Right">
-                              <div className="Comment-Right-Top">
-                              <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
-                              </div>
-                              <div className="Right-Comment">item.message</div>
-                            </div>
-
-                            <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
-                              <span
-                                className="Comment-Down-Other Comment-Down-Other1"
-                                onClick={() => {
-                                  handleShowDelete();
-                                }}
-                                style={{ marginLeft: "20px" }}
-                              >
-                                edit
-                              </span>
-                          </div>
-                          </div>
-
-                          <div className="Comment-Right">
-                              <div className="Comment-Right-Top">
-                              <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
-                              </div>
-                              <div className="Right-Comment">item.message</div>
-                            </div>
-
-                            <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
-                              <span
-                                className="Comment-Down-Other Comment-Down-Other1"
-                                onClick={() => {
-                                  handleShowDelete();
-                                }}
-                                style={{ marginLeft: "20px" }}
-                              >
-                                edit
-                              </span>
-                          </div>
-                          </div>
-
-                          <div className="Comment-Right">
-                              <div className="Comment-Right-Top">
-                              <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
-                              </div>
-                              <div className="Right-Comment">item.message</div>
-                            </div>
-
-                            <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
-                              <span
-                                className="Comment-Down-Other Comment-Down-Other1"
-                                onClick={() => {
-                                  handleShowDelete();
-                                }}
-                                style={{ marginLeft: "20px" }}
-                              >
-                                edit
-                              </span>
-                          </div>
-                          </div>
-
-                          <div className="Comment-Right">
-                              <div className="Comment-Right-Top">
-                              <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
-                              </div>
-                              <div className="Right-Comment">item.message</div>
-                            </div>
-
-                            <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
-                              <span
-                                className="Comment-Down-Other Comment-Down-Other1"
-                                onClick={() => {
-                                  handleShowDelete();
-                                }}
-                                style={{ marginLeft: "20px" }}
-                              >
-                                edit
-                              </span>
-                          </div>
-                          </div>
-
-                          <div className="Comment-Right">
-                              <div className="Comment-Right-Top">
-                              <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
-                              </div>
-                              <div className="Right-Comment">item.message</div>
-                            </div>
-
-                            <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
-                              <span
-                                className="Comment-Down-Other Comment-Down-Other1"
-                                onClick={() => {
-                                  handleShowDelete();
-                                }}
-                                style={{ marginLeft: "20px" }}
-                              >
-                                edit
-                              </span>
-                          </div>
-                          </div>
+                            )
+                           }   
                           </section>
                             ):("")
                         }
-                          {/* ********************Hide and show reply****************** */}
+                          {/* *******Hide and show reply******* */}
+
                           {
-                          checkReply? (
+                          item.reply.length>0 && checkReply==true? (
                             <span onClick={()=>{
                               setShowReply(true)
                               setCheckreply(false)
                               setHidereply(true);
-                            
+                              setCommentId(item._id);
+                              setShowReply(true)
+                              setCheckreply(false);
                             }}
                             style={{
                               cursor:"pointer",
@@ -803,43 +479,52 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                             >
                               ---- View Reply
                             </span>
-                          ):("")
-                          }
-                           {
-                              hideReply?(<>
-                             <span onClick={()=>{
-                              setHidereply(false)
-                              setCheckreply(true)
-                              setShowReply(false)
-
-                             }}
-                             style={{
-                              cursor:"pointer",
-                              marginLeft:"20px"
-                             }}
-                             >
-                                ---- Hide Reply
-                              </span>
-                              
-                              <span
-                                onClick={() => {
-                                }}
-                                style={{ marginLeft: "20px" ,color:"color:#838181;"}}
+                          ):(
+                            hideReply==true && commentId==item._id?(<>
+                              <span onClick={()=>{
+                               setHidereply(false)
+                               setCheckreply(true)
+                               setShowReply(false)
+                               setCheckreply(true)
+                               setCommentId("")
+                               // setShowReply(true)
+ 
+                              }}
+                              style={{
+                               cursor:"pointer",
+                               marginLeft:"20px"
+                              }}
                               >
-                                edit
-                              </span> 
-                              </>):("")
-                             }
+                                 ---- Hide Reply
+                               </span>
+                               </>):( item.reply.length>0?(
+
+                               
+                                 <span onClick={()=>{
+                                  setShowReply(true)
+                                  setCheckreply(false)
+                                  setHidereply(true);
+                                  setCommentId(item._id);
+                                  setShowReply(true)
+                                  setCheckreply(false);
+                                }}
+                                style={{
+                                  cursor:"pointer",
+                                  marginLeft:"20px"
+                                }}
+                                >
+                                  ---- View Reply
+                                </span>):("")
+                               )
+                          )
+                          }
 
                           {showReplyInputField === true && item._id === commentId ? (
                             <div className="Show-comment-Add-Btn">
                               <form
                                 onSubmit={(e) => {
                                   e.preventDefault();
-                                  // setReply(e.target[0].value)
-                                  updateReply();
-                                  // updateComment()
-                                  // console.log(e.target[0].value)
+                                 
                                 }}
                               >
                                 <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700">
@@ -851,13 +536,18 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                     onChange={(event) =>
                                       setReplyMsg(event.target.value)
                                     }
+                                    
+                                 
                                   ></input>
                                   <button
                                     onClick={() => {
+                                  updateReply();
+
                                       setShowReplyInputField(false)
                                       setReplyInputBtnId(item._id)
+                                      // setCommentId("")
                                       setReplyBtn(false)
-                                      setShowReply(false)
+                                      
                                       if(replyMsg!="")
                                       {
                                         setCheckreply(true)
@@ -890,45 +580,14 @@ function PostBigModel({ openComment, setOpenComment, id }) {
               </div>
 
               <div className="Post-Big-Comment-Container">
-                {/* <div className="Post-Big-Comment-Icons">
-                    <span>
-                      <span>
-                        <FontAwesomeIcon
-                          className="fa-lg"
-                          icon={faHeart}
-                          style={{ margin:
-                            "0px 5px 0 10px",color:"black",cursor:"pointer"}}
-                        />
-                      </span>
-                      <span>{user && user.likes.length}</span>
-                    </span>
-                    <span>
-                      <span>
-                        <FontAwesomeIcon
-                          className="fa-lg"
-                          icon={faMessage}
-                          style={{ margin: "0px 5px 0 20px",color:"black"}}
-                        />
-                      </span>
-                      <span>50 Comments</span>
-                    </span>
-                  </div> */}
-
                 <div className="Comment-Add-Section">
                   <form
                     onSubmit={(e) => {
                       e.preventDefault();
-                      // setMessage(e.target[0].value)
                       if(message=="")
-                      {
-
-                      }
+                      {     }
                       else
-                      {
-                        updateComment();
-                      }
-                     
-                      // console.log(e.target[0].value)
+                      { updateComment();  }
                     }}
                   >
                     <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700">
@@ -938,21 +597,17 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                           aria-hidden="true"
                           className="w-10 h-8
                             p-0
-                            rounded-full
-                            "
+                            rounded-full"
                         ></img>
                       </div>
                       <input
                         className="block mx-2 p-2.5 w-full text-sm rounded-lg border text-black"
                         style={{ border: "2px solid black" }}
                         placeholder="Add a comment..."
-                        // type='button'
                         value={message}
                         onChange={
                           (event) => setMessage(event.target.value)
-                          //  console.log(event.target.value)
                         }
-                        // value={afterSubmit}
                       ></input>
                       <button
                         type="submit"
@@ -981,5 +636,4 @@ function PostBigModel({ openComment, setOpenComment, id }) {
     </>
   );
 }
-
 export default PostBigModel;

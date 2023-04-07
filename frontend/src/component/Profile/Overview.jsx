@@ -75,6 +75,7 @@ function Overview(prop) {
 
   useEffect(() => {
     getUser();
+    
   }, []);
 
   const getUser = async () => {
@@ -102,10 +103,18 @@ function Overview(prop) {
   })
 
   result = await result.json();
+  if(result){
+    getUser()
+  }
  
-  console.log(result)
+  // console.log(result)
   }
   
+
+  
+  const noRefCheck = ()=>{
+// console.log(skills)
+  }
 
   return (
     <>
@@ -243,7 +252,7 @@ function Overview(prop) {
                 displayValue=""
                 isObject={false}
                 onKeyPressFn={function noRefCheck() {}}
-                onRemove={function noRefCheck() {}}
+                onRemove={noRefCheck()}
                 onSearch={function noRefCheck() {}}
                 onSelect={onSelectNames}
                 selectedValues={data && data.skills }

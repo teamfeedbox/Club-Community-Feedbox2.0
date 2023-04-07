@@ -25,6 +25,7 @@ const ProfilePost = (prop) => {
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [newS, setNewS] = useState(false);
+  const [id, setId] = useState("");
 
   const [post, setPost] = useState([]);
   const [open, setOpen] = useState(false)
@@ -44,16 +45,32 @@ const ProfilePost = (prop) => {
       },
     });
     result = await result.json();
-    // console.log(result);
+    // console.log(result);  
     setPost(result);
   };
+
+
+  const deletePost = async(id)=>{
+    // console.log(id)
+    let result = await fetch(`http://localhost:8000/deletePost/${id}`, {
+      method: "delete",
+    });
+
+    result = await result.json();
+    console.log(result)
+
+
+    if (result) {
+      myPost();
+    }
+  }
 
   return (
     <div>
       {post.map((item) => (
-        <div className="post-display">
+        <div key={item._id} className="post-display">
           <div className="flex justify-between">
-            <p className="post-display-heading-time"> Posted: {item.date}</p>
+            <p className="post-display-heading-time"> Posted</p>
             <div>
               <div 
               onClick={() => {setOpen(!open)}}
@@ -66,10 +83,12 @@ const ProfilePost = (prop) => {
                { open && <div
                 class=" absolute   bg-white/40 rounded-lg shadow ">
                 <ul class="py-3 px-3  flex flex-col gap-3">
-                  <li class="cursor-pointer bg-sky-400 p-2 rounded-md hover:opacity-90 text-white flex items-center justify-around font-[500]">
+                  {/* <li class="cursor-pointer bg-sky-400 p-2 rounded-md hover:opacity-90 text-white flex items-center justify-around font-[500]">
                     <FontAwesomeIcon icon={faEdit} /> Edit
-                  </li>
-                  <li class="cursor-pointer bg-red-400 p-2 rounded-md hover:opacity-90 text-white">
+                  </li> */}
+                  <li class="cursor-pointer bg-red-400 p-2 rounded-md hover:opacity-90 text-white"
+                  onClick={() => deletePost(item._id)}
+                  >
                      <FontAwesomeIcon icon={faTrash} /> Delete
                   </li>
                 </ul>
@@ -101,7 +120,10 @@ const ProfilePost = (prop) => {
             </div>
 
             {/* *********************carousel for web view*************************** */}
-            <div className="post-display-image flex justify-center">
+
+            
+              
+              <div key={data._id} className="post-display-image flex justify-center">
               <div className="post-display-carousel-webview flex justify-center">
                 <Carousel
                   thumbWidth={60}
@@ -111,24 +133,22 @@ const ProfilePost = (prop) => {
                   interval="5000"
                   infiniteLoop={true}
                 >
-                  <div>
-                    <img className="display-img" src="Images/alumni1.jpg" />
-                  </div>
-                  <div>
-                    <img className="display-img" src="Images/alumni2.jpg" />
-                  </div>
-                  <div>
-                    <img className="display-img" src="Images/alumni3.jpg" />
-                  </div>
-                  <div>
-                    <img className="display-img" src="Images/l1.jpg" alt="" />
-                  </div>
-                  <div>
-                    <img className="display-img" src="Images/l3.png" alt="" />
-                  </div>
+
+{
+                        item.img.length > 0 &&
+                        item.img.map((data) => (
+                          <div key={data._id} >
+                            <img className="display-img" src={data} />
+                          </div>
+                          ))
+                      }
+               
                 </Carousel>
               </div>
             </div>
+              
+            
+            
           </div>
 
           <div className="post-display-bottom">
@@ -137,11 +157,16 @@ const ProfilePost = (prop) => {
               {item.likes.length}
             </div>
             <button className="post-display-bottom-content"
-            onClick={()=>setOpenComment(!openComment)}
+            onClick={()=>{
+              setOpenComment(!openComment)
+              setId(item._id)
+
+            
+            }}
             >
               <img src="Images/message.svg" alt=""
               />
-              100
+             {item.comment.length}
             </button>
           </div>
         </div>
@@ -149,6 +174,8 @@ const ProfilePost = (prop) => {
       <ProfileBigModel
       openComment={openComment}
       setOpenComment={setOpenComment}
+      id={id}
+
       />
     </div>
   );

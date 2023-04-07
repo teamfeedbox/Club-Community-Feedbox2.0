@@ -15,6 +15,8 @@ const PendingApprovals = (props) => {
   const [pendingUsers, setPendingUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [val, setVal] = useState(false);
+  const[email,setEmail]=useState("");
+  const[id,setId]=useState("");
 
   const getUser = async () => {
     const result = await fetch(`http://localhost:8000/get`);
@@ -35,6 +37,8 @@ const PendingApprovals = (props) => {
     // setLoading(false);
   });
 
+ 
+    
 
   // search for a pending user
   const searchHandler = (e) => {
@@ -68,15 +72,30 @@ const PendingApprovals = (props) => {
 
   };
 
-  // Accept request for club member
-  const handleAccept = async (id) => {
+  const handleEmail = async (id) => {
     setLoading(true);
+    const data = await fetch(`http://localhost:8000/sendmail/${id}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      // body: JSON.stringify({ role: "Club_Member" }),
+    });
+    const res = await data.json();
+    setEmail(res);
+
+  };
+
+
+  // Accept request for club member
+  const handleAccept = async (id,i) => {
+    setLoading(true);
+    setId(i);
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ role: "Club_Member" }),
     });
     const res = await data.json();
+    handleEmail(id);
     setVal(!val);
     props.func(!val);
     setLoading(false);
@@ -125,7 +144,7 @@ const PendingApprovals = (props) => {
           <table class="table-auto w-full max-w-[1300px] ">
             <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
               {pendingUsers.length > 0 ? (
-                pendingUsers.map((approval) => (
+                pendingUsers.map((approval,index) => (
                   <tr className="flex justify-between max-w-[1150px]">
                     <td class="p-2  lg:w-[300px]">
                       <div className="flex items-center">
@@ -152,22 +171,26 @@ const PendingApprovals = (props) => {
                         >
                           Decline
                         </button>
-                        {loading  ? (
+                        <button
+                            className="h-[25px] w-[60px] rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
+                          >
+                        {loading && id===index ? (
                           <div
-                            class="spinner-border text-success"
+                            class="spinner-border text-white"
                             role="status"
                             style={{ height: "15px", width: "15px" }}
                           >
                             <span class="visually-hidden">Loading...</span>
                           </div>
                         ) : 
-                        <button
-                            className="h-[25px] w-[60px] rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
-                            onClick={() => handleAccept(approval._id)}
+                        <div
+                            // className="h-[25px] w-[60px] rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
+                            onClick={() => handleAccept(approval._id,index)}
                           >
                             Accept
-                          </button>
+                          </div>
                         }
+                        </button>
 
                       </div>
                     </td>

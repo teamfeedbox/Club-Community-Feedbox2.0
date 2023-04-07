@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Calendar, momentLocalizer, TimeGrid } from "react-big-calendar";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import $, { cleanData } from "jquery";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import {
@@ -17,9 +16,7 @@ import {
   faFlag,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useNavigate } from "react-router-dom";
 import "./ReactBigCalendar.css";
-import NavbarRes from "../navbar/NavbarRes";
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -37,7 +34,6 @@ export default function ReactBigCalendar() {
   const [myEvent, setMyEvent] = useState();
   const [loading, setLoading] = useState(false);
   const [deletebtn, setDeleteBtn] = useState(false);
-  const [show, setShow] = useState(false);
   const [eventPre, setEventPre] = useState("Calendar-view-events-hide");
   const [postedBy, setPostedBy] = useState("");
   const [user, setUser] = useState();
@@ -166,7 +162,7 @@ export default function ReactBigCalendar() {
 
   // Delete Event
   const cancelEvent = async (id) => {
-    setLoading(true);
+    // setLoading(true);
     let result = await fetch(`http://localhost:8000/deleteEvent/${id}`, {
       method: "delete",
     });
@@ -180,14 +176,13 @@ export default function ReactBigCalendar() {
 
   return (
     <>
-      <NavbarRes />
       <div className="Calendar-container">
         <div className="Calendar-left">
 
           {/* ----------------college dropdown for super admin--------------- */}
 
-          <div className=" my-4 mx-1 ">
-            <select className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl sm:w-[40%] lg:w-[100%]">
+          <div className=" my-4  ">
+            <select className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl sm:w-[90%] sm:ml-0 lg:w-[100%]">
               <option className=" " hidden selected disabled>College</option>
               <option>Shri Vaishnav Vidyapeeth Vishwavidyalaya</option>
               <option>IET-DAVV</option>
