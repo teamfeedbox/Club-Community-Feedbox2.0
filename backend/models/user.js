@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
     //minlength: 5,
     //maxlength: 50,
   },
+  lastModified:{type:Date,default:Date.now()},
   email: {
     type: String,
     //required: true,

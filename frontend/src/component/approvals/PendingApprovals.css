@@ -11,58 +11,13 @@
 .nopending{
     display: flex;
     text-align: center;
-    font-size: 25px;
-    font-weight: 600;
     align-items: center;
     justify-content: center;
     margin-top: 8%;
     gap:10px;
 }
 
-.mycontainer {
-    /* height: 15px; */
-    display: flex;
-}
-.mycontainer .mycircle {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: black;
-    animation: move 500ms linear 0ms infinite;
-    margin-right: 7px;
-}
-.mycontainer .mycircle:first-child {
-    position: relative;
-    top: 0;
-    left: 0;
-    animation: grow 500ms linear 0ms infinite;
-}
-.mycontainer .mycircle:last-child {
-    position: relative;
-    top: 0;
-    right: 0;
-    margin-right: 0;
-    animation: grow 500ms linear 0ms infinite reverse;
-}
 
-@keyframes grow {
-    from {
-        transform: scale(0, 0);
-        opacity: 0;
-   }
-    to {
-        transform: scale(1, 1);
-        opacity: 1;
-   }
-}
-@keyframes move {
-    from {
-        transform: translateX(0px);
-   }
-    to {
-        transform: translateX(45px);
-   }
-}
 
 @media only screen and (max-width: 600px) {
     .PendingApprovals {

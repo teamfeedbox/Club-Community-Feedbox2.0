@@ -8,7 +8,7 @@ const { default: mongoose } = require('mongoose')
 // Create event
 router.post('/createEvent', requireLogin, (req, res) => {
     const { title, eventDate, eventTime, venue, desc, speaker, attendance, scope } = req.body
-
+    console.log(req.body)
     const event = new Event({
         title,
         eventDate,
@@ -28,25 +28,6 @@ router.post('/createEvent', requireLogin, (req, res) => {
         })
 })
 
-// router.post('/attendance',requireLogin,(req,res)=>{
-//     // const {attendance} = req.body
-
-//     const event = new Event({
-//         attendance:req.user
-//     })
-//     event.save().then(result=>{
-//         res.json(result)
-//     })
-//     .catch(err=>{
-//         console.log(err)
-//     })
-//     // console.log(req.user)
-//     // res.send("ok")
-
-// })
-
-
-
 //api to get all events
 router.get('/getAllEvent', (req, res) => {
     try {
@@ -55,7 +36,6 @@ router.get('/getAllEvent', (req, res) => {
             .sort(mySort)
             .populate('postedBy').select("-password")
             .then(events => {
-                // console.log(events, "lkdnvugfrye");
                 res.status(200).json(events)
             })
             .catch(err => {
@@ -80,8 +60,6 @@ router.get('/getEvent/:id', requireLogin, (req, res) => {
             console.log(err)
         })
 })
-
-
 
 //api to get all the events created by user in their profile page
 router.get('/myEvent', requireLogin, async (req, res) => {

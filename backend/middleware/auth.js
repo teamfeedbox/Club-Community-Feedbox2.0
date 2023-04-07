@@ -5,9 +5,8 @@ const jwt = require("jsonwebtoken");
 const jwtKey = require("../key");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
-const requireLogin = require("../middleware/requireLogin");
+const requireLogin = require("./requireLogin");
 const { closeDelimiter } = require("ejs");
-const nodemailer = require('nodemailer');
 
 router.get("/get", async (req, res) => {
   try {
@@ -18,7 +17,6 @@ router.get("/get", async (req, res) => {
   }
 });
 
-// Register a user
 router.post("/register", (req, res) => {
   const {
     name,
@@ -50,6 +48,7 @@ router.post("/register", (req, res) => {
         const user = new User({
           email,
           password: hashedPassword,
+          // password,
           name,
           collegeName,
           branch,
@@ -62,11 +61,19 @@ router.post("/register", (req, res) => {
           bio,
           img,
           events,
+
         });
 
         user
           .save()
           .then((user) => {
+            // transporter.sendMail({
+            //     to:user.email,
+            //     from:"no-reply@insta.com",
+            //     subject:"signup success",
+            //     html:"<h1>welcome to instagram</h1>"
+            // })
+            // res.json({message:"saved successfully"})
             res.send(user);
           })
           .catch((err) => {
@@ -79,7 +86,6 @@ router.post("/register", (req, res) => {
     });
 });
 
-// Login
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -88,8 +94,6 @@ router.post("/login", (req, res) => {
   User.findOne({ email: email }).then((savedUser) => {
     if (!savedUser) {
       return res.status(422).json({ err: "invalid email or password" });
-    } else if(savedUser.role == 'user') {
-      return res.status(500).json({ err: "You are not a part of club right now." });
     }
     bcrypt
       .compare(password, savedUser.password)
@@ -98,37 +102,7 @@ router.post("/login", (req, res) => {
           // res.json({message:"successfully signed in"})
           const token = jwt.sign({ _id: savedUser._id }, jwtKey);
           // const decodedToken = jwt.decode(token);
-          res.json({ token });
-        } else {
-          return res.status(422).json({ error: "invalid password" });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
-});
 
-
-
-router.post("/login/superAdmin", (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(422).json({ error: "please add all the details" });
-  }
-  User.findOne({ email: email }).then((savedUser) => {
-    if (!savedUser) {
-      return res.status(422).json({ err: "invalid email or password" });
-    } else if(savedUser.role == 'Super_Admin') {
-      return res.status(500).json();
-    }
-    bcrypt
-      .compare(password, savedUser.password)
-      .then((doMatch) => {
-        if (doMatch) {
-          // res.json({message:"successfully signed in"})
-          const token = jwt.sign({ _id: savedUser._id }, jwtKey);
-          // const decodedToken = jwt.decode(token);
           res.json({ token });
         } else {
           return res.status(422).json({ error: "invalid password" });
@@ -145,9 +119,9 @@ router.get('/user', requireLogin, async (req, res) => {
   try {
     const email = req.user.email;
     const user = await User.findOne({ email }).populate("email").select("-password");
-    if (user) {
+    if(user){
       res.status(200).json(user);
-    } else {
+    }else{
       res.status(404).json("This user doesn't exists...")
     }
   } catch (error) {
@@ -166,7 +140,6 @@ router.get('/user/:id', requireLogin, async (req, res) => {
   }
 })
 
-// Update picture
 router.put('/updatePic/:id', requireLogin, async (req, res) => {
   let result = await User.updateOne(
     { _id: req.params.id },
@@ -175,7 +148,7 @@ router.put('/updatePic/:id', requireLogin, async (req, res) => {
   res.send(result)
 })
 
-// Update Skills
+
 router.put('/updateSkill/:id', requireLogin, async (req, res) => {
   let result = await User.updateOne(
     { _id: req.params.id },
@@ -184,41 +157,20 @@ router.put('/updateSkill/:id', requireLogin, async (req, res) => {
   res.send(result)
 })
 
+
+// router.put('/updateDetail/:id', async(req,res)=>{
+
+// //  console.log(req.body.email)
+// //   console.log(req.body.bio)
+//   let result = await User.updateMany(
+//     {_id:req.params.id},
+
 // update details of a user
 router.put('/updateDetail/:id', async (req, res) => {
   // console.log(req.body,req.params.id);
   try {
     let result = await User.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true })
     res.status(200).json(result)
-  } catch (error) {
-    res.status(500).json(error);
-  }
-})
-
-router.post('/sendmail/:id', async (req, res) => {
-  try {
-    let result = await User.findOne({ _id: req.params.id })
-    // console.log(result);
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      port: 465,
-      secure: false,
-      auth: {
-        user: 'anushkashah02.feedbox@gmail.com',
-        pass: 'dvtjbrrqhgjypuya' // this requires apps password not original password
-      }
-    });
-
-    let info = await transporter.sendMail({
-      from: '<anushkashah02.feedbox@gmail.com>', // sender address
-      to: `${result.email}`, // list of receivers
-      subject: `Hello ${result.name}`, // Subject line
-      text: "Hello Isha", // plain text body
-      html: "<b>You have registered successfully</b>", // html body
-    });
-  
-    // console.log("Message sent: %s", info.messageId);
-    res.status(200).json(info);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -236,20 +188,33 @@ router.delete('/user/:id', async (req, res) => {
   })
 })
 
-router.get('/getAllUser', (req, res) => {
+// router.put('/updateSkills/:eventId', requireLogin, async (req, res) => {
+//   let result = await Event.updateOne(
+//     { _id: req.params.eventId },
+//     {
+//       $push: { skills: req.body }
+//     }
+//   )
+//   res.send(result)
+// })
+
+
+
+router.get('/getAllUser',(req,res)=>{
   // var mySort = { date: -1 };
   User.find()
-    // .sort(mySort)
-    // .populate('postedBy').select("-password")
-    .then(user => {
+  // .sort(mySort)
+  // .populate('postedBy').select("-password")
+  .then(user=>{
       res.json(user)
-    })
-    .catch(err => {
+  })
+  .catch(err=>{
       console.log(err)
-    })
+  })
 })
 
-// Update Coins and events 
+
+// updatte event attendance and coins of a user
 router.put('/update/coins/events/', async (req, res) => {
   // console.log(req.body);
   try {
@@ -265,50 +230,5 @@ router.put('/update/coins/events/', async (req, res) => {
   }
 })
 
-<<<<<<< HEAD
-
-// ******************* Notification ***************************//
-// Add notification to a specific user
-router.put('/user/user/addnotifi/:id',async (req,res)=>{
-  try {
-      const user = await User.findOneAndUpdate({_id:req.params.id},{$push:{notifications:req.body}},{new:true},
-          function (err, docs) {
-              if (err){
-                  console.log(err)
-              }
-              else{
-                  res.status(200).json(docs);
-              }
-      })
-  } catch (error) {
-      // res.status(500).json(error);
-  }
-})
-
-=======
-// Update Interested events 
-router.put('/update/interested/events/:userId', async (req, res) => {
-  console.log(req.body);
-  try {
-    const response = await User.updateOne({ _id: req.params.userId }, {
-      $push: { interestedEvents: req.body.event }
-    }, { new: true })
-    res.status(200).json(response);
-  } catch (error) {
-    res.status(500).json(error)
-  }
-})
->>>>>>> 791fb78438d013c4e4aad745a0bef1634d88de89
-
-//Get all notifications of a user
-router.get('/user/get/user/all/notifi/:id',async(req,res)=>{
-  try {
-      const result = await User.aggregate([{ $match : { _id :req.params.id} },{$project : { notifications:1 }}]);
-      console.log(result,"lllllll");
-      res.status(200).json(result)
-  } catch (error) {
-      res.status(401).json(error);
-  }
-})
 
 module.exports = router;

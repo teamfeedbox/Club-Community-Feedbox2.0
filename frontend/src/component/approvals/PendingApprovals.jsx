@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import "./PendingApprovals.css";
 import { Scrollbars } from "react-custom-scrollbars";
-
+ 
 const PendingApprovals = (props) => {
   const [data, setData] = useState([]);
   const [searchval, setSearchVal] = useState("");
@@ -17,6 +17,7 @@ const PendingApprovals = (props) => {
   const [val, setVal] = useState(false);
   const [email, setEmail] = useState("");
   const [id, setId] = useState("");
+  const [load,setload]=useState(false);
 
   const getUser = async () => {
     const result = await fetch(`http://localhost:8000/get`);
@@ -29,13 +30,13 @@ const PendingApprovals = (props) => {
         }
       });
     setPendingUsers(user);
-    setData(user);
+    setData(user.reverse());
   };
 
   useEffect(() => {
     getUser();
-    // setLoading(false);
-  });
+    setload(false)
+  },[load]);
 
   // search for a pending user
   const searchHandler = (e) => {
@@ -81,7 +82,7 @@ const PendingApprovals = (props) => {
 
   // Accept request for club member
   const handleAccept = async (id, i) => {
-    setLoading(true);
+    setLoading(true)
     setId(i);
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
       method: "PUT",
@@ -93,26 +94,14 @@ const PendingApprovals = (props) => {
     setVal(!val);
     props.func(!val);
     setLoading(false);
+    setload(true);
   };
 
   return (
     <div className="PendingApprovals ">
       <div className="flex flex-col lg:flex-row md:flex-row justify-between">
         <div>
-          <h4 className=" text-[1.7rem] my-0 lg:my-3">Pending Approvals</h4>
-        </div>
-        <div>
-          {/* ----------------college dropdown for super admin--------------- */}
-
-          <div className="lg:my-3 my-0 mx-1 ">
-            <select className="p-2 border-2 font-semibold border-[#000] rounded-3xl w-[100%]">
-              <option className=" " selected disabled>
-                College
-              </option>
-              <option>Shri Vaishnav Vidyapeeth Vishwavidyalaya</option>
-              <option>IET-DAVV</option>
-            </select>
-          </div>
+          <h4 className=" text-[1.5rem] font-[700]  my-0 lg:my-3">Pending Approvals</h4>
         </div>
       </div>
       {/* search */}
@@ -120,7 +109,7 @@ const PendingApprovals = (props) => {
         <div class="relative text-lg bg-transparent text-gray-800">
           <div class="flex items-center border-b-2 border-[#6F6F6F] py-2 mt-3">
             <input
-              class="bg-transparent w-full  border-none mr-10 px-2 leading-tight focus:outline-none"
+              class="bg-transparent w-full text-[1rem] font-[400]  border-none mr-10 px-2 leading-tight focus:outline-none"
               type="text"
               value={searchval}
               onChange={searchHandler}
@@ -143,39 +132,39 @@ const PendingApprovals = (props) => {
                       <div className="flex items-center">
                         <img
                           class="rounded-full"
-                          src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
+                          src={approval.img}
                           width="40"
                           height="40"
                           alt="Alex Shatov"
                         />
-                        <div className="ml-2"> {approval.name} </div>
+                        <div className="ml-2 text-[1rem] font-[400]"> {approval.name} </div>
                       </div>
                     </td>
                     <td class="p-2 lg:flex items-center hidden md:block">
-                      <div class="font-medium text-gray-800">
+                      <div class="text-gray-800 text-[1rem] font-[400]">
                         {approval.collegeYear} year-{approval.branch}
                       </div>
                     </td>
                     <td class="pt-2 pb-2 flex justify-end">
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                         <button
-                          className="h-[30px] rounded-xl text-[#616161] font-bold hover:bg-gray-300 mr-2"
+                          className="h-[30px] rounded-xl text-[#616161] text-[1.05rem] font-[500] font-bold hover:bg-gray-300 mr-2"
                           onClick={() => handleDecline(approval._id)}
                         >
                           Decline
                         </button>
-                        <button className="h-[25px] w-[60px] rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]">
+                        <button className="h-[25px] w-[80px] rounded-xl text-[1.05rem] font-[500] p-[15px] text-white bg-[#00D22E] hover:bg-[#03821f]">
                           {loading && id === index ? (
                             <div
                               class="spinner-border text-white"
                               role="status"
-                              style={{ height: "15px", width: "15px" }}
+                              style={{ height: "15px", width: "15px",marginTop:"-8px" }}
                             >
                               <span class="visually-hidden">Loading...</span>
                             </div>
                           ) : (
                             <div
-                              // className="h-[25px] w-[60px] rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
+                             style={{marginTop:"-10px"}}
                               onClick={() => handleAccept(approval._id, index)}
                             >
                               Accept
@@ -188,14 +177,8 @@ const PendingApprovals = (props) => {
                 ))
               ) : (
                 <div className="nopending">
-                  <div>No Pending Requests</div>
-                  <div className="mycontainer">
-                    <span className="mycircle"></span>
-                    <span className="mycircle"></span>
-                    <span className="mycircle"></span>
-                    <span className="mycircle"></span>
-                  </div>
-                </div>
+                  <div className="text-[1rem] font-[400]">No Pending Requests !!</div>
+                 </div>
               )}
             </tbody>
           </table>
