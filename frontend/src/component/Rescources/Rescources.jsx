@@ -31,7 +31,7 @@ const Rescources = () => {
         {/* ----------------college dropdown for super admin--------------- */}
 
         <div className=" my-4 mx-1 ">
-            <select className="p-2 border-2 font-semibold border-[#000] rounded-3xl w-[20%]">
+            <select className="p-2 border-2 font-[700] text-[1rem] border-[#000] rounded-3xl w-[20%]">
               <option className=" " selected disabled hidden>College</option>
               <option>Shri Vaishnav Vidyapeeth Vishwavidyalaya</option>
               <option>IET-DAVV</option>
@@ -44,8 +44,6 @@ const Rescources = () => {
           {
             skill.map((item)=>
             <Link to="/rescourcesDisplay" className="Rescources-card" state={item}
-            // onClick={()=>alert(item.name)
-            // }
             >
             <div className="Rescources-card-img">
               <img src={item.img} alt="" />
@@ -56,92 +54,6 @@ const Rescources = () => {
           </Link>
             )
           }
-
-          
-          
-
-
-{/* 
-          <Link to="/rescourcesDisplay" className="Rescources-card">
-            <div className="Rescources-card-img">
-              <img src="Images/app-dev.png" alt="" />
-            </div>
-            <div className="Rescources-card-content">
-              <div>App Development</div>
-            </div>
-          </Link>
-
-          <Link to="/rescourcesDisplay" className="Rescources-card">
-            <div className="Rescources-card-img">
-              <img src="Images/search-engine-optimization.png" alt="" />
-            </div>
-            <div className="Rescources-card-content">
-              <div>Search Engine Optimization</div>
-            </div>
-          </Link>
-
-          <Link to="/rescourcesDisplay" className="Rescources-card">
-            <div className="Rescources-card-img">
-              <img src="Images/smo.png" alt="" />
-            </div>
-            <div className="Rescources-card-content">
-              <div>Social Media Optimization</div>
-            </div>
-          </Link>
-
-          <Link to="/rescourcesDisplay" className="Rescources-card">
-            <div className="Rescources-card-img">
-              <img src="Images/graphic.png" alt="" />
-            </div>
-            <div className="Rescources-card-content">
-              <div>Graphic Designing</div>
-            </div>
-          </Link>
-
-          <Link to="/rescourcesDisplay" className="Rescources-card">
-            <div className="Rescources-card-img">
-              <img src="Images/video.png" alt="" />
-            </div>
-            <div className="Rescources-card-content">
-              <div>Video Editing</div>
-            </div>
-          </Link>
-
-          <Link to="/rescourcesDisplay" className="Rescources-card">
-            <div className="Rescources-card-img">
-              <img src="Images/time.png" alt="" />
-            </div>
-            <div className="Rescources-card-content">
-              <div>Time Management</div>
-            </div>
-          </Link>
-
-          <Link to="/rescourcesDisplay" className="Rescources-card">
-            <div className="Rescources-card-img">
-              <img src="Images/digital.png" alt="" />
-            </div>
-            <div className="Rescources-card-content">
-              <div>Digital Marketing</div>
-            </div>
-          </Link>
-
-          <Link to="/rescourcesDisplay" className="Rescources-card">
-            <div className="Rescources-card-img">
-              <img src="Images/content.png" alt="" />
-            </div>
-            <div className="Rescources-card-content">
-              <div>Content Writing</div>
-            </div>
-          </Link>
-
-          <Link to="/rescourcesDisplay" className="Rescources-card">
-            <div className="Rescources-card-img">
-              <img src="Images/performance.png" alt="" />
-            </div>
-            <div className="Rescources-card-content">
-              <div>Performance Marketing</div>
-            </div> */}
-          {/* </Link> */}
         </div>
       </div>
     </>

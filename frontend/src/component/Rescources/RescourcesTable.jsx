@@ -201,7 +201,7 @@ const RescourcesTable = (props) => {
               >
                 <form onSubmit={AddResource} encType="multipart/form-data">
                   <Modal.Header closeButton>
-                    <Modal.Title>Add Rescource</Modal.Title>
+                    <Modal.Title> <div className="res_modal_header">Add Resource</div> </Modal.Title>
                   </Modal.Header>
                   <Modal.Body className="modal-body">
                     <div className="modal-profile-section">
@@ -210,7 +210,7 @@ const RescourcesTable = (props) => {
                       </div>
                       <div className="modal-add-res-section-profile relative bottom-2">
                         <h5>{user && user.name}</h5>
-                        <p className="text-gray-500 bottom-3 relative text-[16px] font-semibold">
+                        <p className="text-gray-500 bottom-3 relative pl-3 text-[0.8rem] font-[600]">
                           {" "}
                           {skillName}{" "}
                         </p>
@@ -308,19 +308,19 @@ const RescourcesTable = (props) => {
           <div class="overflow-x-auto p-3">
             {!enableSearch && (
               <table class="table-auto w-full">
-                <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+                <thead class="uppercase text-gray-400 bg-gray-50">
                   <tr>
                     <th class="p-2">
-                      <div class="font-semibold text-left">Download</div>
+                      <div class="font-[500] text-[1rem] text-left">Download</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-semibold text-left">Resource Title</div>
+                      <div class="font-[500] text-[1rem] text-left">Resource Title</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-semibold text-left">Date Created</div>
+                      <div class="font-[500] text-[1rem] text-left">Date Created</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-semibold text-left">Author</div>
+                      <div class="font-[500] text-[1rem] text-left">Author</div>
                     </th>
                   </tr>
                 </thead>
@@ -342,17 +342,17 @@ const RescourcesTable = (props) => {
                           </a>
                         </td>
                         <td class="p-2">
-                          <div class="font-medium text-gray-800">
+                          <div class="font-[500] text-[1rem] text-gray-800">
                             {item && item.title}
                           </div>
                         </td>
                         <td class="p-2">
-                          <div class="text-left text-blue-600 font-bold">
+                          <div class="text-left text-blue-600 font-[500] text-[1rem]">
                             {item && item.date && timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}
                           </div>
                         </td>
                         <td class="p-2">
-                          <div class="text-left text-black font-medium">
+                          <div class="text-left text-black font-[500] text-[1rem]">
                             {item && item.author && item.author.name}
                           </div>
                         </td>

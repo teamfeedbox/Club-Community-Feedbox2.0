@@ -94,6 +94,8 @@
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
     height: 40px;
+    font-size: var(--content-font-size);
+    font-weight: var(--content-font-weight);
 }
 
 .res-table-search button {
@@ -102,19 +104,24 @@
     border-bottom-right-radius: 5px;
     border-top-left-radius: 0px;
     height: 40px;
+    font-size: var(--button-font-size);
+    font-weight: var(--button-font-weight);
 }
 
 .res-heading-left {
-    font-size: 1.8rem;
-    font-weight: 600;
+    font-size: var(--heading-font-size);
+    font-weight: var(--heading-font-weight);
 }
 
 .res-add-btn {
     height: 40px;
 }
 
-.modal-add-res-section-profile {
+.modal-add-res-section-profile h5{
     margin: 10px;
+    font-size: var(--subheading-font-size);
+    font-weight: var(--subheading-font-weight);
+
 }
 
 .res-add-modal-footer {
@@ -137,11 +144,14 @@
     border-right: none;
     width: 100%;
     padding: 5px;
+    font-size: var(--content-font-size);
+    font-weight: var(--content-font-weight);
 }
 
 .res-add-modal-footer-upload {
     margin: 5px;
-    font-weight: 700;
+    font-size: var(--content-font-size);
+    font-weight: var(--content-font-weight);
 }
 
 .res-add-modal-title input:focus {
@@ -161,6 +171,11 @@
     border-left: none;
     border-right: none;
     padding: 5px;
+}
+
+.res_modal_header{
+    font-size: var(--heading-font-size);
+    font-weight: var(--heading-font-weight);
 }
 
 @media only screen and (max-width: 1000px) {

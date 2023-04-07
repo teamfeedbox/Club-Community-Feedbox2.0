@@ -7,8 +7,8 @@ const MobileNotification = () => {
     <div className="block lg:hidden">
       <NavbarRes />
       <div className="pt-[70px] px-3 ">
-        <p className="text-[1.5rem] font-[500]">Notification</p>
-        <div className="text-[1rem] font-[500] ">
+        <p className="text-[1.5rem] font-[700]">Notification</p>
+        <div className="text-[1.1rem] font-[700] ">
           <div className="flex bg-green-200 mt-2 rounded-sm">
             <div className="bg-green-800 p-1 w-[5px] text-green-800"></div>
             <div className="p-2">Congrats! Now you are a Lead.</div>
