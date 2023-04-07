@@ -166,24 +166,23 @@ const PendingApprovals = (props) => {
                     <td class="pt-2 pb-2 flex justify-end">
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                         <button
-                          className="h-[30px] rounded-xl text-[#616161] text-[1.05rem] font-[500] font-bold hover:bg-gray-300 mr-2"
+                          className="h-[30px] rounded-xl text-[#616161] text-[1.05rem] font-[500] hover:bg-gray-300 mr-2"
                           onClick={() => handleDecline(approval._id)}
                         >
                           Decline
                         </button>
-                        <button className="h-[25px] w-[80px] rounded-xl text-[1.05rem] font-[500] p-[15px] text-white bg-[#00D22E] hover:bg-[#03821f]">
+                        <button className="h-[25px] w-[80px] rounded-xl text-[1.05rem] font-[500]  text-white bg-[#00D22E] hover:bg-[#03821f]">
                           {loading && id === index ? (
                             <div
                               class="spinner-border text-white"
                               role="status"
-
                               style={{ height: "15px", width: "15px" }}
-               >
+                            >
                               <span class="visually-hidden">Loading...</span>
                             </div>
                           ) : (
                             <div
-                              style={{ marginTop: "-10px" }}
+                            //  style={{marginTop:"-10px"}}
                               onClick={() => handleAccept(approval._id, index)}
                             >
                               Accept

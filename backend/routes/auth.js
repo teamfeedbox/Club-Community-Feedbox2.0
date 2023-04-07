@@ -252,7 +252,6 @@ router.put('/update/coins/events/', async (req, res) => {
   // console.log(req.body);
   try {
     req.body.attendees.map(async (data) => {
-
       const response = await User.updateOne(
         { _id: data.id },
         {
@@ -281,20 +280,7 @@ router.put('/update/interested/events/:userId', async (req, res) => {
     }, { new: true })
     res.status(200).json(response);
   } catch (error) {
-
-    res.status(500).json(error);
-  }
-});
-
-//Get all notifications of a user
-router.get('/user/get/user/all/notifi/:id',async(req,res)=>{
-  try {
-      const result = await User.aggregate([{ $match : { _id :req.params.id} },{$project : { notifications:1 }}]);
-      console.log(result,"lllllll");
-      res.status(200).json(result)
-  } catch (error) {
-      res.status(401).json(error);
-
+    res.status(500).json(error)
   }
 })
 
