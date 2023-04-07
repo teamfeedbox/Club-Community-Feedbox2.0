@@ -167,7 +167,7 @@ router.put('/updateDetail/:id', async (req, res) => {
 router.post('/sendmail/:id', async (req, res) => {
   try {
     let result = await User.findOne({ _id: req.params.id })
-    console.log(result);
+    // console.log(result);
     const transporter = nodemailer.createTransport({
       service:"gmail",
       port:465,
@@ -186,7 +186,7 @@ router.post('/sendmail/:id', async (req, res) => {
       html: "<b>You have registered successfully</b>", // html body
     });
   
-    console.log("Message sent: %s", info.messageId);
+    // console.log("Message sent: %s", info.messageId);
     res.status(200).json(info);
   } catch (error) {
     res.status(500).json(error);
