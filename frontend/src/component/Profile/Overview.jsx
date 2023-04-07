@@ -184,13 +184,15 @@ function Overview(prop) {
             </div>
           </section>
           
+          
+          
           <section>
             <div className='Detail-icon2'>
             <FontAwesomeIcon className="fa-lg" icon={faIdCard} />
             </div>
             <div>
               <span onClick={handleShow}>Unique Id: </span>
-              <p>{data && data.uniqueId}</p>
+              <p>2019SVV0565</p>
             </div>
           </section>
           <section>

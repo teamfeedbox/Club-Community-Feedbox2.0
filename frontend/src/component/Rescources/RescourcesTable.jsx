@@ -85,16 +85,18 @@ const RescourcesTable = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // console.log(pdfFile)
+  // console.log(pdfLink)
   const AddResource = async (e) => {
     setLoading(true);
     e.preventDefault();
 
     const formData = new FormData();
     formData.append("file", pdfFile);
+    formData.append("pdfLink", pdfLink);
     formData.append("title", title);
     formData.append("author", id);
     formData.append("skill", skillName);
-    formData.append("pdfLink", pdfLink);
 
     const response = await fetch("http://localhost:8000/upload", {
       method: "POST",
@@ -245,7 +247,7 @@ const RescourcesTable = (props) => {
                           name="file"
                           // value={image}
                           onChange={handleChange}
-                          accept="application/pdf"
+                          accept=".pdf, .doc, .docx"
                         />
                       </div>
 
@@ -331,7 +333,7 @@ const RescourcesTable = (props) => {
                       <tr key={item._id}>
                         <td class="p-2">
                           <a
-                            href={item && item.url}
+                            href={(item && item.url) || (item && item.link)}
                             target="_blank"
                             className="text-black"
                           >
@@ -387,7 +389,7 @@ const RescourcesTable = (props) => {
                       <tr>
                         <td class="p-2">
                           <a
-                            href={item && item.url}
+                            href={item && item.url }
                             target="_blank"
                             className="text-black"
                           >
