@@ -346,7 +346,7 @@ const Dashboard = () => {
     <div>
       <div className=" pt-[60px] w-[90%] md:w-[90%] lg:w-[70%] m-auto">
         <div className="flex lg:mt-4 lg:ml-4 mt-2 ml-1">
-          <p className="ml-2 text-[28px] font-semibold mb-0">Dashboard</p>
+          <p className="ml-2 text-[1.5rem] font-[700] mb-0">Dashboard</p>
         </div>
 
         <div className=" flex flex-wrap justify-around lg:flex md:flex-row flex-col">
@@ -358,10 +358,10 @@ const Dashboard = () => {
               />
             </div>
             <div className=" flex flex-col m-2 pl-3">
-              <h6 className="pt-1 text-[18px] md:text-[16px]  m-0 pb-0 font-semibold">
+              <h6 className="pt-1 text-[1rem] font-[700] md:text-[1rem]  m-0 pb-0 ">
                 Total Students:
               </h6>
-              <p className=" text-[25px] font-bold p-0 relative bottom-2">
+              <p className=" text-[1.5rem] font-[700] p-0 relative bottom-2">
                 {user}
               </p>
             </div>
@@ -375,10 +375,10 @@ const Dashboard = () => {
               />
             </div>
             <div className=" flex flex-col m-2 pl-3">
-              <h6 className="pt-1 text-[18px] md:text-[16px]  m-0 pb-0 font-semibold">
+              <h6 className="pt-1 text-[1rem] font-[700] md:text-[1rem]  m-0 pb-0 ">
                 Total Colleges:
               </h6>
-              <p className=" text-[25px] font-bold p-0 relative bottom-2">
+              <p className="text-[1.5rem] font-[700] p-0 relative bottom-2">
                 {college}
               </p>
             </div>
@@ -393,10 +393,10 @@ const Dashboard = () => {
             </div>
 
             <div className=" flex flex-col m-2 pl-3">
-              <h6 className="pt-1 text-[18px] md:text-[16px]  m-0 pb-0 font-semibold">
+              <h6 className="pt-1 text-[1rem] font-[700] md:text-[1rem]  m-0 pb-0 ">
                 Upcoming Events:
               </h6>
-              <p className=" text-[25px] font-bold p-0 relative bottom-2">
+              <p className="text-[1.5rem] font-[700] p-0 relative bottom-2">
                 {count}
               </p>
             </div>
@@ -407,10 +407,10 @@ const Dashboard = () => {
           <div className="w-[320px] md:w-[300px] m-3 rounded-md shadow-md p-2">
             <Bar width={300} height={300} data={data} options={options} />
             <div className="m-3">
-              <h5 className="pt-1 text-[16px]  m-0 pb-0 font-semibold">
+              <h5 className="pt-1 text-[1rem] font-[700] md:text-[1rem]  m-0 pb-0">
                 Total Number of events held:
               </h5>
-              <p className=" text-[25px] mt-1  font-bold p-0 relative bottom-2">
+              <p className="  mt-1 text-[1.5rem] font-[700] p-0 relative bottom-2">
                 {eventHeld}
               </p>
             </div>
@@ -419,10 +419,10 @@ const Dashboard = () => {
           <div className="w-[320px] md:w-[300px] m-3 rounded-md shadow-md p-2">
             <Line width={300} height={300} data={data1} options={options} />
             <div className="m-3">
-              <h5 className="pt-1 text-[16px]  m-0 pb-0 font-semibold">
+              <h5 className="pt-1 text-[1rem] font-[700] md:text-[1rem] m-0 pb-0">
                 Total Number of hours events held:
               </h5>
-              <p className=" text-[25px] mt-1  font-bold p-0 relative bottom-2">
+              <p className=" mt-1 text-[1.5rem] font-[700] p-0 relative bottom-2">
                 {time} hrs
               </p>
             </div>
@@ -431,10 +431,10 @@ const Dashboard = () => {
           <div className="w-[320px] md:w-[300px] m-3 rounded-md shadow-md p-2">
             <Doughnut width={300} height={300} data={data2}  />
             <div className="m-3">
-              <h5 className="pt-1 text-[16px]  m-0 pb-0 font-semibold">
+              <h5 className="pt-1 text-[1rem] font-[700] md:text-[1rem] m-0 pb-0 ">
                 Total Number of hours student studied:
               </h5>
-              <p className=" text-[25px] mt-1  font-bold p-0 relative bottom-2">
+              <p className=" mt-1 text-[1.5rem] font-[700] p-0 relative bottom-2">
                 {averageHourStudied} min
               </p>
             </div>

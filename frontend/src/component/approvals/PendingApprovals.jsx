@@ -169,7 +169,7 @@ const PendingApprovals = (props) => {
                             <div
                               class="spinner-border text-white"
                               role="status"
-                              style={{ height: "15px", width: "15px",marginTop:"-8px" }}
+                              style={{ height: "15px", width: "15px" }}
                             >
                               <span class="visually-hidden">Loading...</span>
                             </div>

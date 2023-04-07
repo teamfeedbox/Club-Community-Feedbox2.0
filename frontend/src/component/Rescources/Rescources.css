@@ -45,8 +45,8 @@
     margin: 30px 0px 0px 0px;
     color: #000;
     padding: 10px;
-    font-size: 1.3rem;
-    font-weight: 600;
+    font-size: var(--subheading-font-size);
+    font-weight: var(--subheading-font-weight);
     border-radius: 10px;
 }
 @media only screen and (max-width: 1000px) {
