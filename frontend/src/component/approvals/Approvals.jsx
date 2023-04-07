@@ -48,20 +48,23 @@ const Approvals = () => {
   return (
     <>
       <div className="pb-9 pt-[70px]" >
+
         <div className="lg:my-3 my-0 mx-1 mt-3 text-center ">
           <select onChange={(e)=>setClg(e.target.value)} className="p-2 border-2 font-semibold text-[1rem] font-[400] border-[#000] rounded-3xl w-[30%]">
+
             <option className=" " selected hidden disabled>
               College
             </option>
+            <option value="All">All</option>
             {
-              allClgs.length>0 && 
-              allClgs.map((data)=>(
+              allClgs.length > 0 &&
+              allClgs.map((data) => (
                 <option value={data}>{data}</option>
               ))
             }
           </select>
         </div>
-        <PendingApprovals func={pull_data}/>
+        <PendingApprovals func={pull_data} clg={clg && clg} />
 
         <div className="mt-9">
           <div className="overall-profile-tabs  ">
@@ -110,15 +113,15 @@ const Approvals = () => {
 
             <div className="profile-tab-data">
               <div className={tabs === "club" ? "" : "profile-tab-data-hide"}>
-                <ClubMember props={{cm:cM ? true : false,clg:clg && clg}} />
+                <ClubMember props={{ cm: cM ? true : false, clg: clg && clg }} />
               </div>
 
               <div className={tabs === "Lead" ? "" : "profile-tab-data-hide"}>
-                <Lead props={click && true} />
+                <Lead props={click && true} clg={clg && clg} />
               </div>
 
               <div className={tabs === "Admin" ? "" : "profile-tab-data-hide"}>
-                <Admin props={click && true} />
+                <Admin props={click && true} clg={clg && clg}/>
               </div>
 
               <div

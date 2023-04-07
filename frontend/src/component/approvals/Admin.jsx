@@ -8,13 +8,15 @@ import "./ClubMember.css";
 
 const Admin = (props) => {
   const [searchval, setSearchVal] = useState("");
-  const [data,setData]= useState([]);
-  const [admin,setAdmin]= useState([]);
-  const [id,setId]=useState();
-  const [delshow,setDelShow]=useState(false);
-  const [loading,setLoading]=useState(false)
+  const [data, setData] = useState([]);
+  const [admin, setAdmin] = useState([]);
+  const [id, setId] = useState();
+  const [delshow, setDelShow] = useState(false);
+  const [loading, setLoading] = useState(false)
 
-  const handleDelClose=()=>{
+  console.log(props);
+
+  const handleDelClose = () => {
     setDelShow(false);
   }
 
@@ -27,14 +29,30 @@ const Admin = (props) => {
         admin.push(data)
       }
     })
-    setAdmin(admin);
-    setData(admin);
+    let clgSel = [];
+    if (props.clg) {
+      if (props.clg == "All") {
+        setAdmin(admin.reverse());
+        setData(admin.reverse());
+      } else {
+        admin.map(data => {
+          if (data.collegeName === props.clg) {
+            clgSel.push(data)
+          }
+        })
+        setAdmin(clgSel.reverse());
+      setData(clgSel.reverse());
+      }
+    } else {
+      setAdmin(admin.reverse());
+      setData(admin.reverse());
+    }
   };
 
   useEffect(() => {
     getUser();
     setLoading(false);
-  }, [props,loading])
+  }, [props, loading])
 
   // search user
   const searchHandler = (e) => {
@@ -55,11 +73,11 @@ const Admin = (props) => {
     }
   };
 
-  const handleDeleteAdmin=async ()=>{
+  const handleDeleteAdmin = async () => {
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ role: 'Club_Member'})
+      body: JSON.stringify({ role: 'Club_Member' })
     })
     const res = await data.json();
     console.log(res)
@@ -90,20 +108,21 @@ const Admin = (props) => {
       {/* table  */}
       <div className="lg:border">
         <Scrollbars style={{ height: "230px" }}>
-            <table class="table-auto w-full max-w-[1300px]">
-              <tbody class="text-sm divide-y  divide-gray-100 max-w-[1150px]">
-                {admin.length>0 ?
-                  admin.map((member) => (
-                    <tr className="">
-                      <td class=" p-2 w-[170px] lg:w-[400px] ">
-                        <div className="flex items-center">
-                          <img
-                            class="rounded-full"
-                            src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                            width="40"
-                            height="40"
-                            alt="Alex Shatov"
-                          />
+          <table class="table-auto w-full max-w-[1300px]">
+            <tbody class="text-sm divide-y  divide-gray-100 max-w-[1150px]">
+              {admin.length > 0 ?
+                admin.map((member) => (
+                  <tr className="">
+                    <td class=" p-2 w-[170px] lg:w-[400px] ">
+                      <div className="flex items-center">
+                        <img
+                          class="rounded-full"
+                          src={member.img}
+                          width="40"
+                          height="40"
+                          alt="Alex Shatov"
+                        />
+
 
                           <div className="ml-2  text-[1rem] font-[400]"> {member.name} </div>
                         </div>
@@ -117,6 +136,7 @@ const Admin = (props) => {
                       <div className="text-red-500" onClick={()=>{setDelShow(true); setId(member._id)}}>
                       <button className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000] text-[1.05rem] font-[500] hover:bg-[#bf1004]"
                         >Delete</button>
+
                       </div>
                       <Modal show={delshow} onHide={handleDelClose} className="club-member-modal" >
                         <form>
@@ -124,23 +144,23 @@ const Admin = (props) => {
                             closeButton
                             className="club-member-modal-header"
                           >
-                            Are you sure to make this lead as admin ?
+                            Are you sure to make this Admin as Club Member ?
                           </Modal.Header>
                           <Modal.Footer className="modal-footer club-member-modal-footer">
                             <div className="modal-footer-club-member-yes-no-div">
                               <div onClick={handleDeleteAdmin}>
                                 Yes
                               </div>
-                              <button onClick={(e) => { e.preventDefault(); setDelShow(false);}}>No</button>
+                              <button onClick={(e) => { e.preventDefault(); setDelShow(false); }}>No</button>
                             </div>
                           </Modal.Footer>
                         </form>
                       </Modal>
                     </td>
-                    </tr>
-                  )) : 'No Admins...'}
-              </tbody>
-            </table>
+                  </tr>
+                )) : 'No Admins...'}
+            </tbody>
+          </table>
         </Scrollbars>
       </div>
     </div>
