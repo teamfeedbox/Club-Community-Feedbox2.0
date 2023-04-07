@@ -204,7 +204,7 @@
         border-radius: 10px;
         margin-bottom: 10px;
         background-color: #fff;
-        margin-left: -1.2%;
+        /* margin-left: -1.2%; */
     }
     .Post-Big-Comment-Icons{
         font-size: 14px;
@@ -231,6 +231,7 @@
     .Scrollbar-height{
         height: 49vh;
     }
+    
       
     /* Css for delete post model */
 .modal-dialog1{
@@ -257,6 +258,10 @@
   
 .delete-btn:hover{
 background-color: #555555;
+}
+
+.carousel.carousel-slider{
+    /* max-height: 400px; */
 }
     
 
