@@ -47,7 +47,7 @@ const ClubMember = ({ props }) => {
   const searchHandler = (e) => {
     let val = e.target.value;
     setSearchVal(e.target.value);
-    if (e.target.value != "") {
+    if (e.target.value !== "") {
       let matched = [];
       data.length > 0 &&
         data.forEach((user) => {
@@ -65,14 +65,32 @@ const ClubMember = ({ props }) => {
   // submit handler for making club member as lead
   const submitHandler = async () => {
     setLoading(true);
-    console.log(id);
+    // console.log(id);
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ role: "Lead", position: position }),
+      body: JSON.stringify({ role: "Lead", position: position}),
     });
     const res = await data.json();
-    console.log(res);
+    // console.log(res);
+
+   //  notification
+  await fetch("http://localhost:8000/addNotifications", {
+    method: "post",
+    body: JSON.stringify({
+      message:"Congrats: Now You are lead",
+      messageScope:"private",
+      userId:id,
+      
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("jwt"),
+    },
+  }).then((res)=>{
+    // alert(res.json)
+  });
+
 
     // Generate Notification
     

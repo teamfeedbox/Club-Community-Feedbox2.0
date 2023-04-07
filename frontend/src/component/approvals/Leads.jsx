@@ -27,7 +27,7 @@ const Leads = (props) => {
     const res = await result.json();
     let lead = [];
     res && res.map((data) => {
-      if (data.role == 'Lead') {
+      if (data.role === 'Lead') {
         lead.push(data)
       }
     })
@@ -45,7 +45,7 @@ const Leads = (props) => {
   const searchHandler = (e) => {
     let val = e.target.value;
     setSearchVal(e.target.value);
-    if (e.target.value != "") {
+    if (e.target.value !== "") {
       let matched = [];
       data.length > 0 &&
         data.forEach((user) => {
