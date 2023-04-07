@@ -17,6 +17,7 @@ const PendingApprovals = (props) => {
   const [val, setVal] = useState(false);
   const [email, setEmail] = useState("");
   const [id, setId] = useState("");
+  const [load,setload]=useState(false);
 
   const getUser = async () => {
     const result = await fetch(`http://localhost:8000/get`);
@@ -29,13 +30,13 @@ const PendingApprovals = (props) => {
         }
       });
     setPendingUsers(user);
-    setData(user);
+    setData(user.reverse());
   };
 
   useEffect(() => {
     getUser();
-    // setLoading(false);
-  });
+    setload(false)
+  },[load]);
 
   // search for a pending user
   const searchHandler = (e) => {
@@ -81,7 +82,7 @@ const PendingApprovals = (props) => {
 
   // Accept request for club member
   const handleAccept = async (id, i) => {
-    setLoading(true);
+    setLoading(true)
     setId(i);
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
       method: "PUT",
@@ -93,6 +94,7 @@ const PendingApprovals = (props) => {
     setVal(!val);
     props.func(!val);
     setLoading(false);
+    setload(true);
   };
 
   return (
@@ -100,19 +102,6 @@ const PendingApprovals = (props) => {
       <div className="flex flex-col lg:flex-row md:flex-row justify-between">
         <div>
           <h4 className=" text-[1.5rem] font-[700]  my-0 lg:my-3">Pending Approvals</h4>
-        </div>
-        <div>
-          {/* ----------------college dropdown for super admin--------------- */}
-
-          <div className="lg:my-3 my-0 mx-1 ">
-            <select className="p-2 border-2 font-semibold text-[1rem] font-[400] border-[#000] rounded-3xl w-[100%]">
-              <option className=" " selected disabled>
-                College
-              </option>
-              <option>Shri Vaishnav Vidyapeeth Vishwavidyalaya</option>
-              <option>IET-DAVV</option>
-            </select>
-          </div>
         </div>
       </div>
       {/* search */}
@@ -143,7 +132,7 @@ const PendingApprovals = (props) => {
                       <div className="flex items-center">
                         <img
                           class="rounded-full"
-                          src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
+                          src={approval.img}
                           width="40"
                           height="40"
                           alt="Alex Shatov"

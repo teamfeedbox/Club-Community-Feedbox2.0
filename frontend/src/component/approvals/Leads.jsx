@@ -11,16 +11,19 @@ import "./ClubMember.css";
 const Leads = (props) => {
   const [searchval, setSearchVal] = useState("");
   const [show, setShow] = useState(false);
+  const [delshow, setDelShow] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [data, setData] = useState([]);
   const [lead, setLead] = useState([]);
   const [loading, setLoading] = useState(false);
   const [position, setPosition] = useState();
-  const [id,setId]=useState();
+  const [id, setId] = useState();
   const [role, setRole] = useState('');
 
-  const handleClose = () => {setShow(false); setConfirm(false)};
+  const handleClose = () => { setShow(false); setConfirm(false) };
   const handleShow = () => setShow(true);
+  const handleDelShow =()=> setDelShow(true);
+  const handleDelClose =()=> setDelShow(false);
 
   const getUser = async () => {
     const result = await fetch(`http://localhost:8000/get`);
@@ -39,7 +42,7 @@ const Leads = (props) => {
   useEffect(() => {
     getUser();
     setLoading(false);
-  }, [loading,props])
+  }, [loading, props])
 
   // search user
   const searchHandler = (e) => {
@@ -65,7 +68,7 @@ const Leads = (props) => {
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ role: 'Admin',position:position })
+      body: JSON.stringify({ role: 'Admin', position: position })
     })
     const res = await data.json();
     console.log(res)
@@ -100,6 +103,18 @@ const Leads = (props) => {
     setLoading(true)
   }
 
+  const handleDeleteAdmin=async ()=>{
+    const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ role: 'Club_Member'})
+    })
+    const res = await data.json();
+    console.log(res)
+    setDelShow(false)
+    setLoading(true)
+  }
+
   return (
     <div>
       <div className="pending-approval-search">
@@ -118,7 +133,7 @@ const Leads = (props) => {
           </div>
         </div>
       </div>
-      
+
       <div className="lg:border">
         <Scrollbars style={{ height: "230px" }}>
           <table class="table-auto w-full max-w-[1300px]">
@@ -148,7 +163,7 @@ const Leads = (props) => {
                     <td class="pt-2 pb-2 flex  justify-end ">
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                         <button
-                          onClick={()=>{setId(member._id); handleShow()}}
+                          onClick={() => { setId(member._id); handleShow() }}
                           className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] text-[1.05rem] font-[500] hover:bg-[#03821f]"
                         >
                           <FontAwesomeIcon icon={faUser} className="mr-2" />
@@ -194,12 +209,30 @@ const Leads = (props) => {
                           </Modal.Footer>
                         </form>
                       </Modal>
-                    </td> 
+                      <Modal show={delshow} onHide={handleDelClose} className="club-member-modal" >
+                        <form>
+                          <Modal.Header
+                            closeButton
+                            className="club-member-modal-header"
+                          >
+                            Are you sure to make this lead as admin ?
+                          </Modal.Header>
+                          <Modal.Footer className="modal-footer club-member-modal-footer">
+                            <div className="modal-footer-club-member-yes-no-div">
+                              <div onClick={handleDeleteAdmin}>
+                                Yes
+                              </div>
+                              <button onClick={(e) => { e.preventDefault(); setDelShow(false);}}>No</button>
+                            </div>
+                          </Modal.Footer>
+                        </form>
+                      </Modal>
+                    </td>
                     {/* : ''} */}
-                    <td className=" my-auto " style={{marginRight:"10px"}}>
+                    <td className=" my-auto " style={{ marginRight: "10px" }}>
                       <div className="">
-                      <button
-                          onClick={()=>{setId(member._id); handleShow()}}
+                        <button
+                          onClick={() => { setId(member._id); handleDelShow() }}
                           className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000] text-[1.05rem] font-[500] hover:bg-[#bf1004]"
                         >Delete</button>
                       </div>
@@ -207,9 +240,9 @@ const Leads = (props) => {
                   </tr>
                 )) :
                 <div className="nopending">
-                <div className="text-[1rem] font-[400]">No Lead Members !!</div>
+                  <div className="text-[1rem] font-[400]">No Lead Members !!</div>
                 </div>
-                }
+              }
             </tbody>
           </table>
         </Scrollbars>
