@@ -172,7 +172,8 @@ const Leads = (props) => {
                     {/* : ''} */}
                     <td className=" my-auto ">
                       <div className="">
-                        <FontAwesomeIcon icon={faTrash} className="h-[20px] text-red-500" />
+                        <button className="dlt-btn">Delete</button>
+                        {/* <FontAwesomeIcon icon={faTrash} className="h-[20px] text-red-500" /> */}
                       </div>
                     </td>
                   </tr>

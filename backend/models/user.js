@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-
-
   name: {
     type: String,
     //required: [true, "Full name is required"],
@@ -27,7 +25,7 @@ const userSchema = new mongoose.Schema({
     //required: true,
   },
   role: {
-    type: String, enum: ['user', 'Club_Member', 'Lead', 'Admin', 'Super_Admin'],default:"user"
+    type: String, enum: ['user', 'Club_Member', 'Lead', 'Admin', 'Super_Admin'], default: "user"
   },
   position: {
     type: String,
@@ -38,10 +36,10 @@ const userSchema = new mongoose.Schema({
   },
   coins: {
     type: Number,
-    default:0
+    default: 0
   },
   img: {
-    type: String,default:"Images/defaultImg.png"
+    type: String, default: "Images/defaultImg.png"
   },
   branch: {
     type: String
@@ -54,17 +52,16 @@ const userSchema = new mongoose.Schema({
   },
   skills: [],
   events: [],
-  notifications:[
+  interestedEvents:[],
+  notifications: [
     {
-        type:{type:String},
-        message:{type:String},
-        date:{type:String},
-        status:{type:String},
-        id:{type:String}
+      type: { type: String },
+      message: { type: String },
+      date: { type: String },
+      status: { type: String },
+      id: { type: String }
     }
-]
-
-
+  ]
 });
 
 module.exports = mongoose.model("users", userSchema);
