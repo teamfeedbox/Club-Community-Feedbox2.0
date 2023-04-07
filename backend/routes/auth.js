@@ -109,7 +109,38 @@ router.post("/login", (req, res) => {
   });
 });
 
-// Get a user
+
+
+router.post("/login/superAdmin", (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(422).json({ error: "please add all the details" });
+  }
+  User.findOne({ email: email }).then((savedUser) => {
+    if (!savedUser) {
+      return res.status(422).json({ err: "invalid email or password" });
+    } else if(savedUser.role == 'Super_Admin') {
+      return res.status(500).json();
+    }
+    bcrypt
+      .compare(password, savedUser.password)
+      .then((doMatch) => {
+        if (doMatch) {
+          // res.json({message:"successfully signed in"})
+          const token = jwt.sign({ _id: savedUser._id }, jwtKey);
+          // const decodedToken = jwt.decode(token);
+          res.json({ token });
+        } else {
+          return res.status(422).json({ error: "invalid password" });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+});
+
+
 router.get('/user', requireLogin, async (req, res) => {
   try {
     const email = req.user.email;

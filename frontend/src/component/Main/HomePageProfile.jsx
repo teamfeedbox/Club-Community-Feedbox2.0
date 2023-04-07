@@ -52,7 +52,7 @@ const HomePageProfile = (props) => {
     setLoading(true);
     const data = await fetch(`http://localhost:8000/colleges/get`);
     const res = await data.json();
-    console.log(res);
+    // console.log(res);
     let val = [];
     res.map((data) => {
       val.push(data.name);

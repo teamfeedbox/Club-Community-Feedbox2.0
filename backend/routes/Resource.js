@@ -10,26 +10,67 @@ const upload = multer({ dest: 'uploads/' });
 
 router.post('/upload', upload.single('file'),requireLogin, async (req, res) => {
     const {title,skill,pdfLink} = req.body
-    // console.log(title,skill)
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      resource_type: 'raw',
-      folder: 'pdfs'
-    });
+    // console.log(pdfLink)
+
+    if(pdfLink === 'undefined'){
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        resource_type: 'raw',
+        folder: 'pdfs'
+      });
+    
+      const pdfUrl = result.secure_url;
+      console.log(pdfUrl)
+      // console.log(req.user)
+      const pdf = await new Resource({
+        title,
+        skill,
+        author:req.user,  
+        name: req.file.originalname,
+        url: pdfUrl,
   
-    const pdfUrl = result.secure_url;
-    // console.log(pdfUrl)
-    // console.log(req.user)
-    const pdf = await new Resource({
+        // link:pdfLink
+      });
+      // console.log(pdf);
+      
+      await pdf.save();
+   
+    }
+
+    else{
+         const pdfSave = await new Resource({
       title,
       skill,
       author:req.user,  
-      name: req.file.originalname,
-      url: pdfUrl,
+      // name: req.file.originalname,
+      // url: pdfUrl,
       link:pdfLink
     });
-    // console.log(pdf);
+    // console.log(pdfSave);
     
-    await pdf.save();
+    await pdfSave.save();
+    }
+
+
+
+    // const result = await cloudinary.uploader.upload(req.file.path, {
+    //   resource_type: 'raw',
+    //   folder: 'pdfs'
+    // });
+  
+    // const pdfUrl = result.secure_url;
+    // // console.log(pdfUrl)
+    // // console.log(req.user)
+    // const pdf = await new Resource({
+    //   title,
+    //   skill,
+    //   author:req.user,  
+    //   name: req.file.originalname,
+    //   url: pdfUrl,
+    //   link:pdfLink
+    // });
+    // // console.log(pdf);
+    
+    // await pdf.save();
   });
 
 // router.post('/create-resource',async(req,res)=>{
