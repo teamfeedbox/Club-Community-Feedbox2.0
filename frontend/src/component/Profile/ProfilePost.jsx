@@ -50,7 +50,7 @@ const ProfilePost = (prop) => {
 
   return (
     <div>
-      {post.map((item) => (
+      {post.length>0 && post.map((item) => (
         <div className="post-display">
           <div className="flex justify-between">
             <p className="post-display-heading-time"> Posted: {item.date}</p>

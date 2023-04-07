@@ -143,7 +143,7 @@ const HomePageProfile = (props) => {
   }
 
   return (
-    <div className="HomePageProfile mt-[10px] md:mt-[20px] lg:mt-[20px] pb-3">
+    <div className="HomePageProfile mt-[10px] md:mt-[20px] lg:mt-[20px] ">
       {/*-------------- for web and tab view------------- */}
       <div className="hidden md:block lg:block">
       <div className="home-profile-bg-doodle">
@@ -174,7 +174,7 @@ const HomePageProfile = (props) => {
       {/* not for super admin */}
       {data && (data.role === 'Admin' || data.role === 'Lead' || data.role === 'Club_Member')
         ?
-        <div>
+        <div className="pb-3">
           <div className="home-profile-skill-div">
             <h6>Skills:</h6>
             <div className="home-profile-skills">
@@ -201,19 +201,19 @@ const HomePageProfile = (props) => {
 
       {/* for super admin */}
       {data && data.role === 'Super_Admin'
-        ? <div className="m-3 flex  flex-col">
+        ? <div className="m-3 flex  flex-col pb-3">
           <div className="mb-2">
             <form onSubmit={handleAddSubmit}>
               <input
                 type="text"
-                className="border rounded p-1 w-[210px]"
+                className="border rounded p-1 w-[210px] text-[1rem] font-[400]"
                 placeholder="Add College"
                 value={addclg}
                 required
                 onChange={onAddCollege}
               />
               <button
-                className=" p-1 rounded w-[60px] ml-2 bg-green-600 text-white font-[600] text-[1rem] hover:bg-green-800 transition-all ease-linear duration-2000 "
+                className=" p-1 rounded w-[60px] ml-2 bg-green-600 text-white font-[500] text-[1.05rem] hover:bg-green-800 transition-all ease-linear duration-2000 "
                 type="submit"
               >
                 {loading ? (
@@ -239,7 +239,7 @@ const HomePageProfile = (props) => {
             <select
               name="College"
               id="College"
-              className="border w-[280px] rounded p-1 mt-1" onChange={handleCollege}
+              className="border w-[280px] rounded p-1 mt-1 text-[1rem] font-[400]" onChange={handleCollege}
             >
               <option disabled selected className="hidden">
                 College
@@ -258,10 +258,10 @@ const HomePageProfile = (props) => {
                 />
               </div>
               <div className=" flex flex-col  pl-2">
-                <h className=" text-[18px] md:text-[16px]   font-semibold">
+                <h className=" text-[1.1rem] md:text-[16px]   font-[600]">
                   Total Students:
                 </h>
-                <p className=" text-[23px] font-bold p-0 relative bottom-2">
+                <p className=" text-[1.5rem] font-[700] p-0 relative bottom-2">
                   {selected ? clgUsers ? clgUsers : 0: allUsers.length > 0 && allUsers.length}
                 </p>
               </div>
@@ -275,10 +275,10 @@ const HomePageProfile = (props) => {
                 />
               </div>
               <div className=" flex flex-col  pl-2">
-                <h className=" text-[18px] md:text-[16px]   font-semibold">
+                <h className=" text-[1.1rem] md:text-[16px]   font-[600]">
                   Total Events:
                 </h>
-                <p className=" text-[23px] font-bold p-0 relative bottom-2">{selected ? clgEvents.length > 0 ? clgEvents.length :0 : event.length > 0 ? event.length :0}</p>
+                <p className=" text-[1.5rem] font-[700] p-0 relative bottom-2">{selected ? clgEvents.length > 0 ? clgEvents.length :0 : event.length > 0 ? event.length :0}</p>
               </div>
             </div>
           </div>
@@ -287,12 +287,13 @@ const HomePageProfile = (props) => {
       </div>
 
       {/* --------------------for mobile view (only for super admin) -------------------- */}
-      <div className="block md:hidden lg:hidden px-3 pt-3">
+      {data && data.role === 'Super_Admin' ?
+      <div className="block md:hidden lg:hidden px-3 pt-3 pb-3">
       <div className="mb-2  w-[100%]">
           <form onSubmit={handleAddSubmit}>
             <input
               type="text"
-              className="border rounded p-1 w-[75%]"
+              className="border rounded p-1 w-[75%] text-[1rem] font-[400]"
               placeholder="Add College"
               value={college}
               required
@@ -300,7 +301,7 @@ const HomePageProfile = (props) => {
               
             />
             <button
-            className=" p-1 rounded w-[22%] bg-green-600 ml-2 text-white font-[600] text-[1rem] hover:bg-green-800 transition-all ease-linear duration-2000 "
+            className=" p-1 rounded w-[22%] bg-green-600 ml-2 text-white font-[500] text-[1.05rem] hover:bg-green-800 transition-all ease-linear duration-2000 "
             type="submit"
             >
             {loading ? (
@@ -325,7 +326,7 @@ const HomePageProfile = (props) => {
           <select
             name="College"
             id="College"
-            className="border w-[100%] rounded p-1" onChange={handleCollege}
+            className="border w-[100%] rounded p-1 text-[1rem] font-[400]" onChange={handleCollege}
           >
             <option disabled selected className="hidden">
               College
@@ -334,7 +335,7 @@ const HomePageProfile = (props) => {
               allClgs.map((clg) => <option value={clg}>{clg}</option>)}
           </select>
         </div>
-      </div>
+      </div>: ''}
     </div>
   );
 };

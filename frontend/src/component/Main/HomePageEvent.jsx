@@ -10,6 +10,7 @@ const HomePageEvent = (props) => {
   const [event, setEvent] = useState([]);
   const [data, setData] = useState([]);
   const [clg, setClg] = useState();
+
   data.length>0 && data.map((d)=>{
     console.log(d,"ds;lmnfj")
   })
@@ -70,7 +71,7 @@ const HomePageEvent = (props) => {
       <div className="event-main-div-res">
         {event && event.length > 0 ? event.map((item) => (
           <div className="HomePageEvent" key={item._id}>
-            <h2>{item.title}</h2>
+            <div className="upcoming_event_title">{item.title}</div>
             <div className="home-page-event-time">
               <img src="Images/clock.svg" alt="" />
               <p className="home-page-event-time-p">

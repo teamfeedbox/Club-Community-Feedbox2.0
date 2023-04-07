@@ -174,8 +174,6 @@ function Overview(prop) {
             </div>
           </section>
           
-          
-          
           <section>
             <div className='Detail-icon2'>
             <FontAwesomeIcon className="fa-lg" icon={faIdCard} />
