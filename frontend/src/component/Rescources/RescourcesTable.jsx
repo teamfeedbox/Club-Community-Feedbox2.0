@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import TimeAgo from "javascript-time-ago";
+import en from 'javascript-time-ago/locale/en'
+
 import "./RescourcesTable.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,6 +19,8 @@ import Button from "react-bootstrap/Button";
 import NavbarRes from "../navbar/NavbarRes";
 
 const RescourcesTable = (props) => {
+  TimeAgo.addLocale(en);
+  const timeAgo = new TimeAgo("en-US");
   const location = useLocation();
   const propsData = location.state;
   let skillName = propsData.name;
@@ -33,16 +38,19 @@ const RescourcesTable = (props) => {
   const [enableSearch, setEnableSearch] = useState(false);
   const [user, setUser] = useState();
   const [role, setRole] = useState("");
+  const [img, setImg] = useState();
+  const [pdfLink, setPdfLink] = useState();
+
 
   let id;
   useEffect(() => {
     getList(skillName);
     // console.log(skillName)
-  }, []);
+  }, [skillName]);
 
   useEffect(() => {
     getUser();
-  });
+  },[]);
   // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
   // console.log(userId)
   const getUser = async () => {
@@ -54,6 +62,7 @@ const RescourcesTable = (props) => {
     });
     result = await result.json();
     // console.log(result);
+    setImg(result.img)
     id = result._id;
     setRole(result.role);
     // console.log(id)
@@ -62,6 +71,10 @@ const RescourcesTable = (props) => {
     //   getUser();
     // }
   };
+
+  // console.log(pdfLink);
+
+
 
   function handleChange(e) {
     console.log(e.target.files);
@@ -81,6 +94,7 @@ const RescourcesTable = (props) => {
     formData.append("title", title);
     formData.append("author", id);
     formData.append("skill", skillName);
+    formData.append("pdfLink", pdfLink);
 
     const response = await fetch("http://localhost:8000/upload", {
       method: "POST",
@@ -187,16 +201,16 @@ const RescourcesTable = (props) => {
               >
                 <form onSubmit={AddResource} encType="multipart/form-data">
                   <Modal.Header closeButton>
-                    <Modal.Title>Add Rescource</Modal.Title>
+                    <Modal.Title> <div className="res_modal_header">Add Resource</div> </Modal.Title>
                   </Modal.Header>
                   <Modal.Body className="modal-body">
                     <div className="modal-profile-section">
                       <div className="modal-profile-section-image">
-                        <img src="Images/girl.jpg" alt="" />
+                        <img src={img} alt="" />
                       </div>
                       <div className="modal-add-res-section-profile relative bottom-2">
                         <h5>{user && user.name}</h5>
-                        <p className="text-gray-500 bottom-3 relative text-[16px] font-semibold">
+                        <p className="text-gray-500 bottom-3 relative pl-3 text-[0.8rem] font-[600]">
                           {" "}
                           {skillName}{" "}
                         </p>
@@ -246,7 +260,13 @@ const RescourcesTable = (props) => {
 
                       {link ? (
                         <div className="add-res-add-link">
-                          <input type="text" placeholder="Enter Link" />
+                          <input type="text" placeholder="Enter Link" 
+                          value={pdfLink}
+                        onChange={(e) => setPdfLink(e.target.value)}
+                        name="pdfLink"
+
+
+                          />
                         </div>
                       ) : (
                         ""
@@ -288,19 +308,19 @@ const RescourcesTable = (props) => {
           <div class="overflow-x-auto p-3">
             {!enableSearch && (
               <table class="table-auto w-full">
-                <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+                <thead class="uppercase text-gray-400 bg-gray-50">
                   <tr>
                     <th class="p-2">
-                      <div class="font-semibold text-left">Download</div>
+                      <div class="font-[500] text-[1rem] text-left">Download</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-semibold text-left">Resource Title</div>
+                      <div class="font-[500] text-[1rem] text-left">Resource Title</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-semibold text-left">Date Created</div>
+                      <div class="font-[500] text-[1rem] text-left">Date Created</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-semibold text-left">Author</div>
+                      <div class="font-[500] text-[1rem] text-left">Author</div>
                     </th>
                   </tr>
                 </thead>
@@ -308,7 +328,7 @@ const RescourcesTable = (props) => {
                 <tbody class="text-sm divide-y divide-gray-100">
                   {data &&
                     data.map((item) => (
-                      <tr>
+                      <tr key={item._id}>
                         <td class="p-2">
                           <a
                             href={item && item.url}
@@ -322,17 +342,17 @@ const RescourcesTable = (props) => {
                           </a>
                         </td>
                         <td class="p-2">
-                          <div class="font-medium text-gray-800">
+                          <div class="font-[500] text-[1rem] text-gray-800">
                             {item && item.title}
                           </div>
                         </td>
                         <td class="p-2">
-                          <div class="text-left text-blue-600 font-bold">
-                            {item && item.date}
+                          <div class="text-left text-blue-600 font-[500] text-[1rem]">
+                            {item && item.date && timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}
                           </div>
                         </td>
                         <td class="p-2">
-                          <div class="text-left text-black font-medium">
+                          <div class="text-left text-black font-[500] text-[1rem]">
                             {item && item.author && item.author.name}
                           </div>
                         </td>
@@ -364,7 +384,7 @@ const RescourcesTable = (props) => {
                 <tbody class="text-sm divide-y divide-gray-100">
                   {searched &&
                     searched.map((item) => (
-                      <tr>
+                      <tr key={item._id}>
                         <td class="p-2">
                           <a
                             href={item && item.url}
@@ -378,17 +398,17 @@ const RescourcesTable = (props) => {
                           </a>
                         </td>
                         <td class="p-2">
-                          <div class="font-medium text-gray-800">
+                          <div class="font-[500] text-[1rem] text-gray-800">
                             {item && item.title}
                           </div>
                         </td>
                         <td class="p-2">
-                          <div class="text-left text-blue-600 font-bold">
-                            {item && item.date}
+                          <div class="text-left text-blue-600 font-[500] text-[1rem]">
+                            {item && item.date && timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}
                           </div>
                         </td>
                         <td class="p-2">
-                          <div class="text-left text-black font-medium">
+                          <div class="text-left text-black font-[500] text-[1rem]">
                             {item && item.author && item.author.name}
                           </div>
                         </td>

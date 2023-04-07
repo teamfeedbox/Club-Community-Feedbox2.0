@@ -65,17 +65,29 @@ const HomePageEvent = (props) => {
     }
   };
 
-  const attendanceUpdate = async (id) => {
-    let result = await fetch(`http://localhost:8000/updateEvent/`, {
-      method: "put",
-      // body: JSON.stringify({ attendance }),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    console.log(result);
+  // Mark Interested 
+  const attendanceUpdate = async (eveid) => {
+    // let result = await fetch(`http://localhost:8000/updateEvent/${eveid}`, {
+    //   method: "put",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: "Bearer " + localStorage.getItem("jwt"),
+    //   },
+    // });
+    // result = await result.json();
+
+    console.log(userId);
+
+    // let data = await fetch(`http://localhost:8000/update/interested/events/${id}`, {
+    //   method: "PUT",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: "Bearer " + localStorage.getItem("jwt"),
+    //   },
+    //   body: JSON.stringify({event:myEvent})
+    // });
+    // const res = await data.json();
+    // console.log(res);
   };
 
   return (
@@ -92,11 +104,13 @@ const HomePageEvent = (props) => {
             </div>
             <div className="home-page-event-description">{item.desc}</div>
             <div className="home-page-event-button">
-              {role && role !== "Super_Admin" && <Button className="" disabled={item.isInterested} onClick={() => {
+              {/* {role && role != "Super_Admin" ? "" : 
+              <Button className="" disabled={item.isInterested} onClick={() => {
                 attendanceUpdate(item._id);
               }}>
                 Interested
-              </Button>}
+              </Button>
+              } */}
               <Link to='/calendar' state={{eventId:item._id}}>
                 <button className="home-page-event-button-knowmore">
                   Know More
@@ -104,7 +118,11 @@ const HomePageEvent = (props) => {
               </Link>
             </div>
           </div>
-        )) : "No Upcoming Events..."}
+        )) : 
+        <div className="HomePageEvent">
+        <div style={{justifyContent:"center",textAlign:"center"}}>No Upcoming Events !</div> 
+        </div>
+        }
       </div>
 
       {/* mobile view */}

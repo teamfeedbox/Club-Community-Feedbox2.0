@@ -122,6 +122,7 @@ const PostDisplay = (props) => {
     }else{
       // console.log("ki");
       setData(result)
+      // console.log(result)
     }
   };
 
@@ -231,7 +232,7 @@ const PostDisplay = (props) => {
                         item.img.length > 0 &&
                         item.img.map((data) => (
                             <SwiperSlide >
-                          <div className="">
+                          <div className="" key={data._id}>
                             <img className="" src={data} />
                           </div>
                       </SwiperSlide>
@@ -304,7 +305,11 @@ const PostDisplay = (props) => {
               </div>
             </div>
 
-          )) : "No Post Yet..."}
+          )) : 
+          <div className="post-display1">
+           <div style={{justifyContent:"center",textAlign:"center"}}>No Post Yet !</div> 
+          </div>
+          }
         </div>
         : <Loader />}
       <PostBigModel

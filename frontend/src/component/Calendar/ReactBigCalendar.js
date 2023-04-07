@@ -36,7 +36,7 @@ export default function ReactBigCalendar() {
   const [scope, setScope] = useState();
   const [speaker, setSpeaker] = useState("");
   const [myEvent, setMyEvent] = useState();
-  const [loading, setLoading] = useState(false);
+  const [loading,   setLoading] = useState(false);
   const [deletebtn, setDeleteBtn] = useState(false);
   const [clgSelected, setClgSelected] = useState();
   const [allClgs, setAllClgs] = useState([]);
@@ -54,6 +54,7 @@ export default function ReactBigCalendar() {
   const [id, setId] = useState();
   const [eventData, setEventData] = useState([]);
   const [dupliEvents, setDupliEvents] = useState([]);
+  const [handleClgSel,setHandleClgSel]=useState(false);
 
   // Mindate for diasble previous dates in calender
   var today = new Date();
@@ -68,6 +69,7 @@ export default function ReactBigCalendar() {
   }
   const mindate = [yyyy, mm, dd].join("-");
 
+  // get user
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
@@ -81,6 +83,7 @@ export default function ReactBigCalendar() {
     setRole(result.role);
   };
 
+  // show particular event
   const setCalenderEvent = (value) => {
     setInterestedBtn(true);
     let myEvent;
@@ -92,14 +95,14 @@ export default function ReactBigCalendar() {
         myEvent = val;
       }
     });
-    myEvent &&
-      myEvent.attendance.map((data) => {
-        if (data._id === user && user._id) {
-          setInterestedBtn(false);
-        }
-      });
-  };
+    myEvent && myEvent.attendance.map((data) => {
+      if (data._id === user._id) {
+        setInterestedBtn(false);
+      }
+    });
+  }
 
+  // Get all Colleges
   const getColleges = async () => {
     const data = await fetch(`http://localhost:8000/colleges/get`);
     const res = await data.json();
@@ -147,16 +150,18 @@ export default function ReactBigCalendar() {
           });
         setEventData(array);
       }
+    }else{
+      showEvent();
     }
-    showEvent();
     getUser();
     getColleges();
     setLoading(false);
-  }, [loading, event, eventClicked, selectedEvent, eventData]);
+  }, [loading, event, eventClicked, selectedEvent,clgSelected]);
 
-  // Mark Interested
-  const attendanceUpdate = async (id) => {
-    let result = await fetch(`http://localhost:8000/updateEvent/${id}`, {
+  // Mark Interested 
+  const attendanceUpdate = async (eveid) => {
+    console.log(eveid);
+    let result = await fetch(`http://localhost:8000/updateEvent/${eveid}`, {
       method: "put",
       headers: {
         "Content-Type": "application/json",
@@ -165,6 +170,18 @@ export default function ReactBigCalendar() {
     });
     result = await result.json();
     console.log(result);
+
+    // console.log(myEvent,id);
+    // let data = await fetch(`http://localhost:8000/update/interested/events/${id}`, {
+    //   method: "PUT",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: "Bearer " + localStorage.getItem("jwt"),
+    //   },
+    //   body: JSON.stringify({event:myEvent})
+    // });
+    // const res = await data.json();
+    // console.log(res);
   };
 
   // create event
@@ -187,7 +204,6 @@ export default function ReactBigCalendar() {
       },
     });
     result = await result.json();
-    console.log(result);
     setTitle("");
     setScope("");
     setEventDate("");
@@ -195,6 +211,7 @@ export default function ReactBigCalendar() {
     setVenue("");
     setDesc("");
     setSpeaker("");
+    setClgSelected();
     setAddEventModel(false);
     setLoading(true);
   };
@@ -207,7 +224,6 @@ export default function ReactBigCalendar() {
 
   // Delete Event
   const cancelEvent = async (id) => {
-    // setLoading(true);
     let result = await fetch(`http://localhost:8000/deleteEvent/${id}`, {
       method: "delete",
     });
@@ -220,6 +236,8 @@ export default function ReactBigCalendar() {
 
   // Handle selection of clg
   const handleCollege = (e) => {
+    setPreEventModel(false)
+    setSelectedEvent("");
     setClgSelected(e.target.value);
   };
 
@@ -228,16 +246,16 @@ export default function ReactBigCalendar() {
       <div className="Calendar-container">
         <div className="Calendar-left">
           {/* ----------------college dropdown for super admin--------------- */}
-
-          <div className=" my-4  ">
-            <select className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl sm:w-[90%] sm:ml-0 lg:w-[100%]">
-              <option className=" " hidden selected disabled>
-                College
-              </option>
+          <div className=" my-4 mx-1 ">
+            <select className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl sm:w-[40%] lg:w-[100%]" value={clgSelected} onChange={(e)=>{handleCollege(e);}}>
+              <option className=" " value="College" hidden selected disabled>College</option>
               <option value="All">All</option>
-              {allClgs.length > 0 &&
-                allClgs.map((clg) => <option value={clg}>{clg}</option>)}
-              <option>IET-DAVV</option>
+              {
+                allClgs.length > 0 &&
+                allClgs.map((clg) => (
+                  <option value={clg}>{clg}</option>
+                ))
+              }
             </select>
           </div>
 
@@ -245,7 +263,7 @@ export default function ReactBigCalendar() {
           <div
             className="Calendar-add"
             onClick={() => {
-              setAddEventModel(true);
+              setAddEventModel(true); setPreEventModel(false)
             }}
           >
             <div>

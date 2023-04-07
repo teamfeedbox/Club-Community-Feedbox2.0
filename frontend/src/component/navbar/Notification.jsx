@@ -37,7 +37,7 @@ const Notification = (props) => {
   return (
     <div className="absolute top-[110%] right-5 bg-white rounded py-2 px-2.5 w-[23%] shadow max-h-[500px]  ">
       <div className="flex justify-between">
-        <div className="font-semibold">Notification</div>
+        <div className="text-[1.1rem] font-[700] ">Notification</div>
         <div className="" onClick={handleClose}>
           <FontAwesomeIcon icon={faXmark} />
         </div>

@@ -112,8 +112,9 @@ function Overview(prop) {
   
 
   
-  const noRefCheck = ()=>{
-// console.log(skills)
+  const handleRemove = (e)=>{
+    setSkills(e)
+    // console.log(e)
   }
 
   return (
@@ -152,25 +153,11 @@ function Overview(prop) {
             <div className='Profile-Edit-Mail'>
               <div>
                 <span>Email:</span>
-                
-                { 
-                  profileSubmit?
-                  (
-                  <input className='Overview-Left-input Overview-Left-input1'
-                  // rows="3"
-                  placeholder=''
-                 
-                  onChange={getChanges}
-                  >
-                  </input>
-                  )
-                  :
                   <p className='Overview-Left-P' onClick={() => SetProfileSubmit(true)}>
                   {
                     data && data.email
                   }
                   </p>
-                }
                
               </div>
               {
@@ -189,7 +176,7 @@ function Overview(prop) {
             </div>
             <div>
               <span onClick={handleShow}>Unique Id: </span>
-              <p>2019SVV0565</p>
+              <p>{data && data.uniqueId}</p>
             </div>
           </section>
           <section>
@@ -250,7 +237,7 @@ function Overview(prop) {
                 displayValue=""
                 isObject={false}
                 onKeyPressFn={function noRefCheck() {}}
-                onRemove={noRefCheck()}
+                onRemove={(e)=>{handleRemove(e)}}
                 onSearch={function noRefCheck() {}}
                 onSelect={onSelectNames}
                 selectedValues={data && data.skills }

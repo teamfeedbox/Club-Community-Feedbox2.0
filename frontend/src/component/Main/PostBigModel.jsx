@@ -100,11 +100,31 @@ function PostBigModel({ openComment, setOpenComment, id }) {
       },
     });
     result = await result.json();
-    console.log(result)
+    // console.log(result)
     setUser(result);
     // if(result._id===id){
     //   getPost()
     // }
+  };
+
+  const [img, setImg] = useState();
+
+  useEffect(() => {
+    getUser();
+    
+  }, []);
+
+  const getUser = async () => {
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    // console.log(result)
+    setImg(result.img)
+    // setData(result);
+    // setUserId(result._id)
   };
 
   const updateComment = () => {
@@ -253,9 +273,12 @@ function PostBigModel({ openComment, setOpenComment, id }) {
         </Modal.Body>
       </Modal>
 
+
+
+{/* 
       <Modal
-        show={show}
-        // onHide={handleShowDeleteReply}
+        // show={show}
+        onHide={handleShowDeleteReply}
         className="edit-modal-container"
       >
         <Modal.Body className="modal-dialog1">
@@ -263,17 +286,22 @@ function PostBigModel({ openComment, setOpenComment, id }) {
             <button
               className="delete-btn"
                onClick={
-                ()=>{deleteReply(replyId)
-                  handleCloseDelete()
-                }}>
-              Sure
+                ()=>{
+                  
+                  deleteReply(replyId)
+                  // handleCloseDelete()
+                }
+
+              }
+            >
+              Delete Reply
             </button>
             <button className="delete-btn" onClick={handleCloseDelete}>
               Cancel
             </button>
           </div>
         </Modal.Body>
-      </Modal>
+      </Modal> */}
 
       {openComment ? (
         <div className="Post-Big-Model-container">
@@ -586,7 +614,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                     <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700 ">
                       <div className="rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
                         <img
-                          src="Images/alumni2.jpg"
+                          src={img}
                           aria-hidden="true"
                           className="w-10 h-8
                             p-0
