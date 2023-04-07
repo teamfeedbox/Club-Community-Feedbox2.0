@@ -22,6 +22,7 @@ const Rescources = () => {
     { name: "Content Writing", img: "Images/content.png" },
     { name: "Performance Marketing", img: "Images/performance.png" }
   ]);
+  
 
   return (
     <>
@@ -30,14 +31,14 @@ const Rescources = () => {
 
         {/* ----------------college dropdown for super admin--------------- */}
 
-        <div className=" my-4 mx-1 ">
-            <select className="p-2 border-2 font-[700] text-[1rem] border-[#000] rounded-3xl w-[20%]">
+        {/* <div className=" my-4 mx-1 ">
+            <select className="p-2 border-2 font-[700] text-[1rem] border-[#000] rounded-3xl w-[90%] md:w-[20%]">
               <option className=" " selected disabled hidden>College</option>
               <option>Shri Vaishnav Vidyapeeth Vishwavidyalaya</option>
               <option>IET-DAVV</option>
             </select>
 
-          </div>
+          </div> */}
 
         <div className="Rescources-overall-card">
           

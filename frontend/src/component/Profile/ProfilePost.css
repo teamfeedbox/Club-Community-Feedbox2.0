@@ -91,7 +91,7 @@
 .swiper-button-prev:after, .swiper-rtl .swiper-button-next:after {
     content: 'prev';
     color: black;
-    font-size: 1rem;
+    font-size: 10px;
 }
 
 .swiper-button-next:after, .swiper-rtl .swiper-button-prev:after {

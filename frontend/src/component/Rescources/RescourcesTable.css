@@ -66,7 +66,8 @@
 }
 
 .res-navigation {
-    /* display: flex*/
+    display: flex;
+    justify-content: center;
     margin: 20px;
     color: #7a7e83;
 }
@@ -78,6 +79,22 @@
     margin: 20px 20px;
 }
 
+.res-paginate{
+    display: flex;
+    gap:10px;
+}
+.nums{
+    position: relative;
+    top:5px;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.prev{
+    background-color: rgb(200, 199, 199);
+    border-radius: 5px;
+    padding:5px;
+}
 .res-heading-right {
     display: flex;
     /* border: 2px solid red; */
@@ -87,6 +104,7 @@
     display: flex;
     margin: 0px 20px;
 }
+
 
 .res-table-search input {
     border-top-left-radius: 5x;

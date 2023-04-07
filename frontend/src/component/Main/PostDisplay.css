@@ -107,14 +107,10 @@
     /* border: 2px solid red; */
   }
 
-.swiper-button-prev:after, .swiper-rtl .swiper-button-next:after {
-    content: 'prev';
+
+.swiper-button-prev:after{
+    content: '';
     color: black;
-    font-size: 10px;
-    background-color: #fff;
-    height: 25px;
-    width: 25px;
-    margin: auto;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -122,14 +118,37 @@
     border-radius: 100%;
 }
 
-.swiper-button-next:after, .swiper-rtl .swiper-button-prev:after {
-    content: 'next';
+.swiper-button-prev{
+    content: '';
     color: black;
-    font-size: 10px;
     background-color: #fff;
     height: 25px;
     width: 25px;
-    margin: auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+}
+
+
+.swiper-button-next:after{
+    content: '';
+    color: black;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+}
+
+.swiper-button-next{
+    content: '';
+    color: black;
+    background-color: #fff;
+    height: 25px;
+    width: 25px;
+    margin-right: 17px;
     text-align: center;
     display: flex;
     justify-content: center;
