@@ -17,10 +17,12 @@ const ClubMember = ({ props }) => {
   const [id, setId] = useState("");
   const [value,setValue]=useState("");
   const [name,setName]=useState("");
+
   const handleClose = () => {
     setShow(false);
     setConfirm(false);
   };
+
   const handleShow = () =>{
     setShow(true);
   } 
@@ -66,21 +68,25 @@ const ClubMember = ({ props }) => {
 
   // submit handler for making club member as lead
   const submitHandler = async () => {
-    setLoading(true);
-    console.log(id);
-    const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ role: "Lead", position: position }),
-    });
-    const res = await data.json();
-    console.log(res);
+    if(value && position){
+      
 
-    // Generate Notification
+    }
+    // setLoading(true);
+    // console.log(id);
+    // const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
+    //   method: "PUT",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ role: "Lead", position: position }),
+    // });
+    // const res = await data.json();
+    // console.log(res);
+
+    // // Generate Notification
     
-    setConfirm(false);
-    setShow(false);
-    setLoading(false);
+    // setConfirm(false);
+    // setShow(false);
+    // setLoading(false);
   };
 
   return (
@@ -90,7 +96,7 @@ const ClubMember = ({ props }) => {
         <div class="relative text-lg bg-transparent text-gray-800">
           <div class="flex items-center border-b-2 border-[#6F6F6F] py-2 mt-3">
             <input
-              class="bg-transparent w-full  border-none mr-10 px-2 leading-tight focus:outline-none"
+              class="bg-transparent w-full  border-none mr-10 px-2 text-[1rem] font-[400] leading-tight focus:outline-none"
               type="text"
               value={searchval}
               onChange={searchHandler}
@@ -120,11 +126,11 @@ const ClubMember = ({ props }) => {
                             alt="Alex Shatov"
                           />
 
-                          <div className="ml-2"> {member.name} </div>
+                          <div className="ml-2 text-[1rem] font-[400]"> {member.name} </div>
                         </div>
                       </td>
                       <td class="p-2 lg:flex items-center hidden md:block">
-                        <div class="font-medium text-gray-800">
+                        <div class="font-medium text-gray-800 text-[1rem] font-[400]">
                           {member.branch}
                         </div>
                       </td>
@@ -145,10 +151,10 @@ const ClubMember = ({ props }) => {
                               </div>
                             ) : (
                               <div
+                                className="text-[1.05rem] font-[500]"
                                 onClick={() => {
                                   setId(member._id);
                                   setName(member.name)
-                                  console.log(id,name);
                                   handleShow();
                                 }}
                               >
@@ -177,14 +183,14 @@ const ClubMember = ({ props }) => {
 
                             <Modal.Body>
                              <div style={{display:"flex",flexDirection:"column",gap:"20px"}}>
-                             <div style={{fontWeight:"600",fontSize:"20px"}}>You want to make {name} as Lead/Admin ? </div>
+                             <div style={{fontWeight:"700",fontSize:"1.1rem"}}>You want to make {name} as Lead/Admin ? </div>
                               <div style={{display:"flex",gap:"18px"}}>
                               <div>
                                 <select 
                                   value="Select Role"
                                   name="val"
                                   onChange={(e)=>setValue(e.target.value)}
-                                   className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl w-[110%]">
+                                   className="p-2 border-2 font-semibold text-[#3174AD] text-[1rem] font-[400] border-[#3174AD] rounded-3xl w-[110%]">
                                   <option
                                   className=" "
                                     hidden
@@ -251,13 +257,8 @@ const ClubMember = ({ props }) => {
                   ))
                 : 
                 <div className="nopending">
-                  <div>No Club Members</div>
-                  <div className="mycontainer">
-                    <span className="mycircle"></span>
-                    <span className="mycircle"></span>
-                    <span className="mycircle"></span>
-                    <span className="mycircle"></span>
-                  </div>
+                  <div className="text-[1rem] font-[400]">No Club Members !!</div>
+                
                 </div>
                 }
             </tbody>

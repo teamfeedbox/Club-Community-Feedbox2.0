@@ -384,7 +384,7 @@ const RescourcesTable = (props) => {
                 <tbody class="text-sm divide-y divide-gray-100">
                   {searched &&
                     searched.map((item) => (
-                      <tr>
+                      <tr key={item._id}>
                         <td class="p-2">
                           <a
                             href={item && item.url}
@@ -398,17 +398,17 @@ const RescourcesTable = (props) => {
                           </a>
                         </td>
                         <td class="p-2">
-                          <div class="font-medium text-gray-800">
+                          <div class="font-[500] text-[1rem] text-gray-800">
                             {item && item.title}
                           </div>
                         </td>
                         <td class="p-2">
-                          <div class="text-left text-blue-600 font-bold">
-                            {item && item.date}
+                          <div class="text-left text-blue-600 font-[500] text-[1rem]">
+                            {item && item.date && timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}
                           </div>
                         </td>
                         <td class="p-2">
-                          <div class="text-left text-black font-medium">
+                          <div class="text-left text-black font-[500] text-[1rem]">
                             {item && item.author && item.author.name}
                           </div>
                         </td>

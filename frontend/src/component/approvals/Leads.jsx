@@ -80,7 +80,7 @@ const Leads = (props) => {
         <div class="relative text-lg bg-transparent text-gray-800">
           <div class="flex items-center border-b-2 border-[#6F6F6F] py-2 mt-3">
             <input
-              class="bg-transparent w-full  border-none mr-10 px-2 leading-tight focus:outline-none"
+              class="bg-transparent w-full text-[1rem] font-[400]  border-none mr-10 px-2 leading-tight focus:outline-none"
               type="text"
               value={searchval}
               onChange={searchHandler}
@@ -110,11 +110,11 @@ const Leads = (props) => {
                           alt="Alex Shatov"
                         />
 
-                        <div className="ml-2"> {member.name} </div>
+                        <div className="ml-2 text-[1rem] font-[400]"> {member.name} </div>
                       </div>
                     </td>
                     <td class="p-2 lg:flex items-center hidden md:block  w-[10%]">
-                      <div class="font-medium text-gray-800">
+                      <div class="font-medium text-gray-800 text-[1rem] font-[400]">
                         {member.position}
                       </div>
                     </td>
@@ -123,7 +123,7 @@ const Leads = (props) => {
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                         <button
                           onClick={()=>{setId(member._id); handleShow()}}
-                          className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
+                          className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] text-[1.05rem] font-[500] hover:bg-[#03821f]"
                         >
                           <FontAwesomeIcon icon={faUser} className="mr-2" />
                           Make Admin
@@ -170,23 +170,19 @@ const Leads = (props) => {
                       </Modal>
                     </td> 
                     {/* : ''} */}
-                    <td className=" my-auto ">
+                    <td className=" my-auto " style={{marginRight:"10px"}}>
                       <div className="">
-                        <button className="dlt-btn">Delete</button>
-                        {/* <FontAwesomeIcon icon={faTrash} className="h-[20px] text-red-500" /> */}
+                      <button
+                          onClick={()=>{setId(member._id); handleShow()}}
+                          className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000] text-[1.05rem] font-[500] hover:bg-[#bf1004]"
+                        >Delete</button>
                       </div>
                     </td>
                   </tr>
                 )) :
                 <div className="nopending">
-                <div>No Lead Members</div>
-                <div className="mycontainer">
-                  <span className="mycircle"></span>
-                  <span className="mycircle"></span>
-                  <span className="mycircle"></span>
-                  <span className="mycircle"></span>
+                <div className="text-[1rem] font-[400]">No Lead Members !!</div>
                 </div>
-              </div>
                 }
             </tbody>
           </table>

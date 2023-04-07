@@ -54,19 +54,19 @@ const ProfileRes = () => {
       {data.length > 0 ?
         <div class="overflow-x-auto p-3">
         <table class="table-auto w-full">
-          <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+          <thead class=" uppercase text-gray-400 bg-gray-50">
             <tr>
               <th class="p-2">
-                <div class="font-semibold text-left">Resource type</div>
+                <div class="font-[500] text-[0.8rem] text-left">Resource type</div>
               </th>
               <th class="p-2">
-                <div class="font-semibold text-left">Resource Title</div>
+                <div class="font-[500] text-[0.8rem] text-left">Resource Title</div>
               </th>
               <th class="p-2">
-                <div class="font-semibold text-left">Date Posted</div>
+                <div class="font-[500] text-[0.8rem] text-left">Date Posted</div>
               </th>
               <th class="p-2">
-                <div class="font-semibold text-center">Action</div>
+                <div class="font-[500] text-[0.8rem] text-center">Action</div>
               </th>
             </tr>
           </thead>
@@ -87,10 +87,10 @@ const ProfileRes = () => {
                   </a>
                 </td>
                 <td class="p-2">
-                  <div class="font-medium text-gray-800">{item.title}</div>
+                  <div class=" text-gray-800 font-[500] text-[1rem]">{item.title}</div>
                 </td>
                 <td class="p-2">
-                  <div class="text-left text-blue-600 font-bold">
+                  <div class="text-left text-blue-600 font-[500] text-[1rem]">
                     {item.date && timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}
                   </div>
                 </td>

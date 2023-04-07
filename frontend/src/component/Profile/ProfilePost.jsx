@@ -87,9 +87,6 @@ const ProfilePost = (prop) => {
                { open && <div
                 class=" absolute   bg-white/40 rounded-lg shadow ">
                 <ul class="py-3 px-3  flex flex-col gap-3">
-                  {/* <li class="cursor-pointer bg-sky-400 p-2 rounded-md hover:opacity-90 text-white flex items-center justify-around font-[500]">
-                    <FontAwesomeIcon icon={faEdit} /> Edit
-                  </li> */}
                   <li class="cursor-pointer bg-red-400 p-2 rounded-md hover:opacity-90 text-white"
                   onClick={() => deletePost(item._id)}
                   >
