@@ -98,7 +98,7 @@ router.get('/myEvent', requireLogin, async (req, res) => {
 // update attendance of a event
 router.put('/update/Event/:eventId', requireLogin, async (req, res) => {
     try {
-        console.log(req.body, req.params.eventId);
+        // console.log(req.body, req.params.eventId);
         let ids = req.body.absentees;
         if (ids.length > 0) {
             ids.map(async (data) => {

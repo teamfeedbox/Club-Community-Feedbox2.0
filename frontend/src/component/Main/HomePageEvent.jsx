@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import Button from "react-bootstrap/Button"
 import {Link} from "react-router-dom"
+import Scrollbars from "react-custom-scrollbars";
 
 const HomePageEvent = (props) => {
   const [event, setEvent] = useState([]);
@@ -108,15 +109,20 @@ const HomePageEvent = (props) => {
 
       {/* mobile view */}
       <div className="main-event-carousel">
+        {/* zkmklxm */}
 
         <Carousel
-          autoPlay
-          interval="2000"
-          infiniteLoop={true}
+          autoPlay interval="5000" 
+          showArrows={true}
+          showIndicators={true}
           showThumbs={false}
+          infiniteLoop
+          // dynamicHeight
+          // className=""
         >
           {event.map((item, index) => (
-            <div className="HomePageEvent">
+            <div className="HomePageEvent ">
+              <Scrollbars style={{ height: "150px" }}>
               <h2> {item.title} </h2>
               <div className="home-page-event-time">
                 <FontAwesomeIcon icon={faClock} className="fa-xl" />
@@ -133,6 +139,7 @@ const HomePageEvent = (props) => {
                   Interested
                 </button>
               </div>
+              </Scrollbars>
             </div>
           ))}
         </Carousel>

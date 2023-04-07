@@ -97,6 +97,9 @@ const Main = () => {
         {/* ******************mobile view************************* */}
         <div className="main-page-display-mobile">
           <section className="main ">
+          <div className="w-[92%] ml-[4%]">
+            <HomePageProfile userData={user && user} />
+            </div>
             <div className="w-[92%] ml-[4%]">
               {user && user.role === "Club_Member" ? '' : <CreatePost userData={user && user} />}
             </div>

@@ -41,7 +41,7 @@ const postSchema = new mongoose.Schema({
       message: {
         type: String,
       },
-      reply: {
+      reply: [{
         postedBy: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "users",
@@ -53,7 +53,7 @@ const postSchema = new mongoose.Schema({
         replyMsg: {
           type: String,
         },
-      },
+      }],
     },
   ],
 });

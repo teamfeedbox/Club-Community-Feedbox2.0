@@ -143,7 +143,9 @@ const HomePageProfile = (props) => {
   }
 
   return (
-    <div className="HomePageProfile pb-3">
+    <div className="HomePageProfile mt-[10px] md:mt-[20px] lg:mt-[20px] pb-3">
+      {/*-------------- for web and tab view------------- */}
+      <div className="hidden md:block lg:block">
       <div className="home-profile-bg-doodle">
         <img src={"Images/doodle-profile-bg.png"} alt="" />
         <button className="home-profile-visit-profile" onClick={data && data.role == 'Super_Admin' ? () => goToProfile('superAdmin') : () => goToProfile('user')}>
@@ -280,7 +282,59 @@ const HomePageProfile = (props) => {
               </div>
             </div>
           </div>
-        </div> : ""}
+        </div>
+    : ""}
+      </div>
+
+      {/* --------------------for mobile view (only for super admin) -------------------- */}
+      <div className="block md:hidden lg:hidden px-3 pt-3">
+      <div className="mb-2  w-[100%]">
+          <form onSubmit={handleAddSubmit}>
+            <input
+              type="text"
+              className="border rounded p-1 w-[75%]"
+              placeholder="Add College"
+              value={college}
+              required
+              onChange={onAddCollege}
+              
+            />
+            <button
+            className=" p-1 rounded w-[22%] bg-green-600 ml-2 text-white font-[600] text-[1rem] hover:bg-green-800 transition-all ease-linear duration-2000 "
+            type="submit"
+            >
+            {loading ? (
+              <div
+                class="spinner-border text-white"
+                role="status"
+                style={{ height: "15px", width: "15px",marginLeft:"2px"}}
+              >
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            ) : (
+              <div>
+                Add
+              </div>
+            )}
+            </button>
+            
+          </form>
+        </div>
+
+      <div className=" ">
+          <select
+            name="College"
+            id="College"
+            className="border w-[100%] rounded p-1" onChange={handleCollege}
+          >
+            <option disabled selected className="hidden">
+              College
+            </option>
+            {allClgs.length > 0 &&
+              allClgs.map((clg) => <option key={clg._id} value={clg}>{clg}</option>)}
+          </select>
+        </div>
+      </div>
     </div>
   );
 };

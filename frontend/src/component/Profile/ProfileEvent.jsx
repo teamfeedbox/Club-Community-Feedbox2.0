@@ -33,7 +33,7 @@ const ProfileEvent = () => {
 
       {
         data.map((item)=>(
-          <div className="profile-event-card">
+          <div key={item._id} className="profile-event-card">
           <h4>{item.title}</h4>
           <div className="profile-event-icon-desc">
             <FontAwesomeIcon

@@ -9,7 +9,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import { Navigation } from "swiper";
+import { Autoplay, Navigation } from "swiper";
 import "./PostDisplay.css";
 import PostBigModel from "./PostBigModel";
 import Loader from '../Loader.jsx'
@@ -213,30 +213,28 @@ const PostDisplay = (props) => {
                   <div className="post-display-carousel-mobileview">
                     <Swiper
                       navigation={true}
-                      modules={[Navigation]}
-                      autoplay
+                      data-aos="fade-up"
+                        data-aos-duration="100s"
+                        spaceBetween={0}
+                        loop={true}
+                        autoplay={{
+                            delay: 2000,
+                            disableOnInteraction: false,
+                        }}
+                        modules={[Autoplay]}
+                    
                       className="mySwiper">
 
                       {
                         item.img.length > 0 &&
                         item.img.map((data) => (
-                            <SwiperSlide>
-                          <div>
-                            <img className="display-img" src={data} />
+                            <SwiperSlide >
+                          <div className="">
+                            <img className="" src={data} />
                           </div>
                       </SwiperSlide>
                         ))
                       }
-
-                        {/* <img className="display-img" src="Images/alumni1.jpg" /> */}
-
-
-                      {/* <SwiperSlide>
-                        <img className="display-img" src="Images/alumni1.jpg" />
-                      </SwiperSlide>
-                      <SwiperSlide>
-                        <img className="display-img" src="Images/alumni1.jpg" />
-                      </SwiperSlide> */}
                     </Swiper>
                   </div>
                 </div>
@@ -254,7 +252,7 @@ const PostDisplay = (props) => {
                       {
                         item.img.length > 0 &&
                         item.img.map((data) => (
-                          <div>
+                          <div key={data._id}>
                             <img className="display-img" src={data} />
                           </div>
                         ))
