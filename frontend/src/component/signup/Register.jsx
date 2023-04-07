@@ -104,8 +104,16 @@ const Register = () => {
     console.log(result);
 
     if (result) {
-      alert("You have registered successfully ! Wait until you receive mail to login ");
-      navigate("/login");
+      console.log(result);
+      if(result.data==="user already exists with that email")
+      {
+        alert(result.data);
+      }
+      else{
+        alert(result.data);
+        navigate("/login");
+      }
+      
     }
   };
 
