@@ -9,6 +9,7 @@ const app = express();
 const cors = require("cors");
 const user = require("./models/user");  
 
+
 mongoose.set("strictQuery", false);
 
 const db = "mongodb+srv://feedbox:feedbox@cluster0.f8qrcl7.mongodb.net/community?retryWrites=true&w=majority";
@@ -29,10 +30,11 @@ const bodyParser = require('body-parser')
 
 
 
-
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.urlencoded({
+  limit: "50mb",
+  extended: false
+}));
 app.use(express.json({ limit: '10mb' }));
 app.use(cors());
 
