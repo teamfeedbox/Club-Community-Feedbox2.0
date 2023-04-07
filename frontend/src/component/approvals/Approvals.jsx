@@ -54,9 +54,10 @@ const Approvals = () => {
             <option className=" " selected hidden disabled>
               College
             </option>
+            <option value="All">All</option>
             {
-              allClgs.length>0 && 
-              allClgs.map((data)=>(
+              allClgs.length > 0 &&
+              allClgs.map((data) => (
                 <option value={data}>{data}</option>
               ))
             }
@@ -111,15 +112,15 @@ const Approvals = () => {
 
             <div className="profile-tab-data">
               <div className={tabs === "club" ? "" : "profile-tab-data-hide"}>
-                <ClubMember props={{cm:cM ? true : false,clg:clg && clg}} />
+                <ClubMember props={{ cm: cM ? true : false, clg: clg && clg }} />
               </div>
 
               <div className={tabs === "Lead" ? "" : "profile-tab-data-hide"}>
-                <Lead props={click && true} />
+                <Lead props={click && true} clg={clg && clg} />
               </div>
 
               <div className={tabs === "Admin" ? "" : "profile-tab-data-hide"}>
-                <Admin props={click && true} />
+                <Admin props={click && true} clg={clg && clg}/>
               </div>
 
               <div
