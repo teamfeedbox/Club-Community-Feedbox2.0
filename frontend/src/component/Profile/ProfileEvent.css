@@ -23,7 +23,8 @@
 }
 
 .profile-event-card h4 {
-    font-weight: 700;
+    font-weight: var(--heading-font-weight);
+    font-size: var(--heading-font-size);
 }
 .profile-event-icon-desc {
     display: flex; 
@@ -38,7 +39,8 @@
 
 .profile-event-icon-desc p {
     margin: 0px 20px;
-    font-weight: 600;
+    font-weight: var(--subheading-font-weight);
+    font-size: var(--subheading-font-size);
 }
 
 .profile-event-description {
@@ -46,6 +48,7 @@
     display: flex;
     padding-bottom: 10px;
 }
+
 .profile-event-footer {
     display: flex;
     justify-content: space-between;
@@ -58,7 +61,8 @@
     border: 2px solid black;
     border-radius: 15px;
     padding: 3px 20px;
-    font-weight: 600;
+    font-weight: var(--button-font-weight);
+    font-size: var(--button-font-size);
     transition: all 0.2s linear;
 }
 

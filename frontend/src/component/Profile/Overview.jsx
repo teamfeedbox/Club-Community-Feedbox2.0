@@ -152,26 +152,12 @@ function Overview(prop) {
             </div>
             <div className='Profile-Edit-Mail'>
               <div>
-                <span className='text-[1.1rem] font-[700] '>Email:</span>
-                
-                { 
-                  profileSubmit?
-                  (
-                  <input className='Overview-Left-input Overview-Left-input1'
-                  // rows="3"
-                  placeholder=''
-                 
-                  onChange={getChanges}
-                  >
-                  </input>
-                  )
-                  :
+                <span>Email:</span>
                   <p className='Overview-Left-P' onClick={() => SetProfileSubmit(true)}>
                   {
                     data && data.email
                   }
                   </p>
-                }
                
               </div>
               {
