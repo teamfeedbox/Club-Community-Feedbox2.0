@@ -1,8 +1,12 @@
 import { faChain, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
+import TimeAgo from "javascript-time-ago";
+import en from 'javascript-time-ago/locale/en'
 
 const ProfileRes = () => {
+  TimeAgo.addLocale(en);
+  const timeAgo = new TimeAgo("en-US");
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -86,7 +90,7 @@ const ProfileRes = () => {
                 </td>
                 <td class="p-2">
                   <div class="text-left text-blue-600 font-bold">
-                    {item.date}
+                    {item.date && timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}
                   </div>
                 </td>
                 <td class="p-2">

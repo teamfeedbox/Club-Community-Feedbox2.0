@@ -3,6 +3,8 @@ import { Carousel } from "react-responsive-carousel";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {Link} from "react-router-dom";
+import TimeAgo from "javascript-time-ago";
+import en from 'javascript-time-ago/locale/en'
 
 
 // Import Swiper styles
@@ -22,6 +24,8 @@ import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import ProfileBigModel from "./ProfileBigModel";
 
 const ProfilePost = (prop) => {
+  TimeAgo.addLocale(en);
+  const timeAgo = new TimeAgo("en-US");
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [newS, setNewS] = useState(false);
@@ -70,7 +74,7 @@ const ProfilePost = (prop) => {
       {post.length>0 && post.map((item) => (
         <div className="post-display">
           <div className="flex justify-between">
-            <p className="post-display-heading-time"> Posted</p>
+            <p className="post-display-heading-time"> Posted : {item && item.postedDate && timeAgo.format(new Date(item.postedDate).getTime() - 60 * 1000)}</p>
             <div>
               <div 
               onClick={() => {setOpen(!open)}}
