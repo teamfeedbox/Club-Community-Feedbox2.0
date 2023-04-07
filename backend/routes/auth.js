@@ -109,6 +109,9 @@ router.post("/login", (req, res) => {
   });
 });
 
+<<<<<<< HEAD
+// Get a user
+=======
 
 router.post("/login/superAdmin", (req, res) => {
   const { email, password } = req.body;
@@ -139,6 +142,7 @@ router.post("/login/superAdmin", (req, res) => {
   });
 });
 
+>>>>>>> f69bcf9e7033ef6e808c29a1bf2393817c0092ec
 router.get('/user', requireLogin, async (req, res) => {
   try {
     const email = req.user.email;
@@ -252,6 +256,15 @@ router.put('/update/coins/events/', async (req, res) => {
   // console.log(req.body);
   try {
     req.body.attendees.map(async (data) => {
+<<<<<<< HEAD
+      const response = await User.updateOne({ _id: data.id }, {
+        $set: { coins: data.coins },
+        $push: { events: req.body.currentEvent }
+      })
+    })
+    res.status(200).json(true);
+  } catch (error) {
+=======
 
       const response = await User.updateOne(
         { _id: data.id },
@@ -286,6 +299,7 @@ router.put('/user/user/addnotifi/:id',async (req,res)=>{
     })
     res.status(200).json(true);
   } catch (error) {
+>>>>>>> f69bcf9e7033ef6e808c29a1bf2393817c0092ec
     res.status(500).json(error)
   }
 })
@@ -299,6 +313,9 @@ router.put('/update/interested/events/:userId', async (req, res) => {
     }, { new: true })
     res.status(200).json(response);
   } catch (error) {
+<<<<<<< HEAD
+    res.status(500).json(error)
+=======
 
     res.status(500).json(error);
   }
@@ -313,6 +330,7 @@ router.get('/user/get/user/all/notifi/:id',async(req,res)=>{
   } catch (error) {
       res.status(401).json(error);
 
+>>>>>>> f69bcf9e7033ef6e808c29a1bf2393817c0092ec
   }
 })
 
