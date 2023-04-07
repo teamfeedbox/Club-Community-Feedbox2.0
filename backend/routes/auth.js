@@ -111,10 +111,6 @@ router.post("/login", (req, res) => {
   });
 });
 
-<<<<<<< HEAD
-// Get a user
-router.get("/user", requireLogin, async (req, res) => {
-=======
 
 
 router.post("/login/superAdmin", (req, res) => {
@@ -148,7 +144,6 @@ router.post("/login/superAdmin", (req, res) => {
 
 
 router.get('/user', requireLogin, async (req, res) => {
->>>>>>> 92566a39d4633a17b335540cd3aa27dd918ea8fb
   try {
     const email = req.user.email;
     const user = await User.findOne({ email })
@@ -295,11 +290,7 @@ router.put("/update/coins/events/", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 // Update Interested events
-router.put("/update/interested/events/:userId", async (req, res) => {
-=======
-<<<<<<< HEAD
 
 // ******************* Notification ***************************//
 // Add notification to a specific user
@@ -319,10 +310,8 @@ router.put('/user/user/addnotifi/:id',async (req,res)=>{
   }
 })
 
-=======
 // Update Interested events 
 router.put('/update/interested/events/:userId', async (req, res) => {
->>>>>>> 92566a39d4633a17b335540cd3aa27dd918ea8fb
   console.log(req.body);
   try {
     const response = await User.updateOne(
@@ -336,11 +325,7 @@ router.put('/update/interested/events/:userId', async (req, res) => {
   } catch (error) {
     res.status(500).json(error);
   }
-<<<<<<< HEAD
 });
-=======
-})
->>>>>>> 791fb78438d013c4e4aad745a0bef1634d88de89
 
 //Get all notifications of a user
 router.get('/user/get/user/all/notifi/:id',async(req,res)=>{
@@ -352,6 +337,5 @@ router.get('/user/get/user/all/notifi/:id',async(req,res)=>{
       res.status(401).json(error);
   }
 })
->>>>>>> 92566a39d4633a17b335540cd3aa27dd918ea8fb
 
 module.exports = router;
