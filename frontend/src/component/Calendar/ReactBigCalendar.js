@@ -227,6 +227,7 @@ export default function ReactBigCalendar() {
         date: eventDate,
         userId:id,
         venue:venue,
+        time:eventTime,
         
       }),
       headers: {
@@ -557,6 +558,7 @@ export default function ReactBigCalendar() {
                     <select
                       name="type"
                       onChange={(e) => setScope(e.target.value)}
+                     
                     >
                       <option selected disabled hidden>
                         Select Community
