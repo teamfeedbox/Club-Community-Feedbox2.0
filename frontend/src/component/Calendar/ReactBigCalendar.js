@@ -102,15 +102,17 @@ export default function ReactBigCalendar() {
 
   // Get All Events
   const showEvent = async () => {
+    console.log("kjtnru");
     let result = await fetch("http://localhost:8000/getAllEvent");
     result = await result.json();
     setEvent(result);
-    let array = [];
+    console.log(result,"o");
     result.map((data, i) => {
       data.start = new Date(data.eventDate);
       data.end = new Date(data.eventDate);
       data.id = i
     });
+    console.log(result);
     setEventData(result)
     setDupliEvents(result)
   };
@@ -139,6 +141,7 @@ export default function ReactBigCalendar() {
         setEventData(array);
       }
     }else{
+      console.log("khsui");
       showEvent();
     }
     getUser();

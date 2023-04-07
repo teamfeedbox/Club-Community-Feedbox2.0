@@ -10,6 +10,13 @@ const Admin = (props) => {
   const [searchval, setSearchVal] = useState("");
   const [data,setData]= useState([]);
   const [admin,setAdmin]= useState([]);
+  const [id,setId]=useState();
+  const [delshow,setDelShow]=useState(false);
+  const [loading,setLoading]=useState(false)
+
+  const handleDelClose=()=>{
+    setDelShow(false);
+  }
 
   const getUser = async () => {
     const result = await fetch(`http://localhost:8000/get`);
@@ -26,7 +33,8 @@ const Admin = (props) => {
 
   useEffect(() => {
     getUser();
-  }, [props])
+    setLoading(false);
+  }, [props,loading])
 
   // search user
   const searchHandler = (e) => {
@@ -46,6 +54,18 @@ const Admin = (props) => {
       setAdmin(data);
     }
   };
+
+  const handleDeleteAdmin=async ()=>{
+    const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ role: 'Club_Member'})
+    })
+    const res = await data.json();
+    console.log(res)
+    setDelShow(false)
+    setLoading(true)
+  }
 
   return (
     <div>
@@ -94,9 +114,27 @@ const Admin = (props) => {
                         </div>
                       </td>
                       <td className=" w-[100px] my-auto">
-                      <div className="text-red-500">
+                      <div className="text-red-500" onClick={()=>{setDelShow(true); setId(member._id)}}>
                         <FontAwesomeIcon icon={faTrash} className="h-[20px] text-red-500" />
                       </div>
+                      <Modal show={delshow} onHide={handleDelClose} className="club-member-modal" >
+                        <form>
+                          <Modal.Header
+                            closeButton
+                            className="club-member-modal-header"
+                          >
+                            Are you sure to make this lead as admin ?
+                          </Modal.Header>
+                          <Modal.Footer className="modal-footer club-member-modal-footer">
+                            <div className="modal-footer-club-member-yes-no-div">
+                              <div onClick={handleDeleteAdmin}>
+                                Yes
+                              </div>
+                              <button onClick={(e) => { e.preventDefault(); setDelShow(false);}}>No</button>
+                            </div>
+                          </Modal.Footer>
+                        </form>
+                      </Modal>
                     </td>
                     </tr>
                   )) : 'No Admins...'}
