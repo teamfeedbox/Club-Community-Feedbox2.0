@@ -54,8 +54,8 @@
 
 .up-coming-events {
     color: #595656;
-    font-size: 21px;
-    font-weight: 600;
+    font-size: var(--heading-font-size);
+    font-weight: var(--heading-font-weight);
     margin-left: 5px;
 }
 
