@@ -189,7 +189,7 @@ function Overview(prop) {
             </div>
             <div>
               <span onClick={handleShow}>Unique Id: </span>
-              <p>2019SVV0565</p>
+              <p>{data && data.uniqueId}</p>
             </div>
           </section>
           <section>

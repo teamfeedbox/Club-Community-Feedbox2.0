@@ -15,8 +15,8 @@ const PendingApprovals = (props) => {
   const [pendingUsers, setPendingUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [val, setVal] = useState(false);
-  const[email,setEmail]=useState("");
-  const[id,setId]=useState("");
+  const [email, setEmail] = useState("");
+  const [id, setId] = useState("");
 
   const getUser = async () => {
     const result = await fetch(`http://localhost:8000/get`);
@@ -36,9 +36,6 @@ const PendingApprovals = (props) => {
     getUser();
     // setLoading(false);
   });
-
- 
-    
 
   // search for a pending user
   const searchHandler = (e) => {
@@ -69,7 +66,6 @@ const PendingApprovals = (props) => {
     });
     const res = await data.json();
     setLoading(false);
-
   };
 
   const handleEmail = async (id) => {
@@ -81,12 +77,10 @@ const PendingApprovals = (props) => {
     });
     const res = await data.json();
     setEmail(res);
-
   };
 
-
   // Accept request for club member
-  const handleAccept = async (id,i) => {
+  const handleAccept = async (id, i) => {
     setLoading(true);
     setId(i);
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
@@ -99,7 +93,6 @@ const PendingApprovals = (props) => {
     setVal(!val);
     props.func(!val);
     setLoading(false);
-
   };
 
   return (
@@ -144,7 +137,7 @@ const PendingApprovals = (props) => {
           <table class="table-auto w-full max-w-[1300px] ">
             <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
               {pendingUsers.length > 0 ? (
-                pendingUsers.map((approval,index) => (
+                pendingUsers.map((approval, index) => (
                   <tr className="flex justify-between max-w-[1150px]">
                     <td class="p-2  lg:w-[300px]">
                       <div className="flex items-center">
@@ -171,33 +164,38 @@ const PendingApprovals = (props) => {
                         >
                           Decline
                         </button>
-                        <button
-                            className="h-[25px] w-[60px] rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
-                          >
-                        {loading && id===index ? (
-                          <div
-                            class="spinner-border text-white"
-                            role="status"
-                            style={{ height: "15px", width: "15px" }}
-                          >
-                            <span class="visually-hidden">Loading...</span>
-                          </div>
-                        ) : 
-                        <div
-                            // className="h-[25px] w-[60px] rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
-                            onClick={() => handleAccept(approval._id,index)}
-                          >
-                            Accept
-                          </div>
-                        }
+                        <button className="h-[25px] w-[60px] rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]">
+                          {loading && id === index ? (
+                            <div
+                              class="spinner-border text-white"
+                              role="status"
+                              style={{ height: "15px", width: "15px" }}
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          ) : (
+                            <div
+                              // className="h-[25px] w-[60px] rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
+                              onClick={() => handleAccept(approval._id, index)}
+                            >
+                              Accept
+                            </div>
+                          )}
                         </button>
-
                       </div>
                     </td>
                   </tr>
                 ))
               ) : (
-                <div>No Pending Requests...</div>
+                <div className="nopending">
+                  <div>No Pending Requests</div>
+                  <div className="mycontainer">
+                    <span className="mycircle"></span>
+                    <span className="mycircle"></span>
+                    <span className="mycircle"></span>
+                    <span className="mycircle"></span>
+                  </div>
+                </div>
               )}
             </tbody>
           </table>

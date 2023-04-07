@@ -42,15 +42,34 @@ const HomePageProfile = (props) => {
   const [data, setData] = useState();
 
   useEffect(() => {
-    getColleges();
+    // setLoading(true);
     getUser();
-    getList();
-    getAllUsers();
+    getColleges();
+    // setLoading(false);
+  },[college]);
+
+  const getColleges = async () => {
+    setLoading(true);
+    const data = await fetch(`http://localhost:8000/colleges/get`);
+    const res = await data.json();
+    console.log(res);
+    let val = [];
+    res.map((data) => {
+      val.push(data.name);
+    });
+    setAllClgs(val);
     setLoading(false);
-  }, []);
+  };
+  //   getColleges();
+  //   getUser();
+  //   getList();
+  //   getAllUsers();
+  //   setLoading(false);
+  // }, []);
 
   // get logged in user
   const getUser = async () => {
+    setLoading(true);
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -58,6 +77,8 @@ const HomePageProfile = (props) => {
     });
     result = await result.json();
     setData(result);
+    // setRole(result.role);
+    setLoading(false);
   };
 
   // get all events 
@@ -75,15 +96,15 @@ const HomePageProfile = (props) => {
   }
 
   // get all colleges
-  const getColleges = async () => {
-    const data = await fetch(`http://localhost:8000/colleges/get`);
-    const res = await data.json();
-    let val = [];
-    res.map((data) => {
-      val.push(data.name);
-    });
-    setAllClgs(val);
-  };
+  // const getColleges = async () => {
+  //   const data = await fetch(`http://localhost:8000/colleges/get`);
+  //   const res = await data.json();
+  //   let val = [];
+  //   res.map((data) => {
+  //     val.push(data.name);
+  //   });
+  //   setAllClgs(val);
+  // };
 
   const onAddCollege = (e) => {
     setaddclg(e.target.value);
@@ -337,6 +358,7 @@ const HomePageProfile = (props) => {
         </div>
       </div>: ''}
     </div>
+   
   );
 };
 
