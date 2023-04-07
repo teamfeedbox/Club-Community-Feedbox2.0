@@ -263,7 +263,7 @@ export default function ReactBigCalendar() {
           </div>: ''}
 
           {/* -----------Button to add event in calendar------------------*/}
-          <div
+          {role === "Club_Member" && <div
             className="Calendar-add"
             onClick={() => {
               setAddEventModel(true); setPreEventModel(false)
@@ -276,7 +276,7 @@ export default function ReactBigCalendar() {
                 icon={faCirclePlus}
               />
             </div>
-          </div>
+          </div>}
 
           {/* ------------Already created------------------------*/}
           <div className="Calendar-view">
@@ -493,7 +493,6 @@ export default function ReactBigCalendar() {
           <div className="Calendar-add-drop-container">
             <div className="Calendar-add-drop">
               <form onSubmit={addEvent}>
-                {role !== "Club_Member" && (
                   <div className="calender-add-title">
                     <span>Create an Event</span>
 
@@ -506,7 +505,6 @@ export default function ReactBigCalendar() {
                       <FontAwesomeIcon icon={faXmark} />
                     </div>
                   </div>
-                )}
                 <div className="Calendar-title">
                   <span>Title</span>
                   <input
