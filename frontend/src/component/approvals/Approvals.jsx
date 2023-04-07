@@ -4,7 +4,6 @@ import ClubMember from "./ClubMember";
 import Lead from "./Leads";
 import Admin from "./Admin";
 import SuperAdmin from "./SuperAdmin";
-import NavbarRes from "../navbar/NavbarRes";
 
 const Approvals = () => {
   const [tabs, setTabs] = useState("club");
@@ -20,10 +19,8 @@ const Approvals = () => {
   useEffect(() => {
     getUser();
   },[]);
-  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
-  // console.log(userId)
+  
   const getUser = async () => {
-    // console.log(id)
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -31,13 +28,7 @@ const Approvals = () => {
     });
     result = await result.json();
     setRole(result.role);
-    
-    // console.log(id)
     setUser(result);
-
-    // if (result) {
-    //   getUser();
-    // }
   };
   
 

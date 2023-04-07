@@ -18,6 +18,7 @@ router.get("/get", async (req, res) => {
   }
 });
 
+// Register a user
 router.post("/register", (req, res) => {
   const {
     name,
@@ -87,6 +88,7 @@ router.post("/register", (req, res) => {
     });
 });
 
+// Login
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -103,7 +105,6 @@ router.post("/login", (req, res) => {
           // res.json({message:"successfully signed in"})
           const token = jwt.sign({ _id: savedUser._id }, jwtKey);
           // const decodedToken = jwt.decode(token);
-
           res.json({ token });
         } else {
           return res.status(422).json({ error: "invalid password" });
@@ -115,14 +116,14 @@ router.post("/login", (req, res) => {
   });
 });
 
-
+// Get a user
 router.get('/user', requireLogin, async (req, res) => {
   try {
     const email = req.user.email;
     const user = await User.findOne({ email }).populate("email").select("-password");
-    if(user){
+    if (user) {
       res.status(200).json(user);
-    }else{
+    } else {
       res.status(404).json("This user doesn't exists...")
     }
   } catch (error) {
@@ -141,6 +142,7 @@ router.get('/user/:id', requireLogin, async (req, res) => {
   }
 })
 
+// Update picture
 router.put('/updatePic/:id', requireLogin, async (req, res) => {
   let result = await User.updateOne(
     { _id: req.params.id },
@@ -149,7 +151,7 @@ router.put('/updatePic/:id', requireLogin, async (req, res) => {
   res.send(result)
 })
 
-
+// Update Skills
 router.put('/updateSkill/:id', requireLogin, async (req, res) => {
   let result = await User.updateOne(
     { _id: req.params.id },
@@ -157,9 +159,6 @@ router.put('/updateSkill/:id', requireLogin, async (req, res) => {
   )
   res.send(result)
 })
-
-
-
 
 // update details of a user
 router.put('/updateDetail/:id', async (req, res) => {
@@ -177,23 +176,23 @@ router.post('/sendmail/:id', async (req, res) => {
     let result = await User.findOne({ _id: req.params.id })
     console.log(result);
     const transporter = nodemailer.createTransport({
-      service:"gmail",
-      port:465,
-      secure:false,
+      service: "gmail",
+      port: 465,
+      secure: false,
       auth: {
-          user: 'anushkashah02.feedbox@gmail.com',
-          pass: 'dvtjbrrqhgjypuya' // this requires apps password not original password
+        user: 'anushkashah02.feedbox@gmail.com',
+        pass: 'dvtjbrrqhgjypuya' // this requires apps password not original password
       }
-  });
+    });
 
-  let info = await transporter.sendMail({
+    let info = await transporter.sendMail({
       from: '<anushkashah02.feedbox@gmail.com>', // sender address
       to: `${result.email}`, // list of receivers
       subject: "Hello Isha", // Subject line
       text: "Hello Isha", // plain text body
       html: "<b>Hello Isha</b>", // html body
     });
-  
+
     console.log("Message sent: %s", info.messageId);
     res.status(200).json(info);
   } catch (error) {
@@ -213,33 +212,20 @@ router.delete('/user/:id', async (req, res) => {
   })
 })
 
-// router.put('/updateSkills/:eventId', requireLogin, async (req, res) => {
-//   let result = await Event.updateOne(
-//     { _id: req.params.eventId },
-//     {
-//       $push: { skills: req.body }
-//     }
-//   )
-//   res.send(result)
-// })
-
-
-
-router.get('/getAllUser',(req,res)=>{
+router.get('/getAllUser', (req, res) => {
   // var mySort = { date: -1 };
   User.find()
-  // .sort(mySort)
-  // .populate('postedBy').select("-password")
-  .then(user=>{
+    // .sort(mySort)
+    // .populate('postedBy').select("-password")
+    .then(user => {
       res.json(user)
-  })
-  .catch(err=>{
+    })
+    .catch(err => {
       console.log(err)
-  })
+    })
 })
 
-
-
+// Update Coins and events 
 router.put('/update/coins/events/', async (req, res) => {
   // console.log(req.body);
   try {
@@ -255,7 +241,17 @@ router.put('/update/coins/events/', async (req, res) => {
   }
 })
 
-
-
+// Update Interested events 
+router.put('/update/interested/events/:userId', async (req, res) => {
+  console.log(req.body);
+  try {
+    const response = await User.updateOne({ _id: req.params.userId }, {
+      $push: { interestedEvents: req.body.event }
+    }, { new: true })
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json(error)
+  }
+})
 
 module.exports = router;

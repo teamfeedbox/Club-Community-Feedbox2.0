@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import "./PendingApprovals.css";
 import { Scrollbars } from "react-custom-scrollbars";
-
+ 
 const PendingApprovals = (props) => {
   const [data, setData] = useState([]);
   const [searchval, setSearchVal] = useState("");
@@ -36,9 +36,6 @@ const PendingApprovals = (props) => {
     getUser();
     // setLoading(false);
   });
-
- 
-    
 
   // search for a pending user
   const searchHandler = (e) => {
@@ -99,7 +96,6 @@ const PendingApprovals = (props) => {
     setVal(!val);
     props.func(!val);
     setLoading(false);
-
   };
 
   return (
