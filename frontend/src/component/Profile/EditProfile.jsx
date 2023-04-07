@@ -26,6 +26,7 @@ const EditProfile = ({ open, setOpen }) => {
   const [url, setUrl] = useState("");
   const [email, setEmail] = useState("");
   const [bio, setBio] = useState("");
+  
  
 
   // console.log(`prop : ${open}`);
@@ -37,6 +38,7 @@ const EditProfile = ({ open, setOpen }) => {
 
   } 
   const handleShow = () => setShow(true);
+
   function handleChange(e) {
     setFile(URL.createObjectURL(e.target.files[0]));
     setImgg(e.target.files[0]);
@@ -50,15 +52,12 @@ const EditProfile = ({ open, setOpen }) => {
   },[url])
 
   useEffect(()=>{
-   
       getUserDetails();
-    
-    updateDetail(data)
+    // updateDetail(data)
+  handleClose()
+  getUser();
 }, [])
 
-useEffect(()=>{
-  handleClose()
-},[])
 
   const update = async(data)=>{
     // console.log(data)
@@ -75,7 +74,7 @@ useEffect(()=>{
 
   result = await result.json();
  
-  console.log(result)
+  // console.log(result)
   }
 
 
@@ -103,7 +102,7 @@ setBio(result.bio);
 
   result = await result.json();
  
-  console.log(result)
+  // console.log(result)
   }
 
 
@@ -136,9 +135,9 @@ setBio(result.bio);
 
   
 
-  useEffect(() => {
-    getUser();
-  },[]);
+  // useEffect(() => {
+  //   getUser();
+  // },[]);
   // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
   // console.log(userId)
   const getUser = async () => {
@@ -187,8 +186,9 @@ setBio(result.bio);
               >
                 <Form.Label>About </Form.Label>
                 <Form.Control as="textarea" rows={3}
-                 value={bio}
                  onChange={(e) => setBio(e.target.value)}
+                 value={bio}
+
                 />
               </Form.Group>
               <Form.Group>

@@ -160,12 +160,7 @@ router.put('/updateSkill/:id', requireLogin, async (req, res) => {
 })
 
 
-// router.put('/updateDetail/:id', async(req,res)=>{
 
-// //  console.log(req.body.email)
-// //   console.log(req.body.bio)
-//   let result = await User.updateMany(
-//     {_id:req.params.id},
 
 // update details of a user
 router.put('/updateDetail/:id', async (req, res) => {
@@ -245,7 +240,7 @@ router.get('/getAllUser',(req,res)=>{
 })
 
 
-// updatte event attendance and coins of a user
+
 router.put('/update/coins/events/', async (req, res) => {
   // console.log(req.body);
   try {

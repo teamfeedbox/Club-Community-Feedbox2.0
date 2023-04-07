@@ -14,7 +14,7 @@ router.get("/colleges/get", async (req, res) => {
 router.post("/college/add",async (req, res) => {
     try {
         const clg = await College.find({name:req.body.name});
-        console.log(clg)
+        // console.log(clg)
         if(clg.length>0){
             res.status(500).json("College Already Exists...");
         }else{
