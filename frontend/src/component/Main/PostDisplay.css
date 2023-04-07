@@ -32,7 +32,7 @@
 .post-head {
     margin: 0;
     font-size: 1.5rem;
-    font-weight: 600;
+    font-weight: 700;
 }
 .post-head-content {
     display: flex;
@@ -41,10 +41,10 @@
 }
 .post-head-content p{
     margin-bottom: 0;
-    font-size: 1.8rem;
     display: flex;
     margin-right: 10px;
-    font-weight: 600;
+    font-weight: var(--subcontent-font-weight);
+    font-size: var(--subcontent-font-size);
     color: #333;
     margin-top: -6px;
     
@@ -62,7 +62,8 @@
 }
 .post-display-content {
     padding-bottom: 10px;
-    font-weight: 500;
+    font-weight: var(--content-font-weight);
+    font-size: var(--content-font-size);
  }
 .post-display-bottom {
     /* border: 2px solid; */

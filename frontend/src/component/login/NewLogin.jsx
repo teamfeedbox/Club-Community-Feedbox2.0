@@ -10,6 +10,7 @@ const NewLogin = () => {
 
   const navigate = useNavigate();
 let auth = localStorage.getItem('user')
+
   const handleLogin = async (e) => {
     e.preventDefault();
     console.log(email, password);
@@ -22,15 +23,15 @@ let auth = localStorage.getItem('user')
       },
     });
     result = await result.json();
-    console.log(result.token);
-    localStorage.setItem("user", JSON.stringify(result));
-    localStorage.setItem("jwt", result.token);  
 
+    console.log(result.token);
+    
     if(result.token){
-         
-          navigate('/main')   
+      navigate('/main')   
+      localStorage.setItem("user", JSON.stringify(result));
+      localStorage.setItem("jwt", result.token);  
     }else{
-      alert("not valid")
+      alert(result.err);
     }
    
   };

@@ -85,8 +85,8 @@ export function NavLinks(props) {
           </LinkItemHighlight>
         ) : (
           <LinkItem>
-            <Link to="/main">Home</Link>
-          </LinkItem>
+                <Links to="/main">Home</Links>
+              </LinkItem>
         )}
 
         {selectedPage === "/calendar" || selectedPage === "/attendance" ? (
