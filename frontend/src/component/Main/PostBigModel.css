@@ -39,9 +39,15 @@
 
 .Post-Big-Model-Right{
     width: 50%;
-    padding: 15px 5px 15px 20px;
+    padding: 15px 5px 15px 0px;
 }
 
+.Post-Big-Model-Profile{
+    border: 1px solid black;
+    width: 100%;
+    border-radius: 10px;
+    padding: 5px 0px 5px 5px;
+}
 .Post-Big-Model-Left img{
     width: 100%;
     height: 100%;
@@ -198,7 +204,7 @@
         border-radius: 10px;
         margin-bottom: 10px;
         background-color: #fff;
-        margin-left: -1.2%;
+        /* margin-left: -1.2%; */
     }
     .Post-Big-Comment-Icons{
         font-size: 14px;
@@ -225,6 +231,7 @@
     .Scrollbar-height{
         height: 49vh;
     }
+    
       
     /* Css for delete post model */
 .modal-dialog1{
@@ -251,6 +258,10 @@
   
 .delete-btn:hover{
 background-color: #555555;
+}
+
+.carousel.carousel-slider{
+    /* max-height: 400px; */
 }
     
 

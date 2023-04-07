@@ -10,14 +10,27 @@ const Approvals = () => {
   const [cM, setCM] = useState(false);
   const [click, setClick] = useState(false);
   const [role, setRole] = useState('');
+  const [allClgs, setAllClgs] = useState([]);
   const [user, setUser] = useState();
+  const [clg, setClg] = useState();
 
   const pull_data = (data) => {
     setCM(data);
   }
 
+  const getColleges = async () => {
+    const data = await fetch(`http://localhost:8000/colleges/get`);
+    const res = await data.json();
+    let val = [];
+    res.map((data) => {
+      val.push(data.name);
+    });
+    setAllClgs(val);
+  }
+
   useEffect(() => {
     getUser();
+    getColleges();
   }, []);
 
   const getUser = async () => {
@@ -35,7 +48,20 @@ const Approvals = () => {
   return (
     <>
       <div className="pb-9 pt-[70px]" >
-        <PendingApprovals func={pull_data} />
+        <div className="lg:my-3 my-0 mx-1 ">
+          <select onChange={(e)=>setClg(e.target.value)} className="p-2 border-2 font-semibold text-[1rem] font-[400] border-[#000] rounded-3xl w-[100%]">
+            <option className=" " selected hidden disabled>
+              College
+            </option>
+            {
+              allClgs.length>0 && 
+              allClgs.map((data)=>(
+                <option value={data}>{data}</option>
+              ))
+            }
+          </select>
+        </div>
+        <PendingApprovals func={pull_data}/>
 
         <div className="mt-9">
           <div className="overall-profile-tabs  ">
@@ -51,9 +77,9 @@ const Approvals = () => {
                 Club Members
               </div>
 
-             {role === 'Admin' || role === 'Super_Admin' || role==="Lead" ? <div className={tabs === "Lead"
-                  ? "profile-tab-content profile-tab-content-highlight"
-                  : "profile-tab-content"} onClick={() => { setClick(true); setTabs("Lead") }}>
+              {role === 'Admin' || role === 'Super_Admin' || role === "Lead" ? <div className={tabs === "Lead"
+                ? "profile-tab-content profile-tab-content-highlight"
+                : "profile-tab-content"} onClick={() => { setClick(true); setTabs("Lead") }}>
                 Leads
               </div> : ""}
 
@@ -84,7 +110,7 @@ const Approvals = () => {
 
             <div className="profile-tab-data">
               <div className={tabs === "club" ? "" : "profile-tab-data-hide"}>
-                <ClubMember props={cM ? true : false} />
+                <ClubMember props={{cm:cM ? true : false,clg:clg && clg}} />
               </div>
 
               <div className={tabs === "Lead" ? "" : "profile-tab-data-hide"}>

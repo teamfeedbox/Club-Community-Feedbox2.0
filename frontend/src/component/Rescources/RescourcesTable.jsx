@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import TimeAgo from "javascript-time-ago";
 import en from 'javascript-time-ago/locale/en'
-
+import { GrFormPrevious,GrFormNext } from 'react-icons/gr';
 import "./RescourcesTable.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -40,6 +40,24 @@ const RescourcesTable = (props) => {
   const [role, setRole] = useState("");
   const [img, setImg] = useState();
   const [pdfLink, setPdfLink] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selected, setSelected] = useState([]);
+
+  const itemsPerPage = 3;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  let tableData = data && data.slice(startIndex, endIndex);
+
+  function goToPrev() {
+    setCurrentPage((page) => page - 1);
+  }
+
+  function goToNext() {
+    setCurrentPage((page) => page + 1);
+  }
+
+  const totalPages = Math.ceil(data && data.length / itemsPerPage);
+
 
 
   let id;
@@ -53,6 +71,13 @@ const RescourcesTable = (props) => {
   },[]);
   // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
   // console.log(userId)
+
+  
+
+  
+
+  
+
   const getUser = async () => {
     // console.log(id)
     let result = await fetch(`http://localhost:8000/user`, {
@@ -85,16 +110,18 @@ const RescourcesTable = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // console.log(pdfFile)
+  // console.log(pdfLink)
   const AddResource = async (e) => {
     setLoading(true);
     e.preventDefault();
 
     const formData = new FormData();
     formData.append("file", pdfFile);
+    formData.append("pdfLink", pdfLink);
     formData.append("title", title);
     formData.append("author", id);
     formData.append("skill", skillName);
-    formData.append("pdfLink", pdfLink);
 
     const response = await fetch("http://localhost:8000/upload", {
       method: "POST",
@@ -151,9 +178,12 @@ const RescourcesTable = (props) => {
         if (value) {
           matched.push(user);
         }
+        // setSelected(matched);
+        // setCurrentPage(1);
       });
     console.log(matched);
     setSearched(matched);
+    // setSelected(data);
   };
 
   return (
@@ -245,7 +275,7 @@ const RescourcesTable = (props) => {
                           name="file"
                           // value={image}
                           onChange={handleChange}
-                          accept="application/pdf"
+                          accept=".pdf, .doc, .docx"
                         />
                       </div>
 
@@ -326,12 +356,13 @@ const RescourcesTable = (props) => {
                 </thead>
 
                 <tbody class="text-sm divide-y divide-gray-100">
-                  {data &&
-                    data.map((item) => (
+                  {
+                  tableData && tableData.length>0 ?
+                    tableData.map((item) => (
                       <tr key={item._id}>
                         <td class="p-2">
                           <a
-                            href={item && item.url}
+                            href={(item && item.url) || (item && item.link)}
                             target="_blank"
                             className="text-black"
                           >
@@ -357,7 +388,16 @@ const RescourcesTable = (props) => {
                           </div>
                         </td>
                       </tr>
-                    ))}
+                    ))
+                    :
+                   <tbody>
+                     <tr> 
+                      <td colspan="4">
+                        <div>No Resources Added yet !</div>
+                      </td>
+                    </tr>
+                   </tbody>
+                   }
                 </tbody>
               </table>
             )}
@@ -387,7 +427,7 @@ const RescourcesTable = (props) => {
                       <tr key={item._id}>
                         <td class="p-2">
                           <a
-                            href={item && item.url}
+                            href={item && item.url }
                             target="_blank"
                             className="text-black"
                           >
@@ -419,9 +459,40 @@ const RescourcesTable = (props) => {
             )}
           </div>
           <div className="res-navigation">
-            Viewing&nbsp;<span>1</span>-<span>6</span>&nbsp; of &nbsp;
-            <span>6</span>
-            &nbsp;page
+            <div>
+            {/* Viewing&nbsp;<span>{data&&data.length>0 ?`${currentPage}` :"0"}</span>-<span>{data&&data.length>0 ?`${itemsPerPage}` :"0"}</span>&nbsp; of &nbsp;
+            <span>{data&&data.length>0 ?`${totalPages}` :"0"}</span>
+            &nbsp;page */}
+
+            </div>
+            {
+              tableData.length >0 ? 
+              <nav className="d-flex">
+                <ul className="res-paginate">
+                  <button
+                    onClick={goToPrev}
+                    className="prev"
+                    disabled={currentPage === 1}
+                  >
+                   <GrFormPrevious size="25"/>
+                  </button>
+                  <p className="nums">
+                    {tableData && tableData.length > 0 
+                      ? `${currentPage}/${totalPages}`
+                     : "0/0" }
+                  </p>
+                  <button
+                    onClick={goToNext}
+                    className="prev"
+                    disabled={currentPage >= totalPages}
+                  >
+                    <GrFormNext size="25"/>
+                  </button>
+                </ul>
+              </nav>
+              : ""
+            }
+            
           </div>
         </div>
       </div>

@@ -69,15 +69,15 @@ button a{
     cursor: pointer;
 }
 .Calendar-add-drop{
-    padding: 20px;
+    padding: 10px 20px 10px 20px;
     border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     background-color: #fff;
     right:35%;
     top: 10%;
     width: 25%;  
-    max-height: 82%;
-    min-height: 82%; 
+    max-height: 83%;
+    min-height: 83%; 
     position: absolute;
     z-index: 1000;
 }
@@ -88,7 +88,8 @@ button a{
     overflow-y: hidden;
     background-color: #00000099;
     z-index: 100;
-    margin-top: -6%;
+    top:0;
+    
 }
 .submit-button{
     text-align: center;
@@ -190,6 +191,14 @@ flex-direction: column;
     background-color: #000000bd;
     color:white;
 }
+.Mark-Attendence-btn:hover{
+    /* border: 10px solid red; */
+    background-color: #000000bd;
+}
+.Mark-Attendence-btn a:hover{
+    
+    color: #fff;
+}
 .event-profile{
 font-size: 15px;
 font-weight: bold;
@@ -233,6 +242,7 @@ margin: 10px 0;
         display: flex;
         flex-direction: column;
         justify-content:center;
+        text-align: center;
     }
     .Calendar-right{
         width: 100%;
@@ -279,7 +289,7 @@ margin: 10px 0;
         display: flex;
         flex-direction: column;
         padding: 10px 10px 10px 10px;
-        margin: 0 auto;
+        margin: -10px auto 0 auto;
         justify-content: center;
         text-align: center;
         width: 45%;
@@ -327,7 +337,10 @@ margin: 10px 0;
         overflow-y: hidden;
         width: 100vw;
         height: 100vh;
-        margin-top: -14%;
+        /* margin-top: -14%; */
+        top:0;
+        left:0;
+        text-align: left;
     }
     .Calendar-view-events{
         border: 2px solid #3174AD;
@@ -337,7 +350,8 @@ margin: 10px 0;
         right:16%;
         top: 20%;
         width: 65%;
-        height: 50%;
+        min-height: 45%;
+        max-height: 75%;
         font-size: 12px;
         background-color: #fff;
         position: absolute;
@@ -354,9 +368,12 @@ margin: 10px 0;
     .preview-button{
         display: flex;
         flex-direction: row;
-        justify-content:space-between;
+        justify-content:center;
         margin-top: 10px;
         font-size: 13px;
+    }
+    .preview-button button{
+        margin: 0 auto;
     }
     .ReactBigCalendar{
         width: 90%;
@@ -439,8 +456,10 @@ margin: 10px 0;
         width: 100%;
         margin:14% auto 20px auto;
         display: flex;
-        flex-direction: row;
-        justify-content:space-between;
+        flex-direction: column;
+        justify-content:center;
+        text-align: center;
+
         /* border: 2px solid black; */
     }
     .Calendar-right{
@@ -488,7 +507,8 @@ margin: 10px 0;
         display: flex;
         flex-direction: column;
         padding: 10px;
-        margin-top: 20px;
+        /* margin-top: 20px; */
+        margin: -10px auto 0 auto;
         justify-content: center;
         text-align: center;
         width: 45%;
@@ -536,7 +556,10 @@ margin: 10px 0;
         overflow-y: hidden;
         width: 100vw;
         height: 100vh;
-        margin-top: -14%;
+
+        top:0;
+        left:0;
+        text-align: left;
     }
     .Calendar-view-events{
         border: 2px solid #3174AD;
@@ -546,7 +569,9 @@ margin: 10px 0;
         right:16%;
         top: 20%;
         width: 65%;
-        height: 50%;
+        
+        min-height: 40%;
+        max-height: 55%;
         font-size: 12px;
         background-color: #fff;
         position: absolute;
@@ -562,7 +587,7 @@ margin: 10px 0;
     .preview-button{
         display: flex;
         flex-direction: row;
-        justify-content:space-between;
+        justify-content:center;
         margin-top: 10px;
         font-size: 13px;
     }
@@ -648,7 +673,7 @@ margin: 10px 0;
     }
     .Calendar-left{
         width: 100%;
-        margin:7% auto 20px auto;
+        margin:7% auto 0px auto;
         display: flex;
         flex-direction: row;
         justify-content:space-between;
@@ -683,8 +708,8 @@ margin: 10px 0;
         background-color: #000000bd;
         overflow-y: hidden;
         width: 100vw;
-        height: 106vh;
-        margin-top: -14%;
+        height: 100vh;
+        top:0;
     }
 
     .Calendar-view-events{

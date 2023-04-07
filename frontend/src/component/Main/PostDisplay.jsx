@@ -120,7 +120,7 @@ const PostDisplay = (props) => {
         }
       }
     }else{
-      // console.log("ki"); 
+      // console.log("ki");
       setData(result)
       // console.log(result)
     }
@@ -213,25 +213,28 @@ const PostDisplay = (props) => {
                   {/* *****************carousel for mobile view********************* */}
                   <div className="post-display-carousel-mobileview">
                     <Swiper
-                      navigation={true}
+                      navigation={item.img.length ===1 ? false:true}
                       data-aos="fade-up"
                         data-aos-duration="100s"
                         spaceBetween={0}
+                        slidesPerView={1}
                         loop={true}
                         autoplay={{
                             delay: 2000,
                             disableOnInteraction: false,
                         }}
-                        modules={[Autoplay]}
+                        modules={[Navigation,Autoplay]}
                     
                       className="mySwiper">
+                        
 
                       {
+                        
                         item.img.length > 0 &&
                         item.img.map((data) => (
                             <SwiperSlide >
                           <div className="" key={data._id}>
-                            <img className="" src={data} />
+                            <img className="" src={data} alt="" />
                           </div>
                       </SwiperSlide>
                         ))

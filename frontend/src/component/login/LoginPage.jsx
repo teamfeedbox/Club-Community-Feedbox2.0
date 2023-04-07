@@ -42,33 +42,26 @@ const LoginPage = () => {
     e.preventDefault();
     console.log(email, password);
 
-    // let result = await fetch("http://localhost:8000/login", {
-    //   method: "post",
-    //   body: JSON.stringify({ email, password }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
-    // result = await result.json();
-    // console.log(result);
-    // // console.log("first");
-    // localStorage.setItem("user", JSON.stringify(result));
+   
 
-    // localStorage.setItem("jwt",result.token);
-    // localStorage.setItem("jwtDecode",result.decodedToken);
-    // if(result){
-    //   navigate('/main')
+    let result = await fetch("http://localhost:8000/login/superAdmin", {
+      method: "post",
+      body: JSON.stringify({ email, password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    result = await result.json();
 
-    // }
-    //  navigate('/main')
-
-    // if (result) {
-    //   localStorage.setItem("user", JSON.stringify(result));
-    //   navigate('/main')
-    //   // alert("welcome");
-    // } else {
-    //   alert("Please enter valid login credentials");
-    // }
+    console.log(result.token);
+    
+    if(result.token){
+      navigate('/main')   
+      localStorage.setItem("user", JSON.stringify(result));
+      localStorage.setItem("jwt", result.token);  
+    }else{
+      alert(result.err);
+    }
   };
  
  
