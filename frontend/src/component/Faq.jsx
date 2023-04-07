@@ -55,7 +55,7 @@ const Faq = () => {
                   <div class="py-3 px-2 z-20 relative">
                     <details class="group">
                       <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
-                        <span className="font-bold"> {faq.question}</span>
+                        <span className="text-[1.1rem] font-[700]"> {faq.question}</span>
                         <span class="transition group-open:rotate-180">
                           <svg
                             fill="none"
@@ -72,7 +72,7 @@ const Faq = () => {
                           </svg>
                         </span>
                       </summary>
-                      <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
+                      <p class=" text-[1rem] font-[400] mt-3 group-open:animate-fadeIn">
                         {faq.answer}
                       </p>
                     </details>
