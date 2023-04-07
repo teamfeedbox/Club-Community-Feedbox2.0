@@ -17,10 +17,12 @@ const ClubMember = ({ props }) => {
   const [id, setId] = useState("");
   const [value,setValue]=useState("");
   const [name,setName]=useState("");
+
   const handleClose = () => {
     setShow(false);
     setConfirm(false);
   };
+
   const handleShow = () =>{
     setShow(true);
   } 
@@ -66,21 +68,25 @@ const ClubMember = ({ props }) => {
 
   // submit handler for making club member as lead
   const submitHandler = async () => {
-    setLoading(true);
-    console.log(id);
-    const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ role: "Lead", position: position }),
-    });
-    const res = await data.json();
-    console.log(res);
+    if(value && position){
+      
 
-    // Generate Notification
+    }
+    // setLoading(true);
+    // console.log(id);
+    // const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
+    //   method: "PUT",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ role: "Lead", position: position }),
+    // });
+    // const res = await data.json();
+    // console.log(res);
+
+    // // Generate Notification
     
-    setConfirm(false);
-    setShow(false);
-    setLoading(false);
+    // setConfirm(false);
+    // setShow(false);
+    // setLoading(false);
   };
 
   return (
@@ -149,7 +155,6 @@ const ClubMember = ({ props }) => {
                                 onClick={() => {
                                   setId(member._id);
                                   setName(member.name)
-                                  console.log(id,name);
                                   handleShow();
                                 }}
                               >
@@ -222,7 +227,6 @@ const ClubMember = ({ props }) => {
                                 <form className="club-member-modal-confirm">
                                   <div>
                                     <input
-                                      
                                       type="text"
                                       placeholder="Specify Position"
                                       required
