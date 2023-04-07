@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import TimeAgo from "javascript-time-ago";
+import en from 'javascript-time-ago/locale/en'
+
 import "./RescourcesTable.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,6 +19,8 @@ import Button from "react-bootstrap/Button";
 import NavbarRes from "../navbar/NavbarRes";
 
 const RescourcesTable = (props) => {
+  TimeAgo.addLocale(en);
+  const timeAgo = new TimeAgo("en-US");
   const location = useLocation();
   const propsData = location.state;
   let skillName = propsData.name;
@@ -33,16 +38,19 @@ const RescourcesTable = (props) => {
   const [enableSearch, setEnableSearch] = useState(false);
   const [user, setUser] = useState();
   const [role, setRole] = useState("");
+  const [img, setImg] = useState();
+  const [pdfLink, setPdfLink] = useState();
+
 
   let id;
   useEffect(() => {
     getList(skillName);
     // console.log(skillName)
-  }, []);
+  }, [skillName]);
 
   useEffect(() => {
     getUser();
-  });
+  },[]);
   // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
   // console.log(userId)
   const getUser = async () => {
@@ -54,6 +62,7 @@ const RescourcesTable = (props) => {
     });
     result = await result.json();
     // console.log(result);
+    setImg(result.img)
     id = result._id;
     setRole(result.role);
     // console.log(id)
@@ -62,6 +71,10 @@ const RescourcesTable = (props) => {
     //   getUser();
     // }
   };
+
+  // console.log(pdfLink);
+
+
 
   function handleChange(e) {
     console.log(e.target.files);
@@ -81,6 +94,7 @@ const RescourcesTable = (props) => {
     formData.append("title", title);
     formData.append("author", id);
     formData.append("skill", skillName);
+    formData.append("pdfLink", pdfLink);
 
     const response = await fetch("http://localhost:8000/upload", {
       method: "POST",
@@ -192,7 +206,7 @@ const RescourcesTable = (props) => {
                   <Modal.Body className="modal-body">
                     <div className="modal-profile-section">
                       <div className="modal-profile-section-image">
-                        <img src="Images/girl.jpg" alt="" />
+                        <img src={img} alt="" />
                       </div>
                       <div className="modal-add-res-section-profile relative bottom-2">
                         <h5>{user && user.name}</h5>
@@ -246,7 +260,13 @@ const RescourcesTable = (props) => {
 
                       {link ? (
                         <div className="add-res-add-link">
-                          <input type="text" placeholder="Enter Link" />
+                          <input type="text" placeholder="Enter Link" 
+                          value={pdfLink}
+                        onChange={(e) => setPdfLink(e.target.value)}
+                        name="pdfLink"
+
+
+                          />
                         </div>
                       ) : (
                         ""
@@ -308,7 +328,7 @@ const RescourcesTable = (props) => {
                 <tbody class="text-sm divide-y divide-gray-100">
                   {data &&
                     data.map((item) => (
-                      <tr>
+                      <tr key={item._id}>
                         <td class="p-2">
                           <a
                             href={item && item.url}
@@ -328,7 +348,7 @@ const RescourcesTable = (props) => {
                         </td>
                         <td class="p-2">
                           <div class="text-left text-blue-600 font-[500] text-[1rem]">
-                            {item && item.date}
+                            {item && item.date && timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}
                           </div>
                         </td>
                         <td class="p-2">
