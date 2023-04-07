@@ -105,17 +105,18 @@ const Admin = (props) => {
                             alt="Alex Shatov"
                           />
 
-                          <div className="ml-2"> {member.name} </div>
+                          <div className="ml-2  text-[1rem] font-[400]"> {member.name} </div>
                         </div>
                       </td>
                       <td class="p-2 w-[170px] lg:w-[400px]  items-center mr-8 ">
-                        <div class="font-medium text-gray-800">
+                        <div class="font-medium text-gray-800 text-[1rem] font-[400]">
                           {member.position}
                         </div>
                       </td>
                       <td className=" w-[100px] my-auto">
                       <div className="text-red-500" onClick={()=>{setDelShow(true); setId(member._id)}}>
-                        <FontAwesomeIcon icon={faTrash} className="h-[20px] text-red-500" />
+                      <button className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000] text-[1.05rem] font-[500] hover:bg-[#bf1004]"
+                        >Delete</button>
                       </div>
                       <Modal show={delshow} onHide={handleDelClose} className="club-member-modal" >
                         <form>

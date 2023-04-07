@@ -104,8 +104,16 @@ const Register = () => {
     console.log(result);
 
     if (result) {
-      alert("You have registered successfully ! Wait until you receive mail to login ");
-      navigate("/login");
+      console.log(result);
+      if(result.data==="user already exists with that email")
+      {
+        alert(result.data);
+      }
+      else{
+        alert(result.data);
+        navigate("/login");
+      }
+      
     }
   };
 
@@ -114,13 +122,13 @@ const Register = () => {
 
   const changenext = (e) => {
     e.preventDefault();
-    if(nameError==false && emailError==false && passError==false && collegeName!="")
+    if(nameError==false && emailError==false && passError==false && collegeName!="" && name!="" && email!="" && password!="")
     {
       setNext(!next);
     }
     else
     {
-      alert("All field are required")
+      alert("All fields are required")
     }
     
   };
@@ -138,7 +146,7 @@ const Register = () => {
     switch(e.target.name)
     {
       case "name":
-        if (eventValue.length < 3) {
+        if (eventValue.length < 3 ) {
           setNameError(true);
         } else {
           setNameError(false);
@@ -205,7 +213,7 @@ const Register = () => {
             </p>
           </div>
         </div>
-        <div className="flex justify-center self-center  z-10">
+        <div className="flex justify-center self-center m-[12px] mt-[70px]  z-10">
           <div className="p-12 bg-white mx-auto rounded-3xl w-96 ">
             <div className="mb-7">
               <h3 className="font-semibold text-2xl text-gray-800">Sign Up </h3>
@@ -662,7 +670,7 @@ const Register = () => {
         </div>
       </div>
       <svg
-        class="absolute bottom-0 left-0 "
+        class="absolute bottom-0 left-0 hidden md:block"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1440 320"
       >

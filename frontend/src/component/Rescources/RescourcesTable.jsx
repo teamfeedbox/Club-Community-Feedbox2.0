@@ -110,16 +110,18 @@ const RescourcesTable = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // console.log(pdfFile)
+  // console.log(pdfLink)
   const AddResource = async (e) => {
     setLoading(true);
     e.preventDefault();
 
     const formData = new FormData();
     formData.append("file", pdfFile);
+    formData.append("pdfLink", pdfLink);
     formData.append("title", title);
     formData.append("author", id);
     formData.append("skill", skillName);
-    formData.append("pdfLink", pdfLink);
 
     const response = await fetch("http://localhost:8000/upload", {
       method: "POST",
@@ -186,7 +188,7 @@ const RescourcesTable = (props) => {
 
   return (
     <>
-      <div className="Res-table-display pt-[100px]">
+      <div className="Res-table-display pt-[60px] md:pt-[100px]">
         <div className="RescourcesTable">
           <div className="res-table-heading">
             <div className="res-heading-left"> {skillName} Documents </div>
@@ -273,7 +275,7 @@ const RescourcesTable = (props) => {
                           name="file"
                           // value={image}
                           onChange={handleChange}
-                          accept="application/pdf"
+                          accept=".pdf, .doc, .docx"
                         />
                       </div>
 
@@ -339,16 +341,16 @@ const RescourcesTable = (props) => {
                 <thead class="uppercase text-gray-400 bg-gray-50">
                   <tr>
                     <th class="p-2">
-                      <div class="font-[500] text-[1rem] text-left">Download</div>
+                      <div class="font-[500] text-[0.8rem] text-left">Download</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-[500] text-[1rem] text-left">Resource Title</div>
+                      <div class="font-[500] text-[0.8rem] text-left">Resource Title</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-[500] text-[1rem] text-left">Date Created</div>
+                      <div class="font-[500] text-[0.8rem] text-left">Date Created</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-[500] text-[1rem] text-left">Author</div>
+                      <div class="font-[500] text-[0.8rem] text-left">Author</div>
                     </th>
                   </tr>
                 </thead>
@@ -360,7 +362,7 @@ const RescourcesTable = (props) => {
                       <tr key={item._id}>
                         <td class="p-2">
                           <a
-                            href={item && item.url}
+                            href={(item && item.url) || (item && item.link)}
                             target="_blank"
                             className="text-black"
                           >
@@ -371,7 +373,7 @@ const RescourcesTable = (props) => {
                           </a>
                         </td>
                         <td class="p-2">
-                          <div class="font-[500] text-[1rem] text-gray-800">
+                          <div class="font-[500] text-[1rem] text-black">
                             {item && item.title}
                           </div>
                         </td>
@@ -425,7 +427,7 @@ const RescourcesTable = (props) => {
                       <tr key={item._id}>
                         <td class="p-2">
                           <a
-                            href={item && item.url}
+                            href={item && item.url }
                             target="_blank"
                             className="text-black"
                           >

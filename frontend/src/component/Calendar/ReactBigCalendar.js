@@ -1,12 +1,21 @@
 import React, { useState } from "react";
-import { Calendar, momentLocalizer, TimeGrid } from "react-big-calendar";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import { faLocationDot, faClock, faCirclePlus, faCalendarAlt, faXmark, faPodcast, faFlag } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLocationDot,
+  faClock,
+  faCirclePlus,
+  faCalendarAlt,
+  faXmark,
+  faPodcast,
+  faFlag,
+  faUniversity,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
 import "./ReactBigCalendar.css";
@@ -40,7 +49,7 @@ export default function ReactBigCalendar() {
   const [preEventModel, setPreEventModel] = useState(false);
   // Show and hide interested button
   const [interestedBtn, setInterestedBtn] = useState(true);
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState("");
   const [selectedEvent, setSelectedEvent] = useState();
   const [id, setId] = useState();
   const [eventData, setEventData] = useState([]);
@@ -52,9 +61,13 @@ export default function ReactBigCalendar() {
   var dd = today.getDate();
   var mm = today.getMonth() + 1;
   var yyyy = today.getFullYear();
-  if (dd < 10) { dd = '0' + dd; }
-  if (mm < 10) { mm = '0' + mm; }
-  const mindate = [yyyy, mm, dd].join('-');
+  if (dd < 10) {
+    dd = "0" + dd;
+  }
+  if (mm < 10) {
+    mm = "0" + mm;
+  }
+  const mindate = [yyyy, mm, dd].join("-");
 
   // get user
   const getUser = async () => {
@@ -65,7 +78,7 @@ export default function ReactBigCalendar() {
     });
     result = await result.json();
     // id = result._id;
-    setId(result._id)
+    setId(result._id);
     setUser(result);
     setRole(result.role);
   };
@@ -98,7 +111,7 @@ export default function ReactBigCalendar() {
       val.push(data.name);
     });
     setAllClgs(val);
-  }
+  };
 
   // Get All Events
   const showEvent = async () => {
@@ -110,34 +123,32 @@ export default function ReactBigCalendar() {
     result.map((data, i) => {
       data.start = new Date(data.eventDate);
       data.end = new Date(data.eventDate);
-      data.id = i
+      data.id = i;
     });
-    console.log(result);
-    setEventData(result)
-    setDupliEvents(result)
+    setEventData(result);
+    setDupliEvents(result);
   };
 
   useEffect(() => {
     if (eventClicked && selectedEvent) {
-      setCalenderEvent(selectedEvent._id)
+      setCalenderEvent(selectedEvent._id);
     } else {
       if (eveId) {
-        setCalenderEvent(eveId)
+        setCalenderEvent(eveId);
       }
     }
     if (clgSelected) {
-      setHandleClgSel(false)
-      console.log(clgSelected);
+      console.log(clgSelected, "dncjdsucy");
       if (clgSelected === "All") {
-        setEventData(dupliEvents)
+        setEventData(dupliEvents);
       } else {
-        let array=[];
+        let array = [];
         dupliEvents.length > 0 &&
           dupliEvents.map((eve, i) => {
             if (eve.postedBy.collegeName === clgSelected) {
               array.push(eve);
             }
-          })
+          });
         setEventData(array);
       }
     }else{
@@ -230,15 +241,15 @@ export default function ReactBigCalendar() {
     setPreEventModel(false)
     setSelectedEvent("");
     setClgSelected(e.target.value);
-  }
+  };
 
   return (
     <>
       <div className="Calendar-container">
         <div className="Calendar-left">
-
           {/* ----------------college dropdown for super admin--------------- */}
-          <div className=" my-4 mx-1 ">
+          {role && role == 'Super_Admin' ?
+            <div className=" my-4 mx-1 ">
             <select className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl sm:w-[40%] lg:w-[100%]" value={clgSelected} onChange={(e)=>{handleCollege(e); setHandleClgSel(true);}}>
               <option className=" " value="College" hidden selected disabled>College</option>
               <option value="All">All</option>
@@ -249,7 +260,7 @@ export default function ReactBigCalendar() {
                 ))
               }
             </select>
-          </div>
+          </div>: ''}
 
           {/* -----------Button to add event in calendar------------------*/}
           <div
@@ -308,6 +319,14 @@ export default function ReactBigCalendar() {
                   />
                   {myEvent && myEvent.speaker}
                 </div>
+                <div className="event-profile">
+                  <FontAwesomeIcon
+                    style={{ margin: "0 10px 0 0" }}
+                    icon={faUniversity}
+                  />
+                  Shri Vaishanav Vidyapeeth Vishwavidyalaya
+                  {/* {myEvent && myEvent.speaker} */}
+                </div>
                 <div className="event-minor">
                   <div>
                     <FontAwesomeIcon
@@ -338,39 +357,65 @@ export default function ReactBigCalendar() {
                   {myEvent && myEvent.desc}
                 </div>
                 <div className="preview-button">
-                  {(role && role !== "Super_Admin") ? (id && myEvent && (id !== myEvent.postedBy._id)) ? new Date(myEvent && myEvent.eventDate).getTime() > new Date(mindate).getTime() ? (interestedBtn) ? (
-                    <button type="button"
-                      onClick={() => {
-                        attendanceUpdate(myEvent && myEvent._id);
-                        setInterestedBtn(false);
-                      }} >Interested</button>
+                  {role && role !== "Super_Admin" ? (
+                    id && myEvent && id !== myEvent.postedBy._id ? (
+                      new Date(myEvent && myEvent.eventDate).getTime() >
+                      new Date(mindate).getTime() ? (
+                        interestedBtn ? (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              attendanceUpdate(myEvent && myEvent._id);
+                              setInterestedBtn(false);
+                            }}
+                          >
+                            Interested
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            style={{
+                              pointerEvents: "none",
+                              backgroundColor: "gray",
+                            }}
+                          >
+                            Interested
+                          </button>
+                        )
+                      ) : (
+                        ""
+                      )
+                    ) : (
+                      ""
+                    )
                   ) : (
-                    <button
-                      type="button"
-                      style={{ pointerEvents: "none", backgroundColor: "gray" }}
-                    >
-                      Interested
-                    </button>
-                  ) : "" : "" : ""}
+                    ""
+                  )}
 
-                  {(role === "Admin" || role === "Super_Admin" || (id && myEvent && (id == myEvent.postedBy._id))) &&
-                    <button onClick={() => { setDeleteBtn(true); }}>
+                  {(role === "Admin" ||
+                    role === "Super_Admin" ||
+                    (id && myEvent && id == myEvent.postedBy._id)) && (
+                    <button
+                      onClick={() => {
+                        setDeleteBtn(true);
+                      }}
+                    >
                       Delete Event
                     </button>
-                  }
+                  )}
 
                   {deletebtn && (
                     <Modal
                       show={deletebtn}
                       onHide={() => setDeleteBtn(false)}
-                    // className="profile-section-overall"
+                      // className="profile-section-overall"
                     >
                       <Modal.Header closeButton>
                         <Modal.Title>Are you sure ?</Modal.Title>
                       </Modal.Header>
                       <Modal.Body style={{ color: "black", display: "flex" }}>
-                        Do you really want to delete this Event ? This process cannot
-                        be undone.
+                        Do you really want to delete this Event ? This process
+                        cannot be undone.
                       </Modal.Body>
                       <Modal.Footer style={{ justifyContent: "right" }}>
                         {loading ? (
@@ -382,7 +427,10 @@ export default function ReactBigCalendar() {
                             <span class="visually-hidden">Loading...</span>
                           </div>
                         ) : (
-                          <Button variant="danger" onClick={() => cancelEvent(myEvent._id)}>
+                          <Button
+                            variant="danger"
+                            onClick={() => cancelEvent(myEvent._id)}
+                          >
                             Delete
                           </Button>
                         )}
@@ -398,9 +446,13 @@ export default function ReactBigCalendar() {
                   )}
                 </div>
                 <div style={{ textAlign: "center" }}>
-                  {(role === "Admin" || role === "Super_Admin" || (id && myEvent && (id == myEvent.postedBy._id))) ? (
-                    <button>
+                  {role === "Admin" ||
+                  role === "Super_Admin" ||
+                  (id && myEvent && id == myEvent.postedBy._id) ? (
+                    <button className="Mark-Attendence-btn">
                       <Link
+                        // style={{backgroundColor:"black",color:"white",borderRadius:"10px",padding:"5px 10px"}}
+
                         to={"/attendance/" + (myEvent && myEvent.title)}
                         state={{ eventId: myEvent && myEvent._id }}
                         onClick={() => {
@@ -426,7 +478,7 @@ export default function ReactBigCalendar() {
         {/* -----------------Large right side Calendar------------------- */}
         <div className="React-Big-Calendar-Original">
           <Calendar
-            views={["agenda", "month"]}
+            views={["agenda", "month","day"]}
             selectable
             localizer={localizer}
             defaultDate={new Date()}
@@ -441,18 +493,20 @@ export default function ReactBigCalendar() {
           <div className="Calendar-add-drop-container">
             <div className="Calendar-add-drop">
               <form onSubmit={addEvent}>
-                {role !== "Club_Member" && <div className="calender-add-title">
-                  <span>Create an Event</span>
+                {role !== "Club_Member" && (
+                  <div className="calender-add-title">
+                    <span>Create an Event</span>
 
-                  <div
-                    className="cancel-button"
-                    onClick={() => {
-                      setAddEventModel(false);
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faXmark} />
+                    <div
+                      className="cancel-button"
+                      onClick={() => {
+                        setAddEventModel(false);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faXmark} />
+                    </div>
                   </div>
-                </div>}
+                )}
                 <div className="Calendar-title">
                   <span>Title</span>
                   <input
@@ -509,7 +563,8 @@ export default function ReactBigCalendar() {
                     <input
                       type="date"
                       required
-                      value={eventDate} min={mindate}
+                      value={eventDate}
+                      min={mindate}
                       onChange={(e) => setEventDate(e.target.value)}
                     ></input>
                   </div>

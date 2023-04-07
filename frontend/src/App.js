@@ -39,8 +39,9 @@ const App = () => {
     });
     result = await result.json();
     setData(result.role);
+  // console.log(result)
   };
-  console.log(data, "kmk");
+  // console.log(data, "kmk");
   return (
     <div className="App">
       <Router>

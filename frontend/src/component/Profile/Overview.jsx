@@ -152,6 +152,7 @@ function Overview(prop) {
             </div>
             <div className='Profile-Edit-Mail'>
               <div>
+
                 <span>Email:</span>
                   <p className='Overview-Left-P' onClick={() => SetProfileSubmit(true)}>
                   {
@@ -170,6 +171,8 @@ function Overview(prop) {
             </div>
           </section>
           
+          
+          
           <section>
             <div className='Detail-icon2'>
             <FontAwesomeIcon className="fa-lg" icon={faIdCard} />
@@ -177,6 +180,7 @@ function Overview(prop) {
             <div>
               <span className='text-[1.1rem] font-[700] ' onClick={handleShow}>Unique Id: </span>
               <p className='text-[1rem] font-[400] '>{data && data.uniqueId}</p>
+
             </div>
           </section>
           <section>
@@ -212,7 +216,7 @@ function Overview(prop) {
           </span>
           </div> 
         </div>
- {/* ********************************************logout***************************************** */}
+ {/* ***************logout************** */}
         {/* <button 
         className='text-white bg-red-600 text-[1.2rem] p-2 mt-3 rounded hover:bg-red-700 ease-in duration-100	ml-5 lg:ml-0 '
         onClick={logoutHandler}>

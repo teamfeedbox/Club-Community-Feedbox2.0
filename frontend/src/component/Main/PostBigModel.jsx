@@ -29,8 +29,11 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
   const [message, setMessage] = useState("");
 
-  // To set state to show delete the comment
+  // popup to delete the reply
   const [show, setShow] = useState(false);
+
+  // popup to delete the comment
+  const [showDel, setShowDel] = useState(false);
 
   // To store deleted comment
   const [deleteVar, setDeleteVar] = useState("");
@@ -48,7 +51,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   const [showReply,setShowReply]=useState(true);
 
   // To show and hide "view reply" 
-  const [checkReply,setCheckreply]=useState(false);
+  const [checkReply,setCheckreply]=useState(true);
 
   // To show and hide "hide reply" 
   const [hideReply,setHidereply]=useState(false);
@@ -71,7 +74,6 @@ function PostBigModel({ openComment, setOpenComment, id }) {
       // setReply(tempReply);
     }
   }
-
   // function showRep() {
   //   if (tempReply != "") {
   //     setReplyView("Show-Reply-View");
@@ -237,16 +239,21 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
 
   // To show and hide delete comment model
-  const handleCloseDelete = () => setShow(false);
-  const handleShowDelete = () => setShow(true);
+  const handleCloseDelete = () =>{ 
+    setShow(false)
+    setShowDel(false)
+  }
+  const handleShowDelete = () => setShowDel(true);
   const handleShowDeleteReply = () => setShow(true);
 
   return (
     <>
       {/* Model to delete the comment */}
       <Modal
-        show={show}
-        onHide={handleShowDelete}
+        show={showDel}
+
+        // onHide={handleCloseDelete}
+        
         className="edit-modal-container"
       >
         <Modal.Body className="modal-dialog1">
@@ -254,15 +261,10 @@ function PostBigModel({ openComment, setOpenComment, id }) {
             <button
               className="delete-btn"
                onClick={
-                ()=>{
-                  
-                  deleteComment(deleteComId)
+                ()=>{ deleteComment(deleteComId)
                   handleCloseDelete()
-                }
-
-              }
-            >
-              Delete
+                }}>
+              OK
             </button>
             <button className="delete-btn" onClick={handleCloseDelete}>
               Cancel
@@ -273,9 +275,9 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
 
 
-{/* 
+
       <Modal
-        // show={show}
+        show={show}
         onHide={handleShowDeleteReply}
         className="edit-modal-container"
       >
@@ -287,7 +289,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                 ()=>{
                   
                   deleteReply(replyId)
-                  // handleCloseDelete()
+                  handleCloseDelete()
                 }
 
               }
@@ -299,7 +301,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
             </button>
           </div>
         </Modal.Body>
-      </Modal> */}
+      </Modal>
 
       {openComment ? (
         <div className="Post-Big-Model-container">
@@ -308,7 +310,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
           <div className="Post-Big-Model1">
             {/* Left side */}
-            <div className="post-display2">
+            <div className="post-display2" style={{maxHeight:"600px"}}>
               <div className="post-display-center1">
                 <div className="post-display-image "></div>
 
@@ -321,36 +323,15 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                       autoPlay
                       interval="5000"
                       infiniteLoop={true}
+                      dynamicHeight
                     >
                       {
                         user && user.img.map((data)=>
-                        <div key={data._id}>
-                        <img className="display-img" src={data} />
+                        <div key={data._id} style={{maxHeight:"400px"}}>
+                        <img className="display-img" src={data} style={{maxHeight:"400px",objectFit:"contain"}} />
                       </div>
                         )
                       }
-                      
-
-                      {/* <div>
-                        <img className="display-img" src="Images/alumni2.jpg" />
-                      </div>
-                      <div>
-                        <img className="display-img" src="Images/alumni3.jpg" />
-                      </div>
-                      <div>
-                        <img
-                          className="display-img"
-                          src="Images/l1.jpg"
-                          alt=""
-                        />
-                      </div>
-                      <div>
-                        <img
-                          className="display-img"
-                          src="Images/l3.png"
-                          alt=""
-                        />
-                      </div> */}
 
                     </Carousel>
                   </div>
@@ -404,8 +385,12 @@ function PostBigModel({ openComment, setOpenComment, id }) {
               {/* <div className="Post-Big-Line"></div> */}
 
               {/* Comment part */}
+              
               <div className="Post-Big-Comment">
-                <Scrollbars className="Scrollbar-height">
+                
+                {
+                  user && user.comment.length==0?(<div style={{textAlign:"center"}}>No comment</div>):(
+                    <Scrollbars className="Scrollbar-height">
                   {/* Comment 1 */}
                   {user &&
                     user.comment.map((item) => (
@@ -427,58 +412,42 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                           </div>
 
                           <div className="Comment-Right-Down">
-                            <span className="Comment-Down-Other">22h</span>
+                            <span className="Comment-Down-Other" 
+                            // onClick={()=>{console.log(item.reply.length)}}
+                            >22h</span>
                             <span
                                 className="Comment-Down-Other Comment-Down-Other1"
                                 onClick={() => {
                                   handleShowDelete();
                                   setDeleteComId(item._id);
                                   console.log(item._id)
-
                                 }}
                                 style={{ marginLeft: "20px" }}
-                              >
-                                edit
+                              >delete
                             </span>
-
-                            {
-                                // replyBtn==true?(
-                              <span
+                            {<span
                                 className="Comment-Down-Other Comment-Down-Other1 "
                                 onClick={() => {
                                   setShowReplyInputField(!showReplyInputField)
                                     // alert(showReplyInput)
                                   setCommentId(item._id);
                                   console.log(item._id);
+                                  
                                 }}
                               >
                                 reply
-                              </span>
-                              // ):("")
-                            }
-                              
+                             </span>}
                           </div>
-                          {/* <div className={showReplView}>
-                    <div className="Comment-Right-User-Name">
-                      {user && user.postedBy && user.postedBy.name}
-                    </div>
-                    <div className="Right-Comment">
-                      {
-                       user && user.reply && user.reply.replyMsg
-                      }
-                    </div>
-                  </div> */}
-
-
-                  {/* *** Section which will contain the reply on a comment****** */}
-
-                        {
-                          showReply==true && commentId==item._id?(
-                            <section style={{display:"flex",flexDirection:"column",marginLeft:"20px"}}>
-                              
-                              
+                  {/* ******** Section which will contain the reply on a comment****** */}
+                        { showReply==true && commentId==item._id?(
+                           <section style={{display:"flex",flexDirection:"column"}}>
                            {
                             item && item.reply.map((data)=>
+                            <div style={{display:"flex",flexDirection:"row"}}>
+                            <div className="Comment-Left">
+                            <img src={item && item.postedBy && item.postedBy.img}
+                            ></img>
+                            </div>
                             <div key={data._id} className="Comment-Right">
                               <div className="Comment-Right-Top">
                               <div className="Comment-Right-User-Name">
@@ -486,7 +455,6 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                               </div>
                               <div className="Right-Comment"> {data && data.replyMsg}</div>
                             </div>
-
                             <div className="Comment-Right-Down">
                               <span className="Comment-Down-Other">22h</span>
                               <span
@@ -494,34 +462,32 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                 onClick={() => {
                                   handleShowDeleteReply();
                                   setReplyId(data._id);
+                                  
 
                                 }}
                                 style={{ marginLeft: "20px" }}
                               >
-                                edit
+                                delete reply
                               </span>
                           </div>
-                          </div>
+                            </div>
+                            </div>
                             )
                            }   
-                            
-
-                         
-
-                          
-
                           </section>
                             ):("")
                         }
                           {/* *******Hide and show reply******* */}
 
                           {
-                          checkReply? (
+                          item.reply.length>0 && checkReply==true? (
                             <span onClick={()=>{
                               setShowReply(true)
                               setCheckreply(false)
                               setHidereply(true);
-                            
+                              setCommentId(item._id);
+                              setShowReply(true)
+                              setCheckreply(false);
                             }}
                             style={{
                               cursor:"pointer",
@@ -530,33 +496,45 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                             >
                               ---- View Reply
                             </span>
-                          ):("")
-                          }
-                           {
-                              hideReply?(<>
-                             <span onClick={()=>{
-                              setHidereply(false)
-                              setCheckreply(true)
-                              setShowReply(false)
-
-                             }}
-                             style={{
-                              cursor:"pointer",
-                              marginLeft:"20px"
-                             }}
-                             >
-                                ---- Hide Reply
-                              </span>
-                              
-                              <span
-                                onClick={() => {
-                                }}
-                                style={{ marginLeft: "20px" ,color:"color:#838181;"}}
+                          ):(
+                            hideReply==true && commentId==item._id?(<>
+                              <span onClick={()=>{
+                               setHidereply(false)
+                               setCheckreply(true)
+                               setShowReply(false)
+                               setCheckreply(true)
+                               setCommentId("")
+                               // setShowReply(true)
+ 
+                              }}
+                              style={{
+                               cursor:"pointer",
+                               marginLeft:"20px"
+                              }}
                               >
-                                edit
-                              </span> 
-                              </>):("")
-                             }
+                                 ---- Hide Reply
+                               </span>
+                               </>):( item.reply.length>0?(
+
+                               
+                                 <span onClick={()=>{
+                                  setShowReply(true)
+                                  setCheckreply(false)
+                                  setHidereply(true);
+                                  setCommentId(item._id);
+                                  setShowReply(true)
+                                  setCheckreply(false);
+                                }}
+                                style={{
+                                  cursor:"pointer",
+                                  marginLeft:"20px"
+                                }}
+                                >
+                                  ---- View Reply
+                                </span>):("")
+                               )
+                          )
+                          }
 
                           {showReplyInputField === true && item._id === commentId ? (
                             <div className="Show-comment-Add-Btn">
@@ -586,7 +564,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                       setReplyInputBtnId(item._id)
                                       // setCommentId("")
                                       setReplyBtn(false)
-                                      setShowReply(false)
+                                      
                                       if(replyMsg!="")
                                       {
                                         setCheckreply(true)
@@ -616,72 +594,41 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                       </section>
                     ))}
                 </Scrollbars>
+                  )
+                }
+
+                
               </div>
 
-              <div className="Post-Big-Comment-Container">
-                {/* <div className="Post-Big-Comment-Icons">
-                    <span>
-                      <span>
-                        <FontAwesomeIcon
-                          className="fa-lg"
-                          icon={faHeart}
-                          style={{ margin:
-                            "0px 5px 0 10px",color:"black",cursor:"pointer"}}
-                        />
-                      </span>
-                      <span>{user && user.likes.length}</span>
-                    </span>
-                    <span>
-                      <span>
-                        <FontAwesomeIcon
-                          className="fa-lg"
-                          icon={faMessage}
-                          style={{ margin: "0px 5px 0 20px",color:"black"}}
-                        />
-                      </span>
-                      <span>50 Comments</span>
-                    </span>
-                  </div> */}
-
+              <div className="Post-Big-Comment-Container ml-4">
                 <div className="Comment-Add-Section">
                   <form
                     onSubmit={(e) => {
                       e.preventDefault();
-                      // setMessage(e.target[0].value)
                       if(message=="")
-                      {
-
-                      }
+                      {     }
                       else
-                      {
-                        updateComment();
-                      }
-                     
-                      // console.log(e.target[0].value)
+                      { updateComment();  }
                     }}
                   >
-                    <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700">
+                    <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700 ">
                       <div className="rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
                         <img
                           src={img}
                           aria-hidden="true"
                           className="w-10 h-8
                             p-0
-                            rounded-full
-                            "
+                            rounded-full"
                         ></img>
                       </div>
                       <input
                         className="block mx-2 p-2.5 w-full text-sm rounded-lg border text-black"
                         style={{ border: "2px solid black" }}
                         placeholder="Add a comment..."
-                        // type='button'
                         value={message}
                         onChange={
                           (event) => setMessage(event.target.value)
-                          //  console.log(event.target.value)
                         }
-                        // value={afterSubmit}
                       ></input>
                       <button
                         type="submit"
@@ -710,5 +657,4 @@ function PostBigModel({ openComment, setOpenComment, id }) {
     </>
   );
 }
-
 export default PostBigModel;
