@@ -205,7 +205,7 @@ const Register = () => {
             </p>
           </div>
         </div>
-        <div className="flex justify-center self-center  z-10">
+        <div className="flex justify-center self-center m-[12px] mt-[70px]  z-10">
           <div className="p-12 bg-white mx-auto rounded-3xl w-96 ">
             <div className="mb-7">
               <h3 className="font-semibold text-2xl text-gray-800">Sign Up </h3>
@@ -662,7 +662,7 @@ const Register = () => {
         </div>
       </div>
       <svg
-        class="absolute bottom-0 left-0 "
+        class="absolute bottom-0 left-0 hidden md:block"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1440 320"
       >

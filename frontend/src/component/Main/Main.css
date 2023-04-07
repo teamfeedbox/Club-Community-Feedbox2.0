@@ -1,6 +1,8 @@
 .main_container {
     width: 100%;
     padding-top: 65px;
+    height: 100vh;
+    overflow-y: hidden;
 }
 
 .main-page-display-web {

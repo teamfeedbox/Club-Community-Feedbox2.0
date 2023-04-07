@@ -236,7 +236,8 @@ export default function ReactBigCalendar() {
         <div className="Calendar-left">
 
           {/* ----------------college dropdown for super admin--------------- */}
-          <div className=" my-4 mx-1 ">
+          {role && role == 'Super_Admin' ?
+            <div className=" my-4 mx-1 ">
             <select className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl sm:w-[40%] lg:w-[100%]" value={clgSelected} onChange={(e)=>{handleCollege(e); setHandleClgSel(true);}}>
               <option className=" " value="College" hidden selected disabled>College</option>
               <option value="All">All</option>
@@ -247,7 +248,7 @@ export default function ReactBigCalendar() {
                 ))
               }
             </select>
-          </div>
+          </div>: ''}
 
           {/* -----------Button to add event in calendar------------------*/}
           <div
@@ -424,7 +425,7 @@ export default function ReactBigCalendar() {
         {/* -----------------Large right side Calendar------------------- */}
         <div className="React-Big-Calendar-Original">
           <Calendar
-            views={["agenda", "month"]}
+            views={["agenda", "month","day"]}
             selectable
             localizer={localizer}
             defaultDate={new Date()}

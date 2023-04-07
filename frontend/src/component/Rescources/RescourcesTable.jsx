@@ -158,7 +158,7 @@ const RescourcesTable = (props) => {
 
   return (
     <>
-      <div className="Res-table-display pt-[100px]">
+      <div className="Res-table-display pt-[60px] md:pt-[100px]">
         <div className="RescourcesTable">
           <div className="res-table-heading">
             <div className="res-heading-left"> {skillName} Documents </div>
@@ -311,16 +311,16 @@ const RescourcesTable = (props) => {
                 <thead class="uppercase text-gray-400 bg-gray-50">
                   <tr>
                     <th class="p-2">
-                      <div class="font-[500] text-[1rem] text-left">Download</div>
+                      <div class="font-[500] text-[0.8rem] text-left">Download</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-[500] text-[1rem] text-left">Resource Title</div>
+                      <div class="font-[500] text-[0.8rem] text-left">Resource Title</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-[500] text-[1rem] text-left">Date Created</div>
+                      <div class="font-[500] text-[0.8rem] text-left">Date Created</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-[500] text-[1rem] text-left">Author</div>
+                      <div class="font-[500] text-[0.8rem] text-left">Author</div>
                     </th>
                   </tr>
                 </thead>
@@ -342,7 +342,7 @@ const RescourcesTable = (props) => {
                           </a>
                         </td>
                         <td class="p-2">
-                          <div class="font-[500] text-[1rem] text-gray-800">
+                          <div class="font-[500] text-[1rem] text-black">
                             {item && item.title}
                           </div>
                         </td>
