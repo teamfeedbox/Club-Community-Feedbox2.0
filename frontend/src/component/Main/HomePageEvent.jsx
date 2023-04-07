@@ -11,7 +11,7 @@ const HomePageEvent = (props) => {
   const [data, setData] = useState([]);
   const [clg, setClg] = useState();
   data.length>0 && data.map((d)=>{
-    console.log(d,"ds;lmnfj")
+    // console.log(d,"ds;lmnfj")
   })
 
   const getUser = async () => {

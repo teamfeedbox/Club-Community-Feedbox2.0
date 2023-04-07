@@ -56,7 +56,7 @@ const EditProfile = ({ open, setOpen }) => {
     // updateDetail(data)
   handleClose()
   getUser();
-}, [])
+}, [data])
 
 
   const update = async(data)=>{

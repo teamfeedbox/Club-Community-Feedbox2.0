@@ -112,8 +112,9 @@ function Overview(prop) {
   
 
   
-  const noRefCheck = ()=>{
-// console.log(skills)
+  const handleRemove = (e)=>{
+    setSkills(e)
+    // console.log(e)
   }
 
   return (
@@ -252,7 +253,7 @@ function Overview(prop) {
                 displayValue=""
                 isObject={false}
                 onKeyPressFn={function noRefCheck() {}}
-                onRemove={noRefCheck()}
+                onRemove={(e)=>{handleRemove(e)}}
                 onSearch={function noRefCheck() {}}
                 onSelect={onSelectNames}
                 selectedValues={data && data.skills }

@@ -4,7 +4,7 @@ cloudinary.config({
   cloud_name: 'feedbox-community-web',
   api_key: '686381213319472',
   api_secret: 'Un53tuDFktDhVEz_gbl7Jnx2jDY',
-  allowed_formats: ['pdf'],
+  allowed_formats: ['pdf','docs'],
 });
 
 module.exports = cloudinary;

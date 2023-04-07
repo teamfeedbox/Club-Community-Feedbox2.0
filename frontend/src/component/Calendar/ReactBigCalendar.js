@@ -35,7 +35,7 @@ export default function ReactBigCalendar() {
   const [scope, setScope] = useState();
   const [speaker, setSpeaker] = useState("");
   const [myEvent, setMyEvent] = useState();
-  const [loading, setLoading] = useState(false);
+  const [loading,   setLoading] = useState(false);
   const [deletebtn, setDeleteBtn] = useState(false);
   const [show, setShow] = useState(false);
   const [eventPre, setEventPre] = useState("Calendar-view-events-hide");
@@ -85,11 +85,7 @@ export default function ReactBigCalendar() {
     showEvent();
     getUser();
     setLoading(false);
-<<<<<<< HEAD
-  }, [myEvent, loading]);
-=======
   }, [myEvent,loading]);
->>>>>>> d2c4a7fcede279f49ffc6cc8128a45959e8aaafa
 
   const attendanceUpdate = async (id) => {
     let result = await fetch(`http://localhost:8000/updateEvent/${id}`, {

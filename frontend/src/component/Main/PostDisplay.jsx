@@ -120,8 +120,9 @@ const PostDisplay = (props) => {
         }
       }
     }else{
-      console.log("ki");
+      // console.log("ki"); 
       setData(result)
+      // console.log(result)
     }
   };
 
@@ -229,7 +230,7 @@ const PostDisplay = (props) => {
                         item.img.length > 0 &&
                         item.img.map((data) => (
                             <SwiperSlide >
-                          <div className="">
+                          <div className="" key={data._id}>
                             <img className="" src={data} />
                           </div>
                       </SwiperSlide>
