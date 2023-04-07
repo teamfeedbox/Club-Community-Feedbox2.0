@@ -20,6 +20,8 @@
 
 .Overview-Left-P{
     margin-bottom: 30px;
+    font-size: 1rem;
+    font-weight: 400;
 }
 .Overview-Detail section{
     display: flex;
@@ -122,6 +124,8 @@
     .Skills-Title{
         margin:0 0 15px 0;
         padding:0 0 0 0;
+        font-size: 1.5rem;
+        font-weight: 700;
     }
     .Overview-Sub-Skills{
         display: flex;
@@ -135,11 +139,16 @@
         background-color: #44e0b65d;
         margin: 10px 10px 0 0px;
         border-radius: 10px;
-        font-size: 18px;
-        font-weight: 490;
+        font-size: 1rem;
+        font-weight: 400;
     }
     .Skills:hover{
       background-color: #44e0b696;  
+    }
+
+    .save-btn{
+        font-size: 1.05rem;
+        font-weight: 500;
     }
 .Overview-Right{
     width: 50%;

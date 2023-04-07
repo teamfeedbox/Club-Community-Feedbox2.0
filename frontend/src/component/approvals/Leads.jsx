@@ -11,16 +11,21 @@ import "./ClubMember.css";
 const Leads = (props) => {
   const [searchval, setSearchVal] = useState("");
   const [show, setShow] = useState(false);
+  const [delshow, setDelShow] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [data, setData] = useState([]);
   const [lead, setLead] = useState([]);
   const [loading, setLoading] = useState(false);
   const [position, setPosition] = useState();
-  const [id,setId]=useState();
+  const [id, setId] = useState();
   const [role, setRole] = useState('');
 
-  const handleClose = () => {setShow(false); setConfirm(false)};
+  const handleClose = () => { setShow(false); setConfirm(false) };
   const handleShow = () => setShow(true);
+  const handleDelShow = () => setDelShow(true);
+  const handleDelClose = () => setDelShow(false);
+
+  console.log(props, "props")
 
   const getUser = async () => {
     const result = await fetch(`http://localhost:8000/get`);
@@ -31,15 +36,31 @@ const Leads = (props) => {
         lead.push(data)
       }
     })
-    setLead(lead);
-    setData(lead);
     setRole(data.role);
+    let clgSel = [];
+    if (props.clg) {
+      if (props.clg == "All") {
+        setLead(lead.reverse());
+        setData(lead.reverse());
+      } else {
+        lead.map(data => {
+          if (data.collegeName === props.clg) {
+            clgSel.push(data)
+          }
+        })
+        setLead(clgSel.reverse());
+        setData(clgSel.reverse());
+      }
+    } else {
+      setLead(lead.reverse());
+      setData(lead.reverse());
+    }
   };
 
   useEffect(() => {
     getUser();
     setLoading(false);
-  }, [loading,props])
+  }, [loading, props])
 
   // search user
   const searchHandler = (e) => {
@@ -65,12 +86,50 @@ const Leads = (props) => {
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ role: 'Admin',position:position })
+      body: JSON.stringify({ role: 'Admin', position: position })
     })
     const res = await data.json();
     console.log(res)
+
+    // Generate Notification
+    var date=new Date();
+    const notifi=
+    {
+      type:"role",
+      message:"You are upgraded from Lead to Admin!",
+      date: date,
+      status:"unseen"
+    }
+    
+
+    const generateNotifi = await fetch(
+      `http://localhost:8000/user/user/addnotifi/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(notifi),
+      }
+
+    );
+
+    console.log(notifi);
     setConfirm(false);
     setShow(false)
+    setLoading(true)
+  }
+
+  const handleDeleteAdmin = async () => {
+    const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ role: 'Club_Member' })
+    })
+    const res = await data.json();
+    console.log(res)
+    setDelShow(false)
     setLoading(true)
   }
 
@@ -80,7 +139,7 @@ const Leads = (props) => {
         <div class="relative text-lg bg-transparent text-gray-800">
           <div class="flex items-center border-b-2 border-[#6F6F6F] py-2 mt-3">
             <input
-              class="bg-transparent w-full  border-none mr-10 px-2 leading-tight focus:outline-none"
+              class="bg-transparent w-full text-[1rem] font-[400]  border-none mr-10 px-2 leading-tight focus:outline-none"
               type="text"
               value={searchval}
               onChange={searchHandler}
@@ -92,7 +151,7 @@ const Leads = (props) => {
           </div>
         </div>
       </div>
-      
+
       <div className="lg:border">
         <Scrollbars style={{ height: "230px" }}>
           <table class="table-auto w-full max-w-[1300px]">
@@ -104,17 +163,17 @@ const Leads = (props) => {
                       <div className="flex items-center">
                         <img
                           class="rounded-full"
-                          src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
+                          src={member.img}
                           width="40"
                           height="40"
                           alt="Alex Shatov"
                         />
 
-                        <div className="ml-2"> {member.name} </div>
+                        <div className="ml-2 text-[1rem] font-[400]"> {member.name} </div>
                       </div>
                     </td>
                     <td class="p-2 lg:flex items-center hidden md:block  w-[10%]">
-                      <div class="font-medium text-gray-800">
+                      <div class="font-medium text-gray-800 text-[1rem] font-[400]">
                         {member.position}
                       </div>
                     </td>
@@ -123,7 +182,8 @@ const Leads = (props) => {
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                         <button
                           onClick={()=>{setId(member._id); handleShow()}}
-                          className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]"
+
+                          className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] text-[1.05rem] font-[500] hover:bg-[#03821f]"
                         >
                           <FontAwesomeIcon icon={faUser} className="mr-2" />
                           Make Admin
@@ -168,15 +228,42 @@ const Leads = (props) => {
                           </Modal.Footer>
                         </form>
                       </Modal>
-                    </td> 
+                      <Modal show={delshow} onHide={handleDelClose} className="club-member-modal" >
+                        <form>
+                          <Modal.Header
+                            closeButton
+                            className="club-member-modal-header"
+                          >
+                            Are you sure to make this Lead as Club Member ?
+                          </Modal.Header>
+                          <Modal.Footer className="modal-footer club-member-modal-footer">
+                            <div className="modal-footer-club-member-yes-no-div">
+                              <div onClick={handleDeleteAdmin}>
+                                Yes
+                              </div>
+                              <button onClick={(e) => { e.preventDefault(); setDelShow(false); }}>No</button>
+                            </div>
+                          </Modal.Footer>
+                        </form>
+                      </Modal>
+                    </td>
                     {/* : ''} */}
-                    <td className=" my-auto ">
+                    <td className=" my-auto " style={{marginRight:"10px"}}>
                       <div className="">
-                        <FontAwesomeIcon icon={faTrash} className="h-[20px] text-red-500" />
+                      <button
+                          onClick={()=>{setId(member._id); handleShow()}}
+
+                          className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000] text-[1.05rem] font-[500] hover:bg-[#bf1004]"
+                        >Delete</button>
                       </div>
                     </td>
                   </tr>
-                )) : 'No Lead Members...'}
+                )) :
+                <div className="nopending">
+                <div className="text-[1rem] font-[400]">No Lead Members !!</div>
+                </div>
+                }
+
             </tbody>
           </table>
         </Scrollbars>

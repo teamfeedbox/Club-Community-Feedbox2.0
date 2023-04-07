@@ -339,17 +339,17 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                       <div className="Post-Big-Title2">Feedbox Member</div>
                     </div>
                   </div>
-                  <Link
+                  {/* <Link
                     to="/main"
                     className="Cancel-Icon-Container"
                     style={{ textDecoration: "none" }}
-                  >
+                  > */}
                     <FontAwesomeIcon
                       className="fa-lg"
                       icon={faXmark}
                       onClick={handleClose}
                     />
-                  </Link>
+                  {/* </Link> */}
                 </div>
                 {/* Description */}
                 <div className="Post-Big-Description">{user && user.desc}</div>

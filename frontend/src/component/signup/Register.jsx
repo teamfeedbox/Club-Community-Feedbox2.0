@@ -16,6 +16,7 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [uniqueId, setUniqueId] = useState("");
   const [collegeYear, setCollegeYear] = useState();
   const [collegeName, setCollegeName] = useState("University");
   const [branch, setBranch] = useState();
@@ -56,7 +57,32 @@ const Register = () => {
     getColleges();
   }, [])
 
+  const generateUniqueid=()=>{
+    const today = new Date();
+    let c1 =today.getFullYear();
+    let c2 =collegeName.slice(0,3).toUpperCase();
+    let c3 ='15'+ Math.floor(Math.random() * 90 + 10);
+    
+    let result ='';
+    for(let i=0;i<1;i++)
+    {
+      result += c1;
+    }
+    
+    for(let i=0;i<1;i++)
+    {
+      result += c2;
+    }
+    for(let i=0;i<1;i++)
+    {
+      result += c3;
+    }
+    console.log(result);
+    setUniqueId(result);
+  }
+
   const collectData = async (e) => {
+    // generateUniqueid();
     e.preventDefault();
     let result = await fetch("http://localhost:8000/register", {
       method: "post", // post method because we want to save the data
@@ -67,6 +93,7 @@ const Register = () => {
         collegeYear,
         branch,
         collegeName,
+        uniqueId:uniqueId,
         skills: userinfo.response,
       }),
       headers: {
@@ -74,11 +101,12 @@ const Register = () => {
       },
     });
     result = await result.json();
-     console.log(result)
-    localStorage.setItem("user", JSON.stringify(result));
-    // if (result) {
-    //   navigate("/login");
-    // }
+    console.log(result);
+
+    if (result) {
+      alert("You have registered successfully ! Wait until you receive mail to login ");
+      navigate("/login");
+    }
   };
 
   const handleClose = () => setShow(false);
@@ -86,13 +114,13 @@ const Register = () => {
 
   const changenext = (e) => {
     e.preventDefault();
-    if(nameError==false && emailError==false && passError==false && collegeName!="")
+    if(nameError==false && emailError==false && passError==false && collegeName!="" && name!="" && email!="" && password!="")
     {
       setNext(!next);
     }
     else
     {
-      alert("All field are required")
+      alert("All fields are required")
     }
     
   };
@@ -110,7 +138,7 @@ const Register = () => {
     switch(e.target.name)
     {
       case "name":
-        if (eventValue.length < 3) {
+        if (eventValue.length < 3 ) {
           setNameError(true);
         } else {
           setNameError(false);
@@ -177,7 +205,7 @@ const Register = () => {
             </p>
           </div>
         </div>
-        <div className="flex justify-center self-center  z-10">
+        <div className="flex justify-center self-center m-[12px] mt-[70px]  z-10">
           <div className="p-12 bg-white mx-auto rounded-3xl w-96 ">
             <div className="mb-7">
               <h3 className="font-semibold text-2xl text-gray-800">Sign Up </h3>
@@ -501,7 +529,7 @@ const Register = () => {
                       </button>
                       <button
                         type="submit"
-                        // onClick={collectData}
+                        onClick={generateUniqueid}
                         className="w-full flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
                       >
                         Sign Up
@@ -634,7 +662,7 @@ const Register = () => {
         </div>
       </div>
       <svg
-        class="absolute bottom-0 left-0 "
+        class="absolute bottom-0 left-0 hidden md:block"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1440 320"
       >

@@ -3,6 +3,11 @@ import styled from "styled-components";
 import { Accessibility } from "./accessibility";
 import { MenuToggle } from "./menuToggle";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBell,
+  faRightFromBracket,
+  faUser,} from "@fortawesome/free-solid-svg-icons";
 
 const NavLinksContainer = styled.div`
   height: 100%;
@@ -59,6 +64,23 @@ const Marginer = styled.div`
   height: 2em;
 `;
 
+const LoginButton = styled.button`
+  border: 0;
+  outline: 0;
+  padding: 8px 1em;
+  color: #222;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 20px;
+  background-color: transparent;
+  transition: all 240ms ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    color: gray;
+  }
+  `;
+
 export function MobileNavLinks(props) {
   const [isOpen, setOpen] = useState(false);
   const [user, setUser] = useState();
@@ -87,13 +109,17 @@ export function MobileNavLinks(props) {
     // }
   };
 
+  const logoutHandler = () => {
+    localStorage.clear();
+  };
+
   const selectedPage = window.location.pathname;
 
   return (
     <NavLinksContainer>
       <MenuToggle isOpen={isOpen} toggle={() => setOpen(!isOpen)} />
       {isOpen && (
-        <LinksWrapper>
+        <LinksWrapper onClick={() => {setOpen(!isOpen)}}>
           {selectedPage === "/main" ? (
             <LinkItemHighlight>
               <Links to="/main">Home</Links>
@@ -202,6 +228,16 @@ export function MobileNavLinks(props) {
               <Links to="/faq">FAQs</Links>
             </LinkItem>
           )}
+
+          <Links
+            to="/"
+            title="Logout"
+            onClick={logoutHandler}
+          >
+            <LoginButton>
+              <FontAwesomeIcon icon={faRightFromBracket} className="fa-xl" />
+            </LoginButton>
+          </Links>
 
           <Marginer />
           {/* <Accessibility /> */}

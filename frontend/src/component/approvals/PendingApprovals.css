@@ -8,6 +8,17 @@
     position: absolute;
 }
 
+.nopending{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8%;
+    gap:10px;
+}
+
+
+
 @media only screen and (max-width: 600px) {
     .PendingApprovals {
         width: 100%;

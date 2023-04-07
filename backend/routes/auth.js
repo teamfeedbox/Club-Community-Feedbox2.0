@@ -7,7 +7,7 @@ const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const requireLogin = require("../middleware/requireLogin");
 const { closeDelimiter } = require("ejs");
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
 router.get("/get", async (req, res) => {
   try {
@@ -18,6 +18,7 @@ router.get("/get", async (req, res) => {
   }
 });
 
+// Register a user
 router.post("/register", (req, res) => {
   const {
     name,
@@ -33,7 +34,7 @@ router.post("/register", (req, res) => {
     bio,
     uniqueId,
     img,
-    events
+    events,
   } = req.body;
   if (!email || !password || !name) {
     return res.status(422).json({ error: "please add all the fields" });
@@ -49,7 +50,6 @@ router.post("/register", (req, res) => {
         const user = new User({
           email,
           password: hashedPassword,
-          // password,
           name,
           collegeName,
           branch,
@@ -62,19 +62,11 @@ router.post("/register", (req, res) => {
           bio,
           img,
           events,
-
         });
 
         user
           .save()
           .then((user) => {
-            // transporter.sendMail({
-            //     to:user.email,
-            //     from:"no-reply@insta.com",
-            //     subject:"signup success",
-            //     html:"<h1>welcome to instagram</h1>"
-            // })
-            // res.json({message:"saved successfully"})
             res.send(user);
           })
           .catch((err) => {
@@ -87,6 +79,7 @@ router.post("/register", (req, res) => {
     });
 });
 
+// Login
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -95,6 +88,10 @@ router.post("/login", (req, res) => {
   User.findOne({ email: email }).then((savedUser) => {
     if (!savedUser) {
       return res.status(422).json({ err: "invalid email or password" });
+    } else if (savedUser.role == "user") {
+      return res
+        .status(500)
+        .json({ err: "You are not a part of club right now." });
     }
     bcrypt
       .compare(password, savedUser.password)
@@ -103,7 +100,37 @@ router.post("/login", (req, res) => {
           // res.json({message:"successfully signed in"})
           const token = jwt.sign({ _id: savedUser._id }, jwtKey);
           // const decodedToken = jwt.decode(token);
+          res.json({ token });
+        } else {
+          return res.status(422).json({ error: "invalid password" });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+});
 
+
+
+router.post("/login/superAdmin", (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(422).json({ error: "please add all the details" });
+  }
+  User.findOne({ email: email }).then((savedUser) => {
+    if (!savedUser) {
+      return res.status(422).json({ err: "invalid email or password" });
+    } else if(savedUser.role == 'Super_Admin') {
+      return res.status(500).json();
+    }
+    bcrypt
+      .compare(password, savedUser.password)
+      .then((doMatch) => {
+        if (doMatch) {
+          // res.json({message:"successfully signed in"})
+          const token = jwt.sign({ _id: savedUser._id }, jwtKey);
+          // const decodedToken = jwt.decode(token);
           res.json({ token });
         } else {
           return res.status(422).json({ error: "invalid password" });
@@ -119,143 +146,177 @@ router.post("/login", (req, res) => {
 router.get('/user', requireLogin, async (req, res) => {
   try {
     const email = req.user.email;
-    const user = await User.findOne({ email }).populate("email").select("-password");
-    if(user){
+    const user = await User.findOne({ email })
+      .populate("email")
+      .select("-password");
+    if (user) {
       res.status(200).json(user);
-    }else{
-      res.status(404).json("This user doesn't exists...")
+    } else {
+      res.status(404).json("This user doesn't exists...");
     }
   } catch (error) {
-    res.status(404).send('User not found');
+    res.status(404).send("User not found");
   }
 });
 
-
-router.get('/user/:id', requireLogin, async (req, res) => {
+router.get("/user/:id", requireLogin, async (req, res) => {
   let result = await User.findOne({ _id: req.params.id });
   if (result) {
-    res.send(result)
+    res.send(result);
+  } else {
+    res.send("not found");
   }
-  else {
-    res.send("not found")
-  }
-})
+});
 
-router.put('/updatePic/:id', requireLogin, async (req, res) => {
+// Update picture
+router.put("/updatePic/:id", requireLogin, async (req, res) => {
   let result = await User.updateOne(
     { _id: req.params.id },
     { $set: { img: req.body.url } }
-  )
-  res.send(result)
-})
+  );
+  res.send(result);
+});
 
-
-router.put('/updateSkill/:id', requireLogin, async (req, res) => {
+// Update Skills
+router.put("/updateSkill/:id", requireLogin, async (req, res) => {
   let result = await User.updateOne(
     { _id: req.params.id },
     { $push: { skills: req.body.skill } }
-  )
-  res.send(result)
-})
-
-
-
+  );
+  res.send(result);
+});
 
 // update details of a user
-router.put('/updateDetail/:id', async (req, res) => {
+router.put("/updateDetail/:id", async (req, res) => {
   // console.log(req.body,req.params.id);
   try {
-    let result = await User.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true })
-    res.status(200).json(result)
+    let result = await User.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: req.body },
+      { new: true }
+    );
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json(error);
   }
-})
+});
 
-router.post('/sendmail/:id', async (req, res) => {
+router.post("/sendmail/:id", async (req, res) => {
   try {
-    let result = await User.findOne({ _id: req.params.id })
-    console.log(result);
+    let result = await User.findOne({ _id: req.params.id });
+    // console.log(result);
     const transporter = nodemailer.createTransport({
-      service:"gmail",
-      port:465,
-      secure:false,
+      service: "gmail",
+      port: 465,
+      secure: false,
       auth: {
-          user: 'anushkashah02.feedbox@gmail.com',
-          pass: 'dvtjbrrqhgjypuya' // this requires apps password not original password
-      }
-  });
-
-  let info = await transporter.sendMail({
-      from: '<anushkashah02.feedbox@gmail.com>', // sender address
-      to: `${result.email}`, // list of receivers
-      subject: "Hello Isha", // Subject line
-      text: "Hello Isha", // plain text body
-      html: "<b>Hello Isha</b>", // html body
+        user: "anushkashah02.feedbox@gmail.com",
+        pass: "dvtjbrrqhgjypuya", // this requires apps password not original password
+      },
     });
-  
-    console.log("Message sent: %s", info.messageId);
+
+    let info = await transporter.sendMail({
+      from: "<anushkashah02.feedbox@gmail.com>", // sender address
+      to: `${result.email}`, // list of receivers
+      subject: ` Your Account has been Verified`, // Subject line
+      text: "Hello Isha", // plain text body
+      html: `<div> 
+      Dear ${result.name}, <br /> <br />
+
+      We are pleased to inform you that your account has been successfully verified. You can now login to your account and 
+      start using all the features and services that our platform has to offer.
+      <br />
+      To access your account, please visit our website at [website URL] and click on the login button. 
+      If you have any questions or concerns, please do not hesitate to contact us. 
+      Our support team is available 24/7 to assist you with any issues you may have.
+
+      <br /><br />
+      Best regards,
+      <br /> <br />
+      Team Feedbox
+       </div>`, // html body
+    });
+
+    // console.log("Message sent: %s", info.messageId);
     res.status(200).json(info);
   } catch (error) {
     res.status(500).json(error);
   }
-})
+});
 
 // delete a user
-router.delete('/user/:id', async (req, res) => {
-  const data = await User.findByIdAndDelete(req.params.id).then((user) => {
-    if (!user) {
-      return res.status(404).send();
-    }
-    res.send(user);
-  }).catch((error) => {
-    res.status(500).send(error);
-  })
-})
+router.delete("/user/:id", async (req, res) => {
+  const data = await User.findByIdAndDelete(req.params.id)
+    .then((user) => {
+      if (!user) {
+        return res.status(404).send();
+      }
+      res.send(user);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
 
-// router.put('/updateSkills/:eventId', requireLogin, async (req, res) => {
-//   let result = await Event.updateOne(
-//     { _id: req.params.eventId },
-//     {
-//       $push: { skills: req.body }
-//     }
-//   )
-//   res.send(result)
-// })
-
-
-
-router.get('/getAllUser',(req,res)=>{
+router.get("/getAllUser", (req, res) => {
   // var mySort = { date: -1 };
   User.find()
-  // .sort(mySort)
-  // .populate('postedBy').select("-password")
-  .then(user=>{
-      res.json(user)
-  })
-  .catch(err=>{
-      console.log(err)
-  })
-})
+    // .sort(mySort)
+    // .populate('postedBy').select("-password")
+    .then((user) => {
+      res.json(user);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
-
-
-router.put('/update/coins/events/', async (req, res) => {
+// Update Coins and events
+router.put("/update/coins/events/", async (req, res) => {
   // console.log(req.body);
   try {
     req.body.attendees.map(async (data) => {
-      const response = await User.updateOne({ _id: data.id }, {
-        $set: { coins: data.coins },
-        $push: { events: req.body.currentEvent }
-      })
-    })
+      const response = await User.updateOne(
+        { _id: data.id },
+        {
+          $set: { coins: data.coins },
+          $push: { events: req.body.currentEvent },
+        }
+      );
+    });
     res.status(200).json(true);
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json(error);
+  }
+});
+
+// Update Interested events 
+router.put('/update/interested/events/:userId', async (req, res) => {
+  console.log(req.body);
+  try {
+    const response = await User.updateOne(
+      { _id: req.params.userId },
+      {
+        $push: { interestedEvents: req.body.event },
+      },
+      { new: true }
+    );
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json(error);
   }
 })
 
-
+//Get all notifications of a user
+router.get('/user/get/user/all/notifi/:id',async(req,res)=>{
+  try {
+      const result = await User.aggregate([{ $match : { _id :req.params.id} },{$project : { notifications:1 }}]);
+      console.log(result,"lllllll");
+      res.status(200).json(result)
+  } catch (error) {
+      res.status(401).json(error);
+  }
+})
 
 
 module.exports = router;

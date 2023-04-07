@@ -8,8 +8,17 @@ import "./ClubMember.css";
 
 const Admin = (props) => {
   const [searchval, setSearchVal] = useState("");
-  const [data,setData]= useState([]);
-  const [admin,setAdmin]= useState([]);
+  const [data, setData] = useState([]);
+  const [admin, setAdmin] = useState([]);
+  const [id, setId] = useState();
+  const [delshow, setDelShow] = useState(false);
+  const [loading, setLoading] = useState(false)
+
+  console.log(props);
+
+  const handleDelClose = () => {
+    setDelShow(false);
+  }
 
   const getUser = async () => {
     const result = await fetch(`http://localhost:8000/get`);
@@ -20,13 +29,30 @@ const Admin = (props) => {
         admin.push(data)
       }
     })
-    setAdmin(admin);
-    setData(admin);
+    let clgSel = [];
+    if (props.clg) {
+      if (props.clg == "All") {
+        setAdmin(admin.reverse());
+        setData(admin.reverse());
+      } else {
+        admin.map(data => {
+          if (data.collegeName === props.clg) {
+            clgSel.push(data)
+          }
+        })
+        setAdmin(clgSel.reverse());
+      setData(clgSel.reverse());
+      }
+    } else {
+      setAdmin(admin.reverse());
+      setData(admin.reverse());
+    }
   };
 
   useEffect(() => {
     getUser();
-  }, [props])
+    setLoading(false);
+  }, [props, loading])
 
   // search user
   const searchHandler = (e) => {
@@ -46,6 +72,18 @@ const Admin = (props) => {
       setAdmin(data);
     }
   };
+
+  const handleDeleteAdmin = async () => {
+    const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ role: 'Club_Member' })
+    })
+    const res = await data.json();
+    console.log(res)
+    setDelShow(false)
+    setLoading(true)
+  }
 
   return (
     <div>
@@ -70,38 +108,56 @@ const Admin = (props) => {
       {/* table  */}
       <div className="lg:border">
         <Scrollbars style={{ height: "230px" }}>
-            <table class="table-auto w-full max-w-[1300px]">
-              <tbody class="text-sm divide-y  divide-gray-100 max-w-[1150px]">
-                {admin.length>0 ?
-                  admin.map((member) => (
-                    <tr className="">
-                      <td class=" p-2 w-[170px] lg:w-[400px] ">
-                        <div className="flex items-center">
-                          <img
-                            class="rounded-full"
-                            src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                            width="40"
-                            height="40"
-                            alt="Alex Shatov"
-                          />
+          <table class="table-auto w-full max-w-[1300px]">
+            <tbody class="text-sm divide-y  divide-gray-100 max-w-[1150px]">
+              {admin.length > 0 ?
+                admin.map((member) => (
+                  <tr className="">
+                    <td class=" p-2 w-[170px] lg:w-[400px] ">
+                      <div className="flex items-center">
+                        <img
+                          class="rounded-full"
+                          src={member.img}
+                          width="40"
+                          height="40"
+                          alt="Alex Shatov"
+                        />
 
-                          <div className="ml-2"> {member.name} </div>
-                        </div>
-                      </td>
-                      <td class="p-2 w-[170px] lg:w-[400px]  items-center mr-8 ">
-                        <div class="font-medium text-gray-800">
-                          {member.position}
-                        </div>
-                      </td>
-                      <td className=" w-[100px] my-auto">
-                      <div className="text-red-500">
-                        <FontAwesomeIcon icon={faTrash} className="h-[20px] text-red-500" />
+                        <div className="ml-2"> {member.name} </div>
                       </div>
                     </td>
-                    </tr>
-                  )) : 'No Admins...'}
-              </tbody>
-            </table>
+                    <td class="p-2 w-[170px] lg:w-[400px]  items-center mr-8 ">
+                      <div class="font-medium text-gray-800">
+                        {member.position}
+                      </div>
+                    </td>
+                    <td className=" w-[100px] my-auto">
+                      <div className="text-red-500" onClick={() => { setDelShow(true); setId(member._id) }}>
+                        <FontAwesomeIcon icon={faTrash} className="h-[20px] text-red-500" />
+                      </div>
+                      <Modal show={delshow} onHide={handleDelClose} className="club-member-modal" >
+                        <form>
+                          <Modal.Header
+                            closeButton
+                            className="club-member-modal-header"
+                          >
+                            Are you sure to make this Admin as Club Member ?
+                          </Modal.Header>
+                          <Modal.Footer className="modal-footer club-member-modal-footer">
+                            <div className="modal-footer-club-member-yes-no-div">
+                              <div onClick={handleDeleteAdmin}>
+                                Yes
+                              </div>
+                              <button onClick={(e) => { e.preventDefault(); setDelShow(false); }}>No</button>
+                            </div>
+                          </Modal.Footer>
+                        </form>
+                      </Modal>
+                    </td>
+                  </tr>
+                )) : 'No Admins...'}
+            </tbody>
+          </table>
         </Scrollbars>
       </div>
     </div>

@@ -9,7 +9,7 @@ const { default: mongoose } = require('mongoose')
 // Create event
 router.post('/createEvent', requireLogin, (req, res) => {
     const { title, eventDate, eventTime, venue, desc, speaker, attendance, scope } = req.body
-
+    console.log(req.body)
     const event = new Event({
         title,
         eventDate,
@@ -116,8 +116,6 @@ router.get('/getEvent/:id', requireLogin, (req, res) => {
             console.log(err)
         })
 })
-
-
 
 //api to get all the events created by user in their profile page
 router.get('/myEvent', requireLogin, async (req, res) => {

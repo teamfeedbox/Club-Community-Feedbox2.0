@@ -158,7 +158,7 @@ const CreatePost = (userData) => {
           <img src={user && user.img} alt="" />
         </div>
         <div className="create-post-start" onClick={handleShow}>
-          <div className="create-post-start-content">Start a post</div>
+          <div className="create-post-start-content">Create a post</div>
           <div className="create-post-start-content-icon">
             <FontAwesomeIcon
               className="fa-xl"
@@ -175,7 +175,11 @@ const CreatePost = (userData) => {
           className="profile-section-overall"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Create a post</Modal.Title>
+            <Modal.Title>
+              <div className="create_post_home_page" >
+              Create a post
+              </div>
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body className="modal-body">
             <form>
@@ -185,7 +189,7 @@ const CreatePost = (userData) => {
               </div>
               <div className="modal-profile-section-content">
                 {/* <h5>{JSON.parse(auth).name}</h5> */}
-                <h5>{user && user.name}</h5>
+                <div>{user && user.name}</div>
 
                 <select required name="type" onChange={handleSelect}>
                   <option disabled hidden selected value="Select">Select</option>

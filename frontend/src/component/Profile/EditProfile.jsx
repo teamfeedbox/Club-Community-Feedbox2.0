@@ -26,6 +26,7 @@ const EditProfile = ({ open, setOpen }) => {
   const [url, setUrl] = useState("");
   const [email, setEmail] = useState("");
   const [bio, setBio] = useState("");
+  const [loading, setLoading] = useState(false);
   
  
 
@@ -47,16 +48,17 @@ const EditProfile = ({ open, setOpen }) => {
 
   useEffect(()=>{
     if (url) {
-     update(data);
+     update(data);  
     }
-  },[url])
+    setLoading(false)
+  },[url,loading])
 
   useEffect(()=>{
       getUserDetails();
     // updateDetail(data)
   handleClose()
   getUser();
-}, [])
+}, [data])
 
 
   const update = async(data)=>{
@@ -73,6 +75,7 @@ const EditProfile = ({ open, setOpen }) => {
   })
 
   result = await result.json();
+  setLoading(true)
  
   // console.log(result)
   }

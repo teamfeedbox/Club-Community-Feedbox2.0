@@ -3,6 +3,8 @@ import { Carousel } from "react-responsive-carousel";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {Link} from "react-router-dom";
+import TimeAgo from "javascript-time-ago";
+import en from 'javascript-time-ago/locale/en'
 
 
 // Import Swiper styles
@@ -22,6 +24,8 @@ import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import ProfileBigModel from "./ProfileBigModel";
 
 const ProfilePost = (prop) => {
+  TimeAgo.addLocale(en);
+  const timeAgo = new TimeAgo("en-US");
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [newS, setNewS] = useState(false);
@@ -67,10 +71,10 @@ const ProfilePost = (prop) => {
 
   return (
     <div>
-      {post.map((item) => (
-        <div key={item._id} className="post-display">
+      {post.length>0 ? post.map((item) => (
+        <div className="post-display">
           <div className="flex justify-between">
-            <p className="post-display-heading-time"> Posted</p>
+            <p className="post-display-heading-time"> Posted : {item && item.postedDate && timeAgo.format(new Date(item.postedDate).getTime() - 60 * 1000)}</p>
             <div>
               <div 
               onClick={() => {setOpen(!open)}}
@@ -83,9 +87,6 @@ const ProfilePost = (prop) => {
                { open && <div
                 class=" absolute   bg-white/40 rounded-lg shadow ">
                 <ul class="py-3 px-3  flex flex-col gap-3">
-                  {/* <li class="cursor-pointer bg-sky-400 p-2 rounded-md hover:opacity-90 text-white flex items-center justify-around font-[500]">
-                    <FontAwesomeIcon icon={faEdit} /> Edit
-                  </li> */}
                   <li class="cursor-pointer bg-red-400 p-2 rounded-md hover:opacity-90 text-white"
                   onClick={() => deletePost(item._id)}
                   >
@@ -170,7 +171,7 @@ const ProfilePost = (prop) => {
             </button>
           </div>
         </div>
-      ))}
+      )) : <div className="font-[700] text-[1.1rem] pt-2 text-center">You haven't posted anything yet!</div>} 
       <ProfileBigModel
       openComment={openComment}
       setOpenComment={setOpenComment}

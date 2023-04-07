@@ -10,6 +10,7 @@ const NewLogin = () => {
 
   const navigate = useNavigate();
 let auth = localStorage.getItem('user')
+
   const handleLogin = async (e) => {
     e.preventDefault();
     console.log(email, password);
@@ -22,15 +23,15 @@ let auth = localStorage.getItem('user')
       },
     });
     result = await result.json();
-    console.log(result.token);
-    localStorage.setItem("user", JSON.stringify(result));
-    localStorage.setItem("jwt", result.token);  
 
+    console.log(result.token);
+    
     if(result.token){
-         
-          navigate('/main')   
+      navigate('/main')   
+      localStorage.setItem("user", JSON.stringify(result));
+      localStorage.setItem("jwt", result.token);  
     }else{
-      alert("not valid")
+      alert(result.err);
     }
    
   };
@@ -50,7 +51,7 @@ let auth = localStorage.getItem('user')
             </p>
           </div>
         </div>
-        <div className="flex justify-center self-center  z-10">
+        <div className="flex justify-center self-center mt-[80px] m-[12px] z-10">
           <div className="p-12 bg-white mx-auto rounded-3xl w-96 ">
             <div className="mb-7">
               <h3 className="font-semibold text-2xl text-gray-800">Sign In </h3>
@@ -151,7 +152,7 @@ let auth = localStorage.getItem('user')
         </div>
       </div>
       <svg
-        class="absolute bottom-0 left-0 "
+        class="absolute bottom-0 left-0 hidden md:block "
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1440 320"
       >

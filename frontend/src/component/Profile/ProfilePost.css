@@ -73,6 +73,11 @@
     /* border-radius: 5px; */
 }
 
+.post-display-heading-time{
+    font-size: var(--subheading-font-size);
+    font-weight: var(--subheading-font-weight);
+}
+
 /* ############################################################## */
 /* ############################################################## */
 /* ############################################################## */
@@ -86,7 +91,7 @@
 .swiper-button-prev:after, .swiper-rtl .swiper-button-next:after {
     content: 'prev';
     color: black;
-    font-size: 1rem;
+    font-size: 10px;
 }
 
 .swiper-button-next:after, .swiper-rtl .swiper-button-prev:after {

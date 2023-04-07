@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import NavbarRes from "../navbar/NavbarRes";
 import Chart from "chart.js/auto";
-import { Bar, Line, Pie } from "react-chartjs-2";
+import { Bar, Doughnut, Line, Pie } from "react-chartjs-2";
 // import { cloneData } from "react-chartjs-2/dist/utils";
 
 const Dashboard = () => {
@@ -31,7 +31,16 @@ const Dashboard = () => {
   const [nov, setNov] = useState(0);const [novHr, setNovHr] = useState(0);const [novAvgHr, setNovAvgHr] = useState(0);
   const [dec, setDec] = useState(0);const [decHr, setDecHr] = useState(0);const [decAvgHr, setDecAvgHr] = useState(0);
 
- 
+  // const arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  // console.log(arr.length)
+
+  const options={
+    plugins:{
+      legend:{
+        display:false
+      }
+    }
+  }
   const labels = [
     "Jan",
     "Feb",
@@ -52,12 +61,18 @@ const Dashboard = () => {
       {
         label: "My First dataset",
         backgroundColor: [
-          "#007D9C",
-          "#244D70",
-          "#D123B3",
-          "#F7E018",
-          "#0f9635",
-          "#FE452A",
+          "#E74646",
+          "#77037B",
+          "#210062",
+          "#009FBD",
+          "#FF6000",
+          "#4F200D",
+          "#CE5959",
+          "#A4BC92",
+          "#BACDDB",
+          "#675D50",
+          "#B8621B",
+          "#FFB4B4"
         ],
         // borderColor: "rgb(255, 99, 132)",
         data: [jan, feb, march, april, may, june, july, august, sept, oct, nov, dec],
@@ -66,18 +81,25 @@ const Dashboard = () => {
 
     
   };
+
   const data1 = {
     labels: labels,
     datasets: [
       {
         label: "My second dataset",
         backgroundColor: [
-          "#007D9C",
-          "#244D70",
-          "#D123B3",
-          "#F7E018",
-          "#0f9635",
-          "#FE452A",
+          "#E74646",
+          "#77037B",
+          "#210062",
+          "#009FBD",
+          "#FF6000",
+          "#4F200D",
+          "#CE5959",
+          "#A4BC92",
+          "#BACDDB",
+          "#675D50",
+          "#B8621B",
+          "#FFB4B4"
         ],
         // borderColor: "rgb(255, 99, 132)",
         data: [janHr, febHr, marchHr, aprilHr, mayHr, juneHr, julyHr, augustHr, septHr, octHr, novHr, decHr],
@@ -108,12 +130,18 @@ const Dashboard = () => {
       {
         label: "My third dataset",
         backgroundColor: [
-          "#007D9C",
-          "#244D70",
-          "#D123B3",
-          "#F7E018",
-          "#0f9635",
-          "#FE452A",
+          "#E74646",
+          "#77037B",
+          "#210062",
+          "#009FBD",
+          "#FF6000",
+          "#4F200D",
+          "#CE5959",
+          "#A4BC92",
+          "#BACDDB",
+          "#675D50",
+          "#B8621B",
+          "#FFB4B4"
         ],
         // borderColor: "rgb(255, 99, 132)",
         data: [avgJan, avgFeb, avgMarch, avgApril, avgMay, avgJune, avgJuly, avgAugust, avgSept, avgOct, avgNov, avgDec],
@@ -318,7 +346,7 @@ const Dashboard = () => {
     <div>
       <div className=" pt-[60px] w-[90%] md:w-[90%] lg:w-[70%] m-auto">
         <div className="flex lg:mt-4 lg:ml-4 mt-2 ml-1">
-          <p className="ml-2 text-[28px] font-semibold mb-0">Dashboard</p>
+          <p className="ml-2 text-[1.5rem] font-[700] mb-0">Dashboard</p>
         </div>
 
         <div className=" flex flex-wrap justify-around lg:flex md:flex-row flex-col">
@@ -330,10 +358,10 @@ const Dashboard = () => {
               />
             </div>
             <div className=" flex flex-col m-2 pl-3">
-              <h6 className="pt-1 text-[18px] md:text-[16px]  m-0 pb-0 font-semibold">
+              <h6 className="pt-1 text-[1rem] font-[700] md:text-[1rem]  m-0 pb-0 ">
                 Total Students:
               </h6>
-              <p className=" text-[25px] font-bold p-0 relative bottom-2">
+              <p className=" text-[1.5rem] font-[700] p-0 relative bottom-2">
                 {user}
               </p>
             </div>
@@ -347,10 +375,10 @@ const Dashboard = () => {
               />
             </div>
             <div className=" flex flex-col m-2 pl-3">
-              <h6 className="pt-1 text-[18px] md:text-[16px]  m-0 pb-0 font-semibold">
+              <h6 className="pt-1 text-[1rem] font-[700] md:text-[1rem]  m-0 pb-0 ">
                 Total Colleges:
               </h6>
-              <p className=" text-[25px] font-bold p-0 relative bottom-2">
+              <p className="text-[1.5rem] font-[700] p-0 relative bottom-2">
                 {college}
               </p>
             </div>
@@ -365,10 +393,10 @@ const Dashboard = () => {
             </div>
 
             <div className=" flex flex-col m-2 pl-3">
-              <h6 className="pt-1 text-[18px] md:text-[16px]  m-0 pb-0 font-semibold">
+              <h6 className="pt-1 text-[1rem] font-[700] md:text-[1rem]  m-0 pb-0 ">
                 Upcoming Events:
               </h6>
-              <p className=" text-[25px] font-bold p-0 relative bottom-2">
+              <p className="text-[1.5rem] font-[700] p-0 relative bottom-2">
                 {count}
               </p>
             </div>
@@ -377,36 +405,36 @@ const Dashboard = () => {
 
         <div className="mt-3 flex flex-wrap justify-around">
           <div className="w-[320px] md:w-[300px] m-3 rounded-md shadow-md p-2">
-            <Bar width={300} height={300} data={data} />
+            <Bar width={300} height={300} data={data} options={options} />
             <div className="m-3">
-              <h5 className="pt-1 text-[16px]  m-0 pb-0 font-semibold">
+              <h5 className="pt-1 text-[1rem] font-[700] md:text-[1rem]  m-0 pb-0">
                 Total Number of events held:
               </h5>
-              <p className=" text-[25px] mt-1  font-bold p-0 relative bottom-2">
+              <p className="  mt-1 text-[1.5rem] font-[700] p-0 relative bottom-2">
                 {eventHeld}
               </p>
             </div>
           </div>
 
           <div className="w-[320px] md:w-[300px] m-3 rounded-md shadow-md p-2">
-            <Line width={300} height={300} data={data1} />
+            <Line width={300} height={300} data={data1} options={options} />
             <div className="m-3">
-              <h5 className="pt-1 text-[16px]  m-0 pb-0 font-semibold">
+              <h5 className="pt-1 text-[1rem] font-[700] md:text-[1rem] m-0 pb-0">
                 Total Number of hours events held:
               </h5>
-              <p className=" text-[25px] mt-1  font-bold p-0 relative bottom-2">
+              <p className=" mt-1 text-[1.5rem] font-[700] p-0 relative bottom-2">
                 {time} hrs
               </p>
             </div>
           </div>
 
           <div className="w-[320px] md:w-[300px] m-3 rounded-md shadow-md p-2">
-            <Pie width={300} height={300} data={data2} />
+            <Doughnut width={300} height={300} data={data2}  />
             <div className="m-3">
-              <h5 className="pt-1 text-[16px]  m-0 pb-0 font-semibold">
+              <h5 className="pt-1 text-[1rem] font-[700] md:text-[1rem] m-0 pb-0 ">
                 Total Number of hours student studied:
               </h5>
-              <p className=" text-[25px] mt-1  font-bold p-0 relative bottom-2">
+              <p className=" mt-1 text-[1.5rem] font-[700] p-0 relative bottom-2">
                 {averageHourStudied} min
               </p>
             </div>

@@ -112,8 +112,9 @@ function Overview(prop) {
   
 
   
-  const noRefCheck = ()=>{
-// console.log(skills)
+  const handleRemove = (e)=>{
+    setSkills(e)
+    // console.log(e)
   }
 
   return (
@@ -151,26 +152,13 @@ function Overview(prop) {
             </div>
             <div className='Profile-Edit-Mail'>
               <div>
+
                 <span>Email:</span>
-                
-                { 
-                  profileSubmit?
-                  (
-                  <input className='Overview-Left-input Overview-Left-input1'
-                  // rows="3"
-                  placeholder=''
-                 
-                  onChange={getChanges}
-                  >
-                  </input>
-                  )
-                  :
                   <p className='Overview-Left-P' onClick={() => SetProfileSubmit(true)}>
                   {
                     data && data.email
                   }
                   </p>
-                }
                
               </div>
               {
@@ -190,8 +178,9 @@ function Overview(prop) {
             <FontAwesomeIcon className="fa-lg" icon={faIdCard} />
             </div>
             <div>
-              <span onClick={handleShow}>Unique Id: </span>
-              <p>2019SVV0565</p>
+              <span className='text-[1.1rem] font-[700] ' onClick={handleShow}>Unique Id: </span>
+              <p className='text-[1rem] font-[400] '>{data && data.uniqueId}</p>
+
             </div>
           </section>
           <section>
@@ -199,8 +188,8 @@ function Overview(prop) {
             <FontAwesomeIcon className="fa-lg" icon={faUniversity} />
             </div>
             <div>
-              <span>University:</span>
-              <p>{data && data.collegeName}</p>
+              <span className='text-[1.1rem] font-[700]'>University:</span>
+              <p className='text-[1rem] font-[400] '>{data && data.collegeName}</p>
             </div>
           </section>
           <section>
@@ -208,8 +197,8 @@ function Overview(prop) {
             <FontAwesomeIcon className="fa-lg" icon={faGraduationCap} />
             </div>
             <div>
-              <span>Year:</span>
-              <p>{data && data.collegeYear}</p>
+              <span className='text-[1.1rem] font-[700] '>Year:</span>
+              <p className='text-[1rem] font-[400] '>{data && data.collegeYear}</p>
             </div>
           </section>
         </div>
@@ -240,19 +229,17 @@ function Overview(prop) {
 
       <Modal show={show1} onHide={handleClose1}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Skills</Modal.Title>
+          <Modal.Title className='club-member-modal-header'>Add Skills</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <Multiselect
                 value={skills}
                 onChange={(e) => console.log()}
-                // onChange={(e)=>setSkills[...skills,e.target.value]}
                 placeholder="Add Skill"
-                // style={{paddingLeft:"50px"}}
                 displayValue=""
                 isObject={false}
                 onKeyPressFn={function noRefCheck() {}}
-                onRemove={noRefCheck()}
+                onRemove={(e)=>{handleRemove(e)}}
                 onSearch={function noRefCheck() {}}
                 onSelect={onSelectNames}
                 selectedValues={data && data.skills }
@@ -272,10 +259,11 @@ function Overview(prop) {
               />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={()=>{
+          <Button variant="primary"  onClick={()=>{
             handleClose1()
             updateSkill(userId)
-            }}>
+            }}
+            className='save-btn'>
             Save 
           </Button>
         </Modal.Footer>
@@ -291,7 +279,7 @@ function Overview(prop) {
      
       <div className='Overview-Right'>
         <div className='Overview-Right-Statistics'>
-          <h5>
+          <h5 className='text-[1.1rem] font-[700] '>
             Community Statistics:
           </h5>
           <div className='statistics'>
@@ -300,8 +288,8 @@ function Overview(prop) {
               <img src="Images/Money.png"></img>
             </div>
             <div className='Right-Sub'>
-              <span> {data && data.coins} </span>
-              <p>Coins Collected</p>
+              <span className='text-[1.1rem] font-[700]'> {data && data.coins} </span>
+              <p className='text-[1rem] font-[400] '>Coins Collected</p>
             </div>
           </section>
 
@@ -310,15 +298,15 @@ function Overview(prop) {
             <img src="Images/Stars.png"></img>
             </div>
             <div className='Right-Sub'>
-              <span> {data && data.events.length} </span>
-              <p>Sessions Attended</p>
+              <span className='text-[1.1rem] font-[700] '> {data && data.events.length} </span>
+              <p className='text-[1rem] font-[400] '>Sessions Attended</p>
             </div>
           </section>
           </div>
         </div>  
         
         <div className='Overview-Right-Statistics Overview-Right-Statistics1'>
-        <h5>
+        <h5 className='text-[1.1rem] font-[700] '>
           Enrolled Sessions:
           <div></div>
         </h5>
