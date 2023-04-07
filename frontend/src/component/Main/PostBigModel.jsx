@@ -275,9 +275,9 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
 
 
-{/* 
+
       <Modal
-        // show={show}
+        show={show}
         onHide={handleShowDeleteReply}
         className="edit-modal-container"
       >
@@ -289,7 +289,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                 ()=>{
                   
                   deleteReply(replyId)
-                  // handleCloseDelete()
+                  handleCloseDelete()
                 }
 
               }
@@ -301,7 +301,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
             </button>
           </div>
         </Modal.Body>
-      </Modal> */}
+      </Modal>
 
       {openComment ? (
         <div className="Post-Big-Model-container">
