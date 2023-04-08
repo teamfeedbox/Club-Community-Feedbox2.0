@@ -109,10 +109,6 @@ router.post("/login", (req, res) => {
   });
 });
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 889cdb5be8ea2aa8cbfd45f752436060170cbd27
 
 router.post("/login/superAdmin", (req, res) => {
   const { email, password } = req.body;
@@ -143,10 +139,6 @@ router.post("/login/superAdmin", (req, res) => {
   });
 });
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 889cdb5be8ea2aa8cbfd45f752436060170cbd27
 router.get('/user', requireLogin, async (req, res) => {
   try {
     const email = req.user.email;
@@ -260,13 +252,6 @@ router.put('/update/coins/events/', async (req, res) => {
   // console.log(req.body);
   try {
     req.body.attendees.map(async (data) => {
-<<<<<<< HEAD
-      const response = await User.updateOne({ _id: data.id }, {
-        $set: { coins: data.coins },
-        $push: { events: req.body.currentEvent }
-      })
-    })
-=======
       const response = await User.updateOne(
         { _id: data.id },
         {
@@ -275,7 +260,6 @@ router.put('/update/coins/events/', async (req, res) => {
         }
       );
     });
->>>>>>> 889cdb5be8ea2aa8cbfd45f752436060170cbd27
     res.status(200).json(true);
   } catch (error) {
     res.status(500).json(error);
@@ -286,24 +270,6 @@ router.put('/update/coins/events/', async (req, res) => {
 
 // ******* Notification *********//
 // Add notification to a specific user
-<<<<<<< HEAD
-router.put('/user/user/addnotifi/:id',async (req,res)=>{
-  try {
-      const user = await User.findOneAndUpdate({_id:req.params.id},{$push:{notifications:req.body}},{new:true},
-          function (err, docs) {
-              if (err){
-                  console.log(err)
-              }
-              else{
-                  res.status(200).json(docs);
-              }
-      })
-  } catch (error) {
-      // res.status(500).json(error);
-  }
-})
-=======
->>>>>>> 889cdb5be8ea2aa8cbfd45f752436060170cbd27
 
 // Update Interested events 
 router.put('/update/interested/events/:userId', async (req, res) => {
