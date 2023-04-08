@@ -49,8 +49,8 @@ const Approvals = () => {
     <>
       <div className="pb-9 pt-[70px]" >
        { role && role === 'Super_Admin' ?
-       <div className="lg:my-3 my-0 mx-1 ">
-          <select onChange={(e)=>setClg(e.target.value)} className="p-2 border-2  text-[1rem] font-[400] border-[#000] rounded-3xl w-[100%]">
+       <div className="lg:my-3 my-0 mx-1 mt-3 text-center ">
+          <select onChange={(e)=>setClg(e.target.value)} className="p-2 border-2  text-[1rem] font-[400] border-[#000] rounded-3xl w-[90%] md:w-[90%] lg:w-[30%]">
             <option className=" " selected hidden disabled>
               College
             </option>
