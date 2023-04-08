@@ -3,6 +3,7 @@ const router = express.Router()
 const Event = require('../models/event')
 const User = require('../models/user')
 const requireLogin = require('../middleware/requireLogin')
+const Notification = require('../models/notification')
 const { default: mongoose } = require('mongoose')
 
 // Create event
@@ -27,6 +28,65 @@ router.post('/createEvent', requireLogin, (req, res) => {
             console.log(err)
         })
 })
+
+// add notification
+router.post('/addNotifications' , (req,res)=>{
+  const { message, messageScope, userId, date, venue, time} = req.body
+
+  const notification = new Notification({
+    message,
+    messageScope,
+    userId,
+    date,
+    userId,
+    venue,
+    time,
+  })
+
+  notification.save().then(result => {
+    res.json({ event: result })
+})
+    .catch(err => {
+        console.log(err)
+    })
+})
+
+// get all notifications
+router.get('/getNotifications', (req, res) => {
+    try {
+        var mySort = { message: 1 };
+        Notification.find({})
+        .sort(mySort)
+        
+            .then(events => {
+                res.status(200).json(events)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
+
+// router.post('/attendance',requireLogin,(req,res)=>{
+//     // const {attendance} = req.body
+
+//     const event = new Event({
+//         attendance:req.user
+//     })
+//     event.save().then(result=>{
+//         res.json(result)
+//     })
+//     .catch(err=>{
+//         console.log(err)
+//     })
+//     // console.log(req.user)
+//     // res.send("ok")
+
+// })
+
+
 
 //api to get all events
 router.get('/getAllEvent', (req, res) => {

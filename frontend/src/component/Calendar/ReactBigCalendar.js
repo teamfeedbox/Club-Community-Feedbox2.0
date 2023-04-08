@@ -188,42 +188,58 @@ export default function ReactBigCalendar() {
 
   // create event
   const addEvent = async (e) => {
-    if(scope=="Select Community")
-    {
-      alert("Select Community")
-    }
-    else
-    {
-      e.preventDefault();
-      let result = await fetch("http://localhost:8000/createEvent", {
-        method: "post",
-        body: JSON.stringify({
-          title,
-          eventDate,
-          eventTime,
-          venue,
-          desc,
-          speaker,
-          scope,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("jwt"),
-        },
-      });
-      result = await result.json();
-      setTitle("");
-      setScope("");
-      setEventDate("");
-      setEventTime("");
-      setVenue("");
-      setDesc("");
-      setSpeaker("");
-      setClgSelected();
-      setAddEventModel(false);
-      setLoading(true);
-    }
-    
+    e.preventDefault();
+    let result = await fetch("http://localhost:8000/createEvent", {
+      method: "post",
+      body: JSON.stringify({
+        title,
+        eventDate,
+        eventTime,
+        venue,
+        desc,
+        speaker,
+        scope,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    // result = await result.json();
+    // console.log(result);
+    setTitle("");
+    setScope("");
+    setEventDate("");
+    setEventTime("");
+    setVenue("");
+    setDesc("");
+    setSpeaker("");
+    setClgSelected();
+    setAddEventModel(false);
+    setLoading(true);
+
+  //  notification
+  await fetch("http://localhost:8000/addNotifications", {
+      method: "post",
+      body: JSON.stringify({
+        message:title,
+        messageScope:scope,
+        date: eventDate,
+        userId:id,
+        venue:venue,
+        time:eventTime,
+        
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    }).then((res)=>{
+      // alert(res.json)
+    });
+
+    // notification = await notification.json();
+    // console.log(notification)
   };
 
   // handle event on select from react big calender
@@ -544,6 +560,7 @@ export default function ReactBigCalendar() {
                       required
                       value={scope}
                       onChange={(e) => setScope(e.target.value)}
+                     
                     >
                       <option
                       value=""
