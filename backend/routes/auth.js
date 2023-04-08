@@ -98,7 +98,7 @@ router.post("/login", (req, res) => {
           // res.json({message:"successfully signed in"})
           const token = jwt.sign({ _id: savedUser._id }, jwtKey);
           // const decodedToken = jwt.decode(token);
-          res.json({ token });
+          res.json({ token ,id:savedUser._id});
         } else {
           return res.status(422).json({ error: "invalid password" });
         }
@@ -109,7 +109,10 @@ router.post("/login", (req, res) => {
   });
 });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 889cdb5be8ea2aa8cbfd45f752436060170cbd27
 
 router.post("/login/superAdmin", (req, res) => {
   const { email, password } = req.body;
@@ -140,7 +143,10 @@ router.post("/login/superAdmin", (req, res) => {
   });
 });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 889cdb5be8ea2aa8cbfd45f752436060170cbd27
 router.get('/user', requireLogin, async (req, res) => {
   try {
     const email = req.user.email;
@@ -254,11 +260,22 @@ router.put('/update/coins/events/', async (req, res) => {
   // console.log(req.body);
   try {
     req.body.attendees.map(async (data) => {
+<<<<<<< HEAD
       const response = await User.updateOne({ _id: data.id }, {
         $set: { coins: data.coins },
         $push: { events: req.body.currentEvent }
       })
     })
+=======
+      const response = await User.updateOne(
+        { _id: data.id },
+        {
+          $set: { coins: data.coins },
+          $push: { events: req.body.currentEvent },
+        }
+      );
+    });
+>>>>>>> 889cdb5be8ea2aa8cbfd45f752436060170cbd27
     res.status(200).json(true);
   } catch (error) {
     res.status(500).json(error);
@@ -269,6 +286,7 @@ router.put('/update/coins/events/', async (req, res) => {
 
 // ******* Notification *********//
 // Add notification to a specific user
+<<<<<<< HEAD
 router.put('/user/user/addnotifi/:id',async (req,res)=>{
   try {
       const user = await User.findOneAndUpdate({_id:req.params.id},{$push:{notifications:req.body}},{new:true},
@@ -284,6 +302,8 @@ router.put('/user/user/addnotifi/:id',async (req,res)=>{
       // res.status(500).json(error);
   }
 })
+=======
+>>>>>>> 889cdb5be8ea2aa8cbfd45f752436060170cbd27
 
 // Update Interested events 
 router.put('/update/interested/events/:userId', async (req, res) => {
@@ -294,18 +314,7 @@ router.put('/update/interested/events/:userId', async (req, res) => {
     }, { new: true })
     res.status(200).json(response);
   } catch (error) {
-    res.status(500).json(error);
-  }
-});
-
-//Get all notifications of a user
-router.get('/user/get/user/all/notifi/:id',async(req,res)=>{
-  try {
-      const result = await User.aggregate([{ $match : { _id :req.params.id} },{$project : { notifications:1 }}]);
-      console.log(result,"lllllll");
-      res.status(200).json(result)
-  } catch (error) {
-      res.status(401).json(error);
+    res.status(500).json(error)
   }
 })
 

@@ -17,6 +17,7 @@ const ClubMember = ({ props }) => {
   const [id, setId] = useState("");
   const [value, setValue] = useState("");
   const [name, setName] = useState("");
+ 
   
   const handleClose = () => {
     setShow(false);
@@ -66,7 +67,7 @@ const ClubMember = ({ props }) => {
   const searchHandler = (e) => {
     let val = e.target.value;
     setSearchVal(e.target.value);
-    if (e.target.value != "") {
+    if (e.target.value !== "") {
       let matched = [];
       data.length > 0 &&
         data.forEach((user) => {
@@ -83,34 +84,39 @@ const ClubMember = ({ props }) => {
 
   // submit handler for making club member as lead
   const submitHandler = async () => {
-    if (value && position) {
-      let val;
-      if (value === "Admin") {
-        val = {
-          role: value,
-          position: position
-        }
-      } else if (value === "Lead") {
-        val = {
-          role: value,
-          position: position
-        }
-      }
-      const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(val),
-      });
-      const res = await data.json();
-      console.log(res);
-      setConfirm(false);
-      setShow(false);
-      setPosition("");
-      setValue("");
-      setLoading(true);
-    } else {
-      alert("Please input Position and role...")
-    }
+    setLoading(true);
+    // console.log(id);
+    const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ role: "Lead", position: position}),
+    });
+    const res = await data.json();
+    // console.log(res);
+
+   //  notification
+  await fetch("http://localhost:8000/addNotifications", {
+    method: "post",
+    body: JSON.stringify({
+      message:`Congrats! Now, You are ${value}`,
+      messageScope:"private",
+      userId:id, 
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("jwt"),
+    },
+  }).then((res)=>{
+    // alert(res.json)
+  });
+
+
+    // Generate Notification
+    
+    setConfirm(false);
+    setShow(false);
+    setLoading(false);
+
   };
 
   return (
@@ -213,7 +219,10 @@ const ClubMember = ({ props }) => {
                                   <select
                                     // value={value}
                                     name="val"
-                                    onChange={(e) => setValue(e.target.value)}
+                                    onChange={(e) => {
+                                      setValue(e.target.value)
+                                    }
+                                    }
                                     className="p-2 border-2 font-semibold text-[#3174AD] text-[1rem] font-[400] border-[#3174AD] rounded-3xl w-[110%]">
                                     <option value="Select Role" hidden selected disabled >
                                       Select Role

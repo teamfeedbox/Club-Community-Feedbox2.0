@@ -205,7 +205,8 @@ export default function ReactBigCalendar() {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     });
-    result = await result.json();
+    // result = await result.json();
+    // console.log(result);
     setTitle("");
     setScope("");
     setEventDate("");
@@ -216,6 +217,29 @@ export default function ReactBigCalendar() {
     setClgSelected();
     setAddEventModel(false);
     setLoading(true);
+
+  //  notification
+  await fetch("http://localhost:8000/addNotifications", {
+      method: "post",
+      body: JSON.stringify({
+        message:title,
+        messageScope:scope,
+        date: eventDate,
+        userId:id,
+        venue:venue,
+        time:eventTime,
+        
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    }).then((res)=>{
+      // alert(res.json)
+    });
+
+    // notification = await notification.json();
+    // console.log(notification)
   };
 
   // handle event on select from react big calender
@@ -534,6 +558,7 @@ export default function ReactBigCalendar() {
                     <select
                       name="type"
                       onChange={(e) => setScope(e.target.value)}
+                     
                     >
                       <option selected disabled hidden>
                         Select Community
