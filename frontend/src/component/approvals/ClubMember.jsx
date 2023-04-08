@@ -17,6 +17,7 @@ const ClubMember = ({ props }) => {
   const [id, setId] = useState("");
   const [value, setValue] = useState("");
   const [name, setName] = useState("");
+ 
   
   const handleClose = () => {
     setShow(false);
@@ -97,10 +98,9 @@ const ClubMember = ({ props }) => {
   await fetch("http://localhost:8000/addNotifications", {
     method: "post",
     body: JSON.stringify({
-      message:"Congrats: Now You are lead",
+      message:`Congrats! Now, You are ${value}`,
       messageScope:"private",
-      userId:id,
-      
+      userId:id, 
     }),
     headers: {
       "Content-Type": "application/json",
@@ -219,7 +219,10 @@ const ClubMember = ({ props }) => {
                                   <select
                                     // value={value}
                                     name="val"
-                                    onChange={(e) => setValue(e.target.value)}
+                                    onChange={(e) => {
+                                      setValue(e.target.value)
+                                    }
+                                    }
                                     className="p-2 border-2 font-semibold text-[#3174AD] text-[1rem] font-[400] border-[#3174AD] rounded-3xl w-[110%]">
                                     <option value="Select Role" hidden selected disabled >
                                       Select Role
