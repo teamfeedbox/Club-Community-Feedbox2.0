@@ -140,7 +140,7 @@ const PendingApprovals = (props) => {
         </div>
       </div>
       <div className="lg:border">
-        <Scrollbars style={{ height: "230px" }}>
+        <Scrollbars style={{ height: "250px" }}>
           <table class="table-auto w-full max-w-[1300px] ">
             <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
               {pendingUsers.length > 0 ? (
@@ -149,7 +149,7 @@ const PendingApprovals = (props) => {
                     <td class="p-2  lg:w-[300px]">
                       <div className="flex items-center">
                         <img
-                          class="rounded-full"
+                          class="rounded-full w-[40px] h-[40px] object-center"
                           src={approval.img}
                           width="40"
                           height="40"
@@ -166,7 +166,7 @@ const PendingApprovals = (props) => {
                     <td class="pt-2 pb-2 flex justify-end">
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                         <button
-                          className="h-[30px] rounded-xl text-[#616161] text-[1.05rem] font-[500] hover:bg-gray-300 mr-2"
+                          className="h-[30px] rounded-xl text-[#616161] text-[1.05rem] font-[500] hover:bg-gray-300 mr-2 w-[80px]"
                           onClick={() => handleDecline(approval._id)}
                         >
                           Decline

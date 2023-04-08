@@ -17,6 +17,7 @@ const ClubMember = ({ props }) => {
   const [id, setId] = useState("");
   const [value, setValue] = useState("");
   const [name, setName] = useState("");
+ 
   
   const handleClose = () => {
     setShow(false);
@@ -97,22 +98,16 @@ const ClubMember = ({ props }) => {
   await fetch("http://localhost:8000/addNotifications", {
     method: "post",
     body: JSON.stringify({
-      message:"Congrats: Now You are lead",
+      message:`Congrats! Now, You are ${value}`,
       messageScope:"private",
-      userId:id,
-      
+      userId:id, 
     }),
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + localStorage.getItem("jwt"),
     },
   }).then((res)=>{
-    // alert(res.json)
   });
-
-
-    // Generate Notification
-    
     setConfirm(false);
     setShow(false);
     setId("");
@@ -144,7 +139,7 @@ const ClubMember = ({ props }) => {
       </div>
       {/* table  */}
       <div className="lg:border">
-        <Scrollbars style={{ height: "230px" }}>
+        <Scrollbars style={{ height: "250px" }}>
           <table class="table-auto w-full max-w-[1300px]">
             <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
               {clubMember.length > 0
@@ -153,7 +148,7 @@ const ClubMember = ({ props }) => {
                     <td class="p-2 w-[200px] lg:w-[300px]">
                       <div className="flex items-center">
                         <img
-                          class="rounded-full"
+                          class="rounded-full w-[40px] h-[40px] object-center"
                           src={member.img}
                           width="40"
                           height="40"
@@ -164,7 +159,7 @@ const ClubMember = ({ props }) => {
                       </div>
                     </td>
                     <td class="p-2 lg:flex items-center hidden md:block">
-                      <div class="font-medium text-gray-800 text-[1rem] font-[400]">
+                      <div class=" text-gray-800 text-[1rem] font-[400]">
                         {member.branch}
                       </div>
                     </td>
@@ -223,8 +218,11 @@ const ClubMember = ({ props }) => {
                                   <select
                                     // value={value}
                                     name="val"
-                                    onChange={(e) => setValue(e.target.value)}
-                                    className="p-2 border-2 font-semibold text-[#3174AD] text-[1rem] font-[400] border-[#3174AD] rounded-3xl w-[110%]">
+                                    onChange={(e) => {
+                                      setValue(e.target.value)
+                                    }
+                                    }
+                                    className="p-2 border-2  text-[#3174AD] text-[1rem] font-[400] border-[#3174AD] rounded-3xl w-[110%]">
                                     <option value="Select Role" hidden selected disabled >
                                       Select Role
                                     </option>

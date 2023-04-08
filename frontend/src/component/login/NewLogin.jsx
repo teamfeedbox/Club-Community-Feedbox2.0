@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const NewLogin = () => {
   const [username, setUsername] = useState("");
@@ -24,10 +24,12 @@ const NewLogin = () => {
     });
     result = await result.json();
 
-    // console.log(result);
 
-    if (result.token) {
-      navigate("/main");
+    console.log(result);
+    
+    if(result.token){
+      navigate('/main')   
+
       localStorage.setItem("user", JSON.stringify(result));
       localStorage.setItem("jwt", result.token);
     } else {
@@ -38,7 +40,7 @@ const NewLogin = () => {
   };
 
   return (
-    <div>
+    <div className="h-[100vh] overflow-hidden">
       kmlkm lkm l <br /> bnijbc ikj
       <div className="bg-purple-900 absolute top-0 left-0 bg-gradient-to-b from-gray-900 via-gray-900 to-purple-800 bottom-0 leading-5 h-full w-full overflow-hidden"></div>
       <div className="relative   min-h-screen  sm:flex sm:flex-row  justify-center bg-transparent rounded-3xl shadow-xl">
@@ -52,18 +54,20 @@ const NewLogin = () => {
             </p>
           </div>
         </div>
-        <div className="flex justify-center self-center mt-[80px] m-[12px] z-10">
-          <div className="p-12 bg-white mx-auto rounded-3xl w-96 ">
+        <div className=" md:mt-10 z-10 lg:flex sm:flex justify-center lg:self-center sm:self-center m-[12px] mt-[50px] md:self-auto md:block">
+
+        {/* <div className="flex justify-center self-center mt-[80px] m-[12px] z-10 md:block"> */}
+          <div className="p-12 bg-white mx-auto rounded-3xl w-[98%] md:w-[110%] lg:w-[350px] ">
             <div className="mb-7">
               <h3 className="font-semibold text-2xl text-gray-800">Sign In </h3>
               <p className="text-gray-400">
                 Don't have an account?{" "}
-                <a
-                  href="/register"
+                <Link
+                  to="/register"
                   className="text-sm text-purple-700 hover:text-purple-700"
                 >
                   Sign Up
-                </a>
+                </Link>
               </p>
             </div>
             <div className="space-y-6">
@@ -153,7 +157,7 @@ const NewLogin = () => {
               <span>
                 Copyright © 2021-2023
                 <a
-                  href="https://codepen.io/uidesignhub"
+                  href="https://feedbox.co.in/"
                   rel=""
                   target="_blank"
                   title="Codepen aji"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Multiselect from "multiselect-react-dropdown";
 import Modal from "react-bootstrap/Modal";
 import "./Register.css";
@@ -215,15 +215,16 @@ const Register = () => {
             </p>
           </div>
         </div>
-        <div className="flex justify-center self-center m-[12px] mt-[70px]  z-10">
+        {/* <div className="flex justify-center self-center m-[12px] mt-[50px]  z-10"> */}
+        <div className=" md:mt-10 z-10 lg:flex sm:flex justify-center lg:self-center sm:self-center m-[12px] mt-[50px] md:self-auto md:block">
           <div className="p-12 bg-white mx-auto rounded-3xl w-96 ">
             <div className="mb-7">
               <h3 className="font-semibold text-2xl text-gray-800">Sign Up </h3>
               <p className="text-gray-400">
                 Have an account?
-                <a href="/login" className="text-sm text-purple-700 hover:text-purple-700">
+                <Link to="/login" className="text-sm text-purple-700 hover:text-purple-700">
                   Sign In
-                </a>
+                </Link>
               </p>
             </div>
             <div>
@@ -667,7 +668,7 @@ const Register = () => {
               <span>
                 Copyright © 2021-2023
                 <a
-                  href="https://codepen.io/uidesignhub"
+                  href="https://feedbox.co.in/"
                   rel=""
                   target="_blank"
                   title="Codepen aji"
