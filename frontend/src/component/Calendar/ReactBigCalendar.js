@@ -188,34 +188,42 @@ export default function ReactBigCalendar() {
 
   // create event
   const addEvent = async (e) => {
-    e.preventDefault();
-    let result = await fetch("http://localhost:8000/createEvent", {
-      method: "post",
-      body: JSON.stringify({
-        title,
-        eventDate,
-        eventTime,
-        venue,
-        desc,
-        speaker,
-        scope,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    setTitle("");
-    setScope("");
-    setEventDate("");
-    setEventTime("");
-    setVenue("");
-    setDesc("");
-    setSpeaker("");
-    setClgSelected();
-    setAddEventModel(false);
-    setLoading(true);
+    if(scope=="Select Community")
+    {
+      alert("Select Community")
+    }
+    else
+    {
+      e.preventDefault();
+      let result = await fetch("http://localhost:8000/createEvent", {
+        method: "post",
+        body: JSON.stringify({
+          title,
+          eventDate,
+          eventTime,
+          venue,
+          desc,
+          speaker,
+          scope,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      });
+      result = await result.json();
+      setTitle("");
+      setScope("");
+      setEventDate("");
+      setEventTime("");
+      setVenue("");
+      setDesc("");
+      setSpeaker("");
+      setClgSelected();
+      setAddEventModel(false);
+      setLoading(true);
+    }
+    
   };
 
   // handle event on select from react big calender
@@ -248,8 +256,9 @@ export default function ReactBigCalendar() {
       <div className="Calendar-container">
         <div className="Calendar-left">
           {/* ----------------college dropdown for super admin--------------- */}
-          <div className=" my-4 mx-1 ">
-            <select className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl sm:w-[40%] lg:w-[100%]" value={clgSelected} onChange={(e)=>{handleCollege(e);}}>
+          {role && role == 'Super_Admin' ?
+            <div className=" my-4 mx-1 ">
+            <select className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl sm:w-[40%] lg:w-[100%]" value={clgSelected} onChange={(e)=>{handleCollege(e); setHandleClgSel(true);}}>
               <option className=" " value="College" hidden selected disabled>College</option>
               <option value="All">All</option>
               {
@@ -259,7 +268,7 @@ export default function ReactBigCalendar() {
                 ))
               }
             </select>
-          </div>
+          </div>: ''}
 
           {/* -----------Button to add event in calendar------------------*/}
           <div
@@ -282,14 +291,14 @@ export default function ReactBigCalendar() {
             {preEventModel ? (
               <div
                 className="Calendar-view-title"
-                style={{ borderRadius: "30px 30px 0px 0px" }}
+                style={{ borderRadius: "20px 20px 0px 0px" }}
               >
                 Events Preview
               </div>
             ) : (
               <div
                 className="Calendar-view-title"
-                style={{ borderRadius: "30px" }}
+                style={{ borderRadius: "20px" }}
               >
                 Events Preview
               </div>
@@ -477,7 +486,7 @@ export default function ReactBigCalendar() {
         {/* -----------------Large right side Calendar------------------- */}
         <div className="React-Big-Calendar-Original">
           <Calendar
-            views={["agenda", "month"]}
+            views={["agenda", "month","day"]}
             selectable
             localizer={localizer}
             defaultDate={new Date()}
@@ -531,11 +540,20 @@ export default function ReactBigCalendar() {
                       icon={faFlag}
                     />
                     <select
-                      name="type"
+                      // name="type"
+                      required
+                      value={scope}
                       onChange={(e) => setScope(e.target.value)}
                     >
-                      <option selected disabled hidden>
+                      <option
+                      value=""
+                       selected
+                       disabled 
+                      //  hidden
+                      
+                      >
                         Select Community
+                        
                       </option>
                       <option value="public">Public</option>
                       <option value="community">Community</option>

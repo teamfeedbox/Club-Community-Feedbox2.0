@@ -20,7 +20,7 @@ const LinkItem = styled.li`
   height: 100%;
   padding: 0 1.1em;
   color: #222;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 1.1rem;
   align-items: center;
   justify-content: center;
@@ -38,7 +38,7 @@ const LinkItemHighlight = styled.li`
   height: 100%;
   padding: 0 1.1em;
   color: #00c9ff;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1.1rem;
   align-items: center;
   justify-content: center;
@@ -119,7 +119,7 @@ export function NavLinks(props) {
         {selectedPage === "/rescources" ||
         selectedPage === "/rescourcesDisplay" ? (
           <LinkItemHighlight>
-            <Links to="/rescources">Rescources</Links>
+            <Links to="/rescources">Resources</Links>
           </LinkItemHighlight>
         ) : (
           <LinkItem>
