@@ -62,7 +62,7 @@ const Approvals = () => {
             }
           </select>
         </div>
-        <PendingApprovals func={pull_data} clg={clg && clg} />
+        <PendingApprovals func={pull_data}/>
 
         <div className="mt-9">
           <div className="overall-profile-tabs  ">

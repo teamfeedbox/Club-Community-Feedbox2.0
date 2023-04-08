@@ -8,6 +8,7 @@ const Register = () => {
   const [next, setNext] = useState(false);
   const [skills, setSkills] = useState([]);
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [userinfo, setUserInfo] = useState({
     skill: [],
@@ -82,6 +83,7 @@ const Register = () => {
   }
 
   const collectData = async (e) => {
+    setLoading(true);
     // generateUniqueid();
     e.preventDefault();
     let result = await fetch("http://localhost:8000/register", {
@@ -113,8 +115,8 @@ const Register = () => {
         alert(result.data);
         navigate("/login");
       }
-      
     }
+    setLoading(false);
   };
 
   const handleClose = () => setShow(false);
@@ -535,12 +537,21 @@ const Register = () => {
                       >
                         Back
                       </button>
-                      <button
-                        type="submit"
-                        onClick={generateUniqueid}
-                        className="w-full flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
+                      <button className="w-full flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
                       >
-                        Sign Up
+                      {
+                        loading ? 
+                        <div
+                              class="spinner-border text-white"
+                              role="status"
+                              style={{ height: "15px", width: "15px",marginTop:"3px" }}
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                            :
+                            <button type="submit"
+                            onClick={generateUniqueid} >Sign Up</button>
+                      }
                       </button>
                     </div>
                   </div>

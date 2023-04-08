@@ -32,7 +32,7 @@ const Leads = (props) => {
     const res = await result.json();
     let lead = [];
     res && res.map((data) => {
-      if (data.role == 'Lead') {
+      if (data.role === 'Lead') {
         lead.push(data)
       }
     })
@@ -66,7 +66,7 @@ const Leads = (props) => {
   const searchHandler = (e) => {
     let val = e.target.value;
     setSearchVal(e.target.value);
-    if (e.target.value != "") {
+    if (e.target.value !== "") {
       let matched = [];
       data.length > 0 &&
         data.forEach((user) => {
@@ -83,13 +83,14 @@ const Leads = (props) => {
 
   // submit handler for making club member as lead
   const submitHandler = async () => {
+    setLoading(true);
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ role: 'Admin', position: position })
     })
     const res = await data.json();
-    console.log(res)
+    console.log(res);
 
     // Generate Notification
     var date=new Date();
@@ -117,8 +118,8 @@ const Leads = (props) => {
 
     console.log(notifi);
     setConfirm(false);
-    setShow(false)
-    setLoading(true)
+    setShow(false);
+    setLoading(false);
   }
 
   const handleDeleteAdmin = async () => {
@@ -169,7 +170,7 @@ const Leads = (props) => {
                           alt="Alex Shatov"
                         />
 
-                        <div className="ml-2 text-[1rem] font-[400]"> {member.name} </div>
+                        <div className="ml-2  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[400]"> {member.name} </div>
                       </div>
                     </td>
                     <td class="p-2 lg:flex items-center hidden md:block  w-[10%]">
@@ -183,7 +184,7 @@ const Leads = (props) => {
                         <button
                           onClick={()=>{setId(member._id); handleShow()}}
 
-                          className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] text-[1.05rem] font-[500] hover:bg-[#03821f]"
+                          className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[500] hover:bg-[#03821f]"
                         >
                           <FontAwesomeIcon icon={faUser} className="mr-2" />
                           Make Admin
@@ -253,7 +254,7 @@ const Leads = (props) => {
                       <button
                           onClick={()=>{setId(member._id); handleShow()}}
 
-                          className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000] text-[1.05rem] font-[500] hover:bg-[#bf1004]"
+                          className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000]  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[500] hover:bg-[#bf1004]"
                         >Delete</button>
                       </div>
                     </td>
