@@ -86,9 +86,35 @@
 .main-page-display-tab-left::-webkit-scrollbar {
     display: none;
 }
+
 .main-home-page-profile::-webkit-scrollbar {
     display: none;
 }
+
+
+
+.main-page-display-tab-right {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.main-page-display-tab-left {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.main-home-page-profile {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+
 
 @media only screen and (max-width: 1000px) {
     .main-page-display-web {

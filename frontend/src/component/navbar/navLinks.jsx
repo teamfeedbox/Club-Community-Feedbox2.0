@@ -6,6 +6,7 @@ const NavLinksContainer = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
+  transition: all 2s ease-in-out;
 `;
 
 const LinksWrapper = styled.ul`

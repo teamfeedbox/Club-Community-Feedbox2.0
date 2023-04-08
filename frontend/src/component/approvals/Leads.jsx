@@ -153,7 +153,7 @@ const Leads = (props) => {
       </div>
 
       <div className="lg:border">
-        <Scrollbars style={{ height: "230px" }}>
+        <Scrollbars style={{ height: "250px" }}>
           <table class="table-auto w-full max-w-[1300px]">
             <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
               {lead.length > 0 ?
@@ -162,7 +162,7 @@ const Leads = (props) => {
                     <td class="p-2 w-[120px]  lg:w-[300px]">
                       <div className="flex items-center">
                         <img
-                          class="rounded-full"
+                          class="rounded-full w-[40px] h-[40px] object-center"
                           src={member.img}
                           width="40"
                           height="40"
@@ -173,7 +173,7 @@ const Leads = (props) => {
                       </div>
                     </td>
                     <td class="p-2 lg:flex items-center hidden md:block  w-[10%]">
-                      <div class="font-medium text-gray-800 text-[1rem] font-[400]">
+                      <div class=" text-gray-800 text-[1rem] font-[400]">
                         {member.position}
                       </div>
                     </td>
