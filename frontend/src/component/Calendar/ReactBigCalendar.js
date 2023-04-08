@@ -287,7 +287,8 @@ export default function ReactBigCalendar() {
           </div>: ''}
 
           {/* -----------Button to add event in calendar------------------*/}
-          <div
+          { role && role !== 'Club_Member' ?
+            <div
             className="Calendar-add"
             onClick={() => {
               setAddEventModel(true); setPreEventModel(false)
@@ -300,7 +301,7 @@ export default function ReactBigCalendar() {
                 icon={faCirclePlus}
               />
             </div>
-          </div>
+          </div>: ''}
 
           {/* ------------Already created------------------------*/}
           <div className="Calendar-view">

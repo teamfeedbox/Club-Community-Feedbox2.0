@@ -8,6 +8,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
+import {Link} from "react-router-dom"
+
 
 // const id = JSON.parse(localStorage.getItem("user")).decodedToken._id;
 // console.log(id)
@@ -88,7 +90,11 @@ const ProfileEvent = () => {
                   item.date &&
                   timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}
               </div>
-              <div className="profile-event-button">View In Calendar</div>
+              {/* <Link to='/calendar' state={{eventId:item._id}}> */}
+
+              <Link  to='/calendar' state={{eventId:item._id}} className="profile-event-button">
+                View In Calendar
+                </Link>
             </div>
           </div>
         ))
