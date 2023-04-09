@@ -262,7 +262,7 @@ export default function ReactBigCalendar() {
 
   // Handle selection of clg
   const handleCollege = (e) => {
-    setPreEventModel(false)
+    setPreEventModel(false);
     setSelectedEvent("");
     setClgSelected(e.target.value);
   };

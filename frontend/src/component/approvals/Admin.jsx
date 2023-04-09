@@ -123,7 +123,6 @@ const Admin = (props) => {
                           alt="Alex Shatov"
                         />
 
-
                           <div className="ml-2  text-[1rem] font-[400]"> {member.name} </div>
                         </div>
                       </td>
@@ -136,7 +135,6 @@ const Admin = (props) => {
                       <div className="text-red-500" onClick={()=>{setDelShow(true); setId(member._id)}}>
                       <button className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000] text-[1.05rem] font-[500] hover:bg-[#bf1004]"
                         >Delete</button>
-
                       </div>
                       <Modal show={delshow} onHide={handleDelClose} className="club-member-modal" >
                         <form>
