@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-
 const NewLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-let auth = localStorage.getItem('user')
+  let auth = localStorage.getItem("user");
 
   const handleLogin = async (e) => {
+    setLoading(true);
     e.preventDefault();
     console.log(email, password);
 
@@ -24,16 +24,19 @@ let auth = localStorage.getItem('user')
     });
     result = await result.json();
 
+
     console.log(result);
     
     if(result.token){
       navigate('/main')   
+
       localStorage.setItem("user", JSON.stringify(result));
-      localStorage.setItem("jwt", result.token);  
-    }else{
+      localStorage.setItem("jwt", result.token);
+    } else {
       alert(result.err);
     }
-   
+
+    setLoading(false);
   };
 
   return (
@@ -85,7 +88,7 @@ let auth = localStorage.getItem('user')
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
                   required
-                  type='password'
+                  type="password"
                   // type="show ? 'password' : 'text'"
                   className="text-sm text-black px-4 py-3 rounded-lg w-full bg-gray-200 focus:bg-gray-100 border border-gray-200 focus:outline-none focus:border-purple-400"
                 />
@@ -127,11 +130,25 @@ let auth = localStorage.getItem('user')
               </div>
               <div>
                 <button
-                  type="submit"
-                  onClick={handleLogin}
                   className="w-full flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
                 >
-                  Sign in
+                  {loading ? (
+                    <div
+                      class="spinner-border text-white"
+                      role="status"
+                      style={{
+                        height: "15px",
+                        width: "15px",
+                        marginTop: "3px",
+                      }}
+                    >
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  ) : (
+                    <button type="submit" onClick={handleLogin}>
+                      Sign in
+                    </button>
+                  )}
                 </button>
               </div>
             </div>

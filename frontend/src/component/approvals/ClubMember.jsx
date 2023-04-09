@@ -110,6 +110,10 @@ const ClubMember = ({ props }) => {
   });
     setConfirm(false);
     setShow(false);
+    setId("");
+    setName("");
+    setPosition("");
+    setValue("");
     setLoading(false);
 
   };
@@ -176,7 +180,7 @@ const ClubMember = ({ props }) => {
                             </div>
                           ) : (
                             <div
-                              className="text-[1.05rem] font-[500]"
+                              className=" text-[.5rem] md:text-[1rem]  lg:text-[1.05rem] font-[500]"
                               onClick={() => {
                                 setId(member._id);
                                 setName(member.name)

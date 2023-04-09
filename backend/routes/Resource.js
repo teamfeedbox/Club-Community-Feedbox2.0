@@ -32,8 +32,11 @@ router.post('/upload', upload.single('file'),requireLogin, async (req, res) => {
       });
       // console.log(pdf);
       
-      await pdf.save();
-   
+      await pdf.save()
+      .then(()=>{
+        res.send({data:"PDF uploaded successfully!"});
+      })
+      
     }
 
     else{
@@ -47,7 +50,11 @@ router.post('/upload', upload.single('file'),requireLogin, async (req, res) => {
     });
     // console.log(pdfSave);
     
-    await pdfSave.save();
+    await pdfSave.save()
+    .then(()=>{
+      res.send({data:"PDF uploaded successfully!"});
+    })
+    
     }
 
 

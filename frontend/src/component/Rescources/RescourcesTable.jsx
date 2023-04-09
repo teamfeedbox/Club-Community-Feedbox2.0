@@ -47,6 +47,7 @@ const RescourcesTable = (props) => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   let tableData = data && data.slice(startIndex, endIndex);
+  let searchData = searched && searched.slice(startIndex, endIndex);
 
   function goToPrev() {
     setCurrentPage((page) => page - 1);
@@ -131,15 +132,21 @@ const RescourcesTable = (props) => {
       },
       // mode: 'cors',
     });
-    // console.log(response)
-    if (response.ok) {
+    if (response) {
       // PDF file uploaded successfully
-      console.log("uploaded");
+      setLoading(false);
+      alert("File uploaded successfully");
+      setTitle("");
+      setFile("");
+      setPdfFile("");
+      setPdfLink("");
+      setShow(false);
     } else {
       // Error uploading PDF file
       console.log("error");
+      setLoading(false);
     }
-    setLoading(false);
+    
   };
 
   const getList = async (skillName) => {
@@ -178,12 +185,9 @@ const RescourcesTable = (props) => {
         if (value) {
           matched.push(user);
         }
-        // setSelected(matched);
-        // setCurrentPage(1);
       });
     console.log(matched);
     setSearched(matched);
-    // setSelected(data);
   };
 
   return (
@@ -322,7 +326,7 @@ const RescourcesTable = (props) => {
                             <span class="visually-hidden">Loading...</span>
                           </div>
                         ) : (
-                          <div onClick={handleClose}>Add</div>
+                          <div>Add</div>
                         )}
                       </button>
 
@@ -422,8 +426,9 @@ const RescourcesTable = (props) => {
                 </thead>
 
                 <tbody class="text-sm divide-y divide-gray-100">
-                  {searched &&
-                    searched.map((item) => (
+                  {searchData && searchData.length>0 ?
+
+                    searchData.map((item) => (
                       <tr key={item._id}>
                         <td class="p-2">
                           <a
@@ -453,20 +458,24 @@ const RescourcesTable = (props) => {
                           </div>
                         </td>
                       </tr>
-                    ))}
+                    )):
+                    <tbody>
+                     <tr> 
+                      <td colspan="4">
+                        <div>No Resources Added yet !</div>
+                      </td>
+                    </tr>
+                   </tbody>
+                    }
                 </tbody>
               </table>
             )}
           </div>
           <div className="res-navigation">
             <div>
-            {/* Viewing&nbsp;<span>{data&&data.length>0 ?`${currentPage}` :"0"}</span>-<span>{data&&data.length>0 ?`${itemsPerPage}` :"0"}</span>&nbsp; of &nbsp;
-            <span>{data&&data.length>0 ?`${totalPages}` :"0"}</span>
-            &nbsp;page */}
-
             </div>
             {
-              tableData.length >0 ? 
+             (tableData && tableData.length>0)  ? 
               <nav className="d-flex">
                 <ul className="res-paginate">
                   <button
@@ -480,6 +489,7 @@ const RescourcesTable = (props) => {
                     {tableData && tableData.length > 0 
                       ? `${currentPage}/${totalPages}`
                      : "0/0" }
+                     
                   </p>
                   <button
                     onClick={goToNext}
