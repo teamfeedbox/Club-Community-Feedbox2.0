@@ -24,8 +24,6 @@ let auth = localStorage.getItem('user')
     });
     result = await result.json();
 
-    // console.log(result);
-    
     if(result.token){
       navigate('/main')   
       localStorage.setItem("user", JSON.stringify(result));
@@ -33,7 +31,6 @@ let auth = localStorage.getItem('user')
     }else{
       alert(result.err);
     }
-   
   };
 
   return (

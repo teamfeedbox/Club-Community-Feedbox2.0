@@ -194,7 +194,7 @@ const RescourcesTable = (props) => {
             <div className="res-heading-left"> {skillName} Documents </div>
             {/* <div className="res-heading-left">{propsData.name} </div> */}
             <div className="res-heading-right">
-              <form
+              <div
                 class="form-inline my-2 my-lg-0"
                 className="res-table-search"
               >
@@ -206,10 +206,10 @@ const RescourcesTable = (props) => {
                   placeholder="Search"
                   aria-label="Search"
                 />
-                <button class="btn btn-primary " type="submit">
+                <button class="btn btn-primary">
                   <FontAwesomeIcon icon={faSearch} />
                 </button>
-              </form>
+              </div>
 
               {role !== "Club_Member" ? (
                 <button

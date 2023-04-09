@@ -54,24 +54,22 @@ const Notification = (props) => {
         {notification && notification.map((data) => {
           return (
             data.messageScope === "public" ?
-            (<div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
-            <div className="bg-blue-800 p-1 w-[5px]  text-blue-800"></div>
-            <div className="p-1">
-              Alert: Join {data.message} on {data.date} at {data.venue}
+              (<div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
+                <div className="bg-blue-800 p-1 w-[5px]  text-blue-800"></div>
+                <div className="p-1">
+                  Alert: Join {data.message} on {data.date} at {data.venue}
 
-            </div>
-          </div>)
-              
+                </div>
+              </div>)
+
               :
               (<div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
-              <div className="bg-blue-800 p-1 w-[5px]  text-blue-800"></div>
-              <div className="p-1">
-                {data.message}
+                <div className="bg-blue-800 p-1 w-[5px]  text-blue-800"></div>
+                <div className="p-1">
+                  {data.message}
 
-              </div>
-            </div>)
-
-
+                </div>
+              </div>)
           )
         })}
       </div>

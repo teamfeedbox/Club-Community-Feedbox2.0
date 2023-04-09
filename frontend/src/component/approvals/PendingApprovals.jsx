@@ -1,9 +1,4 @@
-import {
-  faCircleCheck,
-  faCircleXmark,
-  faFileInvoice,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSearch} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import "./PendingApprovals.css";
@@ -15,10 +10,10 @@ const PendingApprovals = (props) => {
   const [pendingUsers, setPendingUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [val, setVal] = useState(false);
-  const [email, setEmail] = useState("");
   const [id, setId] = useState("");
   const [load, setload] = useState(false);
 
+  console.log(props,"props");
 
   const getUser = async () => {
     const result = await fetch(`http://localhost:8000/get`);
@@ -77,13 +72,13 @@ const PendingApprovals = (props) => {
   // Decline request for club member
   const handleDecline = async (id) => {
     setLoading(true);
-    console.log(id);
     const data = await fetch(`http://localhost:8000/user/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
     const res = await data.json();
     setLoading(false);
+    setload(true);
   };
 
   const handleEmail = async (id) => {
@@ -91,16 +86,13 @@ const PendingApprovals = (props) => {
     const data = await fetch(`http://localhost:8000/sendmail/${id}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      // body: JSON.stringify({ role: "Club_Member" }),
     });
     const res = await data.json();
-    setEmail(res);
   };
 
   // Accept request for club member
   const handleAccept = async (id, i) => {
     setLoading(true)
-    setId(i);
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },

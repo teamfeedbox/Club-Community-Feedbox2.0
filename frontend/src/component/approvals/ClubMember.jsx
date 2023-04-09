@@ -17,7 +17,7 @@ const ClubMember = ({ props }) => {
   const [id, setId] = useState("");
   const [value, setValue] = useState("");
   const [name, setName] = useState("");
-  
+
   const handleClose = () => {
     setShow(false);
     setConfirm(false);
@@ -83,36 +83,53 @@ const ClubMember = ({ props }) => {
 
   // submit handler for making club member as lead
   const submitHandler = async () => {
-    setLoading(true);
-    // console.log(id);
-    const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ role: "Lead", position: position}),
+    if (value && position) {
+      let val;
+      if (value === "Admin") {
+        val = {
+          role: value,
+          position: position
+        }
+      } else if (value === "Lead") {
+        val = {
+          role: value,
+          position: position
+        }
+      }
+      const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(val),
+      });
+      const res = await data.json();
+      console.log(res);
+      setConfirm(false);
+      setShow(false);
+      setPosition("");
+      setValue("");
+      setLoading(true);
+    } else {
+      alert("Please input Position and role...")
+    }
+
+    //  notification
+    await fetch("http://localhost:8000/addNotifications", {
+      method: "post",
+      body: JSON.stringify({
+        message: "Congrats: Now You are lead",
+        messageScope: "private",
+        userId: id,
+
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    }).then((res) => {
+      // alert(res.json)
     });
-    const res = await data.json();
-    // console.log(res);
-
-   //  notification
-  await fetch("http://localhost:8000/addNotifications", {
-    method: "post",
-    body: JSON.stringify({
-      message:"Congrats: Now You are lead",
-      messageScope:"private",
-      userId:id,
-      
-    }),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + localStorage.getItem("jwt"),
-    },
-  }).then((res)=>{
-    // alert(res.json)
-  });
-
-
     // Generate Notification
-    
+
     setConfirm(false);
     setShow(false);
     setLoading(false);

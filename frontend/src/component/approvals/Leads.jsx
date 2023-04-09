@@ -6,8 +6,6 @@ import { Scrollbars } from "react-custom-scrollbars";
 import Modal from "react-bootstrap/Modal";
 import "./ClubMember.css";
 
-
-
 const Leads = (props) => {
   const [searchval, setSearchVal] = useState("");
   const [show, setShow] = useState(false);
@@ -252,7 +250,6 @@ const Leads = (props) => {
                       <div className="">
                       <button
                           onClick={()=>{setId(member._id); handleShow()}}
-
                           className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000] text-[1.05rem] font-[500] hover:bg-[#bf1004]"
                         >Delete</button>
                       </div>
