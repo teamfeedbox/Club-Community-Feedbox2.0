@@ -1,12 +1,13 @@
 import React, { useState,useEffect } from 'react';
 import "./Overview.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdd, faCirclePlus, faCoins,faRightFromBracket, faEnvelope, faEnvelopeSquare, faGraduationCap, faIdCard, faStaffSnake, faStarHalfAlt, faUniversalAccess, faUniversity, faUserTag } from "@fortawesome/free-solid-svg-icons";
+import { faAdd,faEnvelope, faGraduationCap, faIdCard,faUniversity} from "@fortawesome/free-solid-svg-icons";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Multiselect from "multiselect-react-dropdown";
 import { useNavigate } from "react-router-dom";
+import {Link} from "react-router-dom"
 
 const backColor = ['#EDC7E2', '#C7EDCF','#EDE7C7', '#EDC7C7', '#B5A6E1', '#B4B4B4', '#72C4FF', '#e9f5db', '#fad643' ,'#E3B47C' ]
 
@@ -17,7 +18,6 @@ function Overview(prop) {
   const [skills,setSkills]=useState([])
 
   const [showModal, setShowModal] = useState(false);
-  const [profileSubmit,SetProfileSubmit]=useState(false);
   const [email,setEmail]=useState("");
   // for edit profile
   const [show, setShow] = useState(false);
@@ -30,8 +30,6 @@ function Overview(prop) {
 
   const [file, setFile] = useState('Images/girl.jpg')
   const [image, setImage] = useState(false);
-  // const [skills, setSkills] = useState([]);
-  // const [updateSkills, setUpdateSkills] = useState([]);
   const [userId, setUserId] = useState('');
 
   const handleClose = () => setShow(false);
@@ -125,26 +123,11 @@ function Overview(prop) {
         {/* Custom Tag */}
 
         <form onSubmit={updateProfile}>
-          {
-            profileSubmit?
-            (
-            <textarea className='Overview-Left-input'
-            rows="3"
-            placeholder=''
-            // value={value
-            onChange={getChanges}
-            >
-              
-            </textarea>
-            )
-            :
-            <p className='Overview-Left-P' onClick={() => SetProfileSubmit(true)}>
+            <p className='Overview-Left-P' >
             {
               data && data.bio
             }
             </p>
-          }
-        
         <div className='Overview-Detail'>
           <section>
             <div className='Detail-icon1'>
@@ -152,22 +135,13 @@ function Overview(prop) {
             </div>
             <div className='Profile-Edit-Mail'>
               <div>
-
                 <span>Email:</span>
-                  <p className='Overview-Left-P' onClick={() => SetProfileSubmit(true)}>
+                  <p className='Overview-Left-P'>
                   {
                     data && data.email
                   }
                   </p>
-               
               </div>
-              {
-                profileSubmit?(
-                <button type="submit" 
-                
-                >Save</button>
-                ):null
-              }
             </div>
           </section>
           
@@ -216,19 +190,12 @@ function Overview(prop) {
           </span>
           </div> 
         </div>
- {/* ***************logout************** */}
-        {/* <button 
-        className='text-white bg-red-600 text-[1.2rem] p-2 mt-3 rounded hover:bg-red-700 ease-in duration-100	ml-5 lg:ml-0 '
-        onClick={logoutHandler}>
-          Logout <FontAwesomeIcon icon={faRightFromBracket}  />
-        </button> */}
-
       </div>
 
 {/* modal to add skills */}
 
-      <Modal show={show1} onHide={handleClose1}>
-        <Modal.Header closeButton>
+      <Modal show={show1} >
+        <Modal.Header closeButton onHide={handleClose1}>
           <Modal.Title className='club-member-modal-header'>Add Skills</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -334,9 +301,9 @@ function Overview(prop) {
         <div style={{color:"#ff5a5f"}}>ONLINE</div>
         </div>
         <div className='Add-Event-Cont'>
-        <div className='Add-Event1' >
+        <Link to="/calendar" className='Add-Event1' >
         <FontAwesomeIcon className="fa-lg" icon={faAdd} />
-        </div>
+        </Link>
         </div>
         </section>        
 
