@@ -11,6 +11,7 @@
     border-radius: 10px;
 }
 
+
 .Post-Big-Model-container{
     z-index: 1000;
     position: fixed;
@@ -69,7 +70,9 @@
         display: flex;
         flex-direction: row;
         margin: 0 0 0 0;
-        justify-content:space-around;  
+        justify-content:space-around; 
+        border: 1px solid black;
+        border-radius: 10px; 
     }
     
     .Post-Big-Pro-img
@@ -77,14 +80,14 @@
        max-height: 40px;
        width: 40px;
        border-radius: 50%;
-       border: 1 solid black;
+       border: 1px solid #7474748e;
        margin: 5px 5px 5px 5px;
     }
     .Post-Big-Pro img{
-        width: 40px;
+        width: 100%;
         margin: 0px 0px 0px 0px;
         object-fit: contain;
-        height:40px;
+        height:100%;
         border-radius: 50%;
     }
     .Cancel-Icon-Container{
@@ -97,27 +100,28 @@
         justify-content: center;
     }
     .Post-Big-Title1{
-    font-weight: 700;
-    font-size: 15px;
+        --heading-font-size : 1.5rem;
+        font-weight: bolder;
     }
     .Post-Big-Title2{
-        font-weight: 400;
-        font-size: 12px;
+        font-size : .8rem;
     }
     .Cancel-Icon-Container:hover{
         color: #838181;
     }
     .Big-Profile-Cancel{
         height: fit-content;
+        
     }
     
     
     .Post-Big-Description{
         width: 96%;
         font-size: 13.5px;
-        font-weight: 500;
-        margin-right: 10px;
+        font-weight: 700;
         color: #555555;
+        margin-right: 10px;
+        
     
     }
     .Post-Big-Comment{
@@ -128,7 +132,7 @@
         height: 54vh;
     }
     .Scrollbar-height{
-        height: 100vh;
+        height: 120vh;
     }
     
     .Post-Comment-About{
@@ -145,28 +149,31 @@
         height: fit-content;
         margin-right: 5px;
         width: 30px;
+        height: 30px;
+        border: 1px solid #7474748e;
+        border-radius: 50%;
         
     }
     .Comment-Left img{
-        width: 30px;
-        height: 30px;
+        width: 100%;
+        height: 100%;
         border-radius: 50%;
+        
     }
     .Comment-Right-User-Name{
         float: left;
         font-weight: 700;
         margin-right: 5px;
         font-size: 14px;
+        margin-top: -.8px;
     }
     .Right-Comment{
         text-align:justify;
-        /* font-size: 25px; */
-        font-size: 14px;
-        /* font-size: 500px; */
-        font-weight: 500;
         margin-right: 3%;
         width: 97%;
-        color: #676767e0;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: #555555;
     
     }
     
@@ -208,7 +215,7 @@
         border-radius: 10px;
         margin-bottom: 10px;
         background-color: #fff;
-        margin-left: -.5%;
+        margin-left: -.1%;
     }
     .Post-Big-Comment-Icons{
         font-size: 14px;
@@ -246,6 +253,35 @@
     .Scrollbar-height{
         height: 49vh;
     }
+
+    /* Css for delete post model */
+.modal-dialog1 {
+    top: 40%;
+    width: 250px;
+    position: relative;
+    flex: 1 1 auto;
+    padding: var(--bs-modal-padding);
+  }
+  .delete-btn {
+    background-color: black;
+    margin: 5px 0px 2px 0px;
+    padding: 10px 10px 10px 10px;
+    border-radius: 7px;
+    color: #fff;
+    --button-font-size: 1.05rem;
+    --button-font-weight: 500;
+  }
+  
+  .edit-modal-container {
+    top: 40%;
+    width: 270px;
+    left: 45%;
+  }
+  
+  .delete-btn:hover {
+    background-color: #555555;
+  }
+  
         
     
 
@@ -260,6 +296,20 @@
     .Post-Big-Comment{
         height: 62vh;
     }
+    /* Delete comment */
+  .modal-dialog1 {
+    top: 30%;
+    width: 250px;
+  }
+  .delete-btn {
+    --button-font-size: 1.05rem;
+    --button-font-weight: 500;
+  }
+  .edit-modal-container {
+    top: 30%;
+    width: 250px;
+    left: 35%;
+  }
 }
 @media only screen and (max-width: 1000px) {
     .Post-Big-Model1{
@@ -291,7 +341,20 @@
         width: 89%;
         margin-left: 0;
     }
-
+    /* delete comment */
+  .modal-dialog1 {
+    top: 30%;
+    width: 200px;
+  }
+  .delete-btn {
+    --button-font-size: 1.05rem;
+    --button-font-weight: 500;
+  }
+  .edit-modal-container {
+    top: 35%;
+    width: 220px;
+    left: 20%;
+  }
    
 
 }

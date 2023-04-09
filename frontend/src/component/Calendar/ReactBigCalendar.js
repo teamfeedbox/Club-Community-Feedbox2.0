@@ -308,14 +308,14 @@ export default function ReactBigCalendar() {
             {preEventModel ? (
               <div
                 className="Calendar-view-title"
-                style={{ borderRadius: "30px 30px 0px 0px" }}
+                style={{ borderRadius: "20px 20px 0px 0px" }}
               >
                 Events Preview
               </div>
             ) : (
               <div
                 className="Calendar-view-title"
-                style={{ borderRadius: "30px" }}
+                style={{ borderRadius: "20px" }}
               >
                 Events Preview
               </div>
@@ -557,12 +557,21 @@ export default function ReactBigCalendar() {
                       icon={faFlag}
                     />
                     <select
-                      name="type"
+                      // name="type"
+                      required
+                      value={scope}
                       onChange={(e) => setScope(e.target.value)}
                      
                     >
-                      <option selected disabled hidden>
+                      <option
+                      value=""
+                       selected
+                       disabled 
+                      //  hidden
+                      
+                      >
                         Select Community
+                        
                       </option>
                       <option value="public">Public</option>
                       <option value="community">Community</option>
