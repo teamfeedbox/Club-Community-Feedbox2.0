@@ -2,12 +2,17 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faAirFreshener,
   faBell,
   faRightFromBracket,
+  faSignal,
+  faTh,
+  faThLarge,
   faUser,} from "@fortawesome/free-solid-svg-icons";
 import Notification from "./Notification";
 
 import { Link } from "react-router-dom";
+import { faKeyboard } from "@fortawesome/free-regular-svg-icons";
 
 const AccessibilityContainer = styled.div`
   display: flex;
@@ -128,7 +133,8 @@ export function Accessibility(props) {
           }
         >
           <LoginButton>
-            <img src="Images/Dashboard.png" alt="" />
+            {/* <img src="Images/Dashboard.png" alt="" /> */}
+            <FontAwesomeIcon icon={faSignal} className="fa-xl" />
           </LoginButton>
         </Links>
       ) : (

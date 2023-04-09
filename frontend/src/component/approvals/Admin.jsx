@@ -107,7 +107,7 @@ const Admin = (props) => {
 
       {/* table  */}
       <div className="lg:border">
-        <Scrollbars style={{ height: "230px" }}>
+        <Scrollbars style={{ height: "250px" }}>
           <table class="table-auto w-full max-w-[1300px]">
             <tbody class="text-sm divide-y  divide-gray-100 max-w-[1150px]">
               {admin.length > 0 ?
@@ -116,24 +116,24 @@ const Admin = (props) => {
                     <td class=" p-2 w-[170px] lg:w-[400px] ">
                       <div className="flex items-center">
                         <img
-                          class="rounded-full"
+                          class="rounded-full w-[40px] h-[40px] object-center"
                           src={member.img}
                           width="40"
                           height="40"
                           alt="Alex Shatov"
                         />
 
-                          <div className="ml-2  text-[1rem] font-[400]"> {member.name} </div>
+                          <div className="ml-2 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[400]"> {member.name} </div>
                         </div>
                       </td>
                       <td class="p-2 w-[170px] lg:w-[400px]  items-center mr-8 ">
-                        <div class="font-medium text-gray-800 text-[1rem] font-[400]">
+                        <div class=" text-gray-800  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[400]">
                           {member.position}
                         </div>
                       </td>
                       <td className=" w-[100px] my-auto">
                       <div className="text-red-500" onClick={()=>{setDelShow(true); setId(member._id)}}>
-                      <button className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000] text-[1.05rem] font-[500] hover:bg-[#bf1004]"
+                      <button className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000]  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[500] hover:bg-[#bf1004]"
                         >Delete</button>
                       </div>
                       <Modal show={delshow} onHide={handleDelClose} className="club-member-modal" >

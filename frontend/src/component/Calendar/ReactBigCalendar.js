@@ -227,6 +227,7 @@ export default function ReactBigCalendar() {
         date: eventDate,
         userId:id,
         venue:venue,
+        time:eventTime,
         
       }),
       headers: {
@@ -286,7 +287,8 @@ export default function ReactBigCalendar() {
           </div>: ''}
 
           {/* -----------Button to add event in calendar------------------*/}
-          <div
+          { role && role !== 'Club_Member' ?
+            <div
             className="Calendar-add"
             onClick={() => {
               setAddEventModel(true); setPreEventModel(false)
@@ -299,7 +301,7 @@ export default function ReactBigCalendar() {
                 icon={faCirclePlus}
               />
             </div>
-          </div>
+          </div>: ''}
 
           {/* ------------Already created------------------------*/}
           <div className="Calendar-view">
@@ -557,6 +559,7 @@ export default function ReactBigCalendar() {
                     <select
                       name="type"
                       onChange={(e) => setScope(e.target.value)}
+                     
                     >
                       <option selected disabled hidden>
                         Select Community

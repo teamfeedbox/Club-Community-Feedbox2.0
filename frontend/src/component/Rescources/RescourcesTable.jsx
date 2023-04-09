@@ -42,6 +42,8 @@ const RescourcesTable = (props) => {
   const [pdfLink, setPdfLink] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [selected, setSelected] = useState([]);
+  const [mypdf,setMyPdf]=useState(false);
+  const [filename,setFileName]=useState("");
 
   const itemsPerPage = 3;
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -106,13 +108,23 @@ const RescourcesTable = (props) => {
     console.log(e.target.files);
     setFile(URL.createObjectURL(e.target.files[0]));
     setPdfFile(e.target.files[0]);
+    setMyPdf(true);
+    console.log(file);
+    console.log(e.target.files[0].name);
+    setFileName(e.target.files[0].name);
   }
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+      setTitle("");
+      setFile("");
+      setPdfFile("");
+      setPdfLink("");
+      setFileName("");
+      setLink(false);
+      setShow(false);
+  }  
   const handleShow = () => setShow(true);
 
-  // console.log(pdfFile)
-  // console.log(pdfLink)
   const AddResource = async (e) => {
     setLoading(true);
     e.preventDefault();
@@ -140,6 +152,8 @@ const RescourcesTable = (props) => {
       setFile("");
       setPdfFile("");
       setPdfLink("");
+      setFileName("");
+      setLink(false);
       setShow(false);
     } else {
       // Error uploading PDF file
@@ -298,13 +312,20 @@ const RescourcesTable = (props) => {
                           value={pdfLink}
                         onChange={(e) => setPdfLink(e.target.value)}
                         name="pdfLink"
-
-
                           />
                         </div>
                       ) : (
                         ""
                       )}
+
+                      {
+                        mypdf ? (
+                          <div className="w-fit text-[.8rem] mt-2">{filename}</div>
+                        ):
+                        (
+                          ""
+                        )
+                      }
                     </div>
 
                     <div>
@@ -345,16 +366,16 @@ const RescourcesTable = (props) => {
                 <thead class="uppercase text-gray-400 bg-gray-50">
                   <tr>
                     <th class="p-2">
-                      <div class="font-[500] text-[0.8rem] text-left">Download</div>
+                      <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Download</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-[500] text-[0.8rem] text-left">Resource Title</div>
+                      <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Resource Title</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-[500] text-[0.8rem] text-left">Date Created</div>
+                      <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Date Created</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-[500] text-[0.8rem] text-left">Author</div>
+                      <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Author</div>
                     </th>
                   </tr>
                 </thead>
@@ -377,17 +398,17 @@ const RescourcesTable = (props) => {
                           </a>
                         </td>
                         <td class="p-2">
-                          <div class="font-[500] text-[1rem] text-black">
+                          <div class="font-[500] text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] text-black">
                             {item && item.title}
                           </div>
                         </td>
                         <td class="p-2">
-                          <div class="text-left text-blue-600 font-[500] text-[1rem]">
+                          <div class="text-left text-blue-600 font-[500] text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]">
                             {item && item.date && timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}
                           </div>
                         </td>
                         <td class="p-2">
-                          <div class="text-left text-black font-[500] text-[1rem]">
+                          <div class="text-left text-black font-[500] text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] ">
                             {item && item.author && item.author.name}
                           </div>
                         </td>
@@ -411,16 +432,16 @@ const RescourcesTable = (props) => {
                 <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                   <tr>
                     <th class="p-2">
-                      <div class="font-semibold text-left">Download</div>
+                      <div class="font-semibold text-left text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]">Download</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-semibold text-left">Resource Title</div>
+                      <div class="font-semibold text-left text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]">Resource Title</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-semibold text-left">Date Created</div>
+                      <div class="font-semibold text-left text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]">Date Created</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-semibold text-left">Author</div>
+                      <div class="font-semibold text-left text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]">Author</div>
                     </th>
                   </tr>
                 </thead>
@@ -443,17 +464,17 @@ const RescourcesTable = (props) => {
                           </a>
                         </td>
                         <td class="p-2">
-                          <div class="font-[500] text-[1rem] text-gray-800">
+                          <div class="font-[500] text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] text-gray-800">
                             {item && item.title}
                           </div>
                         </td>
                         <td class="p-2">
-                          <div class="text-left text-blue-600 font-[500] text-[1rem]">
+                          <div class="text-left text-blue-600 font-[500] text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]">
                             {item && item.date && timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}
                           </div>
                         </td>
                         <td class="p-2">
-                          <div class="text-left text-black font-[500] text-[1rem]">
+                          <div class="text-left text-black font-[500] text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]">
                             {item && item.author && item.author.name}
                           </div>
                         </td>

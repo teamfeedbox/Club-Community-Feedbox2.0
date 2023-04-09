@@ -47,9 +47,10 @@ const Approvals = () => {
 
   return (
     <>
-      <div className="pb-9 pt-[70px]" >
-        <div className="lg:my-3 my-0 mx-1 mt-3 text-center ">
-          <select onChange={(e)=>setClg(e.target.value)} className="p-2 border-2 font-semibold text-[1rem] font-[400] border-[#000] rounded-3xl w-[30%]">
+      <div className="pb-4 pt-[70px]" >
+       { role && role === 'Super_Admin' ?
+       <div className="lg:my-3 my-0 mx-1 mt-3 text-center ">
+          <select onChange={(e)=>setClg(e.target.value)} className="p-2 border-2  text-[1rem] font-[400] border-[#000] rounded-3xl w-[90%] md:w-[90%] lg:w-[30%]">
             <option className=" " selected hidden disabled>
               College
             </option>
@@ -61,7 +62,7 @@ const Approvals = () => {
               ))
             }
           </select>
-        </div>
+        </div> : ''}
         <PendingApprovals func={pull_data}/>
 
         <div className="mt-9">
