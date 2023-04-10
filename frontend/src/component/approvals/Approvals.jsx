@@ -47,23 +47,27 @@ const Approvals = () => {
 
   return (
     <>
-      <div className="pb-4 pt-[70px]" >
-       { role && role === 'Super_Admin' ?
-       <div className="lg:my-3 my-0 mx-1 mt-3 text-center ">
-          <select onChange={(e)=>setClg(e.target.value)} className="p-2 border-2  text-[1rem] font-[400] border-[#000] rounded-3xl w-[90%] md:w-[90%] lg:w-[30%]">
-            <option className=" " selected hidden disabled>
-              College
-            </option>
-            <option value="All">All</option>
-            {
-              allClgs.length > 0 &&
-              allClgs.map((data) => (
-                <option value={data}>{data}</option>
-              ))
-            }
-          </select>
-        </div> : ''}
-        <PendingApprovals func={pull_data}/>
+
+      {/* search handler for super admin */}
+      <div className="pb-9 pt-[70px]" >
+        {role && role === 'Super_Admin' ?
+          <div className="lg:my-3 my-0 mx-1 ">
+            <select onChange={(e) => setClg(e.target.value)} className="p-2 border-2  text-[1rem] font-[400] border-[#000] rounded-3xl w-[90%] md:w-[90%] lg:w-[30%]">
+              <option className=" " selected hidden disabled>
+                College
+              </option>
+              <option value="All">All</option>
+              {
+                allClgs.length > 0 &&
+                allClgs.map((data) => (
+                  <option value={data}>{data}</option>
+                ))
+              }
+            </select>
+          </div> : ''}
+
+        <PendingApprovals func={pull_data} clg={clg && clg} />
+
 
         <div className="mt-9">
           <div className="overall-profile-tabs  ">
@@ -120,7 +124,7 @@ const Approvals = () => {
               </div>
 
               <div className={tabs === "Admin" ? "" : "profile-tab-data-hide"}>
-                <Admin props={click && true} clg={clg && clg}/>
+                <Admin props={click && true} clg={clg && clg} />
               </div>
 
               <div
