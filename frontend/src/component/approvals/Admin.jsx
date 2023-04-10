@@ -156,7 +156,11 @@ const Admin = (props) => {
                       </Modal>
                     </td>
                   </tr>
-                )) : 'No Admins...'}
+                )) : 
+                <div className="nopending">
+                <div className="text-[1rem] font-[400]">No Admin !</div>
+                </div>
+                }
             </tbody>
           </table>
         </Scrollbars>
