@@ -5,6 +5,7 @@ import { faAdd, faEnvelope, faGraduationCap, faIdCard, faUniversity } from "@for
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Multiselect from "multiselect-react-dropdown";
+import { Link } from 'react-router-dom';
 
 const backColor = ['#EDC7E2', '#C7EDCF', '#EDE7C7', '#EDC7C7', '#B5A6E1', '#B4B4B4', '#72C4FF', '#e9f5db', '#fad643', '#E3B47C']
 const fColor = ['#9B0483', '#2AA100', '#A67904', '#A10000', '#5C0684', '#363636', '#035794', '#718355', '#76520E', '#744E37']
@@ -41,7 +42,7 @@ function Overview(prop) {
       },
     });
     result = await result.json();
-    console.log(result && (new Date(result.interestedEvents[0].eventDate)).toString().split(" ")[0], "lkjiug");
+    // console.log(result && (new Date(result.interestedEvents[0].eventDate)).toString().split(" ")[0], "lkjiug");
     setData(result);
     setUserId(result._id)
   };
@@ -66,16 +67,10 @@ function Overview(prop) {
     <>
       <div className='Overview-Container'>
         <div className='Overview-Left'>
-          <form onSubmit={updateProfile}>
-            {
-              profileSubmit ?
-                <textarea className='Overview-Left-input' rows="3" placeholder=''>
-                </textarea>
-                :
-                <p className='Overview-Left-P' onClick={() => SetProfileSubmit(true)}>
+                <p className='Overview-Left-P' 
+                >
                   {data && data.bio}
                 </p>
-            }
             <div className='Overview-Detail'>
               <section>
                 <div className='Detail-icon1'>
@@ -85,7 +80,8 @@ function Overview(prop) {
                   <div>
 
                     <span>Email:</span>
-                    <p className='Overview-Left-P' onClick={() => SetProfileSubmit(true)}>
+                    <p className='Overview-Left-P'
+                     >
                       {
                         data && data.email
                       }
@@ -129,7 +125,6 @@ function Overview(prop) {
                 </div>
               </section>
             </div>
-          </form>
           <div className='Overview-Skills'>
             <div className='Skills-Title'>Skills:</div>
             <div className='Overview-Sub-Skills'>
@@ -143,12 +138,12 @@ function Overview(prop) {
               </span>
             </div>
           </div>
-          {/* ***************logout************** */}
+          {/* ******logout***** */}
         </div>
 
         {/* modal to add skills */}
-        <Modal show={show1} onHide={handleClose1}>
-          <Modal.Header closeButton>
+        <Modal show={show1} >
+          <Modal.Header closeButton onHide={handleClose1}> 
             <Modal.Title className='club-member-modal-header'>Add Skills</Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -234,9 +229,9 @@ function Overview(prop) {
                 ))
               }
               <div className='Add-Event-Cont'>
-                <div className='Add-Event1' >
+                <Link to="/calendar" className='Add-Event1' >
                   <FontAwesomeIcon className="fa-lg" icon={faAdd} />
-                </div>
+                </Link>
               </div>
             </section>
           </div>
