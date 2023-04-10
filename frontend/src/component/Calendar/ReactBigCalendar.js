@@ -62,6 +62,11 @@ export default function ReactBigCalendar() {
   }
   const mindate = [yyyy, mm, dd].join("-");
 
+  const handleDeleteShow =()=>{
+    setDeleteBtn(true);
+    setPreEventModel(false)
+  }
+
   // get user
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
@@ -425,7 +430,7 @@ export default function ReactBigCalendar() {
                     (id && myEvent && id == myEvent.postedBy._id)) && (
                       <button
                         onClick={() => {
-                          setDeleteBtn(true); setPreEventModel(false)
+                          handleDeleteShow()
                         }}
                       >
                         Delete Event
@@ -556,21 +561,16 @@ export default function ReactBigCalendar() {
                       icon={faFlag}
                     />
                     <select
-                      // name="type"
                       required
                       value={scope}
                       onChange={(e) => setScope(e.target.value)}
-                     
                     >
                       <option
                       value=""
                        selected
                        disabled 
-                      //  hidden
-                      
                       >
                         Select Community
-                        
                       </option>
                       <option value="public">Public</option>
                       <option value="community">Community</option>
