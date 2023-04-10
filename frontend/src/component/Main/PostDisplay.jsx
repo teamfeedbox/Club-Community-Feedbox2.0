@@ -190,8 +190,8 @@ const PostDisplay = (props) => {
   return (
     <div>
       {!loading ?
-        <div>
-          {data.length > 0 ? data.map((item, index) => (
+        <div className="mb-[120px]">
+          {data.length>0 ? data.map((item, index) => (
             <div key={item._id} className="post-display1">
               <div className="post-display-head">
                 <div className="post-display-profile">

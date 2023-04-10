@@ -72,13 +72,21 @@ const App = () => {
             index
             path="/profile"
             element={
+              role && role == null ? <Error /> : [<NavbarRes />, <ProfilePage />]
+            }
+          />
+
+          {/* <Route
+            index
+            path="/profile"
+            element={
               (role && role == null) || (role == "Super_Admin") ? (
                 <Error />
               ) : (
                 [<NavbarRes />, <ProfilePage />]
               )
             }
-          />
+          /> */}
 
           <Route index path="/profileComment" element={<ProfileBigModel />} />
 
@@ -129,7 +137,7 @@ const App = () => {
             }
           />
 
-          <Route
+          {/* <Route
             index
             path="/dashboard"
             element={
@@ -139,7 +147,7 @@ const App = () => {
                 <Error />
               )
             }
-          />
+          /> */}
 
           <Route
             index

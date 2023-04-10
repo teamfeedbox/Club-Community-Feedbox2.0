@@ -189,7 +189,7 @@ const Leads = (props) => {
                         {member.position}
                       </div>
                     </td>
-                    {role && role === 'Admin' || role == 'Super_Admin' ?
+                    {(role && role === 'Admin') || (role &&  role === 'Super_Admin') ?
                       <td class="pt-2 pb-2 flex  justify-end ">
                         <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                           <button
@@ -273,9 +273,7 @@ const Leads = (props) => {
                   </tr>
                 )) :
                 <div className="nopending">
-
-                <div className="text-[1rem] font-[400]">No Lead Members !</div>
-
+                  <div className="text-[1rem] font-[400]">No Lead Members !!</div>
                 </div>
               }
             </tbody>
