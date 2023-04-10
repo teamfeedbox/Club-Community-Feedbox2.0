@@ -24,8 +24,6 @@ const NewLogin = () => {
     });
     result = await result.json();
 
-
-
     if(result.token){
       navigate('/main')   
       localStorage.setItem("user", JSON.stringify(result));
