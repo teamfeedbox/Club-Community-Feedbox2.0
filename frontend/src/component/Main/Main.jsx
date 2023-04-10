@@ -11,6 +11,7 @@ const Main = () => {
   const [user, setUser] = useState();
   const [clg, setClg] = useState();
   const [eventSel, setEventSel] = useState();
+  const role = JSON.parse(localStorage.getItem("user")).role;
 
   useEffect(() => {
     getUser();
@@ -33,6 +34,7 @@ const Main = () => {
   const pull_data = (data) => {
     setEventSel(data);
   }
+
 
   return (
     <>
@@ -57,7 +59,7 @@ const Main = () => {
               <div className="main-post-dispaly">
                 <scrollable-component scrollbar-visibility="always">
                   <div>
-                    {user && user.role === "Club_Member" ? '' : <CreatePost userData={user && user} />}
+                    {role && role === "Club_Member" ? '' : <CreatePost userData={user && user} />}
                   </div>
                   <PostDisplay clgData={clg && clg} />
                 </scrollable-component>
@@ -89,7 +91,7 @@ const Main = () => {
             </div>
             <div className="main-page-display-tab-right">
               <scrollable-component scrollbar-visibility="always">
-                {user && user.role === "Club_Member" ? '' : <CreatePost userData={user && user} />}
+                {role && role === "Club_Member" ? '' : <CreatePost userData={user && user} />}
                 <PostDisplay clgData={clg && clg} />
               </scrollable-component>
             </div>
@@ -103,7 +105,7 @@ const Main = () => {
               <HomePageProfile userData={user && user} />
             </div>
             <div className="w-[92%] ml-[4%]">
-              {user && user.role === "Club_Member" ? '' : <CreatePost userData={user && user} />}
+              {role && role === "Club_Member" ? '' : <CreatePost userData={user && user} />}
             </div>
             <p className="up-coming-events">UP-COMING EVENTS</p>
             <div className="w-[92%] ml-[4%]">

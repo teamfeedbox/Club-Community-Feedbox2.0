@@ -131,22 +131,23 @@ const HomePageEvent = (props) => {
           {event.map((item, index) => (
             <div className="HomePageEvent">
               <Scrollbars style={{ height: "150px" }}>
-                <h2> {item.title} </h2>
-                <div className="home-page-event-time">
-                  <FontAwesomeIcon icon={faClock} className="fa-xl" />
-                  <p className="home-page-event-time-p">{item.eventDate}</p>
-                </div>
-                <div className="home-page-event-description">
-                  {item.desc}
-                </div>
-                <div className="home-page-event-button pb-3">
-                  <button className="home-page-event-button-knowmore">
-                    Know More
-                  </button>
-                  <button className="home-page-event-button-interested">
-                    Interested
-                  </button>
-                </div>
+              <h2> {item.title} </h2>
+              <div className="home-page-event-time">
+                <FontAwesomeIcon icon={faClock} className="fa-xl" />
+                <p className="home-page-event-time-p">{item.eventDate}</p>
+              </div>
+              <div className="home-page-event-description">
+                {item.desc}
+              </div>
+              <div className="home-page-event-button pb-3">
+                <Link to='/calendar' state={{eventId:item._id}}>
+                <button className="home-page-event-button-knowmore">
+                  Know More
+                </button></Link>
+                {/* <button className="home-page-event-button-interested">
+                  Interested
+                </button> */}
+              </div>
               </Scrollbars>
             </div>
           ))}
