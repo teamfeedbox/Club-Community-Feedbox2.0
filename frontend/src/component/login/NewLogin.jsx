@@ -127,6 +127,7 @@ const NewLogin = () => {
               </div>
               <div>
                 <button
+                onClick={handleLogin}
                   className="w-full flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
                 >
                   {loading ? (
@@ -142,7 +143,7 @@ const NewLogin = () => {
                       <span class="visually-hidden">Loading...</span>
                     </div>
                   ) : (
-                    <button type="submit" onClick={handleLogin}>
+                    <button type="submit" >
                       Sign in
                     </button>
                   )}

@@ -341,7 +341,7 @@ const RescourcesTable = (props) => {
                     <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Resource Title</div>
                   </th>
                   <th class="p-2">
-                    <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Date Created</div>
+                    <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Created </div>
                   </th>
                   <th class="p-2">
                     <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Author</div>

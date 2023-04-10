@@ -129,12 +129,12 @@ const LoginPage = () => {
             Sign in
           </button>
         </form>
-        <button
+        {/* <button
           className="joinnow-login-button"
           onClick={() => navigate("/register")}
         >
           New to Community? Join now
-        </button>
+        </button> */}
       </div>
       <div className="login-image">
         <img src="Images/l2.jpeg" alt="" />

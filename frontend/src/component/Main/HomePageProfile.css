@@ -30,15 +30,15 @@
 .home-profile-main-photo{
     background-color: white;
     border-radius: 50%;
-    height: 90px;
-    width: 90px;
+    /* height: 100px;
+    width: 130px; */
     margin: 10px;
 }
 
 .home-profile-main-photo img {
     border-radius: 50%;
-    height: 90px;
-    width: 90px;
+    height: 100px;
+    width: 10vw;
     /* margin: 10px; */
     object-fit:inherit;
 } 

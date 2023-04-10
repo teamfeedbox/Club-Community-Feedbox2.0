@@ -282,7 +282,7 @@ export default function ReactBigCalendar() {
           {/* ----------------college dropdown for super admin--------------- */}
           {role && role == 'Super_Admin' ?
             <div className=" my-4 mx-1 ">
-              <select className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl sm:w-[40%] lg:w-[100%]" value={clgSelected} onChange={(e) => { handleCollege(e); setHandleClgSel(true); }}>
+              <select className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl w-[100%]" value={clgSelected} onChange={(e) => { handleCollege(e); setHandleClgSel(true); }}>
                 <option className=" " value="College" hidden selected disabled>College</option>
                 <option value="All">All</option>
                 {
