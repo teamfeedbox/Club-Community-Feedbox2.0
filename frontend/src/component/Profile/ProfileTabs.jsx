@@ -5,10 +5,11 @@ import ProfilePost from "./ProfilePost";
 import ProfileEvent from "./ProfileEvent";
 import ProfileRes from "./ProfileRes";
 import ProfilePostPage from "./ProfilePostPage";
+import Dashboard from "../Dashboard/Dashboard";
 
 const ProfileTabs = () => {
   const [tabs, setTabs] = useState("Overview");
-  const [role, setRole] = useState("");
+  // const [role, setRole] = useState("");
   const [data, setData] = useState();
 
   useEffect(() => {
@@ -24,7 +25,7 @@ const ProfileTabs = () => {
       },
     });
     result = await result.json();
-    setRole(result.role);
+    // setRole(result.role);
     // console.log(result);
     setData(result);
     // if (result) {
@@ -32,9 +33,13 @@ const ProfileTabs = () => {
     // }
   };
 
+  const role = JSON.parse(localStorage.getItem("user")).role;
+
+
   return (
     <div className="overall-profile-tabs">
       <div className="profile-tabs">
+
         <div
           className={
             tabs === "Overview"
@@ -43,8 +48,13 @@ const ProfileTabs = () => {
           }
           onClick={() => setTabs("Overview")}
         >
-          Overview
+          {
+            role === 'Super_Admin' ? 'Dashboard'  : 'Overview'
+          }
         </div>
+
+
+
         {role !== "Club_Member" ? (
           <div
             className={
@@ -90,9 +100,15 @@ const ProfileTabs = () => {
           ""
         )}
       </div>
+
       <div className="profile-tab-data">
+
         <div className={tabs === "Overview" ? "" : "profile-tab-data-hide"}>
-          <Overview />
+
+          {role === 'Super_Admin' ? <Dashboard /> :
+            <Overview />
+            }
+
         </div>
 
         <div className={tabs === "Post" ? "" : "profile-tab-data-hide"}>
