@@ -16,6 +16,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./EditProfile.css";
 
 const EditProfile = ({ open, setOpen }) => {
+  const role = JSON.parse(localStorage.getItem("user")).role;
+
   // const [dataChanges, setDataChanges] = useState('nnnnn');
   const [data, setData] = useState('');
   const [show, setShow] = useState(false);
@@ -161,20 +163,7 @@ const EditProfile = ({ open, setOpen }) => {
             </Modal.Header>
             <Modal.Body>
               <Form>
-                {/* <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Email address</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="name@example.com"
-                  autoFocus
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Form.Group> */}
-                <Form.Group
+                {role === 'Super_Admin'? '' :<Form.Group
                   className="mb-3"
                   controlId="exampleForm.ControlTextarea1"
                 >
@@ -186,7 +175,8 @@ const EditProfile = ({ open, setOpen }) => {
                     onChange={(e) => setBio(e.target.value)}
                     value={bio}
                   />
-                </Form.Group>
+                </Form.Group>}
+
                 <Form.Group>
                   <div>
                     <label className="block">Profile Photo</label>
