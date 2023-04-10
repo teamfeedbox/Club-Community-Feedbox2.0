@@ -147,12 +147,13 @@ const HomePageEvent = (props) => {
                 {item.desc}
               </div>
               <div className="home-page-event-button pb-3">
+                <Link to='/calendar' state={{eventId:item._id}}>
                 <button className="home-page-event-button-knowmore">
                   Know More
-                </button>
-                <button className="home-page-event-button-interested">
+                </button></Link>
+                {/* <button className="home-page-event-button-interested">
                   Interested
-                </button>
+                </button> */}
               </div>
               </Scrollbars>
             </div>
