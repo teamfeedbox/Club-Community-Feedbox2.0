@@ -10,7 +10,9 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import "./ProfileBigModel.css";
+
+// Css PostBigModel.css (in profile folder)
+import "../Profile/ProfileBigModel.css";
 // Bootstrap
 import Modal from "react-bootstrap/Modal";
 import TimeAgo from "javascript-time-ago";
@@ -274,8 +276,12 @@ function PostBigModel({ openComment, setOpenComment, id }) {
               Cancel
             </button>
           </div>
-        </Modal.Body>
-      </Modal>
+          </Modal.Body>
+        
+        </Modal>
+
+
+
 
 
 
@@ -309,12 +315,14 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
       {openComment ? (
         <div className="Post-Big-Model-container">
-          {/* to close the model on click outof the post section */}
+          {/* to close the model on click out side the post section */}
           <div className="Post-Big-Model-Close" onClick={handleClose}></div>
 
           <div className="Post-Big-Model1">
             {/* Left side */}
-            <div className="post-display2" style={{maxHeight:"600px"}}>
+            <div className="post-display2" 
+            // style={{maxHeight:"600px"}}
+            >
               <div className="post-display-center1">
                 <div className="post-display-image "></div>
 
@@ -382,7 +390,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                   </Link>
                 </div>
                 {/* Description */}
-                <div className="Post-Big-Description">{user && user.desc}</div>
+                {/* <div className="Post-Big-Description">{user && user.desc}</div> */}
               </div>
 
               {/* Line to seprate pofile and comment */}
@@ -393,15 +401,19 @@ function PostBigModel({ openComment, setOpenComment, id }) {
               <div className="Post-Big-Comment">
                 
                 {
-                  user && user.comment.length==0?(<div style={{textAlign:"center"}}>No comment</div>):(
-                    <Scrollbars className="Scrollbar-height">
+                  user && user.comment.length==0?(
+                  <div style={{textAlign:"center",
+                  fontSize:"1.1rem",fontWeight:'600'
+                  
+                }}>No comment</div>):(
+                    <Scrollbars className="Scrollbar-height" style={{height:"102%",position:"relative"}} >
                   {/* Comment 1 */}
                   {user &&
                     user.comment.map((item) => (
                       <section className="Post-Comment-About" key={item._id}>
                         {/* Left part */}
                         <div className="Comment-Left">
-                          <img
+                          <img className="object-contain"
                             src={item && item.postedBy && item.postedBy.img}
                           ></img>
                         </div>
@@ -442,14 +454,16 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                 reply
                              </span>}
                           </div>
-                  {/* *** Section which will contain the reply on a comment*** */}
+                  {/* ******** Section which will contain the reply on a comment****** */}
                         { showReply==true && commentId==item._id?(
-                           <section style={{display:"flex",flexDirection:"column"}}>
+                           <section style={{display:"flex",flexDirection:"column",marginTop:"10px"}}>
                            {
                             item && item.reply.map((data)=>
                             <div style={{display:"flex",flexDirection:"row"}}>
                             <div className="Comment-Left">
-                            <img src={data && data.postedBy && data.postedBy.img}
+                            <img
+                            className="object-contain"
+                            src={item && item.postedBy && item.postedBy.img}
                             ></img>
                             </div>
                             <div key={data._id} className="Comment-Right">
@@ -471,7 +485,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                 }}
                                 style={{ marginLeft: "20px" }}
                               >
-                                delete reply
+                                delete
                               </span>
                           </div>
                             </div>
@@ -484,7 +498,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                           {/* **Hide and show reply** */}
 
                           {
-                          item.reply.length>0 && checkReply==true? (
+                          item.reply.length>0 && checkReply==true && showReply!=true? (
                             <span onClick={()=>{
                               setShowReply(true)
                               setCheckreply(false)
@@ -501,7 +515,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                               ---- View Reply
                             </span>
                           ):(
-                            hideReply==true && commentId==item._id?(<>
+                            hideReply==true && commentId==item._id && item.reply.length>0?(<>
                               <span onClick={()=>{
                                setHidereply(false)
                                setCheckreply(true)
@@ -562,13 +576,10 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                   ></input>
                                   <button
                                     onClick={() => {
-                                  updateReply();
-
+                                      updateReply();
                                       setShowReplyInputField(false)
                                       setReplyInputBtnId(item._id)
-                                      // setCommentId("")
                                       setReplyBtn(false)
-                                      
                                       if(replyMsg!="")
                                       {
                                         setCheckreply(true)
@@ -616,13 +627,15 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                     }}
                   >
                     <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700 ">
-                      <div className="rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                      <div className=" rounded-full cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
                         <img
                           src={img}
                           aria-hidden="true"
                           className="w-10 h-8
                             p-0
-                            rounded-full"
+                            rounded-full
+                            object-cover	
+                            "
                         ></img>
                       </div>
                       <input

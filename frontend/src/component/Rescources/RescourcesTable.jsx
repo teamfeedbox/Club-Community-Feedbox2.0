@@ -43,8 +43,8 @@ const RescourcesTable = (props) => {
   const [pdfLink, setPdfLink] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [selected, setSelected] = useState([]);
-  const [mypdf,setMyPdf]=useState(false);
-  const [filename,setFileName]=useState("");
+  const [mypdf, setMyPdf] = useState(false);
+  const [filename, setFileName] = useState("");
 
   const itemsPerPage = 3;
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -64,7 +64,9 @@ const RescourcesTable = (props) => {
 
   let id;
   useEffect(() => {
-    getList(skillName);
+    if (searchval == "") {
+      getList(skillName);
+    }
     getUser();
   }, [skillName]);
 
@@ -86,20 +88,18 @@ const RescourcesTable = (props) => {
     setFile(URL.createObjectURL(e.target.files[0]));
     setPdfFile(e.target.files[0]);
     setMyPdf(true);
-    console.log(file);
-    console.log(e.target.files[0].name);
     setFileName(e.target.files[0].name);
   }
 
   const handleClose = () => {
-      setTitle("");
-      setFile("");
-      setPdfFile("");
-      setPdfLink("");
-      setFileName("");
-      setLink(false);
-      setShow(false);
-  }  
+    setTitle("");
+    setFile("");
+    setPdfFile("");
+    setPdfLink("");
+    setFileName("");
+    setLink(false);
+    setShow(false);
+  }
   const handleShow = () => setShow(true);
 
   const AddResource = async (e) => {
@@ -140,6 +140,7 @@ const RescourcesTable = (props) => {
   };
 
   const getList = async (skillName) => {
+    console.log("l,mnuhgftr");
     let result = await fetch(
       `http://localhost:8000/getAllResource/${skillName}`,
       {
@@ -151,27 +152,23 @@ const RescourcesTable = (props) => {
     result = await result.json();
     setData(result);
     setDuplicateData(result)
-    if (result) {
-      getList(skillName);
-    }
   };
 
   const searchHandler = (e) => {
-    if (e.target.value == "") {
-      setData(duplicateData);
-    } else {
-      let val = e.target.value;
-      setSearchVal(e.target.value);
+    let val = e.target.value;
+    setSearchVal(e.target.value)
+    if (e.target.value !== "") {
       let matched = [];
-      data &&
-        data.forEach((user) => {
-          console.log(user.title, val);
+      duplicateData.length > 0 &&
+        duplicateData.forEach((user) => {
           const value = user.title.toLowerCase().includes(val.toLowerCase());
           if (value) {
             matched.push(user);
           }
         });
-      setData(matched);
+      setData(matched)
+    } else {
+      setData(duplicateData)
     }
   };
 
@@ -280,10 +277,10 @@ const RescourcesTable = (props) => {
                       {link ? (
                         <div className="add-res-add-link">
 
-                          <input type="text" placeholder="Enter Link" 
-                          value={pdfLink}
-                        onChange={(e) => setPdfLink(e.target.value)}
-                        name="pdfLink"
+                          <input type="text" placeholder="Enter Link"
+                            value={pdfLink}
+                            onChange={(e) => setPdfLink(e.target.value)}
+                            name="pdfLink"
 
                           />
                         </div>
@@ -294,10 +291,10 @@ const RescourcesTable = (props) => {
                       {
                         mypdf ? (
                           <div className="w-fit text-[.8rem] mt-2">{filename}</div>
-                        ):
-                        (
-                          ""
-                        )
+                        ) :
+                          (
+                            ""
+                          )
                       }
                     </div>
 
@@ -334,73 +331,71 @@ const RescourcesTable = (props) => {
           {/* table to display rescources */}
 
           <div class="overflow-x-auto p-3">
-            {!enableSearch && (
-              <table class="table-auto w-full">
-                <thead class="uppercase text-gray-400 bg-gray-50">
-                  <tr>
-                    <th class="p-2">
-                      <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Download</div>
-                    </th>
-                    <th class="p-2">
-                      <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Resource Title</div>
-                    </th>
-                    <th class="p-2">
-                      <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Date Created</div>
-                    </th>
-                    <th class="p-2">
-                      <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Author</div>
-                    </th>
-                  </tr>
-                </thead>
+            <table class="table-auto w-full">
+              <thead class="uppercase text-gray-400 bg-gray-50">
+                <tr>
+                  <th class="p-2">
+                    <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Download</div>
+                  </th>
+                  <th class="p-2">
+                    <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Resource Title</div>
+                  </th>
+                  <th class="p-2">
+                    <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Date Created</div>
+                  </th>
+                  <th class="p-2">
+                    <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Author</div>
+                  </th>
+                </tr>
+              </thead>
 
-                <tbody class="text-sm divide-y divide-gray-100">
-                  {
+              <tbody class="text-sm divide-y divide-gray-100">
+                {
 
-                    tableData && tableData.length > 0 ?
-                      tableData.map((item) => (
-                        <tr key={item._id}>
-                          <td class="p-2">
-                            <a
-                              href={(item && item.url) || (item && item.link)}
-                              target="_blank"
-                              className="text-black"
-                            >
-                              <FontAwesomeIcon
-                                icon={faFileInvoice}
-                                className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
-                              />
-                            </a>
-                          </td>
-                          <td class="p-2">
-                            <div class="font-[500] text-[1rem] text-black">
-                              {item && item.title}
-                            </div>
-                          </td>
-                          <td class="p-2">
-                            <div class="text-left text-blue-600 font-[500] text-[1rem]">
-                              {item && item.date && timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}
-                            </div>
-                          </td>
-                          <td class="p-2">
-                            <div class="text-left text-black font-[500] text-[1rem]">
-                              {item && item.author && item.author.name}
-                            </div>
-                          </td>
-                        </tr>
-                      ))
-                      :
-                      <tbody>
-                        <tr>
-                          <td colspan="4">
-                            <div>No Resources Added yet !</div>
-                          </td>
-                        </tr>
-                      </tbody>
-                  }
+                  tableData && tableData.length > 0 ?
+                    tableData.map((item) => (
+                      <tr key={item._id}>
+                        <td class="p-2">
+                          <a
+                            href={(item && item.url) || (item && item.link)}
+                            target="_blank"
+                            className="text-black"
+                          >
+                            <FontAwesomeIcon
+                              icon={faFileInvoice}
+                              className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
+                            />
+                          </a>
+                        </td>
+                        <td class="p-2">
+                          <div class="font-[500] text-[1rem] text-black">
+                            {item && item.title}
+                          </div>
+                        </td>
+                        <td class="p-2">
+                          <div class="text-left text-blue-600 font-[500] text-[1rem]">
+                            {item && item.date && timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}
+                          </div>
+                        </td>
+                        <td class="p-2">
+                          <div class="text-left text-black font-[500] text-[1rem]">
+                            {item && item.author && item.author.name}
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                    :
+                    <tbody>
+                      <tr>
+                        <td colspan="4">
+                          <div>No Resources Added yet !</div>
+                        </td>
+                      </tr>
+                    </tbody>
+                }
 
-                </tbody>
-              </table>
-            )}
+              </tbody>
+            </table>
           </div>
           <div className="res-navigation">
             <div>
@@ -433,7 +428,6 @@ const RescourcesTable = (props) => {
                 </nav>
                 : ""
             }
-
           </div>
         </div>
       </div>
