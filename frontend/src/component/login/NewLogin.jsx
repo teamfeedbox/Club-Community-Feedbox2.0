@@ -24,9 +24,6 @@ const NewLogin = () => {
     });
     result = await result.json();
 
-
-    console.log(result);
-    
     if(result.token){
       navigate('/main')   
 
@@ -35,7 +32,6 @@ const NewLogin = () => {
     } else {
       alert(result.err);
     }
-
     setLoading(false);
   };
 

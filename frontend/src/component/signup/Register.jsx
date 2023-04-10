@@ -27,22 +27,14 @@ const Register = () => {
   const navigate = useNavigate();
 
   // To handle in register page
-  const [nameError,setNameError]=useState(false);
-  const [emailError,setEmailError]=useState(false);
-  const [passError,setPassError]=useState(false);
-  const [universityError,setUniversityError]=useState(false);
-  const [university,setUniversity]=useState(0);
-  
+  const [nameError, setNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passError, setPassError] = useState(false);
+  const [universityError, setUniversityError] = useState(false);
 
   const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
-  // useEffect(() => {
-  //   const auth = localStorage.getItem("user");
-  //   console.log(auth)
-  //   if (auth) {
-  //     navigate("/login");
-  //   }
-  // });
+
   const getColleges = async () => {
     const data = await fetch(`http://localhost:8000/colleges/get`);
     const res = await data.json();
@@ -58,30 +50,27 @@ const Register = () => {
     getColleges();
   }, [])
 
-  const generateUniqueid=()=>{
+  // generate unique id
+  const generateUniqueid = () => {
     const today = new Date();
-    let c1 =today.getFullYear();
-    let c2 =collegeName.slice(0,3).toUpperCase();
-    let c3 ='15'+ Math.floor(Math.random() * 90 + 10);
-    
-    let result ='';
-    for(let i=0;i<1;i++)
-    {
+    let c1 = today.getFullYear();
+    let c2 = collegeName.slice(0, 3).toUpperCase();
+    let c3 = '15' + Math.floor(Math.random() * 90 + 10);
+
+    let result = '';
+    for (let i = 0; i < 1; i++) {
       result += c1;
     }
-    
-    for(let i=0;i<1;i++)
-    {
+    for (let i = 0; i < 1; i++) {
       result += c2;
     }
-    for(let i=0;i<1;i++)
-    {
+    for (let i = 0; i < 1; i++) {
       result += c3;
     }
-    console.log(result);
     setUniqueId(result);
   }
 
+  // Register a user
   const collectData = async (e) => {
     setLoading(true);
     // generateUniqueid();
@@ -94,8 +83,9 @@ const Register = () => {
         password,
         collegeYear,
         branch,
+        bio,
         collegeName,
-        uniqueId:uniqueId,
+        uniqueId: uniqueId,
         skills: userinfo.response,
       }),
       headers: {
@@ -103,15 +93,13 @@ const Register = () => {
       },
     });
     result = await result.json();
-    console.log(result);
 
     if (result) {
       console.log(result);
-      if(result.data==="user already exists with that email")
-      {
+      if (result.data === "user already exists with that email") {
         alert(result.data);
       }
-      else{
+      else {
         alert(result.data);
         navigate("/login");
       }
@@ -124,38 +112,27 @@ const Register = () => {
 
   const changenext = (e) => {
     e.preventDefault();
-    if(nameError==false && emailError==false && passError==false && collegeName!="" && name!="" && email!="" && password!="")
-    {
+    if (nameError == false && emailError == false && passError == false && collegeName != "" && name != "" && email != "" && password != "") {
       setNext(!next);
     }
-    else
-    {
+    else {
       alert("All fields are required")
     }
-    
+
   };
-
-  let onSelectNames = (skills) => {
-    setSkills(skills);
-  };
-
-  const signupHandleChange=(e)=>{
-
-  }
 
   const handleChange = (e) => {
-    const eventValue=e.target.value;
-    switch(e.target.name)
-    {
+    const eventValue = e.target.value;
+    switch (e.target.name) {
       case "name":
-        if (eventValue.length < 3 ) {
+        if (eventValue.length < 3) {
           setNameError(true);
         } else {
           setNameError(false);
         }
         setName(eventValue);
 
-      break;
+        break;
 
       case "email":
         if (!eventValue.match(emailRegex)) {
@@ -166,14 +143,14 @@ const Register = () => {
         setEmail(eventValue);
         break;
 
-        case "password":
-          if (!eventValue.match(passwordRegex)) {
-            setPassError(true);
-          } else {
-            setPassError(false);
-          }
-          setPassword(eventValue);
-          break;
+      case "password":
+        if (!eventValue.match(passwordRegex)) {
+          setPassError(true);
+        } else {
+          setPassError(false);
+        }
+        setPassword(eventValue);
+        break;
     }
 
     // Destructuring
@@ -198,8 +175,6 @@ const Register = () => {
     }
     setSkills((arr) => [...userinfo.response, skills]);
   };
-
-
 
   return (
     <div className="overflow-hidden">
@@ -284,7 +259,7 @@ const Register = () => {
                           IV Year
                         </option>
                       </select>
-                      
+
                     </div>
 
                     <div className="">
@@ -294,12 +269,12 @@ const Register = () => {
                         value={userinfo.response}
                         placeholder="Add skills "
                         id="floatingTextarea2"
-                        // value={userSkills}
-                       required
+                        required
                         onChange={handleChange}
                         onClick={handleShow}
                       ></textarea>
 
+                      {/* Skills Modal  */}
                       <Modal show={show} onHide={handleClose} className="">
                         <form>
                           <Modal.Header
@@ -517,7 +492,7 @@ const Register = () => {
                           </Modal.Footer>
                         </form>
                       </Modal>
-                      
+
                     </div>
 
                     <div className="">
@@ -567,16 +542,15 @@ const Register = () => {
                         name="name"
                         placeholder="Full Name"
                         value={name}
-                        // onChange={(e) => setName(e.target.value)}
                         onChange={handleChange}
                         required
                       />
                       {
-                        nameError?(
+                        nameError ? (
                           <span className="registerError">
-                          *name should be more than 3 letters
-                        </span>
-                        ):("")
+                            *name should be more than 3 letters
+                          </span>
+                        ) : ("")
                       }
                     </div>
 
@@ -628,10 +602,10 @@ const Register = () => {
                         value={collegeName}
                         onChange={(e) => setCollegeName(e.target.value)}
                       >
-                        <option disabled 
-                        selected 
-                        hidden 
-                        className="text-gray-400">
+                        <option disabled
+                          selected
+                          hidden
+                          className="text-gray-400">
                           University
                         </option>
                         {
