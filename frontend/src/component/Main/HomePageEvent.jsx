@@ -11,6 +11,9 @@ import Scrollbars from "react-custom-scrollbars";
 const HomePageEvent = (props) => {
   const [event, setEvent] = useState([]);
   const [data, setData] = useState([]);
+
+  console.log(props);
+
   let userId, role;
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
@@ -44,16 +47,36 @@ const HomePageEvent = (props) => {
     if (props.clgData) {
       if (result.length > 0) {
         let array = [];
-        result.map((eve) => {
-          if (eve.postedBy.collegeName === props.clgData) {
-            array.push(eve);
-          }
-        })
+        if (props.eveD) {
+          result.map((eve) => {
+            if (eve.postedBy.collegeName === props.clgData && eve.eventDate === props.eveD) {
+              array.push(eve);
+            }
+          })
+        } else {
+          result.map((eve) => {
+            if (eve.postedBy.collegeName === props.clgData) {
+              array.push(eve);
+            }
+          })
+        }
         if (array.length > 0) {
           setEvent(array);
         } else {
           setEvent([])
         }
+      }
+    } else if (props.eveD) {
+      let array = [];
+      result.map((eve) => {
+        if (eve.eventDate === props.eveD) {
+          array.push(eve);
+        }
+      })
+      if (array.length > 0) {
+        setEvent(array);
+      } else {
+        setEvent([])
       }
     } else {
       setEvent(result)

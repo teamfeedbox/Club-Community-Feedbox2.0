@@ -6,11 +6,11 @@ import HomePageEvent from "./HomePageEvent";
 import CreatePost from "./CreatePost";
 import "./Main.css";
 import bg from "../assets/mainBg.png";
-import NavbarRes from "../navbar/NavbarRes";
 
 const Main = () => {
   const [user, setUser] = useState();
-  const [clg,setClg]=useState();
+  const [clg, setClg] = useState();
+  const [eventSel, setEventSel] = useState();
 
   useEffect(() => {
     getUser();
@@ -30,9 +30,12 @@ const Main = () => {
     setClg(newData);
   };
 
+  const pull_data = (data) => {
+    setEventSel(data);
+  }
+
   return (
     <>
-      {/* <NavbarRes /> */}
       <div
         className="main_container"
         style={{
@@ -63,10 +66,10 @@ const Main = () => {
               <div className="main-home-page-cal">
                 <scrollable-component scrollbar-visibility="always">
                   <div className="home-page-cal-div">
-                    <HomePageCal />
+                    <HomePageCal clgData={clg && clg} eventSel={pull_data} />
                   </div>
                   <p className="up-coming-events">UP-COMING EVENTS</p>
-                  <HomePageEvent clgData={clg && clg}/>
+                  <HomePageEvent clgData={clg && clg} eveD={eventSel && eventSel} />
                 </scrollable-component>
               </div>
             </div>
@@ -74,7 +77,6 @@ const Main = () => {
         </div>
 
         {/* *****************tab view ************************* */}
-
         <div className="main-page-display-tab">
           <section className="main">
             <div className="main-page-display-tab-left ">
@@ -82,7 +84,7 @@ const Main = () => {
                 <HomePageProfile userData={user && user} />
                 <p className="up-coming-events">UP-COMING EVENTS</p>
 
-                <HomePageEvent clgData={clg && clg}/>
+                <HomePageEvent clgData={clg && clg} />
               </scrollable-component>
             </div>
             <div className="main-page-display-tab-right">
@@ -97,15 +99,15 @@ const Main = () => {
         {/* ******************mobile view************************* */}
         <div className="main-page-display-mobile">
           <section className="main ">
-          <div className="w-[92%] ml-[4%]">
-            <HomePageProfile userData={user && user} />
+            <div className="w-[92%] ml-[4%]">
+              <HomePageProfile userData={user && user} />
             </div>
             <div className="w-[92%] ml-[4%]">
               {user && user.role === "Club_Member" ? '' : <CreatePost userData={user && user} />}
             </div>
             <p className="up-coming-events">UP-COMING EVENTS</p>
             <div className="w-[92%] ml-[4%]">
-              <HomePageEvent clgData={clg && clg}/>
+              <HomePageEvent clgData={clg && clg} />
             </div>
             <PostDisplay clgData={clg && clg} />
           </section>
