@@ -120,7 +120,6 @@ const EditProfile = ({ open, setOpen }) => {
         setOpen(false);
         alert("Profile pic updated successfully!");
         window.location.href="/profile"
-        
        
       })
       .catch((err) => {

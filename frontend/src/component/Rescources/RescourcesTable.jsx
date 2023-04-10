@@ -132,12 +132,15 @@ const RescourcesTable = (props) => {
       setFileName("");
       setLink(false);
       setShow(false);
-    } else {
+    } else if(file==="" || pdfFile==="" || pdfLink===""){
       // Error uploading PDF file
+      alert("Add files")
       console.log("error");
       setLoading(false);
     }
-
+    else{
+      setLoading(false);
+    }
   };
 
   const getList = async (skillName) => {
