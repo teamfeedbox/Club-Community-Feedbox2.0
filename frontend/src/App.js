@@ -24,8 +24,22 @@ import NavbarRes from "./component/navbar/NavbarRes";
 import Login from "./component/login/Login";
 
 const App = () => {
-  const role = JSON.parse(localStorage.getItem("user")).role;
+const [role, setRole] = useState()
+  const getUser = async () => {
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    console.log(result.role)
+    setRole(result.role);
 
+  };
+  
+useEffect(()=>{
+getUser()
+},[])
   return (
     <div className="App">
       <Router>
