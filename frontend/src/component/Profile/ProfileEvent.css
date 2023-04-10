@@ -68,6 +68,7 @@
 
 .profile-event-button:hover {
     background-color: rgb(242, 241, 241);
+    color: #000;
 }
 
 @media only screen and (max-width: 1000px) {

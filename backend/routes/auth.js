@@ -265,7 +265,7 @@ router.put('/update/coins/events/', async (req, res) => {
 
 // Update Interested events
 
-// ******************* Notification ***************************//
+// ******* Notification *********//
 // Add notification to a specific user
 
 // Update Interested events 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import TimeAgo from "javascript-time-ago";
 import en from 'javascript-time-ago/locale/en'
-import { GrFormPrevious,GrFormNext } from 'react-icons/gr';
+import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
 import "./RescourcesTable.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -33,6 +33,7 @@ const RescourcesTable = (props) => {
   const [pdfFile, setPdfFile] = useState();
   const [author, setAuthor] = useState();
   const [data, setData] = useState([]);
+  const [duplicateData, setDuplicateData] = useState([]);
   const [searched, setSearched] = useState("");
   const [searchval, setSearchVal] = useState("");
   const [enableSearch, setEnableSearch] = useState(false);
@@ -47,6 +48,7 @@ const RescourcesTable = (props) => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   let tableData = data && data.slice(startIndex, endIndex);
+  let searchData = searched && searched.slice(startIndex, endIndex);
 
   function goToPrev() {
     setCurrentPage((page) => page - 1);
@@ -58,48 +60,24 @@ const RescourcesTable = (props) => {
 
   const totalPages = Math.ceil(data && data.length / itemsPerPage);
 
-
-
   let id;
   useEffect(() => {
     getList(skillName);
-    // console.log(skillName)
+    getUser();
   }, [skillName]);
 
-  useEffect(() => {
-    getUser();
-  },[]);
-  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
-  // console.log(userId)
-
-  
-
-  
-
-  
-
   const getUser = async () => {
-    // console.log(id)
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     });
     result = await result.json();
-    // console.log(result);
     setImg(result.img)
     id = result._id;
     setRole(result.role);
-    // console.log(id)
     setUser(result);
-    // if (result) {
-    //   getUser();
-    // }
   };
-
-  // console.log(pdfLink);
-
-
 
   function handleChange(e) {
     console.log(e.target.files);
@@ -110,8 +88,6 @@ const RescourcesTable = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  // console.log(pdfFile)
-  // console.log(pdfLink)
   const AddResource = async (e) => {
     setLoading(true);
     e.preventDefault();
@@ -129,22 +105,25 @@ const RescourcesTable = (props) => {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      // mode: 'cors',
     });
-    // console.log(response)
-    if (response.ok) {
+    if (response) {
       // PDF file uploaded successfully
-      console.log("uploaded");
+      setLoading(false);
+      alert("File uploaded successfully");
+      setTitle("");
+      setFile("");
+      setPdfFile("");
+      setPdfLink("");
+      setShow(false);
     } else {
       // Error uploading PDF file
       console.log("error");
+      setLoading(false);
     }
-    setLoading(false);
+
   };
 
   const getList = async (skillName) => {
-    // console.log(skillName)
-    //  e.preventDefault();
     let result = await fetch(
       `http://localhost:8000/getAllResource/${skillName}`,
       {
@@ -154,9 +133,8 @@ const RescourcesTable = (props) => {
       }
     );
     result = await result.json();
-    // console.log(result)
-    // console.log(result[0].url)
     setData(result);
+    setDuplicateData(result)
     if (result) {
       getList(skillName);
     }
@@ -164,26 +142,21 @@ const RescourcesTable = (props) => {
 
   const searchHandler = (e) => {
     if (e.target.value == "") {
-      setEnableSearch(false);
+      setData(duplicateData);
     } else {
-      setEnableSearch(true);
+      let val = e.target.value;
+      setSearchVal(e.target.value);
+      let matched = [];
+      data &&
+        data.forEach((user) => {
+          console.log(user.title, val);
+          const value = user.title.toLowerCase().includes(val.toLowerCase());
+          if (value) {
+            matched.push(user);
+          }
+        });
+      setData(matched);
     }
-    let val = e.target.value;
-    setSearchVal(e.target.value);
-    let matched = [];
-    data &&
-      data.forEach((user) => {
-        console.log(user.title, val);
-        const value = user.title.toLowerCase().includes(val.toLowerCase());
-        if (value) {
-          matched.push(user);
-        }
-        // setSelected(matched);
-        // setCurrentPage(1);
-      });
-    console.log(matched);
-    setSearched(matched);
-    // setSelected(data);
   };
 
   return (
@@ -290,10 +263,10 @@ const RescourcesTable = (props) => {
 
                       {link ? (
                         <div className="add-res-add-link">
-                          <input type="text" placeholder="Enter Link" 
-                          value={pdfLink}
-                        onChange={(e) => setPdfLink(e.target.value)}
-                        name="pdfLink"
+                          <input type="text" placeholder="Enter Link"
+                            value={pdfLink}
+                            onChange={(e) => setPdfLink(e.target.value)}
+                            name="pdfLink"
 
 
                           />
@@ -322,7 +295,7 @@ const RescourcesTable = (props) => {
                             <span class="visually-hidden">Loading...</span>
                           </div>
                         ) : (
-                          <div onClick={handleClose}>Add</div>
+                          <div>Add</div>
                         )}
                       </button>
 
@@ -357,142 +330,83 @@ const RescourcesTable = (props) => {
 
                 <tbody class="text-sm divide-y divide-gray-100">
                   {
-                  tableData && tableData.length>0 ?
-                    tableData.map((item) => (
-                      <tr key={item._id}>
-                        <td class="p-2">
-                          <a
-                            href={(item && item.url) || (item && item.link)}
-                            target="_blank"
-                            className="text-black"
-                          >
-                            <FontAwesomeIcon
-                              icon={faFileInvoice}
-                              className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
-                            />
-                          </a>
-                        </td>
-                        <td class="p-2">
-                          <div class="font-[500] text-[1rem] text-black">
-                            {item && item.title}
-                          </div>
-                        </td>
-                        <td class="p-2">
-                          <div class="text-left text-blue-600 font-[500] text-[1rem]">
-                            {item && item.date && timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}
-                          </div>
-                        </td>
-                        <td class="p-2">
-                          <div class="text-left text-black font-[500] text-[1rem]">
-                            {item && item.author && item.author.name}
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                    :
-                   <tbody>
-                     <tr> 
-                      <td colspan="4">
-                        <div>No Resources Added yet !</div>
-                      </td>
-                    </tr>
-                   </tbody>
-                   }
-                </tbody>
-              </table>
-            )}
-
-            {enableSearch && (
-              <table class="table-auto w-full">
-                <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
-                  <tr>
-                    <th class="p-2">
-                      <div class="font-semibold text-left">Download</div>
-                    </th>
-                    <th class="p-2">
-                      <div class="font-semibold text-left">Resource Title</div>
-                    </th>
-                    <th class="p-2">
-                      <div class="font-semibold text-left">Date Created</div>
-                    </th>
-                    <th class="p-2">
-                      <div class="font-semibold text-left">Author</div>
-                    </th>
-                  </tr>
-                </thead>
-
-                <tbody class="text-sm divide-y divide-gray-100">
-                  {searched &&
-                    searched.map((item) => (
-                      <tr key={item._id}>
-                        <td class="p-2">
-                          <a
-                            href={item && item.url }
-                            target="_blank"
-                            className="text-black"
-                          >
-                            <FontAwesomeIcon
-                              icon={faFileInvoice}
-                              className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
-                            />
-                          </a>
-                        </td>
-                        <td class="p-2">
-                          <div class="font-[500] text-[1rem] text-gray-800">
-                            {item && item.title}
-                          </div>
-                        </td>
-                        <td class="p-2">
-                          <div class="text-left text-blue-600 font-[500] text-[1rem]">
-                            {item && item.date && timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}
-                          </div>
-                        </td>
-                        <td class="p-2">
-                          <div class="text-left text-black font-[500] text-[1rem]">
-                            {item && item.author && item.author.name}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                    tableData && tableData.length > 0 ?
+                      tableData.map((item) => (
+                        <tr key={item._id}>
+                          <td class="p-2">
+                            <a
+                              href={(item && item.url) || (item && item.link)}
+                              target="_blank"
+                              className="text-black"
+                            >
+                              <FontAwesomeIcon
+                                icon={faFileInvoice}
+                                className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
+                              />
+                            </a>
+                          </td>
+                          <td class="p-2">
+                            <div class="font-[500] text-[1rem] text-black">
+                              {item && item.title}
+                            </div>
+                          </td>
+                          <td class="p-2">
+                            <div class="text-left text-blue-600 font-[500] text-[1rem]">
+                              {item && item.date && timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}
+                            </div>
+                          </td>
+                          <td class="p-2">
+                            <div class="text-left text-black font-[500] text-[1rem]">
+                              {item && item.author && item.author.name}
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                      :
+                      <tbody>
+                        <tr>
+                          <td colspan="4">
+                            <div>No Resources Added yet !</div>
+                          </td>
+                        </tr>
+                      </tbody>
+                  }
                 </tbody>
               </table>
             )}
           </div>
           <div className="res-navigation">
             <div>
-            {/* Viewing&nbsp;<span>{data&&data.length>0 ?`${currentPage}` :"0"}</span>-<span>{data&&data.length>0 ?`${itemsPerPage}` :"0"}</span>&nbsp; of &nbsp;
-            <span>{data&&data.length>0 ?`${totalPages}` :"0"}</span>
-            &nbsp;page */}
-
             </div>
             {
-              tableData.length >0 ? 
-              <nav className="d-flex">
-                <ul className="res-paginate">
-                  <button
-                    onClick={goToPrev}
-                    className="prev"
-                    disabled={currentPage === 1}
-                  >
-                   <GrFormPrevious size="25"/>
-                  </button>
-                  <p className="nums">
-                    {tableData && tableData.length > 0 
-                      ? `${currentPage}/${totalPages}`
-                     : "0/0" }
-                  </p>
-                  <button
-                    onClick={goToNext}
-                    className="prev"
-                    disabled={currentPage >= totalPages}
-                  >
-                    <GrFormNext size="25"/>
-                  </button>
-                </ul>
-              </nav>
-              : ""
+              (tableData && tableData.length > 0) ?
+                <nav className="d-flex">
+                  <ul className="res-paginate">
+                    <button
+                      onClick={goToPrev}
+                      className="prev"
+                      disabled={currentPage === 1}
+                    >
+                      <GrFormPrevious size="25" />
+                    </button>
+                    <p className="nums">
+                      {tableData && tableData.length > 0
+                        ? `${currentPage}/${totalPages}`
+                        : "0/0"}
+
+                    </p>
+                    <button
+                      onClick={goToNext}
+                      className="prev"
+                      disabled={currentPage >= totalPages}
+                    >
+                      <GrFormNext size="25" />
+                    </button>
+                  </ul>
+                </nav>
+                : ""
             }
-            
+
           </div>
         </div>
       </div>

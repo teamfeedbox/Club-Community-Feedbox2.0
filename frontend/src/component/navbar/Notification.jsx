@@ -6,15 +6,14 @@ import "./Notification.css";
 const Notification = (props) => {
 
   const [notification, setNotification] = useState()
-  const [currentUser, setcurrentUser] = useState()
+  const [currentUserId, setcurrentUserId] = useState()
 
   const handleClose = (e) => {
     e.preventDefault();
     props.props.handleCross(true);
   };
 
-  // const user = localStorage.getItem("user")
-  // setcurrentUser(user)
+
 
   const getData = async () => {
     let notifi = await fetch(`http://localhost:8000/getNotifications`, {
@@ -24,12 +23,15 @@ const Notification = (props) => {
     });
     notifi = await notifi.json();
     setNotification(notifi)
-    // console.log(notifiaction);
+    // console.log(notification);
   }
   useEffect(() => {
     getData()
-    // console.log(notification)
-    // console.log(currentUser.id)
+
+    let user = localStorage.getItem('user')
+    user = JSON.parse(user)
+    // console.log(user.id)
+    setcurrentUserId(user.id)
   }, [])
   return (
     <div className="absolute top-[110%] right-5 bg-white rounded py-2 px-2.5 w-[23%] shadow max-h-[500px]  ">
@@ -53,25 +55,35 @@ const Notification = (props) => {
 
         {notification && notification.map((data) => {
           return (
-            data.messageScope === "public" ?
+            (data.messageScope === "public" ?
               (<div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
                 <div className="bg-blue-800 p-1 w-[5px]  text-blue-800"></div>
                 <div className="p-1">
-                  Alert: Join {data.message} on {data.date} at {data.venue}
+                  Alert: Join {data.message} on {data.date} {data.time} at {data.venue}
 
                 </div>
               </div>)
-
               :
-              (<div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
-                <div className="bg-blue-800 p-1 w-[5px]  text-blue-800"></div>
-                <div className="p-1">
-                  {data.message}
-
+              ((data.messageScope === "private" && currentUserId === data.userId) ?
+                <div key={data.message} className="flex bg-green-200 mt-2 rounded-sm">
+                  <div className="bg-green-800 p-1 w-[5px]  text-green-800"></div>
+                  <div className="p-1">
+                    {data.message}
+                  </div>
                 </div>
-              </div>)
+                :
+                ((data.message === "Congrats! +10 coins added." && currentUserId === data.userId) &&
+                  <div key={data.message} className="flex bg-red-200 mt-2 rounded-sm">
+                    <div className="bg-red-800 p-1 w-[5px]  text-red-800"></div>
+                    <div className="p-1">
+                      {data.message}
+                    </div>
+                  </div>)
+              )
+            )
           )
-        })}
+        }
+        )}
       </div>
     </div>
   );

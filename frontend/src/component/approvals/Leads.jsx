@@ -81,13 +81,14 @@ const Leads = (props) => {
 
   // submit handler for making club member as lead
   const submitHandler = async () => {
+    setLoading(true);
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ role: 'Admin', position: position })
     })
     const res = await data.json();
-    console.log(res)
+    console.log(res);
 
     // Generate Notification
     var date=new Date();
@@ -112,11 +113,10 @@ const Leads = (props) => {
       }
 
     );
-
     console.log(notifi);
     setConfirm(false);
-    setShow(false)
-    setLoading(true)
+    setShow(false);
+    setLoading(false);
   }
 
   const handleDeleteAdmin = async () => {
@@ -151,7 +151,7 @@ const Leads = (props) => {
       </div>
 
       <div className="lg:border">
-        <Scrollbars style={{ height: "230px" }}>
+        <Scrollbars style={{ height: "250px" }}>
           <table class="table-auto w-full max-w-[1300px]">
             <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
               {lead.length > 0 ?
@@ -160,28 +160,28 @@ const Leads = (props) => {
                     <td class="p-2 w-[120px]  lg:w-[300px]">
                       <div className="flex items-center">
                         <img
-                          class="rounded-full"
+                          class="rounded-full w-[40px] h-[40px] object-center"
                           src={member.img}
                           width="40"
                           height="40"
                           alt="Alex Shatov"
                         />
 
-                        <div className="ml-2 text-[1rem] font-[400]"> {member.name} </div>
+                        <div className="ml-2  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[400]"> {member.name} </div>
                       </div>
                     </td>
                     <td class="p-2 lg:flex items-center hidden md:block  w-[10%]">
-                      <div class="font-medium text-gray-800 text-[1rem] font-[400]">
+                      <div class=" text-gray-800 text-[1rem] font-[400]">
                         {member.position}
                       </div>
                     </td>
-                    {/* { role === 'Admin' || role === 'Super_Admin' ? */}
+                    { role === 'Admin' || role === 'Super_Admin' ?
                     <td class="pt-2 pb-2 flex  justify-end ">
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                         <button
                           onClick={()=>{setId(member._id); handleShow()}}
 
-                          className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] text-[1.05rem] font-[500] hover:bg-[#03821f]"
+                          className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[500] hover:bg-[#03821f]"
                         >
                           <FontAwesomeIcon icon={faUser} className="mr-2" />
                           Make Admin
@@ -245,12 +245,13 @@ const Leads = (props) => {
                         </form>
                       </Modal>
                     </td>
-                    {/* : ''} */}
+                     : ''}
                     <td className=" my-auto " style={{marginRight:"10px"}}>
                       <div className="">
                       <button
                           onClick={()=>{setId(member._id); handleShow()}}
-                          className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000] text-[1.05rem] font-[500] hover:bg-[#bf1004]"
+
+                          className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000]  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[500] hover:bg-[#bf1004]"
                         >Delete</button>
                       </div>
                     </td>
@@ -260,7 +261,6 @@ const Leads = (props) => {
                 <div className="text-[1rem] font-[400]">No Lead Members !!</div>
                 </div>
                 }
-
             </tbody>
           </table>
         </Scrollbars>

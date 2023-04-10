@@ -229,9 +229,9 @@ export default function ReactBigCalendar() {
         message: title,
         messageScope: scope,
         date: eventDate,
-        userId: id,
-        venue: venue,
-
+        userId:id,
+        venue:venue,
+        time:eventTime,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -265,7 +265,7 @@ export default function ReactBigCalendar() {
 
   // Handle selection of clg
   const handleCollege = (e) => {
-    setPreEventModel(false)
+    setPreEventModel(false);
     setSelectedEvent("");
     setClgSelected(e.target.value);
   };
@@ -290,7 +290,8 @@ export default function ReactBigCalendar() {
             </div> : ''}
 
           {/* -----------Button to add event in calendar------------------*/}
-          {role !== "Club_Member" && <div
+          { role && role !== 'Club_Member' ?
+            <div
             className="Calendar-add"
             onClick={() => {
               setAddEventModel(true); setPreEventModel(false)
@@ -303,21 +304,21 @@ export default function ReactBigCalendar() {
                 icon={faCirclePlus}
               />
             </div>
-          </div>}
+          </div>: ''}
 
           {/* ------------Already created------------------------*/}
           <div className="Calendar-view">
             {preEventModel ? (
               <div
                 className="Calendar-view-title"
-                style={{ borderRadius: "30px 30px 0px 0px" }}
+                style={{ borderRadius: "20px 20px 0px 0px" }}
               >
                 Events Preview
               </div>
             ) : (
               <div
                 className="Calendar-view-title"
-                style={{ borderRadius: "30px" }}
+                style={{ borderRadius: "20px" }}
               >
                 Events Preview
               </div>
@@ -555,11 +556,21 @@ export default function ReactBigCalendar() {
                       icon={faFlag}
                     />
                     <select
-                      name="type"
+                      // name="type"
+                      required
+                      value={scope}
                       onChange={(e) => setScope(e.target.value)}
+                     
                     >
-                      <option selected disabled hidden>
+                      <option
+                      value=""
+                       selected
+                       disabled 
+                      //  hidden
+                      
+                      >
                         Select Community
+                        
                       </option>
                       <option value="public">Public</option>
                       <option value="community">Community</option>

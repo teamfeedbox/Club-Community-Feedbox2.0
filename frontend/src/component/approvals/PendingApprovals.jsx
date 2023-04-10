@@ -1,4 +1,4 @@
-import { faSearch} from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import "./PendingApprovals.css";
@@ -10,10 +10,11 @@ const PendingApprovals = (props) => {
   const [pendingUsers, setPendingUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [val, setVal] = useState(false);
-  const [id, setId] = useState("");
+  const [id, setId] = useState();
+  const [did, setDid] = useState();
   const [load, setload] = useState(false);
 
-  console.log(props,"props");
+  console.log(props, "props");
 
   const getUser = async () => {
     const result = await fetch(`http://localhost:8000/get`);
@@ -25,23 +26,24 @@ const PendingApprovals = (props) => {
           user.push(data);
         }
       });
+    user = user.reverse();
     let clgSel = [];
     if (props.clg) {
       if (props.clg == "All") {
-        setPendingUsers(user.reverse());
-        setData(user.reverse());
+        setPendingUsers(user);
+        setData(user);
       } else {
         user.map(data => {
           if (data.collegeName === props.clg) {
             clgSel.push(data)
           }
         })
-        setPendingUsers(clgSel.reverse());
-        setData(clgSel.reverse());
+        setPendingUsers(clgSel);
+        setData(clgSel);
       }
     } else {
-      setPendingUsers(user.reverse());
-      setData(user.reverse());
+      setPendingUsers(user);
+      setData(user);
     }
   };
 
@@ -70,8 +72,9 @@ const PendingApprovals = (props) => {
   };
 
   // Decline request for club member
-  const handleDecline = async (id) => {
+  const handleDecline = async (id, i) => {
     setLoading(true);
+    setDid(i)
     const data = await fetch(`http://localhost:8000/user/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -93,6 +96,7 @@ const PendingApprovals = (props) => {
   // Accept request for club member
   const handleAccept = async (id, i) => {
     setLoading(true)
+    setId(i)
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -132,7 +136,7 @@ const PendingApprovals = (props) => {
         </div>
       </div>
       <div className="lg:border">
-        <Scrollbars style={{ height: "230px" }}>
+        <Scrollbars style={{ height: "250px" }}>
           <table class="table-auto w-full max-w-[1300px] ">
             <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
               {pendingUsers.length > 0 ? (
@@ -141,7 +145,7 @@ const PendingApprovals = (props) => {
                     <td class="p-2  lg:w-[300px]">
                       <div className="flex items-center">
                         <img
-                          class="rounded-full"
+                          class="rounded-full w-[40px] h-[40px] object-center"
                           src={approval.img}
                           width="40"
                           height="40"
@@ -158,8 +162,8 @@ const PendingApprovals = (props) => {
                     <td class="pt-2 pb-2 flex justify-end">
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                         <button
-                          className="h-[30px] rounded-xl text-[#616161] text-[1.05rem] font-[500] hover:bg-gray-300 mr-2"
-                          onClick={() => handleDecline(approval._id)}
+                          className="h-[30px] rounded-xl text-[#616161] text-[1.05rem] font-[500] hover:bg-gray-300 mr-2 w-[80px]"
+                          onClick={() => handleDecline(approval._id, index)}
                         >
                           Decline
                         </button>
@@ -173,10 +177,7 @@ const PendingApprovals = (props) => {
                               <span class="visually-hidden">Loading...</span>
                             </div>
                           ) : (
-                            <div
-                            //  style={{marginTop:"-10px"}}
-                              onClick={() => handleAccept(approval._id, index)}
-                            >
+                            <div onClick={() => handleAccept(approval._id, index)}>
                               Accept
                             </div>
                           )}

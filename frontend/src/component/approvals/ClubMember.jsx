@@ -10,6 +10,7 @@ const ClubMember = ({ props }) => {
   const [searchval, setSearchVal] = useState("");
   const [clubMember, setClubMember] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [data, setData] = useState([]);
@@ -17,7 +18,6 @@ const ClubMember = ({ props }) => {
   const [id, setId] = useState("");
   const [value, setValue] = useState("");
   const [name, setName] = useState("");
-
   const handleClose = () => {
     setShow(false);
     setConfirm(false);
@@ -59,8 +59,8 @@ const ClubMember = ({ props }) => {
 
   useEffect(() => {
     getUser();
-    setLoading(false);
-  }, [props, loading]);
+    setLoad(false);
+  }, [props, load]);
 
   // search user
   const searchHandler = (e) => {
@@ -84,6 +84,7 @@ const ClubMember = ({ props }) => {
   // submit handler for making club member as lead
   const submitHandler = async () => {
     if (value && position) {
+      setLoading(true);
       let val;
       if (value === "Admin") {
         val = {
@@ -107,7 +108,10 @@ const ClubMember = ({ props }) => {
       setShow(false);
       setPosition("");
       setValue("");
-      setLoading(true);
+      setId("");
+      setName("");
+      setLoading(false);
+      setLoad(true)
     } else {
       alert("Please input Position and role...")
     }
@@ -128,12 +132,6 @@ const ClubMember = ({ props }) => {
     }).then((res) => {
       // alert(res.json)
     });
-    // Generate Notification
-
-    setConfirm(false);
-    setShow(false);
-    setLoading(false);
-
   };
 
   return (
@@ -157,7 +155,7 @@ const ClubMember = ({ props }) => {
       </div>
       {/* table  */}
       <div className="lg:border">
-        <Scrollbars style={{ height: "230px" }}>
+        <Scrollbars style={{ height: "250px" }}>
           <table class="table-auto w-full max-w-[1300px]">
             <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
               {clubMember.length > 0
@@ -166,7 +164,7 @@ const ClubMember = ({ props }) => {
                     <td class="p-2 w-[200px] lg:w-[300px]">
                       <div className="flex items-center">
                         <img
-                          class="rounded-full"
+                          class="rounded-full w-[40px] h-[40px] object-center"
                           src={member.img}
                           width="40"
                           height="40"
@@ -177,7 +175,7 @@ const ClubMember = ({ props }) => {
                       </div>
                     </td>
                     <td class="p-2 lg:flex items-center hidden md:block">
-                      <div class="font-medium text-gray-800 text-[1rem] font-[400]">
+                      <div class=" text-gray-800 text-[1rem] font-[400]">
                         {member.branch}
                       </div>
                     </td>
@@ -198,7 +196,7 @@ const ClubMember = ({ props }) => {
                             </div>
                           ) : (
                             <div
-                              className="text-[1.05rem] font-[500]"
+                              className=" text-[.5rem] md:text-[1rem]  lg:text-[1.05rem] font-[500]"
                               onClick={() => {
                                 setId(member._id);
                                 setName(member.name)
@@ -236,8 +234,11 @@ const ClubMember = ({ props }) => {
                                   <select
                                     // value={value}
                                     name="val"
-                                    onChange={(e) => setValue(e.target.value)}
-                                    className="p-2 border-2 font-semibold text-[#3174AD] text-[1rem] font-[400] border-[#3174AD] rounded-3xl w-[110%]">
+                                    onChange={(e) => {
+                                      setValue(e.target.value)
+                                    }
+                                    }
+                                    className="p-2 border-2  text-[#3174AD] text-[1rem] font-[400] border-[#3174AD] rounded-3xl w-[110%]">
                                     <option value="Select Role" hidden selected disabled >
                                       Select Role
                                     </option>
@@ -260,6 +261,7 @@ const ClubMember = ({ props }) => {
                                   e.preventDefault();
                                   setShow(false);
                                   setConfirm(false);
+                                  setValue(""); setPosition("");
                                 }}
                               >
                                 No
