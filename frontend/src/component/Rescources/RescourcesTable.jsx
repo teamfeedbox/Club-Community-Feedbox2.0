@@ -364,10 +364,15 @@ const RescourcesTable = (props) => {
                             target="_blank"
                             className="text-black"
                           >
-                            <FontAwesomeIcon
+                            {item.url ? <FontAwesomeIcon
                               icon={faFileInvoice}
                               className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
+                            /> : 
+                            <FontAwesomeIcon
+                              icon={faChain}
+                              className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
                             />
+                            }
                           </a>
                         </td>
                         <td class="p-2">
