@@ -97,13 +97,18 @@ const EditProfile = ({ open, setOpen }) => {
 
     setLoading(false);
     setOpen(false);
+  window.location.reload();
     
     // console.log(result)
   };
 
-  // update(data);
-  const uploadPic = () => {
-    setLoading(true);
+
+
+ 
+
+
+// update(data);
+  const uploadPic  = ()=>{
     const data = new FormData();
     data.append("file", imgg);
     data.append("upload_preset", "feedbox-community-web");

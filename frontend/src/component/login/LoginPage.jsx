@@ -56,7 +56,7 @@ const LoginPage = () => {
     <div className="login-page">
       <div className="login-main-page">
         <p>Sign In</p>
-        <form onSubmit={handleLogin}>
+   
           <div class="input-group mb-3">
             <input
               type="text"
@@ -71,7 +71,7 @@ const LoginPage = () => {
               <FontAwesomeIcon icon={faAt} className='fa-regular' />
                 
               </span>
-            </div>
+            </div>  
           </div>
 
           <div class="input-group mb-3">
@@ -105,15 +105,15 @@ const LoginPage = () => {
             className="login-input-below-btn"
             type="submit"
             onClick={handleLogin}>
-            Sign in
+            Sign In
           </button>
-        </form>
-        {/* <button
+       
+        <button
           className="joinnow-login-button"
           onClick={() => navigate("/register")}
         >
           New to Community? Join now
-        </button> */}
+        </button> 
       </div>
       <div className="login-image">
         <img src="Images/l2.jpeg" alt="" />
