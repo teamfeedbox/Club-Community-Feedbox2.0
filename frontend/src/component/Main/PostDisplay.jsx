@@ -201,7 +201,7 @@ useEffect(()=>{
   return (
     <div>
       {!loading ?
-        <div>
+        <div className="mb-[120px]">
           {data.length>0 ? data.map((item, index) => (
             <div key={item._id} className="post-display1">
               <div className="post-display-head">
