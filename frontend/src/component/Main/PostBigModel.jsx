@@ -10,7 +10,9 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-// import "./PostBigModel.css";
+
+// Css PostBigModel.css (in profile folder)
+import "../Profile/ProfileBigModel.css";
 // Bootstrap
 import Modal from "react-bootstrap/Modal";
 import TimeAgo from "javascript-time-ago";
@@ -31,6 +33,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   const [postData, setPostData] = useState();
   const [commentId, setCommentId] = useState("");
   const [postedById, setPostedById] = useState("");
+  const [replyById, setReplyById] = useState("");
 
   const [message, setMessage] = useState("");
 
@@ -107,8 +110,25 @@ function PostBigModel({ openComment, setOpenComment, id }) {
     result = await result.json();
     // console.log(result)
     setUser(result);
-    // console.log(result.postedBy)
-    setPostedById(result.postedBy._id)
+
+    result.comment.map((item)=>
+    {
+      setPostedById( item.postedBy._id);
+      item.reply.map((data)=>
+      {
+        // console.log(data.postedBy && data.postedBy._id)
+        setReplyById(data.postedBy && data.postedBy._id)
+      }
+      
+      )
+    }
+   
+    )
+
+    // result.comment.reply.map((item)=>
+    // setReplyById( item.postedBy._id)
+    // )
+    // setPostedById(result.postedBy._id)
     // if(result._id===id){
     //   getPost()
     // }
@@ -232,7 +252,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify({id,commentId,postedById}),
+      body: JSON.stringify({id,commentId,replyById}),
     });
 
     result = await result.json();
@@ -320,7 +340,9 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
           <div className="Post-Big-Model1">
             {/* Left side */}
-            <div className="post-display2" style={{maxHeight:"600px"}}>
+            <div className="post-display2" 
+            // style={{maxHeight:"600px"}}
+            >
               <div className="post-display-center1">
                 <div className="post-display-image "></div>
 
@@ -399,11 +421,12 @@ function PostBigModel({ openComment, setOpenComment, id }) {
               <div className="Post-Big-Comment">
                 
                 {
-                  user && user.comment.length==0?(<div style={{textAlign:"center",
+                  user && user.comment.length==0?(
+                  <div style={{textAlign:"center",
                   fontSize:"1.1rem",fontWeight:'600'
                   
                 }}>No comment</div>):(
-                    <Scrollbars className="Scrollbar-height">
+                    <Scrollbars className="Scrollbar-height" style={{height:"102%",position:"relative"}} >
                   {/* Comment 1 */}
                   {user &&
                     user.comment.map((item) => (

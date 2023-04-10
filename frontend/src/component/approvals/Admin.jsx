@@ -14,7 +14,8 @@ const Admin = (props) => {
   const [delshow, setDelShow] = useState(false);
   const [loading, setLoading] = useState(false)
 
-  console.log(props);
+  const role = JSON.parse(localStorage.getItem("user")).role
+  const currentCollege = JSON.parse(localStorage.getItem("user")).college;
 
   const handleDelClose = () => {
     setDelShow(false);
@@ -29,23 +30,35 @@ const Admin = (props) => {
         admin.push(data)
       }
     })
-    let clgSel = [];
-    if (props.clg) {
-      if (props.clg == "All") {
-        setAdmin(admin.reverse());
-        setData(admin.reverse());
+    admin = admin.reverse();
+    if (role === "Super_Admin") {
+      let clgSel = [];
+      if (props.clg) {
+        if (props.clg == "All") {
+          setAdmin(admin);
+          setData(admin);
+        } else {
+          admin.map(data => {
+            if (data.collegeName === props.clg) {
+              clgSel.push(data)
+            }
+          })
+          setAdmin(clgSel);
+          setData(clgSel);
+        }
       } else {
-        admin.map(data => {
-          if (data.collegeName === props.clg) {
-            clgSel.push(data)
-          }
-        })
-        setAdmin(clgSel.reverse());
-      setData(clgSel.reverse());
+        setAdmin(admin);
+        setData(admin);
       }
     } else {
-      setAdmin(admin.reverse());
-      setData(admin.reverse());
+      let clg=[];
+      admin.map(data => {
+        if (data.collegeName === currentCollege) {
+          clg.push(data)
+        }
+      })
+      setAdmin(clg);
+      setData(clg);
     }
   };
 
@@ -123,17 +136,17 @@ const Admin = (props) => {
                           alt="Alex Shatov"
                         />
 
-                          <div className="ml-2 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[400]"> {member.name} </div>
-                        </div>
-                      </td>
-                      <td class="p-2 w-[170px] lg:w-[400px]  items-center mr-8 ">
-                        <div class=" text-gray-800  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[400]">
-                          {member.position}
-                        </div>
-                      </td>
-                      <td className=" w-[100px] my-auto">
-                      <div className="text-red-500" onClick={()=>{setDelShow(true); setId(member._id)}}>
-                      <button className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000]  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[500] hover:bg-[#bf1004]"
+                        <div className="ml-2 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[400]"> {member.name} </div>
+                      </div>
+                    </td>
+                    <td class="p-2 w-[170px] lg:w-[400px]  items-center mr-8 ">
+                      <div class=" text-gray-800  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[400]">
+                        {member.position}
+                      </div>
+                    </td>
+                    <td className=" w-[100px] my-auto">
+                      <div className="text-red-500" onClick={() => { setDelShow(true); setId(member._id) }}>
+                        <button className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000]  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[500] hover:bg-[#bf1004]"
                         >Delete</button>
                       </div>
                       <Modal show={delshow} onHide={handleDelClose} className="club-member-modal" >
@@ -156,7 +169,11 @@ const Admin = (props) => {
                       </Modal>
                     </td>
                   </tr>
-                )) : 'No Admins...'}
+                )) : 
+                <div className="nopending">
+                <div className="text-[1rem] font-[400]">No Admin !</div>
+                </div>
+                }
             </tbody>
           </table>
         </Scrollbars>

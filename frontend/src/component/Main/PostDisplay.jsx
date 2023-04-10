@@ -29,7 +29,7 @@ const PostDisplay = (props) => {
   const [tempComment, setTempComment] = useState('');
   const [tempReply, setTempReply] = useState('');
   // To open the Comment Model
-  const [openComment, setOpenComment] = useState(true);
+  const [openComment, setOpenComment] = useState(false);
   const [reply, setReply] = useState('');
   const [comment, setComments] = useState([" How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q",
     "How many times were you frustrated while looking out for a good collection of programming/algorithm /interview questions? What did you expect and what did you get? This portal has been created to",
@@ -201,7 +201,7 @@ useEffect(()=>{
   return (
     <div>
       {!loading ?
-        <div>
+        <div className="mb-[120px]">
           {data.length>0 ? data.map((item, index) => (
             <div key={item._id} className="post-display1">
               <div className="post-display-head">
@@ -258,8 +258,8 @@ useEffect(()=>{
                   </div>
                 </div>
                 {/* *********************carousel for web view*************************** */}
-                <div className="post-display-image flex justify-center">
-                  <div className="post-display-carousel-webview flex justify-center">
+                <div className="post-display-image flex justify-center h-[650px] carousel-web-view">
+                  <div className="post-display-carousel-webview flex justify-center h-[100%] m-0 p-0">
                     <Carousel
                       thumbWidth={60}
                       width={450}
