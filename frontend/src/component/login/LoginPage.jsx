@@ -23,6 +23,7 @@ const LoginPage = () => {
       },
     });
     result = await result.json();
+    console.log(result)
 
     if(result.token){
       navigate('/main')   
