@@ -219,26 +219,28 @@ function Overview(prop) {
             </h5>
             <section className='Enrolled-Section'>
               {
-                data &&
-                data.interestedEvents.map((date) => (
-                  <div className='Sessions-Section'>
+                data && data.length > 0 ?
+                data && data.interestedEvents.map((date) => (
+                  <Link to='/calendar' state={{eventId:date._id}} className='Sessions-Section'>
                     <div style={{ color: "#848283" }}>{(new Date(date.eventDate)).toString().split(" ")[0]}</div>
                     <div style={{ color: "#010001" }}>{(new Date(date.eventDate)).toString().split(" ")[2]} {(new Date(date.eventDate)).toString().split(" ")[1]}</div>
                     <div style={{ color: "#ff5a5f" }}>ONLINE</div>
-                  </div>
-                ))
+                  </Link>
+                ))  : <div className='text-[1rem] font-[500] flex my-auto mx-2 text-center'> You have not enrolled for any event yet! </div> 
               }
               <div className='Add-Event-Cont'>
-                <Link to="/calendar" className='Add-Event1' >
-                  <FontAwesomeIcon className="fa-lg" icon={faAdd} />
+                <Link to="/calendar">
+                  <div className='Add-Event1' >
+                    <FontAwesomeIcon className="fa-lg" icon={faAdd} />
+                  </div>
                 </Link>
               </div>
             </section>
           </div>
           <div>
           </div>
-        </div>
-      </div>
+        </div >
+      </div >
 
     </>
   )

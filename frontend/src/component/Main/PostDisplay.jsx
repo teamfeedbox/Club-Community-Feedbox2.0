@@ -204,7 +204,7 @@ const PostDisplay = (props) => {
   return (
     <div>
       {!loading ?
-        <div>
+        <div className="mb-[120px]">
           {data.length>0 ? data.map((item, index) => (
             <div key={item._id} className="post-display1">
               <div className="post-display-head">
@@ -313,6 +313,7 @@ const PostDisplay = (props) => {
                 <button onClick={() => {
                   setOpenComment(!openComment)
                   setId(item._id)
+                  localStorage.setItem("postId",JSON.stringify(item._id))
                 }} className="post-display-bottom-content">
                   <FontAwesomeIcon
                       style={{ fontSize: "22.5px",cursor:"pointer",marginTop:"1px"}}

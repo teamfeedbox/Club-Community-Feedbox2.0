@@ -3,18 +3,12 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
-
 .attendance {
     padding-top: 75px;
     display: flex;
-    
-
-
 }
 
 .attendance-right {
-    /* border: 2px solid black; */
     width: 80%;
     margin: 70px auto;
     padding-top: 20px;
@@ -74,6 +68,13 @@ input::-webkit-inner-spin-button {
         margin-top: 10px;
 
     }
+    .attendence-title{
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content:space-between;
+    }
+   
 }
 
 @media only screen and (min-width: 480px) and (max-width:950px) {
@@ -81,5 +82,8 @@ input::-webkit-inner-spin-button {
         display: flex;
         flex-direction: column;
         padding-top: 5px;
+    }
+    .res-table-search{
+        margin: 0 0 0 0;
     }
 }

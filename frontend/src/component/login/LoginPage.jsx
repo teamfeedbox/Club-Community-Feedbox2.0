@@ -113,7 +113,7 @@ const LoginPage = () => {
           onClick={() => navigate("/register")}
         >
           New to Community? Join now
-        </button>
+        </button> 
       </div>
       <div className="login-image">
         <img src="Images/l2.jpeg" alt="" />
