@@ -52,10 +52,10 @@ router.post('/addNotifications' , (req,res)=>{
 })
 
 // get all notifications
-router.get('/getNotifications', (req, res) => {
+router.get('/getNotifications', async(req, res) => {
     try {
-        var mySort = { message: 1 };
-        Notification.find({})
+        var mySort = { message: -1 };
+        await Notification.find({})
         .sort(mySort)
         
             .then(events => {

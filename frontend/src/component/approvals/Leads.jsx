@@ -38,7 +38,7 @@ const Leads = (props) => {
     })
     let clgSel = [];
     if (props.clg) {
-      if (props.clg == "All") {
+      if (props.clg === "All") {
         setLead(lead.reverse());
         setData(lead.reverse());
       } else {

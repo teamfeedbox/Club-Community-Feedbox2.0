@@ -248,6 +248,8 @@ export default function ReactBigCalendar() {
 
     // notification = await notification.json();
     // console.log(notification)
+
+    window.location.reload()
   };
 
   // handle event on select from react big calender
