@@ -17,6 +17,7 @@ router.get("/get", async (req, res) => {
   }
 });
 
+// Register a user
 router.post("/register", (req, res) => {
   const {
     name,
@@ -31,8 +32,6 @@ router.post("/register", (req, res) => {
     collegeYear,
     bio,
     uniqueId,
-    img,
-    events
   } = req.body;
   if (!email || !password || !name) {
     return res.status(422).json({ error: "please add all the fields" });
@@ -48,7 +47,6 @@ router.post("/register", (req, res) => {
         const user = new User({
           email,
           password: hashedPassword,
-          // password,
           name,
           collegeName,
           branch,
@@ -61,19 +59,9 @@ router.post("/register", (req, res) => {
           bio,
           img,
           events,
-
         });
-
-        user
-          .save()
+        user.save()
           .then((user) => {
-            // transporter.sendMail({
-            //     to:user.email,
-            //     from:"no-reply@insta.com",
-            //     subject:"signup success",
-            //     html:"<h1>welcome to instagram</h1>"
-            // })
-            // res.json({message:"saved successfully"})
             res.send(user);
           })
           .catch((err) => {
@@ -86,6 +74,7 @@ router.post("/register", (req, res) => {
     });
 });
 
+// Login a user
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -99,10 +88,7 @@ router.post("/login", (req, res) => {
       .compare(password, savedUser.password)
       .then((doMatch) => {
         if (doMatch) {
-          // res.json({message:"successfully signed in"})
           const token = jwt.sign({ _id: savedUser._id }, jwtKey);
-          // const decodedToken = jwt.decode(token);
-
           res.json({ token });
         } else {
           return res.status(422).json({ error: "invalid password" });
