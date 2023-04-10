@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import TimeAgo from "javascript-time-ago";
-import en from 'javascript-time-ago/locale/en'
-import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
+import en from "javascript-time-ago/locale/en";
+import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import "./RescourcesTable.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -49,6 +49,7 @@ const RescourcesTable = (props) => {
   const itemsPerPage = 3;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
+
   let tableData = data && data.slice(startIndex, endIndex);
   let searchData = searched && searched.slice(startIndex, endIndex);
 
@@ -77,13 +78,14 @@ const RescourcesTable = (props) => {
       },
     });
     result = await result.json();
-    setImg(result.img)
+    setImg(result.img);
     id = result._id;
     setRole(result.role);
     setUser(result);
   };
 
   function handleChange(e) {
+    setLink(false);
     console.log(e.target.files);
     setFile(URL.createObjectURL(e.target.files[0]));
     setPdfFile(e.target.files[0]);
@@ -99,7 +101,7 @@ const RescourcesTable = (props) => {
     setFileName("");
     setLink(false);
     setShow(false);
-  }
+  };
   const handleShow = () => setShow(true);
 
   const AddResource = async (e) => {
@@ -131,12 +133,12 @@ const RescourcesTable = (props) => {
       setFileName("");
       setLink(false);
       setShow(false);
+      window.location.href='/rescourcesDisplay';
     } else {
       // Error uploading PDF file
       console.log("error");
       setLoading(false);
     }
-
   };
 
   const getList = async (skillName) => {
@@ -151,12 +153,12 @@ const RescourcesTable = (props) => {
     );
     result = await result.json();
     setData(result);
-    setDuplicateData(result)
+    setDuplicateData(result);
   };
 
   const searchHandler = (e) => {
     let val = e.target.value;
-    setSearchVal(e.target.value)
+    setSearchVal(e.target.value);
     if (e.target.value !== "") {
       let matched = [];
       duplicateData.length > 0 &&
@@ -166,9 +168,9 @@ const RescourcesTable = (props) => {
             matched.push(user);
           }
         });
-      setData(matched)
+      setData(matched);
     } else {
-      setData(duplicateData)
+      setData(duplicateData);
     }
   };
 
@@ -217,7 +219,10 @@ const RescourcesTable = (props) => {
               >
                 <form onSubmit={AddResource} encType="multipart/form-data">
                   <Modal.Header closeButton>
-                    <Modal.Title> <div className="res_modal_header">Add Resource</div> </Modal.Title>
+                    <Modal.Title>
+                      {" "}
+                      <div className="res_modal_header">Add Resource</div>{" "}
+                    </Modal.Title>
                   </Modal.Header>
                   <Modal.Body className="modal-body">
                     <div className="modal-profile-section">
@@ -268,41 +273,43 @@ const RescourcesTable = (props) => {
                       <div
                         className="modal-footer-link"
                         onClick={() => {
-                          setLink(!link);
+                          setLink(true);
+                          setMyPdf(false);
                         }}
                       >
                         <FontAwesomeIcon icon={faChain} className="fa-xl" />
                       </div>
 
-                      {link ? (
+                      {link && !mypdf ? (
                         <div className="add-res-add-link">
-
-                          <input type="text" placeholder="Enter Link"
+                          <input
+                            type="text"
+                            placeholder="Enter Link"
                             value={pdfLink}
                             onChange={(e) => setPdfLink(e.target.value)}
                             name="pdfLink"
-
                           />
                         </div>
                       ) : (
                         ""
                       )}
 
-                      {
-                        mypdf ? (
-                          <div className="w-fit text-[.8rem] mt-2">{filename}</div>
-                        ) :
-                          (
-                            ""
-                          )
-                      }
+                      {mypdf && !link ? (
+                        <div className="w-fit text-[.8rem] mt-2">
+                          {filename}
+                        </div>
+                      ) : (
+                        ""
+                      )}
                     </div>
 
                     <div>
-                      <button
+
+                      <Button
                         className="btn btn-primary"
                         type="submit"
                         variant="primary"
+                        disabled = {title && (file || pdfLink) ? false : true}
                       >
                         {loading ? (
                           <div
@@ -319,7 +326,7 @@ const RescourcesTable = (props) => {
                         ) : (
                           <div>Add</div>
                         )}
-                      </button>
+                      </Button>
 
                     </div>
                   </Modal.Footer>
@@ -335,99 +342,113 @@ const RescourcesTable = (props) => {
               <thead class="uppercase text-gray-400 bg-gray-50">
                 <tr>
                   <th class="p-2">
-                    <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Download</div>
+                    <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
+                      Download
+                    </div>
                   </th>
                   <th class="p-2">
-                    <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Resource Title</div>
+                    <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
+                      Resource Title
+                    </div>
                   </th>
                   <th class="p-2">
-                    <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Date Created</div>
+                    <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
+                      Created{" "}
+                    </div>
                   </th>
                   <th class="p-2">
-                    <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Author</div>
+                    <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
+                      Author
+                    </div>
                   </th>
                 </tr>
               </thead>
 
               <tbody class="text-sm divide-y divide-gray-100">
-                {
-
-                  tableData && tableData.length > 0 ?
-                    tableData.map((item) => (
-                      <tr key={item._id}>
-                        <td class="p-2">
-                          <a
-                            href={(item && item.url) || (item && item.link)}
-                            target="_blank"
-                            className="text-black"
-                          >
+                {tableData && tableData.length > 0 ? (
+                  tableData.map((item) => (
+                    <tr key={item._id}>
+                      <td class="p-2">
+                        <a
+                          href={(item && item.url) || (item && item.link)}
+                          target="_blank"
+                          className="text-black"
+                        >
+                          {item.url ? (
                             <FontAwesomeIcon
                               icon={faFileInvoice}
                               className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
                             />
-                          </a>
-                        </td>
-                        <td class="p-2">
-                          <div class="font-[500] text-[1rem] text-black">
-                            {item && item.title}
-                          </div>
-                        </td>
-                        <td class="p-2">
-                          <div class="text-left text-blue-600 font-[500] text-[1rem]">
-                            {item && item.date && timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}
-                          </div>
-                        </td>
-                        <td class="p-2">
-                          <div class="text-left text-black font-[500] text-[1rem]">
-                            {item && item.author && item.author.name}
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                    :
-                    <tbody>
-                      <tr>
-                        <td colspan="4">
-                          <div>No Resources Added yet !</div>
-                        </td>
-                      </tr>
-                    </tbody>
-                }
-
+                          ) : (
+                            <FontAwesomeIcon
+                              icon={faChain}
+                              className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
+                            />
+                          )}
+                        </a>
+                      </td>
+                      <td class="p-2">
+                        <div class="font-[500] text-[1rem] text-black">
+                          {item && item.title}
+                        </div>
+                      </td>
+                      <td class="p-2">
+                        <div class="text-left text-blue-600 font-[500] text-[1rem]">
+                          {item &&
+                            item.date &&
+                            timeAgo.format(
+                              new Date(item.date).getTime() - 60 * 1000
+                            )}
+                        </div>
+                      </td>
+                      <td class="p-2">
+                        <div class="text-left text-black font-[500] text-[1rem]">
+                          {item && item.author && item.author.name}
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tbody>
+                    <tr>
+                      <td colspan="4">
+                        <div>No Resources Added yet !</div>
+                      </td>
+                    </tr>
+                  </tbody>
+                )}
               </tbody>
             </table>
           </div>
           <div className="res-navigation">
-            <div>
-            </div>
-            {
-              (tableData && tableData.length > 0) ?
-                <nav className="d-flex">
-                  <ul className="res-paginate">
-                    <button
-                      onClick={goToPrev}
-                      className="prev"
-                      disabled={currentPage === 1}
-                    >
-                      <GrFormPrevious size="25" />
-                    </button>
-                    <p className="nums">
-                      {tableData && tableData.length > 0
-                        ? `${currentPage}/${totalPages}`
-                        : "0/0"}
-
-                    </p>
-                    <button
-                      onClick={goToNext}
-                      className="prev"
-                      disabled={currentPage >= totalPages}
-                    >
-                      <GrFormNext size="25" />
-                    </button>
-                  </ul>
-                </nav>
-                : ""
-            }
+            <div></div>
+            {tableData && tableData.length > 0 ? (
+              <nav className="d-flex">
+                <ul className="res-paginate">
+                  <button
+                    onClick={goToPrev}
+                    className="prev"
+                    disabled={currentPage === 1}
+                  >
+                    <GrFormPrevious size="25" />
+                  </button>
+                  <p className="nums">
+                    {tableData && tableData.length > 0
+                      ? `${currentPage}/${totalPages}`
+                      : "0/0"}
+                  </p>
+                  <button
+                    onClick={goToNext}
+                    className="prev"
+                    disabled={currentPage >= totalPages}
+                  >
+                    <GrFormNext size="25" />
+                  </button>
+                </ul>
+              </nav>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>

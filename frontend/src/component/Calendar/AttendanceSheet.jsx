@@ -203,12 +203,12 @@ const AttendanceSheet = () => {
 
           <section className="attendence-title">
             {/* *****************Event title******************** */}
-            <h5 className="ml-4 mt-2 pl-2">
+            <h5 className="mt-2 pl-2 md:ml-4">
               Web Development
             </h5>
 
             {/* ****************search functionality***************** */}
-            <div className="form-inline my-2 my-lg-0 res-table-search">
+            <div className="form-inline  my-lg-0 res-table-search">
               <input
                 className="form-control mr-sm-2"
                 type="text"

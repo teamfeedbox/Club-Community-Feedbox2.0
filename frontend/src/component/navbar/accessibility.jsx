@@ -91,7 +91,7 @@ export function Accessibility(props) {
   const [notification, setNotification] = useState(false);
   const [light, setlight] = useState(false)
   const [user, setUser] = useState();
-  const [role, setRole] = useState();
+  // const [role, setRole] = useState();
 
   const getNotifications = async () => {
     let notifi = await fetch(`http://localhost:8000/getNotifications`, {
@@ -108,20 +108,10 @@ export function Accessibility(props) {
   }
 
   useEffect(() => {
-    getUser();
+    // getUser();
     getNotifications()
   }, [light,notification]);
 
-  const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    setRole(result.role);
-    setUser(result);
-  };
   const selectedPage = window.location.pathname;
 
   const logoutHandler = () => {
@@ -130,12 +120,13 @@ export function Accessibility(props) {
 
   const handleCross = () => {
     setNotification(false);
+    setlight(false)
   };
 
   return (
     <AccessibilityContainer>
       {/* *********************profile icon*************************** */}
-      {role !== "Super_Admin" ? (
+      {/* {role !== "Super_Admin" ? ( */}
         <Links
           to="/profile"
           title="Profile Page"
@@ -149,11 +140,10 @@ export function Accessibility(props) {
             <FontAwesomeIcon icon={faUser} className="fa-xl" />
           </LoginButton>
         </Links>
-      ) : (
-        ""
-      )}
+        
+      {/* )  */}
       {/* *************************Dashboard****************************** */}
-      {role && role === "Super_Admin" ? (
+      {/* {role === "Super_Admin" ? (
         <Links
           to="/dashboard"
           title="Dashboard"
@@ -164,13 +154,12 @@ export function Accessibility(props) {
           }
         >
           <LoginButton>
-            {/* <img src="Images/Dashboard.png" alt="" /> */}
             <FontAwesomeIcon icon={faSignal} className="fa-xl" />
           </LoginButton>
         </Links>
       ) : (
         ""
-      )}
+      )} */}
       {/* *************************logout************************************ */}
       <Links
         to="/"
@@ -191,6 +180,7 @@ export function Accessibility(props) {
         title="Notification"
         onClick={() => {
           setNotification(!notification);
+          setlight(false);
         }}
       >
         <div className="notification_icon">

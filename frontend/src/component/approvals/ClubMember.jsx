@@ -18,6 +18,10 @@ const ClubMember = ({ props }) => {
   const [id, setId] = useState("");
   const [value, setValue] = useState("");
   const [name, setName] = useState("");
+
+  const role = JSON.parse(localStorage.getItem("user")).role
+  const currentCollege = JSON.parse(localStorage.getItem("user")).college;
+
   const handleClose = () => {
     setShow(false);
     setConfirm(false);
@@ -37,23 +41,35 @@ const ClubMember = ({ props }) => {
           cm.push(data);
         }
       });
-    let clgSel = [];
-    if (props.clg) {
-      if (props.clg == "All") {
-        setData(cm.reverse())
-        setClubMember(cm.reverse());
+    cm = cm.reverse();
+    if (role === "Super_Admin") {
+      let clgSel = [];
+      if (props.clg) {
+        if (props.clg == "All") {
+          setData(cm)
+          setClubMember(cm);
+        } else {
+          cm.map(data => {
+            if (data.collegeName === props.clg) {
+              clgSel.push(data)
+            }
+          })
+          setData(clgSel)
+          setClubMember(clgSel);
+        }
       } else {
-        cm.map(data => {
-          if (data.collegeName === props.clg) {
-            clgSel.push(data)
-          }
-        })
-        setData(clgSel.reverse())
-        setClubMember(clgSel.reverse());
+        setClubMember(cm);
+        setData(cm);
       }
     } else {
-      setClubMember(cm.reverse());
-      setData(cm.reverse());
+      let clg = [];
+      cm.map(data => {
+        if (data.collegeName === currentCollege) {
+          clg.push(data)
+        }
+      })
+      setClubMember(clg);
+      setData(clg);
     }
   };
 

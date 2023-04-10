@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import "./PendingApprovals.css";
 import { Scrollbars } from "react-custom-scrollbars";
+import { json } from "react-router-dom";
 
 const PendingApprovals = (props) => {
   const [data, setData] = useState([]);
@@ -14,7 +15,8 @@ const PendingApprovals = (props) => {
   const [did, setDid] = useState();
   const [load, setload] = useState(false);
 
-  console.log(props, "props");
+  const currentCollege = JSON.parse(localStorage.getItem("user")).college;
+  const role = JSON.parse(localStorage.getItem("user")).role;
 
   const getUser = async () => {
     const result = await fetch(`http://localhost:8000/get`);
@@ -27,23 +29,37 @@ const PendingApprovals = (props) => {
         }
       });
     user = user.reverse();
-    let clgSel = [];
-    if (props.clg) {
-      if (props.clg == "All") {
+
+    if (role === "Super_Admin") {
+      console.log("1");
+      let clgSel = [];
+      if (props.clg) {
+        if (props.clg == "All") {
+          setPendingUsers(user);
+          setData(user);
+        } else {
+          user.map(data => {
+            if (data.collegeName === props.clg) {
+              clgSel.push(data)
+            }
+          })
+          setPendingUsers(clgSel);
+          setData(clgSel);
+        }
+      } else {
         setPendingUsers(user);
         setData(user);
-      } else {
-        user.map(data => {
-          if (data.collegeName === props.clg) {
-            clgSel.push(data)
-          }
-        })
-        setPendingUsers(clgSel);
-        setData(clgSel);
       }
     } else {
-      setPendingUsers(user);
-      setData(user);
+      console.log("2");
+      let clg = [];
+      user.map(data => {
+        if (data.collegeName === currentCollege) {
+          clg.push(data)
+        }
+      })
+      setPendingUsers(clg);
+      setData(clg);
     }
   };
 
@@ -190,7 +206,7 @@ const PendingApprovals = (props) => {
                 ))
               ) : (
                 <div className="nopending">
-                  <div className="text-[1rem] font-[400]">No Pending Requests !!</div>
+                  <div className="text-[1rem] font-[400]">No Pending Requests !</div>
                 </div>
               )}
             </tbody>

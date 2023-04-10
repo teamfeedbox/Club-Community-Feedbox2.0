@@ -18,10 +18,15 @@ import Modal from "react-bootstrap/Modal";
 import TimeAgo from "javascript-time-ago";
 import en from 'javascript-time-ago/locale/en'
 
-function PostBigModel({ openComment, setOpenComment, id }) {
+function PostBigModel({ openComment, setOpenComment,id}) {
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
+// console.log(id)
+// const _id = localStorage.getItem("postId")
+// const id = JSON.parse(_id)
+// console.log()
 
+// console.log(id)
   const [tempReply, setTempReply] = useState("");
   const [deleteComId, setDeleteComId] = useState("");
   const [replyId, setReplyId] = useState("");
@@ -33,6 +38,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   const [postData, setPostData] = useState();
   const [commentId, setCommentId] = useState("");
   const [postedById, setPostedById] = useState("");
+  const [replyById, setReplyById] = useState("");
 
   const [message, setMessage] = useState("");
 
@@ -109,8 +115,25 @@ function PostBigModel({ openComment, setOpenComment, id }) {
     result = await result.json();
     // console.log(result)
     setUser(result);
-    // console.log(result.postedBy)
-    setPostedById(result.postedBy._id)
+
+    result.comment.map((item)=>
+    {
+      setPostedById( item.postedBy._id);
+      item.reply.map((data)=>
+      {
+        // console.log(data.postedBy && data.postedBy._id)
+        setReplyById(data.postedBy && data.postedBy._id)
+      }
+      
+      )
+    }
+   
+    )
+
+    // result.comment.reply.map((item)=>
+    // setReplyById( item.postedBy._id)
+    // )
+    // setPostedById(result.postedBy._id)
     // if(result._id===id){
     //   getPost()
     // }
@@ -234,7 +257,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify({id,commentId,postedById}),
+      body: JSON.stringify({id,commentId,replyById}),
     });
 
     result = await result.json();

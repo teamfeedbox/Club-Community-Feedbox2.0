@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faMessage} from "@fortawesome/free-regular-svg-icons";
-import { FcLike} from "react-icons/fc";
+import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
+import { FcLike } from "react-icons/fc";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import React, { useState, useEffect, } from "react";
@@ -20,8 +20,8 @@ const PostDisplay = (props) => {
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
   const [data, setData] = useState([]);
-  const [user,setUser]=useState([]);
-  const [val,setVal]=useState([]);
+  const [user, setUser] = useState([]);
+  const [val, setVal] = useState([]);
   const [showAdd, setShowAdd] = useState('Hide-Comment-Add-Btn');
   const [showView, setShowView] = useState('Hide-Comment-View-Btn');
   const [showReplView, setReplyView] = useState("Hide-Reply-View");
@@ -88,9 +88,9 @@ const PostDisplay = (props) => {
   });
 
 
-useEffect(()=>{
-  like(id)
-},[id])
+// useEffect(()=>{
+//   like(id)
+// },[id])
 
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
@@ -99,14 +99,8 @@ useEffect(()=>{
       },
     });
     result = await result.json();
-    // console.log(result)
     setUser(result);
   };
-
-
-
-
-
 
   // get All Post
   const getList = async () => {
@@ -132,7 +126,7 @@ useEffect(()=>{
           setData([])
         }
       }
-    }else{
+    } else {
       // console.log("ki");
       setData(result)
       // console.log(result)
@@ -158,8 +152,11 @@ useEffect(()=>{
         // console.log(result)
         const newData = data.map((item) => {
           if (item._id === result._id) {
+            // console.log(result)
             return result;
           } else {
+            // console.log(item)
+
             return item;
           }
         });
@@ -201,7 +198,7 @@ useEffect(()=>{
   return (
     <div id="post_display_container">
       {!loading ?
-        <div>
+        <div className="mb-[120px]">
           {data.length>0 ? data.map((item, index) => (
             <div key={item._id} className="post-display1">
               <div className="post-display-head">
@@ -228,30 +225,30 @@ useEffect(()=>{
                   {/* *****************carousel for mobile view********************* */}
                   <div className="post-display-carousel-mobileview">
                     <Swiper
-                      navigation={item.img.length ===1 ? false:true}
+                      navigation={item.img.length === 1 ? false : true}
                       data-aos="fade-up"
-                        data-aos-duration="100s"
-                        spaceBetween={0}
-                        slidesPerView={1}
-                        loop={true}
-                        autoplay={{
-                            delay: 2000,
-                            disableOnInteraction: false,
-                        }}
-                        modules={[Navigation,Autoplay]}
-                    
+                      data-aos-duration="100s"
+                      spaceBetween={0}
+                      slidesPerView={1}
+                      loop={true}
+                      autoplay={{
+                        delay: 2000,
+                        disableOnInteraction: false,
+                      }}
+                      modules={[Navigation, Autoplay]}
+
                       className="mySwiper">
-                        
+
 
                       {
-                        
+
                         item.img.length > 0 &&
                         item.img.map((data) => (
-                            <SwiperSlide >
-                          <div className="" key={data._id}>
-                            <img className="" src={data} alt="" />
-                          </div>
-                      </SwiperSlide>
+                          <SwiperSlide >
+                            <div className="" key={data._id}>
+                              <img className="" src={data} alt="" />
+                            </div>
+                          </SwiperSlide>
                         ))
                       }
                     </Swiper>
@@ -282,7 +279,7 @@ useEffect(()=>{
               </div>
 
               <div className="post-display-bottom">
-                
+
                 {item.likes.includes(user && user._id) ? (
                   <div className="post-display-bottom-content">
                     <FcLike
@@ -290,18 +287,18 @@ useEffect(()=>{
                       onClick={function () {
                         unlike(item && item._id);
                       }}
-                      style={{marginLeft:"-1.4px",marginTop:"-3px",cursor:"pointer"}}
+                      style={{ marginLeft: "-1.4px", marginTop: "-3px", cursor: "pointer" }}
                     />
                     <span> {item.likes.length}</span>
                   </div>
                 ) : (
                   <div className="post-display-bottom-content">
-                    <FontAwesomeIcon className="fa-lg" icon={faHeart} style={{ fontSize: "24.5px",cursor:"pointer"}}
+                    <FontAwesomeIcon className="fa-lg" icon={faHeart} style={{ fontSize: "24.5px", cursor: "pointer" }}
                       onClick={function () {
                         like(item._id);
                       }}
                     />
-                    <span style={{fontSize:'0.8rem', fontWeight:'600'}}>
+                    <span style={{ fontSize: '0.8rem', fontWeight: '600' }}>
                       {item.likes.length}
                     </span>
 
@@ -310,22 +307,23 @@ useEffect(()=>{
                 <button onClick={() => {
                   setOpenComment(!openComment)
                   setId(item._id)
+                  localStorage.setItem("postId",JSON.stringify(item._id))
                 }} className="post-display-bottom-content">
                   <FontAwesomeIcon
-                      style={{ fontSize: "22.5px",cursor:"pointer",marginTop:"1px"}}
-                      icon={faMessage}
-                    />
-                  <span style={{fontSize:'0.8rem', fontWeight:'600'}}>
-                  {item.comment.length}
+                    style={{ fontSize: "22.5px", cursor: "pointer", marginTop: "1px" }}
+                    icon={faMessage}
+                  />
+                  <span style={{ fontSize: '0.8rem', fontWeight: '600' }}>
+                    {item.comment.length}
                   </span>
                 </button>
               </div>
             </div>
 
-          )) : 
-          <div className="post-display1">
-           <div style={{justifyContent:"center",textAlign:"center"}}>No Post Yet !</div> 
-          </div>
+          )) :
+            <div className="post-display1">
+              <div style={{ justifyContent: "center", textAlign: "center" }}>No Post Yet !</div>
+            </div>
           }
         </div>
         : <Loader />}
