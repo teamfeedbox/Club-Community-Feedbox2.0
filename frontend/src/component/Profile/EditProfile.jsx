@@ -16,8 +16,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./EditProfile.css";
 
 const EditProfile = ({ open, setOpen }) => {
+  // const [dataChanges, setDataChanges] = useState('nnnnn');
   const [data, setData] = useState('');
-
   const [show, setShow] = useState(false);
   const [file, setFile] = useState("Images/girl.jpg");
   const [image, setImage] = useState(false);
@@ -55,7 +55,7 @@ const EditProfile = ({ open, setOpen }) => {
 
   useEffect(()=>{
       getUserDetails();
-    // updateDetail(data)
+    
   handleClose()
   getUser();
 }, [data])
@@ -102,12 +102,14 @@ setBio(result.bio);
 
       }
 
+
   })
 
   result = await result.json();
 
  
   // console.log(result)
+  window.location.reload();
   }
 
 
@@ -265,8 +267,9 @@ setBio(result.bio);
             </Button>
             <Button variant="primary" onClick={()=>{
               handleClose()
-               updateDetail(data)
-              //  update(data) 
+              updateDetail(data)
+              // setData()
+              // setDataChanges(data)
               uploadPic()
 
             }}>
