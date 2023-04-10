@@ -201,7 +201,7 @@ useEffect(()=>{
   return (
     <div>
       {!loading ?
-        <div>
+        <div className="mb-[120px]">
           {data.length>0 ? data.map((item, index) => (
             <div key={item._id} className="post-display1">
               <div className="post-display-head">
@@ -258,8 +258,8 @@ useEffect(()=>{
                   </div>
                 </div>
                 {/* *********************carousel for web view*************************** */}
-                <div className="post-display-image flex justify-center">
-                  <div className="post-display-carousel-webview flex justify-center">
+                <div className="post-display-image flex justify-center h-[650px] carousel-web-view">
+                  <div className="post-display-carousel-webview flex justify-center h-[100%] m-0 p-0">
                     <Carousel
                       thumbWidth={60}
                       width={450}

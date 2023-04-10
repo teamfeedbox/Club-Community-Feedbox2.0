@@ -36,12 +36,12 @@ const LoginHeader = () => {
         </div> */}
 
         <div className="login-header-overall-button">
-          <Link to="/register" className="joinnow-login-header">
+          {/* <Link to="/register" className="joinnow-login-header">
             Register
           </Link>
           <Link to="/login" className="signin-login-header">
             Log in
-          </Link>
+          </Link> */}
         </div>
       </div>
     </div>

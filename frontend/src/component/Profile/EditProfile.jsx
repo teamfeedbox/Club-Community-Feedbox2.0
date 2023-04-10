@@ -16,8 +16,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./EditProfile.css";
 
 const EditProfile = ({ open, setOpen }) => {
-  const [data, setData] = useState("");
-
+  // const [dataChanges, setDataChanges] = useState('nnnnn');
+  const [data, setData] = useState('');
   const [show, setShow] = useState(false);
   const [file, setFile] = useState("Images/girl.jpg");
   const [image, setImage] = useState(false);

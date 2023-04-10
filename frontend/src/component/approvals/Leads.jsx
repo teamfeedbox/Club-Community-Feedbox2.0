@@ -18,7 +18,7 @@ const Leads = (props) => {
   const [id, setId] = useState();
 
   const role = JSON.parse(localStorage.getItem("user")).role
-  console.log(role);
+  const currentCollege = JSON.parse(localStorage.getItem("user")).college;
 
   const handleClose = () => { setShow(false); setConfirm(false) };
   const handleShow = () => setShow(true);
@@ -36,23 +36,36 @@ const Leads = (props) => {
         lead.push(data)
       }
     })
-    let clgSel = [];
-    if (props.clg) {
-      if (props.clg == "All") {
-        setLead(lead.reverse());
-        setData(lead.reverse());
+    lead = lead.reverse();
+    if (role === "Super_Admin") {
+      let clgSel = [];
+      if (props.clg) {
+        if (props.clg == "All") {
+          setLead(lead);
+          setData(lead);
+        } else {
+          lead.map(data => {
+            if (data.collegeName === props.clg) {
+              clgSel.push(data)
+            }
+          })
+          setLead(clgSel);
+          setData(clgSel);
+        }
       } else {
-        lead.map(data => {
-          if (data.collegeName === props.clg) {
-            clgSel.push(data)
-          }
-        })
-        setLead(clgSel.reverse());
-        setData(clgSel.reverse());
+        setLead(lead);
+        setData(lead);
       }
     } else {
-      setLead(lead.reverse());
-      setData(lead.reverse());
+      console.log("2");
+      let clg = [];
+      lead.map(data => {
+        if (data.collegeName === currentCollege) {
+          clg.push(data)
+        }
+      })
+      setLead(clg);
+      setData(clg);
     }
   };
 

@@ -96,7 +96,7 @@ router.post("/login", (req, res) => {
       .then((doMatch) => {
         if (doMatch) {
           const token = jwt.sign({ _id: savedUser._id }, jwtKey);
-          res.json({ token ,id:savedUser._id,role:savedUser.role});
+          res.json({ token ,id:savedUser._id,role:savedUser.role,college:savedUser.collegeName});
         } else {
           return res.status(422).json({ error: "invalid password" });
         }
@@ -246,7 +246,6 @@ router.get('/getAllUser', (req, res) => {
 
 // Update Coins and events 
 router.put('/update/coins/events/', async (req, res) => {
-  // console.log(req.body);
   try {
     req.body.attendees.map(async (data) => {
       const response = await User.updateOne(

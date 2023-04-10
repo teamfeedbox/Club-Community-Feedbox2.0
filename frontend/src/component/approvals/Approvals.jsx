@@ -44,12 +44,11 @@ const Approvals = () => {
     setUser(result);
   };
 
-
   return (
     <>
 
       {/* search handler for super admin */}
-      <div className="pb-9 pt-[70px]" >
+      <div className="pb-9 pt-[70px] text-center" >
         {role && role === 'Super_Admin' ?
           <div className="lg:my-3 my-0 mx-1 text-center">
             <select onChange={(e) => setClg(e.target.value)} className="p-2 border-2  text-[1rem] font-[400] border-[#000] rounded-3xl w-[90%] md:w-[90%] lg:w-[30%]">
@@ -135,7 +134,9 @@ const Approvals = () => {
             </div>
           </div>
         </div>
+
       </div>
+
     </>
   );
 };

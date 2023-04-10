@@ -10,39 +10,10 @@ const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  // const handleLogin = async (e) => {
-  //   e.preventDefault();
-  //   console.log(email, password);
-
-  //   let result = await fetch("http://localhost:8000/login", {
-  //     method: "post",
-  //     body: JSON.stringify({ email, password }),
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-  //   result = await result.json();
-  //   console.log(result);
-  //   console.log("first");
-
-  //   if (result.name) {
-  //     localStorage.setItem("user", JSON.stringify(result));
-  //     navigate('/main')
-  //     // alert("welcome");
-  //   } else {
-  //     alert("Please enter valid login credentials");
-  //   }
-  // };
-
-  const navigate = useNavigate();
- 
- 
- 
   const handleLogin = async (e) => {
+    // setLoading(true);
     e.preventDefault();
     console.log(email, password);
-
-   
 
     let result = await fetch("http://localhost:8000/login/superAdmin", {
       method: "post",
@@ -52,17 +23,24 @@ const LoginPage = () => {
       },
     });
     result = await result.json();
+    console.log(result)
 
-    console.log(result.token);
-    
     if(result.token){
       navigate('/main')   
+
       localStorage.setItem("user", JSON.stringify(result));
-      localStorage.setItem("jwt", result.token);  
-    }else{
+      localStorage.setItem("jwt", result.token);
+    } else {
       alert(result.err);
     }
+    
   };
+
+  const navigate = useNavigate();
+ 
+ 
+ 
+  
  
  
   const handleUsernameChange = (event) => {
@@ -125,16 +103,17 @@ const LoginPage = () => {
           </div>
           <button
             className="login-input-below-btn"
-            type="submit">
+            type="submit"
+            onClick={handleLogin}>
             Sign in
           </button>
         </form>
-        <button
+        {/* <button
           className="joinnow-login-button"
           onClick={() => navigate("/register")}
         >
           New to Community? Join now
-        </button>
+        </button> */}
       </div>
       <div className="login-image">
         <img src="Images/l2.jpeg" alt="" />
