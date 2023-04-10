@@ -18,10 +18,15 @@ import Modal from "react-bootstrap/Modal";
 import TimeAgo from "javascript-time-ago";
 import en from 'javascript-time-ago/locale/en'
 
-function PostBigModel({ openComment, setOpenComment, id }) {
+function PostBigModel({ openComment, setOpenComment,id}) {
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
+// console.log(id)
+// const _id = localStorage.getItem("postId")
+// const id = JSON.parse(_id)
+// console.log()
 
+// console.log(id)
   const [tempReply, setTempReply] = useState("");
   const [deleteComId, setDeleteComId] = useState("");
   const [replyId, setReplyId] = useState("");
