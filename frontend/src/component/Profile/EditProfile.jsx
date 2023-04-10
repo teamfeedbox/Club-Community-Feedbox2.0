@@ -16,8 +16,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./EditProfile.css";
 
 const EditProfile = ({ open, setOpen }) => {
+  // const [dataChanges, setDataChanges] = useState('nnnnn');
   const [data, setData] = useState('');
-
   const [show, setShow] = useState(false);
   const [file, setFile] = useState("Images/girl.jpg");
   const [image, setImage] = useState(false);
@@ -55,7 +55,7 @@ const EditProfile = ({ open, setOpen }) => {
 
   useEffect(()=>{
       getUserDetails();
-    // updateDetail(data)
+    
   handleClose()
   getUser();
 }, [data])
@@ -102,12 +102,14 @@ setBio(result.bio);
 
       }
 
+
   })
 
   result = await result.json();
 
  
   // console.log(result)
+  window.location.reload();
   }
 
 
@@ -128,6 +130,7 @@ setBio(result.bio);
       .then((data) => {
         // console.log(data.url)
         setUrl(data.url);
+        
         // console.log(data)
         // console.log(data.url)
 
@@ -166,8 +169,8 @@ setBio(result.bio);
         <div style={{
             zIndex : '99999999'
         }}>
-        <Modal show={open} onHide={handleClose}>
-          <Modal.Header closeButton>
+        <Modal show={open} >
+          <Modal.Header >
             <Modal.Title>Edit Profile</Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -191,6 +194,7 @@ setBio(result.bio);
               >
                 <Form.Label>About </Form.Label>
                 <Form.Control as="textarea" rows={3}
+                placeholder="Write your text here"
                  onChange={(e) => setBio(e.target.value)}
                  value={bio}
 
@@ -210,7 +214,9 @@ setBio(result.bio);
                       />
                       <img src={file} style={{
                         maxHeight:"200px",minHeight:"200px",width:"200px",marginTop:"-25px"
-                      }} />
+                      }} 
+                      className="object-cover	"
+                      />
                       </div>
                       
                     ) : ( 
@@ -230,21 +236,20 @@ setBio(result.bio);
                             stroke-linejoin="round"
                           />
                         </svg>
-                        <div className="flex text-sm text-gray-600">
+                        <div className="flex text-sm text-gray-600 flex justify-center" >
                           <label
                             for="file-upload"
                             className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                           >
-                            <span>Upload a file</span>
+                            <span className="flex justify-center">Upload a file</span>
                             <input
                               onChange={handleChange}
                               id="file-upload"
                               name="file-upload"
                               type="file"
-                              className="sr-only"
+                              className="sr-only "
                             />
                           </label>
-                          <p className="pl-1">or drag and drop</p>
                         </div>
                         <p className="text-xs text-gray-500">
                           PNG, JPG, GIF up to 10MB
@@ -262,8 +267,9 @@ setBio(result.bio);
             </Button>
             <Button variant="primary" onClick={()=>{
               handleClose()
-               updateDetail(data)
-              //  update(data) 
+              updateDetail(data)
+              // setData()
+              // setDataChanges(data)
               uploadPic()
 
             }}>
