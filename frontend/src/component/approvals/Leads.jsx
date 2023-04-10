@@ -260,7 +260,9 @@ const Leads = (props) => {
                   </tr>
                 )) :
                 <div className="nopending">
-                  <div className="text-[1rem] font-[400]">No Lead Members !!</div>
+
+                <div className="text-[1rem] font-[400]">No Lead Members !</div>
+
                 </div>
               }
             </tbody>

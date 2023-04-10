@@ -49,6 +49,7 @@ const RescourcesTable = (props) => {
   const itemsPerPage = 3;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
+
   let tableData = data && data.slice(startIndex, endIndex);
   let searchData = searched && searched.slice(startIndex, endIndex);
 
@@ -155,9 +156,11 @@ const RescourcesTable = (props) => {
   };
 
   const searchHandler = (e) => {
+
     let val = e.target.value;
     setSearchVal(e.target.value)
     if (e.target.value !== "") {
+
       let matched = [];
       duplicateData.length > 0 &&
         duplicateData.forEach((user) => {

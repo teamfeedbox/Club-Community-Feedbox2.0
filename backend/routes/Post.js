@@ -337,7 +337,7 @@ router.put("/replyDel/:replyId", requireLogin, async (req, res) => {
     const post = await Post.findById(req.body.id);
     // console.log(req.body.postedById)
     // console.log( req.user._id.toString())
-    if (req.body.postedById !== req.user._id.toString()) {
+    if (req.body.replyById !== req.user._id.toString()) {
       return res.status(401).json({ error: "You are not authorized to delete this reply" });
     }
 
