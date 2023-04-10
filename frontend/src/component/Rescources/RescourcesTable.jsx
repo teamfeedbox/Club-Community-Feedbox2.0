@@ -43,6 +43,8 @@ const RescourcesTable = (props) => {
   const [pdfLink, setPdfLink] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [selected, setSelected] = useState([]);
+  const [mypdf,setMyPdf]=useState(false);
+  const [filename,setFileName]=useState("");
 
   const itemsPerPage = 3;
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -83,9 +85,21 @@ const RescourcesTable = (props) => {
     console.log(e.target.files);
     setFile(URL.createObjectURL(e.target.files[0]));
     setPdfFile(e.target.files[0]);
+    setMyPdf(true);
+    console.log(file);
+    console.log(e.target.files[0].name);
+    setFileName(e.target.files[0].name);
   }
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+      setTitle("");
+      setFile("");
+      setPdfFile("");
+      setPdfLink("");
+      setFileName("");
+      setLink(false);
+      setShow(false);
+  }  
   const handleShow = () => setShow(true);
 
   const AddResource = async (e) => {
@@ -114,6 +128,8 @@ const RescourcesTable = (props) => {
       setFile("");
       setPdfFile("");
       setPdfLink("");
+      setFileName("");
+      setLink(false);
       setShow(false);
     } else {
       // Error uploading PDF file
@@ -263,17 +279,26 @@ const RescourcesTable = (props) => {
 
                       {link ? (
                         <div className="add-res-add-link">
-                          <input type="text" placeholder="Enter Link"
-                            value={pdfLink}
-                            onChange={(e) => setPdfLink(e.target.value)}
-                            name="pdfLink"
 
+                          <input type="text" placeholder="Enter Link" 
+                          value={pdfLink}
+                        onChange={(e) => setPdfLink(e.target.value)}
+                        name="pdfLink"
 
                           />
                         </div>
                       ) : (
                         ""
                       )}
+
+                      {
+                        mypdf ? (
+                          <div className="w-fit text-[.8rem] mt-2">{filename}</div>
+                        ):
+                        (
+                          ""
+                        )
+                      }
                     </div>
 
                     <div>
@@ -314,22 +339,23 @@ const RescourcesTable = (props) => {
                 <thead class="uppercase text-gray-400 bg-gray-50">
                   <tr>
                     <th class="p-2">
-                      <div class="font-[500] text-[0.8rem] text-left">Download</div>
+                      <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Download</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-[500] text-[0.8rem] text-left">Resource Title</div>
+                      <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Resource Title</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-[500] text-[0.8rem] text-left">Date Created</div>
+                      <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Date Created</div>
                     </th>
                     <th class="p-2">
-                      <div class="font-[500] text-[0.8rem] text-left">Author</div>
+                      <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">Author</div>
                     </th>
                   </tr>
                 </thead>
 
                 <tbody class="text-sm divide-y divide-gray-100">
                   {
+
                     tableData && tableData.length > 0 ?
                       tableData.map((item) => (
                         <tr key={item._id}>
@@ -371,6 +397,7 @@ const RescourcesTable = (props) => {
                         </tr>
                       </tbody>
                   }
+
                 </tbody>
               </table>
             )}

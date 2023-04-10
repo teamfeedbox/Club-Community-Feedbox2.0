@@ -263,7 +263,6 @@ router.put('/update/coins/events/', async (req, res) => {
   }
 });
 
-// Update Interested events
 
 // ******* Notification *********//
 // Add notification to a specific user
