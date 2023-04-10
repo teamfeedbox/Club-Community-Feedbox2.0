@@ -16,7 +16,9 @@ const Leads = (props) => {
   const [loading, setLoading] = useState(false);
   const [position, setPosition] = useState();
   const [id, setId] = useState();
-  const [role, setRole] = useState('');
+
+  const role = JSON.parse(localStorage.getItem("user")).role
+  console.log(role);
 
   const handleClose = () => { setShow(false); setConfirm(false) };
   const handleShow = () => setShow(true);
@@ -34,7 +36,6 @@ const Leads = (props) => {
         lead.push(data)
       }
     })
-    setRole(data.role);
     let clgSel = [];
     if (props.clg) {
       if (props.clg == "All") {
@@ -91,15 +92,15 @@ const Leads = (props) => {
     console.log(res);
 
     // Generate Notification
-    var date=new Date();
-    const notifi=
+    var date = new Date();
+    const notifi =
     {
-      type:"role",
-      message:"You are upgraded from Lead to Admin!",
+      type: "role",
+      message: "You are upgraded from Lead to Admin!",
       date: date,
-      status:"unseen"
+      status: "unseen"
     }
-    
+
 
     const generateNotifi = await fetch(
       `http://localhost:8000/user/user/addnotifi/${id}`,
@@ -175,81 +176,82 @@ const Leads = (props) => {
                         {member.position}
                       </div>
                     </td>
-                    { role === 'Admin' || role === 'Super_Admin' ?
-                    <td class="pt-2 pb-2 flex  justify-end ">
-                      <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
-                        <button
-                          onClick={()=>{setId(member._id); handleShow()}}
+                    {role && role === 'Admin' || role == 'Super_Admin' ?
+                      <td class="pt-2 pb-2 flex  justify-end ">
+                        <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
+                          <button
+                            onClick={() => { setId(member._id); handleShow() }}
 
-                          className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[500] hover:bg-[#03821f]"
+                            className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[500] hover:bg-[#03821f]"
+                          >
+                            <FontAwesomeIcon icon={faUser} className="mr-2" />
+                            Make Admin
+                          </button>
+                        </div>
+
+                        <Modal
+                          show={show}
+                          onHide={handleClose}
+                          className="club-member-modal"
                         >
-                          <FontAwesomeIcon icon={faUser} className="mr-2" />
-                          Make Admin
-                        </button>
-                      </div>
+                          <form>
+                            <Modal.Header
+                              closeButton
+                              className="club-member-modal-header"
+                            >
+                              Are you sure to make this lead as admin ?
+                            </Modal.Header>
+                            <Modal.Footer className="modal-footer club-member-modal-footer">
+                              <div className="modal-footer-club-member-yes-no-div">
+                                <div onClick={() => setConfirm(!confirm)}>
+                                  Yes
+                                </div>
+                                <button onClick={(e) => { e.preventDefault(); setShow(false); setConfirm(false) }}>No</button>
+                              </div>
+                              {confirm ? (
+                                <form className="club-member-modal-confirm">
+                                  <div>
+                                    <input
+                                      type="text"
+                                      placeholder="Specify Position"
+                                      required onChange={(e) => setPosition(e.target.value)}
+                                    />
+                                  </div>
+                                  <div>
+                                    <button onClick={(e) => { e.preventDefault(); submitHandler() }}>Confirm</button>
+                                  </div>
+                                </form>
+                              ) : (
+                                ""
+                              )}
+                            </Modal.Footer>
+                          </form>
+                        </Modal>
 
-                      <Modal
-                        show={show}
-                        onHide={handleClose}
-                        className="club-member-modal"
-                      >
-                        <form>
-                          <Modal.Header
-                            closeButton
-                            className="club-member-modal-header"
-                          >
-                            Are you sure to make this lead as admin ?
-                          </Modal.Header>
-                          <Modal.Footer className="modal-footer club-member-modal-footer">
-                            <div className="modal-footer-club-member-yes-no-div">
-                              <div onClick={() => setConfirm(!confirm)}>
-                                Yes
-                              </div>
-                              <button onClick={(e) => { e.preventDefault(); setShow(false); setConfirm(false) }}>No</button>
-                            </div>
-                            {confirm ? (
-                              <form className="club-member-modal-confirm">
-                                <div>
-                                  <input
-                                    type="text"
-                                    placeholder="Specify Position"
-                                    required onChange={(e) => setPosition(e.target.value)}
-                                  />
+                        <Modal show={delshow} onHide={handleDelClose} className="club-member-modal" >
+                          <form>
+                            <Modal.Header
+                              closeButton
+                              className="club-member-modal-header"
+                            >
+                              Are you sure to make this Lead as Club Member ?
+                            </Modal.Header>
+                            <Modal.Footer className="modal-footer club-member-modal-footer">
+                              <div className="modal-footer-club-member-yes-no-div">
+                                <div onClick={handleDeleteAdmin}>
+                                  Yes
                                 </div>
-                                <div>
-                                  <button onClick={(e) => { e.preventDefault(); submitHandler() }}>Confirm</button>
-                                </div>
-                              </form>
-                            ) : (
-                              ""
-                            )}
-                          </Modal.Footer>
-                        </form>
-                      </Modal>
-                      <Modal show={delshow} onHide={handleDelClose} className="club-member-modal" >
-                        <form>
-                          <Modal.Header
-                            closeButton
-                            className="club-member-modal-header"
-                          >
-                            Are you sure to make this Lead as Club Member ?
-                          </Modal.Header>
-                          <Modal.Footer className="modal-footer club-member-modal-footer">
-                            <div className="modal-footer-club-member-yes-no-div">
-                              <div onClick={handleDeleteAdmin}>
-                                Yes
+                                <button onClick={(e) => { e.preventDefault(); setDelShow(false); }}>No</button>
                               </div>
-                              <button onClick={(e) => { e.preventDefault(); setDelShow(false); }}>No</button>
-                            </div>
-                          </Modal.Footer>
-                        </form>
-                      </Modal>
-                    </td>
-                     : ''}
-                    <td className=" my-auto " style={{marginRight:"10px"}}>
+                            </Modal.Footer>
+                          </form>
+                        </Modal>
+                      </td>
+                      : ''}
+                    <td className=" my-auto " style={{ marginRight: "10px" }}>
                       <div className="">
-                      <button
-                          onClick={()=>{setId(member._id); handleShow()}}
+                        <button
+                          onClick={() => { setId(member._id); handleDelShow() }}
 
                           className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000]  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[500] hover:bg-[#bf1004]"
                         >Delete</button>
@@ -258,9 +260,9 @@ const Leads = (props) => {
                   </tr>
                 )) :
                 <div className="nopending">
-                <div className="text-[1rem] font-[400]">No Lead Members !!</div>
+                  <div className="text-[1rem] font-[400]">No Lead Members !!</div>
                 </div>
-                }
+              }
             </tbody>
           </table>
         </Scrollbars>
