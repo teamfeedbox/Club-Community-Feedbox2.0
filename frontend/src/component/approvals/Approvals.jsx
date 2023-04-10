@@ -64,7 +64,7 @@ const Approvals = () => {
               ))
             }
           </select>
-        </div>
+        </div> : ''}
         <PendingApprovals func={pull_data}/>
 
         <div className="mt-9">
