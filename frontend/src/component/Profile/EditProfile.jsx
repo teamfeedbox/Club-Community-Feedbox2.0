@@ -26,7 +26,7 @@ const EditProfile = ({ open, setOpen }) => {
   const [url, setUrl] = useState("");
   const [email, setEmail] = useState("");
   const [bio, setBio] = useState("");
-  const [loading, setLoading] = useState(false);
+
   
  
 
@@ -50,8 +50,8 @@ const EditProfile = ({ open, setOpen }) => {
     if (url) {
      update(data);  
     }
-    setLoading(false)
-  },[url,loading])
+
+  },[url])
 
   useEffect(()=>{
       getUserDetails();
@@ -75,7 +75,7 @@ const EditProfile = ({ open, setOpen }) => {
   })
 
   result = await result.json();
-  setLoading(true)
+
  
   // console.log(result)
   }
@@ -87,6 +87,7 @@ const EditProfile = ({ open, setOpen }) => {
     result = await result.json();
 setEmail(result.email);
 setBio(result.bio);
+
 
 }
 
@@ -104,6 +105,7 @@ setBio(result.bio);
   })
 
   result = await result.json();
+
  
   // console.log(result)
   }

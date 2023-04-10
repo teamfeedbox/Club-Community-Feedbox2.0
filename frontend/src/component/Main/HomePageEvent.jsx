@@ -127,7 +127,6 @@ const HomePageEvent = (props) => {
 
       {/* mobile view */}
       <div className="main-event-carousel">
-        {/* zkmklxm */}
 
         <Carousel
           autoPlay interval="5000" 
@@ -135,8 +134,6 @@ const HomePageEvent = (props) => {
           showIndicators={true}
           showThumbs={false}
           infiniteLoop
-          // dynamicHeight
-          // className=""
         >
           {event.map((item, index) => (
             <div className="HomePageEvent ">

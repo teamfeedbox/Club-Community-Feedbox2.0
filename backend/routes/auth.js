@@ -95,10 +95,8 @@ router.post("/login", (req, res) => {
       .compare(password, savedUser.password)
       .then((doMatch) => {
         if (doMatch) {
-          // res.json({message:"successfully signed in"})
           const token = jwt.sign({ _id: savedUser._id }, jwtKey);
-          // const decodedToken = jwt.decode(token);
-          res.json({ token ,id:savedUser._id});
+          res.json({ token ,id:savedUser._id,role:savedUser.role});
         } else {
           return res.status(422).json({ error: "invalid password" });
         }
@@ -196,7 +194,6 @@ router.put('/updateDetail/:id', async (req, res) => {
 router.post('/sendmail/:id', async (req, res) => {
   try {
     let result = await User.findOne({ _id: req.params.id })
-    // console.log(result);
     const transporter = nodemailer.createTransport({
       service: "gmail",
       port: 465,
@@ -266,7 +263,6 @@ router.put('/update/coins/events/', async (req, res) => {
   }
 });
 
-// Update Interested events
 
 // ******* Notification *********//
 // Add notification to a specific user

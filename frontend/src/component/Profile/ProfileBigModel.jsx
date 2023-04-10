@@ -15,8 +15,12 @@ import "swiper/css/thumbs";
 import "../Profile/ProfileBigModel.css";
 // Bootstrap
 import Modal from "react-bootstrap/Modal";
+import TimeAgo from "javascript-time-ago";
+import en from 'javascript-time-ago/locale/en'
 
 function PostBigModel({ openComment, setOpenComment, id }) {
+  TimeAgo.addLocale(en);
+  const timeAgo = new TimeAgo("en-US");
 
   const [tempReply, setTempReply] = useState("");
   const [deleteComId, setDeleteComId] = useState("");
@@ -279,6 +283,9 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
 
 
+
+
+
       <Modal
         show={show}
         onHide={handleShowDeleteReply}
@@ -319,7 +326,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
               <div className="post-display-center1">
                 <div className="post-display-image "></div>
 
-                {/* ********carousel for web view********** */}
+                {/* ***carousel for web view*** */}
                 <div className="post-display-image flex justify-center">
                   <div className="post-display-carousel-webview1 flex justify-center">
                     <Carousel
@@ -367,7 +374,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                       <div className="Post-Big-Title1">
                         {user && user.postedBy && user.postedBy.name}
                       </div>
-                      <div className="Post-Big-Title2">Feedbox Member</div>
+                      <div className="Post-Big-Title2">{user && user.postedBy && user.postedBy.role}</div>
                     </div>
                   </div>
                   <Link
@@ -423,7 +430,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                           <div className="Comment-Right-Down">
                             <span className="Comment-Down-Other" 
                             // onClick={()=>{console.log(item.reply.length)}}
-                            >22h</span>
+                            >{item && item.date && timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}</span>
                             <span
                                 className="Comment-Down-Other Comment-Down-Other1"
                                 onClick={() => {
@@ -467,7 +474,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                               <div className="Right-Comment"> {data && data.replyMsg}</div>
                             </div>
                             <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
+                              <span className="Comment-Down-Other">{data && data.date && timeAgo.format(new Date(data.date).getTime() - 60 * 1000)}</span>
                               <span
                                 className="Comment-Down-Other Comment-Down-Other1"
                                 onClick={() => {
@@ -488,7 +495,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                           </section>
                             ):("")
                         }
-                          {/* *******Hide and show reply******* */}
+                          {/* **Hide and show reply** */}
 
                           {
                           item.reply.length>0 && checkReply==true && showReply!=true? (

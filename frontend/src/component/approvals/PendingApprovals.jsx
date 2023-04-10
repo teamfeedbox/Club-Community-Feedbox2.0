@@ -1,9 +1,4 @@
-import {
-  faCircleCheck,
-  faCircleXmark,
-  faFileInvoice,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import "./PendingApprovals.css";
@@ -15,10 +10,11 @@ const PendingApprovals = (props) => {
   const [pendingUsers, setPendingUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [val, setVal] = useState(false);
-  const [email, setEmail] = useState("");
-  const [id, setId] = useState("");
+  const [id, setId] = useState();
+  const [did, setDid] = useState();
   const [load, setload] = useState(false);
 
+  console.log(props, "props");
 
   const getUser = async () => {
     const result = await fetch(`http://localhost:8000/get`);
@@ -30,23 +26,24 @@ const PendingApprovals = (props) => {
           user.push(data);
         }
       });
+    user = user.reverse();
     let clgSel = [];
     if (props.clg) {
       if (props.clg == "All") {
-        setPendingUsers(user.reverse());
-        setData(user.reverse());
+        setPendingUsers(user);
+        setData(user);
       } else {
         user.map(data => {
           if (data.collegeName === props.clg) {
             clgSel.push(data)
           }
         })
-        setPendingUsers(clgSel.reverse());
-        setData(clgSel.reverse());
+        setPendingUsers(clgSel);
+        setData(clgSel);
       }
     } else {
-      setPendingUsers(user.reverse());
-      setData(user.reverse());
+      setPendingUsers(user);
+      setData(user);
     }
   };
 
@@ -75,15 +72,16 @@ const PendingApprovals = (props) => {
   };
 
   // Decline request for club member
-  const handleDecline = async (id) => {
+  const handleDecline = async (id, i) => {
     setLoading(true);
-    console.log(id);
+    setDid(i)
     const data = await fetch(`http://localhost:8000/user/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
     const res = await data.json();
     setLoading(false);
+    setload(true);
   };
 
   const handleEmail = async (id) => {
@@ -91,16 +89,14 @@ const PendingApprovals = (props) => {
     const data = await fetch(`http://localhost:8000/sendmail/${id}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      // body: JSON.stringify({ role: "Club_Member" }),
     });
     const res = await data.json();
-    setEmail(res);
   };
 
   // Accept request for club member
   const handleAccept = async (id, i) => {
     setLoading(true)
-    setId(i);
+    setId(i)
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -155,7 +151,7 @@ const PendingApprovals = (props) => {
                           height="40"
                           alt="Alex Shatov"
                         />
-                        <div className="ml-2 text-[1rem] font-[400]"> {approval.name} </div>
+                        <div className="ml-2  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[400]"> {approval.name} </div>
                       </div>
                     </td>
                     <td class="p-2 lg:flex items-center hidden md:block">
@@ -166,12 +162,14 @@ const PendingApprovals = (props) => {
                     <td class="pt-2 pb-2 flex justify-end">
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                         <button
-                          className="h-[30px] rounded-xl text-[#616161] text-[1.05rem] font-[500] hover:bg-gray-300 mr-2 w-[80px]"
+
+                          className="h-[30px] rounded-xl text-[#616161] text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[500] hover:bg-gray-300 mr-2 w-[80px]"
                           onClick={() => handleDecline(approval._id)}
+
                         >
                           Decline
                         </button>
-                        <button className="h-[25px] w-[80px] rounded-xl text-[1.05rem] font-[500]  text-white bg-[#00D22E] hover:bg-[#03821f]">
+                        <button className="h-[25px] w-[80px] rounded-xl  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[500]  text-white bg-[#00D22E] hover:bg-[#03821f]">
                           {loading && id === index ? (
                             <div
                               class="spinner-border text-white"
@@ -181,10 +179,7 @@ const PendingApprovals = (props) => {
                               <span class="visually-hidden">Loading...</span>
                             </div>
                           ) : (
-                            <div
-                            //  style={{marginTop:"-10px"}}
-                              onClick={() => handleAccept(approval._id, index)}
-                            >
+                            <div onClick={() => handleAccept(approval._id, index)}>
                               Accept
                             </div>
                           )}

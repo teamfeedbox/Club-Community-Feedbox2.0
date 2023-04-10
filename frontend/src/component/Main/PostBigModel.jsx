@@ -15,8 +15,12 @@ import "swiper/css/thumbs";
 import "../Profile/ProfileBigModel.css";
 // Bootstrap
 import Modal from "react-bootstrap/Modal";
+import TimeAgo from "javascript-time-ago";
+import en from 'javascript-time-ago/locale/en'
 
 function PostBigModel({ openComment, setOpenComment, id }) {
+  TimeAgo.addLocale(en);
+  const timeAgo = new TimeAgo("en-US");
 
   const [tempReply, setTempReply] = useState("");
   const [deleteComId, setDeleteComId] = useState("");
@@ -28,6 +32,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   const [replyMsg, setReplyMsg] = useState("");
   const [postData, setPostData] = useState();
   const [commentId, setCommentId] = useState("");
+  const [postedById, setPostedById] = useState("");
 
   const [message, setMessage] = useState("");
 
@@ -104,11 +109,14 @@ function PostBigModel({ openComment, setOpenComment, id }) {
     result = await result.json();
     // console.log(result)
     setUser(result);
+    // console.log(result.postedBy)
+    setPostedById(result.postedBy._id)
     // if(result._id===id){
     //   getPost()
     // }
   };
 
+  // console.log(postedById)
   const [img, setImg] = useState();
 
   useEffect(() => {
@@ -205,7 +213,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify({id}),
+      body: JSON.stringify({id,postedById}),
     });
 
     result = await result.json();
@@ -226,7 +234,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify({id,commentId}),
+      body: JSON.stringify({id,commentId,postedById}),
     });
 
     result = await result.json();
@@ -279,6 +287,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
 
 
+
       <Modal
         show={show}
         onHide={handleShowDeleteReply}
@@ -319,7 +328,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
               <div className="post-display-center1">
                 <div className="post-display-image "></div>
 
-                {/* ********carousel for web view********** */}
+                {/* ***carousel for web view*** */}
                 <div className="post-display-image flex justify-center">
                   <div className="post-display-carousel-webview1 flex justify-center">
                     <Carousel
@@ -367,7 +376,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                       <div className="Post-Big-Title1">
                         {user && user.postedBy && user.postedBy.name}
                       </div>
-                      <div className="Post-Big-Title2">Feedbox Member</div>
+                      <div className="Post-Big-Title2">{user && user.postedBy && user.postedBy.role}</div>
                     </div>
                   </div>
                   <Link
@@ -423,7 +432,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                           <div className="Comment-Right-Down">
                             <span className="Comment-Down-Other" 
                             // onClick={()=>{console.log(item.reply.length)}}
-                            >22h</span>
+                            >{item && item.date && timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}</span>
                             <span
                                 className="Comment-Down-Other Comment-Down-Other1"
                                 onClick={() => {
@@ -447,16 +456,14 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                 reply
                              </span>}
                           </div>
-                  {/* ******** Section which will contain the reply on a comment****** */}
+                  {/* *** Section which will contain the reply on a comment*** */}
                         { showReply==true && commentId==item._id?(
                            <section style={{display:"flex",flexDirection:"column",marginTop:"10px"}}>
                            {
                             item && item.reply.map((data)=>
                             <div style={{display:"flex",flexDirection:"row"}}>
                             <div className="Comment-Left">
-                            <img
-                            className="object-contain"
-                            src={item && item.postedBy && item.postedBy.img}
+                            <img src={data && data.postedBy && data.postedBy.img}
                             ></img>
                             </div>
                             <div key={data._id} className="Comment-Right">
@@ -467,7 +474,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                               <div className="Right-Comment"> {data && data.replyMsg}</div>
                             </div>
                             <div className="Comment-Right-Down">
-                              <span className="Comment-Down-Other">22h</span>
+                              <span className="Comment-Down-Other">{data && data.date && timeAgo.format(new Date(data.date).getTime() - 60 * 1000)}</span>
                               <span
                                 className="Comment-Down-Other Comment-Down-Other1"
                                 onClick={() => {
@@ -488,7 +495,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                           </section>
                             ):("")
                         }
-                          {/* *******Hide and show reply******* */}
+                          {/* **Hide and show reply** */}
 
                           {
                           item.reply.length>0 && checkReply==true && showReply!=true? (

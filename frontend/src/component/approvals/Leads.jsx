@@ -6,8 +6,6 @@ import { Scrollbars } from "react-custom-scrollbars";
 import Modal from "react-bootstrap/Modal";
 import "./ClubMember.css";
 
-
-
 const Leads = (props) => {
   const [searchval, setSearchVal] = useState("");
   const [show, setShow] = useState(false);
@@ -115,7 +113,6 @@ const Leads = (props) => {
       }
 
     );
-
     console.log(notifi);
     setConfirm(false);
     setShow(false);
@@ -178,7 +175,7 @@ const Leads = (props) => {
                         {member.position}
                       </div>
                     </td>
-                    {/* { role === 'Admin' || role === 'Super_Admin' ? */}
+                    { role === 'Admin' || role === 'Super_Admin' ?
                     <td class="pt-2 pb-2 flex  justify-end ">
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                         <button
@@ -248,7 +245,7 @@ const Leads = (props) => {
                         </form>
                       </Modal>
                     </td>
-                    {/* : ''} */}
+                     : ''}
                     <td className=" my-auto " style={{marginRight:"10px"}}>
                       <div className="">
                       <button
@@ -264,7 +261,6 @@ const Leads = (props) => {
                 <div className="text-[1rem] font-[400]">No Lead Members !!</div>
                 </div>
                 }
-
             </tbody>
           </table>
         </Scrollbars>

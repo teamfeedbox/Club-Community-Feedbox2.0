@@ -31,10 +31,12 @@ const ProfilePost = (prop) => {
   const [showModal, setShowModal] = useState(false);
   const [newS, setNewS] = useState(false);
   const [id, setId] = useState("");
-  const [user,setUser]=useState([]);
+  // const [user,setUser]=useState([]);
 
   const [post, setPost] = useState([]);
   const [open, setOpen] = useState(false)
+  const [user,setUser]=useState([]);
+
 
   // <------------ To show and hide comment model--------------->
   const [openComment,setOpenComment]=useState(false);
@@ -70,6 +72,82 @@ const ProfilePost = (prop) => {
       myPost();
     }
   }
+  // Like a post
+  // const like = (id) => {
+  //   fetch("http://localhost:8000/like", {
+  //     method: "put",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + localStorage.getItem("jwt"),
+  //     },
+  //     body: JSON.stringify({
+  //       postId: id,
+  //     }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((result) => {
+  //       // console.log(result)
+  //       const newData = data.map((item) => {
+  //         if (item._id === result._id) {
+  //           return result;
+  //         } else {
+  //           return item;
+  //         }
+  //       });
+  //       setData(newData);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
+  // // Unlike a Post
+  // const unlike = (id) => {
+  //   fetch("http://localhost:8000/unlike", {
+  //     method: "put",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + localStorage.getItem("jwt"),
+  //     },
+  //     body: JSON.stringify({
+  //       postId: id,
+  //     }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((result) => {
+  //       const newData = data.map((item) => {
+  //         if (item._id === result._id) {
+  //           return result;
+  //         } else {
+  //           return item;
+  //         }
+  //       });
+  //       setData(newData);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
+
+  useEffect(() => {
+ 
+  getUser();
+   
+  });
+
+  const getUser = async () => {
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    // console.log(result)
+    setUser(result);
+  };
+
+
   // Like a post
   const like = (id) => {
     fetch("http://localhost:8000/like", {
@@ -126,6 +204,7 @@ const ProfilePost = (prop) => {
         console.log(err);
       });
   };
+
 
   return (
     <div>
