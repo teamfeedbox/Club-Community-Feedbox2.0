@@ -218,6 +218,7 @@ h5 div{
     box-shadow: rgba(0, 0, 0, 0.24) 1px 1px 4px 1.5px;
     margin: auto 0;
     font-size: 15px;
+    color: #0a57cada;
     border-radius: 10px;
     cursor: pointer;
 }

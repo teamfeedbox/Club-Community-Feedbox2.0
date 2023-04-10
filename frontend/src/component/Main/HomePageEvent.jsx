@@ -136,7 +136,7 @@ const HomePageEvent = (props) => {
           infiniteLoop
         >
           {event.map((item, index) => (
-            <div className="HomePageEvent ">
+            <div className="HomePageEvent">
               <Scrollbars style={{ height: "150px" }}>
               <h2> {item.title} </h2>
               <div className="home-page-event-time">
@@ -146,7 +146,7 @@ const HomePageEvent = (props) => {
               <div className="home-page-event-description">
                 {item.desc}
               </div>
-              <div className="home-page-event-button">
+              <div className="home-page-event-button pb-3">
                 <button className="home-page-event-button-knowmore">
                   Know More
                 </button>
