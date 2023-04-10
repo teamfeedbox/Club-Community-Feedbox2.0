@@ -8,12 +8,15 @@ import { DeviceSize } from "../responsive";
 import { MobileNavLinks } from "./mobileNavLinks";
 
 const NavbarContainer = styled.div`
+  position : fixed;
   width: 100%;
   height: 60px;
   box-shadow: 0 1px 3px rgba(15, 15, 15, 0.13);
   display: flex;
   align-items: center;
   padding: 0 1.5em;
+  background : white;
+  z-index : 99;
 `;
 
 const LeftSection = styled.div`
@@ -33,9 +36,10 @@ const RightSection = styled.div`
 
 export  default function NavbarRes(props) {
   const isMobile = useMediaQuery({ maxWidth: DeviceSize.mobile });
+  const selectedPage = window.location.pathname;
 
   return (
-    <NavbarContainer>
+      <NavbarContainer>
       <LeftSection>
         <Logo />
       </LeftSection>

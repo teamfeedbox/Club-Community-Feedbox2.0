@@ -42,7 +42,9 @@ const LoginPage = () => {
     e.preventDefault();
     console.log(email, password);
 
-    let result = await fetch("http://localhost:8000/login", {
+   
+
+    let result = await fetch("http://localhost:8000/login/superAdmin", {
       method: "post",
       body: JSON.stringify({ email, password }),
       headers: {
@@ -50,24 +52,16 @@ const LoginPage = () => {
       },
     });
     result = await result.json();
-    console.log(result);
-    console.log("first");
 
-    localStorage.setItem("jwt",result.token);
-    localStorage.setItem("user", JSON.stringify(result));
-    // if(result){
-    //   navigate('/main')
-
-    // }
-     navigate('/main')
-
-    // if (result) {
-    //   localStorage.setItem("user", JSON.stringify(result));
-    //   navigate('/main')
-    //   // alert("welcome");
-    // } else {
-    //   alert("Please enter valid login credentials");
-    // }
+    console.log(result.token);
+    
+    if(result.token){
+      navigate('/main')   
+      localStorage.setItem("user", JSON.stringify(result));
+      localStorage.setItem("jwt", result.token);  
+    }else{
+      alert(result.err);
+    }
   };
  
  
@@ -84,7 +78,7 @@ const LoginPage = () => {
     <div className="login-page">
       <div className="login-main-page">
         <p>Sign In</p>
-        <form action="">
+        <form onSubmit={handleLogin}>
           <div class="input-group mb-3">
             <input
               type="text"
@@ -129,38 +123,9 @@ const LoginPage = () => {
               </span>
             </div>
           </div>
-          {/* <div className="login-input">
-            <input type="email" required placeholder="Email"
-            value={email} onChange={(e) => setEmail(e.target.value)} />
-          </div>
-          <div className="login-input login-input-password">
-            <div>
-
-            <input className="login-input-eye-left"
-              type={eye ? "text" : "password"}
-              required
-              placeholder="Password"
-              value={password} onChange={(e) => setPassword(e.target.value)}
-            />
-            </div>
-            <div className="login-input-eye"
-              onClick={() => {
-                setEye(!eye);
-              }}
-              style={{'margin' : '8px'}}
-            >
-              {eye ? (
-                <FontAwesomeIcon icon={faEye} />
-              ) : (
-                <FontAwesomeIcon icon={faEyeSlash} />
-              )}
-            </div>
-          </div> */}
           <button
             className="login-input-below-btn"
-            type="submit"
-            onClick={handleLogin}
-          >
+            type="submit">
             Sign in
           </button>
         </form>

@@ -1,47 +1,117 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PostDisplay from "./PostDisplay";
 import HomePageProfile from "./HomePageProfile";
 import HomePageCal from "./HomePageCal";
 import HomePageEvent from "./HomePageEvent";
 import CreatePost from "./CreatePost";
 import "./Main.css";
-import bg from '../assets/mainBg.png'
+import bg from "../assets/mainBg.png";
+import NavbarRes from "../navbar/NavbarRes";
 
 const Main = () => {
+  const [user, setUser] = useState();
+  const [clg,setClg]=useState();
+
+  useEffect(() => {
+    getUser();
+  }, [])
+
+  const getUser = async () => {
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    setUser(result);
+  };
+
+  const handleDataChange = (newData) => {
+    setClg(newData);
+  };
+
   return (
-    <div className="main_container"
-    style={
-      {backgroundImage : `url(${bg})`, backgroundRepeat:"no-repeat", backgroundSize:"cover"  }
-    }
-    >
-      <section className="main">
-        <div className="main-home-page-profile">
-          <scrollable-component scrollbar-visibility="always">
-            <HomePageProfile />
-          </scrollable-component>
-        </div>
-
-        <div className="main-post-dispaly">
-          <scrollable-component scrollbar-visibility="always">
-            <div>
-              <CreatePost />
-            </div>
-            <PostDisplay />
-          </scrollable-component>
-        </div>
-
-        <div className="main-home-page-cal">
-          <scrollable-component scrollbar-visibility="always">
-            <div className="">
-              <div className="ml-6">
-                <HomePageCal />
+    <>
+      {/* <NavbarRes /> */}
+      <div
+        className="main_container"
+        style={{
+          backgroundImage: `url(${bg})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }}
+      >
+        {/* *******************webview****************** */}
+        <div className="main-page-display-web">
+          <section className="main">
+            <div className="flex m-auto justify-center">
+              <div className="main-home-page-profile">
+                <scrollable-component scrollbar-visibility="always">
+                  <HomePageProfile sendData={handleDataChange} />
+                </scrollable-component>
               </div>
-              <HomePageEvent />
+
+              <div className="main-post-dispaly">
+                <scrollable-component scrollbar-visibility="always">
+                  <div>
+                    {user && user.role === "Club_Member" ? '' : <CreatePost userData={user && user} />}
+                  </div>
+                  <PostDisplay clgData={clg && clg} />
+                </scrollable-component>
+              </div>
+
+              <div className="main-home-page-cal">
+                <scrollable-component scrollbar-visibility="always">
+                  <div className="home-page-cal-div">
+                    <HomePageCal />
+                  </div>
+                  <p className="up-coming-events">UP-COMING EVENTS</p>
+                  <HomePageEvent clgData={clg && clg}/>
+                </scrollable-component>
+              </div>
             </div>
-          </scrollable-component>
+          </section>
         </div>
-      </section>
-    </div>
+
+        {/* *****************tab view ************************* */}
+
+        <div className="main-page-display-tab">
+          <section className="main">
+            <div className="main-page-display-tab-left ">
+              <scrollable-component scrollbar-visibility="always">
+                <HomePageProfile userData={user && user} />
+                <p className="up-coming-events">UP-COMING EVENTS</p>
+
+                <HomePageEvent clgData={clg && clg}/>
+              </scrollable-component>
+            </div>
+            <div className="main-page-display-tab-right">
+              <scrollable-component scrollbar-visibility="always">
+                {user && user.role === "Club_Member" ? '' : <CreatePost userData={user && user} />}
+                <PostDisplay clgData={clg && clg} />
+              </scrollable-component>
+            </div>
+          </section>
+        </div>
+
+        {/* ******************mobile view************************* */}
+        <div className="main-page-display-mobile">
+          <section className="main ">
+          <div className="w-[92%] ml-[4%]">
+            <HomePageProfile userData={user && user} />
+            </div>
+            <div className="w-[92%] ml-[4%]">
+              {user && user.role === "Club_Member" ? '' : <CreatePost userData={user && user} />}
+            </div>
+            <p className="up-coming-events">UP-COMING EVENTS</p>
+            <div className="w-[92%] ml-[4%]">
+              <HomePageEvent clgData={clg && clg}/>
+            </div>
+            <PostDisplay clgData={clg && clg} />
+          </section>
+        </div>
+      </div>
+    </>
   );
 };
 

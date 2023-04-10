@@ -1,0 +1,19 @@
+.searchWrapper {
+    border: none;
+    /* display: flex;
+    align-items: center; */
+    /* min-height: 18px; */
+}
+select:valid {
+    color: black;
+}
+
+select:invalid option:not(:disabled) { color: red }
+
+/* select:invalid { 
+    color: red;
+} */
+.registerError{
+    font-size: 10px;
+    color:red;
+}

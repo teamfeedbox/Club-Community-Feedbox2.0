@@ -3,6 +3,7 @@
     /* width: 80%; */
     margin: auto;
 }
+
 .profile-tabs {
     display: flex;
     border-bottom: 1px solid black;
@@ -13,8 +14,8 @@
 .profile-tab-content {
     margin: 0px 30px;
     padding-bottom: 5px;
-    font-size: 1.2rem;
-    font-weight: 600;
+    font-size: 1.1rem;
+    font-weight: 700;
     cursor: pointer;
     /* border: 2px solid ; */
 }
@@ -27,7 +28,7 @@
 .profile-tab-data {
     /* border: 2px solid black; */
     width: 80%;
-    margin:10px auto;
+    margin: 10px auto;
 
 }
 
@@ -38,14 +39,17 @@
 @media only screen and (max-width: 600px) {
     .profile-tabs {
         width: 100%;
+        /* font: 1.7rem; */
         justify-content: space-around;
     }
+
     .profile-tab-content {
-        margin: 0px 0px;    
+        margin: 0px 0px;
         font-size: 1.1rem;
     }
+
     .profile-tab-data {
         width: 100%;
     }
-    
+
 }

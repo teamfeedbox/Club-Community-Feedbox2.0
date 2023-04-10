@@ -1,6 +1,6 @@
 .HomePageProfile {
     /* border: 2px solid black; */
-    margin-top: 20px ;
+    /* margin-top: 20px ; */
     border-radius: 8px;
     background-color: #fff;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
@@ -27,34 +27,46 @@
     transform: translate(0%,-0%);
 }
 
+.home-profile-main-photo{
+    background-color: white;
+    border-radius: 50%;
+    height: 90px;
+    width: 90px;
+    margin: 10px;
+}
+
 .home-profile-main-photo img {
     border-radius: 50%;
-    height: 100px;
-    width: 100px;
-    margin: 10px;
+    height: 90px;
+    width: 90px;
+    /* margin: 10px; */
+    object-fit:inherit;
 } 
 
 .home-profile-name-section  {
-    margin-top: 53px;
+    margin-top: 48px;
 }
 
-.home-profile-name-section h4{
-    font-weight: 700;
+.home-profile-name-section-name{
+    font-weight: var(--subheading-font-weight);
     margin: auto;
+    font-size: var(--heading-font-size);
 }
 
-.home-profile-name-section p {
-    font-weight: 500;
+.home-profile-name-section-desig  {
+    margin-top: -5px;
+    color: #787676;
+    font-weight: var(--subheading-font-weight);
+    font-size: var(--subheading-font-size) ;
 }
 
 .home-profile-skill-div {
-    margin: 20px 15px 20px 15px;
-
+    margin: 5px 5px 10px 15px;
 }
 
 .home-profile-skill-div h6 {
-    font-size: 1.3rem;
-    font-weight: 600;
+    font-size: var(--subheading-font-size);
+    font-weight: var(--subheading-font-weight);
 }
 
 .home-profile-skills {
@@ -67,7 +79,8 @@
     margin: 5px;
     padding: 2px 4px;
     border-radius: 5px;
-    font-weight: 600;
+    font-weight: var(--content-font-weight);
+    font-size: var(--content-font-size);
 } 
 
 .home-profile-coin-section{
@@ -94,13 +107,16 @@
 
 .home-profile-coins-content h6 {
     /* border: 2px solid; */
-    font-size: 1.2rem;
+    font-size: var(--heading-font-size);
+    font-weight: var(--heading-font-weight);
 }
 
 .home-profile-coins-content div {
     /* border: 2px solid; */
     margin-top: -10px;
     color: #787676;
+    font-weight: var(--content-font-weight);
+    font-size: var(--content-font-size);
 }
 
 

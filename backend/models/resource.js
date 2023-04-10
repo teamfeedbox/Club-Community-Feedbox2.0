@@ -5,22 +5,31 @@ const resourceSchema = new mongoose.Schema({
   title: {
     type: String,
   },
+  name:{
+    type:String
+  },
+  url: {
+    type: String,
+  },
   link: {
     type: String,
   },
-  pdf: {
-    data: Buffer,
-    type: String,
-  },
+  // pdf: {
+  //   data: Buffer,
+  //   type: String,
+  // },
   author: {
     type:ObjectId,
     ref:"users"
   },
+ 
   date: {
     type: Date,
     default: Date.now,
   },
-  skills: [],
+  skill:{
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("resources", resourceSchema);

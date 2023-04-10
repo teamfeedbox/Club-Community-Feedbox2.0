@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const NavLinksContainer = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
+  transition: all 2s ease-in-out;
 `;
 
 const LinksWrapper = styled.ul`
@@ -19,7 +21,7 @@ const LinkItem = styled.li`
   height: 100%;
   padding: 0 1.1em;
   color: #222;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 1.1rem;
   align-items: center;
   justify-content: center;
@@ -37,7 +39,7 @@ const LinkItemHighlight = styled.li`
   height: 100%;
   padding: 0 1.1em;
   color: #00c9ff;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1.1rem;
   align-items: center;
   justify-content: center;
@@ -46,7 +48,7 @@ const LinkItemHighlight = styled.li`
   border-bottom: 3px solid #00c9ff;
 `;
 
-const Link = styled.a`
+const Links = styled(Link)`
   text-decoration: none;
   color: inherit;
   font-size: inherit;
@@ -57,6 +59,22 @@ const Link = styled.a`
 `;
 
 export function NavLinks(props) {
+  const [user, setUser] = useState();
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    getUser();
+  }, []);
+  const getUser = async () => {
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    setRole(result.role);
+    setUser(result);
+  };
   const selectedPage = window.location.pathname;
 
   return (
@@ -64,52 +82,59 @@ export function NavLinks(props) {
       <LinksWrapper>
         {selectedPage === "/main" ? (
           <LinkItemHighlight>
-            <Link href="/main">Home</Link>
+            <Links to="/main">Home</Links>
           </LinkItemHighlight>
         ) : (
           <LinkItem>
-            <Link href="/main">Home</Link>
-          </LinkItem>
+                <Links to="/main">Home</Links>
+              </LinkItem>
         )}
 
         {selectedPage === "/calendar" || selectedPage === "/attendance" ? (
           <LinkItemHighlight>
-            <Link href="/calendar">Calendar</Link>
+            <Links to="/calendar">Calendar</Links>
           </LinkItemHighlight>
         ) : (
           <LinkItem>
-            <Link href="/calendar">Calendar</Link>
+            <Links to="/calendar">Calendar</Links>
           </LinkItem>
         )}
 
-        {selectedPage === "/approvals" ? (
-          <LinkItemHighlight>
-            <Link href="/approvals">Approvals</Link>
-          </LinkItemHighlight>
+        {role && (role === "Admin" || role === 'Lead' 
+        || role === 'Super_Admin') ? (
+          <div>
+            {selectedPage === "/approvals" ? (
+              <LinkItemHighlight>
+                <Links to="/approvals">Approvals</Links>
+              </LinkItemHighlight>
+            ) : (
+              <LinkItem>
+                <Links to="/approvals">Approvals</Links>
+              </LinkItem>
+            )}
+          </div>
         ) : (
-          <LinkItem>
-            <Link href="/approvals">Approvals</Link>
-          </LinkItem>
+          ""
         )}
 
         {selectedPage === "/rescources" ||
         selectedPage === "/rescourcesDisplay" ? (
           <LinkItemHighlight>
-            <Link href="/rescources">Rescources</Link>
+            <Links to="/rescources">Resources</Links>
           </LinkItemHighlight>
         ) : (
           <LinkItem>
-            <Link href="/rescources">Rescources</Link>
+            <Links to="/rescources">Resources</Links>
           </LinkItem>
         )}
 
         {selectedPage === "/faq" ? (
           <LinkItemHighlight>
-            <Link href="/faq">FAQs</Link>
+            <Links to="/faq">FAQs</Links>
           </LinkItemHighlight>
         ) : (
           <LinkItem>
-            <Link href="/faq">FAQs</Link>
+            <Links to="/faq">FAQs</Links>
           </LinkItem>
         )}
       </LinksWrapper>

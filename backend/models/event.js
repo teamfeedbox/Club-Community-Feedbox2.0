@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-// const user = require('./user')
 const {ObjectId} = mongoose.Schema.Types
 
 const eventSchema = new mongoose.Schema({
@@ -9,34 +8,30 @@ const eventSchema = new mongoose.Schema({
   desc: {
     type: String,
   },
-
   eventDate: {
     type: String,
-    
   },
   eventTime:{
     type:String
   },
-
   venue: {
     type: String,
   },
+  scope:{type:String},
   speaker: {
     type: String,
   },
+  attendanceSubmitted:{type:Boolean,default:false},
+  eventDuration:{type:Number,default:0},
   postedBy: {
-    // type: String,
-    type:ObjectId,
-    ref:"users"
-
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
   },
   date: {
     type: Date,
     default: Date.now,
   },
-
   attendance: [],
-
   collegeName: {
     type: String,
   },

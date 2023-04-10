@@ -2,8 +2,11 @@
     /* padding-top: 60px; */
 }
 .Profile-Banner img{
-    height: 200px;
+    min-height: 200px;
+    max-height: 200px;
     width: 100%;
+    object-fit: cover;
+    /* width: 100px; */
 }
 .Profile-Title{
     display: flex;
@@ -14,51 +17,42 @@
 }
 .Profile-Title img{
     border: 8px solid white;
-    border-radius: 100%;
+    border-radius: 50%;
     width: 20%;
-    height: 20%;
-    /* left: 0; */
-    /* right: 0; */
+    max-height: 250px;
+    min-height: 250px;
+    max-width: 250px;
+    min-width: 250px;
     margin-top: -100px;
     transform: translate(0%,-0%);
     margin-left: 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 6px 22px;
+    background-color: #fff;
+    object-fit :cover;
 }
 .Profile-Title div{
     margin: 20px 0 0 20px;
 }
 .Profile-Title div p{
- font-size: 35px;
- font-weight: 700;
+ font-size: var(--heading-font-size);
+ font-weight: var(--heading-font-weight);
  padding:  0 0;
  margin: 0px 0 0 0;
 }
 .Profile-Title div span{
-    font-size: 25px;
-    font-weight: 480;
+    font-size: var(--subheading-font-size);
+    font-weight: var(--subheading-font-weight);
 }
 .Profile-Title button{
     margin-left: 35%;
-    font-size: 15px;
+    font-size: var(--button-font-size);
     height: fit-content;
     margin-top: 5%;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 6px 12px;
     padding: 8px 20px;
-    font-weight: 500;
+    font-weight: var(--button-font-weight);
     border-radius: 12px;
 }
-
-/* # Mobile
-only screen and (min-width: 480px)
-
-# Tablet
-only screen and (min-width: 768px) 
-
-# Desktop
-only screen and (min-width: 992px)
-
-# Huge
-only screen and (min-width: 1280px)  */
 
 /* Mobile*/
 @media screen and (max-width: 480px){
@@ -66,7 +60,7 @@ only screen and (min-width: 1280px)  */
         /* padding-top: 60px; */
     }
     .Profile-Banner img{
-        height: 110px;
+        height: 50px;
         width: 100%;
     }
     .Profile-Title{
@@ -75,7 +69,6 @@ only screen and (min-width: 1280px)  */
         margin: 0 auto 40px auto;
         text-align: center;
         width: 80%;
-        /* border: 5px solid black; */
         position: relative;
         
     }
@@ -85,9 +78,11 @@ only screen and (min-width: 1280px)  */
     .Profile-Title img{
         border: 8px solid white;
         border-radius: 100%;
-        width: 45%;
-        height: 45%;
-        margin: -50px auto 0 auto;
+        max-height: 180px;
+        min-height: 180px;
+        max-width: 180px;
+        min-width: 180px;
+        margin: -80px auto 0 auto;
         box-shadow: rgba(0, 0, 0, 0.24) 0px 6px 22px;
     }
    
@@ -123,14 +118,18 @@ only screen and (min-width: 1280px)  */
         height:150px;
     }
     .Profile-Title{
-        width: fit-content;
+        width: 90%;
         margin: 0 auto 30px auto;
+        display: flex;
+        justify-content: center;
     }
     .Profile-Title img{
-        width: 25%;
-        height: 25%;
+        max-height: 200px;
+        min-height: 200px;
+        max-width: 200px;
+        min-width: 200px;
         margin-left: 15px;
-        margin-top: -100px;
+        margin-top: -60px;
         transform: translateY(0,-0%);
     }
     .Profile-Title div{
@@ -146,7 +145,6 @@ only screen and (min-width: 1280px)  */
         margin-left: 20%;
         font-size: 15px;
         padding: 5px 15px;
-        
     }
 
 

@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faAirFreshener,
   faBell,
-  faCaretDown,
   faRightFromBracket,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
+  faSignal,
+  faTh,
+  faThLarge,
+  faUser,} from "@fortawesome/free-solid-svg-icons";
+import Notification from "./Notification";
 
-
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { faKeyboard } from "@fortawesome/free-regular-svg-icons";
 
 const AccessibilityContainer = styled.div`
   display: flex;
@@ -28,6 +31,7 @@ const RegisterButton = styled.button`
   background-image: linear-gradient(to right, transparent 0%, #00c9ff 100%);
   transition: all 240ms ease-in-out;
   cursor: pointer;
+  // position: relative;
 
   &:hover {
     background-color: #00c9ff;
@@ -52,40 +56,116 @@ const LoginButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    color: #fff;
-    background-color: #00c9ff;
+    color: gray;
+    //   background-color: #00c9ff;
+    // margin-right : 10px;
   }
 
   &:not(:last-of-type) {
     margin-right: 7px;
   }
 `;
-const Link = styled.a`
+const Links = styled(Link)`
   // text-decoration: none;
   // color: inherit;
   // font-size: inherit;
 `;
 
 export function Accessibility(props) {
+  const [notification, setNotification] = useState(false);
+
+  const [user, setUser] = useState();
+  const [role, setRole] = useState();
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const getUser = async () => {
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    setRole(result.role);
+    setUser(result);
+  };
+  const selectedPage = window.location.pathname;
 
   const logoutHandler = () => {
     localStorage.clear();
   };
 
+  const handleCross = () => {
+    setNotification(false);
+  };
+
   return (
     <AccessibilityContainer>
+      {/* *********************profile icon*************************** */}
+      {role !== "Super_Admin" ? (
+        <Links
+          to="/profile"
+          title="Profile Page"
+          className={
+            selectedPage === "/profile" || selectedPage === "/dashboard"
+              ? "hidden"
+              : "block"
+          }
+        >
+          <LoginButton>
+            <FontAwesomeIcon icon={faUser} className="fa-xl" />
+          </LoginButton>
+        </Links>
+      ) : (
+        ""
+      )}
+      {/* *************************Dashboard****************************** */}
+      {role && role === "Super_Admin" ? (
+        <Links
+          to="/dashboard"
+          title="Dashboard"
+          className={
+            selectedPage === "/dashboard" || selectedPage === "/profile"
+              ? "hidden"
+              : "block"
+          }
+        >
+          <LoginButton>
+            {/* <img src="Images/Dashboard.png" alt="" /> */}
+            <FontAwesomeIcon icon={faSignal} className="fa-xl" />
+          </LoginButton>
+        </Links>
+      ) : (
+        ""
+      )}
+      {/* *************************logout************************************ */}
+      <Links
+        to="/"
+        title="Logout"
+        onClick={logoutHandler}
+        className={
+          selectedPage === "/profile" || selectedPage === "/dashboard"
+            ? "block"
+            : "hidden"
+        }
+      >
+        <LoginButton>
+          <FontAwesomeIcon icon={faRightFromBracket} className="fa-xl" />
+        </LoginButton>
+      </Links>
       {/* *******************notification bell**************** */}
-      <RegisterButton>
+      <RegisterButton
+        title="Notification"
+        onClick={() => {
+          setNotification(!notification);
+        }}
+      >
         <FontAwesomeIcon icon={faBell} className="fa-xl" />
       </RegisterButton>
 
-      {/* *********************Logout icon*************************** */}
-      <Link href='/'>
-        <LoginButton onClick={logoutHandler}>
-          <FontAwesomeIcon icon={faRightFromBracket} className="fa-xl" />
-        </LoginButton>
-      </Link>
-
+      {notification ? <Notification props={{ handleCross }} /> : ""}
     </AccessibilityContainer>
   );
 }

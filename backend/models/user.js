@@ -1,37 +1,35 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-
-
   name: {
     type: String,
     //required: [true, "Full name is required"],
     //minlength: 5,
     //maxlength: 50,
   },
+  lastModified:{type:Date,default:Date.now()},
   email: {
     type: String,
     //required: true,
-   // minlength: 5,
+    // minlength: 5,
     //maxlength: 50,
-   // unique: true,
+    // unique: true,
   },
   password: {
     type: String,
     //required: true,
     //minlength: 5,
-   // maxlength: 20,
+    // maxlength: 20,
   },
   collegeName: {
     type: String,
     //required: true,
   },
   role: {
-    type: String,
-    //required: true,
+    type: String, enum: ['user', 'Club_Member', 'Lead', 'Admin', 'Super_Admin'], default: "user"
   },
-  position:{
-    type:String,
+  position: {
+    type: String,
   },
   collegeYear: {
     type: String,
@@ -39,19 +37,32 @@ const userSchema = new mongoose.Schema({
   },
   coins: {
     type: Number,
-    // required:true,
+    default: 0
   },
-  profileImg: {
-    data: Buffer,
-    contentType: String,
+  img: {
+    type: String, default: "Images/defaultImg.png"
   },
-  branch:{
-    type:String
+  branch: {
+    type: String
+  },
+  bio: {
+    type: String
+  },
+  uniqueId: {
+    type: String
   },
   skills: [],
   events: [],
-
-
- });
+  interestedEvents:[],
+  notifications: [
+    {
+      type: { type: String },
+      message: { type: String },
+      date: { type: String },
+      status: { type: String },
+      id: { type: String }
+    }
+  ]
+});
 
 module.exports = mongoose.model("users", userSchema);

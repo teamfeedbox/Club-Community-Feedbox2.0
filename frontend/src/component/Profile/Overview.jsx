@@ -1,141 +1,251 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import "./Overview.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdd, faCoins, faEnvelope, faEnvelopeSquare, faGraduationCap, faIdCard, faStaffSnake, faStarHalfAlt, faUniversalAccess, faUniversity, faUserTag } from "@fortawesome/free-solid-svg-icons";
-function Overview() {
-  function callIt(){
-    alert("Clicked")
+import { faAdd, faEnvelope, faGraduationCap, faIdCard, faUniversity } from "@fortawesome/free-solid-svg-icons";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import Multiselect from "multiselect-react-dropdown";
+
+const backColor = ['#EDC7E2', '#C7EDCF', '#EDE7C7', '#EDC7C7', '#B5A6E1', '#B4B4B4', '#72C4FF', '#e9f5db', '#fad643', '#E3B47C']
+const fColor = ['#9B0483', '#2AA100', '#A67904', '#A10000', '#5C0684', '#363636', '#035794', '#718355', '#76520E', '#744E37']
+
+function Overview(prop) {
+  const [skills, setSkills] = useState([])
+  const [profileSubmit, SetProfileSubmit] = useState(false);
+  const [value, setValue] = useState("")
+  const [file, setFile] = useState('Images/girl.jpg')
+  const [image, setImage] = useState(false);
+  const [userId, setUserId] = useState('');
+  const [show1, setShow1] = useState(false);
+  const [data, setData] = useState();
+
+  const handleClose1 = () => setShow1(false);
+  const handleShow1 = () => setShow1(true);
+
+  function updateProfile() {
+    setValue("")
   }
+
+  let onSelectNames = (skills) => {
+    setSkills(skills);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const getUser = async () => {
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    console.log(result && (new Date(result.interestedEvents[0].eventDate)).toString().split(" ")[0], "lkjiug");
+    setData(result);
+    setUserId(result._id)
+  };
+
+  const updateSkill = async (userId) => {
+    let result = await fetch(`http://localhost:8000/updateDetail/${userId}`, {
+      method: 'put',
+      body: JSON.stringify({ skills }),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("jwt")
+      }
+    })
+    result = await result.json();
+  }
+
+  const handleRemove = (e) => {
+    setSkills(e)
+  }
+
   return (
-    <div className='Overview-Container'>
-      <div className='Overview-Left'>
-        {/* Custom Tag */}
-        <p className='Overview-Left-P'>
-          I converted Top MBA Calls in 2019, but decided upon continuing with
-          my startup, Feedbox. We help businesses reach out to people through
-          digital means and help them grow their online presence.
-        </p>
-        <div className='Overview-Detail'>
-          <section>
-            <div className='Detail-icon1'>
-            <FontAwesomeIcon className="fa-lg" icon={faEnvelope} />
-            </div>
-            <div>
-              <span>Email:</span>
-              <p>xyzperson@gmail.com</p>
-            </div>
-          </section>
-          <section>
-            <div className='Detail-icon2'>
-            <FontAwesomeIcon className="fa-lg" icon={faIdCard} />
-            </div>
-            <div>
-              <span>Unique Id:</span>
-              <p>2019SVV0565</p>
-            </div>
-          </section>
-          <section>
-            <div className='Detail-icon3'>
-            <FontAwesomeIcon className="fa-lg" icon={faUniversity} />
-            </div>
-            <div>
-              <span>University:</span>
-              <p>Shri Vaishnav Vidyapeeth</p>
-            </div>
-          </section>
-          <section>
-            <div className='Detail-icon4'>
-            <FontAwesomeIcon className="fa-lg" icon={faGraduationCap} />
-            </div>
-            <div>
-              <span>Year:</span>
-              <p>4th Year</p>
-            </div>
-          </section>
-        </div>
-        <div className='Overview-Skills'>
-          <div className='Skills-Title'>Skills:</div>
-          <div className='Overview-Sub-Skills'>
-          <span className='Skills'>Graphics Designing</span>
-          <span className='Skills'>Content Writing</span>
-          <span className='Skills'>Search Engine Optimization</span>
-          <span className='Skills'>Time Management </span>
-          <span className='Add-Event' onClick={callIt}>
-            <FontAwesomeIcon className="fa-lg" icon={faAdd} />
-          </span>
-          </div> 
-        </div>
-      </div>
+    <>
+      <div className='Overview-Container'>
+        <div className='Overview-Left'>
+          <form onSubmit={updateProfile}>
+            {
+              profileSubmit ?
+                <textarea className='Overview-Left-input' rows="3" placeholder=''>
+                </textarea>
+                :
+                <p className='Overview-Left-P' onClick={() => SetProfileSubmit(true)}>
+                  {data && data.bio}
+                </p>
+            }
+            <div className='Overview-Detail'>
+              <section>
+                <div className='Detail-icon1'>
+                  <FontAwesomeIcon className="fa-lg" icon={faEnvelope} />
+                </div>
+                <div className='Profile-Edit-Mail'>
+                  <div>
 
-      <div className='Overview-Right'>
-        <div className='Overview-Right-Statistics'>
-          <h5>
-            Community Statistics:
-          </h5>
-          <div className='statistics'>
-          <section>
-            <div className='Detail-icon5'>
-              <img src="Images/Money.png"></img>
-            </div>
-            <div className='Right-Sub'>
-              <span>40</span>
-              <p>Coins Collected</p>
-            </div>
-          </section>
+                    <span>Email:</span>
+                    <p className='Overview-Left-P' onClick={() => SetProfileSubmit(true)}>
+                      {
+                        data && data.email
+                      }
+                    </p>
 
-          <section>
-            <div className='Detail-icon Detail-icon6'>
-            <img src="Images/Stars.png"></img>
+                  </div>
+                  {
+                    profileSubmit ?
+                      <button type="submit">Save</button>
+                      : null
+                  }
+                </div>
+              </section>
+
+              <section>
+                <div className='Detail-icon2'>
+                  <FontAwesomeIcon className="fa-lg" icon={faIdCard} />
+                </div>
+                <div>
+                  <span className='text-[1.1rem] font-[700]'>Unique Id: </span>
+                  <p className='text-[1rem] font-[400] '>{data && data.uniqueId}</p>
+
+                </div>
+              </section>
+              <section>
+                <div className='Detail-icon3'>
+                  <FontAwesomeIcon className="fa-lg" icon={faUniversity} />
+                </div>
+                <div>
+                  <span className='text-[1.1rem] font-[700]'>University:</span>
+                  <p className='text-[1rem] font-[400] '>{data && data.collegeName}</p>
+                </div>
+              </section>
+              <section>
+                <div className='Detail-icon4'>
+                  <FontAwesomeIcon className="fa-lg" icon={faGraduationCap} />
+                </div>
+                <div>
+                  <span className='text-[1.1rem] font-[700] '>Year:</span>
+                  <p className='text-[1rem] font-[400] '>{data && data.collegeYear}</p>
+                </div>
+              </section>
             </div>
-            <div className='Right-Sub'>
-              <span>05</span>
-              <p>Sessions Attended</p>
+          </form>
+          <div className='Overview-Skills'>
+            <div className='Skills-Title'>Skills:</div>
+            <div className='Overview-Sub-Skills'>
+              {
+                data && data.skills && data.skills.map((data, index) => (
+                  <span style={{ background: backColor[index], color: fColor[index] }} key={index} className='Skills'>{data}</span>
+                ))
+              }
+              <span className='Add-Event' onClick={handleShow1}>
+                <FontAwesomeIcon className="fa-lg" icon={faAdd} />
+              </span>
             </div>
-          </section>
           </div>
-        </div>  
-        
-        <div className='Overview-Right-Statistics Overview-Right-Statistics1'>
-        <h5>
-          Enrolled Sessions:
-          <div></div>
-        </h5>
-        <section className='Enrolled-Section'>
-        
-        <div className='Sessions-Section'>
-        <div style={{color:"#848283"}}>TUE</div>
-        <div style={{color:"#010001"}}>21 March</div>
-        <div style={{color:"#ff5a5f"}}>ONLINE</div>
-        </div>
-        <div className='Sessions-Section'>
-        <div style={{color:"#848283"}}>TUE</div>
-        <div style={{color:"#010001"}}>21 March</div>
-        <div style={{color:"#ff5a5f"}}>ONLINE</div>
-        </div>
-        <div className='Sessions-Section'>
-        <div style={{color:"#848283"}}>TUE</div>
-        <div style={{color:"#010001"}}>21 March</div>
-        <div style={{color:"#ff5a5f"}}>ONLINE</div>
+          {/* ***************logout************** */}
         </div>
 
-        <div className='Sessions-Section'>
-        <div style={{color:"#848283"}}>TUE</div>
-        <div style={{color:"#010001"}}>21 March</div>
-        <div style={{color:"#ff5a5f"}}>ONLINE</div>
-        </div>
-        <div className='Add-Event-Cont'>
-        <div className='Add-Event1' onClick={callIt}>
-        <FontAwesomeIcon className="fa-lg" icon={faAdd} />
-        </div>
-        </div>
-        </section>        
+        {/* modal to add skills */}
+        <Modal show={show1} onHide={handleClose1}>
+          <Modal.Header closeButton>
+            <Modal.Title className='club-member-modal-header'>Add Skills</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Multiselect
+              value={skills}
+              onChange={(e) => console.log()}
+              placeholder="Add Skill"
+              displayValue=""
+              isObject={false}
+              onKeyPressFn={function noRefCheck() { }}
+              onRemove={(e) => { handleRemove(e) }}
+              onSearch={function noRefCheck() { }}
+              onSelect={onSelectNames}
+              selectedValues={data && data.skills}
+              options={[
+                "Web Development",
+                "App Development",
+                "SEO",
+                "Linkedin Optimization",
+                "Graphic Design",
+                "Video Editing",
+                "Time Management",
+                "Digital Marketing",
+                "Content Writing",
+                "Ads",
+              ]}
+            // selectedValues={{}}
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={() => {
+              handleClose1()
+              updateSkill(userId)
+            }}
+              className='save-btn'>
+              Save
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
-        </div>    
-      <div>
+        <div className='Overview-Right'>
+          <div className='Overview-Right-Statistics'>
+            <h5 className='text-[1.1rem] font-[700] '>
+              Community Statistics:
+            </h5>
+            <div className='statistics'>
+              <section>
+                <div className='Detail-icon5'>
+                  <img src="Images/Money.png"></img>
+                </div>
+                <div className='Right-Sub'>
+                  <span className='text-[1.1rem] font-[700]'> {data && data.coins} </span>
+                  <p className='text-[1rem] font-[400] '>Coins Collected</p>
+                </div>
+              </section>
 
+              <section>
+                <div className='Detail-icon Detail-icon6'>
+                  <img src="Images/Stars.png"></img>
+                </div>
+                <div className='Right-Sub'>
+                  <span className='text-[1.1rem] font-[700] '> {data && data.events.length} </span>
+                  <p className='text-[1rem] font-[400] '>Sessions Attended</p>
+                </div>
+              </section>
+            </div>
+          </div>
+
+          <div className='Overview-Right-Statistics Overview-Right-Statistics1'>
+            <h5 className='text-[1.1rem] font-[700] '>
+              Enrolled Sessions:
+              <div></div>
+            </h5>
+            <section className='Enrolled-Section'>
+              {
+                data &&
+                data.interestedEvents.map((date) => (
+                  <div className='Sessions-Section'>
+                    <div style={{ color: "#848283" }}>{(new Date(date.eventDate)).toString().split(" ")[0]}</div>
+                    <div style={{ color: "#010001" }}>{(new Date(date.eventDate)).toString().split(" ")[2]} {(new Date(date.eventDate)).toString().split(" ")[1]}</div>
+                    <div style={{ color: "#ff5a5f" }}>ONLINE</div>
+                  </div>
+                ))
+              }
+              <div className='Add-Event-Cont'>
+                <div className='Add-Event1' >
+                  <FontAwesomeIcon className="fa-lg" icon={faAdd} />
+                </div>
+              </div>
+            </section>
+          </div>
+          <div>
+          </div>
         </div>
       </div>
-    </div>
+
+    </>
   )
 }
 

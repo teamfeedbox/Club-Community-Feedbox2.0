@@ -1,22 +1,53 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import "./ProfileBanner.css";
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import EditProfile from './EditProfile';
+
 function ProfileBanner() {
+
+  const [data, setData] = useState();
+  const [open, setOpen] = useState(false);
+  const [role, setRole] = useState('');
+  // const [img, setImg] = useState('Images/defaultImg.png')
+
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const getUser = async () => {
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    setRole(result.role);
+    setData(result);
+    // setImg(result.img)
+  };
+
+
   return (
     <div className='Profile-Banner'>
-        {/* Banner background Image */}
         <img src="Images/bg5.png"></img>
-
-        {/* profle image and name */}
         <div className='Profile-Title'>
-            <img src="Images/podcast.png"></img>
+            <img src={data && data.img}></img>
             <div>
-                <p>Aditya Pandey</p>
-                <span>President</span>
+                <p>{data && data.name}</p>
+                {role === "Club_Member" ? (
+            <span> Club Member </span>
+          ) : role === "Super_Admin" ? (
+            <span> Super Admin </span>
+          ) : (
+            <span> {role} </span>
+          )}
             </div>
-            
-            <button>
+            <EditProfile open={open} setOpen={setOpen
+            }/>
+
+            <button onClick={() => {setOpen(!open)}} >
                 <FontAwesomeIcon 
                 icon={faPenToSquare} 
                 style={{margin:"0px 10px 0 0"}}
@@ -24,7 +55,6 @@ function ProfileBanner() {
                 Edit Profile
             </button>
         </div>
-        
     </div>
   )
 }

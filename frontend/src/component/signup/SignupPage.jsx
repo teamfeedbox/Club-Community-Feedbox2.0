@@ -45,15 +45,6 @@ const SignupPage = () => {
 
   const collectData = async (e) => {
     e.preventDefault();
-    // console.log(
-    //   name,
-    //   email,
-    //   password,
-    //   collegeYear,
-    //   branch,
-    //   collegeName,
-    //   skills
-    // );
     let result = await fetch("http://localhost:8000/register", {
       method: "post", // post method because we want to save the data
       body: JSON.stringify({
@@ -181,9 +172,7 @@ const SignupPage = () => {
               <Multiselect
                 value={skills}
                 onChange={(e) => console.log()}
-                // onChange={(e)=>setSkills[...skills,e.target.value]}
                 placeholder="Add Skill"
-                // style={{paddingLeft:"50px"}}
                 displayValue=""
                 isObject={false}
                 onKeyPressFn={function noRefCheck() {}}

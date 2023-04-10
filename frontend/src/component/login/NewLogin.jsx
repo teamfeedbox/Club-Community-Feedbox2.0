@@ -1,8 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const NewLogin = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+  let auth = localStorage.getItem("user");
+
+  const handleLogin = async (e) => {
+    setLoading(true);
+    e.preventDefault();
+    console.log(email, password);
+
+    let result = await fetch("http://localhost:8000/login", {
+      method: "post",
+      body: JSON.stringify({ email, password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    result = await result.json();
+
+
+
+    if(result.token){
+      navigate('/main')   
+      localStorage.setItem("user", JSON.stringify(result));
+      localStorage.setItem("jwt", result.token);
+    } else {
+      alert(result.err);
+    }
+    setLoading(false);
+  };
+
   return (
-    <div>
+    <div className="h-[100vh] overflow-hidden">
+      kmlkm lkm l <br /> bnijbc ikj
       <div className="bg-purple-900 absolute top-0 left-0 bg-gradient-to-b from-gray-900 via-gray-900 to-purple-800 bottom-0 leading-5 h-full w-full overflow-hidden"></div>
       <div className="relative   min-h-screen  sm:flex sm:flex-row  justify-center bg-transparent rounded-3xl shadow-xl">
         <div className="flex-col flex  self-center lg:px-14 sm:max-w-4xl xl:max-w-md  z-10">
@@ -15,18 +51,20 @@ const NewLogin = () => {
             </p>
           </div>
         </div>
-        <div className="flex justify-center self-center  z-10">
-          <div className="p-12 bg-white mx-auto rounded-3xl w-96 ">
+        <div className=" md:mt-10 z-10 lg:flex sm:flex justify-center lg:self-center sm:self-center m-[12px] mt-[50px] md:self-auto md:block">
+
+        {/* <div className="flex justify-center self-center mt-[80px] m-[12px] z-10 md:block"> */}
+          <div className="p-12 bg-white mx-auto rounded-3xl w-[98%] md:w-[110%] lg:w-[350px] ">
             <div className="mb-7">
               <h3 className="font-semibold text-2xl text-gray-800">Sign In </h3>
               <p className="text-gray-400">
-                Don'thave an account?{" "}
-                <a
-                  href="#"
+                Don't have an account?{" "}
+                <Link
+                  to="/register"
                   className="text-sm text-purple-700 hover:text-purple-700"
                 >
                   Sign Up
-                </a>
+                </Link>
               </p>
             </div>
             <div className="space-y-6">
@@ -35,14 +73,21 @@ const NewLogin = () => {
                   className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
                   type=""
                   placeholder="Email"
+                  value={email}
+                  required
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
               <div className="relative" x-data="{ show: true }">
                 <input
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
-                  type="show ? 'password' : 'text'"
-                  className="text-sm text-gray-200 px-4 py-3 rounded-lg w-full bg-gray-200 focus:bg-gray-100 border border-gray-200 focus:outline-none focus:border-purple-400"
+                  required
+                  type="password"
+                  // type="show ? 'password' : 'text'"
+                  className="text-sm text-black px-4 py-3 rounded-lg w-full bg-gray-200 focus:bg-gray-100 border border-gray-200 focus:outline-none focus:border-purple-400"
                 />
                 <div className="flex items-center absolute inset-y-0 right-0 mr-3  text-sm leading-5">
                   <svg
@@ -75,41 +120,55 @@ const NewLogin = () => {
 
               <div className="flex items-center justify-between">
                 <div className="text-sm ml-auto">
-                  <a href="#" className="text-purple-700 hover:text-purple-600">
+                  {/* <a href="#" className="text-purple-700 hover:text-purple-600">
                     Forgot your password?
-                  </a>
+                  </a> */}
                 </div>
               </div>
               <div>
                 <button
-                  type="submit"
                   className="w-full flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
                 >
-                  Sign in
+                  {loading ? (
+                    <div
+                      class="spinner-border text-white"
+                      role="status"
+                      style={{
+                        height: "15px",
+                        width: "15px",
+                        marginTop: "3px",
+                      }}
+                    >
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  ) : (
+                    <button type="submit" onClick={handleLogin}>
+                      Sign in
+                    </button>
+                  )}
                 </button>
               </div>
             </div>
-            
+
             <div className="mt-7 text-center text-gray-300 text-xs">
               <span>
                 Copyright © 2021-2023
                 <a
-                  href="https://codepen.io/uidesignhub"
+                  href="https://feedbox.co.in/"
                   rel=""
                   target="_blank"
                   title="Codepen aji"
                   className="text-purple-500 hover:text-purple-600 "
                 >
-                  AJI
+                  Feedbox
                 </a>
               </span>
             </div>
           </div>
         </div>
       </div>
-
       <svg
-        class="absolute bottom-0 left-0 "
+        class="absolute bottom-0 left-0 hidden md:block "
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1440 320"
       >

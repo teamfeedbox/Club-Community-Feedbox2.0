@@ -1,195 +1,291 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   faCircle,
   faLocationDot,
   faClock,
   faCalendarAlt,
   faSearch,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./AttendanceSheet.css";
-import { useNavigate } from "react-router-dom";
-import { useTableSearch } from "./useTableSearch";
-// import axios from 'axios';
 
-const array = [
-  {
-    index: 1,
-    name: "Isha Bam",
-    branch: "IT",
-    year: "4th",
-  },
-  {
-    index: 2,
-    name: "Anushka Shah",
-    branch: "IT",
-    year: "4th",
-  },
-  {
-    index: 3,
-    name: "Khushi ",
-    branch: "IT",
-    year: "4th",
-  },
-  {
-    index: 4,
-    name: "Shraddha",
-    branch: "IT",
-    year: "4th",
-  },
-  {
-    index: 5,
-    name: "Isha Bam",
-    branch: "IT",
-    year: "4th",
-  },
-];
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+
+import "./AttendanceSheet.css";
+import NavbarRes from "../navbar/NavbarRes";
+
+
+// Bootstrap
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 const AttendanceSheet = () => {
-  const [searchVal, setSearchVal] = useState(null);
+  const location = useLocation();
+  // Bootstrap
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-  // const fetchUsers = async () => {
-  //   const { data } = await axios.get(
-  //     "https://jsonplaceholder.typicode.com/users/"
-  //   );
-  //   return { data };
-  // };
-
-  const { filteredData, loading } = useTableSearch({
-    searchVal,
-    // retrieve: fetchUsers
-  });
   const navigate = useNavigate();
+  const [data, setData] = useState([]);
+  const [value, setValue] = useState([]);
+  const [checkedUsers, setCheckedUsers] = useState([]);
+  const [currentEvent, setCurrentEvent] = useState();
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [eventDuration,setEventDuration]=useState();
+  const eventId = location.state.eventId;
+  const [currentUserId, setcurrentUserId] = useState()
+
+  useEffect(() => {
+    getEvent();
+    setLoading(false);
+
+    let user = localStorage.getItem('user')
+    user = JSON.parse(user)
+    // console.log(user.id)
+    setcurrentUserId(user.id)
+  }, [loading])
+
+  const getEvent = async () => {
+    let result = await fetch(`http://localhost:8000/getEvent/${eventId}`,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      }
+    );
+    result = await result.json();
+    console.log(result[0],"s;lkcfjihdgefy");
+    setCurrentEvent(result[0]);
+    setData(result[0].attendance);
+    setValue(result[0].attendance)
+  };
+
+  const searchHandler = (e) => {
+    if (e.target.value != "") {
+      let val = e.target.value;
+      let matched = [];
+      value.length > 0 &&
+        value.forEach((user) => {
+          const data = user.name.toLowerCase().includes(val.toLowerCase());
+          if (data) {
+            matched.push(user);
+          }
+        });
+      setData(matched);
+    } else {
+      setData(value)
+    }
+  };
+
+  const handleCheckbox = (value) => {
+    if (value.checked) {
+      if (!checkedUsers.includes(value.val)) {
+        setCheckedUsers(arr => [...arr, value.val])
+      }
+    } else {
+      if (checkedUsers.includes(value.val)) {
+        setCheckedUsers(checkedUsers.filter(item => item != value.val))
+      }
+    }
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(checkedUsers);
+    if (checkedUsers.length > 0) {
+      let absentees = [];
+      let attendees = [];
+      data.map((val) => {
+        if (!checkedUsers.includes(val._id)) {
+          absentees.push(val._id);
+        } else {
+          let obj = {
+            id: val._id,
+            coins: val.coins ? val.coins + 10 : 10,
+          }
+          attendees.push(obj)
+        }
+      })
+      console.log(absentees,"absentees");
+      console.log(attendees);
+
+
+      // delete absentee from events attendance array
+      let result = await fetch(`http://localhost:8000/update/event/${currentEvent._id}`, {
+        method: "PUT",
+        body: JSON.stringify({absentees,eventDuration}),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      });
+      const res = await result.json();
+      console.log(res,"response")
+
+      console.log(currentEvent)
+      console.log(eventDuration);
+
+      // update users coins and events aaray
+      let userData = await fetch(`http://localhost:8000/update/coins/events`, {
+        method: "PUT",
+        body: JSON.stringify({attendees,currentEvent}),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      });
+      setShow(false);
+      setSubmitted(true);
+      setLoading(true)
+    }
+
+    // 
+    await fetch("http://localhost:8000/addNotifications", {
+    method: "post",
+    body: JSON.stringify({
+      message:"Congrats! +10 coins added.",
+      messageScope:"private",
+      userId:currentUserId, 
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("jwt"),
+    },
+  }).then((res)=>{
+    // alert(res.json)
+  });
+
+  }
+
   return (
     <>
-      <div className="attendance">
-        <div className="Calendar-left">
-          <div className="Calendar-add">Active Event</div>
+      <Modal show={show} onHide={handleClose}>
+        <form onSubmit={handleSubmit}>
+          <Modal.Header >
+            <Modal.Title>Are you sure you want to submit?</Modal.Title>
+            <FontAwesomeIcon
+              className="fa-lg"
+              icon={faXmark}
+              onClick={handleClose}
+              style={{ cursor: "pointer" }}
+            />
+          </Modal.Header>
+          <Modal.Body>
+            <input
+              className="block border-solid   p-2.5 w-full text-sm text-black-600 bg-white  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500 border-black-600"
+              placeholder="Event duration in minute"
+              type="number"
+              min={1}
+              name="number"
+              required onChange={(e)=>setEventDuration(e.target.value)}
+            ></input>
+          </Modal.Body>
+          <Modal.Footer>
+            <div className="flex justify-between w-[100vw]">
+              <button className="attendance-model-btn" onClick={handleClose}>Back</button>
 
-          <div className="Calendar-view">
-            <div className="Calendar-view-title">Events Preview</div>
-            <div className="Calendar-view-events">
-              <div className="event-title">{"Web Development"}</div>
-              <div className="event-profile">
-                <FontAwesomeIcon
-                  style={{ margin: "0 10px 0 0" }}
-                  icon={faCircle}
-                />
-                {"Yash Kulshrestha"}
-              </div>
-              <div className="event-minor">
-                <div>
-                  <FontAwesomeIcon
-                    style={{ margin: "0 10px 0 0" }}
-                    icon={faLocationDot}
-                  />
-                  {"Google meet"}
-                </div>
-
-                <div>
-                  <FontAwesomeIcon
-                    style={{ margin: "0 10px 0 0" }}
-                    icon={faCalendarAlt}
-                  />
-                  {"27/5/2023"}
-                </div>
-
-                <div>
-                  <FontAwesomeIcon
-                    style={{ margin: "0 10px 0 0" }}
-                    icon={faClock}
-                  />
-                  {"09:40 am to 12:00 pm"}
-                </div>
-              </div>
-              <div>
-                <b>Descrpition</b>
-                <br />
-                {
-                  "In this session you will learn about how to start the journey to become a UI/UX developer. In this session you will learn how to do research and test the market credibility of the project you are taking on and what are the regular pain of users from the competitor"
-                }
-              </div>
-              <button>Mark Attendance</button>
-              <button
-                onClick={() => {
-                  navigate("/calendar");
-                }}
-              >
-                Back
-              </button>
+              <button className="attendance-model-btn" type="submit">Submit Attendence</button>
             </div>
-          </div>
-        </div>
 
+          </Modal.Footer>
+        </form>
+      </Modal>
+      
+      <div className="attendance">
         <div className="attendance-right">
           <h1>Attendance Sheet</h1>
 
-          {/* ****************search functionality***************** */}
-          <form class="form-inline my-2 my-lg-0" className="res-table-search">
-            <input
-              class="form-control mr-sm-2"
-              type="text"
-              placeholder="Search by name"
-              aria-label="Search"
-              onChange={(e) => setSearchVal(e.target.value)}
-              // onChange={searchHandler}
-            />
-            <button class="btn btn-primary my-2 my-sm-0" type="submit">
-              <FontAwesomeIcon icon={faSearch} />
-            </button>
-          </form>
+
+          {/* *********Containing Title of event and search functionality********* */}
+
+
+          <section className="attendence-title">
+            {/* *****************Event title******************** */}
+            <h5 className="ml-4 mt-2 pl-2">
+              Web Development
+            </h5>
+
+            {/* ****************search functionality***************** */}
+            <div className="form-inline my-2 my-lg-0 res-table-search">
+              <input
+                className="form-control mr-sm-2"
+                type="text"
+                placeholder="Search by name"
+                aria-label="Search"
+                onChange={searchHandler}
+              />
+              <button className="btn btn-primary my-0 my-sm-0">
+                <FontAwesomeIcon icon={faSearch} />
+              </button>
+            </div>
+          </section>
+
 
           {/* ***********attendance sheet display in the form of table************** */}
-
           <div className="attendance-sheet">
-            <table
-              class="table table-hover"
-              rowKey="name"
-              dataSource={filteredData}
-              loading={loading}
-            >
+            <table className="table table-hover" rowKey="name">
               <thead>
                 <tr>
                   <th scope="col">S. No.</th>
                   <th scope="col">Attendee</th>
                   <th scope="col">Branch</th>
                   <th scope="col">Year</th>
-                  <th>Status</th>
+                  {currentEvent && !currentEvent.attendanceSubmitted && <th>Status</th>}
                 </tr>
               </thead>
               <tbody>
-                {array.map((arr) => (
-                  <tr>
-                    <th scope="row"> {arr.index} </th>
-                    <td> {arr.name} </td>
-                    <td>{arr.branch}</td>
-                    <td>{arr.year}</td>
-                    <td>
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="flexCheckDefault"
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+
+
+                { data.length > 0 &&
+                  data.map((item, index) => (
+                    <tr key={index}>
+                      <th scope="row"> {index + 1} </th>
+                      <td> {item.name} </td>
+                      <td>{item.branch}</td>
+                      <td>{item.collegeYear}</td>
+                      {currentEvent && !currentEvent.attendanceSubmitted && <td>
+                        <div className="form-check">
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            value={item._id}
+                            id="flexCheckDefault"
+                            onChange={(e) => handleCheckbox({ checked: e.target.checked, val: e.target.value })}
+                          />
+                        </div>
+                      </td>}
+                    </tr>
+                  ))}
               </tbody>
             </table>
-          </div>
 
-          {/* ***************attendance count**************** */}
-
-          <div className="attendance-count">
-            <div>
-              Total Attendee: <span>20</span>{" "}
-            </div>
-            <div>
-              Total Enrolled: <span>30</span>{" "}
-            </div>
           </div>
+          {
+            data.length > 0 ?
+              <div className="attendance-count">
+                {currentEvent && !currentEvent.attendanceSubmitted && <div>
+                  Total Attendee: <span>{checkedUsers.length > 0 ? checkedUsers.length : 0}</span>
+                </div>}
+                <div>
+                  Total Enrolled: <span>{data.length > 0 && data.length}</span>
+                </div>
+              </div> : "No Interested Students"
+          }
+          {data.length > 0 ? <div className="flex justify-between mx-12 my-5">
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                navigate("/calendar");
+              }}
+            >
+              Back
+            </button>
+            <button
+              onClick={() => { handleShow();}}
+              className="btn btn-primary" disabled={currentEvent && currentEvent.attendanceSubmitted}>{currentEvent && currentEvent.attendanceSubmitted ? 'Submitted' : 'Submit'}</button>
+          </div> : ""}
         </div>
       </div>
     </>

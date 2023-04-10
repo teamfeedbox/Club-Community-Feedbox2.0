@@ -3,39 +3,19 @@ const mongoose = require("mongoose");
 // const user = require("./user");
 
 const postSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "users",
-  },
-  title: {
-    type: String,
-  },
   desc: {
     type: String,
   },
-
-
-  img: {
+  img: [{
+    type: String, 
+  }],
+  scope: {
     type: String,
   },
-
-  // postType: {
-  //   type: String,
-  //   enum: ['public', 'private'],
-  //   // default: 'public',
-  // },
-
-  postType: {
-    type: String,
-  },
-
   collegeName: {
     type: String,
   },
-  visible: {
-    type: String,
-  },
-  date: {
+  postedDate: {
     type: Date,
     default: Date.now,
   },
@@ -47,10 +27,9 @@ const postSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
   }],
-
   comment: [
     {
-      commentBy: {
+      postedBy: {
         // type: String,
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",
@@ -62,9 +41,8 @@ const postSchema = new mongoose.Schema({
       message: {
         type: String,
       },
-      reply: {
-        userId: {
-          // type: String,
+      reply: [{
+        postedBy: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "users",
         },
@@ -75,7 +53,7 @@ const postSchema = new mongoose.Schema({
         replyMsg: {
           type: String,
         },
-      },
+      }],
     },
   ],
 });

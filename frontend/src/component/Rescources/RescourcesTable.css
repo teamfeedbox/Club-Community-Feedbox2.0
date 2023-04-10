@@ -1,17 +1,22 @@
 .Res-tabel-display {
     background-color: #f1f3f6;
+    padding: 70px;
 }
+
 .RescourcesTable {
+    /* padding-top: 90px; */
     margin: 30px 70px;
     background-color: #fff;
     border-radius: 15px;
     padding: 20px;
     box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
 }
+
 .res-table-div {
     border: 1px solid rgb(216, 209, 209);
     border-radius: 10px;
 }
+
 .RescourcesTable table {
     border-radius: 10px;
 }
@@ -32,7 +37,7 @@
 
 
 
-.RescourcesTable table tbody tr th{
+.RescourcesTable table tbody tr th {
     text-align: left;
 }
 
@@ -50,18 +55,19 @@
     cursor: pointer;
 }
 
-.res-view-download p:hover{
+.res-view-download p:hover {
     text-decoration: underline;
 }
 
-.res-table-head th{
+.res-table-head th {
     padding-left: 10px;
     border-radius: 10px;
     /* border: 2px solid red; */
 }
 
-.res-navigation{
-    /* display: flex*/
+.res-navigation {
+    display: flex;
+    justify-content: center;
     margin: 20px;
     color: #7a7e83;
 }
@@ -70,9 +76,25 @@
     /* border: 2px solid; */
     display: flex;
     justify-content: space-between;
-    margin:20px 20px;
+    margin: 20px 20px;
 }
 
+.res-paginate{
+    display: flex;
+    gap:10px;
+}
+.nums{
+    position: relative;
+    top:5px;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.prev{
+    background-color: rgb(200, 199, 199);
+    border-radius: 5px;
+    padding:5px;
+}
 .res-heading-right {
     display: flex;
     /* border: 2px solid red; */
@@ -83,12 +105,15 @@
     margin: 0px 20px;
 }
 
+
 .res-table-search input {
     border-top-left-radius: 5x;
     border-bottom-left-radius: 5px;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
     height: 40px;
+    font-size: var(--content-font-size);
+    font-weight: var(--content-font-weight);
 }
 
 .res-table-search button {
@@ -97,19 +122,24 @@
     border-bottom-right-radius: 5px;
     border-top-left-radius: 0px;
     height: 40px;
+    font-size: var(--button-font-size);
+    font-weight: var(--button-font-weight);
 }
 
 .res-heading-left {
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: var(--heading-font-size);
+    font-weight: var(--heading-font-weight);
 }
 
 .res-add-btn {
     height: 40px;
 }
 
-.modal-add-res-section-profile{
+.modal-add-res-section-profile h5{
     margin: 10px;
+    font-size: var(--subheading-font-size);
+    font-weight: var(--subheading-font-weight);
+
 }
 
 .res-add-modal-footer {
@@ -120,24 +150,28 @@
 
 .modal-footer-link {
     margin: 4px;
-    border :2px solid rgb(255, 255, 255);
+    border: 2px solid rgb(255, 255, 255);
     padding: 2px;
     border-radius: 2px;
     transition: all 0.2s linear;
 }
 
-.res-add-modal-title input{
+.res-add-modal-title input {
     border-top: none;
     border-left: none;
     border-right: none;
     width: 100%;
     padding: 5px;
+    font-size: var(--content-font-size);
+    font-weight: var(--content-font-weight);
 }
 
 .res-add-modal-footer-upload {
     margin: 5px;
-    font-weight: 700;
+    font-size: var(--content-font-size);
+    font-weight: var(--content-font-weight);
 }
+
 .res-add-modal-title input:focus {
     outline: none;
 }
@@ -155,4 +189,35 @@
     border-left: none;
     border-right: none;
     padding: 5px;
+}
+
+.res_modal_header{
+    font-size: var(--heading-font-size);
+    font-weight: var(--heading-font-weight);
+}
+
+@media only screen and (max-width: 1000px) {
+    .RescourcesTable {
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+    }
+
+}
+
+@media only screen and (max-width: 600px) {
+    .res-table-heading {
+        flex-direction: column;
+    }
+
+    .res-heading-right {
+        margin-top: 15px;
+    }
+    .res-table-search {
+        margin: 0px 20px 0px 0px;
+    }
+    .res-add-btn {
+        height: 40px;
+        width: 90px;
+    }
 }

@@ -1,15 +1,35 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
 .attendance {
-    padding-top: 85px;
+    padding-top: 75px;
     display: flex;
+    
+
+
 }
 
 .attendance-right {
     /* border: 2px solid black; */
-    width: 100%;
+    width: 80%;
+    margin: 70px auto;
+    padding-top: 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .attendance-right h1 {
     text-align: center;
+    margin-bottom: 20px;
+}
+
+.attendence-title{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
 }
 
 .attendance-sheet {
@@ -22,4 +42,44 @@
     display: flex;
     justify-content: space-around;
     font-weight: 600;
+}
+
+.Attendance-Sheet-Button {
+    padding: 10px 20px;
+    background-color: #0D6EFD;
+    color: #fff;
+    border-radius: 10px;
+    margin-left: 2%;
+
+}
+.attendance-model-btn{
+    background-color:#0D6EFD ;
+    margin: 5px;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    right: 0;
+}
+
+@media screen and (max-width: 480px) {
+    .attendance {
+        display: flex;
+        flex-direction: column;
+        padding-top: 5px;
+    }
+
+    .Attendance-Sheet-Button {
+        margin-left: 5%;
+        font-size: 12px;
+        margin-top: 10px;
+
+    }
+}
+
+@media only screen and (min-width: 480px) and (max-width:950px) {
+    .attendance {
+        display: flex;
+        flex-direction: column;
+        padding-top: 5px;
+    }
 }

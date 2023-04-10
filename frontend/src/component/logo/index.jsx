@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import { useMediaQuery } from "react-responsive";
 import { DeviceSize } from "../responsive";
+import { useNavigate } from "react-router-dom";
 // import GreenlandLogoImg from "../../assets/images/logo.png";
 
 const LogoWrapper = styled.div`
@@ -42,9 +43,14 @@ const MobileLogoImg = styled.div`
 export function Logo(props) {
   const isMobile = useMediaQuery({ maxWidth: DeviceSize.mobile });
 
+  const  navigate = useNavigate();
+
   return (
     <LogoWrapper>
-      {!isMobile && <LogoImg>
+      {!isMobile && <LogoImg onClick={() =>{
+        navigate('/main');
+    window.location.reload(true);
+      }}>
         <img src='Images/logo1.png' alt="Feedbox logo" />
       </LogoImg>}
 

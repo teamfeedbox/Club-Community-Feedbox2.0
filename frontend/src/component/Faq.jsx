@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Faq.css";
-import { MDBAccordion, MDBAccordionItem, MDBContainer } from "mdb-react-ui-kit";
+import NavbarRes from "./navbar/NavbarRes";
+import { Scrollbars } from "react-custom-scrollbars";
 
 const faqs = [
   {
@@ -36,28 +37,65 @@ const faqs = [
 ];
 
 const Faq = () => {
+  const [open, setOpen ] = useState();
+  
+  const changeHandler = (id) => {
+    setOpen(id)
+  }
 
   return (
-    <>
-      <div className="faq-overall">
-        <div className="faq-top">
-          <img src="Images/faq.jpg" alt="" />
-          <h1>FAQ</h1>
-        </div>
-
-        <div className="faq-bottom">
-          <MDBContainer className="mt-5" style={{ maxWidth: "1000px" }}>
-            <MDBAccordion alwaysOpen>
-              {faqs.map((faq) => (
-                <MDBAccordionItem collapseId={1} headerTitle={faq.question}>
-                  {faq.answer}
-                </MDBAccordionItem>
-              ))}
-            </MDBAccordion>
-          </MDBContainer>
+    <div className="lg:h-[100vh] overflow-hidden">
+      <div className="lg:p-[85px] pt-[85px] pb-[80px] bg-gray-200">
+        <div className="shadow m-auto lg:w-[80%] md:w-[85%] w-[95%] bg-white rounded-2xl">
+          <div className="lg:pt-5 pt-4 flex m-auto lg:flex-row flex-col ">
+            <div className="lg:w-[45%]  m-auto">
+              <img
+                className="lg:h-[350px] lg:w-[480px] md:h-[250px] md:w-[300px] m-auto rounded h-[200px]"
+                src="Images/faqImg.png"
+                alt=""
+              />
+            </div>
+            <div class="grid divide-y divide-neutral-200 lg:w-[50%]  pt-4 m-2  lg:pr-6 ">
+              <Scrollbars style={{ height: "350px" }}>
+                {faqs.map((faq) => (
+                  <div class="py-3 px-2 mr-2 z-20 relative" >
+                    <details class="group" >
+                      <summary 
+                      class="flex justify-between items-center font-medium cursor-pointer list-none">
+                        <span className="text-[1.1rem] font-[700]"> {faq.question}</span>
+                        <span class="transition group-open:rotate-180">
+                          <svg
+                            fill="none"
+                            height="24"
+                            shape-rendering="geometricPrecision"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="1.5"
+                            viewBox="0 0 24 24"
+                            width="24"
+                          >
+                            <path d="M6 9l6 6 6-6"></path>
+                          </svg>
+                        </span>
+                      </summary>
+                      <p class=" text-[1rem] font-[400] mt-3 group-open:animate-fadeIn transition-[all] duration-2000 ease-in">
+                        {faq.answer}
+                      </p>
+                    </details>
+                  </div>
+                ))}
+              </Scrollbars>
+            </div>
+          </div>
+          <img
+            className="w-[100%] h-[16%] lg:h-[35%] z-10"
+            src="Images/faqFooter.png"
+            alt=""
+          />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
