@@ -1,6 +1,5 @@
 import React from "react";
 import "./Faq.css";
-import Navbar from "./Navbar";
 import { MDBAccordion, MDBAccordionItem, MDBContainer } from "mdb-react-ui-kit";
 
 const faqs = [
@@ -40,7 +39,6 @@ const Faq = () => {
 
   return (
     <>
-      {/* <Navbar /> */}
       <div className="faq-overall">
         <div className="faq-top">
           <img src="Images/faq.jpg" alt="" />

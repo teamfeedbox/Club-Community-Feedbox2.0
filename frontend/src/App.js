@@ -22,7 +22,7 @@ import ReactBigCalendar from './component/Calendar/ReactBigCalendar';
 
 const App = () => {
   return (
-    <div className='App'>
+    <div className='App' >
       <NavbarRes />
       <Router>
         <Routes>

@@ -78,6 +78,16 @@ export function MobileNavLinks(props) {
             </LinkItem>
           )}
 
+          {selectedPage === "/profile" ? (
+            <LinkItemHighlight>
+              <Link href="/profile">Profile</Link>
+            </LinkItemHighlight>
+          ) : (
+            <LinkItem>
+              <Link href="/profile">Profile</Link>
+            </LinkItem>
+          )}
+
           {selectedPage === "/calendar" || selectedPage === "/attendance" ? (
             <LinkItemHighlight>
               <Link href="/calendar">Calendar</Link>

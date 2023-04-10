@@ -1,12 +1,10 @@
 import React from "react";
 import "./Rescources.css";
-import Navbar from "../Navbar";
 import { Link } from "react-router-dom";
 
 const Rescources = () => {
   return (
     <>
-      {/* <Navbar /> */}
       <div className="Rescources">
         <h1>RESOURCES</h1>
         <div className="Rescources-overall-card">
