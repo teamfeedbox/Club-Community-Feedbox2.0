@@ -33,6 +33,7 @@ const HomePageProfile = (props) => {
   const [college, setCollege] = useState("");
   const [allClgs, setAllClgs] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const [event, setEvent] = useState([]);
   const [clgEvents, setClgEvents] = useState([]);
   const [clgUsers, setClgUsers] = useState(0);
@@ -112,7 +113,7 @@ const HomePageProfile = (props) => {
 
   // Add clg functionality for super admin
   const handleAddSubmit = async (e) => {
-    setLoading(true);
+    setLoading1(true);
     e.preventDefault();
     if (addclg) {
       let val = {
@@ -132,7 +133,7 @@ const HomePageProfile = (props) => {
 
       setLoading(true);
     }
-    setLoading(true);
+    setLoading1(false);
   };
 
   const goToProfile = (name) => {
@@ -237,7 +238,7 @@ const HomePageProfile = (props) => {
                 className=" p-1 rounded w-[60px] ml-2 bg-green-600 text-white font-[500] text-[1.05rem] hover:bg-green-800 transition-all ease-linear duration-2000 "
                 type="submit"
               >
-                {loading ? (
+                {loading1 ? (
                   <div
                     class="spinner-border text-white"
                     role="status"
@@ -325,7 +326,7 @@ const HomePageProfile = (props) => {
             className=" p-1 rounded w-[22%] bg-green-600 ml-2 text-white font-[500] text-[1.05rem] hover:bg-green-800 transition-all ease-linear duration-2000 "
             type="submit"
             >
-            {loading ? (
+            {loading1 ? (
               <div
                 class="spinner-border text-white"
                 role="status"
