@@ -135,7 +135,9 @@ const Approvals = () => {
             </div>
           </div>
         </div>
+
       </div>
+
     </>
   );
 };

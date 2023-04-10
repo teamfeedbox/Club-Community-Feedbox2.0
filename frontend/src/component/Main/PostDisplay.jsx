@@ -258,8 +258,8 @@ useEffect(()=>{
                   </div>
                 </div>
                 {/* *********************carousel for web view*************************** */}
-                <div className="post-display-image flex justify-center">
-                  <div className="post-display-carousel-webview flex justify-center">
+                <div className="post-display-image flex justify-center h-[650px] carousel-web-view">
+                  <div className="post-display-carousel-webview flex justify-center h-[100%] m-0 p-0">
                     <Carousel
                       thumbWidth={60}
                       width={450}
