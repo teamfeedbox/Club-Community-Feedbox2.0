@@ -88,9 +88,9 @@ const PostDisplay = (props) => {
   });
 
 
-useEffect(()=>{
-  like(id)
-},[id])
+// useEffect(()=>{
+//   like(id)
+// },[id])
 
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
@@ -158,8 +158,11 @@ useEffect(()=>{
         // console.log(result)
         const newData = data.map((item) => {
           if (item._id === result._id) {
+            // console.log(result)
             return result;
           } else {
+            // console.log(item)
+
             return item;
           }
         });

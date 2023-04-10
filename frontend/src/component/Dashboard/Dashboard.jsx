@@ -297,6 +297,7 @@ const Dashboard = () => {
       } else {
         pastEvent++;
         eventHr = eventHr + item.eventDuration / 60;
+        // console.log(eventHr)
         average = eventHr * 60;
   
       }
@@ -342,6 +343,7 @@ const Dashboard = () => {
   //   // console.log(counter)
   // };
 
+  // console.log(time)
   return (
     <div>
       <div className=" pt-[60px] w-[90%] md:w-[90%] lg:w-[70%] m-auto">
