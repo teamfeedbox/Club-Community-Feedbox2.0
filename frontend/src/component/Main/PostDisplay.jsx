@@ -29,7 +29,7 @@ const PostDisplay = (props) => {
   const [tempComment, setTempComment] = useState('');
   const [tempReply, setTempReply] = useState('');
   // To open the Comment Model
-  const [openComment, setOpenComment] = useState(false);
+  const [openComment, setOpenComment] = useState(true);
   const [reply, setReply] = useState('');
   const [comment, setComments] = useState([" How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q",
     "How many times were you frustrated while looking out for a good collection of programming/algorithm /interview questions? What did you expect and what did you get? This portal has been created to",
