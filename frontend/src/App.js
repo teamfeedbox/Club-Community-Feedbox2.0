@@ -25,6 +25,7 @@ import Login from "./component/login/Login";
 
 const App = () => {
   const role = JSON.parse(localStorage.getItem("user")).role;
+  
 
   return (
     <div className="App">
