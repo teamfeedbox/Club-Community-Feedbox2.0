@@ -42,10 +42,14 @@ const HomePageProfile = (props) => {
   const [addclg, setaddclg] = useState();
   const [data, setData] = useState();
 
+  const role = JSON.parse(localStorage.getItem("user")).role
+
   useEffect(() => {
     // setLoading(true);
     getUser();
     getColleges();
+    getAllUsers();
+    getList()
     // setLoading(false);
   },[college]);
 
@@ -61,12 +65,6 @@ const HomePageProfile = (props) => {
     setAllClgs(val);
     setLoading(false);
   };
-  //   getColleges();
-  //   getUser();
-  //   getList();
-  //   getAllUsers();
-  //   setLoading(false);
-  // }, []);
 
   // get logged in user
   const getUser = async () => {
@@ -78,7 +76,6 @@ const HomePageProfile = (props) => {
     });
     result = await result.json();
     setData(result);
-    // setRole(result.role);
     setLoading(false);
   };
 
@@ -95,17 +92,6 @@ const HomePageProfile = (props) => {
     result = await result.json();
     setAllUsers(result);
   }
-
-  // get all colleges
-  // const getColleges = async () => {
-  //   const data = await fetch(`http://localhost:8000/colleges/get`);
-  //   const res = await data.json();
-  //   let val = [];
-  //   res.map((data) => {
-  //     val.push(data.name);
-  //   });
-  //   setAllClgs(val);
-  // };
 
   const onAddCollege = (e) => {
     setaddclg(e.target.value);
@@ -134,6 +120,7 @@ const HomePageProfile = (props) => {
       setLoading(true);
     }
     setLoading1(false);
+    window.location.href="/main"
   };
 
   const goToProfile = (name) => {
@@ -170,7 +157,7 @@ const HomePageProfile = (props) => {
       <div className="hidden md:block lg:block">
       <div className="home-profile-bg-doodle">
         <img src={"Images/doodle-profile-bg.png"} alt="" />
-        <button className="home-profile-visit-profile" onClick={data && data.role == 'Super_Admin' ? () => goToProfile('superAdmin') : () => goToProfile('user')}>
+        <button className="home-profile-visit-profile" onClick={() => goToProfile('user')}>
           <FontAwesomeIcon
             className="home-profile-visit-profile-icon"
             icon={faArrowUpRightFromSquare}
@@ -284,7 +271,7 @@ const HomePageProfile = (props) => {
                   Total Students:
                 </h>
                 <p className=" text-[1.5rem] font-[700] p-0 relative bottom-2">
-                  {selected ? clgUsers ? clgUsers : 0: allUsers.length > 0 && allUsers.length}
+                  {selected ? clgUsers ? clgUsers : 0 : allUsers.length > 0 && allUsers.length}
                 </p>
               </div>
             </div>

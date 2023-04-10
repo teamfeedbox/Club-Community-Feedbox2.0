@@ -297,6 +297,7 @@ const Dashboard = () => {
       } else {
         pastEvent++;
         eventHr = eventHr + item.eventDuration / 60;
+        // console.log(eventHr)
         average = eventHr * 60;
   
       }
@@ -342,11 +343,12 @@ const Dashboard = () => {
   //   // console.log(counter)
   // };
 
+  // console.log(time)
   return (
     <div>
-      <div className=" pt-[60px] w-[90%] md:w-[90%] lg:w-[70%] m-auto">
+      <div className=" m-auto">
         <div className="flex lg:mt-4 lg:ml-4 mt-2 ml-1">
-          <p className="ml-2 text-[1.5rem] font-[700] mb-0">Dashboard</p>
+          {/* <p className="ml-2 text-[1.5rem] font-[700] mb-0">Dashboard</p> */}
         </div>
 
         <div className=" flex flex-wrap justify-around lg:flex md:flex-row flex-col">

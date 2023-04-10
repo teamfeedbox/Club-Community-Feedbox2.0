@@ -24,12 +24,7 @@ import NavbarRes from "./component/navbar/NavbarRes";
 import Login from "./component/login/Login";
 
 const App = () => {
-  const [data, setData] = useState();
-
-  useEffect(() => {
-    getUser();
-  }, []);
-
+const [role, setRole] = useState()
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
@@ -37,10 +32,14 @@ const App = () => {
       },
     });
     result = await result.json();
-    setData(result.role);
-  // console.log(result)
+    console.log(result.role)
+    setRole(result.role);
+
   };
-  // console.log(data, "kmk");
+  
+useEffect(()=>{
+getUser()
+},[])
   return (
     <div className="App">
       <Router>
@@ -53,21 +52,21 @@ const App = () => {
             index
             path="/main"
             element={
-              data && data == null ? <Error /> : [<NavbarRes />, <Main />]
+              role && role == null ? <Error /> : [<NavbarRes />, <Main />]
             }
           />
 
           <Route
             index
             path="/comment/:id"
-            element={data && data == null ? <Error /> : <PostBigModel />}
+            element={role && role == null ? <Error /> : <PostBigModel />}
           />
 
           <Route
             index
             path="/calendar"
             element={
-              data && data == null ? (
+              role && role == null ? (
                 <Error />
               ) : (
                 [<NavbarRes />, <ReactBigCalendar />]
@@ -79,7 +78,7 @@ const App = () => {
             index
             path="/rescources"
             element={
-              data && data == null ? <Error /> : [<NavbarRes />, <Rescources />]
+              role && role == null ? <Error /> : [<NavbarRes />, <Rescources />]
             }
           />
 
@@ -87,13 +86,21 @@ const App = () => {
             index
             path="/profile"
             element={
-              (data && data == null) || (data == "Super_Admin") ? (
+              role && role == null ? <Error /> : [<NavbarRes />, <ProfilePage />]
+            }
+          />
+
+          {/* <Route
+            index
+            path="/profile"
+            element={
+              (role && role == null) || (role == "Super_Admin") ? (
                 <Error />
               ) : (
                 [<NavbarRes />, <ProfilePage />]
               )
             }
-          />
+          /> */}
 
           <Route index path="/profileComment" element={<ProfileBigModel />} />
 
@@ -101,7 +108,7 @@ const App = () => {
             index
             path="/rescourcesDisplay"
             element={
-              data && data == null ? (
+              role && role == null ? (
                 <Error />
               ) : (
                 [<NavbarRes />, <RescourcesTable />]
@@ -113,7 +120,7 @@ const App = () => {
             index
             path="/faq"
             element={
-              data && data == null ? <Error /> : [<NavbarRes />, <Faq />]
+              role && role == null ? <Error /> : [<NavbarRes />, <Faq />]
             }
           />
 
@@ -121,7 +128,7 @@ const App = () => {
             index
             path="/approvals"
             element={
-              (data && data == null) || ( data == "Club_Member") ? (
+              (role && role == null) || (role == "Club_Member") ? (
                 <Error />
               ) : (
                 [<NavbarRes />, <Approvals />]
@@ -136,7 +143,7 @@ const App = () => {
             index
             path="/attendance/:name"
             element={
-              (data && data == null) || ( data == "Club_Member") ? (
+              (role && role == null) || (role == "Club_Member") ? (
                 <Error />
               ) : (
                 [<NavbarRes />, <AttendanceSheet />]
@@ -144,22 +151,22 @@ const App = () => {
             }
           />
 
-          <Route
+          {/* <Route
             index
             path="/dashboard"
             element={
-              data && data == "Super_Admin" ? (
+              role && role == "Super_Admin" ? (
                 [<NavbarRes />, <Dashboard />]
               ) : (
                 <Error />
               )
             }
-          />
+          /> */}
 
           <Route
             index
             path="/notification"
-            element={data && data == null ? <Error /> : <MobileNotification />}
+            element={role && role == null ? <Error /> : <MobileNotification />}
           />
         </Routes>
       </Router>

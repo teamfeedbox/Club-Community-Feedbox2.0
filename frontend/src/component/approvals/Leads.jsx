@@ -18,7 +18,7 @@ const Leads = (props) => {
   const [id, setId] = useState();
 
   const role = JSON.parse(localStorage.getItem("user")).role
-  console.log(role);
+  const currentCollege = JSON.parse(localStorage.getItem("user")).college;
 
   const handleClose = () => { setShow(false); setConfirm(false) };
   const handleShow = () => setShow(true);
@@ -36,23 +36,36 @@ const Leads = (props) => {
         lead.push(data)
       }
     })
-    let clgSel = [];
-    if (props.clg) {
-      if (props.clg == "All") {
-        setLead(lead.reverse());
-        setData(lead.reverse());
+    lead = lead.reverse();
+    if (role === "Super_Admin") {
+      let clgSel = [];
+      if (props.clg) {
+        if (props.clg == "All") {
+          setLead(lead);
+          setData(lead);
+        } else {
+          lead.map(data => {
+            if (data.collegeName === props.clg) {
+              clgSel.push(data)
+            }
+          })
+          setLead(clgSel);
+          setData(clgSel);
+        }
       } else {
-        lead.map(data => {
-          if (data.collegeName === props.clg) {
-            clgSel.push(data)
-          }
-        })
-        setLead(clgSel.reverse());
-        setData(clgSel.reverse());
+        setLead(lead);
+        setData(lead);
       }
     } else {
-      setLead(lead.reverse());
-      setData(lead.reverse());
+      console.log("2");
+      let clg = [];
+      lead.map(data => {
+        if (data.collegeName === currentCollege) {
+          clg.push(data)
+        }
+      })
+      setLead(clg);
+      setData(clg);
     }
   };
 
@@ -176,7 +189,7 @@ const Leads = (props) => {
                         {member.position}
                       </div>
                     </td>
-                    {role && role === 'Admin' || role == 'Super_Admin' ?
+                    {(role && role === 'Admin') || (role &&  role === 'Super_Admin') ?
                       <td class="pt-2 pb-2 flex  justify-end ">
                         <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                           <button
@@ -260,9 +273,7 @@ const Leads = (props) => {
                   </tr>
                 )) :
                 <div className="nopending">
-
-                <div className="text-[1rem] font-[400]">No Lead Members !</div>
-
+                  <div className="text-[1rem] font-[400]">No Lead Members !!</div>
                 </div>
               }
             </tbody>
