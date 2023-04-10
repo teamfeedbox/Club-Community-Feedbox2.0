@@ -120,6 +120,7 @@ const HomePageProfile = (props) => {
       setLoading(true);
     }
     setLoading1(false);
+    window.location.href="/main"
   };
 
   const goToProfile = (name) => {

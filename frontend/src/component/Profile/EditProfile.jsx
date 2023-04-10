@@ -21,23 +21,19 @@ const EditProfile = ({ open, setOpen }) => {
   const [show, setShow] = useState(false);
   const [file, setFile] = useState("Images/girl.jpg");
   const [image, setImage] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [imgg, setImgg] = useState();
   const [img, setImg] = useState("");
   const [url, setUrl] = useState("");
   const [email, setEmail] = useState("");
   const [bio, setBio] = useState("");
 
-  
- 
-
   // console.log(`prop : ${open}`);
 
-  const handleClose = () =>{
+  const handleClose = () => {
     setOpen(false);
     // uploadPic();
-
-
-  } 
+  };
   const handleShow = () => setShow(true);
 
   function handleChange(e) {
@@ -46,75 +42,66 @@ const EditProfile = ({ open, setOpen }) => {
     setImage(!image);
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     if (url) {
-     update(data);  
+      update(data);
     }
+  }, [url]);
 
-  },[url])
+  useEffect(() => {
+    getUserDetails();
+    // updateDetail(data)
+    handleClose();
+    getUser();
+  }, [data]);
 
-  useEffect(()=>{
-      getUserDetails();
-    
-  handleClose()
-  getUser();
-}, [data])
-
-
-  const update = async(data)=>{
+  const update = async (data) => {
     // console.log(data)
-    let result = await fetch(`http://localhost:8000/updatePic/${data}`,{
-      method:'put',
-      body: JSON.stringify({url}),
-      headers:{
-          "Content-Type":"application/json",
-      "Authorization":"Bearer "+localStorage.getItem("jwt")
+    let result = await fetch(`http://localhost:8000/updatePic/${data}`, {
+      method: "put",
+      body: JSON.stringify({ url }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
 
-      }
+    result = await result.json();
 
-  })
+    // console.log(result)
+  };
 
-  result = await result.json();
-
- 
-  // console.log(result)
-  }
-
-
-  const getUserDetails = async ()=>{
+  const getUserDetails = async () => {
     // console.log(params)
     let result = await fetch(`http://localhost:8000/user/${data}`);
     result = await result.json();
-setEmail(result.email);
-setBio(result.bio);
+    setEmail(result.email);
+    setBio(result.bio);
+  };
 
-
-}
-
-  const updateDetail = async(data)=>{
+  const updateDetail = async (data) => {
     // console.log(data)
-    let result = await fetch(`http://localhost:8000/updateDetail/${data}`,{
-      method:'put',
-      body: JSON.stringify({bio}),
-      headers:{
-          "Content-Type":"application/json",
-      "Authorization":"Bearer "+localStorage.getItem("jwt")
+    setLoading(true);
+    let result = await fetch(`http://localhost:8000/updateDetail/${data}`, {
+      method: "put",
+      body: JSON.stringify({ bio }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
 
-      }
+    result = await result.json();
 
+    setLoading(false);
+    setOpen(false);
+    
+    // console.log(result)
+  };
 
-  })
-
-  result = await result.json();
-
- 
-  // console.log(result)
-  window.location.reload();
-  }
-
-
-// update(data);
-  const uploadPic  = ()=>{
+  // update(data);
+  const uploadPic = () => {
+    setLoading(true);
     const data = new FormData();
     data.append("file", imgg);
     data.append("upload_preset", "feedbox-community-web");
@@ -128,20 +115,17 @@ setBio(result.bio);
     )
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data.url)
         setUrl(data.url);
-        
-        // console.log(data)
-        // console.log(data.url)
-
+        setLoading(false);
+        setOpen(false);
+        alert("Profile pic updated successfully!");
+        window.location.href="/profile"
+       
       })
       .catch((err) => {
         console.log(err);
       });
-  }
-
-
-  
+  };
 
   // useEffect(() => {
   //   getUser();
@@ -166,16 +150,18 @@ setBio(result.bio);
   return (
     <div>
       {open ? (
-        <div style={{
-            zIndex : '99999999'
-        }}>
-        <Modal show={open} >
-          <Modal.Header >
-            <Modal.Title>Edit Profile</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              {/* <Form.Group
+        <div
+          style={{
+            zIndex: "99999999",
+          }}
+        >
+          <Modal show={open}>
+            <Modal.Header>
+              <Modal.Title>Edit Profile</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                {/* <Form.Group
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
@@ -188,95 +174,122 @@ setBio(result.bio);
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </Form.Group> */}
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlTextarea1"
-              >
-                <Form.Label>About </Form.Label>
-                <Form.Control as="textarea" rows={3}
-                placeholder="Write your text here"
-                 onChange={(e) => setBio(e.target.value)}
-                 value={bio}
-
-                />
-              </Form.Group>
-              <Form.Group>
-                <div >
-                  <label className="block">Profile Photo</label>
-                  <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md"
-                  style={{maxHeight:"250px",minHeight:"250px",width:"250px",margin:"0 auto"}}
-                  >
-                    {image ? (
-                      <div >
-                      <FontAwesomeIcon icon={faXmark}
-                      onClick={()=>setImage(false)}
-                      className="Edit-Profile-cancel"
-                      />
-                      <img src={file} style={{
-                        maxHeight:"200px",minHeight:"200px",width:"200px",marginTop:"-25px"
-                      }} 
-                      className="object-cover	"
-                      />
-                      </div>
-                      
-                    ) : ( 
-                      <div className="space-y-1 text-center">
-                        
-                        <svg
-                          className="mx-auto h-12 w-12 text-gray-400"
-                          stroke="currentColor"
-                          fill="none"
-                          viewBox="0 0 48 48"
-                          aria-hidden="True"
-                        >
-                          <path
-                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlTextarea1"
+                >
+                  <Form.Label>About </Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    placeholder="Write your text here"
+                    onChange={(e) => setBio(e.target.value)}
+                    value={bio}
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <div>
+                    <label className="block">Profile Photo</label>
+                    <div
+                      className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md"
+                      style={{
+                        maxHeight: "250px",
+                        minHeight: "250px",
+                        width: "250px",
+                        margin: "0 auto",
+                      }}
+                    >
+                      {image ? (
+                        <div>
+                          <FontAwesomeIcon
+                            icon={faXmark}
+                            onClick={() => setImage(false)}
+                            className="Edit-Profile-cancel"
                           />
-                        </svg>
-                        <div className="flex text-sm text-gray-600 flex justify-center" >
-                          <label
-                            for="file-upload"
-                            className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
-                          >
-                            <span className="flex justify-center">Upload a file</span>
-                            <input
-                              onChange={handleChange}
-                              id="file-upload"
-                              name="file-upload"
-                              type="file"
-                              className="sr-only "
-                            />
-                          </label>
+                          <img
+                            src={file}
+                            alt=""
+                            style={{
+                              maxHeight: "200px",
+                              minHeight: "200px",
+                              width: "200px",
+                              marginTop: "-25px",
+                            }}
+                            className="object-cover	"
+                          />
                         </div>
-                        <p className="text-xs text-gray-500">
-                          PNG, JPG, GIF up to 10MB
-                        </p>
-                      </div>
-                    )}
+                      ) : (
+                        <div className="space-y-1 text-center">
+                          <svg
+                            className="mx-auto h-12 w-12 text-gray-400"
+                            stroke="currentColor"
+                            fill="none"
+                            viewBox="0 0 48 48"
+                            aria-hidden="True"
+                          >
+                            <path
+                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                          <div className="flex text-sm text-gray-600 flex justify-center">
+                            <label
+                              for="file-upload"
+                              className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                            >
+                              <span className="flex justify-center">
+                                Upload a file
+                              </span>
+                              <input
+                                onChange={handleChange}
+                                id="file-upload"
+                                name="file-upload"
+                                type="file"
+                                className="sr-only "
+                              />
+                            </label>
+                          </div>
+                          <p className="text-xs text-gray-500">
+                            PNG, JPG, GIF up to 10MB
+                          </p>
+                        </div>
+                      )}
+                    </div>
                   </div>
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="primary">
+              {loading ? (
+                <div
+                  class="spinner-border text-white"
+                  role="status"
+                  style={{ height: "15px", width: "15px" }}
+                >
+                  <span class="visually-hidden">Loading...</span>
                 </div>
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={()=>{
-              handleClose()
-              updateDetail(data)
-              // setData()
-              // setDataChanges(data)
-              uploadPic()
-
-            }}>
-              Save Changes
-            </Button>
-          </Modal.Footer>
-        </Modal>
+              ) : (
+                <Button
+                  
+                  onClick={() => {
+                    // handleClose();
+                    updateDetail(data);
+                    //  update(data)
+                    uploadPic();
+                  }}
+                >
+                  Save Changes
+                </Button>
+              )}
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </div>
       ) : (
         ""

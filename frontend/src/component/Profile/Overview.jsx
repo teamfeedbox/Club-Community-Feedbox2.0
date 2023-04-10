@@ -133,8 +133,8 @@ function Overview(prop) {
                   <span style={{ background: backColor[index], color: fColor[index] }} key={index} className='Skills'>{data}</span>
                 ))
               }
-              <span className='Add-Event' onClick={handleShow1}>
-                <FontAwesomeIcon className="fa-lg" icon={faAdd} />
+              <span className='Add-Event' style={{marginTop:"15px"}} onClick={handleShow1}>
+                <FontAwesomeIcon className="fa-lg"  icon={faAdd} />
               </span>
             </div>
           </div>
