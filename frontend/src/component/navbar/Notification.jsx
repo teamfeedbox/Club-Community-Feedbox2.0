@@ -64,17 +64,17 @@ const Notification = (props) => {
                 </div>
               </div>)
               :
-              ((data.messageScope === "private" && currentUserId === data.userId) ?
-                <div key={data.message} className="flex bg-green-200 mt-2 rounded-sm">
-                  <div className="bg-green-800 p-1 w-[5px]  text-green-800"></div>
+              ((data.messageScope === "private" && data.message !== "Congrats! +10 coins added." && currentUserId === data.userId) ?
+                <div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
+                  <div className="bg-green-800 p-1 w-[5px]  text-blue-800"></div>
                   <div className="p-1">
                     {data.message}
                   </div>
                 </div>
                 :
-                ((data.message === "Congrats! +10 coins added." && currentUserId === data.userId) &&
-                  <div key={data.message} className="flex bg-red-200 mt-2 rounded-sm">
-                    <div className="bg-red-800 p-1 w-[5px]  text-red-800"></div>
+                ((data.messageScope==="private" && data.message === "Congrats! +10 coins added." && currentUserId === data.userId) &&
+                  <div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
+                    <div className="bg-yellow-800 p-1 w-[5px]  text-blue-800"></div>
                     <div className="p-1">
                       {data.message}
                     </div>

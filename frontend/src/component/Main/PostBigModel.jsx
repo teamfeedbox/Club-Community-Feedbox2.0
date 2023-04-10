@@ -10,7 +10,9 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-// import "./PostBigModel.css";
+
+// Css PostBigModel.css (in profile folder)
+import "../Profile/ProfileBigModel.css";
 // Bootstrap
 import Modal from "react-bootstrap/Modal";
 import TimeAgo from "javascript-time-ago";
@@ -338,7 +340,9 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
           <div className="Post-Big-Model1">
             {/* Left side */}
-            <div className="post-display2" style={{maxHeight:"600px"}}>
+            <div className="post-display2" 
+            // style={{maxHeight:"600px"}}
+            >
               <div className="post-display-center1">
                 <div className="post-display-image "></div>
 
@@ -417,11 +421,12 @@ function PostBigModel({ openComment, setOpenComment, id }) {
               <div className="Post-Big-Comment">
                 
                 {
-                  user && user.comment.length==0?(<div style={{textAlign:"center",
+                  user && user.comment.length==0?(
+                  <div style={{textAlign:"center",
                   fontSize:"1.1rem",fontWeight:'600'
                   
                 }}>No comment</div>):(
-                    <Scrollbars className="Scrollbar-height">
+                    <Scrollbars className="Scrollbar-height" style={{height:"102%",position:"relative"}} >
                   {/* Comment 1 */}
                   {user &&
                     user.comment.map((item) => (
