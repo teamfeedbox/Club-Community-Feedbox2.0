@@ -29,7 +29,7 @@ const PostDisplay = (props) => {
   const [tempComment, setTempComment] = useState('');
   const [tempReply, setTempReply] = useState('');
   // To open the Comment Model
-  const [openComment, setOpenComment] = useState(false);
+  const [openComment, setOpenComment] = useState(true);
   const [reply, setReply] = useState('');
   const [comment, setComments] = useState([" How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q",
     "How many times were you frustrated while looking out for a good collection of programming/algorithm /interview questions? What did you expect and what did you get? This portal has been created to",
@@ -228,16 +228,17 @@ useEffect(()=>{
                   {/* *****************carousel for mobile view********************* */}
                   <div className="post-display-carousel-mobileview">
                     <Swiper
-                      navigation={true}
+                      navigation={item.img.length ===1 ? false:true}
                       data-aos="fade-up"
                         data-aos-duration="100s"
                         spaceBetween={0}
+                        slidesPerView={1}
                         loop={true}
                         autoplay={{
                             delay: 2000,
                             disableOnInteraction: false,
                         }}
-                        modules={[Autoplay]}
+                        modules={[Navigation,Autoplay]}
                     
                       className="mySwiper">
                         
@@ -248,7 +249,7 @@ useEffect(()=>{
                         item.img.map((data) => (
                             <SwiperSlide >
                           <div className="" key={data._id}>
-                            <img className="" src={data} />
+                            <img className="" src={data} alt="" />
                           </div>
                       </SwiperSlide>
                         ))

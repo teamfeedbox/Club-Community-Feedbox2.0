@@ -29,6 +29,7 @@ const LinksWrapper = styled.ul`
   top: 65px;
   left: 0;
   margin-top: -5px;
+  transition: all 2s ease-in-out;
 `;
 
 const LinkItem = styled.li`
@@ -67,7 +68,7 @@ const Marginer = styled.div`
 const LoginButton = styled.button`
   border: 0;
   outline: 0;
-  padding: 8px 1em;
+  padding: 8px 1.4em;
   color: #222;
   font-size: 13px;
   font-weight: 600;
@@ -75,6 +76,7 @@ const LoginButton = styled.button`
   background-color: transparent;
   transition: all 240ms ease-in-out;
   cursor: pointer;
+
 
   &:hover {
     color: gray;
@@ -119,7 +121,7 @@ export function MobileNavLinks(props) {
     <NavLinksContainer>
       <MenuToggle isOpen={isOpen} toggle={() => setOpen(!isOpen)} />
       {isOpen && (
-        <LinksWrapper>
+        <LinksWrapper onClick={() => {setOpen(!isOpen)}}>
           {selectedPage === "/main" ? (
             <LinkItemHighlight>
               <Links to="/main">Home</Links>

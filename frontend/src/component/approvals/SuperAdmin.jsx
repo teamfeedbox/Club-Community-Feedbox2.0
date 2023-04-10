@@ -68,7 +68,7 @@ const SuperAdmin = () => {
       </div>
       {/* table  */}
       <div className="">
-        <Scrollbars style={{ height: "230px" }}>
+        <Scrollbars style={{ height: "250px" }}>
             <table class="table-auto w-full max-w-[1300px]">
               <tbody class="text-sm divide-y  divide-gray-100 max-w-[1150px]">
                 {superAdmin.length>0 ?
@@ -77,8 +77,8 @@ const SuperAdmin = () => {
                       <td class="p-2 w-[200px] lg:w-[400px]">
                         <div className="flex items-center">
                           <img
-                            class="rounded-full"
-                            src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
+                            class="rounded-full w-[40px] h-[40px] object-center"
+                            src={member.img}
                             width="40"
                             height="40"
                             alt="Alex Shatov"

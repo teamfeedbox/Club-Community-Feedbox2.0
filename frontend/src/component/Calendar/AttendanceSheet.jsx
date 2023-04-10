@@ -35,10 +35,16 @@ const AttendanceSheet = () => {
   const [loading, setLoading] = useState(false);
   const [eventDuration,setEventDuration]=useState();
   const eventId = location.state.eventId;
+  const [currentUserId, setcurrentUserId] = useState()
 
   useEffect(() => {
     getEvent();
     setLoading(false);
+
+    let user = localStorage.getItem('user')
+    user = JSON.parse(user)
+    // console.log(user.id)
+    setcurrentUserId(user.id)
   }, [loading])
 
   const getEvent = async () => {
@@ -134,6 +140,22 @@ const AttendanceSheet = () => {
       setSubmitted(true);
       setLoading(true)
     }
+
+    // 
+    await fetch("http://localhost:8000/addNotifications", {
+    method: "post",
+    body: JSON.stringify({
+      message:"Congrats! +10 coins added.",
+      messageScope:"private",
+      userId:currentUserId, 
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("jwt"),
+    },
+  }).then((res)=>{
+    // alert(res.json)
+  });
 
   }
 

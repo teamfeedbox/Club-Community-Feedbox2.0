@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Multiselect from "multiselect-react-dropdown";
 import Modal from "react-bootstrap/Modal";
 import "./Register.css";
@@ -8,6 +8,7 @@ const Register = () => {
   const [next, setNext] = useState(false);
   const [skills, setSkills] = useState([]);
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [userinfo, setUserInfo] = useState({
     skill: [],
@@ -26,22 +27,14 @@ const Register = () => {
   const navigate = useNavigate();
 
   // To handle in register page
-  const [nameError,setNameError]=useState(false);
-  const [emailError,setEmailError]=useState(false);
-  const [passError,setPassError]=useState(false);
-  const [universityError,setUniversityError]=useState(false);
-  const [university,setUniversity]=useState(0);
-  
+  const [nameError, setNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passError, setPassError] = useState(false);
+  const [universityError, setUniversityError] = useState(false);
 
   const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
-  // useEffect(() => {
-  //   const auth = localStorage.getItem("user");
-  //   console.log(auth)
-  //   if (auth) {
-  //     navigate("/login");
-  //   }
-  // });
+
   const getColleges = async () => {
     const data = await fetch(`http://localhost:8000/colleges/get`);
     const res = await data.json();
@@ -57,31 +50,29 @@ const Register = () => {
     getColleges();
   }, [])
 
-  const generateUniqueid=()=>{
+  // generate unique id
+  const generateUniqueid = () => {
     const today = new Date();
-    let c1 =today.getFullYear();
-    let c2 =collegeName.slice(0,3).toUpperCase();
-    let c3 ='15'+ Math.floor(Math.random() * 90 + 10);
-    
-    let result ='';
-    for(let i=0;i<1;i++)
-    {
+    let c1 = today.getFullYear();
+    let c2 = collegeName.slice(0, 3).toUpperCase();
+    let c3 = '15' + Math.floor(Math.random() * 90 + 10);
+
+    let result = '';
+    for (let i = 0; i < 1; i++) {
       result += c1;
     }
-    
-    for(let i=0;i<1;i++)
-    {
+    for (let i = 0; i < 1; i++) {
       result += c2;
     }
-    for(let i=0;i<1;i++)
-    {
+    for (let i = 0; i < 1; i++) {
       result += c3;
     }
-    console.log(result);
     setUniqueId(result);
   }
 
+  // Register a user
   const collectData = async (e) => {
+    setLoading(true);
     // generateUniqueid();
     e.preventDefault();
     let result = await fetch("http://localhost:8000/register", {
@@ -92,8 +83,9 @@ const Register = () => {
         password,
         collegeYear,
         branch,
+        bio,
         collegeName,
-        uniqueId:uniqueId,
+        uniqueId: uniqueId,
         skills: userinfo.response,
         bio
       }),
@@ -102,12 +94,18 @@ const Register = () => {
       },
     });
     result = await result.json();
-    console.log(result);
 
     if (result) {
-      alert("You have registered successfully ! Wait until you receive mail to login ");
-      navigate("/login");
+      console.log(result);
+      if (result.data === "user already exists with that email") {
+        alert(result.data);
+      }
+      else {
+        alert(result.data);
+        navigate("/login");
+      }
     }
+    setLoading(false);
   };
 
   const handleClose = () => setShow(false);
@@ -115,38 +113,27 @@ const Register = () => {
 
   const changenext = (e) => {
     e.preventDefault();
-    if(nameError==false && emailError==false && passError==false && collegeName!="" && name!="" && email!="" && password!="")
-    {
+    if (nameError == false && emailError == false && passError == false && collegeName != "" && name != "" && email != "" && password != "") {
       setNext(!next);
     }
-    else
-    {
+    else {
       alert("All fields are required")
     }
-    
+
   };
-
-  let onSelectNames = (skills) => {
-    setSkills(skills);
-  };
-
-  const signupHandleChange=(e)=>{
-
-  }
 
   const handleChange = (e) => {
-    const eventValue=e.target.value;
-    switch(e.target.name)
-    {
+    const eventValue = e.target.value;
+    switch (e.target.name) {
       case "name":
-        if (eventValue.length < 3 ) {
+        if (eventValue.length < 3) {
           setNameError(true);
         } else {
           setNameError(false);
         }
         setName(eventValue);
 
-      break;
+        break;
 
       case "email":
         if (!eventValue.match(emailRegex)) {
@@ -157,14 +144,14 @@ const Register = () => {
         setEmail(eventValue);
         break;
 
-        case "password":
-          if (!eventValue.match(passwordRegex)) {
-            setPassError(true);
-          } else {
-            setPassError(false);
-          }
-          setPassword(eventValue);
-          break;
+      case "password":
+        if (!eventValue.match(passwordRegex)) {
+          setPassError(true);
+        } else {
+          setPassError(false);
+        }
+        setPassword(eventValue);
+        break;
     }
 
     // Destructuring
@@ -190,8 +177,6 @@ const Register = () => {
     setSkills((arr) => [...userinfo.response, skills]);
   };
 
-
-
   return (
     <div className="overflow-hidden">
       <div className="bg-purple-900 absolute top-0 left-0 bg-gradient-to-b from-gray-900 via-gray-900 to-purple-800 bottom-0 leading-5 h-full w-full overflow-hidden"></div>
@@ -206,15 +191,16 @@ const Register = () => {
             </p>
           </div>
         </div>
-        <div className="flex justify-center self-center  z-10">
+        {/* <div className="flex justify-center self-center m-[12px] mt-[50px]  z-10"> */}
+        <div className=" md:mt-10 z-10 lg:flex sm:flex justify-center lg:self-center sm:self-center m-[12px] mt-[50px] md:self-auto md:block">
           <div className="p-12 bg-white mx-auto rounded-3xl w-96 ">
             <div className="mb-7">
               <h3 className="font-semibold text-2xl text-gray-800">Sign Up </h3>
               <p className="text-gray-400">
                 Have an account?
-                <a href="/login" className="text-sm text-purple-700 hover:text-purple-700">
+                <Link to="/login" className="text-sm text-purple-700 hover:text-purple-700">
                   Sign In
-                </a>
+                </Link>
               </p>
             </div>
             <div>
@@ -274,7 +260,7 @@ const Register = () => {
                           IV Year
                         </option>
                       </select>
-                      
+
                     </div>
 
                     <div className="">
@@ -284,12 +270,12 @@ const Register = () => {
                         value={userinfo.response}
                         placeholder="Add skills "
                         id="floatingTextarea2"
-                        // value={userSkills}
-                       required
+                        required
                         onChange={handleChange}
                         onClick={handleShow}
                       ></textarea>
 
+                      {/* Skills Modal  */}
                       <Modal show={show} onHide={handleClose} className="">
                         <form>
                           <Modal.Header
@@ -507,7 +493,7 @@ const Register = () => {
                           </Modal.Footer>
                         </form>
                       </Modal>
-                      
+
                     </div>
 
                     <div className="">
@@ -528,12 +514,21 @@ const Register = () => {
                       >
                         Back
                       </button>
-                      <button
-                        type="submit"
-                        onClick={generateUniqueid}
-                        className="w-full flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
+                      <button className="w-full flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
                       >
-                        Sign Up
+                      {
+                        loading ? 
+                        <div
+                              class="spinner-border text-white"
+                              role="status"
+                              style={{ height: "15px", width: "15px",marginTop:"3px" }}
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                            :
+                            <button type="submit"
+                            onClick={generateUniqueid} >Sign Up</button>
+                      }
                       </button>
                     </div>
                   </div>
@@ -548,16 +543,15 @@ const Register = () => {
                         name="name"
                         placeholder="Full Name"
                         value={name}
-                        // onChange={(e) => setName(e.target.value)}
                         onChange={handleChange}
                         required
                       />
                       {
-                        nameError?(
+                        nameError ? (
                           <span className="registerError">
-                          *name should be more than 3 letters
-                        </span>
-                        ):("")
+                            *name should be more than 3 letters
+                          </span>
+                        ) : ("")
                       }
                     </div>
 
@@ -609,10 +603,10 @@ const Register = () => {
                         value={collegeName}
                         onChange={(e) => setCollegeName(e.target.value)}
                       >
-                        <option disabled 
-                        selected 
-                        hidden 
-                        className="text-gray-400">
+                        <option disabled
+                          selected
+                          hidden
+                          className="text-gray-400">
                           University
                         </option>
                         {
@@ -649,7 +643,7 @@ const Register = () => {
               <span>
                 Copyright © 2021-2023
                 <a
-                  href="https://codepen.io/uidesignhub"
+                  href="https://feedbox.co.in/"
                   rel=""
                   target="_blank"
                   title="Codepen aji"
@@ -663,7 +657,7 @@ const Register = () => {
         </div>
       </div>
       <svg
-        class="absolute bottom-0 left-0 "
+        class="absolute bottom-0 left-0 hidden md:block"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1440 320"
       >

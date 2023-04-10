@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Faq.css";
 import NavbarRes from "./navbar/NavbarRes";
 import { Scrollbars } from "react-custom-scrollbars";
@@ -37,10 +37,16 @@ const faqs = [
 ];
 
 const Faq = () => {
+  const [open, setOpen ] = useState();
+  
+  const changeHandler = (id) => {
+    setOpen(id)
+  }
+
   return (
-    <div className="">
+    <div className="lg:h-[100vh] overflow-hidden">
       <div className="lg:p-[85px] pt-[85px] pb-[80px] bg-gray-200">
-        <div className="shadow m-auto lg:w-[80%] md:w-[85%] w-[100%] bg-white rounded-2xl">
+        <div className="shadow m-auto lg:w-[80%] md:w-[85%] w-[95%] bg-white rounded-2xl">
           <div className="lg:pt-5 pt-4 flex m-auto lg:flex-row flex-col ">
             <div className="lg:w-[45%]  m-auto">
               <img
@@ -52,9 +58,10 @@ const Faq = () => {
             <div class="grid divide-y divide-neutral-200 lg:w-[50%]  pt-4 m-2  lg:pr-6 ">
               <Scrollbars style={{ height: "350px" }}>
                 {faqs.map((faq) => (
-                  <div class="py-3 px-2 z-20 relative">
-                    <details class="group">
-                      <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
+                  <div class="py-3 px-2 mr-2 z-20 relative" >
+                    <details class="group" >
+                      <summary 
+                      class="flex justify-between items-center font-medium cursor-pointer list-none">
                         <span className="text-[1.1rem] font-[700]"> {faq.question}</span>
                         <span class="transition group-open:rotate-180">
                           <svg
@@ -72,7 +79,7 @@ const Faq = () => {
                           </svg>
                         </span>
                       </summary>
-                      <p class=" text-[1rem] font-[400] mt-3 group-open:animate-fadeIn">
+                      <p class=" text-[1rem] font-[400] mt-3 group-open:animate-fadeIn transition-[all] duration-2000 ease-in">
                         {faq.answer}
                       </p>
                     </details>
