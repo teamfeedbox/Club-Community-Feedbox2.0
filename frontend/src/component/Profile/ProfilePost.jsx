@@ -5,6 +5,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import {Link} from "react-router-dom";
 import TimeAgo from "javascript-time-ago";
 import en from 'javascript-time-ago/locale/en'
+import { faHeart, faMessage} from "@fortawesome/free-regular-svg-icons";
+import { FcLike} from "react-icons/fc";
+
+
 
 
 // Import Swiper styles
@@ -33,6 +37,8 @@ const ProfilePost = (prop) => {
 
   const [post, setPost] = useState([]);
   const [open, setOpen] = useState(false)
+  const [user,setUser]=useState([]);
+
 
   // <------------ To show and hide comment model--------------->
   const [openComment,setOpenComment]=useState(false);
@@ -68,6 +74,83 @@ const ProfilePost = (prop) => {
       myPost();
     }
   }
+
+
+  useEffect(() => {
+ 
+  getUser();
+   
+  });
+
+  const getUser = async () => {
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    // console.log(result)
+    setUser(result);
+  };
+
+
+  // Like a post
+  const like = (id) => {
+    fetch("http://localhost:8000/like", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        postId: id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        // console.log(result)
+        const newData = data.map((item) => {
+          if (item._id === result._id) {
+            return result;
+          } else {
+            return item;
+          }
+        });
+        setData(newData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // Unlike a Post
+  const unlike = (id) => {
+    fetch("http://localhost:8000/unlike", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        postId: id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        const newData = data.map((item) => {
+          if (item._id === result._id) {
+            return result;
+          } else {
+            return item;
+          }
+        });
+        setData(newData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
 
   return (
     <div>
@@ -152,24 +235,45 @@ const ProfilePost = (prop) => {
             
           </div>
 
-          <div className="post-display-bottom">
-            <div className="post-display-bottom-content">
-              <img src="Images/heart.svg" alt="" />
-              {item.likes.length}
-            </div>
-            <button className="post-display-bottom-content"
-            onClick={()=>{
-              setOpenComment(!openComment)
-              setId(item._id)
+           <div className="post-display-bottom">
+                
+                {item.likes.includes(user && user._id) ? (
+                  <div className="post-display-bottom-content">
+                    <FcLike
+                      size={26}
+                      onClick={function () {
+                        unlike(item && item._id);
+                      }}
+                      style={{marginLeft:"-1.4px",marginTop:"-3px",cursor:"pointer"}}
+                    />
+                    <span> {item.likes.length}</span>
+                  </div>
+                ) : (
+                  <div className="post-display-bottom-content">
+                    <FontAwesomeIcon className="fa-lg" icon={faHeart} style={{ fontSize: "24.5px",cursor:"pointer"}}
+                      onClick={function () {
+                        like(item._id);
+                      }}
+                    />
+                    <span style={{fontSize:'0.8rem', fontWeight:'600'}}>
+                      {item.likes.length}
+                    </span>
 
-            
-            }}
-            >
-              <img src="Images/message.svg" alt=""
-              />
-             {item.comment.length}
-            </button>
-          </div>
+                  </div>
+                )}
+                <button onClick={() => {
+                  setOpenComment(!openComment)
+                  setId(item._id)
+                }} className="post-display-bottom-content">
+                  <FontAwesomeIcon
+                      style={{ fontSize: "22.5px",cursor:"pointer",marginTop:"1px"}}
+                      icon={faMessage}
+                    />
+                  <span style={{fontSize:'0.8rem', fontWeight:'600'}}>
+                  {item.comment.length}
+                  </span>
+                </button>
+              </div>
         </div>
       )) : <div className="font-[700] text-[1.1rem] pt-2 text-center">You haven't posted anything yet!</div>} 
       <ProfileBigModel

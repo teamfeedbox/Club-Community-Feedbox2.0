@@ -95,6 +95,7 @@ const Register = () => {
         collegeName,
         uniqueId:uniqueId,
         skills: userinfo.response,
+        bio
       }),
       headers: {
         "Content-Type": "application/json",

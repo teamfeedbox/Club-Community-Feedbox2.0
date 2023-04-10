@@ -85,6 +85,7 @@ function Overview(prop) {
       },
     });
     result = await result.json();
+    // console.log(result)
     setData(result);
     setUserId(result._id)
   };

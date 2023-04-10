@@ -83,17 +83,30 @@ const PostDisplay = (props) => {
 
   useEffect(() => {
     getList();
-    const getUser = async () => {
-      let result = await fetch(`http://localhost:8000/user`, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("jwt"),
-        },
-      });
-      result = await result.json();
-      setUser(result);
-    };
-    getUser();
-  }, [props,props.clgData]);
+  getUser();
+   
+  });
+
+
+useEffect(()=>{
+  like(id)
+},[id])
+
+  const getUser = async () => {
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    // console.log(result)
+    setUser(result);
+  };
+
+
+
+
+
 
   // get All Post
   const getList = async () => {
@@ -125,6 +138,8 @@ const PostDisplay = (props) => {
       // console.log(result)
     }
   };
+
+
 
   // Like a post
   const like = (id) => {
@@ -266,6 +281,7 @@ const PostDisplay = (props) => {
               </div>
 
               <div className="post-display-bottom">
+                
                 {item.likes.includes(user && user._id) ? (
                   <div className="post-display-bottom-content">
                     <FcLike
