@@ -10,6 +10,7 @@ const ClubMember = ({ props }) => {
   const [searchval, setSearchVal] = useState("");
   const [clubMember, setClubMember] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [data, setData] = useState([]);
@@ -17,8 +18,6 @@ const ClubMember = ({ props }) => {
   const [id, setId] = useState("");
   const [value, setValue] = useState("");
   const [name, setName] = useState("");
- 
-  
   const handleClose = () => {
     setShow(false);
     setConfirm(false);
@@ -60,8 +59,8 @@ const ClubMember = ({ props }) => {
 
   useEffect(() => {
     getUser();
-    setLoading(false);
-  }, [props, loading]);
+    setLoad(false);
+  }, [props, load]);
 
   // search user
   const searchHandler = (e) => {
@@ -84,38 +83,55 @@ const ClubMember = ({ props }) => {
 
   // submit handler for making club member as lead
   const submitHandler = async () => {
-    setLoading(true);
-    // console.log(id);
-    const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ role: "Lead", position: position}),
+    if (value && position) {
+      setLoading(true);
+      let val;
+      if (value === "Admin") {
+        val = {
+          role: value,
+          position: position
+        }
+      } else if (value === "Lead") {
+        val = {
+          role: value,
+          position: position
+        }
+      }
+      const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(val),
+      });
+      const res = await data.json();
+      console.log(res);
+      setConfirm(false);
+      setShow(false);
+      setPosition("");
+      setValue("");
+      setId("");
+      setName("");
+      setLoading(false);
+      setLoad(true)
+    } else {
+      alert("Please input Position and role...")
+    }
+
+    //  notification
+    await fetch("http://localhost:8000/addNotifications", {
+      method: "post",
+      body: JSON.stringify({
+        message: "Congrats: Now You are lead",
+        messageScope: "private",
+        userId: id,
+
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    }).then((res) => {
+      // alert(res.json)
     });
-    const res = await data.json();
-    // console.log(res);
-
-   //  notification
-  await fetch("http://localhost:8000/addNotifications", {
-    method: "post",
-    body: JSON.stringify({
-      message:`Congrats! Now, You are ${value}`,
-      messageScope:"private",
-      userId:id, 
-    }),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + localStorage.getItem("jwt"),
-    },
-  }).then((res)=>{
-  });
-    setConfirm(false);
-    setShow(false);
-    setId("");
-    setName("");
-    setPosition("");
-    setValue("");
-    setLoading(false);
-
   };
 
   return (
@@ -155,7 +171,7 @@ const ClubMember = ({ props }) => {
                           alt="Alex Shatov"
                         />
 
-                        <div className="ml-2 text-[1rem] font-[400]"> {member.name} </div>
+                        <div className="ml-2 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[400]"> {member.name} </div>
                       </div>
                     </td>
                     <td class="p-2 lg:flex items-center hidden md:block">
@@ -245,6 +261,7 @@ const ClubMember = ({ props }) => {
                                   e.preventDefault();
                                   setShow(false);
                                   setConfirm(false);
+                                  setValue(""); setPosition("");
                                 }}
                               >
                                 No

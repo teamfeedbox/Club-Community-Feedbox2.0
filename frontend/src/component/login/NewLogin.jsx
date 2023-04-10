@@ -25,17 +25,14 @@ const NewLogin = () => {
     result = await result.json();
 
 
-    console.log(result);
-    
+
     if(result.token){
       navigate('/main')   
-
       localStorage.setItem("user", JSON.stringify(result));
       localStorage.setItem("jwt", result.token);
     } else {
       alert(result.err);
     }
-
     setLoading(false);
   };
 
