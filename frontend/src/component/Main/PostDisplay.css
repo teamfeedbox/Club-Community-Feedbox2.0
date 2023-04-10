@@ -156,9 +156,24 @@
     border-radius: 100%;
 }
 
+/* ------------------------- */
 
-
-
+/* .carousel-root{
+    height: 100%;
+}
+.carousel-slider{
+    height: 500px;
+}
+.slider-wrapper{
+    height: 500px;
+}
+.carousel .slide{
+    height: 100%;
+}
+.carousel .slider img{
+    height: 500px !important;
+    object-fit: cover !important;
+} */
 @media only screen and (max-width: 1000px) {
     .post-display{
         margin: 10px;
