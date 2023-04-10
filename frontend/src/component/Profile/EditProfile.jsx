@@ -130,6 +130,7 @@ setBio(result.bio);
       .then((data) => {
         // console.log(data.url)
         setUrl(data.url);
+        
         // console.log(data)
         // console.log(data.url)
 

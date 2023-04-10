@@ -33,6 +33,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   const [postData, setPostData] = useState();
   const [commentId, setCommentId] = useState("");
   const [postedById, setPostedById] = useState("");
+  const [replyById, setReplyById] = useState("");
 
   const [message, setMessage] = useState("");
 
@@ -109,8 +110,25 @@ function PostBigModel({ openComment, setOpenComment, id }) {
     result = await result.json();
     // console.log(result)
     setUser(result);
-    // console.log(result.postedBy)
-    setPostedById(result.postedBy._id)
+
+    result.comment.map((item)=>
+    {
+      setPostedById( item.postedBy._id);
+      item.reply.map((data)=>
+      {
+        // console.log(data.postedBy && data.postedBy._id)
+        setReplyById(data.postedBy && data.postedBy._id)
+      }
+      
+      )
+    }
+   
+    )
+
+    // result.comment.reply.map((item)=>
+    // setReplyById( item.postedBy._id)
+    // )
+    // setPostedById(result.postedBy._id)
     // if(result._id===id){
     //   getPost()
     // }
@@ -234,7 +252,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify({id,commentId,postedById}),
+      body: JSON.stringify({id,commentId,replyById}),
     });
 
     result = await result.json();

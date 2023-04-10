@@ -190,7 +190,7 @@ const PendingApprovals = (props) => {
                 ))
               ) : (
                 <div className="nopending">
-                  <div className="text-[1rem] font-[400]">No Pending Requests !!</div>
+                  <div className="text-[1rem] font-[400]">No Pending Requests !</div>
                 </div>
               )}
             </tbody>
