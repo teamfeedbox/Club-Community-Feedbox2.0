@@ -44,7 +44,6 @@ const Approvals = () => {
     setUser(result);
   };
 
-
   return (
     <>
 

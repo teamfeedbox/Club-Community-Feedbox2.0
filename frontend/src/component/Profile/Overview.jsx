@@ -229,16 +229,18 @@ function Overview(prop) {
                 ))
               }
               <div className='Add-Event-Cont'>
-                <Link to="/calendar" className='Add-Event1' >
-                  <FontAwesomeIcon className="fa-lg" icon={faAdd} />
+                <Link to="/calendar">
+                  <div className='Add-Event1' >
+                    <FontAwesomeIcon className="fa-lg" icon={faAdd} />
+                  </div>
                 </Link>
               </div>
             </section>
           </div>
           <div>
           </div>
-        </div>
-      </div>
+        </div >
+      </div >
 
     </>
   )
