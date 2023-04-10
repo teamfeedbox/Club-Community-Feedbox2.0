@@ -41,7 +41,7 @@ function Overview(prop) {
       },
     });
     result = await result.json();
-    console.log(result && (new Date(result.interestedEvents[0].eventDate)).toString().split(" ")[0], "lkjiug");
+    // console.log(result && (new Date(result.interestedEvents[0].eventDate)).toString().split(" ")[0], "lkjiug");
     setData(result);
     setUserId(result._id)
   };
