@@ -171,7 +171,7 @@ const ClubMember = ({ props }) => {
                           alt="Alex Shatov"
                         />
 
-                        <div className="ml-2 text-[1rem] font-[400]"> {member.name} </div>
+                        <div className="ml-2 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[400]"> {member.name} </div>
                       </div>
                     </td>
                     <td class="p-2 lg:flex items-center hidden md:block">

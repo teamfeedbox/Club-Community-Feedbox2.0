@@ -151,7 +151,7 @@ const PendingApprovals = (props) => {
                           height="40"
                           alt="Alex Shatov"
                         />
-                        <div className="ml-2 text-[1rem] font-[400]"> {approval.name} </div>
+                        <div className="ml-2  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[400]"> {approval.name} </div>
                       </div>
                     </td>
                     <td class="p-2 lg:flex items-center hidden md:block">
@@ -162,12 +162,14 @@ const PendingApprovals = (props) => {
                     <td class="pt-2 pb-2 flex justify-end">
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                         <button
-                          className="h-[30px] rounded-xl text-[#616161] text-[1.05rem] font-[500] hover:bg-gray-300 mr-2 w-[80px]"
-                          onClick={() => handleDecline(approval._id, index)}
+
+                          className="h-[30px] rounded-xl text-[#616161] text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[500] hover:bg-gray-300 mr-2 w-[80px]"
+                          onClick={() => handleDecline(approval._id)}
+
                         >
                           Decline
                         </button>
-                        <button className="h-[25px] w-[80px] rounded-xl text-[1.05rem] font-[500]  text-white bg-[#00D22E] hover:bg-[#03821f]">
+                        <button className="h-[25px] w-[80px] rounded-xl  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[500]  text-white bg-[#00D22E] hover:bg-[#03821f]">
                           {loading && id === index ? (
                             <div
                               class="spinner-border text-white"
