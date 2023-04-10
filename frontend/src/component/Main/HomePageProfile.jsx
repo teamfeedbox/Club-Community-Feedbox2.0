@@ -120,6 +120,7 @@ const HomePageProfile = (props) => {
       setLoading(true);
     }
     setLoading1(false);
+    window.location.href="/main"
   };
 
   const goToProfile = (name) => {
@@ -156,7 +157,7 @@ const HomePageProfile = (props) => {
       <div className="hidden md:block lg:block">
       <div className="home-profile-bg-doodle">
         <img src={"Images/doodle-profile-bg.png"} alt="" />
-        <button className="home-profile-visit-profile" onClick={role && role === 'Super_Admin' ? () => goToProfile('superAdmin') : () => goToProfile('user')}>
+        <button className="home-profile-visit-profile" onClick={() => goToProfile('user')}>
           <FontAwesomeIcon
             className="home-profile-visit-profile-icon"
             icon={faArrowUpRightFromSquare}

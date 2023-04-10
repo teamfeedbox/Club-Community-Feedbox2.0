@@ -13,13 +13,14 @@ router.post('/upload', upload.single('file'),requireLogin, async (req, res) => {
     // console.log(pdfLink)
 
     if(pdfLink === 'undefined'){
+      //  alert("Add files");
       const result = await cloudinary.uploader.upload(req.file.path, {
         resource_type: 'raw',
         folder: 'pdfs'
       });
     
       const pdfUrl = result.secure_url;
-      console.log(pdfUrl)
+      console.log(pdfUrl);
       // console.log(req.user)
       const pdf = await new Resource({
         title,
@@ -40,7 +41,7 @@ router.post('/upload', upload.single('file'),requireLogin, async (req, res) => {
     }
 
     else{
-         const pdfSave = await new Resource({
+      const pdfSave = await new Resource({
       title,
       skill,
       author:req.user,  
