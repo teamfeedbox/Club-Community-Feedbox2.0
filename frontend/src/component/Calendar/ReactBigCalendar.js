@@ -224,12 +224,10 @@ export default function ReactBigCalendar() {
     await fetch("http://localhost:8000/addNotifications", {
       method: "post",
       body: JSON.stringify({
-        message: title,
+        message: ` Alert: Join ${title} on ${eventDate} ${eventTime} at ${venue}`,
         messageScope: scope,
-        date: eventDate,
         userId: id,
-        venue: venue,
-        time: eventTime,
+    
       }),
       headers: {
         "Content-Type": "application/json",
@@ -260,10 +258,31 @@ export default function ReactBigCalendar() {
       method: "delete",
     });
     result = await result.json();
-    console.log(result);
+    // alert(result)
+    // console.log("delete",result);
     setDeleteBtn(false);
     setLoading(false);
     setPreEventModel(false);
+
+     //  notification
+    //  await fetch("http://localhost:8000/addNotifications", {
+    //   method: "post",
+    //   body: JSON.stringify({
+    //     message: ` Alert: ${title} has been cancelled`,
+    //     messageScope: scope,
+    //     userId: id,
+       
+    //   }),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: "Bearer " + localStorage.getItem("jwt"),
+    //   },
+    // }).then((res) => {
+    //   // alert(res.json)
+    //   setLoading(false);
+    //   window.location.href="/calendar"
+    // });
+
     window.location.href="/calendar"
   };
 

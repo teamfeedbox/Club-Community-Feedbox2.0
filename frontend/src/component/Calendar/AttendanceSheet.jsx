@@ -33,7 +33,7 @@ const AttendanceSheet = () => {
   const [currentEvent, setCurrentEvent] = useState();
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [eventDuration,setEventDuration]=useState();
+  const [eventDuration, setEventDuration] = useState();
   const eventId = location.state.eventId;
   const [currentUserId, setcurrentUserId] = useState()
 
@@ -56,7 +56,7 @@ const AttendanceSheet = () => {
       }
     );
     result = await result.json();
-    console.log(result[0],"s;lkcfjihdgefy");
+    console.log(result[0], "s;lkcfjihdgefy");
     setCurrentEvent(result[0]);
     setData(result[0].attendance);
     setValue(result[0].attendance)
@@ -93,7 +93,7 @@ const AttendanceSheet = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(checkedUsers);
+    // console.log(checkedUsers);
     if (checkedUsers.length > 0) {
       let absentees = [];
       let attendees = [];
@@ -108,29 +108,29 @@ const AttendanceSheet = () => {
           attendees.push(obj)
         }
       })
-      console.log(absentees,"absentees");
+      // console.log(absentees,"absentees");
       console.log(attendees);
 
 
       // delete absentee from events attendance array
       let result = await fetch(`http://localhost:8000/update/event/${currentEvent._id}`, {
         method: "PUT",
-        body: JSON.stringify({absentees,eventDuration}),
+        body: JSON.stringify({ absentees, eventDuration }),
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + localStorage.getItem("jwt"),
         },
       });
       const res = await result.json();
-      console.log(res,"response")
+      console.log(res, "response")
 
-      console.log(currentEvent)
-      console.log(eventDuration);
+      // console.log(currentEvent)
+      // console.log(eventDuration);
 
       // update users coins and events aaray
       let userData = await fetch(`http://localhost:8000/update/coins/events`, {
         method: "PUT",
-        body: JSON.stringify({attendees,currentEvent}),
+        body: JSON.stringify({ attendees, currentEvent }),
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -139,24 +139,26 @@ const AttendanceSheet = () => {
       setShow(false);
       setSubmitted(true);
       setLoading(true)
+
+
+      // notifications
+      attendees.map(async (val) => {
+        await fetch("http://localhost:8000/addNotifications", {
+          method: "post",
+          body: JSON.stringify({
+            message: "Congrats! +10 coins added.",
+            messageScope: "coins",
+            userId: val.id,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+        }).then((res) => {
+          // alert(res.json)
+        });
+      })
     }
-
-    // 
-    await fetch("http://localhost:8000/addNotifications", {
-    method: "post",
-    body: JSON.stringify({
-      message:"Congrats! +10 coins added.",
-      messageScope:"private",
-      userId:currentUserId, 
-    }),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + localStorage.getItem("jwt"),
-    },
-  }).then((res)=>{
-    // alert(res.json)
-  });
-
   }
 
   return (
@@ -179,7 +181,7 @@ const AttendanceSheet = () => {
               type="number"
               min={1}
               name="number"
-              required onChange={(e)=>setEventDuration(e.target.value)}
+              required onChange={(e) => setEventDuration(e.target.value)}
             ></input>
           </Modal.Body>
           <Modal.Footer>
@@ -192,7 +194,7 @@ const AttendanceSheet = () => {
           </Modal.Footer>
         </form>
       </Modal>
-      
+
       <div className="attendance">
         <div className="attendance-right">
           <h1>Attendance Sheet</h1>
@@ -238,7 +240,7 @@ const AttendanceSheet = () => {
               <tbody>
 
 
-                { data.length > 0 &&
+                {data.length > 0 &&
                   data.map((item, index) => (
                     <tr key={index}>
                       <th scope="row"> {index + 1} </th>
@@ -283,7 +285,7 @@ const AttendanceSheet = () => {
               Back
             </button>
             <button
-              onClick={() => { handleShow();}}
+              onClick={() => { handleShow(); }}
               className="btn btn-primary" disabled={currentEvent && currentEvent.attendanceSubmitted}>{currentEvent && currentEvent.attendanceSubmitted ? 'Submitted' : 'Submit'}</button>
           </div> : ""}
         </div>

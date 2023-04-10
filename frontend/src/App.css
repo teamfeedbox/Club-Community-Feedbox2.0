@@ -5,6 +5,15 @@
   /* background-color: #F6F6EF; */
 }
 
+/* for firefox */
+html {
+  scrollbar-width: none;
+}
+/* for chrome, webkit browser */
+::-webkit-scrollbar {
+  display: none;
+}
+
 :root{
   --primary_color: #000;
   --heading-font-size : 1.5rem;
