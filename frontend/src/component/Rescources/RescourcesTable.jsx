@@ -85,6 +85,7 @@ const RescourcesTable = (props) => {
   };
 
   function handleChange(e) {
+    setLink(false);
     console.log(e.target.files);
     setFile(URL.createObjectURL(e.target.files[0]));
     setPdfFile(e.target.files[0]);

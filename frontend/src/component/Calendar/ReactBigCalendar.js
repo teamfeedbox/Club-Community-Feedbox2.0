@@ -160,8 +160,8 @@ export default function ReactBigCalendar() {
     }
     getUser();
     getColleges();
-    setLoading(false);
-  }, [loading, event, eventClicked, selectedEvent, clgSelected]);
+    // setLoading(false);
+  }, [ event, eventClicked, selectedEvent, clgSelected]);
 
   // Mark Interested 
   const attendanceUpdate = async (eveid) => {
@@ -192,6 +192,7 @@ export default function ReactBigCalendar() {
 
   // create event
   const addEvent = async (e) => {
+    setLoading(true);
     e.preventDefault();
     let result = await fetch("http://localhost:8000/createEvent", {
       method: "post",
@@ -236,7 +237,8 @@ export default function ReactBigCalendar() {
       },
     }).then((res) => {
       // alert(res.json)
-      setLoading(true)
+      setLoading(false);
+      window.location.href="/calendar"
     });
   };
 
@@ -248,14 +250,16 @@ export default function ReactBigCalendar() {
 
   // Delete Event
   const cancelEvent = async (id) => {
+    setLoading(true);
     let result = await fetch(`http://localhost:8000/deleteEvent/${id}`, {
       method: "delete",
     });
     result = await result.json();
     console.log(result);
     setDeleteBtn(false);
+    setLoading(false);
     setPreEventModel(false);
-    setLoading(true);
+    window.location.href="/calendar"
   };
 
   // Handle selection of clg
@@ -439,22 +443,24 @@ export default function ReactBigCalendar() {
                         cannot be undone.
                       </Modal.Body>
                       <Modal.Footer style={{ justifyContent: "right" }}>
+                        <Button variant="danger">
                         {loading ? (
                           <div
-                            class="spinner-border text-danger"
+                            class="spinner-border text-white"
                             role="status"
                             style={{ height: "15px", width: "15px" }}
                           >
                             <span class="visually-hidden">Loading...</span>
                           </div>
                         ) : (
-                          <Button
-                            variant="danger"
-                            onClick={() => cancelEvent(myEvent._id)}
+                          
+                          <div
+                          onClick={() => cancelEvent(myEvent._id)}
                           >
                             Delete
-                          </Button>
+                          </div>
                         )}
+                        </Button>
 
                         <Button
                           variant="light"
@@ -640,9 +646,23 @@ export default function ReactBigCalendar() {
                   ></textarea>
                 </div>
                 <div className="submit-button">
-                  <button className="Calendar-submit" type="submit">
-                    Create
-                  </button>
+                 <button className="Calendar-submit">
+                 {
+                  loading ?
+                  <div
+                            class="spinner-border text-white"
+                            role="status"
+                            style={{ height: "15px", width: "15px" }}
+                          >
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+
+                          :
+                          <button  type="submit">
+                          Create
+                        </button>
+                 }
+                   </button>
                 </div>
               </form>
             </div>
