@@ -19,7 +19,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [uniqueId, setUniqueId] = useState("");
   const [collegeYear, setCollegeYear] = useState();
-  const [collegeName, setCollegeName] = useState("University");
+  const [collegeName, setCollegeName] = useState();
   const [branch, setBranch] = useState();
   const [bio, setBio] = useState();
   const [allClgs, setAllClgs] = useState([]);

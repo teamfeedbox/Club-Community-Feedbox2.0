@@ -74,6 +74,11 @@ input::-webkit-inner-spin-button {
         text-align: center;
         justify-content:space-between;
     }
+    .attendance-sheet {
+        
+        margin: 2px;
+        font-size:14px;
+    }
    
 }
 

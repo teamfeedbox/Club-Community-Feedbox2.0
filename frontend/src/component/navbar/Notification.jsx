@@ -22,8 +22,10 @@ const Notification = (props) => {
       },
     });
     notifi = await notifi.json();
-    setNotification(notifi)
-    // console.log(notification);
+    setNotification(notifi.reverse())
+    // console.log(notifi.length);
+
+    localStorage.setItem("notification-length", notifi.length)
   }
   useEffect(() => {
     getData()
@@ -55,30 +57,43 @@ const Notification = (props) => {
 
         {notification && notification.map((data) => {
           return (
+            // public message
             (data.messageScope === "public" ?
               (<div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
                 <div className="bg-blue-800 p-1 w-[5px]  text-blue-800"></div>
                 <div className="p-1">
-                  Alert: Join {data.message} on {data.date} {data.time} at {data.venue}
+                  {data.message}
 
                 </div>
               </div>)
               :
-              ((data.messageScope === "private" && data.message !== "Congrats! +10 coins added." && currentUserId === data.userId) ?
-                <div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
-                  <div className="bg-green-800 p-1 w-[5px]  text-blue-800"></div>
+              // for community
+              (data.messageScope === "community" ?
+                (<div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
+                  <div className="bg-blue-800 p-1 w-[5px]  text-blue-800"></div>
                   <div className="p-1">
                     {data.message}
                   </div>
-                </div>
+                </div>)
                 :
-                ((data.messageScope==="private" && data.message === "Congrats! +10 coins added." && currentUserId === data.userId) &&
+                // for positio change
+                ((data.messageScope === "private" && currentUserId === data.userId) ?
                   <div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
-                    <div className="bg-yellow-800 p-1 w-[5px]  text-blue-800"></div>
+                    <div className="bg-green-800 p-1 w-[5px]  text-blue-800"></div>
                     <div className="p-1">
                       {data.message}
                     </div>
-                  </div>)
+                  </div>
+                  :
+                  // for coins
+                  ((data.messageScope === "coins"  && currentUserId === data.userId) &&
+                    <div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
+                      <div className="bg-yellow-800 p-1 w-[5px]  text-blue-800"></div>
+                      <div className="p-1">
+                        {data.message}
+                      </div>
+                    </div>)
+                )
               )
             )
           )
