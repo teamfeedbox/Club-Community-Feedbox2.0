@@ -250,7 +250,24 @@ const Leads = (props) => {
                                     />
                                   </div>
                                   <div>
-                                    <button onClick={(e) => { e.preventDefault(); submitHandler() }}>Confirm</button>
+                                    {
+                                      loading?
+                                      <div
+                                      class="spinner-border text-blue"
+                                      role="status"
+                                      style={{
+                                        height: "15px",
+                                        width: "15px",
+                                        marginTop: "3px",
+                                        marginLeft:"80px"
+                                      }}
+                                    >
+                                      <span class="visually-hidden">
+                                        Loading...
+                                      </span>
+                                    </div>:
+                                   <button onClick={(e) => { e.preventDefault(); submitHandler() }}>Confirm</button>
+                                    }
                                   </div>
                                 </form>
                               ) : (
