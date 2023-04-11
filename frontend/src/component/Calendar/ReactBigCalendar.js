@@ -536,6 +536,7 @@ export default function ReactBigCalendar() {
                     ""
                   )}
                 </div>}
+
               </div>
             </div>
           ) : (
@@ -719,7 +720,6 @@ export default function ReactBigCalendar() {
 
 }
 
-}
 
 
 
