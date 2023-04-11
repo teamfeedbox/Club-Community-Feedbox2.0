@@ -19,7 +19,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
 import "./ReactBigCalendar.css";
-import BigCalendar from "react-big-calendar";
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -54,7 +53,6 @@ export default function ReactBigCalendar() {
   const [preEventModel, setPreEventModel] = useState(false);
   // Show and hide interested button
   const [interestedBtn, setInterestedBtn] = useState(true);
-  const [role, setRole] = useState("");
   const [selectedEvent, setSelectedEvent] = useState();
   // const [id, setId] = useState();
   const [eventData, setEventData] = useState([]);
@@ -64,7 +62,9 @@ export default function ReactBigCalendar() {
   const [MAVisibility, setMAVisibility] = useState(false);
   const [eventProp, setEventProp] = useState(true);
 
-  const id = JSON.parse(localStorage.getItem("user")).id;
+
+  const id = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).id;
+  const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role
 
   // Mindate for diasble previous dates in calender
   var today = new Date();
@@ -88,7 +88,6 @@ export default function ReactBigCalendar() {
     });
     result = await result.json();
     setUser(result);
-    setRole(result.role);
   };
 
   const compareDate = (date, time) => {
