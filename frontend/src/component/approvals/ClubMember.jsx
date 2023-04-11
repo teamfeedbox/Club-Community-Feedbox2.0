@@ -136,7 +136,7 @@ const ClubMember = ({ props }) => {
     await fetch("http://localhost:8000/addNotifications", {
       method: "post",
       body: JSON.stringify({
-        message: "Congrats: Now You are lead",
+        message: `Congrats: Now You are upgraded Club Member to ${value}`,
         messageScope: "private",
         userId: id,
 

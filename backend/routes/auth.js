@@ -207,9 +207,16 @@ router.post('/sendmail/:id', async (req, res) => {
     let info = await transporter.sendMail({
       from: '<anushkashah02.feedbox@gmail.com>', // sender address
       to: `${result.email}`, // list of receivers
-      subject: `Hello ${result.name}`, // Subject line
-      text: "Hello Isha", // plain text body
-      html: "<b>You have registered successfully</b>", // html body
+      subject: `Your Account has been Verified`, // Subject line
+      text: `Hello ${result.name}`, // plain text body
+      html: `<div>Dear ${result.name},
+      <br/><br/>
+      We are pleased to inform you that your account has been successfully verified. You can now login to your account and start using all the features and services that our platform has to offer.<br/>
+      To access your account, please visit our website at [website URL] and click on the login button. If you have any questions or concerns, please do not hesitate to contact us. Our support team is available 24/7 to assist you with any issues you may have.
+      <br/><br/>
+      Best regards,
+      <br/><br/>
+      Team Feedbox</div>`, // html body
     });
   
     // console.log("Message sent: %s", info.messageId);

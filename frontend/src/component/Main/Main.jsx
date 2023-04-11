@@ -10,12 +10,16 @@ import bg from "../assets/mainBg.png";
 const Main = () => {
   const [user, setUser] = useState();
   const [clg, setClg] = useState();
+  const [allEvents, setAllEvents] = useState();
   const [eventSel, setEventSel] = useState();
+  const role = JSON.parse(localStorage.getItem("user")).role;
 
   useEffect(() => {
     getUser();
+    getAllEvents();
   }, [])
 
+  // Get a user
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
@@ -26,16 +30,20 @@ const Main = () => {
     setUser(result);
   };
 
+  // Get All Events
+  const getAllEvents = async () => {
+    let res = await fetch("http://localhost:8000/getAllEvent");
+    res = await res.json();
+    setAllEvents(res);
+  }
+
   const handleDataChange = (newData) => {
     setClg(newData);
   };
 
-
   const pull_data = (data) => {
     setEventSel(data);
   }
-  const role = JSON.parse(localStorage.getItem("user")).role;
-
 
   return (
     <>
@@ -53,7 +61,7 @@ const Main = () => {
             <div className="flex m-auto justify-center">
               <div className="main-home-page-profile">
                 <scrollable-component scrollbar-visibility="always">
-                  <HomePageProfile sendData={handleDataChange} />
+                  <HomePageProfile sendData={handleDataChange} user={user && user} allEvents={allEvents && allEvents} />
                 </scrollable-component>
               </div>
 
@@ -69,10 +77,10 @@ const Main = () => {
               <div className="main-home-page-cal">
                 <scrollable-component scrollbar-visibility="always">
                   <div className="home-page-cal-div">
-                    <HomePageCal clgData={clg && clg} eventSel={pull_data} />
+                    <HomePageCal clgData={clg && clg} eventSel={pull_data} allEvents={allEvents && allEvents} />
                   </div>
                   <p className="up-coming-events">UP-COMING EVENTS</p>
-                  <HomePageEvent clgData={clg && clg} eveD={eventSel && eventSel} />
+                  <HomePageEvent clgData={clg && clg} eveD={eventSel && eventSel} allEvents={allEvents && allEvents}/>
                 </scrollable-component>
               </div>
             </div>
