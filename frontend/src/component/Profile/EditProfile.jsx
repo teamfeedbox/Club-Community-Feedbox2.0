@@ -15,8 +15,9 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./EditProfile.css";
 
-const EditProfile = ({ open, setOpen }) => {
+const EditProfile = ({ Userbio, open, setOpen }) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
+
 
   // const [dataChanges, setDataChanges] = useState('nnnnn');
   const [data, setData] = useState('');
@@ -28,13 +29,15 @@ const EditProfile = ({ open, setOpen }) => {
   const [img, setImg] = useState("");
   const [url, setUrl] = useState("");
   const [email, setEmail] = useState("");
-  const [bio, setBio] = useState("");
 
-  // console.log(`prop : ${open}`);
+  const [bio, setBio] = useState('');
 
+  
   const handleClose = () => {
     setOpen(false);
     // uploadPic();
+    setBio(Userbio);
+    console.log(Userbio, bio);
   };
   const handleShow = () => setShow(true);
 
@@ -78,7 +81,6 @@ const EditProfile = ({ open, setOpen }) => {
     let result = await fetch(`http://localhost:8000/user/${data}`);
     result = await result.json();
     setEmail(result.email);
-    setBio(result.bio);
   };
 
   const updateDetail = async (data) => {
@@ -149,12 +151,17 @@ const EditProfile = ({ open, setOpen }) => {
       },
     });
     result = await result.json();
-    // console.log(result.email);
     setData(result._id);
+    if(bio===''){
+      setBio(result.bio)
+    }
     // if (result) {
     //   getUser();
     // }
   };
+
+  // console.log(`State bio is : ${Userbio}`);
+  // console.log(`bio is : and ${bio}`);
 
   return (
     <div>
@@ -178,7 +185,6 @@ const EditProfile = ({ open, setOpen }) => {
                   <Form.Control
                     as="textarea"
                     rows={3}
-                    placeholder="Write your text here"
                     onChange={(e) => setBio(e.target.value)}
                     value={bio}
                   />
@@ -265,11 +271,11 @@ const EditProfile = ({ open, setOpen }) => {
               <Button variant="primary">
               {loading ? (
                 <div
-                  class="spinner-border text-white"
+                  className="spinner-border text-white"
                   role="status"
                   style={{ height: "15px", width: "15px" }}
                 >
-                  <span class="visually-hidden">Loading...</span>
+                  <span className="visually-hidden">Loading...</span>
                 </div>
               ) : (
                 <Button

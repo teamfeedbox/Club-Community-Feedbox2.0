@@ -16,7 +16,7 @@ import Multiselect from "multiselect-react-dropdown";
 import { Link } from "react-router-dom";
 import "./SignUp.css";
 
-import Select from "react-select";
+// import Select from "react-select";
 
 const SignupPage = () => {
   const [name, setName] = useState("");
