@@ -13,7 +13,7 @@ const Approvals = () => {
   const [allClgs, setAllClgs] = useState([]);
   const [user, setUser] = useState();
   const [clg, setClg] = useState();
-
+  const[loading,setLoading]=useState(false);
   const pull_data = (data) => {
     setCM(data);
   }
