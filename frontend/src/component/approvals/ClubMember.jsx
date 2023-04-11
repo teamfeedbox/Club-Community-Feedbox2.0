@@ -146,6 +146,14 @@ const ClubMember = ({ props }) => {
       },
     }).then((res) => {
       // alert(res.json)
+      setConfirm(false);
+      setShow(false);
+      setPosition("");
+      setValue("");
+      setId("");
+      setName("");
+      setLoading(false);
+      setLoad(true)
     });
   };
 
@@ -315,15 +323,16 @@ const ClubMember = ({ props }) => {
                                   />
                                 </div>
                                 <div>
-                                  <button className="modal-footer-club-member-yes-no-div">
+                                  
                                   {loading ? (
                                     <div
-                                      class="spinner-border text-white"
+                                      class="spinner-border text-blue"
                                       role="status"
                                       style={{
                                         height: "15px",
                                         width: "15px",
                                         marginTop: "3px",
+                                        marginLeft:"80px"
                                       }}
                                     >
                                       <span class="visually-hidden">
@@ -340,7 +349,7 @@ const ClubMember = ({ props }) => {
                                       Confirm
                                     </button>
                                   )}
-                                  </button>
+                                
                                 </div>
                               </form>
                             ) : (

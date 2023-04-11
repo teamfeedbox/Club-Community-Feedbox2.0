@@ -115,7 +115,8 @@ export function Accessibility(props) {
   const selectedPage = window.location.pathname;
 
   const logoutHandler = () => {
-    localStorage.clear();
+    localStorage.setItem("user",null);
+    localStorage.setItem("jwt",null);
   };
 
   const handleCross = () => {

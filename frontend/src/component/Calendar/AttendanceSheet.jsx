@@ -317,17 +317,10 @@ const AttendanceSheet = () => {
               >
                 Back
               </button>
-              <button className="btn btn-primary">
-                {loading2 ? (
-                  <div
-                    class="spinner-border text-white"
-                    role="status"
-                    style={{ height: "15px", width: "15px", marginTop: "3px" }}
-                  >
-                    <span class="visually-hidden">Loading...</span>
-                  </div>
-                ) : (
-                  <button
+              
+                
+                  <button 
+                  className="btn btn-primary"
                     onClick={() => {
                       handleShow();
                     }}
@@ -338,8 +331,7 @@ const AttendanceSheet = () => {
                       ? "Submitted"
                       : "Submit"}
                   </button>
-                )}
-              </button>
+                
             </div>
           ) : (
             ""
