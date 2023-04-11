@@ -238,12 +238,17 @@ export default function ReactBigCalendar() {
     await fetch("http://localhost:8000/addNotifications", {
       method: "post",
       body: JSON.stringify({
-        message: title,
+        message: ` Alert: Join ${title} on ${eventDate} ${eventTime} at ${venue}`,
         messageScope: scope,
+
         date: eventDate,
         userId:id,
         venue:venue,
         time:eventTime,
+
+        userId: id,
+    
+
       }),
       headers: {
         "Content-Type": "application/json",
@@ -274,10 +279,11 @@ export default function ReactBigCalendar() {
       method: "delete",
     });
     result = await result.json();
-    console.log(result);
+    // alert(result)
+    // console.log("delete",result);
     setDeleteBtn(false);
     setPreEventModel(false);
-    setLoading(true);
+
   };
 
   // Handle selection of clg
@@ -693,4 +699,10 @@ export default function ReactBigCalendar() {
       </div>
     </>
   );
+
 }
+
+}
+
+
+

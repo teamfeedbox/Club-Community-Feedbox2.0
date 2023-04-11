@@ -96,6 +96,23 @@ const Admin = (props) => {
     console.log(res)
     setDelShow(false)
     setLoading(true)
+
+     //  notification
+   await fetch("http://localhost:8000/addNotifications", {
+    method: "post",
+    body: JSON.stringify({
+      message: `Now You are degraded Admin to Club Member`,
+      messageScope: "private",
+      userId: id,
+
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("jwt"),
+    },
+  }).then((res) => {
+    // alert(res.json)
+  });
   }
 
   return (
