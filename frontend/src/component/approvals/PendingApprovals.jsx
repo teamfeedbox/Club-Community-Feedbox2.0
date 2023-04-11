@@ -4,12 +4,13 @@ import React, { useEffect, useState } from "react";
 import "./PendingApprovals.css";
 import { Scrollbars } from "react-custom-scrollbars";
 import { json } from "react-router-dom";
-
+import Spinner from 'react-bootstrap/Spinner';
 const PendingApprovals = (props) => {
   const [data, setData] = useState([]);
   const [searchval, setSearchVal] = useState("");
   const [pendingUsers, setPendingUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loading3, setLoading3] = useState(false);
   const [val, setVal] = useState(false);
   const [id, setId] = useState();
   const [did, setDid] = useState();
@@ -31,35 +32,45 @@ const PendingApprovals = (props) => {
     user = user.reverse();
 
     if (role === "Super_Admin") {
-      console.log("1");
       let clgSel = [];
       if (props.clg) {
-        if (props.clg == "All") {
+        if (props.clg === "All") {
+          setLoading3(true);
+          console.log(loading3,"Loading data");
           setPendingUsers(user);
           setData(user);
+          console.log(loading3,"Loading data");
+          setLoading3(false);
         } else {
           user.map(data => {
+            
             if (data.collegeName === props.clg) {
+              setLoading3(true);
+              console.log(loading3,"Loading data");
               clgSel.push(data)
             }
           })
           setPendingUsers(clgSel);
           setData(clgSel);
+          setLoading3(true);
         }
       } else {
         setPendingUsers(user);
         setData(user);
+        setLoading3(false);
       }
     } else {
       console.log("2");
       let clg = [];
       user.map(data => {
         if (data.collegeName === currentCollege) {
+          setLoading3(true);
           clg.push(data)
         }
       })
       setPendingUsers(clg);
       setData(clg);
+      setLoading3(false);
     }
   };
 
@@ -122,8 +133,9 @@ const PendingApprovals = (props) => {
     handleEmail(id);
     setVal(!val);
     props.func(!val);
-    setLoading(false);
+    
     setload(true);
+    setLoading(false);
   };
 
   return (
@@ -155,7 +167,24 @@ const PendingApprovals = (props) => {
         <Scrollbars style={{ height: "250px" }}>
           <table class="table-auto w-full max-w-[1300px] ">
             <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
-              {pendingUsers.length > 0 ? (
+              {
+              loading3?
+               <div
+               class="spinner-border text-blue"
+               role="status"
+               style={{
+                 height: "35px",
+                 width: "35px",
+                 marginTop: "15px",
+                 marginLeft:"80px"
+               }}
+             >
+               <span class="visually-hidden">
+                 Loading...
+               </span>
+             </div>
+              :
+              pendingUsers.length > 0 ? (
                 pendingUsers.map((approval, index) => (
                   <tr className="flex justify-between max-w-[1150px]">
                     <td class="p-2  lg:w-[300px]">

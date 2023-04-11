@@ -169,6 +169,7 @@ const RescourcesTable = (props) => {
           }
         });
       setData(matched);
+      setCurrentPage(1);
     } else {
       setData(duplicateData);
     }
