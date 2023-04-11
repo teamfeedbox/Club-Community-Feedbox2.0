@@ -6,7 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import axios from "axios"
 
-const CreatePost = (userData) => {
+const CreatePost = ({userData}) => {
   const [show, setShow] = useState(false);
   const [file, setFile] = useState([]);
   const [textDisplay, setTextDisplay] = useState(false);
@@ -17,13 +17,11 @@ const CreatePost = (userData) => {
   const [zeroImage, setZeroImage] = useState(false);
   const [required, setRequired] = useState(false);
 
-  let user = userData && userData.userData;
+  let user = userData && userData;
 
   function handleSelect(e) {
-    // selectValue = e.target.value;
     setScope(e.target.value)
     console.log(`scope of select ${e.target.value}`);
-
   }
 
   let count = 0;
@@ -69,8 +67,6 @@ const CreatePost = (userData) => {
     if(s.length == 0) {
       setZeroImage(false);
     }
-    
-
     count--;
   }
 

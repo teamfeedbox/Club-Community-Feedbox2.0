@@ -4,37 +4,14 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
-import Button from "react-bootstrap/Button"
 import { Link } from "react-router-dom"
 import Scrollbars from "react-custom-scrollbars";
 
 const HomePageEvent = (props) => {
   const [event, setEvent] = useState([]);
-  const [data, setData] = useState([]);
 
-  // console.log(props);
-
-  let userId, role;
-  const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    userId = result._id;
-    role = result.role
-  };
-
-  useEffect(() => {
-    getList();
-    getUser();
-  }, [props, props.clgData]);
-
-  const getList = async (e) => {
-    let res = await fetch("http://localhost:8000/getAllEvent");
-    res = await res.json();
-
+  const handleEvents = (res) => {
+    // res ----> all events coming from props
     let today = new Date();
     let result = [];
     res.map((event) => {
@@ -44,26 +21,31 @@ const HomePageEvent = (props) => {
       }
     })
     result = result.reverse()
+
     if (props.clgData) {
       if (result.length > 0) {
-        let array = [];
-        if (props.eveD) {
-          result.map((eve) => {
-            if (eve.postedBy.collegeName === props.clgData && eve.eventDate === props.eveD) {
-              array.push(eve);
-            }
-          })
+        if (props.clgData === "All") {
+          setEvent(result)
         } else {
-          result.map((eve) => {
-            if (eve.postedBy.collegeName === props.clgData) {
-              array.push(eve);
-            }
-          })
-        }
-        if (array.length > 0) {
-          setEvent(array);
-        } else {
-          setEvent([])
+          let array = [];
+          if (props.eveD) {
+            result.map((eve) => {
+              if (eve.postedBy.collegeName === props.clgData && eve.eventDate === props.eveD) {
+                array.push(eve);
+              }
+            })
+          } else {
+            result.map((eve) => {
+              if (eve.postedBy.collegeName === props.clgData) {
+                array.push(eve);
+              }
+            })
+          }
+          if (array.length > 0) {
+            setEvent(array);
+          } else {
+            setEvent([])
+          }
         }
       }
     } else if (props.eveD) {
@@ -81,7 +63,13 @@ const HomePageEvent = (props) => {
     } else {
       setEvent(result)
     }
-  };
+  }
+
+  useEffect(() => {
+    if (props.allEvents) {
+      handleEvents(props.allEvents);
+    }
+  }, [props, props.clgData]);
 
   return (
     <div className="overall-main-page-event">
@@ -97,13 +85,6 @@ const HomePageEvent = (props) => {
             </div>
             <div className="home-page-event-description">{item.desc}</div>
             <div className="home-page-event-button">
-              {/* {role && role != "Super_Admin" ? "" : 
-              <Button className="" disabled={item.isInterested} onClick={() => {
-                attendanceUpdate(item._id);
-              }}>
-                Interested
-              </Button>
-              } */}
               <Link to='/calendar' state={{ eventId: item._id }}>
                 <button className="home-page-event-button-knowmore">
                   Know More
@@ -131,23 +112,23 @@ const HomePageEvent = (props) => {
           {event.map((item, index) => (
             <div className="HomePageEvent">
               <Scrollbars style={{ height: "150px" }}>
-              <h2> {item.title} </h2>
-              <div className="home-page-event-time">
-                <FontAwesomeIcon icon={faClock} className="fa-xl" />
-                <p className="home-page-event-time-p">{item.eventDate}</p>
-              </div>
-              <div className="home-page-event-description">
-                {item.desc}
-              </div>
-              <div className="home-page-event-button pb-3">
-                <Link to='/calendar' state={{eventId:item._id}}>
-                <button className="home-page-event-button-knowmore">
-                  Know More
-                </button></Link>
-                {/* <button className="home-page-event-button-interested">
+                <h2> {item.title} </h2>
+                <div className="home-page-event-time">
+                  <FontAwesomeIcon icon={faClock} className="fa-xl" />
+                  <p className="home-page-event-time-p">{item.eventDate}</p>
+                </div>
+                <div className="home-page-event-description">
+                  {item.desc}
+                </div>
+                <div className="home-page-event-button pb-3">
+                  <Link to='/calendar' state={{ eventId: item._id }}>
+                    <button className="home-page-event-button-knowmore">
+                      Know More
+                    </button></Link>
+                  {/* <button className="home-page-event-button-interested">
                   Interested
                 </button> */}
-              </div>
+                </div>
               </Scrollbars>
             </div>
           ))}

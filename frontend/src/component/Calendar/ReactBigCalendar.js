@@ -135,8 +135,8 @@ export default function ReactBigCalendar() {
     setEvent(result);
     console.log(result, "o");
     result.map((data, i) => {
-      data.start = new Date(data.eventDate);
-      data.end = new Date(data.eventDate);
+      data.start = new Date(data.eventDate + " " + data.eventTime);
+      data.end = new Date(data.eventDate + " " + data.eventTime);
       data.id = i;
     });
     setEventData(result);
@@ -256,6 +256,8 @@ export default function ReactBigCalendar() {
       },
     }).then((res) => {
       // alert(res.json)
+      setLoading(false);
+      window.location.href = "/calendar"
     });
 
     // notification = await notification.json();
@@ -500,7 +502,6 @@ export default function ReactBigCalendar() {
                             Delete
                           </Button>
                         )}
-
                         <Button
                           variant="light"
                           onClick={() => setDeleteBtn(false)}
@@ -511,6 +512,7 @@ export default function ReactBigCalendar() {
                     </Modal>
                   )}
                 </div>
+
                 {MAVisibility && <div style={{ textAlign: "center" }}>
                   {role === "Admin" ||
                     role === "Super_Admin" ||
@@ -686,8 +688,23 @@ export default function ReactBigCalendar() {
                   ></textarea>
                 </div>
                 <div className="submit-button">
-                  <button className="Calendar-submit" type="submit">
-                    Create
+                  <button className="Calendar-submit">
+                    {
+                      loading ?
+                        <div
+                          class="spinner-border text-white"
+                          role="status"
+                          style={{ height: "15px", width: "15px" }}
+                        >
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+
+                        :
+                        <button type="submit">
+                          Create
+                        </button>
+                    }
+
                   </button>
                 </div>
               </form>
