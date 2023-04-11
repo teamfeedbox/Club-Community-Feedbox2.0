@@ -198,19 +198,7 @@ const ClubMember = ({ props }) => {
                     <td class="pt-2 pb-2 flex justify-end">
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                         <button className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]">
-                          {loading ? (
-                            <div
-                              class="spinner-border text-white"
-                              role="status"
-                              style={{
-                                height: "15px",
-                                width: "15px",
-                                marginLeft: "2px",
-                              }}
-                            >
-                              <span class="visually-hidden">Loading...</span>
-                            </div>
-                          ) : (
+                          
                             <div
                               className=" text-[.5rem] md:text-[1rem]  lg:text-[1.05rem] font-[500]"
                               onClick={() => {
@@ -229,7 +217,7 @@ const ClubMember = ({ props }) => {
                               }
                              
                             </div>
-                          )}
+                         
                         </button>
                       </div>
 

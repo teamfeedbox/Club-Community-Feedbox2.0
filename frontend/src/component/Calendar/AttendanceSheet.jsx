@@ -206,7 +206,7 @@ const AttendanceSheet = () => {
           <section className="attendence-title">
             {/* *****************Event title******************** */}
             <h5 className="mt-2 pl-2 md:ml-4">
-              Web Development
+             {currentEvent && currentEvent.title}
             </h5>
 
             {/* ****************search functionality***************** */}
