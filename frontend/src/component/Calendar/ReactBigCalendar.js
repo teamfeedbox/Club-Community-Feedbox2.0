@@ -512,31 +512,31 @@ export default function ReactBigCalendar() {
                     </Modal>
                   )}
                 </div>
-
-                {MAVisibility && <div style={{ textAlign: "center" }}>
-                  {role === "Admin" ||
-                    role === "Super_Admin" ||
-                    (id && myEvent && id == myEvent.postedBy._id) ? (
-                    <button className="Mark-Attendence-btn">
-                      <Link
-                        to={"/attendance/" + (myEvent && myEvent.title)}
-                        state={{ eventId: myEvent && myEvent._id }}
-                        onClick={() => {
-                          setEventPre("Calendar-view-events-hide");
-                        }}
-                      >
-                        {
-                          myEvent && myEvent.attendanceSubmitted
-                            ? "View Attendance"
-                            : "Mark Attendance"
-                        }
-                      </Link>
-                    </button>
-                  ) : (
-                    ""
-                  )}
-                </div>}
-
+                {MAVisibility &&
+                  <div style={{ textAlign: "center" }}>
+                    {role === "Admin" ||
+                      role === "Super_Admin" ||
+                      (id && myEvent && id == myEvent.postedBy._id) ? (
+                      <button className="Mark-Attendence-btn">
+                        <Link
+                          to={"/attendance/" + (myEvent && myEvent.title)}
+                          state={{ eventId: myEvent && myEvent._id }}
+                          onClick={() => {
+                            setEventPre("Calendar-view-events-hide");
+                          }}
+                        >
+                          {
+                            myEvent && myEvent.attendanceSubmitted
+                              ? "View Attendance"
+                              : "Mark Attendance"
+                          }
+                        </Link>
+                      </button>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                 } 
               </div>
             </div>
           ) : (
