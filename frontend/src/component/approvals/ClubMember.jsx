@@ -120,14 +120,6 @@ const ClubMember = ({ props }) => {
       });
       const res = await data.json();
       console.log(res);
-      setConfirm(false);
-      setShow(false);
-      setPosition("");
-      setValue("");
-      setId("");
-      setName("");
-      setLoading(false);
-      setLoad(true)
     } else {
       alert("Please input Position and role...")
     }
@@ -147,6 +139,14 @@ const ClubMember = ({ props }) => {
       },
     }).then((res) => {
       // alert(res.json)
+      setConfirm(false);
+      setShow(false);
+      setPosition("");
+      setValue("");
+      setId("");
+      setName("");
+      setLoading(false);
+      setLoad(true)
     });
   };
 
