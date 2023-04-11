@@ -52,7 +52,7 @@ console.log(role);
             index
             path="/main"
             element={
-               role && role == null ? <Error /> : [<NavbarRes />, <Main />]
+               role == null ? <Error /> : [<NavbarRes />, <Main />]
             }
           />
 
