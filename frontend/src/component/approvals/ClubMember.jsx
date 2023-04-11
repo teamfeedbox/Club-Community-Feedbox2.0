@@ -136,7 +136,7 @@ const ClubMember = ({ props }) => {
     await fetch("http://localhost:8000/addNotifications", {
       method: "post",
       body: JSON.stringify({
-        message: `Congrats: Now You are ${value}`,
+        message: `Congrats: Now You are upgraded Club Member to ${value}`,
         messageScope: "private",
         userId: id,
 
@@ -198,19 +198,7 @@ const ClubMember = ({ props }) => {
                     <td class="pt-2 pb-2 flex justify-end">
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                         <button className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]">
-                          {loading ? (
-                            <div
-                              class="spinner-border text-white"
-                              role="status"
-                              style={{
-                                height: "15px",
-                                width: "15px",
-                                marginLeft: "2px",
-                              }}
-                            >
-                              <span class="visually-hidden">Loading...</span>
-                            </div>
-                          ) : (
+                          
                             <div
                               className=" text-[.5rem] md:text-[1rem]  lg:text-[1.05rem] font-[500]"
                               onClick={() => {
@@ -223,9 +211,13 @@ const ClubMember = ({ props }) => {
                                 icon={faUser}
                                 className="mr-2"
                               />
-                              Make Lead/ Make Admin
+
+                              {
+                                role === 'Lead' ? ' Make Lead' : ' Make Lead/ Make Admin'
+                              }
+                             
                             </div>
-                          )}
+                         
                         </button>
                       </div>
 
@@ -239,10 +231,15 @@ const ClubMember = ({ props }) => {
                             closeButton
                             className="club-member-modal-header"
                           >
-                            Select Role of a Club Member !
+                            {
+                                role === 'Lead' ? ' Are you sure you want to make club member as lead ?' : ' Select Role of a Club Member !'
+                              }
+
+                            
                           </Modal.Header>
 
-                          <Modal.Body>
+                          {role === 'Lead' ? '' :
+                            <Modal.Body>
                             <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                               <div style={{ fontWeight: "700", fontSize: "1.1rem" }}>You want to make {name} as Lead/Admin ? </div>
                               <div style={{ display: "flex", gap: "18px" }}>
@@ -265,7 +262,7 @@ const ClubMember = ({ props }) => {
                                 {value === "" ? "" : <div className="selected-val">{name} has been selected as a {value}</div>}
                               </div>
                             </div>
-                          </Modal.Body>
+                          </Modal.Body>}
 
                           <Modal.Footer className="modal-footer club-member-modal-footer">
                             <div className="modal-footer-club-member-yes-no-div">

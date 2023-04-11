@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Multiselect from "multiselect-react-dropdown";
 import Modal from "react-bootstrap/Modal";
 import "./Register.css";
+import Button from "react-bootstrap/Button";
+
 
 const Register = () => {
   const [next, setNext] = useState(false);
@@ -19,7 +21,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [uniqueId, setUniqueId] = useState("");
   const [collegeYear, setCollegeYear] = useState();
-  const [collegeName, setCollegeName] = useState("University");
+  const [collegeName, setCollegeName] = useState();
   const [branch, setBranch] = useState();
   const [bio, setBio] = useState();
   const [allClgs, setAllClgs] = useState([]);
@@ -191,8 +193,8 @@ const Register = () => {
             </p>
           </div>
         </div>
-        {/* <div className="flex justify-center self-center m-[12px] mt-[50px]  z-10"> */}
-        <div className=" md:mt-10 z-10 lg:flex sm:flex justify-center lg:self-center sm:self-center m-[12px] mt-[50px] md:self-auto md:block">
+        <div className="flex justify-center self-center md:self-auto lg:self-center m-[12px] mt-[50px]  z-10">
+        {/* <div className=" md:mt-10 z-10 lg:flex sm:flex justify-center lg:self-center sm:self-center m-[12px] mt-[50px] md:self-auto md:block"> */}
           <div className="p-12 bg-white mx-auto rounded-3xl w-96 ">
             <div className="mb-7">
               <h3 className="font-semibold text-2xl text-gray-800">Sign Up </h3>
@@ -237,24 +239,24 @@ const Register = () => {
                         </option>
                         <option
                           value="1st"
-                          className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
+                          className="text-black w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
                         >
                           I Year
                         </option>
                         <option
-                          className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
+                          className=" text-black w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
                           value="2nd"
                         >
                           II Year
                         </option>
                         <option
-                          className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
+                          className=" text-black w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
                           value="3rd"
                         >
                           III Year
                         </option>
                         <option
-                          className="w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
+                          className="text-black w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
                           value="4th"
                         >
                           IV Year
@@ -508,13 +510,17 @@ const Register = () => {
                     </div>
 
                     <div className="flex">
-                      <button
+                      <div
                         onClick={() => setNext(!next)}
                         className="w-full mr-2 flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
                       >
                         Back
-                      </button>
-                      <button className="w-full flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
+                      </div>
+                      <Button 
+                      onClick={generateUniqueid}
+                      disabled={!branch || !collegeYear || !userinfo.response || !bio ? true : false}
+                      style={{background : '#7e22ce', border : '#7e22ce'}}
+                      className="w-full flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
                       >
                       {
                         loading ? 
@@ -526,10 +532,10 @@ const Register = () => {
                               <span class="visually-hidden">Loading...</span>
                             </div>
                             :
-                            <button type="submit"
-                            onClick={generateUniqueid} >Sign Up</button>
+                            <button  type="submit"
+                             >Sign Up</button>
                       }
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -603,8 +609,9 @@ const Register = () => {
                         value={collegeName}
                         onChange={(e) => setCollegeName(e.target.value)}
                       >
-                        <option disabled
-                          selected
+                        <option 
+                        // disabled
+                          // selected
                           hidden
                           className="text-gray-400">
                           University
@@ -626,13 +633,15 @@ const Register = () => {
                     </div>
 
                     <div>
-                      <button
+                      <Button
                         type="submit"
                         onClick={changenext}
-                        className="w-full flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
+                        style={{background : '#7e22ce', border : '#7e22ce'}}
+                        disabled = {!name || !email || !password || !collegeName ? true : false}
+                        className="w-full flex justify-center  text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
                       >
                         Next
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>

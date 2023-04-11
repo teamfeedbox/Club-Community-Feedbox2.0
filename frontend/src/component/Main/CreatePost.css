@@ -17,7 +17,7 @@
 
 .create-post-start {
     display: flex;
-    border-bottom: 2px solid black;
+    /* border-bottom: 2px solid black; */
     margin: auto;
     width: 88%;
     padding: 7px;
