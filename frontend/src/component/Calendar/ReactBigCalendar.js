@@ -122,8 +122,8 @@ export default function ReactBigCalendar() {
     setEvent(result);
     console.log(result, "o");
     result.map((data, i) => {
-      data.start = new Date(data.eventDate);
-      data.end = new Date(data.eventDate);
+      data.start = new Date(data.eventDate + " " + data.eventTime);
+      data.end = new Date(data.eventDate + " " + data.eventTime);
       data.id = i;
     });
     setEventData(result);
@@ -161,7 +161,7 @@ export default function ReactBigCalendar() {
     getUser();
     getColleges();
     // setLoading(false);
-  }, [ event, eventClicked, selectedEvent, clgSelected]);
+  }, [event, eventClicked, selectedEvent, clgSelected]);
 
   // Mark Interested 
   const attendanceUpdate = async (eveid) => {
@@ -238,7 +238,7 @@ export default function ReactBigCalendar() {
     }).then((res) => {
       // alert(res.json)
       setLoading(false);
-      window.location.href="/calendar"
+      window.location.href = "/calendar"
     });
   };
 
@@ -259,7 +259,7 @@ export default function ReactBigCalendar() {
     setDeleteBtn(false);
     setLoading(false);
     setPreEventModel(false);
-    window.location.href="/calendar"
+    window.location.href = "/calendar"
   };
 
   // Handle selection of clg
@@ -444,22 +444,22 @@ export default function ReactBigCalendar() {
                       </Modal.Body>
                       <Modal.Footer style={{ justifyContent: "right" }}>
                         <Button variant="danger">
-                        {loading ? (
-                          <div
-                            class="spinner-border text-white"
-                            role="status"
-                            style={{ height: "15px", width: "15px" }}
-                          >
-                            <span class="visually-hidden">Loading...</span>
-                          </div>
-                        ) : (
-                          
-                          <div
-                          onClick={() => cancelEvent(myEvent._id)}
-                          >
-                            Delete
-                          </div>
-                        )}
+                          {loading ? (
+                            <div
+                              class="spinner-border text-white"
+                              role="status"
+                              style={{ height: "15px", width: "15px" }}
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          ) : (
+
+                            <div
+                              onClick={() => cancelEvent(myEvent._id)}
+                            >
+                              Delete
+                            </div>
+                          )}
                         </Button>
 
                         <Button
@@ -472,7 +472,7 @@ export default function ReactBigCalendar() {
                     </Modal>
                   )}
                 </div>
-                {/* {MAVisibility && */}
+                {MAVisibility &&
                   <div style={{ textAlign: "center" }}>
                     {role === "Admin" ||
                       role === "Super_Admin" ||
@@ -496,7 +496,7 @@ export default function ReactBigCalendar() {
                       ""
                     )}
                   </div>
-                {/* // } */}
+                }
               </div>
             </div>
           ) : (
@@ -646,23 +646,23 @@ export default function ReactBigCalendar() {
                   ></textarea>
                 </div>
                 <div className="submit-button">
-                 <button className="Calendar-submit">
-                 {
-                  loading ?
-                  <div
-                            class="spinner-border text-white"
-                            role="status"
-                            style={{ height: "15px", width: "15px" }}
-                          >
-                            <span class="visually-hidden">Loading...</span>
-                          </div>
+                  <button className="Calendar-submit">
+                    {
+                      loading ?
+                        <div
+                          class="spinner-border text-white"
+                          role="status"
+                          style={{ height: "15px", width: "15px" }}
+                        >
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
 
-                          :
-                          <button  type="submit">
+                        :
+                        <button type="submit">
                           Create
                         </button>
-                 }
-                   </button>
+                    }
+                  </button>
                 </div>
               </form>
             </div>

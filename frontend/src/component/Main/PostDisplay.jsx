@@ -85,7 +85,7 @@ const PostDisplay = (props) => {
     getList();
     getUser();
     like(id);
-  },[id]);
+  }, [id]);
 
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
@@ -107,24 +107,26 @@ const PostDisplay = (props) => {
     result = await result.json();
     setVal(result.reverse())
     if (props.clgData) {
-      if (val.length > 0) {
-        let array = [];
-        val.map((eve) => {
-          console.log(eve);
-          if (eve.collegeName === props.clgData) {
-            array.push(eve);
+      if (props.clgData === "All") {
+        setData(result)
+      } else {
+        if (val.length > 0) {
+          let array = [];
+          val.map((eve) => {
+            console.log(eve);
+            if (eve.collegeName === props.clgData) {
+              array.push(eve);
+            }
+          })
+          if (array.length > 0) {
+            setData(array);
+          } else {
+            setData([])
           }
-        })
-        if (array.length > 0) {
-          setData(array);
-        } else {
-          setData([])
         }
       }
     } else {
-      // console.log("ki");
       setData(result)
-      // console.log(result)
     }
   };
 
@@ -191,7 +193,7 @@ const PostDisplay = (props) => {
     <div>
       {!loading ?
         <div className="mb-[120px]">
-          {data.length>0 ? data.map((item, index) => (
+          {data.length > 0 ? data.map((item, index) => (
             <div key={item._id} className="post-display1">
               <div className="post-display-head">
                 <div className="post-display-profile">
