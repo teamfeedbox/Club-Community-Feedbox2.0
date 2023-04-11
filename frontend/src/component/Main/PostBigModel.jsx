@@ -190,6 +190,12 @@ function PostBigModel({ openComment, setOpenComment,id}) {
         setLoading(true);
         setReplyMsg("");
 
+        console.log(result.error)
+
+        if(result.error){
+          alert("You have already replied to this comment")
+        }
+
         // const newData = data.map((item) => {
         //   if (item._id === result._id) {
         //     return result;
@@ -222,6 +228,12 @@ function PostBigModel({ openComment, setOpenComment,id}) {
     result = await result.json();
     console.log(result)
     setLoading(true);
+    console.log(result.error)
+
+    if(result.error){
+      alert("You are not authorized to delete this comment")
+    }
+
 
     // if (result) {
     //   updateComment();
@@ -243,6 +255,13 @@ function PostBigModel({ openComment, setOpenComment,id}) {
     result = await result.json();
     console.log(result)
     setLoading(true);
+
+    // console.log(result.error)
+
+    if(result.error){
+      alert("You are not authorized to delete this reply")
+    }
+
 
     // if (result) {
     //   updateComment();
