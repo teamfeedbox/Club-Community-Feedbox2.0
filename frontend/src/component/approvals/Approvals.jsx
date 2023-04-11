@@ -13,7 +13,11 @@ const Approvals = () => {
   const [user, setUser] = useState();
   const [clg, setClg] = useState();
 
+
   const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role
+
+
+   const[loading,setLoading]=useState(false);
 
   const pull_data = (data) => {
     setCM(data);
