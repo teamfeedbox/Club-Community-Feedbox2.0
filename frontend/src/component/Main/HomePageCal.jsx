@@ -3,51 +3,50 @@ import "./HomePageCal.css";
 import Calendar from "react-calendar";
 import moment from 'moment';
 
-const HomePageCal = ({ clgData, eventSel }) => {
+const HomePageCal = ({ clgData, eventSel, allEvents }) => {
   const [value, onChange] = useState(new Date());
   const [event, setEvent] = useState([]);
-  const [dupData, setDupData] = useState([]);
+
+  const dupData = allEvents && allEvents;
 
   useEffect(() => {
-    getList()
-  }, [clgData])
-
-  const getList = async (e) => {
-    let res = await fetch("http://localhost:8000/getAllEvent");
-    res = await res.json();
-    setDupData(res)
-
-    let today = new Date();
-    let result = [];
-    let newResult=[];
-    res.map((event) => {
-      let eveDate = new Date(event.eventDate + " " + event.eventTime);
-      if (today < eveDate) {
-        result.push(event.eventDate)
-        newResult.push(event);
-      }
-    })
-    result = result.reverse()
-    if (clgData) {
-      if (res.length > 0) {
-        let array = [];
-        newResult.map((eve) => {
-          if (eve.postedBy.collegeName === clgData) {
-            array.push(eve.eventDate);
-          }
-        })
-        console.log(array,"aerar");
-        if (array.length > 0) {
-          console.log(array, "pppppppppppppppppppppppppppppppp");
-          setEvent(array);
-        } else {
-          setEvent([]);
+    if (allEvents) {
+      console.log("yes");
+      let today = new Date();
+      let result = [];
+      let newResult = [];
+      dupData.map((event) => {
+        let eveDate = new Date(event.eventDate + " " + event.eventTime);
+        if (today < eveDate) {
+          result.push(event.eventDate)
+          newResult.push(event);
         }
+      })
+      result = result.reverse();
+      setEvent(result);
+      if (clgData) {
+        if (clgData === "All") {
+          setEvent(result);
+        } else {
+          if (dupData.length > 0) {
+            let array = [];
+            newResult.map((eve) => {
+              if (eve.postedBy.collegeName === clgData) {
+                array.push(eve.eventDate);
+              }
+            })
+            if (array.length > 0) {
+              setEvent(array);
+            } else {
+              setEvent([]);
+            }
+          }
+        }
+      } else {
+        setEvent(result);
       }
-    } else {
-      setEvent(result)
     }
-  };
+  }, [clgData, allEvents])
 
   const handleChange = (day) => {
     const date = moment(day).format("YYYY-MM-DD");

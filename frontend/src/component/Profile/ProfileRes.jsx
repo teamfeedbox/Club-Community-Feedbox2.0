@@ -52,29 +52,29 @@ const ProfileRes = () => {
     <div>
       {/* <!-- component --> */}
       {data.length > 0 ?
-        <div class="overflow-x-auto p-3">
-        <table class="table-auto w-full">
-          <thead class=" uppercase text-gray-400 bg-gray-50">
+        <div className="overflow-x-auto p-3">
+        <table className="table-auto w-full">
+          <thead className=" uppercase text-gray-400 bg-gray-50">
             <tr>
-              <th class="p-2">
-                <div class="font-[500] text-[0.8rem] text-left">Resource type</div>
+              <th className="p-2">
+                <div className="font-[500] text-[0.8rem] text-left">Resource type</div>
               </th>
-              <th class="p-2">
-                <div class="font-[500] text-[0.8rem] text-left">Resource Title</div>
+              <th className="p-2">
+                <div className="font-[500] text-[0.8rem] text-left">Resource Title</div>
               </th>
-              <th class="p-2">
-                <div class="font-[500] text-[0.8rem] text-left">Date Posted</div>
+              <th className="p-2">
+                <div className="font-[500] text-[0.8rem] text-left">Date Posted</div>
               </th>
-              <th class="p-2">
-                <div class="font-[500] text-[0.8rem] text-center">Action</div>
+              <th className="p-2">
+                <div className="font-[500] text-[0.8rem] text-center">Action</div>
               </th>
             </tr>
           </thead>
 
-          <tbody class="text-sm divide-y divide-gray-100">
+          <tbody className="text-sm divide-y divide-gray-100">
             {data.map((item) => (
               <tr key={item._id}>
-                <td class="p-2">
+                <td className="p-2">
                   <a
                     href={item && item.url}
                     target="_blank"
@@ -86,28 +86,28 @@ const ProfileRes = () => {
                     />
                   </a>
                 </td>
-                <td class="p-2">
-                  <div class=" text-gray-800 font-[500] text-[1rem]">{item.title}</div>
+                <td className="p-2">
+                  <div className=" text-gray-800 font-[500] text-[1rem]">{item.title}</div>
                 </td>
-                <td class="p-2">
-                  <div class="text-left text-blue-600 font-[500] text-[1rem]">
+                <td className="p-2">
+                  <div className="text-left text-blue-600 font-[500] text-[1rem]">
                     {item.date && timeAgo.format(new Date(item.date).getTime() - 60 * 1000)}
                   </div>
                 </td>
-                <td class="p-2">
-                  <div class="flex justify-center">
+                <td className="p-2">
+                  <div className="flex justify-center">
                     <button onClick={() => deleteRes(item._id)}>
                       <svg
-                        class="w-8 h-8 text-red-600 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
+                        className="w-8 h-8 text-red-600 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
                           d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                         ></path>
                       </svg>

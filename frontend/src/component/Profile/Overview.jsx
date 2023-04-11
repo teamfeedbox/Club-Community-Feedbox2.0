@@ -44,6 +44,8 @@ function Overview(prop) {
     result = await result.json();
     // console.log(result && (new Date(result.interestedEvents[0].eventDate)).toString().split(" ")[0], "lkjiug");
     setData(result);
+    console.log(result);
+    console.log(result.interestedEvents[0].title);
     setUserId(result._id)
   };
 
@@ -220,9 +222,9 @@ function Overview(prop) {
             </h5>
             <section className='Enrolled-Section'>
               {
-                data && data.length > 0 ?
-                data && data.interestedEvents.map((date) => (
-                  <Link to='/calendar' state={{eventId:date._id}} className='Sessions-Section'>
+                 data ?
+                 data.interestedEvents.map((date,index) => (
+                  <Link to='/calendar' state={{eventId:date._id}} style={{textDecoration:"none"}} className='Sessions-Section'>
                     <div style={{ color: "#848283" }}>{(new Date(date.eventDate)).toString().split(" ")[0]}</div>
                     <div style={{ color: "#010001" }}>{(new Date(date.eventDate)).toString().split(" ")[2]} {(new Date(date.eventDate)).toString().split(" ")[1]}</div>
                     <div style={{ color: "#ff5a5f" }}>ONLINE</div>

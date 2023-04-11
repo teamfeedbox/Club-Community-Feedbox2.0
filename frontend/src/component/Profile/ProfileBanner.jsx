@@ -9,6 +9,7 @@ function ProfileBanner() {
   const [data, setData] = useState();
   const [open, setOpen] = useState(false);
   const [role, setRole] = useState('');
+  const [userBio, setUserBio] = useState('');
   // const [img, setImg] = useState('Images/defaultImg.png')
 
 
@@ -25,8 +26,10 @@ function ProfileBanner() {
     result = await result.json();
     setRole(result.role);
     setData(result);
+    setUserBio(result.bio);
     // setImg(result.img)
   };
+  // console.log(`profile banner bio is: ${userBio}`);
 
 
   return (
@@ -44,8 +47,7 @@ function ProfileBanner() {
             <span> {role} </span>
           )}
             </div>
-            <EditProfile open={open} setOpen={setOpen
-            }/>
+            <EditProfile Userbio={userBio} open={open} setOpen={setOpen}/>
 
             <button onClick={() => {setOpen(!open)}} >
                 <FontAwesomeIcon 
