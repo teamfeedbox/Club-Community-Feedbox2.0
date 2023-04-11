@@ -97,7 +97,7 @@
 
 .swiper {
     /* width: 600px; */
-    height: 300px;
+    /* height: 300px; */
   }
 
   .swiper-slide{
@@ -158,19 +158,19 @@
 
 /* -----------carousel for web-------------- */
 
-.carousel-root{
+#post_display_container .carousel-root{
     height: 100%;
 }
-.carousel-slider{
+#post_display-container .carousel-slider{
     height: 500px;
 }
-.slider-wrapper{
+#post_display_contaier .slider-wrapper{
     height: 500px;
 }
-.carousel .slide{
+#post_display_container .carousel .slide{
     height: 100%;
 }
-.carousel .slider img{
+#post_display_container .carousel .slider img{
     height: 500px !important;
     object-fit: cover !important;
 }
@@ -184,12 +184,28 @@
     
     .post-display-carousel-mobileview {
         display: block;
+        height: 400px !important;
     }
     .post-display-carousel-webview{
         display: none;
     }
-   
     
+   #post_display_container .post-display-center{
+    height: 500px !important;
+   }
+   #post_display_container .post-display-image img{
+    /* height: 300px !important; */
+    /* width: 100%; */
+    object-fit: cover !important;
+    height: 400px !important;
+    aspect-ratio: 4/2 !important;
+}
+.carousel-web-view{
+    display: none !important;
+}
+#post_display_container .post-display-image{
+    height: 400px !important;
+}
 }
 
 @media only screen and (max-width: 600px) {
@@ -200,9 +216,7 @@
     .post-display-carousel-mobileview {
         display: block;
     }
-    .carousel-web-view{
-        display: none !important;
-    }
+ 
     .post-head-content {
         flex-direction: column; 
         width: 120%;
@@ -215,15 +229,11 @@
     }
 
     /* ------- */
-    .post-display-image{
-        /* height: 280px !important;
-        width: 100%; */
+    #post_display_container .post-display-image img{
+        height: 300px !important;
     }
-    .post-display-image img{
-        /* height: 300px !important; */
-        width: 100%;
-        object-fit: cover !important;
-        height: 280px !important;
-    }
+    #post_display_container .post-display-center{
+        height: 400px !important;
+       }
     
 }
