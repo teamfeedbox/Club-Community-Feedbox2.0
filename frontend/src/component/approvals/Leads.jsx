@@ -104,23 +104,23 @@ const Leads = (props) => {
     const res = await data.json();
     console.log(res);
 
-   
-   //  notification
-   await fetch("http://localhost:8000/addNotifications", {
-    method: "post",
-    body: JSON.stringify({
-      message: `Congrats: Now You are upgraded Lead to Admin`,
-      messageScope: "private",
-      userId: id,
 
-    }),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + localStorage.getItem("jwt"),
-    },
-  }).then((res) => {
-    // alert(res.json)
-  });
+    //  notification
+    await fetch("http://localhost:8000/addNotifications", {
+      method: "post",
+      body: JSON.stringify({
+        message: `Congrats: Now You are upgraded Lead to Admin`,
+        messageScope: "private",
+        userId: id,
+
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    }).then((res) => {
+      // alert(res.json)
+    });
 
     setConfirm(false);
     setShow(false);
@@ -139,21 +139,21 @@ const Leads = (props) => {
     setLoading(true)
 
     //  notification
-   await fetch("http://localhost:8000/addNotifications", {
-    method: "post",
-    body: JSON.stringify({
-      message: `Now You are degraded Admin to Club Member`,
-      messageScope: "private",
-      userId: id,
+    await fetch("http://localhost:8000/addNotifications", {
+      method: "post",
+      body: JSON.stringify({
+        message: `Now You are degraded Admin to Club Member`,
+        messageScope: "private",
+        userId: id,
 
-    }),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + localStorage.getItem("jwt"),
-    },
-  }).then((res) => {
-    // alert(res.json)
-  });
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    }).then((res) => {
+      // alert(res.json)
+    });
   }
 
   return (
@@ -182,7 +182,7 @@ const Leads = (props) => {
               {lead.length > 0 ?
                 lead.map((member) => (
                   <tr className="flex justify-between max-w-[1150px]">
-                    <td class="p-2 w-[120px]  lg:w-[300px]">
+                    <td class="p-2 w-[200px]  lg:w-[300px]">
                       <div className="flex items-center">
                         <img
                           class="rounded-full w-[40px] h-[40px] object-center"
@@ -192,16 +192,24 @@ const Leads = (props) => {
                           alt="Alex Shatov"
                         />
 
-                        <div className="ml-2  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[400]"> {member.name} </div>
+                        <div className="ml-1  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[400]"> {member.name} </div>
                       </div>
                     </td>
-                    <td class="p-2 lg:flex items-center hidden md:block  w-[10%]">
+                    {/* {
+                      role == "Lead" &&
+                      <td class="p-2 lg:flex items-center hidden md:block  w-[10%]">
+                        <div class=" text-gray-800 text-[1rem] font-[400]">
+                          {member.branch} {member.collegeYear} year
+                        </div>
+                      </td>
+                    } */}
+                    <td class="p-2 lg:flex items-left  hidden md:block  w-[12%]">
                       <div class=" text-gray-800 text-[1rem] font-[400]">
                         {member.position}
                       </div>
                     </td>
-                    {(role && role === 'Admin') || (role &&  role === 'Super_Admin') ?
-                      <td class="pt-2 pb-2 flex  justify-end ">
+                    {(role && role === 'Admin') || (role && role === 'Super_Admin') ?
+                      <td class="pt-2 pb-2 flex justify-end ">
                         <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                           <button
                             onClick={() => { setId(member._id); handleShow() }}
@@ -272,7 +280,7 @@ const Leads = (props) => {
                         </Modal>
                       </td>
                       : ''}
-                    <td className=" my-auto " style={{ marginRight: "10px" }}>
+                    {(role && role === 'Admin') || (role && role === 'Super_Admin') ? <td className=" my-auto " style={{ marginRight: "10px" }}>
                       <div className="">
                         <button
                           onClick={() => { setId(member._id); handleDelShow() }}
@@ -280,7 +288,13 @@ const Leads = (props) => {
                           className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000]  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[500] hover:bg-[#bf1004]"
                         >Delete</button>
                       </div>
-                    </td>
+                    </td> :
+                      <td class="p-2 lg:flex items-center  md:block  w-[17%] mr-10">
+                        <div class=" text-gray-800 text-[1rem] font-[400]">
+                          {member.branch} 
+                        </div>
+                      </td>
+                    }
                   </tr>
                 )) :
                 <div className="nopending">
