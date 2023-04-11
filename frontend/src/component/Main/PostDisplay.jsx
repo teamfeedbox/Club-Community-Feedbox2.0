@@ -84,8 +84,11 @@ const PostDisplay = (props) => {
   useEffect(() => {
     getList();
     getUser();
-    like(id);
-  }, [id]);
+
+  });
+
+
+ 
 
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
@@ -95,6 +98,7 @@ const PostDisplay = (props) => {
     });
     result = await result.json();
     setUser(result);
+    // console.log(result)
   };
 
   // get All Post
@@ -158,6 +162,7 @@ const PostDisplay = (props) => {
           }
         });
         setData(newData);
+
       })
       .catch((err) => {
         console.log(err);
