@@ -223,7 +223,11 @@ const ClubMember = ({ props }) => {
                                 icon={faUser}
                                 className="mr-2"
                               />
-                              Make Lead/ Make Admin
+
+                              {
+                                role === 'Lead' ? ' Make Lead' : ' Make Lead/ Make Admin'
+                              }
+                             
                             </div>
                           )}
                         </button>
@@ -239,10 +243,15 @@ const ClubMember = ({ props }) => {
                             closeButton
                             className="club-member-modal-header"
                           >
-                            Select Role of a Club Member !
+                            {
+                                role === 'Lead' ? ' Are you sure you want to make club member as lead ?' : ' Select Role of a Club Member !'
+                              }
+
+                            
                           </Modal.Header>
 
-                          <Modal.Body>
+                          {role === 'Lead' ? '' :
+                            <Modal.Body>
                             <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                               <div style={{ fontWeight: "700", fontSize: "1.1rem" }}>You want to make {name} as Lead/Admin ? </div>
                               <div style={{ display: "flex", gap: "18px" }}>
@@ -265,7 +274,7 @@ const ClubMember = ({ props }) => {
                                 {value === "" ? "" : <div className="selected-val">{name} has been selected as a {value}</div>}
                               </div>
                             </div>
-                          </Modal.Body>
+                          </Modal.Body>}
 
                           <Modal.Footer className="modal-footer club-member-modal-footer">
                             <div className="modal-footer-club-member-yes-no-div">
