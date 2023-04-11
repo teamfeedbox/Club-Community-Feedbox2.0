@@ -52,7 +52,7 @@ console.log(role);
             index
             path="/main"
             element={
-               role && role == null ? <Error /> : [<NavbarRes />, <Main />]
+               role == null ? <Error /> : [<NavbarRes />, <Main />]
             }
           />
 
@@ -66,7 +66,7 @@ console.log(role);
             index
             path="/calendar"
             element={
-              role && role == null ? (
+              role === null ? (
                 <Error />
               ) : (
                 [<NavbarRes />, <ReactBigCalendar />]
@@ -90,6 +90,7 @@ console.log(role);
             }
           />
 
+        
           {/* <Route
             index
             path="/profile"
@@ -128,7 +129,7 @@ console.log(role);
             index
             path="/approvals"
             element={
-              (role && role == null) || (role == "Club_Member") ? (
+              (role == null) || (role == "Club_Member") ? (
                 <Error />
               ) : (
                 [<NavbarRes />, <Approvals />]
