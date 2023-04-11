@@ -44,8 +44,8 @@ function Overview(prop) {
     result = await result.json();
     // console.log(result && (new Date(result.interestedEvents[0].eventDate)).toString().split(" ")[0], "lkjiug");
     setData(result);
-    console.log(result);
-    console.log(result.interestedEvents[0].title);
+    // console.log(result);
+    // console.log(result.interestedEvents[0].title);
     setUserId(result._id)
   };
 
