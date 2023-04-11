@@ -13,7 +13,7 @@ const MobileNotification = () => {
         });
         notifi = await notifi.json();
         localStorage.setItem("notification-length", notifi.length)
-        setNotification(notifi)
+        setNotification(notifi.reverse())
         // console.log(notification);
     }
     useEffect(() => {

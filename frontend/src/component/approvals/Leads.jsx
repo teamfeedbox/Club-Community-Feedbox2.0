@@ -104,30 +104,24 @@ const Leads = (props) => {
     const res = await data.json();
     console.log(res);
 
-    // Generate Notification
-    var date = new Date();
-    const notifi =
-    {
-      type: "role",
-      message: "You are upgraded from Lead to Admin!",
-      date: date,
-      status: "unseen"
-    }
+   
+   //  notification
+   await fetch("http://localhost:8000/addNotifications", {
+    method: "post",
+    body: JSON.stringify({
+      message: `Congrats: Now You are upgraded Lead to Admin`,
+      messageScope: "private",
+      userId: id,
 
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("jwt"),
+    },
+  }).then((res) => {
+    // alert(res.json)
+  });
 
-    const generateNotifi = await fetch(
-      `http://localhost:8000/user/user/addnotifi/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(notifi),
-      }
-
-    );
-    console.log(notifi);
     setConfirm(false);
     setShow(false);
     setLoading(false);
@@ -143,6 +137,23 @@ const Leads = (props) => {
     console.log(res)
     setDelShow(false)
     setLoading(true)
+
+    //  notification
+   await fetch("http://localhost:8000/addNotifications", {
+    method: "post",
+    body: JSON.stringify({
+      message: `Now You are degraded Admin to Club Member`,
+      messageScope: "private",
+      userId: id,
+
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("jwt"),
+    },
+  }).then((res) => {
+    // alert(res.json)
+  });
   }
 
   return (
