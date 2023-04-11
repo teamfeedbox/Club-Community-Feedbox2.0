@@ -71,7 +71,7 @@ const EditProfile = ({ Userbio, open, setOpen }) => {
 
     result = await result.json();
 
-    // console.log(result)
+    console.log(result)
   };
 
   const getUserDetails = async () => {
@@ -94,10 +94,11 @@ const EditProfile = ({ Userbio, open, setOpen }) => {
     });
 
     result = await result.json();
+    // console.log(result)
 
     setLoading(false);
     setOpen(false);
-  window.location.reload();
+  // window.location.reload();
     
     // console.log(result)
   };
@@ -123,9 +124,10 @@ const EditProfile = ({ Userbio, open, setOpen }) => {
       .then((res) => res.json())
       .then((data) => {
         setUrl(data.url);
+        console.log(data.url)
         setLoading(false);
         setOpen(false);
-        alert("Profile pic updated successfully!");
+        alert("Profile updated successfully!");
         window.location.href="/profile"
        
       })

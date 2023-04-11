@@ -116,27 +116,7 @@ function PostBigModel({ openComment, setOpenComment,id}) {
     // console.log(result)
     setUser(result);
 
-    result.comment.map((item)=>
-    {
-      setPostedById( item.postedBy._id);
-      item.reply.map((data)=>
-      {
-        // console.log(data.postedBy && data.postedBy._id)
-        setReplyById(data.postedBy && data.postedBy._id)
-      }
-      
-      )
-    }
-   
-    )
-
-    // result.comment.reply.map((item)=>
-    // setReplyById( item.postedBy._id)
-    // )
-    // setPostedById(result.postedBy._id)
-    // if(result._id===id){
-    //   getPost()
-    // }
+  
   };
 
   // console.log(postedById)
@@ -462,6 +442,7 @@ function PostBigModel({ openComment, setOpenComment,id}) {
                                   handleShowDelete();
                                   setDeleteComId(item._id);
                                   console.log(item._id)
+                                  setPostedById(item && item.postedBy && item.postedBy._id)
                                 }}
                                 style={{ marginLeft: "20px" }}
                               >delete
@@ -503,6 +484,7 @@ function PostBigModel({ openComment, setOpenComment,id}) {
                                 onClick={() => {
                                   handleShowDeleteReply();
                                   setReplyId(data._id);
+                                  setReplyById(data && data.postedBy && data.postedBy._id)
                                   
 
                                 }}
