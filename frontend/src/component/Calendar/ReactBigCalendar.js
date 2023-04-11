@@ -110,6 +110,7 @@ export default function ReactBigCalendar() {
     });
     myEvent && myEvent.attendance.map((data) => {
       if (data._id === id) {
+        console.log("Interested button log");
         setInterestedBtn(false);
       }
     });
