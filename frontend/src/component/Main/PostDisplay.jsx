@@ -149,8 +149,11 @@ const PostDisplay = (props) => {
         // console.log(result)
         const newData = data.map((item) => {
           if (item._id === result._id) {
+            // console.log(result)
             return result;
           } else {
+            // console.log(item)
+
             return item;
           }
         });
@@ -190,7 +193,7 @@ const PostDisplay = (props) => {
   };
 
   return (
-    <div>
+    <div id="post_display_container">
       {!loading ?
         <div className="mb-[120px]">
           {data.length > 0 ? data.map((item, index) => (
@@ -249,7 +252,7 @@ const PostDisplay = (props) => {
                   </div>
                 </div>
                 {/* *********************carousel for web view*************************** */}
-                <div className="post-display-image flex justify-center h-[650px] carousel-web-view">
+                <div id="web-carousel" className="post-display-image flex justify-center h-[620px] carousel-web-view">
                   <div className="post-display-carousel-webview flex justify-center h-[100%] m-0 p-0">
                     <Carousel
                       thumbWidth={60}
@@ -301,6 +304,7 @@ const PostDisplay = (props) => {
                 <button onClick={() => {
                   setOpenComment(!openComment)
                   setId(item._id)
+                  localStorage.setItem("postId",JSON.stringify(item._id))
                 }} className="post-display-bottom-content">
                   <FontAwesomeIcon
                     style={{ fontSize: "22.5px", cursor: "pointer", marginTop: "1px" }}

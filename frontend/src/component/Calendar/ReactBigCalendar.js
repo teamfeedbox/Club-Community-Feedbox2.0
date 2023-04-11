@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import { Calendar, momentLocalizer} from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useEffect } from "react";
@@ -10,6 +10,8 @@ import { faLocationDot, faClock, faCirclePlus, faCalendarAlt, faXmark, faPodcast
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
 import "./ReactBigCalendar.css";
+import BigCalendar from "react-big-calendar";
+
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -17,6 +19,11 @@ const localizer = momentLocalizer(moment);
 export default function ReactBigCalendar() {
   const location = useLocation();
   const eveId = location.state && location.state.eventId;
+  
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
 
   const [event, setEvent] = useState([]);
   const [title, setTitle] = useState("");
@@ -224,12 +231,10 @@ export default function ReactBigCalendar() {
     await fetch("http://localhost:8000/addNotifications", {
       method: "post",
       body: JSON.stringify({
-        message: title,
+        message: ` Alert: Join ${title} on ${eventDate} ${eventTime} at ${venue}`,
         messageScope: scope,
-        date: eventDate,
         userId: id,
-        venue: venue,
-        time: eventTime,
+    
       }),
       headers: {
         "Content-Type": "application/json",
@@ -240,6 +245,11 @@ export default function ReactBigCalendar() {
       setLoading(false);
       window.location.href = "/calendar"
     });
+
+    // notification = await notification.json();
+    // console.log(notification)
+
+    window.location.reload()
   };
 
   // handle event on select from react big calender
@@ -247,6 +257,9 @@ export default function ReactBigCalendar() {
     setEventClicked(true);
     setSelectedEvent(val);
   };
+  const handleSelect=()=>{
+
+  }
 
   // Delete Event
   const cancelEvent = async (id) => {
@@ -255,11 +268,32 @@ export default function ReactBigCalendar() {
       method: "delete",
     });
     result = await result.json();
-    console.log(result);
+    // alert(result)
+    // console.log("delete",result);
     setDeleteBtn(false);
     setLoading(false);
     setPreEventModel(false);
-    window.location.href = "/calendar"
+
+     //  notification
+    //  await fetch("http://localhost:8000/addNotifications", {
+    //   method: "post",
+    //   body: JSON.stringify({
+    //     message: ` Alert: ${title} has been cancelled`,
+    //     messageScope: scope,
+    //     userId: id,
+       
+    //   }),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: "Bearer " + localStorage.getItem("jwt"),
+    //   },
+    // }).then((res) => {
+    //   // alert(res.json)
+    //   setLoading(false);
+    //   window.location.href="/calendar"
+    // });
+
+    window.location.href="/calendar"
   };
 
   // Handle selection of clg
@@ -268,6 +302,22 @@ export default function ReactBigCalendar() {
     setSelectedEvent("");
     setClgSelected(e.target.value);
   };
+  const eventPropGetter = (event, start, end, isSelected) => {
+    let style = {};
+  
+    // Check if the event is an all-day event
+    if (event.allDay) {
+      style.backgroundColor = "#e6e6e6";
+      style.border = "none";
+    }
+  
+    return {
+      style: style
+    };
+  };
+
+
+  
 
   return (
     <>
@@ -507,13 +557,16 @@ export default function ReactBigCalendar() {
         {/* -----------------Large right side Calendar------------------- */}
         <div className="React-Big-Calendar-Original">
           <Calendar
-            views={["agenda", "month", "day"]}
+            views={["month","agenda", "day"]}
             selectable
             localizer={localizer}
             defaultDate={new Date()}
             defaultView="month"
             events={eventData}
             onSelectEvent={handleEvent}
+            // showMultiDayTimes
+            // eventPropGetter={eventPropGetter}
+            onSelectSlot={handleSelect}
           />
         </div>
 
@@ -674,3 +727,5 @@ export default function ReactBigCalendar() {
     </>
   );
 }
+
+
