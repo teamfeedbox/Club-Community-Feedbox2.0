@@ -23,7 +23,12 @@ const AttendanceSheet = () => {
   // Bootstrap
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => 
+  {
+    setLoading2(true);
+    setShow(true);
+    setLoading2(false);
+  }
 
   const navigate = useNavigate();
   const [data, setData] = useState([]);
@@ -32,6 +37,7 @@ const AttendanceSheet = () => {
   const [currentEvent, setCurrentEvent] = useState();
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const [eventDuration, setEventDuration] = useState();
   const eventId = location.state.eventId;
   const [currentUserId, setcurrentUserId] = useState();
@@ -89,6 +95,7 @@ const AttendanceSheet = () => {
   };
 
   const handleSubmit = async (e) => {
+    setLoading2(true);
     e.preventDefault();
     // console.log(checkedUsers);
     if (checkedUsers.length > 0) {
@@ -157,6 +164,9 @@ const AttendanceSheet = () => {
         });
       });
     }
+
+    setLoading2(false);
+
   };
 
   return (
@@ -189,9 +199,23 @@ const AttendanceSheet = () => {
                 Back
               </button>
 
-              <button className="attendance-model-btn" type="submit">
+            <button className="attendance-model-btn">
+              {
+                loading2 ?
+                <div
+                    class="spinner-border text-white"
+                    role="status"
+                    style={{ height: "15px", width: "15px", marginTop: "3px" }}
+                  >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  :
+                  <button  type="submit">
                 Submit Attendence
               </button>
+              }
+              </button>
+
             </div>
           </Modal.Footer>
         </form>
@@ -296,16 +320,30 @@ const AttendanceSheet = () => {
               >
                 Back
               </button>
-              <button
-                onClick={() => {
-                  handleShow();
-                }}
-                className="btn btn-primary"
-                disabled={currentEvent && currentEvent.attendanceSubmitted}
-              >
-                {currentEvent && currentEvent.attendanceSubmitted
-                  ? "Submitted"
-                  : "Submit"}
+
+              <button className="btn btn-primary">
+                {loading2 ? (
+                  <div
+                    class="spinner-border text-white"
+                    role="status"
+                    style={{ height: "15px", width: "15px", marginTop: "3px" }}
+                  >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => {
+                      handleShow();
+                    }}
+                    
+                    disabled={currentEvent && currentEvent.attendanceSubmitted}
+                  >
+                    {currentEvent && currentEvent.attendanceSubmitted
+                      ? "Submitted"
+                      : "Submit"}
+                  </button>
+                )}
+
               </button>
             </div>
           ) : (
