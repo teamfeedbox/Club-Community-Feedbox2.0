@@ -21,79 +21,31 @@ import en from 'javascript-time-ago/locale/en'
 function PostBigModel({ openComment, setOpenComment,id}) {
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
-// console.log(id)
-// const _id = localStorage.getItem("postId")
-// const id = JSON.parse(_id)
-// console.log()
-
-// console.log(id)
-  const [tempReply, setTempReply] = useState("");
   const [deleteComId, setDeleteComId] = useState("");
   const [replyId, setReplyId] = useState("");
-  const [changeText, setText] = useState(true);
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(false);
-
   const [replyMsg, setReplyMsg] = useState("");
-  const [postData, setPostData] = useState();
   const [commentId, setCommentId] = useState("");
   const [postedById, setPostedById] = useState("");
   const [replyById, setReplyById] = useState("");
-
   const [message, setMessage] = useState("");
-
   // popup to delete the reply
   const [show, setShow] = useState(false);
-
   // popup to delete the comment
   const [showDel, setShowDel] = useState(false);
-
-  // To store deleted comment
-  const [deleteVar, setDeleteVar] = useState("");
-
-  //To hide the reply button after the reply is added\
-  const [replyBtn,setReplyBtn]=useState(true);
-
   // To show reply input field
   const [showReplyInputField, setShowReplyInputField] = useState(false);
-
-  // To store the state of set reply input field button
-  const [replyInputBtnId,setReplyInputBtnId]=useState("");
-
   // To show the reply written by user
   const [showReply,setShowReply]=useState(true);
-
   // To show and hide "view reply" 
   const [checkReply,setCheckreply]=useState(true);
-
   // To show and hide "hide reply" 
   const [hideReply,setHidereply]=useState(false);
-
-  // function handleFormSubmit(event){
-
-  //   event.preventDefault();
-
-  //   if(tempComment!="")
-  //   {
-  //   setComments((comment) => [...comment, tempComment]);
-  //   // console.log(tempComment)
-  //   setTempComment("");
-  //   }
-  // }
-
   function handleAfterReply(event) {
     event.preventDefault();
-    if (tempReply != "") {
-      // setReply(tempReply);
-    }
+   
   }
-  // function showRep() {
-  //   if (tempReply != "") {
-  //     setReplyView("Show-Reply-View");
-  //     setShowAdd("Hide-Comment-Add-Btn");
-  //   }
-  // }
-  // to show and hide whole component
   const handleClose = () => {
     setOpenComment(false);
   };
@@ -124,19 +76,9 @@ function PostBigModel({ openComment, setOpenComment,id}) {
         // console.log(data.postedBy && data.postedBy._id)
         setReplyById(data.postedBy && data.postedBy._id)
       }
-      
       )
     }
-   
     )
-
-    // result.comment.reply.map((item)=>
-    // setReplyById( item.postedBy._id)
-    // )
-    // setPostedById(result.postedBy._id)
-    // if(result._id===id){
-    //   getPost()
-    // }
   };
 
   // console.log(postedById)
@@ -177,20 +119,12 @@ function PostBigModel({ openComment, setOpenComment,id}) {
         setLoading(true);
         setMessage("");
 
-        // const newData = data.map((item) => {
-        //   if (item._id === result._id) {
-        //     return result;
-        //   } else {
-        //     return item;
-        //   }
-        // });
-        // setData(newData);
+       
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  // console.log(commentId, "", replyMsg);
 
 
   const updateReply = () => {
@@ -210,14 +144,7 @@ function PostBigModel({ openComment, setOpenComment,id}) {
         setLoading(true);
         setReplyMsg("");
 
-        // const newData = data.map((item) => {
-        //   if (item._id === result._id) {
-        //     return result;
-        //   } else {
-        //     return item;
-        //   }
-        // });
-        // setData(newData);
+       
       })
       .catch((err) => {
         console.log(err);
@@ -307,10 +234,6 @@ function PostBigModel({ openComment, setOpenComment,id}) {
         
         </Modal>
 
-
-
-
-
       <Modal
         show={show}
         onHide={handleShowDeleteReply}
@@ -346,10 +269,8 @@ function PostBigModel({ openComment, setOpenComment,id}) {
           <div className="Post-Big-Model1">
             {/* Left side */}
             <div className="post-display2" 
-            // style={{maxHeight:"600px"}}
             >
               <div className="post-display-center1">
-                <div className="post-display-image "></div>
 
                 {/* ***carousel for web view*** */}
                 <div className="post-display-image flex justify-center">
@@ -543,7 +464,6 @@ function PostBigModel({ openComment, setOpenComment,id}) {
                                setHidereply(false)
                                setCheckreply(true)
                                setShowReply(false)
-                               setCheckreply(true)
                                setCommentId("")
                                // setShowReply(true)
  
@@ -594,18 +514,16 @@ function PostBigModel({ openComment, setOpenComment,id}) {
                                     onChange={(event) =>
                                       setReplyMsg(event.target.value)
                                     }
-                                    
-                                 
                                   ></input>
                                   <button
                                     onClick={() => {
                                       updateReply();
+                                      
                                       setShowReplyInputField(false)
-                                      setReplyInputBtnId(item._id)
-                                      setReplyBtn(false)
                                       if(replyMsg!="")
                                       {
-                                        setCheckreply(true)
+                                        setCheckreply(false)
+                                        setHidereply(true)
                                       }
                                     }  
                                     }
