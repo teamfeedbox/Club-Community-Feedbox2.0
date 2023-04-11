@@ -101,7 +101,7 @@ const Admin = (props) => {
    await fetch("http://localhost:8000/addNotifications", {
     method: "post",
     body: JSON.stringify({
-      message: `Now You are degraded Admin to Club Member`,
+      message: `Now You are degraded Admin to Club Member, please login again`,
       messageScope: "private",
       userId: id,
 

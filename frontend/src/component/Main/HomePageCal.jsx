@@ -48,14 +48,20 @@ const HomePageCal = ({ clgData, eventSel, allEvents }) => {
     }
   }, [clgData, allEvents])
 
+  // const handleChange = (day) => {
+  //   const date = moment(day).format("YYYY-MM-DD");
+  //   dupData.map((eve) => {
+  //     if (eve.eventDate == date) {
+  //       console.log(date, eve.eventDate);
+  //       eventSel(eve.eventDate)
+  //     }
+  //   })
+  // }
+
   const handleChange = (day) => {
     const date = moment(day).format("YYYY-MM-DD");
-    dupData.map((eve) => {
-      if (eve.eventDate == date) {
-        console.log(date, eve.eventDate);
-        eventSel(eve.eventDate)
-      }
-    })
+    console.log(date,"cal");
+    eventSel(date)
   }
 
   return (
