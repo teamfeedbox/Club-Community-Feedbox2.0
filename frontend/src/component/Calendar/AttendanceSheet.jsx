@@ -212,7 +212,6 @@ const AttendanceSheet = () => {
               </button>
               }
               </button>
-              
             </div>
           </Modal.Footer>
         </form>
