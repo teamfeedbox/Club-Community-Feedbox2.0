@@ -514,7 +514,8 @@ const Register = () => {
                       >
                         Back
                       </button>
-                      <button className="w-full flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
+                      <button onClick={generateUniqueid}
+                      className="w-full flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
                       >
                       {
                         loading ? 
@@ -526,8 +527,8 @@ const Register = () => {
                               <span class="visually-hidden">Loading...</span>
                             </div>
                             :
-                            <button type="submit"
-                            onClick={generateUniqueid} >Sign Up</button>
+                            <button  type="submit"
+                             >Sign Up</button>
                       }
                       </button>
                     </div>
