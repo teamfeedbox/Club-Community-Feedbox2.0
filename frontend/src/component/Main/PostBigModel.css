@@ -108,7 +108,7 @@ a:hover {
 }
 .Cancel-Icon-Container:hover {
   color: #838181;
-  --heading-font-size : 1.5rem;
+  --heading-font-size: 1.5rem;
   --heading-font-weight: 700;
 }
 .Big-Profile-Cancel {
@@ -117,7 +117,7 @@ a:hover {
 
 .Post-Big-Description {
   width: 96%;
-  --subheading-font-size : 1.1rem;
+  --subheading-font-size: 1.1rem;
   --subheading-font-weight: 600;
   margin-right: 10px;
   color: #555555;

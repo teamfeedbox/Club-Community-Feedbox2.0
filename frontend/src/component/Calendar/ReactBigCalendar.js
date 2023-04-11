@@ -6,12 +6,20 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import { faLocationDot, faClock, faCirclePlus, faCalendarAlt, faXmark, faPodcast, faFlag, faUniversity, } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLocationDot,
+  faClock,
+  faCirclePlus,
+  faCalendarAlt,
+  faXmark,
+  faPodcast,
+  faFlag,
+  faUniversity,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
 import "./ReactBigCalendar.css";
 import BigCalendar from "react-big-calendar";
-
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -23,7 +31,6 @@ export default function ReactBigCalendar() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
 
   const [event, setEvent] = useState([]);
   const [title, setTitle] = useState("");
@@ -57,7 +64,7 @@ export default function ReactBigCalendar() {
   const [MAVisibility, setMAVisibility] = useState(false);
   const [eventProp, setEventProp] = useState(true);
 
-  const id = JSON.parse(localStorage.getItem("user")).id
+  const id = JSON.parse(localStorage.getItem("user")).id;
 
   // Mindate for diasble previous dates in calender
   var today = new Date();
@@ -89,7 +96,7 @@ export default function ReactBigCalendar() {
     let eveDate = new Date(date + " " + time);
     console.log(today > eveDate);
     setMAVisibility(today > eveDate);
-  }
+  };
 
   // show particular event
   const setCalenderEvent = (value) => {
@@ -98,20 +105,21 @@ export default function ReactBigCalendar() {
     event.map(function (val, index) {
       if (val._id === value) {
         setMyEvent(val);
-        compareDate(val.eventDate, val.eventTime)
+        compareDate(val.eventDate, val.eventTime);
         setEventPre("Calendar-view-events");
         setPreEventModel(true);
         myEvent = val;
-        console.log("1");                     
+        console.log("1");
         setEventProp(false);
       }
     });
-    myEvent && myEvent.attendance.map((data) => {
-      if (data._id === id) {
-        setInterestedBtn(false);
-      }
-    });
-  }
+    myEvent &&
+      myEvent.attendance.map((data) => {
+        if (data._id === id) {
+          setInterestedBtn(false);
+        }
+      });
+  };
 
   // Get all Colleges
   const getColleges = async () => {
@@ -126,7 +134,7 @@ export default function ReactBigCalendar() {
 
   // Get All Events
   const showEvent = async () => {
-    setInfinite(false)
+    setInfinite(false);
     let result = await fetch("http://localhost:8000/getAllEvent");
     result = await result.json();
     setEvent(result);
@@ -144,8 +152,8 @@ export default function ReactBigCalendar() {
   useEffect(() => {
     if (eventClicked && selectedEvent) {
       console.log("2");
-      setEventClicked(false)
-      setMAVisibility(false)
+      setEventClicked(false);
+      setMAVisibility(false);
       setCalenderEvent(selectedEvent._id);
     } else {
       if (eveId && eventProp) {
@@ -175,7 +183,7 @@ export default function ReactBigCalendar() {
     // setLoading(false);
   }, [event, eventClicked, selectedEvent, clgSelected]);
 
-  // Mark Interested 
+  // Mark Interested
   const attendanceUpdate = async (eveid) => {
     console.log(eveid);
     let result = await fetch(`http://localhost:8000/updateEvent/${eveid}`, {
@@ -189,14 +197,17 @@ export default function ReactBigCalendar() {
     console.log(result);
 
     // console.log(myEvent,id);
-    let data = await fetch(`http://localhost:8000/update/interested/events/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-      body: JSON.stringify({ event: myEvent })
-    });
+    let data = await fetch(
+      `http://localhost:8000/update/interested/events/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        body: JSON.stringify({ event: myEvent }),
+      }
+    );
     const res = await data.json();
     console.log(res);
     setLoading(true);
@@ -239,7 +250,6 @@ export default function ReactBigCalendar() {
         message: ` Alert: Join ${title} on ${eventDate} ${eventTime} at ${venue}`,
         messageScope: scope,
         userId: id,
-
       }),
       headers: {
         "Content-Type": "application/json",
@@ -248,13 +258,13 @@ export default function ReactBigCalendar() {
     }).then((res) => {
       // alert(res.json)
       setLoading(false);
-      window.location.href = "/calendar"
+      window.location.href = "/calendar";
     });
 
     // notification = await notification.json();
     // console.log(notification)
 
-    window.location.reload()
+    window.location.reload();
   };
 
   // handle event on select from react big calender
@@ -262,9 +272,7 @@ export default function ReactBigCalendar() {
     setEventClicked(true);
     setSelectedEvent(val);
   };
-  const handleSelect = () => {
-
-  }
+  const handleSelect = () => {};
 
   // Delete Event
   const cancelEvent = async (id) => {
@@ -298,7 +306,7 @@ export default function ReactBigCalendar() {
     //   window.location.href="/calendar"
     // });
 
-    window.location.href = "/calendar"
+    window.location.href = "/calendar";
   };
 
   // Handle selection of clg
@@ -317,38 +325,48 @@ export default function ReactBigCalendar() {
     }
 
     return {
-      style: style
+      style: style,
     };
   };
-
-
-
 
   return (
     <>
       <div className="Calendar-container">
         <div className="Calendar-left">
           {/* ----------------college dropdown for super admin--------------- */}
-          {role && role == 'Super_Admin' ?
+          {role && role == "Super_Admin" ? (
             <div className=" my-4 mx-1 ">
-              <select className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl w-[100%]" value={clgSelected} onChange={(e) => { handleCollege(e); setHandleClgSel(true); }}>
-                <option className=" " value="College" hidden selected disabled>College</option>
+              <select
+                className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl w-[100%]"
+                value={clgSelected}
+                onChange={(e) => {
+                  handleCollege(e);
+                  setHandleClgSel(true);
+                }}
+              >
+                <option className=" " value="College" hidden selected disabled>
+                  College
+                </option>
                 <option value="All">All</option>
-                {
-                  allClgs.length > 0 &&
+                {allClgs.length > 0 &&
                   allClgs.map((clg, i) => (
-                    <option key={i} value={clg}>{clg}</option>
-                  ))
-                }
+                    <option key={i} value={clg}>
+                      {clg}
+                    </option>
+                  ))}
               </select>
-            </div> : ''}
+            </div>
+          ) : (
+            ""
+          )}
 
           {/* -----------Button to add event in calendar------------------*/}
-          {role && role !== 'Club_Member' ?
+          {role && role !== "Club_Member" ? (
             <div
               className="Calendar-add"
               onClick={() => {
-                setAddEventModel(true); setPreEventModel(false)
+                setAddEventModel(true);
+                setPreEventModel(false);
               }}
             >
               <div>
@@ -358,7 +376,10 @@ export default function ReactBigCalendar() {
                   icon={faCirclePlus}
                 />
               </div>
-            </div> : ''}
+            </div>
+          ) : (
+            ""
+          )}
 
           {/* ------------Already created------------------------*/}
           <div className="Calendar-view">
@@ -441,7 +462,7 @@ export default function ReactBigCalendar() {
                   {role && role !== "Super_Admin" ? (
                     id && myEvent && id !== myEvent.postedBy._id ? (
                       new Date(myEvent && myEvent.eventDate).getTime() >
-                        new Date(mindate).getTime() ? (
+                      new Date(mindate).getTime() ? (
                         interestedBtn ? (
                           <button
                             type="button"
@@ -476,20 +497,17 @@ export default function ReactBigCalendar() {
                   {(role === "Admin" ||
                     role === "Super_Admin" ||
                     (id && myEvent && id == myEvent.postedBy._id)) && (
-                      <button
-                        onClick={() => {
-                          setDeleteBtn(true)
-                        }}
-                      >
-                        Delete Event
-                      </button>
-                    )}
+                    <button
+                      onClick={() => {
+                        setDeleteBtn(true);
+                      }}
+                    >
+                      Delete Event
+                    </button>
+                  )}
 
                   {deletebtn && (
-                    <Modal
-                      show={deletebtn}
-                      onHide={() => setDeleteBtn(false)}
-                    >
+                    <Modal show={deletebtn} onHide={() => setDeleteBtn(false)}>
                       <Modal.Header closeButton>
                         <Modal.Title>Are you sure ?</Modal.Title>
                       </Modal.Header>
@@ -508,10 +526,7 @@ export default function ReactBigCalendar() {
                               <span class="visually-hidden">Loading...</span>
                             </div>
                           ) : (
-
-                            <div
-                              onClick={() => cancelEvent(myEvent._id)}
-                            >
+                            <div onClick={() => cancelEvent(myEvent._id)}>
                               Delete
                             </div>
                           )}
@@ -527,11 +542,11 @@ export default function ReactBigCalendar() {
                     </Modal>
                   )}
                 </div>
-                {MAVisibility &&
+                {MAVisibility && (
                   <div style={{ textAlign: "center" }}>
                     {role === "Admin" ||
-                      role === "Super_Admin" ||
-                      (id && myEvent && id == myEvent.postedBy._id) ? (
+                    role === "Super_Admin" ||
+                    (id && myEvent && id == myEvent.postedBy._id) ? (
                       <button className="Mark-Attendence-btn">
                         <Link
                           to={"/attendance/" + (myEvent && myEvent.title)}
@@ -540,18 +555,16 @@ export default function ReactBigCalendar() {
                             setEventPre("Calendar-view-events-hide");
                           }}
                         >
-                          {
-                            myEvent && myEvent.attendanceSubmitted
-                              ? "View Attendance"
-                              : "Mark Attendance"
-                          }
+                          {myEvent && myEvent.attendanceSubmitted
+                            ? "View Attendance"
+                            : "Mark Attendance"}
                         </Link>
                       </button>
                     ) : (
                       ""
                     )}
                   </div>
-                }
+                )}
               </div>
             </div>
           ) : (
@@ -621,11 +634,7 @@ export default function ReactBigCalendar() {
                       value={scope}
                       onChange={(e) => setScope(e.target.value)}
                     >
-                      <option
-                        value=""
-                        selected
-                        disabled
-                      >
+                      <option value="" selected disabled>
                         Select Community
                       </option>
                       <option value="public">Public</option>
@@ -706,21 +715,17 @@ export default function ReactBigCalendar() {
                 </div>
                 <div className="submit-button">
                   <button className="Calendar-submit">
-                    {
-                      loading ?
-                        <div
-                          class="spinner-border text-white"
-                          role="status"
-                          style={{ height: "15px", width: "15px" }}
-                        >
-                          <span class="visually-hidden">Loading...</span>
-                        </div>
-
-                        :
-                        <button type="submit">
-                          Create
-                        </button>
-                    }
+                    {loading ? (
+                      <div
+                        class="spinner-border text-white"
+                        role="status"
+                        style={{ height: "15px", width: "15px" }}
+                      >
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    ) : (
+                      <button type="submit">Create</button>
+                    )}
                   </button>
                 </div>
               </form>
@@ -733,5 +738,3 @@ export default function ReactBigCalendar() {
     </>
   );
 }
-
-
