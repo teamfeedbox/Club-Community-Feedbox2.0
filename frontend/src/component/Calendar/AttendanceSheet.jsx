@@ -164,7 +164,9 @@ const AttendanceSheet = () => {
         });
       });
     }
+
     setLoading2(false);
+
   };
 
   return (
@@ -196,6 +198,7 @@ const AttendanceSheet = () => {
               <button className="attendance-model-btn" onClick={handleClose}>
                 Back
               </button>
+
             <button className="attendance-model-btn">
               {
                 loading2 ?
@@ -212,7 +215,7 @@ const AttendanceSheet = () => {
               </button>
               }
               </button>
-              
+
             </div>
           </Modal.Footer>
         </form>
@@ -317,6 +320,7 @@ const AttendanceSheet = () => {
               >
                 Back
               </button>
+
               <button className="btn btn-primary">
                 {loading2 ? (
                   <div
@@ -339,6 +343,7 @@ const AttendanceSheet = () => {
                       : "Submit"}
                   </button>
                 )}
+
               </button>
             </div>
           ) : (

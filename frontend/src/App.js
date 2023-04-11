@@ -66,7 +66,7 @@ console.log(role);
             index
             path="/calendar"
             element={
-              role && role == null ? (
+              role === null ? (
                 <Error />
               ) : (
                 [<NavbarRes />, <ReactBigCalendar />]
