@@ -9,15 +9,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import "./AttendanceSheet.css";
 import NavbarRes from "../navbar/NavbarRes";
 
-
 // Bootstrap
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 const AttendanceSheet = () => {
   const location = useLocation();
@@ -35,31 +34,29 @@ const AttendanceSheet = () => {
   const [loading, setLoading] = useState(false);
   const [eventDuration, setEventDuration] = useState();
   const eventId = location.state.eventId;
-  const [currentUserId, setcurrentUserId] = useState()
+  const [currentUserId, setcurrentUserId] = useState();
 
   useEffect(() => {
     getEvent();
     setLoading(false);
 
-    let user = localStorage.getItem('user')
-    user = JSON.parse(user)
+    let user = localStorage.getItem("user");
+    user = JSON.parse(user);
     // console.log(user.id)
-    setcurrentUserId(user.id)
-  }, [loading])
+    setcurrentUserId(user.id);
+  }, [loading]);
 
   const getEvent = async () => {
-    let result = await fetch(`http://localhost:8000/getEvent/${eventId}`,
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("jwt"),
-        },
-      }
-    );
+    let result = await fetch(`http://localhost:8000/getEvent/${eventId}`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
     result = await result.json();
     console.log(result[0], "s;lkcfjihdgefy");
     setCurrentEvent(result[0]);
     setData(result[0].attendance);
-    setValue(result[0].attendance)
+    setValue(result[0].attendance);
   };
 
   const searchHandler = (e) => {
@@ -75,21 +72,21 @@ const AttendanceSheet = () => {
         });
       setData(matched);
     } else {
-      setData(value)
+      setData(value);
     }
   };
 
   const handleCheckbox = (value) => {
     if (value.checked) {
       if (!checkedUsers.includes(value.val)) {
-        setCheckedUsers(arr => [...arr, value.val])
+        setCheckedUsers((arr) => [...arr, value.val]);
       }
     } else {
       if (checkedUsers.includes(value.val)) {
-        setCheckedUsers(checkedUsers.filter(item => item != value.val))
+        setCheckedUsers(checkedUsers.filter((item) => item != value.val));
       }
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -104,25 +101,27 @@ const AttendanceSheet = () => {
           let obj = {
             id: val._id,
             coins: val.coins ? val.coins + 10 : 10,
-          }
-          attendees.push(obj)
+          };
+          attendees.push(obj);
         }
-      })
+      });
       // console.log(absentees,"absentees");
       console.log(attendees);
 
-
       // delete absentee from events attendance array
-      let result = await fetch(`http://localhost:8000/update/event/${currentEvent._id}`, {
-        method: "PUT",
-        body: JSON.stringify({ absentees, eventDuration }),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("jwt"),
-        },
-      });
+      let result = await fetch(
+        `http://localhost:8000/update/event/${currentEvent._id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({ absentees, eventDuration }),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+        }
+      );
       const res = await result.json();
-      console.log(res, "response")
+      console.log(res, "response");
 
       // console.log(currentEvent)
       // console.log(eventDuration);
@@ -138,8 +137,7 @@ const AttendanceSheet = () => {
       });
       setShow(false);
       setSubmitted(true);
-      setLoading(true)
-
+      setLoading(true);
 
       // notifications
       attendees.map(async (val) => {
@@ -157,15 +155,15 @@ const AttendanceSheet = () => {
         }).then((res) => {
           // alert(res.json)
         });
-      })
+      });
     }
-  }
+  };
 
   return (
     <>
       <Modal show={show} onHide={handleClose}>
         <form onSubmit={handleSubmit}>
-          <Modal.Header >
+          <Modal.Header>
             <Modal.Title>Are you sure you want to submit?</Modal.Title>
             <FontAwesomeIcon
               className="fa-lg"
@@ -181,16 +179,20 @@ const AttendanceSheet = () => {
               type="number"
               min={1}
               name="number"
-              required onChange={(e) => setEventDuration(e.target.value)}
+              required
+              onChange={(e) => setEventDuration(e.target.value)}
             ></input>
           </Modal.Body>
           <Modal.Footer>
             <div className="flex justify-between w-[100vw]">
-              <button className="attendance-model-btn" onClick={handleClose}>Back</button>
+              <button className="attendance-model-btn" onClick={handleClose}>
+                Back
+              </button>
 
-              <button className="attendance-model-btn" type="submit">Submit Attendence</button>
+              <button className="attendance-model-btn" type="submit">
+                Submit Attendence
+              </button>
             </div>
-
           </Modal.Footer>
         </form>
       </Modal>
@@ -199,14 +201,12 @@ const AttendanceSheet = () => {
         <div className="attendance-right">
           <h1>Attendance Sheet</h1>
 
-
           {/* *********Containing Title of event and search functionality********* */}
-
 
           <section className="attendence-title">
             {/* *****************Event title******************** */}
             <h5 className="mt-2 pl-2 md:ml-4">
-              Web Development
+              {currentEvent && currentEvent.title}
             </h5>
 
             {/* ****************search functionality***************** */}
@@ -224,7 +224,6 @@ const AttendanceSheet = () => {
             </div>
           </section>
 
-
           {/* ***********attendance sheet display in the form of table************** */}
           <div className="attendance-sheet">
             <table className="table table-hover" rowKey="name">
@@ -234,12 +233,12 @@ const AttendanceSheet = () => {
                   <th scope="col">Attendee</th>
                   <th scope="col">Branch</th>
                   <th scope="col">Year</th>
-                  {currentEvent && !currentEvent.attendanceSubmitted && <th>Status</th>}
+                  {currentEvent && !currentEvent.attendanceSubmitted && (
+                    <th>Status</th>
+                  )}
                 </tr>
               </thead>
               <tbody>
-
-
                 {data.length > 0 &&
                   data.map((item, index) => (
                     <tr key={index}>
@@ -247,47 +246,71 @@ const AttendanceSheet = () => {
                       <td> {item.name} </td>
                       <td>{item.branch}</td>
                       <td>{item.collegeYear}</td>
-                      {currentEvent && !currentEvent.attendanceSubmitted && <td>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            value={item._id}
-                            id="flexCheckDefault"
-                            onChange={(e) => handleCheckbox({ checked: e.target.checked, val: e.target.value })}
-                          />
-                        </div>
-                      </td>}
+                      {currentEvent && !currentEvent.attendanceSubmitted && (
+                        <td>
+                          <div className="form-check">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              value={item._id}
+                              id="flexCheckDefault"
+                              onChange={(e) =>
+                                handleCheckbox({
+                                  checked: e.target.checked,
+                                  val: e.target.value,
+                                })
+                              }
+                            />
+                          </div>
+                        </td>
+                      )}
                     </tr>
                   ))}
               </tbody>
             </table>
-
           </div>
-          {
-            data.length > 0 ?
-              <div className="attendance-count">
-                {currentEvent && !currentEvent.attendanceSubmitted && <div>
-                  Total Attendee: <span>{checkedUsers.length > 0 ? checkedUsers.length : 0}</span>
-                </div>}
+          {data.length > 0 ? (
+            <div className="attendance-count">
+              {currentEvent && !currentEvent.attendanceSubmitted && (
                 <div>
-                  Total Enrolled: <span>{data.length > 0 && data.length}</span>
+                  Total Attendee:{" "}
+                  <span>
+                    {checkedUsers.length > 0 ? checkedUsers.length : 0}
+                  </span>
                 </div>
-              </div> : "No Interested Students"
-          }
-          {data.length > 0 ? <div className="flex justify-between mx-12 my-5">
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                navigate("/calendar");
-              }}
-            >
-              Back
-            </button>
-            <button
-              onClick={() => { handleShow(); }}
-              className="btn btn-primary" disabled={currentEvent && currentEvent.attendanceSubmitted}>{currentEvent && currentEvent.attendanceSubmitted ? 'Submitted' : 'Submit'}</button>
-          </div> : ""}
+              )}
+              <div>
+                Total Enrolled: <span>{data.length > 0 && data.length}</span>
+              </div>
+            </div>
+          ) : (
+            "No Interested Students"
+          )}
+          {data.length > 0 ? (
+            <div className="flex justify-between mx-12 my-5">
+              <button
+                className="btn btn-primary"
+                onClick={() => {
+                  navigate("/calendar");
+                }}
+              >
+                Back
+              </button>
+              <button
+                onClick={() => {
+                  handleShow();
+                }}
+                className="btn btn-primary"
+                disabled={currentEvent && currentEvent.attendanceSubmitted}
+              >
+                {currentEvent && currentEvent.attendanceSubmitted
+                  ? "Submitted"
+                  : "Submit"}
+              </button>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </>

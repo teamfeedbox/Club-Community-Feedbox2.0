@@ -36,6 +36,8 @@ const EditProfile = ({ Userbio, open, setOpen }) => {
   const handleClose = () => {
     setOpen(false);
     // uploadPic();
+    setBio(Userbio);
+    console.log(Userbio, bio);
   };
   const handleShow = () => setShow(true);
 
