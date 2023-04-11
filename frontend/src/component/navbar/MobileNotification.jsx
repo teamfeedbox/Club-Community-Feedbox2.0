@@ -12,6 +12,7 @@ const MobileNotification = () => {
             },
         });
         notifi = await notifi.json();
+        localStorage.setItem("notification-length", notifi.length)
         setNotification(notifi)
         // console.log(notification);
     }

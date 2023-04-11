@@ -196,7 +196,7 @@ const PostDisplay = (props) => {
   };
 
   return (
-    <div>
+    <div id="post_display_container">
       {!loading ?
         <div className="mb-[120px]">
           {data.length>0 ? data.map((item, index) => (
@@ -255,7 +255,7 @@ const PostDisplay = (props) => {
                   </div>
                 </div>
                 {/* *********************carousel for web view*************************** */}
-                <div className="post-display-image flex justify-center h-[650px] carousel-web-view">
+                <div id="web-carousel" className="post-display-image flex justify-center h-[650px] carousel-web-view">
                   <div className="post-display-carousel-webview flex justify-center h-[100%] m-0 p-0">
                     <Carousel
                       thumbWidth={60}

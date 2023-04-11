@@ -8,7 +8,8 @@ import {
   faSignal,
   faTh,
   faThLarge,
-  faUser,} from "@fortawesome/free-solid-svg-icons";
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import Notification from "./Notification";
 
 import { Link } from "react-router-dom";
@@ -17,6 +18,8 @@ import { faKeyboard } from "@fortawesome/free-regular-svg-icons";
 const AccessibilityContainer = styled.div`
   display: flex;
   margin-left: 10px;
+
+ 
 `;
 
 const RegisterButton = styled.button`
@@ -39,6 +42,19 @@ const RegisterButton = styled.button`
 
   &:not(:last-of-type) {
     margin-right: 7px;
+  }
+
+  .notification_icon{
+    position:relative;
+  }
+  .notification_icon .light{
+    position:absolute;
+    width:10px;
+    height:10px;
+    background-color:red;
+    border-radius:50%;
+    top:-10px;
+    right:-10px;
   }
 `;
 
@@ -73,25 +89,28 @@ const Links = styled(Link)`
 
 export function Accessibility(props) {
   const [notification, setNotification] = useState(false);
-
+  const [light, setlight] = useState(false)
   const [user, setUser] = useState();
   // const [role, setRole] = useState();
 
-  // useEffect(() => {
-  //   getUser();
-  // }, []);
+  const getNotifications = async () => {
+    let notifi = await fetch(`http://localhost:8000/getNotifications`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    notifi = await notifi.json();
+    
+    let oldLength = localStorage.getItem("notification-length")
+    if(notifi.length > oldLength){
+      setlight(true)
+    }
+  }
 
-  // const getUser = async () => {
-  //   let result = await fetch(`http://localhost:8000/user`, {
-  //     headers: {
-  //       Authorization: "Bearer " + localStorage.getItem("jwt"),
-  //     },
-  //   });
-  //   result = await result.json();
-  //   setRole(result.role);
-  //   setUser(result);
-  // };
-  const role = JSON.parse(localStorage.getItem("user")).role;
+  useEffect(() => {
+    // getUser();
+    getNotifications()
+  }, [light,notification]);
 
   const selectedPage = window.location.pathname;
 
@@ -101,6 +120,7 @@ export function Accessibility(props) {
 
   const handleCross = () => {
     setNotification(false);
+    setlight(false)
   };
 
   return (
@@ -160,9 +180,13 @@ export function Accessibility(props) {
         title="Notification"
         onClick={() => {
           setNotification(!notification);
+          setlight(false);
         }}
       >
-        <FontAwesomeIcon icon={faBell} className="fa-xl" />
+        <div className="notification_icon">
+      {light && !notification && <div className="light"></div>}
+        <FontAwesomeIcon  icon={faBell} className="fa-xl" />
+        </div>
       </RegisterButton>
 
       {notification ? <Notification props={{ handleCross }} /> : ""}

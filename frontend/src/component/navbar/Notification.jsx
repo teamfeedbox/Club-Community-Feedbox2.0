@@ -23,7 +23,9 @@ const Notification = (props) => {
     });
     notifi = await notifi.json();
     setNotification(notifi)
-    // console.log(notification);
+    // console.log(notifi.length);
+
+    localStorage.setItem("notification-length", notifi.length)
   }
   useEffect(() => {
     getData()
