@@ -14,6 +14,7 @@ const PendingApprovals = (props) => {
   const [id, setId] = useState();
   const [did, setDid] = useState();
   const [load, setload] = useState(false);
+  const [declineLoading, setDeclineLoading] = useState(false);
 
   const currentCollege = JSON.parse(localStorage.getItem("user")).college;
   const role = JSON.parse(localStorage.getItem("user")).role;
@@ -61,10 +62,16 @@ const PendingApprovals = (props) => {
       setPendingUsers(clg);
       setData(clg);
     }
+    setLoading(false)
+    setDeclineLoading(false);
+
+    setId('')
+    setDid('')
   };
 
   useEffect(() => {
     getUser();
+    // setLoading(false)
     setload(false)
   }, [load, props]);
 
@@ -89,6 +96,7 @@ const PendingApprovals = (props) => {
 
   // Decline request for club member
   const handleDecline = async (id, i) => {
+    setDeclineLoading(true);
     setLoading(true);
     setDid(i)
     const data = await fetch(`http://localhost:8000/user/${id}`, {
@@ -96,7 +104,7 @@ const PendingApprovals = (props) => {
       headers: { "Content-Type": "application/json" },
     });
     const res = await data.json();
-    setLoading(false);
+    // setLoading(false);
     setload(true);
   };
 
@@ -122,7 +130,7 @@ const PendingApprovals = (props) => {
     handleEmail(id);
     setVal(!val);
     props.func(!val);
-    setLoading(false);
+    // setLoading(false);
     setload(true);
   };
 
@@ -177,15 +185,32 @@ const PendingApprovals = (props) => {
                     </td>
                     <td class="pt-2 pb-2 flex justify-end">
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
-                        <button
 
+
+                        {id !== index ?
+
+                          <button 
+                          // className="h-[25px] w-[80px] rounded-xl  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[500]  text-white bg-[#00D22E] hover:bg-[#03821f]"
                           className="h-[30px] rounded-xl text-[#616161] text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[500] hover:bg-gray-300 mr-2 w-[80px]"
-                          onClick={() => handleDecline(approval._id)}
+                          >
 
-                        >
-                          Decline
-                        </button>
-                        <button className="h-[25px] w-[80px] rounded-xl  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[500]  text-white bg-[#00D22E] hover:bg-[#03821f]">
+                          {declineLoading  ? (
+                            <div
+                              class="spinner-border text-black"
+                              role="status"
+                              style={{ height: "15px", width: "15px" }}
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          ) : (
+                            <div onClick={() => handleDecline(approval._id, index)}>
+                              Decline
+                            </div>
+                          )}
+                        </button>: ''}
+
+                        {did !== index ?
+                          <button className="h-[25px] w-[80px] rounded-xl  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[500]  text-white bg-[#00D22E] hover:bg-[#03821f]">
                           {loading && id === index ? (
                             <div
                               class="spinner-border text-white"
@@ -199,7 +224,8 @@ const PendingApprovals = (props) => {
                               Accept
                             </div>
                           )}
-                        </button>
+                        </button> : ''}
+
                       </div>
                     </td>
                   </tr>
