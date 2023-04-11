@@ -12,7 +12,7 @@ const HomePageEvent = (props) => {
   const [event, setEvent] = useState([]);
   const [data, setData] = useState([]);
 
-  console.log(props);
+  // console.log(props);
 
   let userId, role;
   const getUser = async () => {

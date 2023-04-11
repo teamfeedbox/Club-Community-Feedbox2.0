@@ -306,7 +306,7 @@ router.put("/reply/:commentId", requireLogin, async (req, res) => {
 
 
 router.put("/commentDel/:commentId", requireLogin, async (req, res) => {
-  const {postedById} = req.body.postedById;
+  
   try {
     // Check if the logged in user is the creator of the post
     const post = await Post.findById(req.body.id);
