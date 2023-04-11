@@ -719,7 +719,6 @@ export default function ReactBigCalendar() {
 
 }
 
-}
 
 
 
