@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import { Calendar, momentLocalizer} from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useEffect } from "react";
@@ -10,6 +10,8 @@ import { faLocationDot, faClock, faCirclePlus, faCalendarAlt, faXmark, faPodcast
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
 import "./ReactBigCalendar.css";
+import BigCalendar from "react-big-calendar";
+
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -17,6 +19,11 @@ const localizer = momentLocalizer(moment);
 export default function ReactBigCalendar() {
   const location = useLocation();
   const eveId = location.state && location.state.eventId;
+  
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
 
   const [event, setEvent] = useState([]);
   const [title, setTitle] = useState("");
@@ -252,6 +259,9 @@ export default function ReactBigCalendar() {
     setEventClicked(true);
     setSelectedEvent(val);
   };
+  const handleSelect=()=>{
+
+  }
 
   // Delete Event
   const cancelEvent = async (id) => {
@@ -273,6 +283,22 @@ export default function ReactBigCalendar() {
     setSelectedEvent("");
     setClgSelected(e.target.value);
   };
+  const eventPropGetter = (event, start, end, isSelected) => {
+    let style = {};
+  
+    // Check if the event is an all-day event
+    if (event.allDay) {
+      style.backgroundColor = "#e6e6e6";
+      style.border = "none";
+    }
+  
+    return {
+      style: style
+    };
+  };
+
+
+  
 
   return (
     <>
@@ -512,13 +538,16 @@ export default function ReactBigCalendar() {
         {/* -----------------Large right side Calendar------------------- */}
         <div className="React-Big-Calendar-Original">
           <Calendar
-            views={["agenda", "month", "day"]}
+            views={["month","agenda", "day"]}
             selectable
             localizer={localizer}
             defaultDate={new Date()}
             defaultView="month"
             events={eventData}
             onSelectEvent={handleEvent}
+            // showMultiDayTimes
+            // eventPropGetter={eventPropGetter}
+            onSelectSlot={handleSelect}
           />
         </div>
 
@@ -679,3 +708,5 @@ export default function ReactBigCalendar() {
     </>
   );
 }
+
+
