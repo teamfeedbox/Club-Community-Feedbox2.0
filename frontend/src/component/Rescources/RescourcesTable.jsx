@@ -38,13 +38,14 @@ const RescourcesTable = (props) => {
   const [searchval, setSearchVal] = useState("");
   const [enableSearch, setEnableSearch] = useState(false);
   const [user, setUser] = useState();
-  const [role, setRole] = useState("");
   const [img, setImg] = useState();
   const [pdfLink, setPdfLink] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [selected, setSelected] = useState([]);
   const [mypdf, setMyPdf] = useState(false);
   const [filename, setFileName] = useState("");
+
+  const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role
 
   const itemsPerPage = 3;
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -80,7 +81,6 @@ const RescourcesTable = (props) => {
     result = await result.json();
     setImg(result.img);
     id = result._id;
-    setRole(result.role);
     setUser(result);
   };
 

@@ -39,6 +39,15 @@ const Dashboard = () => {
       legend:{
         display:false
       }
+    },
+    scales:{
+      y:{
+        min:0,
+        max:10,
+      }
+    },
+    ticks:{
+      stepSize:1,
     }
   }
   const labels = [
@@ -59,7 +68,7 @@ const Dashboard = () => {
     labels: labels,
     datasets: [
       {
-        label: "My First dataset",
+      
         backgroundColor: [
           "#E74646",
           "#77037B",
@@ -86,7 +95,6 @@ const Dashboard = () => {
     labels: labels,
     datasets: [
       {
-        label: "My second dataset",
         backgroundColor: [
           "#E74646",
           "#77037B",
@@ -123,12 +131,10 @@ const Dashboard = () => {
   let avgNov =  Math.round(novAvgHr / user);
   let avgDec =  Math.round(decAvgHr / user);
 
-
   const data2 = {
     labels: labels,
     datasets: [
       {
-        label: "My third dataset",
         backgroundColor: [
           "#E74646",
           "#77037B",
@@ -147,8 +153,6 @@ const Dashboard = () => {
         data: [avgJan, avgFeb, avgMarch, avgApril, avgMay, avgJune, avgJuly, avgAugust, avgSept, avgOct, avgNov, avgDec],
       },
     ],
-
-    
   };
 
 
