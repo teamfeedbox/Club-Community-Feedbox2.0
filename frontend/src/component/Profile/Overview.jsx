@@ -232,7 +232,7 @@ function Overview(prop) {
                 ))  : <div className='text-[1rem] font-[500] flex my-auto mx-2 text-center'> You have not enrolled for any event yet! </div> 
               }
 
-              <div className='Add-Event-Cont mt-3 '>
+              <div className='Add-Event-Cont'>
                 <Link to="/calendar">
                   <div className='Add-Event1' >
                     <FontAwesomeIcon className="fa-lg" icon={faAdd} />
