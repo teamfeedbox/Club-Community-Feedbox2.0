@@ -349,7 +349,7 @@ function PostBigModel({ openComment, setOpenComment,id}) {
             // style={{maxHeight:"600px"}}
             >
               <div className="post-display-center1">
-                <div className="post-display-image "></div>
+                {/* <div className="post-display-image "></div> */}
 
                 {/* ***carousel for web view*** */}
                 <div className="post-display-image flex justify-center">
