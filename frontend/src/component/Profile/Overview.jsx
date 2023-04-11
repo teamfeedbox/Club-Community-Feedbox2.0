@@ -63,6 +63,7 @@ function Overview(prop) {
   }
 
   const handleRemove = (e) => {
+    console.log(e)
     setSkills(e)
   }
 
