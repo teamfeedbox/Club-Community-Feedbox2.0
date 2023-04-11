@@ -513,7 +513,7 @@ export default function ReactBigCalendar() {
                     </Modal>
                   )}
                 </div>
-                {MAVisibility &&
+                {/* {MAVisibility && */}
                   <div style={{ textAlign: "center" }}>
                     {role === "Admin" ||
                       role === "Super_Admin" ||
@@ -537,7 +537,7 @@ export default function ReactBigCalendar() {
                       ""
                     )}
                   </div>
-                 } 
+                 {/* }  */}
               </div>
             </div>
           ) : (
