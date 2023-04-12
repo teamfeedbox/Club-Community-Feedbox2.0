@@ -31,7 +31,7 @@ const PostDisplay = (props) => {
   // To open the Comment Model
   const [openComment, setOpenComment] = useState(false);
   const [reply, setReply] = useState('');
-  const [replyCount, setReplyCount] = useState(0);
+  const [replyCount, setReplyCount] = useState([]);
   const [comment, setComments] = useState([" How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q",
     "How many times were you frustrated while looking out for a good collection of programming/algorithm /interview questions? What did you expect and what did you get? This portal has been created to",
     "How many times were you frustrated while looking out for a good collection of programming/algorithm.",
@@ -114,6 +114,9 @@ const PostDisplay = (props) => {
       },
     });
     result = await result.json();
+    setReplyCount(result.comment)
+
+
     let count1, count2;
     // result.map((data)=>{
     //   // console.log(data)
@@ -168,6 +171,7 @@ const PostDisplay = (props) => {
     }
   };
 // console.log(data)
+
 
 
   // Like a post
