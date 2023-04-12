@@ -276,7 +276,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
               {/* Left side */}
             <div className="post-display2">
               <div className="post-display-center1">
-                {/* ***carousel for web view*** */}
+                {/* **carousel for web view** */}
                 <div className="post-display-image flex justify-center">
                   <div className="post-display-carousel-webview1 flex justify-center">
                     <Carousel
@@ -291,7 +291,8 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                     //  user?("loader"):
                       user &&
                         user.img.map((data) => (
-                          <div key={data._id} >
+                          <div key={data._id} style={{ maxHeight: "400px" }}>
+
                             <img
                               className="display-img"
                               src={data}
@@ -440,7 +441,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                   </span>
                                 }
                               </div>
-                              {/* *** Section which will contain the reply on a comment*** */}
+                              {/* * Section which will contain the reply on a comment*** */}
                               {showReply == true && commentId == item._id ? (
                                 <section
                                   style={{
@@ -513,7 +514,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                               ) : (
                                 ""
                               )}
-                              {/* **Hide and show reply** */}
+                              {/* *Hide and show reply* */}
   
                               {item.reply.length > 0 &&
                               checkReply == true &&

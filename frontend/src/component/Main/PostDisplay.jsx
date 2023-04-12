@@ -114,7 +114,7 @@ const PostDisplay = (props) => {
     setReplyCount(result.comment)
 
 
-    console.log(result);
+    // console.log(result);
     let count1, count2;
     // result.map((data)=>{
     //   // console.log(data)
@@ -345,7 +345,7 @@ const PostDisplay = (props) => {
                 <button onClick={() => {
                   setOpenComment(!openComment)
                   setId(item._id)
-                  localStorage.setItem("postId",JSON.stringify(item._id))
+                  // localStorage.setItem("postId",JSON.stringify(item._id))
                 }} className="post-display-bottom-content">
                   <FontAwesomeIcon
                     style={{ fontSize: "22.5px", cursor: "pointer", marginTop: "1px" }}
