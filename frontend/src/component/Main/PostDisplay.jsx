@@ -117,7 +117,7 @@ const PostDisplay = (props) => {
     setReplyCount(result.comment)
 
 
-    console.log(result);
+    // console.log(result);
     let count1, count2;
     // result.map((data)=>{
     //   // console.log(data)
