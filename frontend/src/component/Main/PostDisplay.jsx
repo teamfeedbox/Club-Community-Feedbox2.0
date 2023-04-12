@@ -31,11 +31,14 @@ const PostDisplay = (props) => {
   // To open the Comment Model
   const [openComment, setOpenComment] = useState(false);
   const [reply, setReply] = useState('');
+  const [replyCount, setReplyCount] = useState(0);
   const [comment, setComments] = useState([" How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q",
     "How many times were you frustrated while looking out for a good collection of programming/algorithm /interview questions? What did you expect and what did you get? This portal has been created to",
     "How many times were you frustrated while looking out for a good collection of programming/algorithm.",
     "How many times were you frustrated while looking"]);
   const [loading, setLoading] = useState(false);
+
+  // let count=0;
 
   function handleReply() {
     if (showAdd == "Show-Comment-Add-Btn") {
@@ -109,6 +112,35 @@ const PostDisplay = (props) => {
       },
     });
     result = await result.json();
+    let count1, count2;
+    // result.map((data)=>{
+    //   // console.log(data)
+    //   data.comment.map((res)=>{
+    //     // console.log(res.reply && res.reply.length)
+    //     count += (res.reply && res.reply.length);
+    //   })
+    //   count += (data.comment && data.comment.length);
+    //   // console.log(count)
+    //   // data.count = count;
+    // })
+    // setReplyCount(count)
+
+
+    // result.map((item)=>
+    // {
+    //   item.comment&& item.comment.map((data)=>{
+    //     // console.log(data)
+    //     count1 = count1 + (data.reply.length)
+    //   })
+    //   // console.log(count1)
+    //   count2 = count2 + (item.comment.length)
+    //   // console.log(count2)
+
+    //   item.comment = count1 + count2
+    // }
+    // )
+
+    // console.log(result)
     setVal(result.reverse())
     if (props.clgData) {
       if (props.clgData === "All") {
@@ -133,7 +165,7 @@ const PostDisplay = (props) => {
       setData(result)
     }
   };
-
+// console.log(data)
 
 
   // Like a post
@@ -316,8 +348,11 @@ const PostDisplay = (props) => {
                     icon={faMessage}
                   />
                   <span style={{ fontSize: '0.8rem', fontWeight: '600' }}>
-                    {item.comment.length}
+                 
+                    {item.comment.length }
+                   
                   </span>
+                    {/* {item.comment.length && item.comment.reply.length} */}
                 </button>
               </div>
             </div>

@@ -143,7 +143,7 @@ const Admin = (props) => {
               {admin.length > 0 ?
                 admin.map((member) => (
                   <tr className="">
-                    <td class=" p-2 w-[170px] lg:w-[400px] ">
+                    <td class=" p-2 w-[170px] md:w-[250px]  lg:w-[600px] ">
                       <div className="flex items-center">
                         <img
                           class="rounded-full w-[40px] h-[40px] object-center"
@@ -156,7 +156,7 @@ const Admin = (props) => {
                         <div className="ml-2 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[400]"> {member.name} </div>
                       </div>
                     </td>
-                    <td class="p-2 w-[170px] lg:w-[400px]  items-center mr-8 ">
+                    <td class="p-2 w-[170px] lg:w-[400px] block lg:flex flex-start items-center  mr-8 ">
                       <div class=" text-gray-800  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[400]">
                         {member.position}
                       </div>
