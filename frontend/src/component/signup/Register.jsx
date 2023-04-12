@@ -193,7 +193,7 @@ const Register = () => {
             </p>
           </div>
         </div>
-        <div className="flex justify-center self-center md:self-auto lg:self-center m-[12px] mt-[50px]  z-10">
+        <div className="flex justify-center self-center md:self-auto lg:self-center m-[12px] mt-[50px]  z-10 h-fit">
         {/* <div className=" md:mt-10 z-10 lg:flex sm:flex justify-center lg:self-center sm:self-center m-[12px] mt-[50px] md:self-auto md:block"> */}
           <div className="p-12 bg-white mx-auto rounded-3xl w-96 ">
             <div className="mb-7">

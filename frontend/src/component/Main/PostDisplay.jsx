@@ -114,6 +114,7 @@ const PostDisplay = (props) => {
       },
     });
     result = await result.json();
+    console.log(result);
     let count1, count2;
     // result.map((data)=>{
     //   // console.log(data)
@@ -248,9 +249,7 @@ const PostDisplay = (props) => {
 
                   <div className="post-head-content">
                     <p className="post-display-heading-college">
-                        {item.postedBy.role == 'Super_Admin' ? 'Super Admin' : item.postedBy.collegeName}
-                        
-                      
+                        {item && item.postedBy && item.postedBy.role == 'Super_Admin' ? 'Super Admin' : item.postedBy.collegeName}             
                     </p>
                     <p className="post-display-heading-time">{item.postedDate && timeAgo.format(new Date(item.postedDate).getTime() - 60 * 1000)}</p>
                   </div>
