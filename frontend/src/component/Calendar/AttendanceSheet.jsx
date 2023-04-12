@@ -193,9 +193,9 @@ const AttendanceSheet = () => {
           </Modal.Body>
           <Modal.Footer>
             <div className="flex justify-between w-[100vw]">
-              <button className="attendance-model-btn" onClick={handleClose}>
+              <div className="attendance-model-btn" onClick={handleClose}>
                 Back
-              </button>
+              </div>
             <button className="attendance-model-btn">
               {
                 loading2 ?
