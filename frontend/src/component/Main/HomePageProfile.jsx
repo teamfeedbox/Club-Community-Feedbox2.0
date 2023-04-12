@@ -286,7 +286,7 @@ const HomePageProfile = (props) => {
                 type="text"
                 className="border rounded p-1 w-[75%] text-[1rem] font-[400]"
                 placeholder="Add College"
-                value={college}
+                value={addclg}
                 required
                 onChange={onAddCollege}
 

@@ -39,7 +39,7 @@ const PostDisplay = (props) => {
   const [loading, setLoading] = useState(false);
 
   const role = JSON.parse(localStorage.getItem("user")).role;
-  console.log(role);
+  // console.log(role);
 
 
   function handleReply() {
