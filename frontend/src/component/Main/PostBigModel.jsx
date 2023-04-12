@@ -288,7 +288,7 @@ const post = id._id
                   <div className="post-display-carousel-webview1 flex justify-center">
                     <Carousel
                       thumbWidth={60}
-                      className="w-[30vw]"
+                      className="w-[100%]"
                       autoPlay
                       interval="5000"
                       infiniteLoop={true}
@@ -296,14 +296,16 @@ const post = id._id
                     >
                       {
                     //  user?("loader"):
+
                       id &&
                         id.img.map((data) => (
                           <div key={data._id} style={{ maxHeight: "400px" }}>
+
                             <img
                               className="display-img"
                               src={data}
                               style={{
-                                maxHeight: "400px",
+                                
                                 objectFit: "contain",
                               }}
                             />
