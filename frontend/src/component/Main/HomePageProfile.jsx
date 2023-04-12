@@ -117,7 +117,7 @@ const HomePageProfile = (props) => {
     } else {
       event.map((eve) => {
         let eveDate = new Date(eve.eventDate + " " + eve.eventTime);
-        if (eve.postedBy.collegeName === e.target.value && eveDate > today) {
+        if (eve.postedBy.collegeName === e.target.value) {
           clgEvents.push(eve)
         }
       })

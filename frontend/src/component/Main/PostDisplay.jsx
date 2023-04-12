@@ -37,6 +37,10 @@ const PostDisplay = (props) => {
     "How many times were you frustrated while looking"]);
   const [loading, setLoading] = useState(false);
 
+  const role = JSON.parse(localStorage.getItem("user")).role;
+  console.log(role);
+
+
   function handleReply() {
     if (showAdd == "Show-Comment-Add-Btn") {
       setShowAdd('Hide-Comment-Add-Btn')
@@ -214,7 +218,9 @@ const PostDisplay = (props) => {
 
                   <div className="post-head-content">
                     <p className="post-display-heading-college">
-                      {item && item.postedBy && item.postedBy.collegeName}
+                        {item.postedBy.role == 'Super_Admin' ? 'Super Admin' : item.postedBy.collegeName}
+                        
+                      
                     </p>
                     <p className="post-display-heading-time">{item.postedDate && timeAgo.format(new Date(item.postedDate).getTime() - 60 * 1000)}</p>
                   </div>

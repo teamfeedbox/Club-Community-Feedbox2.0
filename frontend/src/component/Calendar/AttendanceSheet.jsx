@@ -164,9 +164,7 @@ const AttendanceSheet = () => {
         });
       });
     }
-
     setLoading2(false);
-
   };
 
   return (
@@ -195,10 +193,9 @@ const AttendanceSheet = () => {
           </Modal.Body>
           <Modal.Footer>
             <div className="flex justify-between w-[100vw]">
-              <button className="attendance-model-btn" onClick={handleClose}>
+              <div className="attendance-model-btn" onClick={handleClose}>
                 Back
-              </button>
-
+              </div>
             <button className="attendance-model-btn">
               {
                 loading2 ?
@@ -215,7 +212,6 @@ const AttendanceSheet = () => {
               </button>
               }
               </button>
-
             </div>
           </Modal.Footer>
         </form>
@@ -320,18 +316,10 @@ const AttendanceSheet = () => {
               >
                 Back
               </button>
-
-              <button className="btn btn-primary">
-                {loading2 ? (
-                  <div
-                    class="spinner-border text-white"
-                    role="status"
-                    style={{ height: "15px", width: "15px", marginTop: "3px" }}
-                  >
-                    <span class="visually-hidden">Loading...</span>
-                  </div>
-                ) : (
-                  <button
+              
+                
+                  <button 
+                  className="btn btn-primary"
                     onClick={() => {
                       handleShow();
                     }}
@@ -342,9 +330,7 @@ const AttendanceSheet = () => {
                       ? "Submitted"
                       : "Submit"}
                   </button>
-                )}
-
-              </button>
+                
             </div>
           ) : (
             ""
