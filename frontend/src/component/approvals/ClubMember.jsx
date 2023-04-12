@@ -99,10 +99,11 @@ const ClubMember = ({ props }) => {
 
   // submit handler for making club member as lead
   const submitHandler = async () => {
-    if (value && position) {
+    if(role === "Admin" || role === "Super_Admin"){
+    if (value && position ) {
       setLoading(true);
       let val;
-      if (value === "Admin") {
+        if (value === "Admin") {
         val = {
           role: value,
           position: position,
@@ -112,7 +113,7 @@ const ClubMember = ({ props }) => {
           role: value,
           position: position,
         };
-      }
+      }  
       const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -129,7 +130,35 @@ const ClubMember = ({ props }) => {
       setLoading(false);
       setLoad(true);
     } else {
-      alert("Please input Position and role...");
+
+        alert("Please input Position and role...");
+    }}
+    else{
+      if ( position ) {
+        setLoading(true);
+        let val = {
+          role: 'Lead',
+          position: position,
+        }; 
+        const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(val),
+        });
+        const res = await data.json();
+        console.log(res);
+        setConfirm(false);
+        setShow(false);
+        setPosition("");
+        setValue("");
+        setId("");
+        setName("");
+        setLoading(false);
+        setLoad(true);
+      } else {
+  
+          alert("Please input Position...");
+      }
     }
 
     //  notification
