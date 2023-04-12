@@ -129,7 +129,7 @@ console.log(role);
             index
             path="/approvals"
             element={
-              (role == null) || (role == "Club_Member") ? (
+              (role === null) || (role === "Club_Member") ? (
                 <Error />
               ) : (
                 [<NavbarRes />, <Approvals />]
