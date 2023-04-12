@@ -35,6 +35,7 @@ const EditProfile = ({ Userbio, open, setOpen }) => {
   
   const handleClose = () => {
     setOpen(false);
+    setImage(false)
     // uploadPic();
     setBio(Userbio);
     console.log(Userbio, bio);
@@ -255,7 +256,7 @@ const EditProfile = ({ Userbio, open, setOpen }) => {
                             </label>
                           </div>
                           <p className="text-xs text-gray-500">
-                            PNG, JPG, GIF up to 10MB
+                            PNG, JPG, GIF
                           </p>
                         </div>
                       )}
