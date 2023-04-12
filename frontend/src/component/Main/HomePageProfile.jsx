@@ -117,7 +117,7 @@ const HomePageProfile = (props) => {
     } else {
       event.map((eve) => {
         let eveDate = new Date(eve.eventDate + " " + eve.eventTime);
-        if (eve.postedBy.collegeName === e.target.value && eveDate > today) {
+        if (eve.postedBy.collegeName === e.target.value) {
           clgEvents.push(eve)
         }
       })
@@ -286,7 +286,7 @@ const HomePageProfile = (props) => {
                 type="text"
                 className="border rounded p-1 w-[75%] text-[1rem] font-[400]"
                 placeholder="Add College"
-                value={college}
+                value={addclg}
                 required
                 onChange={onAddCollege}
 

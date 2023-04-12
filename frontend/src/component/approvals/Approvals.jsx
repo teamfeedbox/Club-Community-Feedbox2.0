@@ -9,10 +9,12 @@ const Approvals = () => {
   const [tabs, setTabs] = useState("club");
   const [cM, setCM] = useState(false);
   const [click, setClick] = useState(false);
-  const [role, setRole] = useState('');
   const [allClgs, setAllClgs] = useState([]);
   const [user, setUser] = useState();
   const [clg, setClg] = useState();
+  const[loading,setLoading]=useState(false);
+
+  const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role
 
   const pull_data = (data) => {
     setCM(data);
@@ -40,7 +42,6 @@ const Approvals = () => {
       },
     });
     result = await result.json();
-    setRole(result.role);
     setUser(result);
   };
 
