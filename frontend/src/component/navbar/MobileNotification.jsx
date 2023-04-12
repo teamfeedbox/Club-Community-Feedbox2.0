@@ -32,38 +32,50 @@ const MobileNotification = () => {
                 <div className="pt-[70px] px-3 ">
                     <p className="text-[1.5rem] font-[700]">Notification</p>
                     <div className="text-[1.1rem] font-[700] ">
-                        {notification && notification.map((data) => {
-                            return (
-                                (data.messageScope === "public" ?
-                                    (<div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
-                                        <div className="bg-blue-800 p-1 w-[5px]  text-blue-800"></div>
-                                        <div className="p-1">
-                                            Alert: Join {data.message} on {data.date} {data.time} at {data.venue}
+                    {notification && notification.map((data) => {
+          return (
+            // public message
+            (data.messageScope === "public" ?
+              (<div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
+                <div className="bg-blue-800 p-1 w-[5px]  text-blue-800"></div>
+                <div className="p-1">
+                  {data.message}
 
-                                        </div>
-                                    </div>)
-                                    :
-                                    ((data.messageScope === "private" && data.message !== "Congrats! +10 coins added." && currentUserId === data.userId) ?
-                                        <div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
-                                            <div className="bg-green-800 p-1 w-[5px]  text-blue-800"></div>
-                                            <div className="p-1">
-                                                {data.message}
-                                            </div>
-                                        </div>
-                                        :
-                                        ((data.messageScope === "private" && data.message === "Congrats! +10 coins added." && currentUserId === data.userId) &&
-                                            <div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
-                                                <div className="bg-yellow-800 p-1 w-[5px]  text-blue-800"></div>
-                                                <div className="p-1">
-                                                    {data.message}
-                                                </div>
-                                            </div>)
-                                    )
-                                )
-
-                            )
-                        }
-                        )}
+                </div>
+              </div>)
+              :
+              // for community
+              (data.messageScope === "community" ?
+                (<div key={data.message} className="flex bg-[#ebccc3] mt-2 rounded-sm ">
+                  <div className="bg-[#4a251a] p-1 w-[5px]  text-[#4a251a]"></div>
+                  <div className="p-1">
+                    {data.message}
+                  </div>
+                </div>)
+                :
+                // for position change
+                ((data.messageScope === "private" && currentUserId === data.userId) ?
+                  <div key={data.message} className="flex bg-green-200 mt-2 rounded-sm">
+                    <div className="bg-green-800 p-1 w-[5px]  text-green-800"></div>
+                    <div className="p-1">
+                      {data.message}
+                    </div>
+                  </div>
+                  :
+                  // for coins
+                  ((data.messageScope === "coins"  && currentUserId === data.userId) &&
+                    <div key={data.message} className="flex bg-yellow-200 mt-2 rounded-sm">
+                      <div className="bg-yellow-800 p-1 w-[5px]  text-yellow-800"></div>
+                      <div className="p-1">
+                        {data.message}
+                      </div>
+                    </div>)
+                )
+              )
+            )
+          )
+        }
+        )}
                     </div>
                 </div>
             </div>
