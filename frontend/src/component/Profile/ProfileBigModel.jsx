@@ -291,12 +291,12 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                     //  user?("loader"):
                       user &&
                         user.img.map((data) => (
-                          <div key={data._id} style={{ maxHeight: "400px" }}>
+                          <div key={data._id} >
                             <img
                               className="display-img"
                               src={data}
                               style={{
-                                maxHeight: "400px",
+                                
                                 objectFit: "contain",
                               }}
                             />
