@@ -421,13 +421,14 @@ export default function ReactBigCalendar() {
                   />
                   {myEvent && myEvent.speaker}
                 </div>
-                <div className="event-profile">
+                {role !== 'Super_Admin' ?
+                  <div className="event-profile">
                   <FontAwesomeIcon
                     style={{ margin: "0 10px 0 0" }}
                     icon={faUniversity}
                   />
                   {myEvent && myEvent.postedBy && myEvent.postedBy.collegeName}
-                </div>
+                </div>: ''} 
                 <div className="event-minor">
                   <div>
                     <FontAwesomeIcon
