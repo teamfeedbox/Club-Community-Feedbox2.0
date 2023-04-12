@@ -3,15 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-import {
-  faLocationDot,
-  faClock,
-  faCirclePlus,
-  faCalendarAlt,
-  faXmark,
-  faPodcast,
-  faFlag,
-} from "@fortawesome/free-solid-svg-icons";
+import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./EditProfile.css";
 
