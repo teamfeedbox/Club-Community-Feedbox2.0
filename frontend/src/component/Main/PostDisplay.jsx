@@ -347,8 +347,8 @@ const PostDisplay = (props) => {
                 )}
                 <button onClick={() => {
                   setOpenComment(!openComment)
-                  setId(item._id)
-                  localStorage.setItem("postId",JSON.stringify(item._id))
+                  setId(item)
+                  // localStorage.setItem("postId",JSON.stringify(item._id))
                 }} className="post-display-bottom-content">
                   <FontAwesomeIcon
                     style={{ fontSize: "22.5px", cursor: "pointer", marginTop: "1px" }}
