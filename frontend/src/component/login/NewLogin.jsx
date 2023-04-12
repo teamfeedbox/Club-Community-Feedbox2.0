@@ -29,7 +29,7 @@ const NewLogin = () => {
       localStorage.setItem("user", JSON.stringify(result));
       localStorage.setItem("jwt", result.token);
     } else {
-      alert(result.err);
+      alert("Invalid Email or Password");
     }
     setLoading(false);
   };

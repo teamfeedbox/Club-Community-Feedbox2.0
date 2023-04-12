@@ -3,15 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-import {
-  faLocationDot,
-  faClock,
-  faCirclePlus,
-  faCalendarAlt,
-  faXmark,
-  faPodcast,
-  faFlag,
-} from "@fortawesome/free-solid-svg-icons";
+import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./EditProfile.css";
 
@@ -36,6 +28,7 @@ const EditProfile = ({ Userbio, open, setOpen }) => {
   
   const handleClose = () => {
     setOpen(false);
+    setImage(false)
     // uploadPic();
     setBio(Userbio);
     console.log(`userbio is : ${Userbio} and bio is : ${bio}`);
@@ -256,7 +249,7 @@ const EditProfile = ({ Userbio, open, setOpen }) => {
                             </label>
                           </div>
                           <p className="text-xs text-gray-500">
-                            PNG, JPG, GIF up to 10MB
+                            PNG, JPG, GIF
                           </p>
                         </div>
                       )}

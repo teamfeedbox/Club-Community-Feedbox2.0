@@ -17,7 +17,7 @@ import "../Profile/ProfileBigModel.css";
 import Modal from "react-bootstrap/Modal";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
-
+import { RotatingLines,ProgressBar } from  'react-loader-spinner'
 function PostBigModel({ openComment, setOpenComment, id }) {
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
@@ -215,7 +215,6 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   };
   const handleShowDelete = () => setShowDel(true);
   const handleShowDeleteReply = () => setShow(true);
-
   return (
     <>
       {/* Model to delete the comment */}
@@ -272,7 +271,9 @@ function PostBigModel({ openComment, setOpenComment, id }) {
           <div className="Post-Big-Model-Close" onClick={handleClose}></div>
 
           <div className="Post-Big-Model1">
-            {/* Left side */}
+            {
+              user?<>
+              {/* Left side */}
             <div className="post-display2">
               <div className="post-display-center1">
                 {/* ***carousel for web view*** */}
@@ -286,7 +287,9 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                       infiniteLoop={true}
                       dynamicHeight
                     >
-                      {user &&
+                      {
+                    //  user?("loader"):
+                      user &&
                         user.img.map((data) => (
                           <div key={data._id} style={{ maxHeight: "400px" }}>
                             <img
@@ -355,272 +358,281 @@ function PostBigModel({ openComment, setOpenComment, id }) {
               {/* Comment part */}
 
               <div className="Post-Big-Comment">
-                {user && user.comment.length == 0 ? (
-                  <div
-                    style={{
-                      textAlign: "center",
-                      fontSize: "1.1rem",
-                      fontWeight: "600",
-                    }}
-                  >
-                    No comment
-                  </div>
-                ) : (
-                  <Scrollbars
-                    className="Scrollbar-height"
-                    style={{ height: "102%", position: "relative" }}
-                  >
-                    {/* Comment 1 */}
-                    {user &&
-                      user.comment.map((item) => (
-                        <section className="Post-Comment-About" key={item._id}>
-                          {/* Left part */}
-                          <div className="Comment-Left">
-                            <img
-                              className="object-contain"
-                              src={item && item.postedBy && item.postedBy.img}
-                            ></img>
-                          </div>
-
-                          {/* Right part */}
-                          <div className="Comment-Right">
-                            <div className="Comment-Right-Top">
-                              <div className="Comment-Right-User-Name">
-                                {item && item.postedBy && item.postedBy.name}
-                              </div>
-                              <div className="Right-Comment">
-                                {item.message}
-                              </div>
+                
+                 {user && user.comment.length == 0 ? (
+                    <div
+                      style={{
+                        textAlign: "center",
+                        fontSize: "1.1rem",
+                        fontWeight: "600",
+                      }}
+                    >
+                      No comment
+                    </div>
+                  ) : (
+                    <Scrollbars
+                      className="Scrollbar-height"
+                      style={{ height: "102%", position: "relative" }}
+                    >
+                      {/* Comment 1 */}
+                      {user &&
+                        user.comment.map((item) => (
+                          <section className="Post-Comment-About" key={item._id}>
+                            {/* Left part */}
+                            <div className="Comment-Left">
+                              <img
+                                className="object-contain"
+                                src={item && item.postedBy && item.postedBy.img}
+                              ></img>
                             </div>
-
-                            <div className="Comment-Right-Down">
-                              <span
-                                className="Comment-Down-Other"
-                                // onClick={()=>{console.log(item.reply.length)}}
-                              >
-                                {item &&
-                                  item.date &&
-                                  timeAgo.format(
-                                    new Date(item.date).getTime() - 60 * 1000
-                                  )}
-                              </span>
-                              <span
-                                className="Comment-Down-Other Comment-Down-Other1"
-                                onClick={() => {
-                                  handleShowDelete();
-                                  setDeleteComId(item._id);
-                                  console.log(item._id);
-                                  setPostedById(
-                                    item && item.postedBy && item.postedBy._id
-                                  );
-                                }}
-                                style={{ marginLeft: "20px" }}
-                              >
-                                delete
-                              </span>
-                              {
+  
+                            {/* Right part */}
+                            <div className="Comment-Right">
+                              <div className="Comment-Right-Top">
+                                <div className="Comment-Right-User-Name">
+                                  {item && item.postedBy && item.postedBy.name}
+                                </div>
+                                <div className="Right-Comment">
+                                  {item.message}
+                                </div>
+                              </div>
+  
+                              <div className="Comment-Right-Down">
                                 <span
-                                  className="Comment-Down-Other Comment-Down-Other1 "
+                                  className="Comment-Down-Other"
+                                  // onClick={()=>{console.log(item.reply.length)}}
+                                >
+                                  {item &&
+                                    item.date &&
+                                    timeAgo.format(
+                                      new Date(item.date).getTime() - 60 * 1000
+                                    )}
+                                </span>
+                                <span
+                                  className="Comment-Down-Other Comment-Down-Other1"
                                   onClick={() => {
-                                    setShowReplyInputField(
-                                      !showReplyInputField
-                                    );
-                                    // alert(showReplyInput)
-                                    setCommentId(item._id);
+                                    handleShowDelete();
+                                    setDeleteComId(item._id);
                                     console.log(item._id);
+
+                                    setPostedById(
+                                      item && item.postedBy && item.postedBy._id
+                                    );
+
+                                  }}
+                                  style={{ marginLeft: "20px" }}
+                                >
+                                  delete
+                                </span>
+                                {
+                                  <span
+                                    className="Comment-Down-Other Comment-Down-Other1 "
+                                    onClick={() => {
+                                      setShowReplyInputField(
+                                        !showReplyInputField
+                                      );
+                                      // alert(showReplyInput)
+                                      setCommentId(item._id);
+                                      console.log(item._id);
+                                    }}
+                                  >
+                                    reply
+                                  </span>
+                                }
+                              </div>
+                              {/* *** Section which will contain the reply on a comment*** */}
+                              {showReply == true && commentId == item._id ? (
+                                <section
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    marginTop: "10px",
                                   }}
                                 >
-                                  reply
-                                </span>
-                              }
-                            </div>
-                            {/* *** Section which will contain the reply on a comment*** */}
-                            {showReply == true && commentId == item._id ? (
-                              <section
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  marginTop: "10px",
-                                }}
-                              >
-                                {item &&
-                                  item.reply.map((data) => (
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                      }}
-                                    >
-                                      <div className="Comment-Left">
-                                        <img
-                                          src={
-                                            data &&
-                                            data.postedBy &&
-                                            data.postedBy.img
-                                          }
-                                        ></img>
-                                      </div>
+                                  {item &&
+                                    item.reply.map((data) => (
                                       <div
-                                        key={data._id}
-                                        className="Comment-Right"
+                                        style={{
+                                          display: "flex",
+                                          flexDirection: "row",
+                                        }}
                                       >
-                                        <div className="Comment-Right-Top">
-                                          <div className="Comment-Right-User-Name">
-                                            {data &&
+                                        <div className="Comment-Left">
+                                          <img
+                                            src={
+                                              data &&
                                               data.postedBy &&
-                                              data.postedBy.name}
-                                          </div>
-                                          <div className="Right-Comment">
-                                            {" "}
-                                            {data && data.replyMsg}
-                                          </div>
+                                              data.postedBy.img
+                                            }
+                                          ></img>
                                         </div>
-                                        <div className="Comment-Right-Down">
-                                          <span className="Comment-Down-Other">
-                                            {data &&
-                                              data.date &&
-                                              timeAgo.format(
-                                                new Date(data.date).getTime() -
-                                                  60 * 1000
-                                              )}
-                                          </span>
-                                          <span
-                                            className="Comment-Down-Other Comment-Down-Other1"
-                                            onClick={() => {
-                                              handleShowDeleteReply();
-                                              setReplyId(data._id);
-                                              setReplyById(
-                                                data &&
-                                                  data.postedBy &&
-                                                  data.postedBy._id
-                                              );
-                                            }}
-                                            style={{ marginLeft: "20px" }}
-                                          >
-                                            delete
-                                          </span>
+                                        <div
+                                          key={data._id}
+                                          className="Comment-Right"
+                                        >
+                                          <div className="Comment-Right-Top">
+                                            <div className="Comment-Right-User-Name">
+                                              {data &&
+                                                data.postedBy &&
+                                                data.postedBy.name}
+                                            </div>
+                                            <div className="Right-Comment">
+                                              {" "}
+                                              {data && data.replyMsg}
+                                            </div>
+                                          </div>
+                                          <div className="Comment-Right-Down">
+                                            <span className="Comment-Down-Other">
+                                              {data &&
+                                                data.date &&
+                                                timeAgo.format(
+                                                  new Date(data.date).getTime() -
+                                                    60 * 1000
+                                                )}
+                                            </span>
+                                            <span
+                                              className="Comment-Down-Other Comment-Down-Other1"
+                                              onClick={() => {
+                                                handleShowDeleteReply();
+                                                setReplyId(data._id);
+                                                setReplyById(
+                                                  data &&
+                                                    data.postedBy &&
+                                                    data.postedBy._id
+                                                );
+                                              }}
+                                              style={{ marginLeft: "20px" }}
+                                            >
+                                              delete
+                                            </span>
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
-                                  ))}
-                              </section>
-                            ) : (
-                              ""
-                            )}
-                            {/* **Hide and show reply** */}
-
-                            {item.reply.length > 0 &&
-                            checkReply == true &&
-                            showReply != true ? (
-                              <span
-                                onClick={() => {
-                                  setShowReply(true);
-                                  setCheckreply(false);
-                                  setHidereply(true);
-                                  setCommentId(item._id);
-                                  setShowReply(true);
-                                  setCheckreply(false);
-                                }}
-                                style={{
-                                  cursor: "pointer",
-                                  marginLeft: "20px",
-                                }}
-                              >
-                                ---- View Reply
-                              </span>
-                            ) : hideReply == true &&
-                              commentId == item._id &&
-                              item.reply.length > 0 ? (
-                              <>
+                                    ))}
+                                </section>
+                              ) : (
+                                ""
+                              )}
+                              {/* **Hide and show reply** */}
+  
+                              {item.reply.length > 0 &&
+                              checkReply == true &&
+                              showReply != true ? (
                                 <span
                                   onClick={() => {
-                                    setHidereply(false);
-                                    setCheckreply(true);
-                                    setShowReply(false);
-                                    setCommentId("");
-                                    // setShowReply(true)
+                                    setShowReply(true);
+                                    setCheckreply(false);
+                                    setHidereply(true);
+                                    setCommentId(item._id);
+                                    setShowReply(true);
+                                    setCheckreply(false);
                                   }}
                                   style={{
                                     cursor: "pointer",
                                     marginLeft: "20px",
                                   }}
                                 >
-                                  ---- Hide Reply
+                                  ---- View Reply
                                 </span>
-                              </>
-                            ) : item.reply.length > 0 ? (
-                              <span
-                                onClick={() => {
-                                  setShowReply(true);
-                                  setCheckreply(false);
-                                  setHidereply(true);
-                                  setCommentId(item._id);
-                                  setShowReply(true);
-                                  setCheckreply(false);
-                                }}
-                                style={{
-                                  cursor: "pointer",
-                                  marginLeft: "20px",
-                                }}
-                              >
-                                ---- View Reply
-                              </span>
-                            ) : (
-                              ""
-                            )}
-
-                            {showReplyInputField === true &&
-                            item._id === commentId ? (
-                              <div className="Show-comment-Add-Btn">
-                                <form
-                                  onSubmit={(e) => {
-                                    e.preventDefault();
+                              ) : hideReply == true &&
+                                commentId == item._id &&
+                                item.reply.length > 0 ? (
+                                <>
+                                  <span
+                                    onClick={() => {
+                                      setHidereply(false);
+                                      setCheckreply(true);
+                                      setShowReply(false);
+                                      setCommentId("");
+                                      // setShowReply(true)
+                                    }}
+                                    style={{
+                                      cursor: "pointer",
+                                      marginLeft: "20px",
+                                    }}
+                                  >
+                                    ---- Hide Reply
+                                  </span>
+                                </>
+                              ) : item.reply.length > 0 ? (
+                                <span
+                                  onClick={() => {
+                                    setShowReply(true);
+                                    setCheckreply(false);
+                                    setHidereply(true);
+                                    setCommentId(item._id);
+                                    setShowReply(true);
+                                    setCheckreply(false);
+                                  }}
+                                  style={{
+                                    cursor: "pointer",
+                                    marginLeft: "20px",
                                   }}
                                 >
-                                  <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700">
-                                    <div className="rounded-lg cursor-pointer hover:text-black-900 hover:bg-gray-100 dark:text-black-400 dark:hover:text-black dark:hover:bg-gray-600"></div>
-                                    <input
-                                      className="block border-solid  mx-2 p-2.5 w-full text-sm text-black-600 bg-white  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500 border-black-600"
-                                      placeholder="Reply..."
-                                      value={replyMsg}
-                                      onChange={(event) =>
-                                        setReplyMsg(event.target.value)
-                                      }
-                                    ></input>
-                                    <button
-                                      onClick={() => {
-                                        updateReply();
-
-                                        setShowReplyInputField(false);
-                                        if (replyMsg != "") {
-                                          setCheckreply(false);
-                                          setHidereply(true);
+                                  ---- View Reply
+                                </span>
+                              ) : (
+                                ""
+                              )}
+  
+                              {showReplyInputField === true &&
+                              item._id === commentId ? (
+                                <div className="Show-comment-Add-Btn">
+                                  <form
+                                    onSubmit={(e) => {
+                                      e.preventDefault();
+                                    }}
+                                  >
+                                    <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700">
+                                      <div className="rounded-lg cursor-pointer hover:text-black-900 hover:bg-gray-100 dark:text-black-400 dark:hover:text-black dark:hover:bg-gray-600"></div>
+                                      <input
+                                        className="block border-solid  mx-2 p-2.5 w-full text-sm text-black-600 bg-white  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500 border-black-600"
+                                        placeholder="Reply..."
+                                        value={replyMsg}
+                                        onChange={(event) =>
+                                          setReplyMsg(event.target.value)
                                         }
-                                      }}
-                                      type="button"
-                                      className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
-                                    >
-                                      <svg
-                                        aria-hidden="true"
-                                        className="w-6 h-6 rotate-90"
-                                        fill="currentColor"
-                                        viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg"
+                                      ></input>
+                                      <button
+                                        onClick={() => {
+                                          updateReply();
+  
+                                          setShowReplyInputField(false);
+                                          if (replyMsg != "") {
+                                            setCheckreply(false);
+                                            setHidereply(true);
+                                          }
+                                        }}
+                                        type="button"
+                                        className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
                                       >
-                                        <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
-                                      </svg>
-                                    </button>
-                                  </div>
-                                </form>
-                              </div>
-                            ) : (
-                              <></>
-                            )}
-                          </div>
-                        </section>
-                      ))}
-                  </Scrollbars>
-                )}
+
+                                        <svg
+                                          aria-hidden="true"
+                                          className="w-6 h-6 rotate-90"
+                                          fill="currentColor"
+                                          viewBox="0 0 20 20"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                                        </svg>
+                                      </button>
+                                    </div>
+                                  </form>
+                                </div>
+                              ) : (
+                                <></>
+                              )}
+                            </div>
+                          </section>
+                        ))}
+                    </Scrollbars>
+                  )}
+                
+              
+                {/* import { RotatingLines } from  'react-loader-spinner' */}
+                
+
               </div>
 
               <div className="Post-Big-Comment-Container ml-4">
@@ -672,6 +684,19 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                 </div>
               </div>
             </section>
+              </>:<div className="flex justify-center w-[100vw]">
+              <ProgressBar
+                height="none"
+                width="80"
+                ariaLabel="progress-bar-loading"
+                wrapperStyle={{}}
+                wrapperClass="progress-bar-wrapper"
+                borderColor = '#F4442E'
+                barColor = '#51E5FF'
+              />
+              </div>
+            }
+            
           </div>
         </div>
       ) : (

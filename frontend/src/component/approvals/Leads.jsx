@@ -195,14 +195,6 @@ const Leads = (props) => {
                         <div className="ml-1  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[400]"> {member.name} </div>
                       </div>
                     </td>
-                    {/* {
-                      role == "Lead" &&
-                      <td class="p-2 lg:flex items-center hidden md:block  w-[10%]">
-                        <div class=" text-gray-800 text-[1rem] font-[400]">
-                          {member.branch} {member.collegeYear} year
-                        </div>
-                      </td>
-                    } */}
                     <td class="p-2 lg:flex items-left  hidden md:block  w-[12%]">
                       <div class=" text-gray-800 text-[1rem] font-[400]">
                         {member.position}
