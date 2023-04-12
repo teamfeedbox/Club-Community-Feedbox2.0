@@ -117,7 +117,7 @@ const PostDisplay = (props) => {
         if (val.length > 0) {
           let array = [];
           val.map((eve) => {
-            console.log(eve);
+            // console.log(eve);
             if (eve.collegeName === props.clgData) {
               array.push(eve);
             }
