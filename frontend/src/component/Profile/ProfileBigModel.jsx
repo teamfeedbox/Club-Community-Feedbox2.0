@@ -653,3 +653,18 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   );
 }
 export default PostBigModel;
+
+
+
+{/* <div style={{
+  height:"400px",width:"100%",margin:"auto 0"
+ }}
+ className="flex justify-center"
+ ><RotatingLines
+    strokeColor="grey"
+    strokeWidth="5"
+    animationDuration="0.75"
+    width="20"
+    visible={true}
+  /></div>
+</div> */}

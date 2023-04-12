@@ -1,4 +1,4 @@
-import { faSearch, faUser, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import "./PendingApprovals.css";
@@ -12,7 +12,8 @@ const Admin = (props) => {
   const [admin, setAdmin] = useState([]);
   const [id, setId] = useState();
   const [delshow, setDelShow] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [loading3, setLoading3] = useState(false);
 
   const role = JSON.parse(localStorage.getItem("user")).role
   const currentCollege = JSON.parse(localStorage.getItem("user")).college;
@@ -22,6 +23,7 @@ const Admin = (props) => {
   }
 
   const getUser = async () => {
+    setLoading3(true);
     const result = await fetch(`http://localhost:8000/get`);
     const res = await result.json();
     let admin = [];
@@ -60,6 +62,7 @@ const Admin = (props) => {
       setAdmin(clg);
       setData(clg);
     }
+    setLoading3(false);
   };
 
   useEffect(() => {
@@ -140,7 +143,23 @@ const Admin = (props) => {
         <Scrollbars style={{ height: "250px" }}>
           <table class="table-auto w-full max-w-[1300px]">
             <tbody class="text-sm divide-y  divide-gray-100 max-w-[1150px]">
-              {admin.length > 0 ?
+              {
+                loading3?
+                <div
+                class="spinner-border text-blue"
+                role="status"
+                style={{
+                  height: "35px",
+                  width: "35px",
+                  marginTop: "15px",
+                  marginLeft:"75px"
+                }}
+              >
+                <span class="visually-hidden">
+                  Loading...
+                </span>
+              </div>:
+              admin.length > 0 ?
                 admin.map((member) => (
                   <tr className="">
                     <td class=" p-2 w-[170px] md:w-[250px]  lg:w-[600px] ">

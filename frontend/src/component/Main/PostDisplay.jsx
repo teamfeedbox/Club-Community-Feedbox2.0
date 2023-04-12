@@ -31,7 +31,7 @@ const PostDisplay = (props) => {
   // To open the Comment Model
   const [openComment, setOpenComment] = useState(false);
   const [reply, setReply] = useState('');
-  const [replyCount, setReplyCount] = useState(0);
+  const [replyCount, setReplyCount] = useState([]);
   const [comment, setComments] = useState([" How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q",
     "How many times were you frustrated while looking out for a good collection of programming/algorithm /interview questions? What did you expect and what did you get? This portal has been created to",
     "How many times were you frustrated while looking out for a good collection of programming/algorithm.",
@@ -89,11 +89,8 @@ const PostDisplay = (props) => {
   useEffect(() => {
     getList();
     getUser();
-
   });
 
-
- 
 
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
@@ -103,7 +100,6 @@ const PostDisplay = (props) => {
     });
     result = await result.json();
     setUser(result);
-    // console.log(result)
   };
 
   // get All Post
@@ -114,6 +110,7 @@ const PostDisplay = (props) => {
       },
     });
     result = await result.json();
+    setReplyCount(result.comment);
     console.log(result);
     let count1, count2;
     // result.map((data)=>{
@@ -169,6 +166,7 @@ const PostDisplay = (props) => {
     }
   };
 // console.log(data)
+
 
 
   // Like a post
