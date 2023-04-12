@@ -18,10 +18,15 @@ import Modal from "react-bootstrap/Modal";
 import TimeAgo from "javascript-time-ago";
 import en from 'javascript-time-ago/locale/en'
 
-function PostBigModel({ openComment, setOpenComment, id }) {
+function PostBigModel({ openComment, setOpenComment,id}) {
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
+// console.log(id)
+// const _id = localStorage.getItem("postId")
+// const id = JSON.parse(_id)
+// console.log()
 
+// console.log(id)
   const [tempReply, setTempReply] = useState("");
   const [deleteComId, setDeleteComId] = useState("");
   const [replyId, setReplyId] = useState("");
@@ -32,6 +37,8 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   const [replyMsg, setReplyMsg] = useState("");
   const [postData, setPostData] = useState();
   const [commentId, setCommentId] = useState("");
+  const [postedById, setPostedById] = useState("");
+  const [replyById, setReplyById] = useState("");
 
   const [message, setMessage] = useState("");
 
@@ -108,11 +115,11 @@ function PostBigModel({ openComment, setOpenComment, id }) {
     result = await result.json();
     // console.log(result)
     setUser(result);
-    // if(result._id===id){
-    //   getPost()
-    // }
+
+  
   };
 
+  // console.log(postedById)
   const [img, setImg] = useState();
 
   useEffect(() => {
@@ -209,7 +216,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify({id}),
+      body: JSON.stringify({id,postedById}),
     });
 
     result = await result.json();
@@ -230,7 +237,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify({id,commentId}),
+      body: JSON.stringify({id,commentId,replyById}),
     });
 
     result = await result.json();
@@ -284,8 +291,6 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
 
 
-
-
       <Modal
         show={show}
         onHide={handleShowDeleteReply}
@@ -324,7 +329,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
             // style={{maxHeight:"600px"}}
             >
               <div className="post-display-center1">
-                <div className="post-display-image "></div>
+                {/* <div className="post-display-image "></div> */}
 
                 {/* ***carousel for web view*** */}
                 <div className="post-display-image flex justify-center">
@@ -437,6 +442,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                   handleShowDelete();
                                   setDeleteComId(item._id);
                                   console.log(item._id)
+                                  setPostedById(item && item.postedBy && item.postedBy._id)
                                 }}
                                 style={{ marginLeft: "20px" }}
                               >delete
@@ -454,16 +460,14 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                 reply
                              </span>}
                           </div>
-                  {/* ******** Section which will contain the reply on a comment****** */}
+                  {/* *** Section which will contain the reply on a comment*** */}
                         { showReply==true && commentId==item._id?(
                            <section style={{display:"flex",flexDirection:"column",marginTop:"10px"}}>
                            {
                             item && item.reply.map((data)=>
                             <div style={{display:"flex",flexDirection:"row"}}>
                             <div className="Comment-Left">
-                            <img
-                            className="object-contain"
-                            src={item && item.postedBy && item.postedBy.img}
+                            <img src={data && data.postedBy && data.postedBy.img}
                             ></img>
                             </div>
                             <div key={data._id} className="Comment-Right">
@@ -480,6 +484,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                 onClick={() => {
                                   handleShowDeleteReply();
                                   setReplyId(data._id);
+                                  setReplyById(data && data.postedBy && data.postedBy._id)
                                   
 
                                 }}

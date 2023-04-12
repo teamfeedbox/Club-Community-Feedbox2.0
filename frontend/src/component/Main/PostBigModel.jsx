@@ -336,7 +336,7 @@ function PostBigModel({ openComment, setOpenComment,id}) {
                   <div className="post-display-carousel-webview1 flex justify-center">
                     <Carousel
                       thumbWidth={60}
-                      className="w-[30vw]"
+                      className="w-[100%]"
                       autoPlay
                       interval="5000"
                       infiniteLoop={true}
