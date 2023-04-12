@@ -31,7 +31,7 @@ const PostDisplay = (props) => {
   // To open the Comment Model
   const [openComment, setOpenComment] = useState(false);
   const [reply, setReply] = useState('');
-  const [replyCount, setReplyCount] = useState(0);
+  const [replyCount, setReplyCount] = useState([]);
   const [comment, setComments] = useState([" How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q",
     "How many times were you frustrated while looking out for a good collection of programming/algorithm /interview questions? What did you expect and what did you get? This portal has been created to",
     "How many times were you frustrated while looking out for a good collection of programming/algorithm.",
@@ -39,7 +39,7 @@ const PostDisplay = (props) => {
   const [loading, setLoading] = useState(false);
 
   const role = JSON.parse(localStorage.getItem("user")).role;
-  console.log(role);
+  // console.log(role);
 
 
   function handleReply() {
@@ -114,6 +114,10 @@ const PostDisplay = (props) => {
       },
     });
     result = await result.json();
+    setReplyCount(result.comment)
+
+
+    console.log(result);
     let count1, count2;
     // result.map((data)=>{
     //   // console.log(data)
@@ -168,6 +172,7 @@ const PostDisplay = (props) => {
     }
   };
 // console.log(data)
+
 
 
   // Like a post
@@ -248,9 +253,7 @@ const PostDisplay = (props) => {
 
                   <div className="post-head-content">
                     <p className="post-display-heading-college">
-                        {item.postedBy.role == 'Super_Admin' ? 'Super Admin' : item.postedBy.collegeName}
-                        
-                      
+                        {item && item.postedBy && item.postedBy.role == 'Super_Admin' ? 'Super Admin' : item.postedBy.collegeName}             
                     </p>
                     <p className="post-display-heading-time">{item.postedDate && timeAgo.format(new Date(item.postedDate).getTime() - 60 * 1000)}</p>
                   </div>

@@ -414,9 +414,11 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                     handleShowDelete();
                                     setDeleteComId(item._id);
                                     console.log(item._id);
+
                                     setPostedById(
                                       item && item.postedBy && item.postedBy._id
                                     );
+
                                   }}
                                   style={{ marginLeft: "20px" }}
                                 >
@@ -604,6 +606,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                         type="button"
                                         className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
                                       >
+
                                         <svg
                                           aria-hidden="true"
                                           className="w-6 h-6 rotate-90"
@@ -629,6 +632,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
               
                 {/* import { RotatingLines } from  'react-loader-spinner' */}
                 
+
               </div>
 
               <div className="Post-Big-Comment-Container ml-4">
