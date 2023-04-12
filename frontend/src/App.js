@@ -24,22 +24,22 @@ import NavbarRes from "./component/navbar/NavbarRes";
 import Login from "./component/login/Login";
 
 const App = () => {
-const [role, setRole] = useState()
-  const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    console.log(result.role)
-    setRole(result.role);
+// const [role, setRole] = useState()
+//   const getUser = async () => {
+//     let result = await fetch(`http://localhost:8000/user`, {
+//       headers: {
+//         Authorization: "Bearer " + localStorage.getItem("jwt"),
+//       },
+//     });
+//     result = await result.json();
+//     console.log(result.role)
+//     setRole(result.role);
 
-  };
-  
-useEffect(()=>{
-getUser()
-},[])
+//   };
+const user = JSON.parse(localStorage.getItem("user"));
+const role = user && user.role;
+console.log(role);
+
   return (
     <div className="App">
       <Router>
@@ -52,7 +52,7 @@ getUser()
             index
             path="/main"
             element={
-              role && role == null ? <Error /> : [<NavbarRes />, <Main />]
+               role && role == null ? <Error /> : [<NavbarRes />, <Main />]
             }
           />
 
@@ -66,7 +66,7 @@ getUser()
             index
             path="/calendar"
             element={
-              role && role == null ? (
+              role === null ? (
                 <Error />
               ) : (
                 [<NavbarRes />, <ReactBigCalendar />]
