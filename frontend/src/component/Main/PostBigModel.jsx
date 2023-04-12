@@ -215,7 +215,6 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   };
   const handleShowDelete = () => setShowDel(true);
   const handleShowDeleteReply = () => setShow(true);
-  const a=10;
   return (
     <>
       {/* Model to delete the comment */}
@@ -273,7 +272,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
           <div className="Post-Big-Model1">
             {
-              user==true && a==1?<>
+              user?<>
               {/* Left side */}
             <div className="post-display2">
               <div className="post-display-center1">
