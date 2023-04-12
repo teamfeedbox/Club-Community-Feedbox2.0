@@ -636,10 +636,8 @@ export default function ReactBigCalendar() {
                       required
                       value={scope}
                       onChange={(e) => setScope(e.target.value)}
+                      defaultValue=" Select Community"
                     >
-                      <option value="" selected disabled>
-                        Select Community
-                      </option>
                       <option value="public">Public</option>
                       <option value="community">Community</option>
                     </select>
