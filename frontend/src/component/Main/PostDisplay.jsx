@@ -92,9 +92,6 @@ const PostDisplay = (props) => {
 
   });
 
-
- 
-
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
