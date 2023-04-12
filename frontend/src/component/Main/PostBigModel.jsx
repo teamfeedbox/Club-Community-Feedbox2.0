@@ -428,6 +428,10 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                     // alert(showReplyInput)
                                     setCommentId(item._id);
                                     console.log(item._id);
+
+                                    if(showReplyInputField === false){
+                                      setReplyMsg("")
+                                    }
                                   }}
                                 >
                                   reply
@@ -614,7 +618,9 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                 </form>
                               </div>
                             ) : (
-                              <></>
+                              <>
+                            
+                              </>
                             )}
                           </div>
                         </section>
