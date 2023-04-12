@@ -307,53 +307,65 @@ router.put("/reply/:commentId", requireLogin, async (req, res) => {
 
 router.put("/commentDel/:commentId", requireLogin, async (req, res) => {
   
-  try {
+  // try {
     // Check if the logged in user is the creator of the post
     const post = await Post.findById(req.body.id);
-    // console.log(req.body.postedById)
-    // console.log( req.user._id.toString())
-    if (req.body.postedById !== req.user._id.toString()) {
+
+
+    if((req.body.postedById === req.user._id.toString()) || (req.user.role==="Super_Admin") || (req.user.role==="Admin"))
+    {
+      const result = await Post.updateOne(
+        { _id: req.body.id, "comment._id": req.params.commentId },
+        { $pull: { comment: { _id: req.params.commentId } } }
+      );
+      res.send(result);
+    
+    }
+
+  else {
       return res.status(401).json({ error: "You are not authorized to delete this comment" });
     }
 
     // Remove the comment from the post's comments array
-    const result = await Post.updateOne(
-      { _id: req.body.id, "comment._id": req.params.commentId },
-      { $pull: { comment: { _id: req.params.commentId } } }
-    );
-    res.send(result);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Server error" });
-  }
+    
+  // catch (error) {
+  //   console.error(error);
+  //   res.status(500).json({ error: "Server error" });
+  // }
 })
 
 
 
 router.put("/replyDel/:replyId", requireLogin, async (req, res) => {
   // const {postedById} = req.body.postedById;
-  try {
+  // try {
     // Check if the logged in user is the creator of the post
     const post = await Post.findById(req.body.id);
-    // console.log(req.body.postedById)
-    // console.log( req.user._id.toString())
-    if (req.body.replyById !== req.user._id.toString()) {
-      return res.status(401).json({ error: "You are not authorized to delete this reply" });
+
+    if((req.body.replyById === req.user._id.toString()) || (req.user.role==="Super_Admin") || (req.user.role==="Admin"))
+    {
+      const result = await Post.updateOne(
+        {_id: req.body.id, "comment._id": req.body.commentId },
+       
+        {
+          $pull: { "comment.$.reply": { _id: req.params.replyId } },
+        }
+      );
+      res.send(result);
+    
     }
+    else{
+      return res.status(401).json({ error: "You are not authorized to delete this reply" });
+
+    }
+    
+   
 
     // Remove the comment from the post's comments array
-    const result = await Post.updateOne(
-      {_id: req.body.id, "comment._id": req.body.commentId },
-     
-      {
-        $pull: { "comment.$.reply": { _id: req.params.replyId } },
-      }
-    );
-    res.send(result);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Server error" });
-  }
+    //  catch (error) {
+    // console.error(error);
+    // res.status(500).json({ error: "Server error" });
+  // }
 })
 
 
