@@ -3,8 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import "./PendingApprovals.css";
 import { Scrollbars } from "react-custom-scrollbars";
-import { json } from "react-router-dom";
-import Spinner from 'react-bootstrap/Spinner';
+
 const PendingApprovals = (props) => {
   const [data, setData] = useState([]);
   const [searchval, setSearchVal] = useState("");
@@ -21,6 +20,7 @@ const PendingApprovals = (props) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
 
   const getUser = async () => {
+    setLoading3(true);
     const result = await fetch(`http://localhost:8000/get`);
     const res = await result.json();
     let user = [];
@@ -36,55 +36,52 @@ const PendingApprovals = (props) => {
       let clgSel = [];
       if (props.clg) {
         if (props.clg === "All") {
-          setLoading3(true);
-          console.log(loading3,"Loading data");
           setPendingUsers(user);
           setData(user);
-          console.log(loading3,"Loading data");
-          setLoading3(false);
         } else {
-          user.map(data => {
-            
-            if (data.collegeName === props.clg) {
-              setLoading3(true);
-              console.log(loading3,"Loading data");
-              clgSel.push(data)
-            }
+
+          const getData = (async()=>{
+
+            await user.map(data => {
+              
+              if (data.collegeName === props.clg) {
+                clgSel.push(data)
+              }
+            })
           })
-          setPendingUsers(clgSel);
-          setData(clgSel);
-          setLoading3(true);
+          getData().then(()=>{
+            setPendingUsers(clgSel);
+            setData(clgSel);
+          })
         }
       } else {
         setPendingUsers(user);
         setData(user);
-        setLoading3(false);
       }
     } else {
       console.log("2");
       let clg = [];
       user.map(data => {
         if (data.collegeName === currentCollege) {
-          setLoading3(true);
           clg.push(data)
         }
       })
       setPendingUsers(clg);
       setData(clg);
-      setLoading3(false);
     }
-    setLoading(false)
+
     setDeclineLoading(false);
 
     setId('')
     setDid('')
+    setLoading3(false);
   };
 
   useEffect(() => {
     getUser();
     // setLoading(false)
     setload(false)
-  }, [load, props]);
+  }, [props, load]);
 
   // search for a pending user
   const searchHandler = (e) => {
@@ -184,7 +181,7 @@ const PendingApprovals = (props) => {
                  height: "35px",
                  width: "35px",
                  marginTop: "15px",
-                 marginLeft:"80px"
+                 marginLeft:"75px"
                }}
              >
                <span class="visually-hidden">
