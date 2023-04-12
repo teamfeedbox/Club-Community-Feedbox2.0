@@ -19,6 +19,7 @@ import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 import { RotatingLines,ProgressBar } from  'react-loader-spinner'
 function PostBigModel({ openComment, setOpenComment, id }) {
+  // console.log(id)
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
   const [deleteComId, setDeleteComId] = useState("");
@@ -42,6 +43,10 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   const [checkReply, setCheckreply] = useState(true);
   // To show and hide "hide reply"
   const [hideReply, setHidereply] = useState(false);
+
+const post = id._id
+
+
   function handleAfterReply(event) {
     event.preventDefault();
   }
@@ -50,23 +55,25 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   };
 
   useEffect(() => {
-    if (id) {
+    if (post) {
       getPost();
     }
     setLoading(false);
-  }, [id, loading]);
+  }, [post, loading]);
 
   const getPost = async () => {
-    // console.log(id)
-    let result = await fetch(`http://localhost:8000/userPost/${id}`, {
+    
+    let result = await fetch(`http://localhost:8000/userPost/${post}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     });
     result = await result.json();
-    // console.log(result)
-    setUser(result);
+    console.log(result.comment)
+    setUser(result.comment);
   };
+
+  // console.log(post)
 
   // console.log(postedById)
   const [img, setImg] = useState();
@@ -89,14 +96,14 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   };
 
   const updateComment = () => {
-    console.log(id, "", message);
+    console.log(post, "", message);
     fetch("http://localhost:8000/comment", {
       method: "put",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify({ id, message }),
+      body: JSON.stringify({ post, message }),
     })
       .then((res) => res.json())
       .then((result) => {
@@ -118,7 +125,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify({ id, replyMsg }),
+      body: JSON.stringify({ post, replyMsg }),
     })
       .then((res) => res.json())
       .then((result) => {
@@ -151,7 +158,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
   //delete comment
   const deleteComment = async (deleteComId) => {
-    console.log(deleteComId, " ", id);
+    console.log(deleteComId, " ", post);
     let result = await fetch(
       `http://localhost:8000/commentDel/${deleteComId}`,
       {
@@ -161,7 +168,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
           Authorization: "Bearer " + localStorage.getItem("jwt"),
         },
-        body: JSON.stringify({ id, postedById }),
+        body: JSON.stringify({ post, postedById }),
       }
     );
 
@@ -181,7 +188,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   };
 
   const deleteReply = async (replyId) => {
-    console.log(replyId, " ", id);
+    console.log(replyId, " ", post);
     let result = await fetch(`http://localhost:8000/replyDel/${replyId}`, {
       method: "put",
       headers: {
@@ -189,7 +196,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify({ id, commentId, replyById }),
+      body: JSON.stringify({ post, commentId, replyById }),
     });
 
     result = await result.json();
@@ -281,7 +288,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                   <div className="post-display-carousel-webview1 flex justify-center">
                     <Carousel
                       thumbWidth={60}
-                      className="w-[30vw]"
+                      className="w-[100%]"
                       autoPlay
                       interval="5000"
                       infiniteLoop={true}
@@ -289,14 +296,16 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                     >
                       {
                     //  user?("loader"):
-                      user &&
-                        user.img.map((data) => (
+
+                      id &&
+                        id.img.map((data) => (
                           <div key={data._id} style={{ maxHeight: "400px" }}>
+
                             <img
                               className="display-img"
                               src={data}
                               style={{
-                                maxHeight: "400px",
+                                
                                 objectFit: "contain",
                               }}
                             />
@@ -323,16 +332,16 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                   >
                     <div className="Post-Big-Pro-img">
                       <img
-                        src={user && user.postedBy && user.postedBy.img}
+                        src={id && id.postedBy && id.postedBy.img}
                         alt="profile image"
                       ></img>
                     </div>
                     <div className="Post-Big-Title">
                       <div className="Post-Big-Title1">
-                        {user && user.postedBy && user.postedBy.name}
+                        {id && id.postedBy && id.postedBy.name}
                       </div>
                       <div className="Post-Big-Title2">
-                        {user && user.postedBy && user.postedBy.role}
+                        {id && id.postedBy && id.postedBy.role}
                       </div>
                     </div>
                   </div>
@@ -359,7 +368,8 @@ function PostBigModel({ openComment, setOpenComment, id }) {
 
               <div className="Post-Big-Comment">
                 
-                 {user && user.comment.length == 0 ? (
+                 {user.length == 0
+                  ? (
                     <div
                       style={{
                         textAlign: "center",
@@ -375,8 +385,8 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                       style={{ height: "102%", position: "relative" }}
                     >
                       {/* Comment 1 */}
-                      {user &&
-                        user.comment.map((item) => (
+                      {
+                        user.map((item) => (
                           <section className="Post-Comment-About" key={item._id}>
                             {/* Left part */}
                             <div className="Comment-Left">
