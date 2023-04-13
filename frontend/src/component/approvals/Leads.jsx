@@ -13,6 +13,7 @@ const Leads = (props) => {
   const [confirm, setConfirm] = useState(false);
   const [data, setData] = useState([]);
   const [lead, setLead] = useState([]);
+  const [loading3, setLoading3] = useState(false);
   const [loading, setLoading] = useState(false);
   const [position, setPosition] = useState();
   const [id, setId] = useState();
@@ -28,6 +29,7 @@ const Leads = (props) => {
   console.log(props, "props")
 
   const getUser = async () => {
+    setLoading3(true);
     const result = await fetch(`http://localhost:8000/get`);
     const res = await result.json();
     let lead = [];
@@ -67,6 +69,7 @@ const Leads = (props) => {
       setLead(clg);
       setData(clg);
     }
+    setLoading3(false);
   };
 
   useEffect(() => {
@@ -179,7 +182,23 @@ const Leads = (props) => {
         <Scrollbars style={{ height: "250px" }}>
           <table class="table-auto w-full max-w-[1300px]">
             <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
-              {lead.length > 0 ?
+              {
+                 loading3?
+                   <div
+                   class="spinner-border text-blue"
+                   role="status"
+                   style={{
+                     height: "35px",
+                     width: "35px",
+                     marginTop: "15px",
+                     marginLeft:"75px"
+                   }}
+                 >
+                   <span class="visually-hidden">
+                     Loading...
+                   </span>
+                 </div>:
+              lead.length > 0 ?
                 lead.map((member) => (
                   <tr className="flex justify-between max-w-[1150px]">
                     <td class="p-2 w-[200px]  lg:w-[300px]">

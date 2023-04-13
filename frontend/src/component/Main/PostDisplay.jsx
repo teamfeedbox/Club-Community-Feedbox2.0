@@ -15,6 +15,7 @@ import PostBigModel from "./PostBigModel";
 import Loader from '../Loader.jsx'
 import TimeAgo from "javascript-time-ago";
 import en from 'javascript-time-ago/locale/en'
+import { useStateValue } from "../../StateProvider";
 
 const PostDisplay = (props) => {
   TimeAgo.addLocale(en);
@@ -41,6 +42,9 @@ const PostDisplay = (props) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
   // console.log(role);
 
+  const [{users}]= useStateValue();
+
+  console.log(`users are here : ${users}`);
 
   function handleReply() {
     if (showAdd == "Show-Comment-Add-Btn") {
@@ -90,7 +94,8 @@ const PostDisplay = (props) => {
     getList();
     getUser();
 
-  }, []);
+  },[]);
+
 
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
@@ -100,7 +105,6 @@ const PostDisplay = (props) => {
     });
     result = await result.json();
     setUser(result);
-    // console.log(result)
   };
 
   // get All Post
@@ -111,10 +115,8 @@ const PostDisplay = (props) => {
       },
     });
     result = await result.json();
-    setReplyCount(result.comment)
-
-
-    // console.log(result);
+    setReplyCount(result.comment);
+    console.log(result);
     let count1, count2;
     // result.map((data)=>{
     //   // console.log(data)

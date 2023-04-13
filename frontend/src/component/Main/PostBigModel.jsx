@@ -300,6 +300,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                                 
                                 objectFit: "contain",
                               }}
+                              alt=""
                             />
                           </div>
                         ))}
