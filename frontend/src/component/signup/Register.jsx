@@ -609,6 +609,7 @@ const Register = () => {
                         value={collegeName}
                         onChange={(e) => setCollegeName(e.target.value)}
                       >
+                         
                         <option 
                         // disabled
                           // selected
