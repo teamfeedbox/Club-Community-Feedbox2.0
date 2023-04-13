@@ -69,9 +69,7 @@ const PendingApprovals = (props) => {
       setPendingUsers(clg);
       setData(clg);
     }
-
     setDeclineLoading(false);
-
     setId('')
     setDid('')
     setLoading3(false);
