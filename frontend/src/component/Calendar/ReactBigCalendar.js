@@ -20,6 +20,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
 import "./ReactBigCalendar.css";
 
+console.log("hiiiiiiiiiiiiijmkjm");
+
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
 
