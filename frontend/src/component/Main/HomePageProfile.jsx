@@ -50,6 +50,8 @@ const HomePageProfile = (props) => {
     setLoading(false);
   }, [college, loading,props]);
 
+  console.log(`college: ${college}, loading: ${loading}, props: ${props}`)
+
   const getColleges = async () => {
     setLoading(true);
     const data = await fetch(`http://localhost:8000/colleges/get`);
