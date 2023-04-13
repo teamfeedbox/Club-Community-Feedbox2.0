@@ -89,11 +89,8 @@ const PostDisplay = (props) => {
   useEffect(() => {
     getList();
     getUser();
-
   });
 
-
- 
 
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
@@ -103,7 +100,6 @@ const PostDisplay = (props) => {
     });
     result = await result.json();
     setUser(result);
-    // console.log(result)
   };
 
   // get All Post
@@ -114,9 +110,7 @@ const PostDisplay = (props) => {
       },
     });
     result = await result.json();
-    setReplyCount(result.comment)
-
-
+    setReplyCount(result.comment);
     console.log(result);
     let count1, count2;
     // result.map((data)=>{
@@ -348,7 +342,7 @@ const PostDisplay = (props) => {
                 <button onClick={() => {
                   setOpenComment(!openComment)
                   setId(item._id)
-                  localStorage.setItem("postId",JSON.stringify(item._id))
+                  // localStorage.setItem("postId",JSON.stringify(item._id))
                 }} className="post-display-bottom-content">
                   <FontAwesomeIcon
                     style={{ fontSize: "22.5px", cursor: "pointer", marginTop: "1px" }}
