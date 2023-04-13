@@ -32,6 +32,15 @@ const NewLogin = () => {
       alert("Invalid Email or Password");
     }
     setLoading(false);
+
+    // set notification length
+      let notifi = await fetch(`http://localhost:8000/getNotifications`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      });
+      notifi = await notifi.json();
+      localStorage.setItem("notification-length", notifi.length)
   };
 
   return (
