@@ -194,7 +194,7 @@ const HomePageProfile = (props) => {
         {/* for super admin */}
         {role && role === 'Super_Admin'
           ? <div className="m-3 flex  flex-col pb-3">
-            <div className="mb-2">
+            {/* <div className="mb-2">
               <form onSubmit={handleAddSubmit}>
                 <input
                   type="text"
@@ -224,7 +224,7 @@ const HomePageProfile = (props) => {
                 </button>
 
               </form>
-            </div>
+            </div> */}
 
             <div className="font-[700] text-[1.1rem]">Select College:</div>
             <div className=" ">
@@ -282,7 +282,7 @@ const HomePageProfile = (props) => {
       {/* --------------------for mobile view (only for super admin) -------------------- */}
       {role && role === 'Super_Admin' ?
         <div className="block md:hidden lg:hidden px-3 pt-3 pb-3">
-          <div className="mb-2  w-[100%]">
+          {/* <div className="mb-2  w-[100%]">
             <form onSubmit={handleAddSubmit}>
               <input
                 type="text"
@@ -313,7 +313,7 @@ const HomePageProfile = (props) => {
               </button>
 
             </form>
-          </div>
+          </div> */}
 
           <div className=" ">
             <select
