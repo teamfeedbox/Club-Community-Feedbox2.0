@@ -7,6 +7,8 @@ import CreatePost from "./CreatePost";
 import "./Main.css";
 import bg from "../assets/mainBg.png";
 
+const REACT_APP_BASE_URL= process.env.REACT_APP_BASE_URL;
+console.log(REACT_APP_BASE_URL);
 const Main = () => {
   const [user, setUser] = useState();
   const [clg, setClg] = useState();
@@ -34,7 +36,7 @@ const Main = () => {
 
   // Get a user
   const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
+    let result = await fetch(`http://localhost:3000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },

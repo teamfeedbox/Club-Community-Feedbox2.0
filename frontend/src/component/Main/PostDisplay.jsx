@@ -15,6 +15,7 @@ import PostBigModel from "./PostBigModel";
 import Loader from '../Loader.jsx'
 import TimeAgo from "javascript-time-ago";
 import en from 'javascript-time-ago/locale/en'
+import { useStateValue } from "../../StateProvider";
 
 const PostDisplay = (props) => {
   TimeAgo.addLocale(en);
@@ -164,8 +165,6 @@ const PostDisplay = (props) => {
   };
 // console.log(data)
 
-
-
   // Like a post
   const like = (id) => {
     fetch("http://localhost:8000/like", {
@@ -253,9 +252,10 @@ const PostDisplay = (props) => {
 
               <div className="post-display-center">
                 <div className="post-display-content">{item.desc}</div>
-                <div className="post-display-image ">
                   {/* *****************carousel for mobile view********************* */}
-                  <div className="post-display-carousel-mobileview">
+                  {item.img.length > 0 ?
+                <div className="post-display-image ">
+                    <div className="post-display-carousel-mobileview">
                     <Swiper
                       navigation={item.img.length === 1 ? false : true}
                       data-aos="fade-up"
@@ -270,8 +270,6 @@ const PostDisplay = (props) => {
                       modules={[Navigation, Autoplay]}
 
                       className="mySwiper">
-
-
                       {
 
                         item.img.length > 0 &&
@@ -286,8 +284,11 @@ const PostDisplay = (props) => {
                     </Swiper>
                   </div>
                 </div>
+                  :' '}
                 {/* *********************carousel for web view*************************** */}
-                <div id="web-carousel" className="post-display-image flex justify-center h-[620px] carousel-web-view">
+
+                {item.img.length > 0 ?
+                  <div id="web-carousel" className="post-display-image flex justify-center h-[620px] carousel-web-view">
                   <div className="post-display-carousel-webview flex justify-center h-[100%] m-0 p-0">
                     <Carousel
                       thumbWidth={60}
@@ -307,7 +308,8 @@ const PostDisplay = (props) => {
                       }
                     </Carousel>
                   </div>
-                </div>
+                </div> : ''}
+
               </div>
 
               <div className="post-display-bottom">

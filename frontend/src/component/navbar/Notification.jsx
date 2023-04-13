@@ -1,13 +1,34 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Notification.css";
+
+
 
 const Notification = (props) => {
 
   const [notification, setNotification] = useState()
   const [currentUserId, setcurrentUserId] = useState()
 
+  const wrapperRef = useRef(null);
+
+  // notification close on backdrop click
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+     function handleClickOutside(event) {
+       if (ref.current && !ref.current.contains(event.target)) {
+         props.props.handleCross(true);
+        }
+      }
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+
+  useOutsideAlerter(wrapperRef);
+  
   const handleClose = (e) => {
     e.preventDefault();
     props.props.handleCross(true);
@@ -36,7 +57,7 @@ const Notification = (props) => {
     setcurrentUserId(user.id)
   }, [])
   return (
-    <div className="absolute top-[110%] right-5 bg-white rounded py-2 px-2.5 w-[23%] shadow max-h-[500px]  ">
+    <div ref={wrapperRef} className="absolute top-[110%] right-5 bg-white rounded py-2 px-2.5 w-[23%] shadow max-h-[500px]  ">
       <div className="flex justify-between">
         <div className="text-[1.1rem] font-[700] ">Notification</div>
         <div className="" onClick={handleClose}>
