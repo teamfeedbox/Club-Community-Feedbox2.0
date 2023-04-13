@@ -12,7 +12,8 @@ const user = require("./models/user");
 
 mongoose.set("strictQuery", false);
 
-const db = "mongodb+srv://feedbox:feedbox@cluster0.f8qrcl7.mongodb.net/community?retryWrites=true&w=majority";
+// const db = "mongodb+srv://feedbox:feedbox@cluster0.f8qrcl7.mongodb.net/community?retryWrites=true&w=majority";
+const db = "mongodb+srv://Khushi:Khushi@cluster0.6b9gc.mongodb.net/FeedBox-Club";
 mongoose.connect(db,{ useNewUrlParser: true, useUnifiedTopology: true })
 .then(()=>{
     console.log("connection successful 😎😎")
