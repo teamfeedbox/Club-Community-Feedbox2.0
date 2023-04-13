@@ -9,6 +9,7 @@ import "./EditProfile.css";
 
 const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
+  console.log(`ubio : ${Userbio}, open is: ${open}`);
 
 
   // const [dataChanges, setDataChanges] = useState('nnnnn');
@@ -32,9 +33,11 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
     setImage(false)
     // uploadPic();
     setBio(Userbio);
+
     setName(Username);
     setCollegeYear(Useryear);
     console.log(Userbio,Username,Useryear, bio);
+
   };
   const handleShow = () => setShow(true);
 
