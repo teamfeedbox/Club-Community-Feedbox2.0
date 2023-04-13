@@ -203,7 +203,7 @@
     }
     
    #post_display_container .post-display-center{
-    height: 500px !important;
+    /* height: 500px !important; */
    }
    #post_display_container .post-display-image img{
     /* height: 300px !important; */
@@ -245,7 +245,8 @@
         height: 300px !important;
     }
     #post_display_container .post-display-center{
-        height: 400px !important;
-       }
+        /* height: 400px !important; */
+        /* margin: auto; */
+           }
     
 }

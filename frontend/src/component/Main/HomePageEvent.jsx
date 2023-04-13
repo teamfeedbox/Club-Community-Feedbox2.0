@@ -49,7 +49,6 @@ const HomePageEvent = (props) => {
         }
       }
     } else if (props.eveD) {
-      console.log(props.eveD,"llllllllllllllllll");
       let array = [];
       result.map((eve) => {
         if (eve.eventDate === props.eveD) {
