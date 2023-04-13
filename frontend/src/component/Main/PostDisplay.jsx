@@ -89,11 +89,8 @@ const PostDisplay = (props) => {
   useEffect(() => {
     getList();
     getUser();
-
   });
 
-
- 
 
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
@@ -103,7 +100,6 @@ const PostDisplay = (props) => {
     });
     result = await result.json();
     setUser(result);
-    // console.log(result)
   };
 
   // get All Post
@@ -114,10 +110,8 @@ const PostDisplay = (props) => {
       },
     });
     result = await result.json();
-    setReplyCount(result.comment)
-
-
-    // console.log(result);
+    setReplyCount(result.comment);
+    console.log(result);
     let count1, count2;
     // result.map((data)=>{
     //   // console.log(data)
