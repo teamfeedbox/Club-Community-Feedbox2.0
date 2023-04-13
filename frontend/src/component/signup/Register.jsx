@@ -617,9 +617,8 @@ const Register = () => {
                           className="text-gray-400">
                           University
                         </option>
-                        <option 
-                          className="text-gray-400">
-                          Svvv
+                        <option>
+                          SVVV
                         </option>
                         {/* {
                           allClgs.length > 0 &&
