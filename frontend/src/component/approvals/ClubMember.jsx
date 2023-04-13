@@ -10,6 +10,7 @@ const ClubMember = ({ props }) => {
   const [searchval, setSearchVal] = useState("");
   const [clubMember, setClubMember] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loading3, setLoading3] = useState(false);
   const [load, setLoad] = useState(false);
   const [show, setShow] = useState(false);
   const [confirm, setConfirm] = useState(false);
@@ -32,12 +33,13 @@ const ClubMember = ({ props }) => {
   };
 
   const getUser = async () => {
+    setLoading3(true);
     const result = await fetch(`http://localhost:8000/get`);
     const res = await result.json();
     let cm = [];
     res &&
       res.map((data) => {
-        if (data.role == "Club_Member") {
+        if (data.role === "Club_Member") {
           cm.push(data);
         }
       });
@@ -45,17 +47,18 @@ const ClubMember = ({ props }) => {
     if (role === "Super_Admin") {
       let clgSel = [];
       if (props.clg) {
-        if (props.clg == "All") {
+        if (props.clg === "All") {
           setData(cm);
           setClubMember(cm);
         } else {
           cm.map((data) => {
             if (data.collegeName === props.clg) {
               clgSel.push(data);
+              
             }
-          });
-          setData(clgSel);
-          setClubMember(clgSel);
+          })
+            setData(clgSel)
+            setClubMember(clgSel);
         }
       } else {
         setClubMember(cm);
@@ -65,18 +68,20 @@ const ClubMember = ({ props }) => {
       let clg = [];
       cm.map((data) => {
         if (data.collegeName === currentCollege) {
+          setLoading3(true);
           clg.push(data);
         }
       });
       setClubMember(clg);
       setData(clg);
     }
+    setLoading3(false);
   };
 
   useEffect(() => {
     getUser();
     setLoad(false);
-  }, [props, load]);
+  }, [props, load], loading3);
 
   // search user
   const searchHandler = (e) => {
@@ -99,10 +104,11 @@ const ClubMember = ({ props }) => {
 
   // submit handler for making club member as lead
   const submitHandler = async () => {
-    if (value && position) {
+    if(role === "Admin" || role === "Super_Admin"){
+    if (value && position ) {
       setLoading(true);
       let val;
-      if (value === "Admin") {
+        if (value === "Admin") {
         val = {
           role: value,
           position: position,
@@ -112,7 +118,7 @@ const ClubMember = ({ props }) => {
           role: value,
           position: position,
         };
-      }
+      }  
       const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -129,7 +135,35 @@ const ClubMember = ({ props }) => {
       setLoading(false);
       setLoad(true);
     } else {
-      alert("Please input Position and role...");
+
+        alert("Please input Position and role...");
+    }}
+    else{
+      if ( position ) {
+        setLoading(true);
+        let val = {
+          role: 'Lead',
+          position: position,
+        }; 
+        const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(val),
+        });
+        const res = await data.json();
+        console.log(res);
+        setConfirm(false);
+        setShow(false);
+        setPosition("");
+        setValue("");
+        setId("");
+        setName("");
+        setLoading(false);
+        setLoad(true);
+      } else {
+  
+          alert("Please input Position...");
+      }
     }
 
     //  notification
@@ -181,7 +215,24 @@ const ClubMember = ({ props }) => {
         <Scrollbars style={{ height: "250px" }}>
           <table class="table-auto w-full max-w-[1300px]">
             <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
-              {clubMember.length > 0 ? (
+              {
+              loading3 ?
+              <div
+              class="spinner-border text-blue"
+              role="status"
+              style={{
+                height: "35px",
+                width: "35px",
+                marginTop: "15px",
+                marginLeft:"80px"
+              }}
+            >
+              <span class="visually-hidden">
+                Loading...
+              </span>
+            </div>
+             :
+              clubMember.length > 0 ? (
                 clubMember.map((member) => (
                   <tr className="flex justify-between max-w-[1150px]">
                     <td class="p-2 w-[200px] lg:w-[300px]">

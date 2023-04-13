@@ -3,22 +3,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import "./PendingApprovals.css";
 import { Scrollbars } from "react-custom-scrollbars";
-import { json } from "react-router-dom";
 
 const PendingApprovals = (props) => {
   const [data, setData] = useState([]);
   const [searchval, setSearchVal] = useState("");
   const [pendingUsers, setPendingUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loading3, setLoading3] = useState(false);
   const [val, setVal] = useState(false);
   const [id, setId] = useState();
   const [did, setDid] = useState();
   const [load, setload] = useState(false);
+  const [declineLoading, setDeclineLoading] = useState(false);
 
   const currentCollege = JSON.parse(localStorage.getItem("user")).college;
   const role = JSON.parse(localStorage.getItem("user")).role;
 
   const getUser = async () => {
+    setLoading3(true);
     const result = await fetch(`http://localhost:8000/get`);
     const res = await result.json();
     let user = [];
@@ -31,20 +33,26 @@ const PendingApprovals = (props) => {
     user = user.reverse();
 
     if (role === "Super_Admin") {
-      console.log("1");
       let clgSel = [];
       if (props.clg) {
-        if (props.clg == "All") {
+        if (props.clg === "All") {
           setPendingUsers(user);
           setData(user);
         } else {
-          user.map(data => {
-            if (data.collegeName === props.clg) {
-              clgSel.push(data)
-            }
+
+          const getData = (async()=>{
+
+            await user.map(data => {
+              
+              if (data.collegeName === props.clg) {
+                clgSel.push(data)
+              }
+            })
           })
-          setPendingUsers(clgSel);
-          setData(clgSel);
+          getData().then(()=>{
+            setPendingUsers(clgSel);
+            setData(clgSel);
+          })
         }
       } else {
         setPendingUsers(user);
@@ -61,12 +69,17 @@ const PendingApprovals = (props) => {
       setPendingUsers(clg);
       setData(clg);
     }
+    setDeclineLoading(false);
+    setId('')
+    setDid('')
+    setLoading3(false);
   };
 
   useEffect(() => {
     getUser();
+    // setLoading(false)
     setload(false)
-  }, [load, props]);
+  }, [props, load]);
 
   // search for a pending user
   const searchHandler = (e) => {
@@ -89,6 +102,7 @@ const PendingApprovals = (props) => {
 
   // Decline request for club member
   const handleDecline = async (id, i) => {
+    setDeclineLoading(true);
     setLoading(true);
     setDid(i)
     const data = await fetch(`http://localhost:8000/user/${id}`, {
@@ -96,7 +110,7 @@ const PendingApprovals = (props) => {
       headers: { "Content-Type": "application/json" },
     });
     const res = await data.json();
-    setLoading(false);
+    // setLoading(false);
     setload(true);
   };
 
@@ -122,8 +136,9 @@ const PendingApprovals = (props) => {
     handleEmail(id);
     setVal(!val);
     props.func(!val);
-    setLoading(false);
+    // setLoading(false);
     setload(true);
+    setLoading(false);
   };
 
   return (
@@ -155,7 +170,24 @@ const PendingApprovals = (props) => {
         <Scrollbars style={{ height: "250px" }}>
           <table class="table-auto w-full max-w-[1300px] ">
             <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
-              {pendingUsers.length > 0 ? (
+              {
+              loading3?
+               <div
+               class="spinner-border text-blue"
+               role="status"
+               style={{
+                 height: "35px",
+                 width: "35px",
+                 marginTop: "15px",
+                 marginLeft:"75px"
+               }}
+             >
+               <span class="visually-hidden">
+                 Loading...
+               </span>
+             </div>
+              :
+              pendingUsers.length > 0 ? (
                 pendingUsers.map((approval, index) => (
                   <tr className="flex justify-between max-w-[1150px]">
                     <td class="p-2  lg:w-[300px]">
@@ -177,15 +209,32 @@ const PendingApprovals = (props) => {
                     </td>
                     <td class="pt-2 pb-2 flex justify-end">
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
-                        <button
 
+
+                        {id !== index ?
+
+                          <button 
+                          // className="h-[25px] w-[80px] rounded-xl  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[500]  text-white bg-[#00D22E] hover:bg-[#03821f]"
                           className="h-[30px] rounded-xl text-[#616161] text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[500] hover:bg-gray-300 mr-2 w-[80px]"
-                          onClick={() => handleDecline(approval._id)}
+                          >
 
-                        >
-                          Decline
-                        </button>
-                        <button className="h-[25px] w-[80px] rounded-xl  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[500]  text-white bg-[#00D22E] hover:bg-[#03821f]">
+                          {declineLoading  ? (
+                            <div
+                              class="spinner-border text-black"
+                              role="status"
+                              style={{ height: "15px", width: "15px" }}
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          ) : (
+                            <div onClick={() => handleDecline(approval._id, index)}>
+                              Decline
+                            </div>
+                          )}
+                        </button>: ''}
+
+                        {did !== index ?
+                          <button className="h-[25px] w-[80px] rounded-xl  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[500]  text-white bg-[#00D22E] hover:bg-[#03821f]">
                           {loading && id === index ? (
                             <div
                               class="spinner-border text-white"
@@ -199,7 +248,8 @@ const PendingApprovals = (props) => {
                               Accept
                             </div>
                           )}
-                        </button>
+                        </button> : ''}
+
                       </div>
                     </td>
                   </tr>

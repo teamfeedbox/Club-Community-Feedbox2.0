@@ -69,17 +69,17 @@ const Notification = (props) => {
               :
               // for community
               (data.messageScope === "community" ?
-                (<div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
-                  <div className="bg-blue-800 p-1 w-[5px]  text-blue-800"></div>
-                  <div className="p-1">
-                    {data.message}
-                  </div>
-                </div>)
+              (<div key={data.message} className="flex bg-[#ebccc3] mt-2 rounded-sm ">
+              <div className="bg-[#4a251a] p-1 w-[5px]  text-[#4a251a]"></div>
+              <div className="p-1">
+                {data.message}
+              </div>
+            </div>)
                 :
-                // for positio change
+                // for position change
                 ((data.messageScope === "private" && currentUserId === data.userId) ?
-                  <div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
-                    <div className="bg-green-800 p-1 w-[5px]  text-blue-800"></div>
+                  <div key={data.message} className="flex bg-green-200 mt-2 rounded-sm">
+                    <div className="bg-green-800 p-1 w-[5px]  text-green-800"></div>
                     <div className="p-1">
                       {data.message}
                     </div>
@@ -87,8 +87,8 @@ const Notification = (props) => {
                   :
                   // for coins
                   ((data.messageScope === "coins"  && currentUserId === data.userId) &&
-                    <div key={data.message} className="flex bg-blue-200 mt-2 rounded-sm">
-                      <div className="bg-yellow-800 p-1 w-[5px]  text-blue-800"></div>
+                    <div key={data.message} className="flex bg-yellow-200 mt-2 rounded-sm">
+                      <div className="bg-yellow-800 p-1 w-[5px]  text-yellow-800"></div>
                       <div className="p-1">
                         {data.message}
                       </div>

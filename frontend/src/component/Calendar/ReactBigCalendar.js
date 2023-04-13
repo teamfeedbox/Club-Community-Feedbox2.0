@@ -423,13 +423,14 @@ export default function ReactBigCalendar() {
                   />
                   {myEvent && myEvent.speaker}
                 </div>
-                <div className="event-profile">
+                {role !== 'Super_Admin' ?
+                  <div className="event-profile">
                   <FontAwesomeIcon
                     style={{ margin: "0 10px 0 0" }}
                     icon={faUniversity}
                   />
-                  {myEvent && myEvent.postedBy.collegeName}
-                </div>
+                  {myEvent && myEvent.postedBy && myEvent.postedBy.collegeName}
+                </div>: ''} 
                 <div className="event-minor">
                   <div>
                     <FontAwesomeIcon
@@ -461,7 +462,7 @@ export default function ReactBigCalendar() {
                 </div>
                 <div className="preview-button">
                   {role && role !== "Super_Admin" ? (
-                    id && myEvent && id !== myEvent.postedBy._id ? (
+                    id && myEvent && id !== ( myEvent.postedBy && myEvent.postedBy._id) ? (
                       new Date(myEvent && myEvent.eventDate).getTime() >
                       new Date(mindate).getTime() ? (
                         interestedBtn ? (
@@ -544,7 +545,7 @@ export default function ReactBigCalendar() {
                   )}
                 </div>
 
-                {MAVisibility && (
+                {/* {MAVisibility && ( */}
 
                   <div style={{ textAlign: "center" }}>
                     {role === "Admin" ||
@@ -568,7 +569,7 @@ export default function ReactBigCalendar() {
                     )}
                   </div>
 
-                )} 
+                {/* )}  */}
 
               </div>
             </div>
@@ -638,10 +639,8 @@ export default function ReactBigCalendar() {
                       required
                       value={scope}
                       onChange={(e) => setScope(e.target.value)}
+                      defaultValue=" Select Community"
                     >
-                      <option value="" selected disabled>
-                        Select Community
-                      </option>
                       <option value="public">Public</option>
                       <option value="community">Community</option>
                     </select>
