@@ -44,13 +44,17 @@
 .Post-Big-Model-Left {
   width: 50%;
   padding: 5px 5px 5px 5px;
-  border-right: 2px solid rgba(128, 128, 128, 0.202);
+  
 }
-
+.Post-Big-Model-Profile{
+  border: 1px solid black;
+  border-radius: 10px;
+}
 .Post-Big-Model-Right {
   width: 50%;
   padding: 15px 10px 15px 10px;
   margin: 0 auto;
+  
 }
 
 .Post-Big-Model-Left img {
@@ -68,7 +72,7 @@
   flex-direction: row;
   margin: 0 0 0 0;
   justify-content: space-around;
-  border: 1px solid black;
+  
   border-radius: 10px;
 }
 
@@ -111,9 +115,9 @@
 .Post-Big-Description {
   width: 96%;
   font-size: 13.5px;
-  font-weight: 700;
+  font-size: 13.5px;
+  font-weight: 600;
   color: #555555;
-  margin-right: 10px;
 }
 .Post-Big-Comment {
   margin-top: 10px;

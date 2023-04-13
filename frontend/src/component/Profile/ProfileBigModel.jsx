@@ -42,6 +42,11 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   const [checkReply, setCheckreply] = useState(true);
   // To show and hide "hide reply"
   const [hideReply, setHidereply] = useState(false);
+  // Class name for comment container (img + comment)
+  // class name for only comment conainter
+
+
+  alert("hey");
   function handleAfterReply(event) {
     event.preventDefault();
   }
@@ -266,6 +271,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
       </Modal>
 
       {openComment ? (
+    
         <div className="Post-Big-Model-container">
           {/* to close the model on click out side the post section */}
           <div className="Post-Big-Model-Close" onClick={handleClose}></div>

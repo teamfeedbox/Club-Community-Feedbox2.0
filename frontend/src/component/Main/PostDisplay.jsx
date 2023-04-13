@@ -89,7 +89,7 @@ const PostDisplay = (props) => {
   useEffect(() => {
     getList();
     getUser();
-  });
+  },[]);
 
 
   const getUser = async () => {

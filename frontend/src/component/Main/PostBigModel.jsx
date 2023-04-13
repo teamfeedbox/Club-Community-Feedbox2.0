@@ -351,7 +351,9 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                   </Link>
                 </div>
                 {/* Description */}
-                {/* <div className="Post-Big-Description">{user && user.desc}</div> */}
+                <div className="Post-Big-Description ml-5">{user && user.desc}
+                </div>
+                {/* <div style={{border:"2px solid #ddd8d87f",width:"90%",margin:"0 auto"}}></div> */}
               </div>
 
               {/* Line to seprate pofile and comment */}
