@@ -19,7 +19,6 @@ import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 import { RotatingLines,ProgressBar } from  'react-loader-spinner'
 function PostBigModel({ openComment, setOpenComment, id }) {
-  // console.log(id)
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
   const [deleteComId, setDeleteComId] = useState("");
@@ -43,10 +42,6 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   const [checkReply, setCheckreply] = useState(true);
   // To show and hide "hide reply"
   const [hideReply, setHidereply] = useState(false);
-
-const post = id._id
-
-
   function handleAfterReply(event) {
     event.preventDefault();
   }
@@ -55,25 +50,23 @@ const post = id._id
   };
 
   useEffect(() => {
-    if (post) {
+    if (id) {
       getPost();
     }
     setLoading(false);
-  }, [post, loading]);
+  }, [id, loading]);
 
   const getPost = async () => {
-    
-    let result = await fetch(`http://localhost:8000/userPost/${post}`, {
+    // console.log(id)
+    let result = await fetch(`http://localhost:8000/userPost/${id}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     });
     result = await result.json();
-    console.log(result.comment)
-    setUser(result.comment);
+    // console.log(result)
+    setUser(result);
   };
-
-  // console.log(post)
 
   // console.log(postedById)
   const [img, setImg] = useState();
@@ -96,14 +89,14 @@ const post = id._id
   };
 
   const updateComment = () => {
-    console.log(post, "", message);
+    console.log(id, "", message);
     fetch("http://localhost:8000/comment", {
       method: "put",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify({ post, message }),
+      body: JSON.stringify({ id, message }),
     })
       .then((res) => res.json())
       .then((result) => {
@@ -125,7 +118,7 @@ const post = id._id
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify({ post, replyMsg }),
+      body: JSON.stringify({ id, replyMsg }),
     })
       .then((res) => res.json())
       .then((result) => {
@@ -158,7 +151,7 @@ const post = id._id
 
   //delete comment
   const deleteComment = async (deleteComId) => {
-    console.log(deleteComId, " ", post);
+    console.log(deleteComId, " ", id);
     let result = await fetch(
       `http://localhost:8000/commentDel/${deleteComId}`,
       {
@@ -168,7 +161,7 @@ const post = id._id
 
           Authorization: "Bearer " + localStorage.getItem("jwt"),
         },
-        body: JSON.stringify({ post, postedById }),
+        body: JSON.stringify({ id, postedById }),
       }
     );
 
@@ -188,7 +181,7 @@ const post = id._id
   };
 
   const deleteReply = async (replyId) => {
-    console.log(replyId, " ", post);
+    console.log(replyId, " ", id);
     let result = await fetch(`http://localhost:8000/replyDel/${replyId}`, {
       method: "put",
       headers: {
@@ -196,7 +189,7 @@ const post = id._id
 
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify({ post, commentId, replyById }),
+      body: JSON.stringify({ id, commentId, replyById }),
     });
 
     result = await result.json();
@@ -283,7 +276,7 @@ const post = id._id
               {/* Left side */}
             <div className="post-display2">
               <div className="post-display-center1">
-                {/* ***carousel for web view*** */}
+                {/* **carousel for web view** */}
                 <div className="post-display-image flex justify-center">
                   <div className="post-display-carousel-webview1 flex justify-center">
                     <Carousel
@@ -296,9 +289,8 @@ const post = id._id
                     >
                       {
                     //  user?("loader"):
-
-                      id &&
-                        id.img.map((data) => (
+                      user &&
+                        user.img.map((data) => (
                           <div key={data._id} style={{ maxHeight: "400px" }}>
 
                             <img
@@ -333,16 +325,16 @@ const post = id._id
                   >
                     <div className="Post-Big-Pro-img">
                       <img
-                        src={id && id.postedBy && id.postedBy.img}
+                        src={user && user.postedBy && user.postedBy.img}
                         alt="profile image"
                       ></img>
                     </div>
                     <div className="Post-Big-Title">
                       <div className="Post-Big-Title1">
-                        {id && id.postedBy && id.postedBy.name}
+                        {user && user.postedBy && user.postedBy.name}
                       </div>
                       <div className="Post-Big-Title2">
-                        {id && id.postedBy && id.postedBy.role}
+                        {user && user.postedBy && user.postedBy.role}
                       </div>
                     </div>
                   </div>
@@ -369,8 +361,7 @@ const post = id._id
 
               <div className="Post-Big-Comment">
                 
-                 {user.length == 0
-                  ? (
+                 {user && user.comment.length == 0 ? (
                     <div
                       style={{
                         textAlign: "center",
@@ -386,8 +377,8 @@ const post = id._id
                       style={{ height: "102%", position: "relative" }}
                     >
                       {/* Comment 1 */}
-                      {
-                        user.map((item) => (
+                      {user &&
+                        user.comment.map((item) => (
                           <section className="Post-Comment-About" key={item._id}>
                             {/* Left part */}
                             <div className="Comment-Left">
@@ -451,7 +442,7 @@ const post = id._id
                                   </span>
                                 }
                               </div>
-                              {/* *** Section which will contain the reply on a comment*** */}
+                              {/* * Section which will contain the reply on a comment*** */}
                               {showReply == true && commentId == item._id ? (
                                 <section
                                   style={{
@@ -524,7 +515,7 @@ const post = id._id
                               ) : (
                                 ""
                               )}
-                              {/* **Hide and show reply** */}
+                              {/* *Hide and show reply* */}
   
                               {item.reply.length > 0 &&
                               checkReply == true &&
