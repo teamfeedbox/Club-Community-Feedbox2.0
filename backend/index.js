@@ -1,25 +1,7 @@
 const express = require("express");
-// require("./db/config");
 const mongoose = require('mongoose');
-
-
-const Post = require("./models/post");
-const port = 8000;
-const app = express();
-const cors = require("cors");
-const user = require("./models/user");  
-
-
-mongoose.set("strictQuery", false);
-
-const db = "mongodb+srv://feedbox:feedbox@cluster0.f8qrcl7.mongodb.net/community?retryWrites=true&w=majority";
-mongoose.connect(db,{ useNewUrlParser: true, useUnifiedTopology: true })
-.then(()=>{
-    console.log("connection successful 😎😎")
-}).catch((err)=>console.log(err))
-
-
-
+const cors = require("cors"); 
+const compression = require('compression');
 
 const post = require("./routes/Post");
 const auth = require('./routes/auth')
@@ -28,7 +10,16 @@ const resource = require('./routes/Resource')
 const college = require('./routes/College')
 const bodyParser = require('body-parser')
 
+const port = 8000;
+const app = express();
 
+mongoose.set("strictQuery", false);
+
+const db = "mongodb+srv://Khushi:Khushi@cluster0.6b9gc.mongodb.net/FeedBox-Club";
+mongoose.connect(db,{ useNewUrlParser: true, useUnifiedTopology: true })
+.then(()=>{
+    console.log("connection successful 😎😎")
+}).catch((err)=>console.log(err))
 
 app.use(bodyParser.json({limit: "50mb"}));
 app.use(bodyParser.urlencoded({
@@ -37,17 +28,8 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.json({ limit: '10mb' }));
 app.use(cors());
+app.use(compression())
 
-
-
-app.get("/", (req, res) => {
-  res.send("hello");
-});
-
-
-//routes
-// app.use("/", register);
-// app.use("/", login);
 app.use("/", auth);
 app.use("/", post);
 app.use("/", event);
