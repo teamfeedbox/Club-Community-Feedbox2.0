@@ -39,9 +39,7 @@ const PostDisplay = (props) => {
   const [loading, setLoading] = useState(false);
 
   const role = JSON.parse(localStorage.getItem("user")).role;
-  // console.log(role);
-
-
+ 
   function handleReply() {
     if (showAdd == "Show-Comment-Add-Btn") {
       setShowAdd('Hide-Comment-Add-Btn')
@@ -89,8 +87,7 @@ const PostDisplay = (props) => {
   useEffect(() => {
     getList();
     getUser();
-  });
-
+  },[]);
 
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {

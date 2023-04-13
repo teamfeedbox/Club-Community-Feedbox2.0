@@ -2,14 +2,11 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const NewLogin = () => {
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  let auth = localStorage.getItem("user");
-
   const handleLogin = async (e) => {
     setLoading(true);
     e.preventDefault();
@@ -25,9 +22,9 @@ const NewLogin = () => {
     result = await result.json();
 
     if(result.token){
-      navigate('/main')   
       localStorage.setItem("user", JSON.stringify(result));
       localStorage.setItem("jwt", result.token);
+      navigate('/main')   
     } else {
       alert("Invalid Email or Password");
     }

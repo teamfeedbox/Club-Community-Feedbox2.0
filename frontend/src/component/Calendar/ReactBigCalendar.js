@@ -20,8 +20,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
 import "./ReactBigCalendar.css";
 
-console.log("hiiiiiiiiiiiiijmkjm");
-
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
 
@@ -63,6 +61,7 @@ export default function ReactBigCalendar() {
   const [infinite, setInfinite] = useState(true);
   const [MAVisibility, setMAVisibility] = useState(false);
   const [eventProp, setEventProp] = useState(true);
+  const [clickedAttendance, setClickedAttendance] = useState(false);
 
 
   const id = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).id;
@@ -101,7 +100,7 @@ export default function ReactBigCalendar() {
 
   // show particular event
   const setCalenderEvent = (value) => {
-    setInterestedBtn(true);
+    setInterestedBtn(true)
     let myEvent;
     event.map(function (val, index) {
       if (val._id === value) {
@@ -117,9 +116,11 @@ export default function ReactBigCalendar() {
     myEvent &&
       myEvent.attendance.map((data) => {
         if (data._id === id) {
+          console.log("3");
           setInterestedBtn(false);
         }
       });
+    setLoading(false)
   };
 
   // Get all Colleges
@@ -148,19 +149,11 @@ export default function ReactBigCalendar() {
     });
     setEventData(result);
     setDupliEvents(result);
+    setLoading(false)
+    return result;
   };
 
   useEffect(() => {
-    if (eventClicked && selectedEvent) {
-      console.log("2");
-      setEventClicked(false);
-      setMAVisibility(false);
-      setCalenderEvent(selectedEvent._id);
-    } else {
-      if (eveId && eventProp) {
-        setCalenderEvent(eveId);
-      }
-    }
     if (clgSelected) {
       if (clgSelected === "All") {
         setEventData(dupliEvents);
@@ -175,18 +168,27 @@ export default function ReactBigCalendar() {
         setEventData(array);
       }
     } else {
-      if (infinite) {
+      if (infinite || clickedAttendance) {
+        setClickedAttendance(false);
         showEvent();
+      }
+    }
+    if (eventClicked && selectedEvent) {
+      setEventClicked(false);
+      setMAVisibility(false);
+      setCalenderEvent(selectedEvent._id);
+    } else {
+      if (eveId && eventProp) {
+        setCalenderEvent(eveId);
       }
     }
     getUser();
     getColleges();
-    // setLoading(false);
-  }, [event, eventClicked, selectedEvent, clgSelected]);
+    setLoading(false);
+  }, [event, eventClicked, selectedEvent, clgSelected, loading, clickedAttendance]);
 
   // Mark Interested
   const attendanceUpdate = async (eveid) => {
-    console.log(eveid);
     let result = await fetch(`http://localhost:8000/updateEvent/${eveid}`, {
       method: "put",
       headers: {
@@ -195,22 +197,23 @@ export default function ReactBigCalendar() {
       },
     });
     result = await result.json();
-    console.log(result);
+    console.log(result,"result");
 
-    // console.log(myEvent,id);
-    let data = await fetch(
-      `http://localhost:8000/update/interested/events/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("jwt"),
-        },
-        body: JSON.stringify({ event: myEvent }),
-      }
-    );
-    const res = await data.json();
-    console.log(res);
+    // let data = await fetch(
+    //   `http://localhost:8000/update/interested/events/${id}`,
+    //   {
+    //     method: "PUT",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: "Bearer " + localStorage.getItem("jwt"),
+    //     },
+    //     body: JSON.stringify({ event: myEvent }),
+    //   }
+    // );
+    // const res = await data.json();
+    // console.log(res);
+    setInterestedBtn(false)
+    setClickedAttendance(true);
     setLoading(true);
   };
 
@@ -273,7 +276,7 @@ export default function ReactBigCalendar() {
     setEventClicked(true);
     setSelectedEvent(val);
   };
-  const handleSelect = () => {};
+  const handleSelect = () => { };
 
   // Delete Event
   const cancelEvent = async (id) => {
@@ -315,19 +318,6 @@ export default function ReactBigCalendar() {
     setPreEventModel(false);
     setSelectedEvent("");
     setClgSelected(e.target.value);
-  };
-  const eventPropGetter = (event, start, end, isSelected) => {
-    let style = {};
-
-    // Check if the event is an all-day event
-    if (event.allDay) {
-      style.backgroundColor = "#e6e6e6";
-      style.border = "none";
-    }
-
-    return {
-      style: style,
-    };
   };
 
   return (
@@ -423,14 +413,13 @@ export default function ReactBigCalendar() {
                   />
                   {myEvent && myEvent.speaker}
                 </div>
-                {role !== 'Super_Admin' ?
-                  <div className="event-profile">
+                <div className="event-profile">
                   <FontAwesomeIcon
                     style={{ margin: "0 10px 0 0" }}
                     icon={faUniversity}
                   />
-                  {myEvent && myEvent.postedBy && myEvent.postedBy.collegeName}
-                </div>: ''} 
+                  {myEvent && myEvent.postedBy.collegeName}
+                </div>
                 <div className="event-minor">
                   <div>
                     <FontAwesomeIcon
@@ -461,52 +450,45 @@ export default function ReactBigCalendar() {
                   {myEvent && myEvent.desc}
                 </div>
                 <div className="preview-button">
-                  {role && role !== "Super_Admin" ? (
-                    id && myEvent && id !== ( myEvent.postedBy && myEvent.postedBy._id) ? (
-                      new Date(myEvent && myEvent.eventDate).getTime() >
-                      new Date(mindate).getTime() ? (
-                        interestedBtn ? (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              attendanceUpdate(myEvent && myEvent._id);
-                              setInterestedBtn(false);
-                            }}
-                          >
-                            Interested
-                          </button>
-                        ) : (
-                          <button
-                            type="button"
-                            style={{
-                              pointerEvents: "none",
-                              backgroundColor: "gray",
-                            }}
-                          >
-                            Interested
-                          </button>
-                        )
-                      ) : (
-                        ""
-                      )
-                    ) : (
-                      ""
-                    )
-                  ) : (
-                    ""
-                  )}
+                  {
+                    // role && role === "Super_Admin" ?
+                    // id && myEvent && id !== myEvent.postedBy._id ?
+                    // new Date(myEvent && myEvent.eventDate).getTime() >
+                    //   new Date(mindate).getTime() ?
+                    interestedBtn ?
+                      <button
+                        type="button"
+                        onClick={() => {
+                          attendanceUpdate(myEvent && myEvent._id); setInterestedBtn(false)
+                        }}
+                      >
+                        Interested
+                      </button>
+                      :
+                      <button
+                        type="button"
+                        style={{
+                          pointerEvents: "none",
+                          backgroundColor: "gray",
+                        }}
+                      >
+                        Interested
+                      </button>
+                    // : "" 
+                    // : "" : ""
+                  }
 
                   {(role === "Admin" ||
                     role === "Super_Admin" ||
                     (id && myEvent && id == myEvent.postedBy._id)) && (
-                    <button
-                      onClick={() => {
-                        setDeleteBtn(true);
-                      }}
-                    >
-                      Delete Event
-                    </button>
-                  )}
+                      <button
+                        onClick={() => {
+                          setDeleteBtn(true);
+                        }}
+                      >
+                        Delete Event
+                      </button>
+                    )}
 
                   {deletebtn && (
                     <Modal show={deletebtn} onHide={() => setDeleteBtn(false)}>
@@ -545,12 +527,12 @@ export default function ReactBigCalendar() {
                   )}
                 </div>
 
-                {/* {MAVisibility && ( */}
+                {MAVisibility && (
 
                   <div style={{ textAlign: "center" }}>
                     {role === "Admin" ||
-                    role === "Super_Admin" ||
-                    (id && myEvent && id == myEvent.postedBy._id) ? (
+                      role === "Super_Admin" ||
+                      (id && myEvent && id == myEvent.postedBy._id) ? (
                       <button className="Mark-Attendence-btn">
                         <Link
                           to={"/attendance/" + (myEvent && myEvent.title)}
@@ -569,7 +551,7 @@ export default function ReactBigCalendar() {
                     )}
                   </div>
 
-                {/* )}  */}
+                )}
 
               </div>
             </div>
@@ -639,10 +621,13 @@ export default function ReactBigCalendar() {
                       required
                       value={scope}
                       onChange={(e) => setScope(e.target.value)}
-                      defaultValue=" Select Community"
                     >
-                      <option value="public">Public</option>
-                      <option value="community">Community</option>
+                      <option value="" selected disabled hidden>
+                        Select Community
+                      </option>
+                      <option value="public" className="text-black">Public</option>
+                      {allClgs && allClgs.length > 0 &&
+                        allClgs.map((clg) => <option value={clg} className="text-black">{clg}</option>)}
                     </select>
                   </div>
                   <div className="input-container">

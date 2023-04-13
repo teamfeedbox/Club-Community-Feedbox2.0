@@ -10,14 +10,27 @@ import bg from "../assets/mainBg.png";
 const Main = () => {
   const [user, setUser] = useState();
   const [clg, setClg] = useState();
-  const [allEvents, setAllEvents] = useState();
+  const [allEvents, setAllEvents] = useState([]);
+  const [allClgs, setAllClgs] = useState([]);
   const [eventSel, setEventSel] = useState();
   const role = JSON.parse(localStorage.getItem("user")).role;
 
   useEffect(() => {
     getUser();
     getAllEvents();
+    getColleges();
   }, [])
+
+  // Get all Colleges
+  const getColleges = async () => {
+    const data = await fetch(`http://localhost:8000/colleges/get`);
+    const res = await data.json();
+    let val = [];
+    res.map((data) => {
+      val.push(data.name);
+    });
+    setAllClgs(val);
+  };
 
   // Get a user
   const getUser = async () => {
@@ -61,14 +74,14 @@ const Main = () => {
             <div className="flex m-auto justify-center">
               <div className="main-home-page-profile">
                 <scrollable-component scrollbar-visibility="always">
-                  <HomePageProfile sendData={handleDataChange} user={user && user} allEvents={allEvents && allEvents} />
+                  <HomePageProfile sendData={handleDataChange} user={user && user} allEvents={allEvents && allEvents} allColleges={allClgs && allClgs} />
                 </scrollable-component>
               </div>
 
               <div className="main-post-dispaly">
                 <scrollable-component scrollbar-visibility="always">
                   <div>
-                    {role && role === "Club_Member" ? '' : <CreatePost userData={user && user} />}
+                    {role && role === "Club_Member" ? '' : <CreatePost userData={user && user} allColleges={allClgs && allClgs} />}
                   </div>
                   <PostDisplay clgData={clg && clg} />
                 </scrollable-component>
@@ -80,7 +93,7 @@ const Main = () => {
                     <HomePageCal clgData={clg && clg} eventSel={pull_data} allEvents={allEvents && allEvents} />
                   </div>
                   <p className="up-coming-events">UP-COMING EVENTS</p>
-                  <HomePageEvent clgData={clg && clg} eveD={eventSel && eventSel} allEvents={allEvents && allEvents}/>
+                  <HomePageEvent clgData={clg && clg} eveD={eventSel && eventSel} allEvents={allEvents && allEvents} />
                 </scrollable-component>
               </div>
             </div>

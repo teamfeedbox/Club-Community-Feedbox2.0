@@ -159,10 +159,11 @@ router.put('/update/Event/:eventId', requireLogin, async (req, res) => {
 
 //add interested student to event's attendance list
 router.put('/updateEvent/:eventId', requireLogin, async (req, res) => {
-    let result = await Event.updateOne(
+    let result = await Event.findOneAndUpdate(
         { _id: req.params.eventId },
-        { $push: { attendance: req.user } }
+        { $push: { attendance: req.user } },{new:true}
     )
+    console.log(result,"rrrrrrrrrrrr");
     res.send(result)
 })
 

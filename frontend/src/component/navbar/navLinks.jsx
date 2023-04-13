@@ -59,23 +59,8 @@ const Links = styled(Link)`
 `;
 
 export function NavLinks(props) {
-  const [user, setUser] = useState();
-  const [role, setRole] = useState("");
-
-  useEffect(() => {
-    getUser();
-  }, []);
-  const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    setRole(result.role);
-    setUser(result);
-  };
   const selectedPage = window.location.pathname;
+  const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role
 
   return (
     <NavLinksContainer>
