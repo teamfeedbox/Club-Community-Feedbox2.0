@@ -1,10 +1,12 @@
 import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
+import {Link} from "react-router-dom"
 import "./PendingApprovals.css";
 import { Scrollbars } from "react-custom-scrollbars";
 import Modal from "react-bootstrap/Modal";
 import "./ClubMember.css";
+import Overview from "../Profile/Overview";
 
 const ClubMember = ({ props }) => {
   const [searchval, setSearchVal] = useState("");
@@ -19,6 +21,7 @@ const ClubMember = ({ props }) => {
   const [id, setId] = useState("");
   const [value, setValue] = useState("");
   const [name, setName] = useState("");
+  const [member, setMember] = useState("");
 
   const role = JSON.parse(localStorage.getItem("user")).role;
   const currentCollege = JSON.parse(localStorage.getItem("user")).college;
@@ -31,6 +34,8 @@ const ClubMember = ({ props }) => {
   const handleShow = () => {
     setShow(true);
   };
+
+  // console.log(id)
 
   const getUser = async () => {
     setLoading3(true);
@@ -245,10 +250,18 @@ const ClubMember = ({ props }) => {
                           alt="Alex Shatov"
                         />
 
+              <Link to="/profile" 
+                state={member}
+                >
+
                         <div className="ml-2 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[400]">
                           {" "}
                           {member.name}{" "}
+                         
+                        
                         </div>
+                        </Link>
+
                       </div>
                     </td>
                     <td class="p-2 lg:flex items-center hidden md:block">
@@ -423,6 +436,8 @@ const ClubMember = ({ props }) => {
           </table>
         </Scrollbars>
       </div>
+
+   
     </div>
   );
 };

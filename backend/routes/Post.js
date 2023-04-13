@@ -264,10 +264,7 @@ router.put("/reply/:commentId", requireLogin, async (req, res) => {
       return res.status(404).json({ error: "Comment not found" });
     }
 
-    const alreadyReplied = comment.reply.find((r) => {
-      r.postedBy._id.toString() === req.user._id.toString()
-    // console.log(r.postedBy._id.toString())
-    });
+    const alreadyReplied = comment.reply.some((r) => r.postedBy._id.toString() === req.user._id.toString());
 
     if (alreadyReplied) {
       return res.status(400).json({ error: "You have already replied to this comment" });

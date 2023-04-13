@@ -6,8 +6,13 @@ import ProfileEvent from "./ProfileEvent";
 import ProfileRes from "./ProfileRes";
 import ProfilePostPage from "./ProfilePostPage";
 import Dashboard from "../Dashboard/Dashboard";
+import { useLocation } from "react-router-dom";
 
-const ProfileTabs = () => {
+
+const ProfileTabs = (props) => {
+  const location = useLocation();
+  const propsData = location.state;
+
   const [tabs, setTabs] = useState("Overview");
   // const [role, setRole] = useState("");
   const [data, setData] = useState();
@@ -37,7 +42,10 @@ const ProfileTabs = () => {
 
 
   return (
-    <div className="overall-profile-tabs">
+<>
+{
+  propsData === null ?
+<div className="overall-profile-tabs">
       <div className="profile-tabs">
 
         <div
@@ -51,6 +59,9 @@ const ProfileTabs = () => {
           {
             role === 'Super_Admin' ? 'Dashboard'  : 'Overview'
           }
+       
+
+        
         </div>
 
 
@@ -126,6 +137,49 @@ const ProfileTabs = () => {
         </div>
       </div>
     </div>
+
+    :
+
+    <div className="overall-profile-tabs">
+      <div className="profile-tabs">
+
+        <div
+          className={
+            tabs === "Overview"
+              ? "profile-tab-content profile-tab-content-highlight"
+              : "profile-tab-content"
+          }
+          onClick={() => setTabs("Overview")}
+        >
+          {
+            role === 'Super_Admin' ? 'Dashboard'  : 'Overview'
+          }
+       
+
+        
+        </div>
+
+
+
+      </div>
+
+      <div className="profile-tab-data">
+
+        <div className={tabs === "Overview" ? "" : "profile-tab-data-hide"}>
+
+          {role === 'Super_Admin' ? <Dashboard /> :
+            <Overview />
+            }
+
+        </div>
+
+       
+      </div>
+    </div>
+}
+
+    
+    </>
   );
 };
 

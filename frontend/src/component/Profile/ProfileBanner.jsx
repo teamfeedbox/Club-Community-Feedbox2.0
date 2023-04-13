@@ -3,8 +3,12 @@ import "./ProfileBanner.css";
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditProfile from './EditProfile';
+import { useLocation } from "react-router-dom";
 
-function ProfileBanner() {
+
+function ProfileBanner(props) {
+  const location = useLocation();
+  const propsData = location.state;
 
   const [data, setData] = useState();
   const [open, setOpen] = useState(false);
@@ -33,31 +37,67 @@ function ProfileBanner() {
 
 
   return (
-    <div className='Profile-Banner'>
+    <>
+
+    {
+      propsData === null ?
+      
+      <div className='Profile-Banner'>
+    <img src="Images/bg5.png"></img>
+    <div className='Profile-Title'>
+        <img src={data && data.img}></img>
+        <div>
+            <p>{data && data.name}</p>
+            {role === "Club_Member" ? (
+        <span> Club Member </span>
+      ) : role === "Super_Admin" ? (
+        <span> Super Admin </span>
+      ) : (
+        <span> {role} </span>
+      )}
+        </div>
+        <EditProfile Userbio={userBio} open={open} setOpen={setOpen}/>
+
+        <button onClick={() => {setOpen(!open)}} >
+            <FontAwesomeIcon 
+            icon={faPenToSquare} 
+            style={{margin:"0px 10px 0 0"}}
+            />
+            Edit Profile
+        </button>
+    </div>
+</div>
+:
+
+<div className='Profile-Banner'>
         <img src="Images/bg5.png"></img>
         <div className='Profile-Title'>
-            <img src={data && data.img}></img>
+            <img src={propsData && propsData.img}></img>
             <div>
-                <p>{data && data.name}</p>
+                <p>{propsData && propsData.name}</p>
                 {role === "Club_Member" ? (
             <span> Club Member </span>
           ) : role === "Super_Admin" ? (
             <span> Super Admin </span>
           ) : (
-            <span> {role} </span>
+            <span> {propsData.role} </span>
           )}
             </div>
-            <EditProfile Userbio={userBio} open={open} setOpen={setOpen}/>
-
+            {/* <EditProfile Userbio={userBio} open={open} setOpen={setOpen}/> */}
+{/* 
             <button onClick={() => {setOpen(!open)}} >
                 <FontAwesomeIcon 
                 icon={faPenToSquare} 
                 style={{margin:"0px 10px 0 0"}}
                 />
                 Edit Profile
-            </button>
+            </button> */}
         </div>
     </div>
+
+}
+    
+</>
   )
 }
 

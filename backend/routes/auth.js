@@ -286,4 +286,8 @@ router.put('/update/interested/events/:userId', async (req, res) => {
   }
 })
 
+
+
+
+
 module.exports = router;
