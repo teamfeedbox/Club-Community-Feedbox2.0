@@ -15,7 +15,6 @@ import NewLogin from "./component/login/NewLogin";
 import AttendanceSheet from "./component/Calendar/AttendanceSheet";
 import ReactBigCalendar from "./component/Calendar/ReactBigCalendar";
 import PostBigModel from "./component/Main/PostBigModel";
-import ProfileBigModel from "./component/Profile/ProfileBigModel";
 import Error from "./component/Error";
 import Loader from "./component/Loader";
 import Dashboard from "./component/Dashboard/Dashboard";
@@ -24,21 +23,8 @@ import NavbarRes from "./component/navbar/NavbarRes";
 import Login from "./component/login/Login";
 
 const App = () => {
-// const [role, setRole] = useState()
-//   const getUser = async () => {
-//     let result = await fetch(`http://localhost:8000/user`, {
-//       headers: {
-//         Authorization: "Bearer " + localStorage.getItem("jwt"),
-//       },
-//     });
-//     result = await result.json();
-//     console.log(result.role)
-//     setRole(result.role);
-
-//   };
 const user = JSON.parse(localStorage.getItem("user"));
 const role = user && user.role;
-console.log(role);
 
   return (
     <div className="App">
@@ -59,7 +45,7 @@ console.log(role);
           <Route
             index
             path="/comment/:id"
-            element={role && role == null ? <Error /> : <PostBigModel />}
+            element={role == null ? <Error /> : <PostBigModel />}
           />
 
           <Route
@@ -78,7 +64,7 @@ console.log(role);
             index
             path="/rescources"
             element={
-              role && role == null ? <Error /> : [<NavbarRes />, <Rescources />]
+              role == null ? <Error /> : [<NavbarRes />, <Rescources />]
             }
           />
 
@@ -86,30 +72,17 @@ console.log(role);
             index
             path="/profile"
             element={
-              role && role == null ? <Error /> : [<NavbarRes />, <ProfilePage />]
+              role == null ? <Error /> : [<NavbarRes />, <ProfilePage />]
             }
           />
 
-        
-          {/* <Route
-            index
-            path="/profile"
-            element={
-              (role && role == null) || (role == "Super_Admin") ? (
-                <Error />
-              ) : (
-                [<NavbarRes />, <ProfilePage />]
-              )
-            }
-          /> */}
-
-          <Route index path="/profileComment" element={<ProfileBigModel />} />
+          <Route index path="/profileComment" element={<PostBigModel />} />
 
           <Route
             index
             path="/rescourcesDisplay"
             element={
-              role && role == null ? (
+              role == null ? (
                 <Error />
               ) : (
                 [<NavbarRes />, <RescourcesTable />]
@@ -121,7 +94,7 @@ console.log(role);
             index
             path="/faq"
             element={
-              role && role == null ? <Error /> : [<NavbarRes />, <Faq />]
+              role == null ? <Error /> : [<NavbarRes />, <Faq />]
             }
           />
 
@@ -144,7 +117,7 @@ console.log(role);
             index
             path="/attendance/:name"
             element={
-              (role && role == null) || (role == "Club_Member") ? (
+              (role == null) || (role == "Club_Member") ? (
                 <Error />
               ) : (
                 [<NavbarRes />, <AttendanceSheet />]
@@ -152,22 +125,10 @@ console.log(role);
             }
           />
 
-          {/* <Route
-            index
-            path="/dashboard"
-            element={
-              role && role == "Super_Admin" ? (
-                [<NavbarRes />, <Dashboard />]
-              ) : (
-                <Error />
-              )
-            }
-          /> */}
-
           <Route
             index
             path="/notification"
-            element={role && role == null ? <Error /> : <MobileNotification />}
+            element={role == null ? <Error /> : <MobileNotification />}
           />
         </Routes>
       </Router>

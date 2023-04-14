@@ -175,6 +175,12 @@ const RescourcesTable = (props) => {
     }
   };
 
+  const changeTitle=(e)=>{
+    e.preventDefault();
+    const filteredValue = e.target.value.replace(/[^0-9a-zA-Z-_]/g, '');
+    setTitle(filteredValue);
+  }
+
   return (
     <>
       <div className="Res-table-display pt-[60px] md:pt-[100px]">
@@ -244,7 +250,7 @@ const RescourcesTable = (props) => {
                         placeholder="Enter Title"
                         value={title}
                         name="title"
-                        onChange={(e) => setTitle(e.target.value)}
+                        onChange={changeTitle}
                       />
                     </div>
                   </Modal.Body>

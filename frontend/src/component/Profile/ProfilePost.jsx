@@ -22,7 +22,8 @@ import "./ProfilePost.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDeleteLeft, faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
-import ProfileBigModel from "./ProfileBigModel";
+
+import PostBigModel from "../Main/PostBigModel"
 
 const ProfilePost = (prop) => {
   TimeAgo.addLocale(en);
@@ -209,7 +210,7 @@ const ProfilePost = (prop) => {
   return (
     <div>
       {post.length>0 ? post.map((item) => (
-        <div className="post-display">
+        <div className="post-display my-3">
           <div className="flex justify-between">
             <p className="post-display-heading-time"> Posted : {item && item.postedDate && timeAgo.format(new Date(item.postedDate).getTime() - 60 * 1000)}</p>
             <div>
@@ -335,7 +336,7 @@ const ProfilePost = (prop) => {
 
           )) : 
       <div className="font-[700] text-[1.1rem] pt-2 text-center">You haven't posted anything yet!</div>} 
-      <ProfileBigModel
+      <PostBigModel
       openComment={openComment}
       setOpenComment={setOpenComment}
       id={id}

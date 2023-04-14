@@ -6,6 +6,7 @@ import ProfileEvent from "./ProfileEvent";
 import ProfileRes from "./ProfileRes";
 import ProfilePostPage from "./ProfilePostPage";
 import Dashboard from "../Dashboard/Dashboard";
+import Colleges from "./Colleges";
 
 const ProfileTabs = () => {
   const [tabs, setTabs] = useState("Overview");
@@ -52,6 +53,21 @@ const ProfileTabs = () => {
             role === 'Super_Admin' ? 'Dashboard'  : 'Overview'
           }
         </div>
+
+        {role === "Super_Admin" ? (
+          <div
+            className={
+              tabs === "Colleges"
+                ? "profile-tab-content profile-tab-content-highlight"
+                : "profile-tab-content"
+            }
+            onClick={() => setTabs("Colleges")}
+          >
+            Colleges
+          </div>
+        ) : (
+          ""
+        )}
 
 
 
@@ -104,11 +120,13 @@ const ProfileTabs = () => {
       <div className="profile-tab-data">
 
         <div className={tabs === "Overview" ? "" : "profile-tab-data-hide"}>
-
           {role === 'Super_Admin' ? <Dashboard /> :
             <Overview />
             }
+        </div>
 
+        <div className={tabs === "Colleges" ? "" : "profile-tab-data-hide"}>
+          <Colleges />
         </div>
 
         <div className={tabs === "Post" ? "" : "profile-tab-data-hide"}>
