@@ -26,51 +26,6 @@ const Leads = (props) => {
   const handleDelShow = () => setDelShow(true);
   const handleDelClose = () => setDelShow(false);
 
-
-  // const getUser = async () => {
-  //   setLoading3(true);
-  //   const result = await fetch(`http://localhost:8000/get`);
-  //   const res = await result.json();
-  //   let lead = [];
-  //   res && res.map((data) => {
-  //     if (data.role === 'Lead') {
-  //       lead.push(data)
-  //     }
-  //   })
-  //   lead = lead.reverse();
-  //   if (role === "Super_Admin") {
-  //     let clgSel = [];
-  //     if (props.clg) {
-  //       if (props.clg == "All") {
-  //         setLead(lead);
-  //         setData(lead);
-  //       } else {
-  //         lead.map(data => {
-  //           if (data.collegeName === props.clg) {
-  //             clgSel.push(data)
-  //           }
-  //         })
-  //         setLead(clgSel);
-  //         setData(clgSel);
-  //       }
-  //     } else {
-  //       setLead(lead);
-  //       setData(lead);
-  //     }
-  //   } else {
-  //     console.log("2");
-  //     let clg = [];
-  //     lead.map(data => {
-  //       if (data.collegeName === currentCollege) {
-  //         clg.push(data)
-  //       }
-  //     })
-  //     setLead(clg);
-  //     setData(clg);
-  //   }
-  //   setLoading3(false);
-  // };
-
   const getUser = async () => {
     setLoading3(true);
     try {

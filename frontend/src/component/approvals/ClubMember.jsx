@@ -32,52 +32,6 @@ const ClubMember = ({ props }) => {
     setShow(true);
   };
 
-  // const getUser = async () => {
-  //   setLoading3(true);
-  //   const result = await fetch(`http://localhost:8000/get`);
-  //   const res = await result.json();
-  //   let cm = [];
-  //   res &&
-  //     res.map((data) => {
-  //       if (data.role === "Club_Member") {
-  //         cm.push(data);
-  //       }
-  //     });
-  //   cm = cm.reverse();
-  //   if (role === "Super_Admin") {
-  //     let clgSel = [];
-  //     if (props.clg) {
-  //       if (props.clg === "All") {
-  //         setData(cm);
-  //         setClubMember(cm);
-  //       } else {
-  //         cm.map((data) => {
-  //           if (data.collegeName === props.clg) {
-  //             clgSel.push(data);
-              
-  //           }
-  //         })
-  //           setData(clgSel)
-  //           setClubMember(clgSel);
-  //       }
-  //     } else {
-  //       setClubMember(cm);
-  //       setData(cm);
-  //     }
-  //   } else {
-  //     let clg = [];
-  //     cm.map((data) => {
-  //       if (data.collegeName === currentCollege) {
-  //         setLoading3(true);
-  //         clg.push(data);
-  //       }
-  //     });
-  //     setClubMember(clg);
-  //     setData(clg);
-  //   }
-  //   setLoading3(false);
-  // };
-
   const getUser = async () => {
     setLoading3(true);
     try {
