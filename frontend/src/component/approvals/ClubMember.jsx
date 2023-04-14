@@ -1,10 +1,12 @@
 import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./PendingApprovals.css";
 import { Scrollbars } from "react-custom-scrollbars";
 import Modal from "react-bootstrap/Modal";
 import "./ClubMember.css";
+import Overview from "../Profile/Overview";
 
 const ClubMember = ({ props }) => {
   const [searchval, setSearchVal] = useState("");
@@ -19,6 +21,7 @@ const ClubMember = ({ props }) => {
   const [id, setId] = useState("");
   const [value, setValue] = useState("");
   const [name, setName] = useState("");
+  const [member, setMember] = useState("");
 
   const role = JSON.parse(localStorage.getItem("user")).role;
   const currentCollege = JSON.parse(localStorage.getItem("user")).college;
@@ -37,14 +40,14 @@ const ClubMember = ({ props }) => {
     try {
       const result = await fetch(`http://localhost:8000/get`);
       const res = await result.json();
-      const cm = res.filter(data => data.role === "Club_Member").reverse();
+      const cm = res.filter((data) => data.role === "Club_Member").reverse();
       if (role === "Super_Admin") {
         if (props.clg) {
           if (props.clg === "All") {
             setData(cm);
             setClubMember(cm);
           } else {
-            const clgSel = cm.filter(data => data.collegeName === props.clg);
+            const clgSel = cm.filter((data) => data.collegeName === props.clg);
             setData(clgSel);
             setClubMember(clgSel);
           }
@@ -53,7 +56,7 @@ const ClubMember = ({ props }) => {
           setData(cm);
         }
       } else {
-        const clg = cm.filter(data => data.collegeName === currentCollege);
+        const clg = cm.filter((data) => data.collegeName === currentCollege);
         setClubMember(clg);
         setData(clg);
       }
@@ -63,12 +66,15 @@ const ClubMember = ({ props }) => {
       setLoading3(false);
     }
   };
-  
 
-  useEffect(() => {
-    getUser();
-    setLoad(false);
-  }, [props, load], loading3);
+  useEffect(
+    () => {
+      getUser();
+      setLoad(false);
+    },
+    [props, load],
+    loading3
+  );
 
   // search user
   const searchHandler = (e) => {
@@ -91,47 +97,21 @@ const ClubMember = ({ props }) => {
 
   // submit handler for making club member as lead
   const submitHandler = async () => {
-    if(role === "Admin" || role === "Super_Admin"){
-    if (value && position ) {
-      setLoading(true);
-      let val;
-        if (value === "Admin") {
-        val = {
-          role: value,
-          position: position,
-        };
-      } else if (value === "Lead") {
-        val = {
-          role: value,
-          position: position,
-        };
-      }  
-      const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(val),
-      });
-      const res = await data.json();
-      console.log(res);
-      setConfirm(false);
-      setShow(false);
-      setPosition("");
-      setValue("");
-      setId("");
-      setName("");
-      setLoading(false);
-      setLoad(true);
-    } else {
-
-        alert("Please input Position and role...");
-    }}
-    else{
-      if ( position ) {
+    if (role === "Admin" || role === "Super_Admin") {
+      if (value && position) {
         setLoading(true);
-        let val = {
-          role: 'Lead',
-          position: position,
-        }; 
+        let val;
+        if (value === "Admin") {
+          val = {
+            role: value,
+            position: position,
+          };
+        } else if (value === "Lead") {
+          val = {
+            role: value,
+            position: position,
+          };
+        }
         const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -148,8 +128,32 @@ const ClubMember = ({ props }) => {
         setLoading(false);
         setLoad(true);
       } else {
-  
-          alert("Please input Position...");
+        alert("Please input Position and role...");
+      }
+    } else {
+      if (position) {
+        setLoading(true);
+        let val = {
+          role: "Lead",
+          position: position,
+        };
+        const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(val),
+        });
+        const res = await data.json();
+        console.log(res);
+        setConfirm(false);
+        setShow(false);
+        setPosition("");
+        setValue("");
+        setId("");
+        setName("");
+        setLoading(false);
+        setLoad(true);
+      } else {
+        alert("Please input Position...");
       }
     }
 
@@ -174,7 +178,7 @@ const ClubMember = ({ props }) => {
       setId("");
       setName("");
       setLoading(false);
-      setLoad(true)
+      setLoad(true);
     });
   };
 
@@ -202,24 +206,20 @@ const ClubMember = ({ props }) => {
         <Scrollbars style={{ height: "250px" }}>
           <table class="table-auto w-full max-w-[1300px]">
             <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
-              {
-              loading3 ?
-              <div
-              class="spinner-border text-blue"
-              role="status"
-              style={{
-                height: "35px",
-                width: "35px",
-                marginTop: "15px",
-                marginLeft:"80px"
-              }}
-            >
-              <span class="visually-hidden">
-                Loading...
-              </span>
-            </div>
-             :
-              clubMember.length > 0 ? (
+              {loading3 ? (
+                <div
+                  class="spinner-border text-blue"
+                  role="status"
+                  style={{
+                    height: "35px",
+                    width: "35px",
+                    marginTop: "15px",
+                    marginLeft: "80px",
+                  }}
+                >
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              ) : clubMember.length > 0 ? (
                 clubMember.map((member) => (
                   <tr className="flex justify-between max-w-[1150px]">
                     <td class="p-2 w-[200px] lg:w-[300px]">
@@ -231,11 +231,25 @@ const ClubMember = ({ props }) => {
                           height="40"
                           alt="Alex Shatov"
                         />
-
+                        {
+                         role==="Super_Admin" || role=== "Admin" ?
+                          <Link
+                          className="link-to-profile"
+                          to="/profile"
+                          state={member}
+                        >
+                          <div className="ml-2 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[400]">
+                            {" "}
+                            {member.name}{" "}
+                          </div>
+                        </Link>:
                         <div className="ml-2 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[400]">
-                          {" "}
-                          {member.name}{" "}
-                        </div>
+                        {" "}
+                        {member.name}{" "}
+                      </div>
+                        }
+
+                        
                       </div>
                     </td>
                     <td class="p-2 lg:flex items-center hidden md:block">
@@ -361,7 +375,6 @@ const ClubMember = ({ props }) => {
                                   />
                                 </div>
                                 <div>
-                                  
                                   {loading ? (
                                     <div
                                       class="spinner-border text-blue"
@@ -370,7 +383,7 @@ const ClubMember = ({ props }) => {
                                         height: "15px",
                                         width: "15px",
                                         marginTop: "3px",
-                                        marginLeft:"80px"
+                                        marginLeft: "80px",
                                       }}
                                     >
                                       <span class="visually-hidden">
@@ -387,7 +400,6 @@ const ClubMember = ({ props }) => {
                                       Confirm
                                     </button>
                                   )}
-                                
                                 </div>
                               </form>
                             ) : (

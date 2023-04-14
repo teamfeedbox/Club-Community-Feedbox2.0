@@ -16,6 +16,7 @@ import Loader from '../Loader.jsx'
 import TimeAgo from "javascript-time-ago";
 import en from 'javascript-time-ago/locale/en'
 import { useStateValue } from "../../StateProvider";
+import {Link} from "react-router-dom"
 
 const PostDisplay = (props) => {
   TimeAgo.addLocale(en);
@@ -36,7 +37,14 @@ const PostDisplay = (props) => {
   const [comment, setComments] = useState([" How "]);
   const [loading, setLoading] = useState(false);
 
+  // const[isCommunity, setIsCommunity] = useState(true)
+
   const role = JSON.parse(localStorage.getItem("user")).role;
+
+  const [{currentUser, allPosts}, dispatch ] = useStateValue();
+
+
+
  
   function handleReply() {
     if (showAdd == "Show-Comment-Add-Btn") {
@@ -83,22 +91,30 @@ const PostDisplay = (props) => {
   }
 
   useEffect(() => {
-    getList();
     getUser();
   },[]);
+  
+  useEffect(()=>{
+    getList();
+  })
 
-  const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    setUser(result);
+  const getUser = () => {
+    // let result = await fetch(`http://localhost:8000/user`, {
+    //   headers: {
+    //     Authorization: "Bearer " + localStorage.getItem("jwt"),
+    //   },
+    // });
+    // result = await result.json();
+    setUser(currentUser);
   };
 
   // get All Post
   const getList = async () => {
+    if(allPosts ){
+      console.log(allPosts, 'all post');
+      setData(allPosts);
+      return 
+    }
     let result = await fetch("http://localhost:8000/getAllPost", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -107,7 +123,13 @@ const PostDisplay = (props) => {
     result = await result.json();
     setReplyCount(result.comment);
     console.log(result);
+
+    dispatch({
+      type: 'INIT_ALL_POST',
+      item: result});
+
     let count1, count2;
+
     // result.map((data)=>{
     //   // console.log(data)
     //   data.comment.map((res)=>{
@@ -136,7 +158,9 @@ const PostDisplay = (props) => {
     // )
 
     // console.log(result)
+
     setVal(result.reverse())
+
     if (props.clgData) {
       if (props.clgData === "All") {
         setData(result)
@@ -229,15 +253,27 @@ const PostDisplay = (props) => {
         <div className="mb-[120px]">
           {data.length > 0 ? data.map((item, index) => (
             <div key={item._id} className="post-display1">
+              
               <div className="post-display-head">
                 <div className="post-display-profile">
                   <img src={item && item.postedBy && item.postedBy.img} alt="" />
                 </div>
                 <div className="post-display-heading">
+               {
+               role==="Super_Admin"  || role === "Admin" ?
+                <Link className="link-to-profile" to="/profile" 
+                state={item.postedBy}
+                >
                   <p className="post-head">
                     {item && item.postedBy && item.postedBy.name}
                   </p>
-
+                  </Link>
+                  :
+                  <p className="post-head">
+                    {item && item.postedBy && item.postedBy.name}
+                  </p>
+               }
+                
                   <div className="post-head-content">
                     <p className="post-display-heading-college">
                         {item && item.postedBy && item.postedBy.role == 'Super_Admin' ? 'Super Admin' : item.postedBy.collegeName}             
@@ -246,6 +282,7 @@ const PostDisplay = (props) => {
                   </div>
                 </div>
               </div>
+            
 
               <div className="post-display-center">
                 <div className="post-display-content">{item.desc}</div>
@@ -338,6 +375,7 @@ const PostDisplay = (props) => {
                 <button onClick={() => {
                   setOpenComment(!openComment)
                   setId(item._id)
+                
                   // localStorage.setItem("postId",JSON.stringify(item._id))
                 }} className="post-display-bottom-content">
                   <FontAwesomeIcon
@@ -362,6 +400,7 @@ const PostDisplay = (props) => {
         </div>
         : <Loader />}
       <PostBigModel
+        // isCommunity={isCommunity}
         openComment={openComment}
         setOpenComment={setOpenComment}
         id={id}
