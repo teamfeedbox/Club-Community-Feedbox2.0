@@ -127,11 +127,11 @@ const Colleges = () => {
                     College
                   </div>
                 </th>
-                <th className="p-2">
+                {/* <th className="p-2">
                   <div className="font-[500] text-[0.8rem] text-center">
                     Action
                   </div>
-                </th>
+                </th> */}
               </tr>
             </thead>
 
@@ -159,7 +159,7 @@ const Colleges = () => {
                         </div>
                       )}
                     </td>
-                    <td className="p-2  w-[25%]">
+                    {/* <td className="p-2  w-[25%]">
                       <div className="flex justify-center">
                         <button onClick={() => handleUpdateClg(index, clg._id)}>
                           {edit ? (
@@ -174,7 +174,7 @@ const Colleges = () => {
                           )}
                         </button>
                       </div>
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
             </tbody>

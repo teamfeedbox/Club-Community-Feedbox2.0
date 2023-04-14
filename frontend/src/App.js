@@ -56,8 +56,6 @@ const App = () => {
     document.addEventListener("click", handleClick);
   }, []);
 
- 
-
   return (
     <div className="App">
       <Modal show={show} onHide={handleClose} className="club-member-modal" >
