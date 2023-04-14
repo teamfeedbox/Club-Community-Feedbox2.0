@@ -1,5 +1,3 @@
-
-
 export const initialState={
     currentUser:null,
     colleges:null,

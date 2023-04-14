@@ -8,6 +8,7 @@ import React, { useState, useEffect } from "react";
 import NavbarRes from "../navbar/NavbarRes";
 import Chart from "chart.js/auto";
 import { Bar, Doughnut, Line, Pie } from "react-chartjs-2";
+import { useStateValue } from "../../StateProvider";
 // import { cloneData } from "react-chartjs-2/dist/utils";
 
 const Dashboard = () => {
@@ -31,6 +32,7 @@ const Dashboard = () => {
   const [nov, setNov] = useState(0);const [novHr, setNovHr] = useState(0);const [novAvgHr, setNovAvgHr] = useState(0);
   const [dec, setDec] = useState(0);const [decHr, setDecHr] = useState(0);const [decAvgHr, setDecAvgHr] = useState(0);
 
+  const [{}]= useStateValue();
   // const arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   // console.log(arr.length)
 
