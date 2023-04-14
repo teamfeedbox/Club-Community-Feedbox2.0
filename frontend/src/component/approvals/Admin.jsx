@@ -5,6 +5,8 @@ import "./PendingApprovals.css";
 import { Scrollbars } from "react-custom-scrollbars";
 import Modal from "react-bootstrap/Modal";
 import "./ClubMember.css";
+import {Link} from "react-router-dom"
+
 
 const Admin = (props) => {
   const [searchval, setSearchVal] = useState("");
@@ -206,8 +208,10 @@ const Admin = (props) => {
                           height="40"
                           alt="Alex Shatov"
                         />
-
+                    <Link to="/profile" 
+                         state={member} >
                         <div className="ml-2 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[400]"> {member.name} </div>
+                      </Link>
                       </div>
                     </td>
                     <td class="p-2 w-[170px] lg:w-[400px] block lg:flex flex-start items-center  mr-8 ">

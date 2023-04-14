@@ -1,10 +1,12 @@
 import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
+import {Link} from "react-router-dom"
 import "./PendingApprovals.css";
 import { Scrollbars } from "react-custom-scrollbars";
 import Modal from "react-bootstrap/Modal";
 import "./ClubMember.css";
+import Overview from "../Profile/Overview";
 
 const ClubMember = ({ props }) => {
   const [searchval, setSearchVal] = useState("");
@@ -19,6 +21,7 @@ const ClubMember = ({ props }) => {
   const [id, setId] = useState("");
   const [value, setValue] = useState("");
   const [name, setName] = useState("");
+  const [member, setMember] = useState("");
 
   const role = JSON.parse(localStorage.getItem("user")).role;
   const currentCollege = JSON.parse(localStorage.getItem("user")).college;
@@ -32,51 +35,7 @@ const ClubMember = ({ props }) => {
     setShow(true);
   };
 
-  // const getUser = async () => {
-  //   setLoading3(true);
-  //   const result = await fetch(`http://localhost:8000/get`);
-  //   const res = await result.json();
-  //   let cm = [];
-  //   res &&
-  //     res.map((data) => {
-  //       if (data.role === "Club_Member") {
-  //         cm.push(data);
-  //       }
-  //     });
-  //   cm = cm.reverse();
-  //   if (role === "Super_Admin") {
-  //     let clgSel = [];
-  //     if (props.clg) {
-  //       if (props.clg === "All") {
-  //         setData(cm);
-  //         setClubMember(cm);
-  //       } else {
-  //         cm.map((data) => {
-  //           if (data.collegeName === props.clg) {
-  //             clgSel.push(data);
-              
-  //           }
-  //         })
-  //           setData(clgSel)
-  //           setClubMember(clgSel);
-  //       }
-  //     } else {
-  //       setClubMember(cm);
-  //       setData(cm);
-  //     }
-  //   } else {
-  //     let clg = [];
-  //     cm.map((data) => {
-  //       if (data.collegeName === currentCollege) {
-  //         setLoading3(true);
-  //         clg.push(data);
-  //       }
-  //     });
-  //     setClubMember(clg);
-  //     setData(clg);
-  //   }
-  //   setLoading3(false);
-  // };
+  // console.log(id)
 
   const getUser = async () => {
     setLoading3(true);
@@ -278,10 +237,18 @@ const ClubMember = ({ props }) => {
                           alt="Alex Shatov"
                         />
 
+              <Link to="/profile" 
+                state={member}
+                >
+
                         <div className="ml-2 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[400]">
                           {" "}
                           {member.name}{" "}
+                         
+                        
                         </div>
+                        </Link>
+
                       </div>
                     </td>
                     <td class="p-2 lg:flex items-center hidden md:block">
@@ -456,6 +423,8 @@ const ClubMember = ({ props }) => {
           </table>
         </Scrollbars>
       </div>
+
+   
     </div>
   );
 };

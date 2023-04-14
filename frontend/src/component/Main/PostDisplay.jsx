@@ -85,9 +85,12 @@ const PostDisplay = (props) => {
   }
 
   useEffect(() => {
-    getList();
     getUser();
   },[]);
+  
+  useEffect(()=>{
+    getList();
+  })
 
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
@@ -108,7 +111,7 @@ const PostDisplay = (props) => {
     });
     result = await result.json();
     setReplyCount(result.comment);
-    console.log(result);
+    // console.log(result);
     let count1, count2;
     // result.map((data)=>{
     //   // console.log(data)
