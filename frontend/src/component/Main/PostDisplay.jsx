@@ -90,9 +90,12 @@ const PostDisplay = (props) => {
   }
 
   useEffect(() => {
-    getList();
     getUser();
   },[]);
+  
+  useEffect(()=>{
+    getList();
+  })
 
   const getUser = () => {
     // let result = await fetch(`http://localhost:8000/user`, {

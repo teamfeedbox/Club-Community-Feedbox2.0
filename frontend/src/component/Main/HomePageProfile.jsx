@@ -31,6 +31,7 @@ const fColor = [
 ];
 
 const HomePageProfile = (props) => {
+ 
   const [college, setCollege] = useState("");
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
@@ -122,6 +123,8 @@ const HomePageProfile = (props) => {
     props.sendData(e.target.value)
     setSelected(true);
   }
+
+  // console.log(data)
 
   return (
     <div className="HomePageProfile mt-[10px] md:mt-[20px] lg:mt-[20px] ">
