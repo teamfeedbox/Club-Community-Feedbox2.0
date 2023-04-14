@@ -3,8 +3,8 @@
 export const initialState={
     currentUser:null,
     colleges:null,
-    posts:null,
-    events:null,
+    allPosts:null,
+    allEventsData:null,
     comments:null
 }
 
@@ -23,9 +23,13 @@ function reducer(state, action){
             return {...state, colleges: action.item};
         
         case 'INIT_ALL_EVENT':
-            if(initialState.events!==null){return state}
+            if(initialState.allEventsData!==null){return state}
             console.log('event array initialised');
-            return {...state, events: action.item};
+            return {...state, allEventsData: action.item};
+
+        case 'INIT_ALL_POST':
+            console.log('all post initialised');
+            return {...state, allPosts: action.item};
 
         case'ADD_USER':
             console.log("adding user reducer");
