@@ -20,6 +20,7 @@ const PendingApprovals = (props) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
 
   const getUser = async () => {
+    console.log("dlkcnus");
     setLoading3(true);
     const result = await fetch(`http://localhost:8000/get`);
     const res = await result.json();

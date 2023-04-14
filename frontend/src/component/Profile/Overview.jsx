@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Multiselect from "multiselect-react-dropdown";
 import { Link } from 'react-router-dom';
+import { useStateValue } from '../../StateProvider';
 
 const backColor = ['#EDC7E2', '#C7EDCF', '#EDE7C7', '#EDC7C7', '#B5A6E1', '#B4B4B4', '#72C4FF', '#e9f5db', '#fad643', '#E3B47C']
 const fColor = ['#9B0483', '#2AA100', '#A67904', '#A10000', '#5C0684', '#363636', '#035794', '#718355', '#76520E', '#744E37']
@@ -22,6 +23,8 @@ function Overview(prop) {
 
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
+
+  const [{currentUser}]= useStateValue();
 
   function updateProfile() {
     setValue("")
@@ -42,9 +45,7 @@ function Overview(prop) {
       },
     });
     result = await result.json();
-   
     setData(result);
-
     setUserId(result._id)
   };
 
@@ -222,7 +223,7 @@ function Overview(prop) {
             </h5>
             <section className='Enrolled-Section'>
               {
-                 data ?
+                 data  ?
                  data.interestedEvents.map((date,index) => (
                   <Link to='/calendar' state={{eventId:date._id}} style={{textDecoration:"none"}} className='Sessions-Section'>
                     <div style={{ color: "#848283" }}>{(new Date(date.eventDate)).toString().split(" ")[0]}</div>

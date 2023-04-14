@@ -15,20 +15,77 @@ import NewLogin from "./component/login/NewLogin";
 import AttendanceSheet from "./component/Calendar/AttendanceSheet";
 import ReactBigCalendar from "./component/Calendar/ReactBigCalendar";
 import PostBigModel from "./component/Main/PostBigModel";
-import ProfileBigModel from "./component/Profile/ProfileBigModel";
 import Error from "./component/Error";
 import Loader from "./component/Loader";
 import Dashboard from "./component/Dashboard/Dashboard";
 import MobileNotification from "./component/navbar/MobileNotification";
 import NavbarRes from "./component/navbar/NavbarRes";
 import Login from "./component/login/Login";
+import Modal from "react-bootstrap/Modal";
 
 const App = () => {
-const user = JSON.parse(localStorage.getItem("user"));
-const role = user && user.role;
+  const [currUser, setCurrUser] = useState();
+  const [returned, setReturned] = useState(false);
+  const [show, setShow] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const role = user && user.role;
+
+  const handleClose = () => {
+    setShow(false)
+  }
+
+  const handleLogout = () => {
+    localStorage.setItem("user", null);
+      localStorage.setItem("jwt", null);
+      window.location.href = "/"
+  }
+
+  const handleClick = async () => {
+    // let result = await fetch(`http://localhost:8000/user`, {
+    //   headers: {
+    //     Authorization: "Bearer " + localStorage.getItem("jwt"),
+    //   },
+    // });
+    // result = await result.json();
+    // if (result.role != role) {
+    //   setShow(true);
+    // }
+  }
+
+  useEffect(() => {
+    document.addEventListener("click", handleClick);
+  }, []);
+
+  // const getUser = async () => {
+  //   let result = await fetch(`http://localhost:8000/user`, {
+  //     headers: {
+  //       Authorization: "Bearer " + localStorage.getItem("jwt"),
+  //     },
+  //   });
+  //   result = await result.json();
+  //   // document.addEventListener("click", handleClick(result.role));
+  // }
 
   return (
     <div className="App">
+      <Modal show={show} onHide={handleClose} className="club-member-modal" >
+        <form>
+          <Modal.Header
+            closeButton
+            className="club-member-modal-header"
+          >
+            Your position is changed, Please Login In Again !
+          </Modal.Header>
+          <Modal.Footer className="modal-footer club-member-modal-footer">
+            <div className="modal-footer-club-member-yes-no-div">
+              <div onClick={handleLogout}>
+                OK
+              </div>
+            </div>
+          </Modal.Footer>
+        </form>
+      </Modal>
+
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -39,7 +96,7 @@ const role = user && user.role;
             index
             path="/main"
             element={
-               role == null ? <Error /> : [<NavbarRes />, <Main />]
+              role == null ? <Error /> : [<NavbarRes />, <Main />]
             }
           />
 
@@ -77,7 +134,7 @@ const role = user && user.role;
             }
           />
 
-          <Route index path="/profileComment" element={<ProfileBigModel />} />
+          <Route index path="/profileComment" element={<PostBigModel />} />
 
           <Route
             index
