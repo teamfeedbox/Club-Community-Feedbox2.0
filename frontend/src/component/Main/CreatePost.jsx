@@ -238,7 +238,7 @@ const CreatePost = ({ userData, allColleges }) => {
             </div>
             <div>
               {
-                zeroImage && desc.length > 0 && scope ?
+                (zeroImage || desc.length > 0)  && scope ?
                   <Button
                     variant="primary"
                     onClick={function (event) {
