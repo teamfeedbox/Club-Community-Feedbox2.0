@@ -30,8 +30,8 @@ const fColor = [
 ];
 
 const HomePageProfile = (props) => {
+ 
   const [college, setCollege] = useState("");
-  const [allClgs, setAllClgs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [clgEvents, setClgEvents] = useState([]);
@@ -39,28 +39,15 @@ const HomePageProfile = (props) => {
   const [allUsers, setAllUsers] = useState([]);
   const [selected, setSelected] = useState(false);
   const [addclg, setaddclg] = useState();
-
   const role = JSON.parse(localStorage.getItem("user")).role
   const data=props.user; // current user
   const event = props.allEvents;
+  const allClgs = props.allColleges;
 
   useEffect(() => {
-    getColleges();
     getAllUsers();
     setLoading(false);
   }, [college, loading,props]);
-
-  const getColleges = async () => {
-    setLoading(true);
-    const data = await fetch(`http://localhost:8000/colleges/get`);
-    const res = await data.json();
-    let val = [];
-    res.map((data) => {
-      val.push(data.name);
-    });
-    setAllClgs(val);
-    setLoading(false);
-  };
 
   // get all users
   const getAllUsers = async () => {
@@ -133,6 +120,8 @@ const HomePageProfile = (props) => {
     setSelected(true);
   }
 
+  // console.log(data)
+
   return (
     <div className="HomePageProfile mt-[10px] md:mt-[20px] lg:mt-[20px] ">
       {/*-------------- for web and tab view------------- */}
@@ -192,7 +181,7 @@ const HomePageProfile = (props) => {
         {/* for super admin */}
         {role && role === 'Super_Admin'
           ? <div className="m-3 flex  flex-col pb-3">
-            <div className="mb-2">
+            {/* <div className="mb-2">
               <form onSubmit={handleAddSubmit}>
                 <input
                   type="text"
@@ -222,7 +211,7 @@ const HomePageProfile = (props) => {
                 </button>
 
               </form>
-            </div>
+            </div> */}
 
             <div className="font-[700] text-[1.1rem]">Select College:</div>
             <div className=" ">
@@ -235,7 +224,7 @@ const HomePageProfile = (props) => {
                   College
                 </option>
                 <option value="All">All</option>
-                {allClgs.length > 0 &&
+                {allClgs && allClgs.length > 0 &&
                   allClgs.map((clg) => <option value={clg}>{clg}</option>)}
               </select>
             </div>
@@ -280,7 +269,7 @@ const HomePageProfile = (props) => {
       {/* --------------------for mobile view (only for super admin) -------------------- */}
       {role && role === 'Super_Admin' ?
         <div className="block md:hidden lg:hidden px-3 pt-3 pb-3">
-          <div className="mb-2  w-[100%]">
+          {/* <div className="mb-2  w-[100%]">
             <form onSubmit={handleAddSubmit}>
               <input
                 type="text"
@@ -311,7 +300,7 @@ const HomePageProfile = (props) => {
               </button>
 
             </form>
-          </div>
+          </div> */}
 
           <div className=" ">
             <select
@@ -322,7 +311,7 @@ const HomePageProfile = (props) => {
               <option disabled selected className="hidden">
                 College
               </option>
-              {allClgs.length > 0 &&
+              {allClgs && allClgs.length > 0 &&
                 allClgs.map((clg) => <option key={clg._id} value={clg}>{clg}</option>)}
             </select>
           </div>

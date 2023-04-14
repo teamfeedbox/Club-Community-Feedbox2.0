@@ -8,6 +8,7 @@ import ProfilePostPage from "./ProfilePostPage";
 import Dashboard from "../Dashboard/Dashboard";
 import { useLocation } from "react-router-dom";
 
+import Colleges from "./Colleges";
 
 const ProfileTabs = (props) => {
   const location = useLocation();
@@ -64,6 +65,21 @@ const ProfileTabs = (props) => {
         
         </div>
 
+        {role === "Super_Admin" ? (
+          <div
+            className={
+              tabs === "Colleges"
+                ? "profile-tab-content profile-tab-content-highlight"
+                : "profile-tab-content"
+            }
+            onClick={() => setTabs("Colleges")}
+          >
+            Colleges
+          </div>
+        ) : (
+          ""
+        )}
+
 
 
         {role !== "Club_Member" ? (
@@ -115,11 +131,13 @@ const ProfileTabs = (props) => {
       <div className="profile-tab-data">
 
         <div className={tabs === "Overview" ? "" : "profile-tab-data-hide"}>
-
           {role === 'Super_Admin' ? <Dashboard /> :
             <Overview />
             }
+        </div>
 
+        <div className={tabs === "Colleges" ? "" : "profile-tab-data-hide"}>
+          <Colleges />
         </div>
 
         <div className={tabs === "Post" ? "" : "profile-tab-data-hide"}>
@@ -151,9 +169,11 @@ const ProfileTabs = (props) => {
           }
           onClick={() => setTabs("Overview")}
         >
-          {
+          {/* {
             role === 'Super_Admin' ? 'Dashboard'  : 'Overview'
-          }
+          } */}
+
+Overview
        
 
         
@@ -167,9 +187,11 @@ const ProfileTabs = (props) => {
 
         <div className={tabs === "Overview" ? "" : "profile-tab-data-hide"}>
 
-          {role === 'Super_Admin' ? <Dashboard /> :
+          {/* {role === 'Super_Admin' ? <Dashboard /> :
             <Overview />
-            }
+            } */}
+            <Overview />
+
 
         </div>
 

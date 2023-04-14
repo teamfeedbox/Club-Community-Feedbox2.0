@@ -9,11 +9,14 @@ import { useLocation } from "react-router-dom";
 function ProfileBanner(props) {
   const location = useLocation();
   const propsData = location.state;
+  // console.log(propsData.role)
 
   const [data, setData] = useState();
   const [open, setOpen] = useState(false);
   const [role, setRole] = useState('');
   const [userBio, setUserBio] = useState('');
+  const [userName, setUserName] = useState('');
+  const [userYear, setUserYear] = useState('');
   // const [img, setImg] = useState('Images/defaultImg.png')
 
 
@@ -31,6 +34,8 @@ function ProfileBanner(props) {
     setRole(result.role);
     setData(result);
     setUserBio(result.bio);
+    setUserName(result.name);
+    setUserYear(result.collegeYear);
     // setImg(result.img)
   };
   // console.log(`profile banner bio is: ${userBio}`);
@@ -75,13 +80,14 @@ function ProfileBanner(props) {
             <img src={propsData && propsData.img}></img>
             <div>
                 <p>{propsData && propsData.name}</p>
-                {role === "Club_Member" ? (
+                {propsData.role === "Club_Member" ? (
             <span> Club Member </span>
-          ) : role === "Super_Admin" ? (
+          ) : propsData.role === "Super_Admin" ? (
             <span> Super Admin </span>
           ) : (
-            <span> {propsData.role} </span>
+            <span> {propsData && propsData.role} </span>
           )}
+          
             </div>
             {/* <EditProfile Userbio={userBio} open={open} setOpen={setOpen}/> */}
 {/* 

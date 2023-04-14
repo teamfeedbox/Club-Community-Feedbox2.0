@@ -12,23 +12,27 @@ const LogoWrapper = styled.div`
 `;
 
 const LogoImg = styled.div`
-  width: 159px;
-  height: 145px;
+  width: 170px;
+  height: 165px;
 
   img {
     width: 100%;
     height: 100%;
+    object-fit: conver;
+    padding:20px;
   }
 `;
 
 const MobileLogoImg = styled.div`
-  width: 149px;
-  height: 135px;
+  width: 170px;
+  height: 165px;
   margin-left : -25px;
 
   img {
     width: 100%;
     height: 100%;
+    object-fit: conver;
+    padding:20px;
   }
 `;
 
