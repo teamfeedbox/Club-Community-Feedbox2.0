@@ -276,7 +276,9 @@ export default function ReactBigCalendar() {
     setEventClicked(true);
     setSelectedEvent(val);
   };
-  const handleSelect = () => { };
+  const handleSelect = () => {
+    setAddEventModel(true);
+  };
 
   // Delete Event
   const cancelEvent = async (id) => {

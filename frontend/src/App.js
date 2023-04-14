@@ -15,7 +15,6 @@ import NewLogin from "./component/login/NewLogin";
 import AttendanceSheet from "./component/Calendar/AttendanceSheet";
 import ReactBigCalendar from "./component/Calendar/ReactBigCalendar";
 import PostBigModel from "./component/Main/PostBigModel";
-import ProfileBigModel from "./component/Profile/ProfileBigModel";
 import Error from "./component/Error";
 import Loader from "./component/Loader";
 import Dashboard from "./component/Dashboard/Dashboard";
@@ -77,7 +76,7 @@ const role = user && user.role;
             }
           />
 
-          <Route index path="/profileComment" element={<ProfileBigModel />} />
+          <Route index path="/profileComment" element={<PostBigModel />} />
 
           <Route
             index

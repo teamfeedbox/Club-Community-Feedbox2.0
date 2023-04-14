@@ -36,6 +36,8 @@ const PostDisplay = (props) => {
   const [comment, setComments] = useState([" How "]);
   const [loading, setLoading] = useState(false);
 
+  // const[isCommunity, setIsCommunity] = useState(true)
+
   const role = JSON.parse(localStorage.getItem("user")).role;
  
   function handleReply() {
@@ -338,6 +340,7 @@ const PostDisplay = (props) => {
                 <button onClick={() => {
                   setOpenComment(!openComment)
                   setId(item._id)
+                
                   // localStorage.setItem("postId",JSON.stringify(item._id))
                 }} className="post-display-bottom-content">
                   <FontAwesomeIcon
@@ -362,6 +365,7 @@ const PostDisplay = (props) => {
         </div>
         : <Loader />}
       <PostBigModel
+        // isCommunity={isCommunity}
         openComment={openComment}
         setOpenComment={setOpenComment}
         id={id}
