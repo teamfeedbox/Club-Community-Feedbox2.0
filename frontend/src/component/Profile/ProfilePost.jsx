@@ -22,7 +22,8 @@ import "./ProfilePost.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDeleteLeft, faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
-import ProfileBigModel from "./ProfileBigModel";
+
+import PostBigModel from "../Main/PostBigModel"
 
 const ProfilePost = (prop) => {
   TimeAgo.addLocale(en);
@@ -44,6 +45,7 @@ const ProfilePost = (prop) => {
 
   useEffect(() => {
     myPost();
+    getUser();
   }, []);
 
   const myPost = async () => {
@@ -128,13 +130,6 @@ const ProfilePost = (prop) => {
   //       console.log(err);
   //     });
   // };
-
-
-  useEffect(() => {
- 
-  getUser();
-   
-  });
 
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
@@ -335,7 +330,7 @@ const ProfilePost = (prop) => {
 
           )) : 
       <div className="font-[700] text-[1.1rem] pt-2 text-center">You haven't posted anything yet!</div>} 
-      <ProfileBigModel
+      <PostBigModel
       openComment={openComment}
       setOpenComment={setOpenComment}
       id={id}

@@ -51,6 +51,7 @@ const Main = () => {
       },
     });
     result = await result.json();
+    console.log(result,"result");
     setUser(result);
     console.log(result, 'user hereeeeeee');
     dispatch({

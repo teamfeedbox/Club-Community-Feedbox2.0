@@ -6,7 +6,6 @@ const NewLogin = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
   const handleLogin = async (e) => {
     setLoading(true);
     e.preventDefault();
@@ -24,7 +23,7 @@ const NewLogin = () => {
     if(result.token){
       localStorage.setItem("user", JSON.stringify(result));
       localStorage.setItem("jwt", result.token);
-      navigate('/main')   
+      window.location.href="/main"  
     } else {
       alert("Invalid Email or Password");
     }

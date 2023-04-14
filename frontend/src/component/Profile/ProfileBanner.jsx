@@ -13,7 +13,6 @@ function ProfileBanner() {
   const [userBio, setUserBio] = useState('');
   const [userName, setUserName] = useState('');
   const [userYear, setUserYear] = useState('');
-  // const [img, setImg] = useState('Images/defaultImg.png')
 
   const [{currentUser}]= useStateValue();
 
@@ -22,12 +21,6 @@ function ProfileBanner() {
   }, []);
 
   const getUser = () => {
-    // let result = await fetch(`http://localhost:8000/user`, {
-    //   headers: {
-    //     Authorization: "Bearer " + localStorage.getItem("jwt"),
-    //   },
-    // });
-    // result = await result.json();
     if(currentUser){
       setRole(currentUser.role);
       setData(currentUser);
@@ -35,15 +28,7 @@ function ProfileBanner() {
       setUserName(currentUser.name);
       setUserYear(currentUser.collegeYear);
     }
-    // setRole(result.role);
-    // setData(result);
-    // setUserBio(result.bio);
-    // setUserName(result.name);
-    // setUserYear(result.collegeYear);
-    // setImg(result.img)
   };
-  // console.log(`profile banner bio is: ${userBio}`);
-
 
   return (
     <div className='Profile-Banner'>
