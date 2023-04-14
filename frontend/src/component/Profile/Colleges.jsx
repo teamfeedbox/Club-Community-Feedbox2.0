@@ -71,6 +71,7 @@ const Colleges = () => {
     const res = await data.json();
     console.log(res);
     setLoad(true)
+    setEdit(!edit);
   }
 
   const updateCllg = (e, index) => {
