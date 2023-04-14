@@ -2,6 +2,7 @@ import { faArrowUpRightFromSquare, faUserGroup, faWandSparkles, } from "@fortawe
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import "./HomePageProfile.css";
+import { useStateValue } from "../../StateProvider";
 
 const backColor = [
   "#EDC7E2",
@@ -39,9 +40,12 @@ const HomePageProfile = (props) => {
   const [selected, setSelected] = useState(false);
   const [addclg, setaddclg] = useState();
   const role = JSON.parse(localStorage.getItem("user")).role
-  const data=props.user; // current user
   const event = props.allEvents;
   const allClgs = props.allColleges;
+  
+  const [{currentUser}]= useStateValue();
+
+  const data=currentUser; // current user
 
   useEffect(() => {
     getAllUsers();

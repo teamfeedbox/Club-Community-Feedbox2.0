@@ -18,9 +18,8 @@ import Modal from "react-bootstrap/Modal";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 import { RotatingLines,ProgressBar } from  'react-loader-spinner'
-
-
-function PostBigModel({ openComment, setOpenComment, id}) {
+import { useStateValue } from "../../StateProvider";
+function PostBigModel({ openComment, setOpenComment, id }) {
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
   const [deleteComId, setDeleteComId] = useState("");

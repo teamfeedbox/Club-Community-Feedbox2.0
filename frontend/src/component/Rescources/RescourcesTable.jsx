@@ -90,6 +90,7 @@ const RescourcesTable = (props) => {
     setFile(URL.createObjectURL(e.target.files[0]));
     setPdfFile(e.target.files[0]);
     setMyPdf(true);
+    setPdfLink("");
     setFileName(e.target.files[0].name);
   }
 
@@ -177,7 +178,7 @@ const RescourcesTable = (props) => {
 
   const changeTitle=(e)=>{
     e.preventDefault();
-    const filteredValue = e.target.value.replace(/[^0-9a-zA-Z-_]/g, '');
+    const filteredValue = e.target.value.replace(/[^0-9a-zA-Z-_\s]/g, '');
     setTitle(filteredValue);
   }
 
@@ -187,7 +188,6 @@ const RescourcesTable = (props) => {
         <div className="RescourcesTable">
           <div className="res-table-heading">
             <div className="res-heading-left"> {skillName} Documents </div>
-            {/* <div className="res-heading-left">{propsData.name} </div> */}
             <div className="res-heading-right">
               <div
                 class="form-inline my-2 my-lg-0"
