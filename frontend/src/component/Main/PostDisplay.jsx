@@ -37,6 +37,11 @@ const PostDisplay = (props) => {
   const [loading, setLoading] = useState(false);
 
   const role = JSON.parse(localStorage.getItem("user")).role;
+
+  const [{currentUser, allPosts}, dispatch ] = useStateValue();
+
+
+
  
   function handleReply() {
     if (showAdd == "Show-Comment-Add-Btn") {
@@ -87,18 +92,23 @@ const PostDisplay = (props) => {
     getUser();
   },[]);
 
-  const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    setUser(result);
+  const getUser = () => {
+    // let result = await fetch(`http://localhost:8000/user`, {
+    //   headers: {
+    //     Authorization: "Bearer " + localStorage.getItem("jwt"),
+    //   },
+    // });
+    // result = await result.json();
+    setUser(currentUser);
   };
 
   // get All Post
   const getList = async () => {
+    if(allPosts ){
+      console.log(allPosts, 'all post');
+      setData(allPosts);
+      return 
+    }
     let result = await fetch("http://localhost:8000/getAllPost", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -107,7 +117,13 @@ const PostDisplay = (props) => {
     result = await result.json();
     setReplyCount(result.comment);
     console.log(result);
+
+    dispatch({
+      type: 'INIT_ALL_POST',
+      item: result});
+
     let count1, count2;
+
     // result.map((data)=>{
     //   // console.log(data)
     //   data.comment.map((res)=>{
@@ -136,7 +152,9 @@ const PostDisplay = (props) => {
     // )
 
     // console.log(result)
+
     setVal(result.reverse())
+
     if (props.clgData) {
       if (props.clgData === "All") {
         setData(result)

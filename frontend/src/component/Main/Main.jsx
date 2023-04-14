@@ -66,7 +66,6 @@ const Main = () => {
     dispatch({
       type: 'INIT_ALL_EVENT',
       item: res,});
-    
   }
 
   const handleDataChange = (newData) => {
