@@ -16,6 +16,7 @@ import Loader from '../Loader.jsx'
 import TimeAgo from "javascript-time-ago";
 import en from 'javascript-time-ago/locale/en'
 import { useStateValue } from "../../StateProvider";
+import {Link} from "react-router-dom"
 
 const PostDisplay = (props) => {
   TimeAgo.addLocale(en);
@@ -254,15 +255,27 @@ console.log(data, 'post details')
         <div className="mb-[120px]">
           {data.length > 0 ? data.map((item, index) => (
             <div key={item._id} className="post-display1">
+              
               <div className="post-display-head">
                 <div className="post-display-profile">
                   <img src={item && item.postedBy && item.postedBy.img} alt="" />
                 </div>
                 <div className="post-display-heading">
+               {
+               role==="Super_Admin"  || role === "Admin" ?
+                <Link className="link-to-profile" to="/profile" 
+                state={item.postedBy}
+                >
                   <p className="post-head">
                     {item && item.postedBy && item.postedBy.name}
                   </p>
-
+                  </Link>
+                  :
+                  <p className="post-head">
+                    {item && item.postedBy && item.postedBy.name}
+                  </p>
+               }
+                
                   <div className="post-head-content">
                     <p className="post-display-heading-college">
 
@@ -278,6 +291,7 @@ console.log(data, 'post details')
                   </div>
                 </div>
               </div>
+            
 
               <div className="post-display-center">
                 <div className="post-display-content">{item.desc}</div>

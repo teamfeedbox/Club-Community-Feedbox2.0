@@ -21,6 +21,8 @@ mongoose.connect(db,{ useNewUrlParser: true, useUnifiedTopology: true })
     console.log("connection successful 😎😎")
 }).catch((err)=>console.log(err))
 
+// const db = mongoose.connect("mongodb://localhost:27017/ClubCommunity");
+
 app.use(bodyParser.json({limit: "50mb"}));
 app.use(bodyParser.urlencoded({
   limit: "50mb",
