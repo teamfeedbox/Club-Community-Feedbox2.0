@@ -94,6 +94,12 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   
   };
 
+  const crossImage=()=>{
+    setImage(false);
+    setUrl("");
+    setImgg("");
+
+  }
 
 // update(data);
   const uploadPic  = ()=>{
@@ -218,11 +224,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                         <div>
                           <FontAwesomeIcon
                             icon={faXmark}
-                            onClick={() => {
-                              setImage(false)
-                              setUrl("")
-                            }
-                            }
+                            onClick={crossImage }
                             className="Edit-Profile-cancel"
                           />
                           <img

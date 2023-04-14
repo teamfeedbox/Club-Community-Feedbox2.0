@@ -24,48 +24,6 @@ const Admin = (props) => {
     setDelShow(false);
   }
 
-  // const getUser = async () => {
-  //   setLoading3(true);
-  //   const result = await fetch(`http://localhost:8000/get`);
-  //   const res = await result.json();
-  //   let admin = [];
-  //   res && res.map((data) => {
-  //     if (data.role == 'Admin') {
-  //       admin.push(data)
-  //     }
-  //   })
-  //   admin = admin.reverse();
-  //   if (role === "Super_Admin") {
-  //     let clgSel = [];
-  //     if (props.clg) {
-  //       if (props.clg == "All") {
-  //         setAdmin(admin);
-  //         setData(admin);
-  //       } else {
-  //         admin.map(data => {
-  //           if (data.collegeName === props.clg) {
-  //             clgSel.push(data)
-  //           }
-  //         })
-  //         setAdmin(clgSel);
-  //         setData(clgSel);
-  //       }
-  //     } else {
-  //       setAdmin(admin);
-  //       setData(admin);
-  //     }
-  //   } else {
-  //     let clg=[];
-  //     admin.map(data => {
-  //       if (data.collegeName === currentCollege) {
-  //         clg.push(data)
-  //       }
-  //     })
-  //     setAdmin(clg);
-  //     setData(clg);
-  //   }
-  //   setLoading3(false);
-  // };
 
   const getUser = async () => {
     setLoading3(true);
