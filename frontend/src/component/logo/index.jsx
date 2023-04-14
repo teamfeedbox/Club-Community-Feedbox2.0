@@ -36,14 +36,6 @@ const MobileLogoImg = styled.div`
   }
 `;
 
-// const LogoText = styled.h2`
-//   font-size: 16px;
-//   margin: 0;
-//   margin-left: 4px;
-//   color: #222;
-//   font-weight: 500;
-// `;
-
 export function Logo(props) {
   const isMobile = useMediaQuery({ maxWidth: DeviceSize.mobile });
 
