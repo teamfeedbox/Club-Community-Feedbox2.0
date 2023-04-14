@@ -36,7 +36,6 @@ const Main = () => {
 
   // Get a user
   const getUser = async () => {
-    console.log("enter");
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),

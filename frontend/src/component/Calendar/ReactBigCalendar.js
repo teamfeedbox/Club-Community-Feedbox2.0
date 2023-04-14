@@ -61,7 +61,7 @@ export default function ReactBigCalendar() {
   const [infinite, setInfinite] = useState(true);
   const [MAVisibility, setMAVisibility] = useState(false);
   const [eventProp, setEventProp] = useState(true);
-  const [calIntersted,setCalInterested]=useState(false);
+  const [calIntersted, setCalInterested] = useState(false);
 
 
   const id = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).id;
@@ -197,7 +197,7 @@ export default function ReactBigCalendar() {
       },
     });
     result = await result.json();
-    console.log(result,"result");
+    console.log(result, "result");
 
     let data = await fetch(
       `http://localhost:8000/update/interested/events/${id}`,
@@ -451,32 +451,30 @@ export default function ReactBigCalendar() {
                 </div>
                 <div className="preview-button">
                   {
-                    // role && role === "Super_Admin" ?
-                    // id && myEvent && id !== myEvent.postedBy._id ?
-                    // new Date(myEvent && myEvent.eventDate).getTime() >
-                    //   new Date(mindate).getTime() ?
-                    interestedBtn ?
-                      <button
-                        type="button"
-                        onClick={() => {
-                          attendanceUpdate(myEvent && myEvent._id); setInterestedBtn(false)
-                        }}
-                      >
-                        Interested
-                      </button>
-                      :
-                      <button
-                        type="button"
-                        style={{
-                          pointerEvents: "none",
-                          backgroundColor: "gray",
-                        }}
-                      >
-                        Interested
-                      </button>
-                    // : "" 
-                    // : "" : ""
-                  }
+                    role && role === "Super_Admin" ?
+                      id && myEvent && id !== myEvent.postedBy._id ?
+                        new Date(myEvent && myEvent.eventDate).getTime() >
+                          new Date(mindate).getTime() ?
+                          interestedBtn ?
+                            <button
+                              type="button"
+                              onClick={() => {
+                                attendanceUpdate(myEvent && myEvent._id); setInterestedBtn(false)
+                              }}
+                            >
+                              Interested
+                            </button>
+                            :
+                            <button
+                              type="button"
+                              style={{
+                                pointerEvents: "none",
+                                backgroundColor: "gray",
+                              }}
+                            >
+                              Interested
+                            </button>
+                          : "" : "" : ""}
 
                   {(role === "Admin" ||
                     role === "Super_Admin" ||
@@ -527,11 +525,11 @@ export default function ReactBigCalendar() {
                   )}
                 </div>
 
-                {/* {MAVisibility && ( */}
+                {MAVisibility && (
 
                   <div style={{ textAlign: "center" }}>
                     {role === "Admin" ||
-                      // role === "Super_Admin" ||
+                      role === "Super_Admin" ||
                       (id && myEvent && id == myEvent.postedBy._id) ? (
                       <button className="Mark-Attendence-btn">
                         <Link
@@ -550,9 +548,7 @@ export default function ReactBigCalendar() {
                       ""
                     )}
                   </div>
-
-                {/* )} */}
-
+                )}
               </div>
             </div>
           ) : (

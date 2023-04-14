@@ -7,11 +7,8 @@ import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./EditProfile.css";
 
-const EditProfile = ({ Userbio, open, setOpen }) => {
+const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
-  console.log(`ubio : ${Userbio}, open is: ${open}`);
-
-
   // const [dataChanges, setDataChanges] = useState('nnnnn');
   const [data, setData] = useState('');
   const [show, setShow] = useState(false);
@@ -22,6 +19,8 @@ const EditProfile = ({ Userbio, open, setOpen }) => {
   const [img, setImg] = useState("");
   const [url, setUrl] = useState("");
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [collegeYear, setCollegeYear] = useState("");
 
   const [bio, setBio] = useState('');
 
@@ -31,7 +30,11 @@ const EditProfile = ({ Userbio, open, setOpen }) => {
     setImage(false)
     // uploadPic();
     setBio(Userbio);
-    console.log(`userbio is : ${Userbio} and bio is : ${bio}`);
+
+    setName(Username);
+    setCollegeYear(Useryear);
+    console.log(Userbio,Username,Useryear, bio);
+
   };
   const handleShow = () => setShow(true);
 
@@ -42,17 +45,12 @@ const EditProfile = ({ Userbio, open, setOpen }) => {
   }
 
   useEffect(() => {
+    getUserDetails();
+    getUser();
     if (url) {
       update(data);
     }
-  }, [url]);
-
-  useEffect(() => {
-    getUserDetails();
-    // updateDetail(data)
-    // handleClose();
-    getUser();
-  }, [data]);
+  }, [data,url]);
 
   const update = async (data) => {
     // console.log(data)
@@ -78,11 +76,12 @@ const EditProfile = ({ Userbio, open, setOpen }) => {
   };
 
   const updateDetail = async (data) => {
+    console.log(collegeYear, name, bio);
     // console.log(data)
     setLoading(true);
     let result = await fetch(`http://localhost:8000/updateDetail/${data}`, {
       method: "put",
-      body: JSON.stringify({ bio }),
+      body: JSON.stringify({ bio,name, collegeYear }),
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -90,18 +89,11 @@ const EditProfile = ({ Userbio, open, setOpen }) => {
     });
 
     result = await result.json();
-    // console.log(result)
 
     setLoading(false);
     setOpen(false);
-  // window.location.reload();
-    
-    // console.log(result)
+  
   };
-
-
-
- 
 
 
 // update(data);
@@ -132,30 +124,28 @@ const EditProfile = ({ Userbio, open, setOpen }) => {
       });
   };
 
-  // useEffect(() => {
-  //   getUser();
-  // },[]);
-  // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
-  // console.log(userId)
+ 
   const getUser = async () => {
-    // console.log(id)
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     });
     result = await result.json();
+    console.log(result);
     setData(result._id);
     if(bio===''){
       setBio(result.bio)
     }
-    // if (result) {
-    //   getUser();
-    // }
+    if(name===''){
+      setName(result.name)
+    }
+    if(collegeYear===''){
+      setCollegeYear(result.collegeYear)
+    } 
   };
 
-  // console.log(`State bio is : ${Userbio}`);
-  // console.log(`bio is : and ${bio}`);
+  
 
   return (
     <div>
@@ -171,6 +161,31 @@ const EditProfile = ({ Userbio, open, setOpen }) => {
             </Modal.Header>
             <Modal.Body>
               <Form>
+              <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlTextarea1"
+                >
+                  <Form.Label>Name </Form.Label>
+                  <Form.Control
+                    type="text"
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
+                  />
+                </Form.Group>
+
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlTextarea1"
+                >
+                  <Form.Label>Year </Form.Label>
+                  <Form.Control
+                    type="text"
+                    onChange={(e) => setCollegeYear(e.target.value)}
+                    value={collegeYear}
+                  />
+                </Form.Group>
+
+
                 {role === 'Super_Admin'? '' :<Form.Group
                   className="mb-3"
                   controlId="exampleForm.ControlTextarea1"
@@ -178,7 +193,7 @@ const EditProfile = ({ Userbio, open, setOpen }) => {
                   <Form.Label>About </Form.Label>
                   <Form.Control
                     as="textarea"
-                    rows={3}
+                    // rows={3}
                     onChange={(e) => setBio(e.target.value)}
                     value={bio}
                   />
@@ -190,8 +205,8 @@ const EditProfile = ({ Userbio, open, setOpen }) => {
                     <div
                       className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md"
                       style={{
-                        maxHeight: "250px",
-                        minHeight: "250px",
+                        maxHeight: "200px",
+                        minHeight: "200px",
                         width: "250px",
                         margin: "0 auto",
                       }}

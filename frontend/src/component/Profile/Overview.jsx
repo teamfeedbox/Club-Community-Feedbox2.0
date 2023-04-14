@@ -42,9 +42,7 @@ function Overview(prop) {
       },
     });
     result = await result.json();
-   
     setData(result);
-
     setUserId(result._id)
   };
 

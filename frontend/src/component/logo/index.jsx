@@ -12,33 +12,29 @@ const LogoWrapper = styled.div`
 `;
 
 const LogoImg = styled.div`
-  width: 159px;
-  height: 145px;
+  width: 170px;
+  height: 165px;
 
   img {
     width: 100%;
     height: 100%;
+    object-fit: conver;
+    padding:20px;
   }
 `;
 
 const MobileLogoImg = styled.div`
-  width: 149px;
-  height: 135px;
+  width: 170px;
+  height: 165px;
   margin-left : -25px;
 
   img {
     width: 100%;
     height: 100%;
+    object-fit: conver;
+    padding:20px;
   }
 `;
-
-// const LogoText = styled.h2`
-//   font-size: 16px;
-//   margin: 0;
-//   margin-left: 4px;
-//   color: #222;
-//   font-weight: 500;
-// `;
 
 export function Logo(props) {
   const isMobile = useMediaQuery({ maxWidth: DeviceSize.mobile });

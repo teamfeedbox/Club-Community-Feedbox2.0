@@ -20,6 +20,7 @@ const PendingApprovals = (props) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
 
   const getUser = async () => {
+    console.log("dlkcnus");
     setLoading3(true);
     const result = await fetch(`http://localhost:8000/get`);
     const res = await result.json();
@@ -145,7 +146,7 @@ const PendingApprovals = (props) => {
     <div className="PendingApprovals ">
       <div className="flex flex-col lg:flex-row md:flex-row justify-between">
         <div>
-          <h4 className=" text-[1.5rem] font-[700]  my-0 lg:my-3">Pending Approvals</h4>
+          <h4 className=" text-[1.5rem] font-[700] mt-3 lg:mt-1  my-0 lg:my-3">Pending Approvals</h4>
 
         </div>
       </div>

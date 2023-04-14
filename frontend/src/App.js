@@ -42,22 +42,19 @@ const App = () => {
   }
 
   const handleClick = async () => {
-    console.log("kjbhvgcfxdr");
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    console.log(result);
-    if (result.role != role) {
-      setShow(true);
-    }
+    // let result = await fetch(`http://localhost:8000/user`, {
+    //   headers: {
+    //     Authorization: "Bearer " + localStorage.getItem("jwt"),
+    //   },
+    // });
+    // result = await result.json();
+    // if (result.role != role) {
+    //   setShow(true);
+    // }
   }
 
   useEffect(() => {
     document.addEventListener("click", handleClick);
-    // getUser();
   }, []);
 
   // const getUser = async () => {
