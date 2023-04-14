@@ -23,8 +23,7 @@ const AttendanceSheet = () => {
   // Bootstrap
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => 
-  {
+  const handleShow = () => {
     setLoading2(true);
     setShow(true);
     setLoading2(false);
@@ -196,21 +195,21 @@ const AttendanceSheet = () => {
               <div className="attendance-model-btn" onClick={handleClose}>
                 Back
               </div>
-            <button className="attendance-model-btn">
-              {
-                loading2 ?
-                <div
-                    class="spinner-border text-white"
-                    role="status"
-                    style={{ height: "15px", width: "15px", marginTop: "3px" }}
-                  >
-                    <span class="visually-hidden">Loading...</span>
-                  </div>
-                  :
-                  <button  type="submit">
-                Submit Attendence
-              </button>
-              }
+              <button className="attendance-model-btn">
+                {
+                  loading2 ?
+                    <div
+                      class="spinner-border text-white"
+                      role="status"
+                      style={{ height: "15px", width: "15px", marginTop: "3px" }}
+                    >
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                    :
+                    <button type="submit">
+                      Submit Attendence
+                    </button>
+                }
               </button>
             </div>
           </Modal.Footer>
@@ -291,14 +290,20 @@ const AttendanceSheet = () => {
           </div>
           {data.length > 0 ? (
             <div className="attendance-count">
-              {currentEvent && !currentEvent.attendanceSubmitted && (
+              {currentEvent && !currentEvent.attendanceSubmitted ?
                 <div>
-                  Total Attendee:{" "}
+                  Total Attendee :
                   <span>
                     {checkedUsers.length > 0 ? checkedUsers.length : 0}
                   </span>
+                </div> :
+                <div>
+                  Event Duration&nbsp;:&nbsp;
+                  <span>
+                    {currentEvent.eventDuration} minutes
+                  </span>
                 </div>
-              )}
+              }
               <div>
                 Total Enrolled: <span>{data.length > 0 && data.length}</span>
               </div>
@@ -316,21 +321,21 @@ const AttendanceSheet = () => {
               >
                 Back
               </button>
-              
-                
-                  <button 
-                  className="btn btn-primary"
-                    onClick={() => {
-                      handleShow();
-                    }}
-                    
-                    disabled={currentEvent && currentEvent.attendanceSubmitted}
-                  >
-                    {currentEvent && currentEvent.attendanceSubmitted
-                      ? "Submitted"
-                      : "Submit"}
-                  </button>
-                
+
+
+              <button
+                className="btn btn-primary"
+                onClick={() => {
+                  handleShow();
+                }}
+
+                disabled={currentEvent && currentEvent.attendanceSubmitted}
+              >
+                {currentEvent && currentEvent.attendanceSubmitted
+                  ? "Submitted"
+                  : "Submit"}
+              </button>
+
             </div>
           ) : (
             ""

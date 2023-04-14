@@ -51,6 +51,7 @@ const Main = () => {
       },
     });
     result = await result.json();
+    console.log(result,"result");
     setUser(result);
     console.log(result, 'user hereeeeeee');
     dispatch({
@@ -66,7 +67,6 @@ const Main = () => {
     dispatch({
       type: 'INIT_ALL_EVENT',
       item: res,});
-    
   }
 
   const handleDataChange = (newData) => {

@@ -19,6 +19,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
 import "./ReactBigCalendar.css";
+import { useStateValue } from "../../StateProvider";
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -61,11 +62,13 @@ export default function ReactBigCalendar() {
   const [infinite, setInfinite] = useState(true);
   const [MAVisibility, setMAVisibility] = useState(false);
   const [eventProp, setEventProp] = useState(true);
-  const [clickedAttendance, setClickedAttendance] = useState(false);
+  const [calIntersted, setCalInterested] = useState(false);
 
 
   const id = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).id;
-  const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role
+  const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role;
+
+  const [{allEventsData, currentUser}] = useStateValue();
 
   // Mindate for diasble previous dates in calender
   var today = new Date();
@@ -82,13 +85,7 @@ export default function ReactBigCalendar() {
 
   // get user
   const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    setUser(result);
+    setUser(currentUser);
   };
 
   const compareDate = (date, time) => {
@@ -136,22 +133,25 @@ export default function ReactBigCalendar() {
 
   // Get All Events
   const showEvent = async () => {
-    setInfinite(false);
-    let result = await fetch("http://localhost:8000/getAllEvent");
-    result = await result.json();
-    setEvent(result);
-    console.log(result, "o");
-    result.map((data, i) => {
+
+    // setInfinite(false);
+    // let result = await fetch("http://localhost:8000/getAllEvent");
+    // result = await result.json();
+    setEvent(allEventsData);
+    console.log(allEventsData, "o");
+    allEventsData.map((data, i) => {
       data.start = new Date(data.eventDate + " " + data.eventTime);
       data.end = new Date(data.eventDate + " " + data.eventTime);
       // data.end ="";
       data.id = i;
     });
-    setEventData(result);
-    setDupliEvents(result);
+    setEventData(allEventsData);
+    setDupliEvents(allEventsData);
     setLoading(false)
-    return result;
+    return allEventsData;
   };
+
+
 
   useEffect(() => {
     if (clgSelected) {
@@ -168,8 +168,8 @@ export default function ReactBigCalendar() {
         setEventData(array);
       }
     } else {
-      if (infinite || clickedAttendance) {
-        setClickedAttendance(false);
+      if (infinite || calIntersted) {
+        setCalInterested(false)
         showEvent();
       }
     }
@@ -185,7 +185,7 @@ export default function ReactBigCalendar() {
     getUser();
     getColleges();
     setLoading(false);
-  }, [event, eventClicked, selectedEvent, clgSelected, loading, clickedAttendance]);
+  }, [event, eventClicked, selectedEvent, clgSelected, loading]);
 
   // Mark Interested
   const attendanceUpdate = async (eveid) => {
@@ -197,7 +197,7 @@ export default function ReactBigCalendar() {
       },
     });
     result = await result.json();
-    console.log(result,"result");
+    console.log(result, "result");
 
     let data = await fetch(
       `http://localhost:8000/update/interested/events/${id}`,
@@ -213,7 +213,7 @@ export default function ReactBigCalendar() {
     const res = await data.json();
     console.log(res);
     setInterestedBtn(false)
-    setClickedAttendance(true);
+    setCalInterested(true);
     setLoading(true);
   };
 
@@ -276,7 +276,9 @@ export default function ReactBigCalendar() {
     setEventClicked(true);
     setSelectedEvent(val);
   };
-  const handleSelect = () => { };
+  const handleSelect = () => {
+    setAddEventModel(true);
+  };
 
   // Delete Event
   const cancelEvent = async (id) => {
@@ -451,32 +453,30 @@ export default function ReactBigCalendar() {
                 </div>
                 <div className="preview-button">
                   {
-                    // role && role === "Super_Admin" ?
-                    // id && myEvent && id !== myEvent.postedBy._id ?
-                    // new Date(myEvent && myEvent.eventDate).getTime() >
-                    //   new Date(mindate).getTime() ?
-                    interestedBtn ?
-                      <button
-                        type="button"
-                        onClick={() => {
-                          attendanceUpdate(myEvent && myEvent._id); setInterestedBtn(false)
-                        }}
-                      >
-                        Interested
-                      </button>
-                      :
-                      <button
-                        type="button"
-                        style={{
-                          pointerEvents: "none",
-                          backgroundColor: "gray",
-                        }}
-                      >
-                        Interested
-                      </button>
-                    // : "" 
-                    // : "" : ""
-                  }
+                    role && role === "Super_Admin" ?
+                      id && myEvent && id !== myEvent.postedBy._id ?
+                        new Date(myEvent && myEvent.eventDate).getTime() >
+                          new Date(mindate).getTime() ?
+                          interestedBtn ?
+                            <button
+                              type="button"
+                              onClick={() => {
+                                attendanceUpdate(myEvent && myEvent._id); setInterestedBtn(false)
+                              }}
+                            >
+                              Interested
+                            </button>
+                            :
+                            <button
+                              type="button"
+                              style={{
+                                pointerEvents: "none",
+                                backgroundColor: "gray",
+                              }}
+                            >
+                              Interested
+                            </button>
+                          : "" : "" : ""}
 
                   {(role === "Admin" ||
                     role === "Super_Admin" ||
@@ -550,9 +550,7 @@ export default function ReactBigCalendar() {
                       ""
                     )}
                   </div>
-
                 )}
-
               </div>
             </div>
           ) : (

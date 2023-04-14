@@ -12,7 +12,7 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 
 // Css PostBigModel.css (in profile folder)
-import "../Profile/ProfileBigModel.css";
+import "./PostBigModel.css";
 // Bootstrap
 import Modal from "react-bootstrap/Modal";
 import TimeAgo from "javascript-time-ago";
@@ -44,242 +44,64 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   // To show and hide "hide reply"
   const [hideReply, setHidereply] = useState(false);
 
-  // getting college from context api
-  const [{colleges, events, currentUser}]= useStateValue();
-
-  if(currentUser){
-    console.log(colleges, 'college here', events, currentUser.img);
-
+  // funciton for doing comment
+  function comment(){
+    return (<>
+    <div className="Comment-Add-Section">
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (message == "") {
+                      } else {
+                        updateComment();
+                      }
+                    }}
+                  >
+                    <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700  ">
+                      <div className=" rounded-full cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                        <img
+                          src={img}
+                          aria-hidden="true"
+                          className="w-10 h-8
+                            p-0
+                            rounded-full
+                            object-cover	
+                            "
+                        ></img>
+                      </div>
+                      <input
+                        className="block mx-2 p-2.5 w-full text-sm rounded-lg border text-black"
+                        style={{ border: "2px solid black" }}
+                        placeholder="Add a comment..."
+                        value={message}
+                        onChange={(event) => setMessage(event.target.value)}
+                      ></input>
+                      <button
+                        type="submit"
+                        className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          className="w-6 h-6 rotate-90"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                        </svg>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+    </>)
   }
 
 
-
-  function handleAfterReply(event) {
-    event.preventDefault();
-  }
-  const handleClose = () => {
-    setOpenComment(false);
-  };
-
-  useEffect(() => {
-    if (id) {
-      getPost();
-    }
-    setLoading(false);
-  }, [id, loading]);
-
-  const getPost = async () => {
-    // console.log(id)
-    let result = await fetch(`http://localhost:8000/userPost/${id}`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    // console.log(result)
-    setUser(result);
-  };
-
-  // console.log(postedById)
-  const [img, setImg] = useState();
-
-  useEffect(() => {
-    getUser();
-  }, []);
-
-  const getUser =() => {
-    if(currentUser){
-      setImg(currentUser.img);
-    }
-  };
-
-  const updateComment = () => {
-    console.log(id, "", message);
-    fetch("http://localhost:8000/comment", {
-      method: "put",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-      body: JSON.stringify({ id, message }),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        // setPostData(result);
-        console.log(result);
-        setLoading(true);
-        setMessage("");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const updateReply = () => {
-    console.log(commentId, "", replyMsg);
-    fetch(`http://localhost:8000/reply/${commentId}`, {
-      method: "put",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-      body: JSON.stringify({ id, replyMsg }),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        // setPostData(result)
-        console.log(result);
-        setLoading(true);
-        setReplyMsg("");
-
-        console.log(result.error)
-
-        if(result.error){
-          alert("You have already replied to this comment")
-        }
-
-        // const newData = data.map((item) => {
-        //   if (item._id === result._id) {
-        //     return result;
-        //   } else {
-        //     return item;
-        //   }
-        // });
-        // setData(newData);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  // console.log(deleteComId," ",id);
-
-  //delete comment
-  const deleteComment = async (deleteComId) => {
-    console.log(deleteComId, " ", id);
-    let result = await fetch(
-      `http://localhost:8000/commentDel/${deleteComId}`,
-      {
-        method: "put",
-        headers: {
-          "Content-Type": "application/json",
-
-          Authorization: "Bearer " + localStorage.getItem("jwt"),
-        },
-        body: JSON.stringify({ id, postedById }),
-      }
-    );
-
-    result = await result.json();
-    console.log(result);
-    setLoading(true);
-    console.log(result.error)
-
-    if(result.error){
-      alert("You are not authorized to delete this comment")
-    }
-
-
-    // if (result) {
-    //   updateComment();
-    // }
-  };
-
-  const deleteReply = async (replyId) => {
-    console.log(replyId, " ", id);
-    let result = await fetch(`http://localhost:8000/replyDel/${replyId}`, {
-      method: "put",
-      headers: {
-        "Content-Type": "application/json",
-
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-      body: JSON.stringify({ id, commentId, replyById }),
-    });
-
-    result = await result.json();
-    console.log(result);
-    setLoading(true);
-
-    // console.log(result.error)
-
-    if(result.error){
-      alert("You are not authorized to delete this reply")
-    }
-
-
-    // if (result) {
-    //   updateComment();
-    // }
-  };
-
-  // To show and hide delete comment model
-  const handleCloseDelete = () => {
-    setShow(false);
-    setShowDel(false);
-  };
-  const handleShowDelete = () => setShowDel(true);
-  const handleShowDeleteReply = () => setShow(true);
-  return (
-    <>
-      {/* Model to delete the comment */}
-      <Modal
-        show={showDel}
-        // onHide={handleCloseDelete}
-
-        className="edit-modal-container"
-      >
-        <Modal.Body className="modal-dialog1">
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <button
-              className="delete-btn"
-              onClick={() => {
-                deleteComment(deleteComId);
-                handleCloseDelete();
-              }}
-            >
-              OK
-            </button>
-            <button className="delete-btn" onClick={handleCloseDelete}>
-              Cancel
-            </button>
-          </div>
-        </Modal.Body>
-      </Modal>
-
-      <Modal
-        show={show}
-        onHide={handleShowDeleteReply}
-        className="edit-modal-container"
-      >
-        <Modal.Body className="modal-dialog1">
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <button
-              className="delete-btn"
-              onClick={() => {
-                deleteReply(replyId);
-                handleCloseDelete();
-              }}
-            >
-              Delete Reply
-            </button>
-            <button className="delete-btn" onClick={handleCloseDelete}>
-              Cancel
-            </button>
-          </div>
-        </Modal.Body>
-      </Modal>
-
-      {openComment ? (
-        <div className="Post-Big-Model-container">
-          {/* to close the model on click out side the post section */}
-          <div className="Post-Big-Model-Close" onClick={handleClose}></div>
-
-          <div className="Post-Big-Model1">
-            {
-              user?<>
-              {/* Left side */}
-            <div className="post-display2">
+  // function for left part (img)
+  function left(){
+    return (
+      <>
+      <div className="post-display2">
               <div className="post-display-center1">
                 {/* **carousel for web view** */}
                 <div className="post-display-image flex justify-center">
@@ -296,6 +118,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                     //  user?("loader"):
                       user &&
                         user.img.map((data) => (
+                          
                           <div key={data._id} style={{ maxHeight: "400px" }}>
 
                             <img
@@ -314,11 +137,15 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                 </div>
               </div>
             </div>
-            {/* </section> */}
+      </>
+    )
+  }
 
-            {/* Right side */}
-            <section className="Post-Big-Model-Right">
-              <div className="Post-Big-Model-Profile">
+  // function for right part (comment)
+  function right(){
+    return(
+    <>
+    <div className="Post-Big-Model-Profile">
                 <div className="Post-Big-Pro">
                   <div
                     style={{
@@ -356,7 +183,9 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                   </Link>
                 </div>
                 {/* Description */}
-                {/* <div className="Post-Big-Description">{user && user.desc}</div> */}
+                <div className="Post-Big-Description ml-2">{user && user.desc}
+                </div>
+                {/* <div style={{border:"2px solid #ddd8d87f",width:"90%",margin:"0 auto"}}></div> */}
               </div>
 
               {/* Line to seprate pofile and comment */}
@@ -635,62 +464,279 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                         ))}
                     </Scrollbars>
                   )}
-                
-              
-                {/* import { RotatingLines } from  'react-loader-spinner' */}
-                
 
               </div>
+          
+    </>
+    )
+  }
 
+
+
+  function handleAfterReply(event) {
+    event.preventDefault();
+  }
+  const handleClose = () => {
+    setOpenComment(false);
+  };
+
+  useEffect(() => {
+    if (id) {
+      getPost();
+    }
+    setLoading(false);
+  }, [id, loading]);
+
+  const getPost = async () => {
+    // console.log(id)
+    let result = await fetch(`http://localhost:8000/userPost/${id}`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    // console.log(result)
+    setUser(result);
+  };
+
+  // console.log(postedById)
+  const [img, setImg] = useState();
+
+// const isCommunity = true;
+  //  if(isCommunity){
+    // document.getElementById("commentBox").style.color = "blue";
+    // }
+
+  useEffect(() => {
+    getUser();
+
+   
+  //  console.log("community",isCommunity)
+  }, []);
+
+  const getUser = async () => {
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    // console.log(result)
+    setImg(result.img);
+    // setData(result);
+    // setUserId(result._id)
+  };
+
+  const updateComment = () => {
+    console.log(id, "", message);
+    fetch("http://localhost:8000/comment", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({ id, message }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        // setPostData(result);
+        console.log(result);
+        setLoading(true);
+        setMessage("");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const updateReply = () => {
+    console.log(commentId, "", replyMsg);
+    fetch(`http://localhost:8000/reply/${commentId}`, {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({ id, replyMsg }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        // setPostData(result)
+        console.log(result);
+        setLoading(true);
+        setReplyMsg("");
+
+        console.log(result.error)
+
+        if(result.error){
+          alert("You have already replied to this comment")
+        }
+
+        // const newData = data.map((item) => {
+        //   if (item._id === result._id) {
+        //     return result;
+        //   } else {
+        //     return item;
+        //   }
+        // });
+        // setData(newData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // console.log(deleteComId," ",id);
+
+  //delete comment
+  const deleteComment = async (deleteComId) => {
+    console.log(deleteComId, " ", id);
+    let result = await fetch(
+      `http://localhost:8000/commentDel/${deleteComId}`,
+      {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        body: JSON.stringify({ id, postedById }),
+      }
+    );
+
+    result = await result.json();
+    console.log(result);
+    setLoading(true);
+    console.log(result.error)
+
+    if(result.error){
+      alert("You are not authorized to delete this comment")
+    }
+
+
+    // if (result) {
+    //   updateComment();
+    // }
+  };
+
+  const deleteReply = async (replyId) => {
+    console.log(replyId, " ", id);
+    let result = await fetch(`http://localhost:8000/replyDel/${replyId}`, {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({ id, commentId, replyById }),
+    });
+
+    result = await result.json();
+    console.log(result);
+    setLoading(true);
+
+    // console.log(result.error)
+
+    if(result.error){
+      alert("You are not authorized to delete this reply")
+    }
+
+
+    // if (result) {
+    //   updateComment();
+    // }
+  };
+
+  // To show and hide delete comment model
+  const handleCloseDelete = () => {
+    setShow(false);
+    setShowDel(false);
+  };
+  const handleShowDelete = () => setShowDel(true);
+  const handleShowDeleteReply = () => setShow(true);
+
+ 
+  
+  return (
+    <>
+      {/* Model to delete the comment */}
+      <Modal
+        show={showDel}
+        // onHide={handleCloseDelete}
+
+        className="edit-modal-container"
+      >
+        <Modal.Body className="modal-dialog1">
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <button
+              className="delete-btn"
+              onClick={() => {
+                deleteComment(deleteComId);
+                handleCloseDelete();
+              }}
+            >
+              OK
+            </button>
+            <button className="delete-btn" onClick={handleCloseDelete}>
+              Cancel
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={show}
+        onHide={handleShowDeleteReply}
+        className="edit-modal-container"
+      >
+        <Modal.Body className="modal-dialog1">
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <button
+              className="delete-btn"
+              onClick={() => {
+                deleteReply(replyId);
+                handleCloseDelete();
+              }}
+            >
+              Delete Reply
+            </button>
+            <button className="delete-btn" onClick={handleCloseDelete}>
+              Cancel
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      {openComment ? (
+        
+        <div className="Post-Big-Model-container">
+          {/* to close the model on click out side the post section */}
+          <div className="Post-Big-Model-Close" onClick={handleClose}></div>
+          {
+            user &&
+          user.img.length>0?(
+            <div id="commentBox" className="Post-Big-Model1">
+            {
+              user?<>
+              {/* Left side */}
+              {
+                left()
+              }
+            
+            {/* </section> */}
+
+            {/* Right side */}
+            <section className="Post-Big-Model-Right">
+              {
+              right()
+              }
               <div className="Post-Big-Comment-Container ml-4">
-                <div className="Comment-Add-Section">
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      if (message == "") {
-                      } else {
-                        updateComment();
-                      }
-                    }}
-                  >
-                    <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700 ">
-                      <div className=" rounded-full cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                        <img
-                          src={img}
-                          aria-hidden="true"
-                          className="w-10 h-8
-                            p-0
-                            rounded-full
-                            object-cover	
-                            "
-                        ></img>
-                      </div>
-                      <input
-                        className="block mx-2 p-2.5 w-full text-sm rounded-lg border text-black"
-                        style={{ border: "2px solid black" }}
-                        placeholder="Add a comment..."
-                        value={message}
-                        onChange={(event) => setMessage(event.target.value)}
-                      ></input>
-                      <button
-                        type="submit"
-                        className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          className="w-6 h-6 rotate-90"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
-                        </svg>
-                      </button>
-                    </div>
-                  </form>
-                </div>
+                {
+                  comment()
+                }
               </div>
             </section>
+                            {/* import { RotatingLines } from  'react-loader-spinner' */}
               </>:<div className="flex justify-center w-[100vw]">
               <ProgressBar
                 height="none"
@@ -705,6 +751,49 @@ function PostBigModel({ openComment, setOpenComment, id }) {
             }
             
           </div>
+          )
+          
+        //  ********************************************************
+          // if no img is there
+
+          :
+          
+          
+          ( <div id="commentBox" className="Post-Big-Model2">
+            {
+              user?<>
+              {/* Left side */}
+              {/* Left part is not here, because it is handling the community post, which does not contain any image */}
+
+            {/* Right side */}
+            <section className="Post-Big-Model-Right1">
+             {
+             right()
+             }
+
+              <div className="Post-Big-Comment-Container1 ">
+                {
+                  comment()
+                }
+              </div>
+            </section>
+                            {/* import { RotatingLines } from  'react-loader-spinner' */}
+              </>:<div className="flex justify-center w-[100vw]">
+              <ProgressBar
+                height="none"
+                width="80"
+                ariaLabel="progress-bar-loading"
+                wrapperStyle={{}}
+                wrapperClass="progress-bar-wrapper"
+                borderColor = '#F4442E'
+                barColor = '#51E5FF'
+              />
+              </div>
+            }
+            
+          </div>)
+           }
+           
         </div>
       ) : (
         ""

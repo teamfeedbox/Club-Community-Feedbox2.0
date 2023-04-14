@@ -6,6 +6,7 @@ import Button from "react-bootstrap/esm/Button";
 const Colleges = () => {
   const [loading1, setLoading1] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [load, setLoad] = useState(false);
   const [addclg, setaddclg] = useState();
   const [allClgs, setAllClgs] = useState([]);
   const [edit, setEdit] = useState(false);
@@ -14,19 +15,14 @@ const Colleges = () => {
 
   useEffect(() => {
     getColleges();
-  }, []);
+    setLoad(false)
+  }, [load]);
 
   // Get all Colleges
   const getColleges = async () => {
     const data = await fetch(`http://localhost:8000/colleges/get`);
     const res = await data.json();
-    let val = [];
-    res.map((data) => {
-      val.push(data.name);
-    });
-    setAllClgs(val);
-    setNewCllg(val)
-    console.log(res);
+    setAllClgs(res);
   };
 
   const onAddCollege = (e) => {
@@ -60,17 +56,28 @@ const Colleges = () => {
 
   const setClicked = (id) => {
     setEdit(true);
-    console.log(`first id ${id}`);
     setIds(id);
   };
 
-  const handleClick = (index, id) => {
-    setClicked(index)
+  const handleUpdateClg = async (index, id) => {
+    setClicked(index);
+    const data = await fetch(`http://localhost:8000/college/update/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({name:newCllg}),
+    })
+    const res = await data.json();
+    console.log(res);
+    setLoad(true)
+    setEdit(!edit);
   }
 
   const updateCllg = (e, index) => {
     setNewCllg(e.target.value)
   }
+
 
   return (
     <div className="w-[100%] lg:w-[75%] pb-3">
@@ -120,11 +127,11 @@ const Colleges = () => {
                     College
                   </div>
                 </th>
-                <th className="p-2">
+                {/* <th className="p-2">
                   <div className="font-[500] text-[0.8rem] text-center">
                     Action
                   </div>
-                </th>
+                </th> */}
               </tr>
             </thead>
 
@@ -142,19 +149,19 @@ const Colleges = () => {
                       {edit && index == ids ? (
                         <input
                           type="text"
-                          value={newCllg}
-                          onChange={ () => updateCllg(index)}
+                          // value={newCllg}
+                          onChange={(e) => updateCllg(e, index)}
                           className="text-gray-800 rounded font-[500] text-[1rem] text-center border-2 w-[80%]	p-1"
                         />
                       ) : (
                         <div className=" text-gray-800 font-[500] text-[1rem] text-center">
-                          {clg}
+                          {clg.name}
                         </div>
                       )}
                     </td>
-                    <td className="p-2  w-[25%]">
+                    {/* <td className="p-2  w-[25%]">
                       <div className="flex justify-center">
-                        <button onClick={() => handleClick(index, clg._id)}>
+                        <button onClick={() => handleUpdateClg(index, clg._id)}>
                           {edit ? (
                             <button className=" p-1.5 rounded ml-2 bg-green-600 text-white font-[500] text-[1.05rem] hover:bg-green-800 transition-all ease-linear duration-2000 ">
                               Save
@@ -167,7 +174,7 @@ const Colleges = () => {
                           )}
                         </button>
                       </div>
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
             </tbody>

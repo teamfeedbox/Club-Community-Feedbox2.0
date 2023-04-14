@@ -1,11 +1,13 @@
 import React from "react";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
-import { Logo } from "../logo";
+import Logo from "../assets/logo1.png";
 import { Accessibility } from "./accessibility";
 import { NavLinks } from "./navLinks";
 import { DeviceSize } from "../responsive";
 import { MobileNavLinks } from "./mobileNavLinks";
+import { Link } from "react-router-dom";
+
 
 const NavbarContainer = styled.div`
   position : fixed;
@@ -21,6 +23,10 @@ const NavbarContainer = styled.div`
 
 const LeftSection = styled.div`
   display: flex;
+  width:140px;
+  @media screen and (max-width:700px){
+    margin-left:-10px;
+  }
 `;
 
 const MiddleSection = styled.div`
@@ -34,14 +40,19 @@ const RightSection = styled.div`
   display: flex;
 `;
 
-export  default function NavbarRes(props) {
+export default function NavbarRes(props) {
   const isMobile = useMediaQuery({ maxWidth: DeviceSize.mobile });
   const selectedPage = window.location.pathname;
 
   return (
-      <NavbarContainer>
+    <NavbarContainer>
       <LeftSection>
-        <Logo />
+        {/* <Logo /> */}
+        <Link to="/main">
+          <div>
+            <img src={Logo} alt="" />
+          </div>
+        </Link>
       </LeftSection>
       <MiddleSection>{!isMobile && <NavLinks />}</MiddleSection>
       <RightSection>

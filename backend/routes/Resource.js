@@ -16,7 +16,9 @@ router.post('/upload', upload.single('file'),requireLogin, async (req, res) => {
       //  alert("Add files");
       const result = await cloudinary.uploader.upload(req.file.path, {
         resource_type: 'raw',
-        folder: 'pdfs'
+        folder: 'pdfs',
+  // allowed_formats: ['pdf','doc','docx'],
+
       });
     
       const pdfUrl = result.secure_url;

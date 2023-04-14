@@ -6,16 +6,21 @@ import ProfileEvent from "./ProfileEvent";
 import ProfileRes from "./ProfileRes";
 import ProfilePostPage from "./ProfilePostPage";
 import Dashboard from "../Dashboard/Dashboard";
+import { useLocation } from "react-router-dom";
+
 import Colleges from "./Colleges";
 
-const ProfileTabs = () => {
+const ProfileTabs = (props) => {
+  const location = useLocation();
+  const propsData = location.state;
+
   const [tabs, setTabs] = useState("Overview");
   // const [role, setRole] = useState("");
   const [data, setData] = useState();
 
   useEffect(() => {
     getUser();
-  });
+  },[]);
   // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
   // console.log(userId)
   const getUser = async () => {
@@ -38,7 +43,10 @@ const ProfileTabs = () => {
 
 
   return (
-    <div className="overall-profile-tabs">
+<>
+{
+  propsData === null ?
+<div className="overall-profile-tabs">
       <div className="profile-tabs">
 
         <div
@@ -52,6 +60,9 @@ const ProfileTabs = () => {
           {
             role === 'Super_Admin' ? 'Dashboard'  : 'Overview'
           }
+       
+
+        
         </div>
 
         {role === "Super_Admin" ? (
@@ -144,6 +155,53 @@ const ProfileTabs = () => {
         </div>
       </div>
     </div>
+
+    :
+
+    <div className="overall-profile-tabs">
+      <div className="profile-tabs">
+
+        <div
+          className={
+            tabs === "Overview"
+              ? "profile-tab-content profile-tab-content-highlight"
+              : "profile-tab-content"
+          }
+          onClick={() => setTabs("Overview")}
+        >
+          {/* {
+            role === 'Super_Admin' ? 'Dashboard'  : 'Overview'
+          } */}
+
+Overview
+       
+
+        
+        </div>
+
+
+
+      </div>
+
+      <div className="profile-tab-data">
+
+        <div className={tabs === "Overview" ? "" : "profile-tab-data-hide"}>
+
+          {/* {role === 'Super_Admin' ? <Dashboard /> :
+            <Overview />
+            } */}
+            <Overview />
+
+
+        </div>
+
+       
+      </div>
+    </div>
+}
+
+    
+    </>
   );
 };
 

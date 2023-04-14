@@ -71,3 +71,13 @@
     font-size: 1rem;
     font-weight: 400;
 }
+
+.link-to-profile{
+    text-decoration: none;
+    color:black;
+}
+
+.link-to-profile:hover{
+    text-decoration: underline;
+    color:black;
+}
