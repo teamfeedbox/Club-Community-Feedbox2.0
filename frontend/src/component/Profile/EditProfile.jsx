@@ -33,13 +33,9 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
     setImage(false)
     // uploadPic();
     setBio(Userbio);
-
     setName(Username);
     setCollegeYear(Useryear);
-    console.log(Userbio,Username,Useryear, bio);
-
   };
-  const handleShow = () => setShow(true);
 
   function handleChange(e) {
     setFile(URL.createObjectURL(e.target.files[0]));
@@ -140,16 +136,18 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
     result = await result.json();
     console.log(result);
     setData(result._id);
-    if(bio===''){
-      setBio(result.bio)
-    }
-    if(name===''){
-      setName(result.name)
-    }
-    if(collegeYear===''){
-      setCollegeYear(result.collegeYear)
-    }
-    
+    setBio(bio === '' ? result.bio : bio);
+    setName(name === '' ? result.name : name);
+    setCollegeYear(collegeYear === '' ? result.collegeYear : collegeYear);
+    // if(bio===''){
+    //   setBio(result.bio)
+    // }
+    // if(name===''){
+    //   setName(result.name)
+    // }
+    // if(collegeYear===''){
+    //   setCollegeYear(result.collegeYear)
+    // }
   };
 
   
@@ -168,7 +166,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
             </Modal.Header>
             <Modal.Body>
               <Form>
-              <Form.Group
+              {role === 'Super_Admin'? '' :<Form.Group
                   className="mb-3"
                   controlId="exampleForm.ControlTextarea1"
                 >
@@ -179,8 +177,9 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                     value={name}
                   />
                 </Form.Group>
+                }
 
-                <Form.Group
+                {role === 'Super_Admin'? '' : <Form.Group
                   className="mb-3"
                   controlId="exampleForm.ControlTextarea1"
                 >
@@ -191,7 +190,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                     value={collegeYear}
                   />
                 </Form.Group>
-
+                }
 
                 {role === 'Super_Admin'? '' :<Form.Group
                   className="mb-3"
@@ -229,10 +228,10 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                             src={file}
                             alt=""
                             style={{
-                              maxHeight: "200px",
-                              minHeight: "200px",
+                              maxHeight: "175px",
+                              minHeight: "175px",
                               width: "200px",
-                              marginTop: "-25px",
+                              marginTop: "-35px",
                             }}
                             className="object-cover	"
                           />

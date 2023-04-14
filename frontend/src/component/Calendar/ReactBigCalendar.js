@@ -199,19 +199,19 @@ export default function ReactBigCalendar() {
     result = await result.json();
     console.log(result,"result");
 
-    // let data = await fetch(
-    //   `http://localhost:8000/update/interested/events/${id}`,
-    //   {
-    //     method: "PUT",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: "Bearer " + localStorage.getItem("jwt"),
-    //     },
-    //     body: JSON.stringify({ event: myEvent }),
-    //   }
-    // );
-    // const res = await data.json();
-    // console.log(res);
+    let data = await fetch(
+      `http://localhost:8000/update/interested/events/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        body: JSON.stringify({ event: myEvent }),
+      }
+    );
+    const res = await data.json();
+    console.log(res);
     setInterestedBtn(false)
     setClickedAttendance(true);
     setLoading(true);
