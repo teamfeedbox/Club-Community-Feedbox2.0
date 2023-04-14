@@ -4,6 +4,7 @@ import {faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditProfile from './EditProfile';
 import { useLocation } from "react-router-dom";
+import { useStateValue } from '../../StateProvider';
 
 
 function ProfileBanner(props) {
@@ -17,29 +18,22 @@ function ProfileBanner(props) {
   const [userBio, setUserBio] = useState('');
   const [userName, setUserName] = useState('');
   const [userYear, setUserYear] = useState('');
-  // const [img, setImg] = useState('Images/defaultImg.png')
 
+  const [{currentUser}]= useStateValue();
 
   useEffect(() => {
     getUser();
   }, []);
 
-  const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    setRole(result.role);
-    setData(result);
-    setUserBio(result.bio);
-    setUserName(result.name);
-    setUserYear(result.collegeYear);
-    // setImg(result.img)
+  const getUser = () => {
+    if(currentUser){
+      setRole(currentUser.role);
+      setData(currentUser);
+      setUserBio(currentUser.bio);
+      setUserName(currentUser.name);
+      setUserYear(currentUser.collegeYear);
+    }
   };
-  // console.log(`profile banner bio is: ${userBio}`);
-
 
   return (
     <>

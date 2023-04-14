@@ -28,51 +28,85 @@ const Leads = (props) => {
   const handleDelShow = () => setDelShow(true);
   const handleDelClose = () => setDelShow(false);
 
-  console.log(props, "props")
+
+  // const getUser = async () => {
+  //   setLoading3(true);
+  //   const result = await fetch(`http://localhost:8000/get`);
+  //   const res = await result.json();
+  //   let lead = [];
+  //   res && res.map((data) => {
+  //     if (data.role === 'Lead') {
+  //       lead.push(data)
+  //     }
+  //   })
+  //   lead = lead.reverse();
+  //   if (role === "Super_Admin") {
+  //     let clgSel = [];
+  //     if (props.clg) {
+  //       if (props.clg == "All") {
+  //         setLead(lead);
+  //         setData(lead);
+  //       } else {
+  //         lead.map(data => {
+  //           if (data.collegeName === props.clg) {
+  //             clgSel.push(data)
+  //           }
+  //         })
+  //         setLead(clgSel);
+  //         setData(clgSel);
+  //       }
+  //     } else {
+  //       setLead(lead);
+  //       setData(lead);
+  //     }
+  //   } else {
+  //     console.log("2");
+  //     let clg = [];
+  //     lead.map(data => {
+  //       if (data.collegeName === currentCollege) {
+  //         clg.push(data)
+  //       }
+  //     })
+  //     setLead(clg);
+  //     setData(clg);
+  //   }
+  //   setLoading3(false);
+  // };
 
   const getUser = async () => {
     setLoading3(true);
-    const result = await fetch(`http://localhost:8000/get`);
-    const res = await result.json();
-    let lead = [];
-    res && res.map((data) => {
-      if (data.role === 'Lead') {
-        lead.push(data)
-      }
-    })
-    lead = lead.reverse();
-    if (role === "Super_Admin") {
-      let clgSel = [];
-      if (props.clg) {
-        if (props.clg == "All") {
+    try {
+      const result = await fetch(`http://localhost:8000/get`);
+      const res = await result.json();
+      const lead = res.filter(data => data.role === 'Lead').reverse();
+  
+      if (role === "Super_Admin") {
+        let clgSel = [];
+        if (props.clg) {
+          if (props.clg === "All") {
+            setLead(lead);
+            setData(lead);
+          } else {
+            const clgSel = lead.filter(data => data.collegeName === props.clg);
+            setLead(clgSel);
+            setData(clgSel);
+          }
+        } else {
           setLead(lead);
           setData(lead);
-        } else {
-          lead.map(data => {
-            if (data.collegeName === props.clg) {
-              clgSel.push(data)
-            }
-          })
-          setLead(clgSel);
-          setData(clgSel);
         }
       } else {
-        setLead(lead);
-        setData(lead);
+        const clg = lead.filter(data => data.collegeName === currentCollege);
+        setLead(clg);
+        setData(clg);
       }
-    } else {
-      console.log("2");
-      let clg = [];
-      lead.map(data => {
-        if (data.collegeName === currentCollege) {
-          clg.push(data)
-        }
-      })
-      setLead(clg);
-      setData(clg);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading3(false);
     }
-    setLoading3(false);
   };
+  
 
   useEffect(() => {
     getUser();

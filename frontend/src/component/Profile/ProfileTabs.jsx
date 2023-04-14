@@ -20,7 +20,7 @@ const ProfileTabs = (props) => {
 
   useEffect(() => {
     getUser();
-  });
+  },[]);
   // const userId = JSON.parse(localStorage.getItem("user")).decodedToken._id;
   // console.log(userId)
   const getUser = async () => {

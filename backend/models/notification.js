@@ -7,6 +7,6 @@ const notificationSchema = new mongoose.Schema({
     date: {type:String},
     time:{type:String},
     venue:{type:String},
-});
+}, { capped: { max: 10 } });
 
 module.exports = mongoose.model("Notification", notificationSchema);
