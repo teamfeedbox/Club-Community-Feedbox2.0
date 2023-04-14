@@ -18,6 +18,7 @@ import Modal from "react-bootstrap/Modal";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 import { RotatingLines,ProgressBar } from  'react-loader-spinner'
+import { useStateValue } from "../../StateProvider";
 function PostBigModel({ openComment, setOpenComment, id }) {
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
@@ -42,6 +43,17 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   const [checkReply, setCheckreply] = useState(true);
   // To show and hide "hide reply"
   const [hideReply, setHidereply] = useState(false);
+
+  // getting college from context api
+  const [{colleges, events, currentUser}]= useStateValue();
+
+  if(currentUser){
+    console.log(colleges, 'college here', events, currentUser.img);
+
+  }
+
+
+
   function handleAfterReply(event) {
     event.preventDefault();
   }
@@ -75,17 +87,10 @@ function PostBigModel({ openComment, setOpenComment, id }) {
     getUser();
   }, []);
 
-  const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    // console.log(result)
-    setImg(result.img);
-    // setData(result);
-    // setUserId(result._id)
+  const getUser =() => {
+    if(currentUser){
+      setImg(currentUser.img);
+    }
   };
 
   const updateComment = () => {
