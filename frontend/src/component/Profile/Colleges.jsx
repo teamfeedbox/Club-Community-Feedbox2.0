@@ -1,26 +1,89 @@
-import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-
-
+import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import Button from "react-bootstrap/esm/Button";
 
 const Colleges = () => {
   const [loading1, setLoading1] = useState(false);
-  const [deletebtn, setDeleteBtn] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [addclg, setaddclg] = useState();
+  const [allClgs, setAllClgs] = useState([]);
+  const [edit, setEdit] = useState(false);
+  const [newCllg, setNewCllg] = useState();
+  const [ids, setIds] = useState();
 
+  useEffect(() => {
+    getColleges();
+  }, []);
 
+  // Get all Colleges
+  const getColleges = async () => {
+    const data = await fetch(`http://localhost:8000/colleges/get`);
+    const res = await data.json();
+    let val = [];
+    res.map((data) => {
+      val.push(data.name);
+    });
+    setAllClgs(val);
+    setNewCllg(val)
+    console.log(res);
+  };
+
+  const onAddCollege = (e) => {
+    setaddclg(e.target.value);
+  };
+
+  // Add clg functionality for super admin
+  const handleAddSubmit = async (e) => {
+    setLoading1(true);
+    e.preventDefault();
+    if (addclg) {
+      let val = {
+        name: addclg,
+      };
+      let data = await fetch(`http://localhost:8000/college/add`, {
+        method: "POST",
+        body: JSON.stringify(val),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      });
+      const res = await data.json();
+      setaddclg("");
+      alert(res);
+      window.location.href = "/profile";
+      setLoading(true);
+    }
+    setLoading1(false);
+  };
+
+  const setClicked = (id) => {
+    setEdit(true);
+    console.log(`first id ${id}`);
+    setIds(id);
+  };
+
+  const handleClick = (index, id) => {
+    setClicked(index)
+  }
+
+  const updateCllg = (e, index) => {
+    setNewCllg(e.target.value)
+  }
 
   return (
-    <div className="w-[100%]  lg:w-[75%]">
+    <div className="w-[100%] lg:w-[75%] pb-3">
       {/* add college */}
       <div className="p-2 pt-3 m-auto">
-        <form action="">
+        <form onSubmit={handleAddSubmit}>
           <input
             required
             className="border rounded p-1.5 w-[82%]"
             type="text"
             placeholder="Add College"
+            value={addclg}
+            onChange={onAddCollege}
           />
           <button
             className=" p-1.5 rounded w-[15%] ml-2 bg-green-600 text-white font-[500] text-[1.05rem] hover:bg-green-800 transition-all ease-linear duration-2000 "
@@ -66,79 +129,47 @@ const Colleges = () => {
             </thead>
 
             <tbody className="text-sm divide-y divide-gray-100">
-              <tr>
-                <td className="p-2  w-[12%]">
-                  <div className=" text-gray-800 font-[500] text-[1rem] text-center">
-                    1.
-                  </div>
-                </td>
-                <td className="p-2  w-[63%]">
-                  <div className=" text-gray-800 font-[500] text-[1rem] text-center">
-                    Shri vaishnav vidyapeeth vishwavidyalaya
-                  </div>
-                </td>
-                <td className="p-2  w-[25%]">
-                  <div className="flex justify-center">
-                    <button onClick={() => {
-                        setDeleteBtn(true);
-                      }}>
-                      <svg
-                        className="w-8 h-8 text-red-600 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                        ></path>
-                      </svg>
-                    </button>
-
-                    {/* delete modal */}
-
-                    {deletebtn && (
-                    <Modal show={deletebtn} onHide={() => setDeleteBtn(false)}>
-                      <Modal.Header closeButton>
-                        <Modal.Title>Are you sure ?</Modal.Title>
-                      </Modal.Header>
-                      <Modal.Body style={{ color: "black", display: "flex" }}>
-                        Do you really want to delete this College ? This process
-                        cannot be undone.
-                      </Modal.Body>
-                      <Modal.Footer style={{ justifyContent: "right" }}>
-                        <Button variant="danger">
-                          {loading ? (
-                            <div
-                              class="spinner-border text-white"
-                              role="status"
-                              style={{ height: "15px", width: "15px" }}
-                            >
-                              <span class="visually-hidden">Loading...</span>
-                            </div>
+              {allClgs &&
+                allClgs.length > 0 &&
+                allClgs.map((clg, index) => (
+                  <tr>
+                    <td className="p-2  w-[15%]">
+                      <div className=" text-gray-800 font-[500] text-[1rem] text-center">
+                        {index + 1}
+                      </div>
+                    </td>
+                    <td className="p-2 text-center w-[60%]">
+                      {edit && index == ids ? (
+                        <input
+                          type="text"
+                          value={newCllg}
+                          onChange={ () => updateCllg(index)}
+                          className="text-gray-800 rounded font-[500] text-[1rem] text-center border-2 w-[80%]	p-1"
+                        />
+                      ) : (
+                        <div className=" text-gray-800 font-[500] text-[1rem] text-center">
+                          {clg}
+                        </div>
+                      )}
+                    </td>
+                    <td className="p-2  w-[25%]">
+                      <div className="flex justify-center">
+                        <button onClick={() => handleClick(index, clg._id)}>
+                          {edit ? (
+                            <button className=" p-1.5 rounded ml-2 bg-green-600 text-white font-[500] text-[1.05rem] hover:bg-green-800 transition-all ease-linear duration-2000 ">
+                              Save
+                            </button>
                           ) : (
-                            <div >
-                              Delete
-                            </div>
+                            <FontAwesomeIcon
+                              className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
+                              icon={faEdit}
+                            />
                           )}
-                        </Button>
-
-                        <Button
-                          variant="light"
-                          onClick={() => setDeleteBtn(false)}
-                        >
-                          Cancel
-                        </Button>
-                      </Modal.Footer>
-                    </Modal>
-                  )}
-
-                  </div>
-                </td>
-              </tr>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
