@@ -38,18 +38,15 @@ function Overview(prop) {
     getUser();
   }, []);
 
-  const getUser =() => {
-    // let result = await fetch(`http://localhost:8000/user`, {
-    //   headers: {
-    //     Authorization: "Bearer " + localStorage.getItem("jwt"),
-    //   },
-    // });
-    // result = await result.json();
-   
-    setData(currentUser);
-
-
-    setUserId(currentUser._id)
+  const getUser = async () => {
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    setData(result);
+    setUserId(result._id)
   };
 
   const updateSkill = async (userId) => {

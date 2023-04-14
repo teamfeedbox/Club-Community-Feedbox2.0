@@ -2,6 +2,7 @@ const express = require("express");
 const College = require("../models/college");
 const router = express.Router();
 
+// Get all Colleges
 router.get("/colleges/get", async (req, res) => {
   try {
     const data = await College.find({});
@@ -11,48 +12,32 @@ router.get("/colleges/get", async (req, res) => {
   }
 });
 
-router.post("/college/add",async (req, res) => {
-    try {
-        const clg = await College.find({name:req.body.name});
-        // console.log(clg)
-        if(clg.length>0){
-            res.status(500).json("College Already Exists...");
-        }else{
-            const data = await College.create(req.body);
-            res.status(200).json("College Added Successfully!");
-        }
-    } catch (error) {
-        res.status(500).json(error)
+// Add College
+router.post("/college/add", async (req, res) => {
+  try {
+    const clg = await College.find({ name: req.body.name });
+    // console.log(clg)
+    if (clg.length > 0) {
+      res.status(500).json("College Already Exists...");
+    } else {
+      const data = await College.create(req.body);
+      res.status(200).json("College Added Successfully!");
     }
-});
-
-router.post("/login", (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(422).json({ error: "please add all the details" });
+  } catch (error) {
+    res.status(500).json(error)
   }
-  User.findOne({ email: email }).then((savedUser) => {
-    if (!savedUser) {
-      return res.status(422).json({ err: "invalid email or password" });
-    }
-    bcrypt
-      .compare(password, savedUser.password)
-      .then((doMatch) => {
-        if (doMatch) {
-          // res.json({message:"successfully signed in"})
-          const token = jwt.sign({ _id: savedUser._id }, jwtKey);
-          // const decodedToken = jwt.decode(token);
-
-          res.json({ token });
-        } else {
-          return res.status(422).json({ error: "invalid password" });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
 });
 
+// Update Clg
+router.put("/college/update/:id", async (req, res) => {
+  try {
+    const clg = await College.findOneAndUpdate({ _id: req.params.id },{
+      name:req.body.name
+    });
+    res.status(200).json(clg)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+});
 
 module.exports = router;

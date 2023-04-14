@@ -9,9 +9,6 @@ import "./EditProfile.css";
 
 const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
-  console.log(`ubio : ${Userbio}, open is: ${open}`);
-
-
   // const [dataChanges, setDataChanges] = useState('nnnnn');
   const [data, setData] = useState('');
   const [show, setShow] = useState(false);
@@ -44,15 +41,12 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   }
 
   useEffect(() => {
+    getUserDetails();
+    getUser();
     if (url) {
       update(data);
     }
-  }, [url]);
-
-  useEffect(() => {
-    getUserDetails();
-    getUser();
-  }, [data]);
+  }, [data,url]);
 
   const update = async (data) => {
     // console.log(data)

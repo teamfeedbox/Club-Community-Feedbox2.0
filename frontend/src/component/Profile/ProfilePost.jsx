@@ -45,6 +45,7 @@ const ProfilePost = (prop) => {
 
   useEffect(() => {
     myPost();
+    getUser();
   }, []);
 
   const myPost = async () => {
@@ -129,13 +130,6 @@ const ProfilePost = (prop) => {
   //       console.log(err);
   //     });
   // };
-
-
-  useEffect(() => {
- 
-  getUser();
-   
-  });
 
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
