@@ -18,8 +18,10 @@ import en from 'javascript-time-ago/locale/en'
 import { useStateValue } from "../../StateProvider";
 
 const PostDisplay = (props) => {
+
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
+
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
   const [val, setVal] = useState([]);
@@ -36,15 +38,10 @@ const PostDisplay = (props) => {
   const [comment, setComments] = useState([" How "]);
   const [loading, setLoading] = useState(false);
 
-  // const[isCommunity, setIsCommunity] = useState(true)
-
   const role = JSON.parse(localStorage.getItem("user")).role;
 
   const [{currentUser, allPosts}, dispatch ] = useStateValue();
 
-
-
- 
   function handleReply() {
     if (showAdd == "Show-Comment-Add-Btn") {
       setShowAdd('Hide-Comment-Add-Btn')
@@ -98,12 +95,6 @@ const PostDisplay = (props) => {
   })
 
   const getUser = () => {
-    // let result = await fetch(`http://localhost:8000/user`, {
-    //   headers: {
-    //     Authorization: "Bearer " + localStorage.getItem("jwt"),
-    //   },
-    // });
-    // result = await result.json();
     setUser(currentUser);
   };
 
@@ -265,14 +256,10 @@ console.log(data, 'post details')
 
                   <div className="post-head-content">
                     <p className="post-display-heading-college">
-
                         {
                           item.scope === 'public' ? 'Public' :
                           item && item.postedBy && item.postedBy.role == 'Super_Admin' ? 'Super Admin' : item.postedBy.collegeName
                         }
-                       
-
-
                     </p>
                     <p className="post-display-heading-time">{item.postedDate && timeAgo.format(new Date(item.postedDate).getTime() - 60 * 1000)}</p>
                   </div>
@@ -281,6 +268,7 @@ console.log(data, 'post details')
 
               <div className="post-display-center">
                 <div className="post-display-content">{item.desc}</div>
+
                   {/* *****************carousel for mobile view********************* */}
                   {item.img.length > 0 ?
                 <div className="post-display-image ">
@@ -314,6 +302,7 @@ console.log(data, 'post details')
                   </div>
                 </div>
                   :' '}
+
                 {/* *********************carousel for web view*************************** */}
 
                 {item.img.length > 0 ?
@@ -371,18 +360,14 @@ console.log(data, 'post details')
                   setOpenComment(!openComment)
                   setId(item._id)
                 
-                  // localStorage.setItem("postId",JSON.stringify(item._id))
                 }} className="post-display-bottom-content">
                   <FontAwesomeIcon
                     style={{ fontSize: "22.5px", cursor: "pointer", marginTop: "1px" }}
                     icon={faMessage}
                   />
                   <span style={{ fontSize: '0.8rem', fontWeight: '600' }}>
-                 
                     {item.comment.length }
-                   
                   </span>
-                    {/* {item.comment.length && item.comment.reply.length} */}
                 </button>
               </div>
             </div>
@@ -395,7 +380,6 @@ console.log(data, 'post details')
         </div>
         : <Loader />}
       <PostBigModel
-        // isCommunity={isCommunity}
         openComment={openComment}
         setOpenComment={setOpenComment}
         id={id}
