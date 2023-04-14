@@ -6,9 +6,11 @@ import HomePageEvent from "./HomePageEvent";
 import CreatePost from "./CreatePost";
 import "./Main.css";
 import bg from "../assets/mainBg.png";
+import { useStateValue } from "../../StateProvider";
 
 const REACT_APP_BASE_URL= process.env.REACT_APP_BASE_URL;
-console.log(REACT_APP_BASE_URL);
+
+
 const Main = () => {
   const [user, setUser] = useState();
   const [clg, setClg] = useState();
@@ -17,13 +19,17 @@ const Main = () => {
   const [eventSel, setEventSel] = useState();
   const role = JSON.parse(localStorage.getItem("user")).role;
 
+  const[{},dispatch] = useStateValue();
+
+
   useEffect(() => {
     getUser();
     getAllEvents();
     getColleges();
+    
   }, [])
 
-  // Get all Colleges
+  // Get all Colleges*****
   const getColleges = async () => {
     const data = await fetch(`http://localhost:8000/colleges/get`);
     const res = await data.json();
@@ -32,24 +38,35 @@ const Main = () => {
       val.push(data.name);
     });
     setAllClgs(val);
+    dispatch({
+      type: 'INIT_CLG_ARR',
+      item: val,});
   };
 
-  // Get a user
+  // Get a user*****
   const getUser = async () => {
-    let result = await fetch(`http://localhost:3000/user`, {
+    let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     });
     result = await result.json();
     setUser(result);
+    console.log(result, 'user hereeeeeee');
+    dispatch({
+      type: 'INIT_USER',
+      item: result,});
   };
 
-  // Get All Events
+  // Get All Events*****
   const getAllEvents = async () => {
     let res = await fetch("http://localhost:8000/getAllEvent");
     res = await res.json();
     setAllEvents(res);
+    dispatch({
+      type: 'INIT_ALL_EVENT',
+      item: res,});
+    
   }
 
   const handleDataChange = (newData) => {
@@ -59,6 +76,8 @@ const Main = () => {
   const pull_data = (data) => {
     setEventSel(data);
   }
+
+  
 
   return (
     <>
