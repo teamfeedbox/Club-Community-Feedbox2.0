@@ -61,7 +61,7 @@ export default function ReactBigCalendar() {
   const [infinite, setInfinite] = useState(true);
   const [MAVisibility, setMAVisibility] = useState(false);
   const [eventProp, setEventProp] = useState(true);
-  const [clickedAttendance, setClickedAttendance] = useState(false);
+  const [calIntersted,setCalInterested]=useState(false);
 
 
   const id = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).id;
@@ -168,8 +168,8 @@ export default function ReactBigCalendar() {
         setEventData(array);
       }
     } else {
-      if (infinite || clickedAttendance) {
-        setClickedAttendance(false);
+      if (infinite || calIntersted) {
+        setCalInterested(false)
         showEvent();
       }
     }
@@ -185,7 +185,7 @@ export default function ReactBigCalendar() {
     getUser();
     getColleges();
     setLoading(false);
-  }, [event, eventClicked, selectedEvent, clgSelected, loading, clickedAttendance]);
+  }, [event, eventClicked, selectedEvent, clgSelected, loading]);
 
   // Mark Interested
   const attendanceUpdate = async (eveid) => {
@@ -199,21 +199,21 @@ export default function ReactBigCalendar() {
     result = await result.json();
     console.log(result,"result");
 
-    // let data = await fetch(
-    //   `http://localhost:8000/update/interested/events/${id}`,
-    //   {
-    //     method: "PUT",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: "Bearer " + localStorage.getItem("jwt"),
-    //     },
-    //     body: JSON.stringify({ event: myEvent }),
-    //   }
-    // );
-    // const res = await data.json();
-    // console.log(res);
+    let data = await fetch(
+      `http://localhost:8000/update/interested/events/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        body: JSON.stringify({ event: myEvent }),
+      }
+    );
+    const res = await data.json();
+    console.log(res);
     setInterestedBtn(false)
-    setClickedAttendance(true);
+    setCalInterested(true);
     setLoading(true);
   };
 
@@ -527,11 +527,11 @@ export default function ReactBigCalendar() {
                   )}
                 </div>
 
-                {MAVisibility && (
+                {/* {MAVisibility && ( */}
 
                   <div style={{ textAlign: "center" }}>
                     {role === "Admin" ||
-                      role === "Super_Admin" ||
+                      // role === "Super_Admin" ||
                       (id && myEvent && id == myEvent.postedBy._id) ? (
                       <button className="Mark-Attendence-btn">
                         <Link
@@ -551,7 +551,7 @@ export default function ReactBigCalendar() {
                     )}
                   </div>
 
-                )}
+                {/* )} */}
 
               </div>
             </div>

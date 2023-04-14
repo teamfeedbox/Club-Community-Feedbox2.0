@@ -36,12 +36,14 @@ const Main = () => {
 
   // Get a user
   const getUser = async () => {
-    let result = await fetch(`http://localhost:3000/user`, {
+    console.log("enter");
+    let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     });
     result = await result.json();
+    console.log(result,"result");
     setUser(result);
   };
 
