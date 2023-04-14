@@ -222,7 +222,7 @@ function Overview(prop) {
             </h5>
             <section className='Enrolled-Section'>
               {
-                 data ?
+                 data  ?
                  data.interestedEvents.map((date,index) => (
                   <Link to='/calendar' state={{eventId:date._id}} style={{textDecoration:"none"}} className='Sessions-Section'>
                     <div style={{ color: "#848283" }}>{(new Date(date.eventDate)).toString().split(" ")[0]}</div>

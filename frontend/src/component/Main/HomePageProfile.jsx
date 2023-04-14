@@ -31,7 +31,6 @@ const fColor = [
 
 const HomePageProfile = (props) => {
   const [college, setCollege] = useState("");
-  const [allClgs, setAllClgs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [clgEvents, setClgEvents] = useState([]);
@@ -39,30 +38,15 @@ const HomePageProfile = (props) => {
   const [allUsers, setAllUsers] = useState([]);
   const [selected, setSelected] = useState(false);
   const [addclg, setaddclg] = useState();
-
   const role = JSON.parse(localStorage.getItem("user")).role
   const data=props.user; // current user
   const event = props.allEvents;
+  const allClgs = props.allColleges;
 
   useEffect(() => {
-    getColleges();
     getAllUsers();
     setLoading(false);
   }, [college, loading,props]);
-
-  console.log(`college: ${college}, loading: ${loading}, props: ${props}`)
-
-  const getColleges = async () => {
-    setLoading(true);
-    const data = await fetch(`http://localhost:8000/colleges/get`);
-    const res = await data.json();
-    let val = [];
-    res.map((data) => {
-      val.push(data.name);
-    });
-    setAllClgs(val);
-    setLoading(false);
-  };
 
   // get all users
   const getAllUsers = async () => {
@@ -237,7 +221,7 @@ const HomePageProfile = (props) => {
                   College
                 </option>
                 <option value="All">All</option>
-                {allClgs.length > 0 &&
+                {allClgs && allClgs.length > 0 &&
                   allClgs.map((clg) => <option value={clg}>{clg}</option>)}
               </select>
             </div>
@@ -324,7 +308,7 @@ const HomePageProfile = (props) => {
               <option disabled selected className="hidden">
                 College
               </option>
-              {allClgs.length > 0 &&
+              {allClgs && allClgs.length > 0 &&
                 allClgs.map((clg) => <option key={clg._id} value={clg}>{clg}</option>)}
             </select>
           </div>

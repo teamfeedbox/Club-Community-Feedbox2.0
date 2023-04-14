@@ -609,6 +609,7 @@ const Register = () => {
                         value={collegeName}
                         onChange={(e) => setCollegeName(e.target.value)}
                       >
+                         
                         <option 
                         // disabled
                           // selected
@@ -616,12 +617,15 @@ const Register = () => {
                           className="text-gray-400">
                           University
                         </option>
-                        {
+                        <option>
+                          SVVV
+                        </option>
+                        {/* {
                           allClgs.length > 0 &&
                           allClgs.map(data => (
                             <option value={data}>{data}</option>
                           ))
-                        }
+                        } */}
                       </select>
                       {universityError ? (
                         <span className="registerError">
