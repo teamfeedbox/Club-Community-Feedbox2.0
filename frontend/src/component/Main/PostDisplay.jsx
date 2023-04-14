@@ -33,10 +33,7 @@ const PostDisplay = (props) => {
   const [openComment, setOpenComment] = useState(false);
   const [reply, setReply] = useState('');
   const [replyCount, setReplyCount] = useState([]);
-  const [comment, setComments] = useState([" How many times were you frustrated while looking out for a good collection of programming/algorithm /interview q",
-    "How many times were you frustrated while looking out for a good collection of programming/algorithm /interview questions? What did you expect and what did you get? This portal has been created to",
-    "How many times were you frustrated while looking out for a good collection of programming/algorithm.",
-    "How many times were you frustrated while looking"]);
+  const [comment, setComments] = useState([" How "]);
   const [loading, setLoading] = useState(false);
 
   const role = JSON.parse(localStorage.getItem("user")).role;
