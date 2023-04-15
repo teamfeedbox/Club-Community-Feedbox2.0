@@ -48,7 +48,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   const [{colleges, events, currentUser}]= useStateValue();
 
   if(currentUser){
-    console.log(colleges, 'college here', events, currentUser.img);
+    // console.log(colleges, 'college here', events, currentUser.img);
 
   }
 
@@ -94,7 +94,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   };
 
   const updateComment = () => {
-    console.log(id, "", message);
+    // console.log(id, "", message);
     fetch("http://localhost:8000/comment", {
       method: "put",
       headers: {

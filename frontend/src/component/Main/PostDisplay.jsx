@@ -23,65 +23,13 @@ const PostDisplay = (props) => {
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
   const [val, setVal] = useState([]);
-  const [showAdd, setShowAdd] = useState('Hide-Comment-Add-Btn');
-  const [showView, setShowView] = useState('Hide-Comment-View-Btn');
-  const [showReplView, setReplyView] = useState("Hide-Reply-View");
   const [id, setId] = useState("");
-  const [tempComment, setTempComment] = useState('');
-  const [tempReply, setTempReply] = useState('');
+  const [loading, setLoading] = useState(false);
   // To open the Comment Model
   const [openComment, setOpenComment] = useState(false);
-  const [reply, setReply] = useState('');
-  const [replyCount, setReplyCount] = useState([]);
-  const [comment, setComments] = useState([" How "]);
-  const [loading, setLoading] = useState(false);
 
-  const role = JSON.parse(localStorage.getItem("user")).role;
+  console.log(props,"clgdara");
  
-  function handleReply() {
-    if (showAdd == "Show-Comment-Add-Btn") {
-      setShowAdd('Hide-Comment-Add-Btn')
-    }
-    else {
-      setShowAdd('Show-Comment-Add-Btn')
-    }
-
-    function handleView() {
-      if (showView == "Show-Comment-View-Btn") {
-        setShowView("Hide-Comment-View-Btn");
-      } else {
-        setShowView("Show-Comment-View-Btn");
-      }
-    }
-    function handleFormSubmit(event) {
-      event.preventDefault();
-
-      if (tempComment != "") {
-        setComments((comment) => [...comment, tempComment]);
-        // console.log(tempComment)
-        setTempComment("");
-      }
-    }
-    function handleAfterReply(event) {
-      event.preventDefault();
-      if (tempReply != "") {
-        setReply(tempReply);
-      }
-    }
-  }
-  function handleAfterReply(event) {
-    event.preventDefault();
-    if (tempReply != "") {
-      setReply(tempReply);
-    }
-  }
-  function showRep() {
-    if (tempReply != "") {
-      setReplyView("Show-Reply-View");
-      setShowAdd("Hide-Comment-Add-Btn");
-    }
-  }
-
   useEffect(() => {
     getList();
     getUser();
@@ -105,37 +53,17 @@ const PostDisplay = (props) => {
       },
     });
     result = await result.json();
-    setReplyCount(result.comment);
-    console.log(result);
-    let count1, count2;
-    // result.map((data)=>{
-    //   // console.log(data)
-    //   data.comment.map((res)=>{
-    //     // console.log(res.reply && res.reply.length)
-    //     count += (res.reply && res.reply.length);
-    //   })
-    //   count += (data.comment && data.comment.length);
-    //   // console.log(count)
-    //   // data.count = count;
-    // })
-    // setReplyCount(count)
+    
+    let count=0;
+    result.map((data)=>{
+      count = data.comment.length
+      data.comment.map((res)=>{
+        count += res.reply.length;
+      })
+      console.log(count)
+      data.count = count;
+    })
 
-
-    // result.map((item)=>
-    // {
-    //   item.comment&& item.comment.map((data)=>{
-    //     // console.log(data)
-    //     count1 = count1 + (data.reply.length)
-    //   })
-    //   // console.log(count1)
-    //   count2 = count2 + (item.comment.length)
-    //   // console.log(count2)
-
-    //   item.comment = count1 + count2
-    // }
-    // )
-
-    // console.log(result)
     setVal(result.reverse())
     if (props.clgData) {
       if (props.clgData === "All") {
@@ -144,7 +72,7 @@ const PostDisplay = (props) => {
         if (val.length > 0) {
           let array = [];
           val.map((eve) => {
-            // console.log(eve);
+            console.log(eve,"llllllllllllllllllllllll")
             if (eve.collegeName === props.clgData) {
               array.push(eve);
             }
@@ -160,7 +88,6 @@ const PostDisplay = (props) => {
       setData(result)
     }
   };
-// console.log(data)
 
   // Like a post
   const like = (id) => {
@@ -176,19 +103,14 @@ const PostDisplay = (props) => {
     })
       .then((res) => res.json())
       .then((result) => {
-        // console.log(result)
         const newData = data.map((item) => {
           if (item._id === result._id) {
-            // console.log(result)
             return result;
           } else {
-            // console.log(item)
-
             return item;
           }
         });
         setData(newData);
-
       })
       .catch((err) => {
         console.log(err);
@@ -346,7 +268,7 @@ const PostDisplay = (props) => {
                   />
                   <span style={{ fontSize: '0.8rem', fontWeight: '600' }}>
                  
-                    {item.comment.length }
+                    {item.count}
                    
                   </span>
                     {/* {item.comment.length && item.comment.reply.length} */}
