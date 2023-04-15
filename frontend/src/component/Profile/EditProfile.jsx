@@ -7,6 +7,7 @@ import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./EditProfile.css";
 import { useToasts } from "react-toast-notifications";
+import { useStateValue } from "../../StateProvider";
 
 const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
@@ -26,6 +27,8 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   const [bio, setBio] = useState('');
 
   const { addToast } = useToasts();
+  const [{currentUser}]= useStateValue();
+
   
   const handleClose = () => {
     setOpen(false);
@@ -140,6 +143,14 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
 
   
   const getUser = async () => {
+    if(currentUser){      // Ab- if the context is not empty
+      setData(currentUser._id);
+      setBio(bio === '' ? currentUser.bio : bio);
+      setName(name === '' ? currentUser.name : name);
+      setCollegeYear(collegeYear === '' ? currentUser.collegeYear : collegeYear);
+      
+      return;
+    }
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
