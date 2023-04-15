@@ -44,6 +44,8 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   // To show and hide "hide reply"
   const [hideReply, setHidereply] = useState(false);
 
+  const [{currentUser}, dispatch] = useStateValue();
+
   // funciton for doing comment
   function comment(){
     return (<>
@@ -499,7 +501,6 @@ function PostBigModel({ openComment, setOpenComment, id }) {
     setUser(result);
   };
 
-  // console.log(postedById)
   const [img, setImg] = useState();
 
 // const isCommunity = true;
@@ -515,16 +516,17 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   }, []);
 
   const getUser = async () => {
+    if(currentUser){
+      setImg(currentUser.img);
+      return;
+    }
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     });
     result = await result.json();
-    // console.log(result)
     setImg(result.img);
-    // setData(result);
-    // setUserId(result._id)
   };
 
   const updateComment = () => {

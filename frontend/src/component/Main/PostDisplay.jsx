@@ -35,7 +35,6 @@ const PostDisplay = (props) => {
   // To open the Comment Model
   const [openComment, setOpenComment] = useState(false);
   const [reply, setReply] = useState('');
-  const [replyCount, setReplyCount] = useState([]);
   const [comment, setComments] = useState([" How "]);
   const [loading, setLoading] = useState(false);
 
@@ -43,57 +42,13 @@ const PostDisplay = (props) => {
 
   const [{currentUser, allPosts}, dispatch ] = useStateValue();
 
-  function handleReply() {
-    if (showAdd == "Show-Comment-Add-Btn") {
-      setShowAdd('Hide-Comment-Add-Btn')
-    }
-    else {
-      setShowAdd('Show-Comment-Add-Btn')
-    }
 
-    function handleView() {
-      if (showView == "Show-Comment-View-Btn") {
-        setShowView("Hide-Comment-View-Btn");
-      } else {
-        setShowView("Show-Comment-View-Btn");
-      }
-    }
-    function handleFormSubmit(event) {
-      event.preventDefault();
-
-      if (tempComment != "") {
-        setComments((comment) => [...comment, tempComment]);
-        // console.log(tempComment)
-        setTempComment("");
-      }
-    }
-    function handleAfterReply(event) {
-      event.preventDefault();
-      if (tempReply != "") {
-        setReply(tempReply);
-      }
-    }
-  }
-  function handleAfterReply(event) {
-    event.preventDefault();
-    if (tempReply != "") {
-      setReply(tempReply);
-    }
-  }
-  function showRep() {
-    if (tempReply != "") {
-      setReplyView("Show-Reply-View");
-      setShowAdd("Hide-Comment-Add-Btn");
-    }
-  }
-
+ 
   useEffect(() => {
     getUser();
+    getList();
   },[]);
   
-  useEffect(()=>{
-    getList();
-  })
 
   const getUser = () => {
     setUser(currentUser);
@@ -101,54 +56,27 @@ const PostDisplay = (props) => {
 
   // get All Post
   const getList = async () => {
-    if(allPosts ){
+    let result;
+    if(allPosts )
+    {
       console.log(allPosts, 'all post');
       setData(allPosts);
-      return 
+      result = allPosts; 
     }
-    let result = await fetch("http://localhost:8000/getAllPost", {
-      headers: {
+    else{
+        result = await fetch("http://localhost:8000/getAllPost", {
+        headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     });
-    result = await result.json();
-    setReplyCount(result.comment);
-    console.log(result);
+      result = await result.json();
 
-    dispatch({
-      type: 'INIT_ALL_POST',
-      item: result});
+      dispatch({
+        type: 'INIT_ALL_POST',
+        item: result});
+    }
+    
 
-    let count1, count2;
-
-    // result.map((data)=>{
-    //   // console.log(data)
-    //   data.comment.map((res)=>{
-    //     // console.log(res.reply && res.reply.length)
-    //     count += (res.reply && res.reply.length);
-    //   })
-    //   count += (data.comment && data.comment.length);
-    //   // console.log(count)
-    //   // data.count = count;
-    // })
-    // setReplyCount(count)
-
-
-    // result.map((item)=>
-    // {
-    //   item.comment&& item.comment.map((data)=>{
-    //     // console.log(data)
-    //     count1 = count1 + (data.reply.length)
-    //   })
-    //   // console.log(count1)
-    //   count2 = count2 + (item.comment.length)
-    //   // console.log(count2)
-
-    //   item.comment = count1 + count2
-    // }
-    // )
-
-    // console.log(result)
 
     setVal(result.reverse())
 

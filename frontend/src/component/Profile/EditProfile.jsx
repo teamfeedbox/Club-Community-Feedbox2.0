@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./EditProfile.css";
+import { useStateValue } from "../../StateProvider";
 
 const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
@@ -23,6 +24,8 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   const [collegeYear, setCollegeYear] = useState("");
 
   const [bio, setBio] = useState('');
+
+  const [{currentUser}]= useStateValue();
 
   
   const handleClose = () => {
@@ -131,6 +134,14 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
 
   
   const getUser = async () => {
+    if(currentUser){      // Ab- if the context is not empty
+      setData(currentUser._id);
+      setBio(bio === '' ? currentUser.bio : bio);
+      setName(name === '' ? currentUser.name : name);
+      setCollegeYear(collegeYear === '' ? currentUser.collegeYear : collegeYear);
+      
+      return;
+    }
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
