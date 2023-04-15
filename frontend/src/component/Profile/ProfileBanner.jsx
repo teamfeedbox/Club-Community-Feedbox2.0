@@ -19,20 +19,36 @@ function ProfileBanner(props) {
   const [userName, setUserName] = useState('');
   const [userYear, setUserYear] = useState('');
 
-  const [{currentUser}]= useStateValue();
+  const [{currentUser}, dispatch]= useStateValue();
 
   useEffect(() => {
     getUser();
   }, []);
 
-  const getUser = () => {
+  const getUser = async () => {
     if(currentUser){
       setRole(currentUser.role);
       setData(currentUser);
       setUserBio(currentUser.bio);
       setUserName(currentUser.name);
       setUserYear(currentUser.collegeYear);
+      return;
     }
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+
+      setRole(result.role);
+      setData(result);
+      setUserBio(result.bio);
+      setUserName(result.name);
+      setUserYear(result.collegeYear);
+      dispatch({
+        type: 'INIT_USER',
+        item: result,});
   };
 
   return (
