@@ -34,18 +34,15 @@ const HomePageProfile = (props) => {
 
   const [college, setCollege] = useState("");
   const [loading, setLoading] = useState(false);
-  const [loading1, setLoading1] = useState(false);
   const [clgEvents, setClgEvents] = useState([]);
   const [clgUsers, setClgUsers] = useState(0);
   const [allUsers, setAllUsers] = useState([]);
   const [selected, setSelected] = useState(false);
-  const [addclg, setaddclg] = useState();
   const role = JSON.parse(localStorage.getItem("user")).role
   const event = props.allEvents;
   const allClgs = props.allColleges;
 
   const [{ currentUser }] = useStateValue();
-
   const data = currentUser; // current user
 
   useEffect(() => {
@@ -57,7 +54,14 @@ const HomePageProfile = (props) => {
   const getAllUsers = async () => {
     let result = await fetch("http://localhost:8000/get");
     result = await result.json();
+    let array=[];
+    result.map(data=>{
+      if(data.role!=="Super_Admin"){
+        array.push(data)
+      }
+    })
     setAllUsers(result);
+    // setAllUsers(array);
   }
 
   const handleCollege = (e) => {

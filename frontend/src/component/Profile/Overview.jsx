@@ -32,7 +32,7 @@ function Overview(props) {
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
 
-  const [{currentUser}]= useStateValue();
+  const [{currentUser}, dispatch]= useStateValue();
 
   function updateProfile() {
     setValue("")
@@ -49,6 +49,10 @@ function Overview(props) {
  
 
   const getUser = async () => {
+    if(currentUser){
+      setData(currentUser);
+      return;
+    }
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -57,6 +61,9 @@ function Overview(props) {
     result = await result.json();
     setData(result);
     setUserId(result._id)
+    dispatch({
+      type: 'INIT_USER',
+      item: result,});
   };
 
 
