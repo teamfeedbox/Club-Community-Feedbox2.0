@@ -184,7 +184,9 @@ const PostDisplay = (props) => {
       setData(result)
     }
   };
-// console.log(data)
+console.log(data, 'post details')
+
+
 
   // Like a post
   const like = (id) => {
@@ -276,7 +278,14 @@ const PostDisplay = (props) => {
                 
                   <div className="post-head-content">
                     <p className="post-display-heading-college">
-                        {item && item.postedBy && item.postedBy.role == 'Super_Admin' ? 'Super Admin' : item.postedBy.collegeName}             
+
+                        {
+                          item.scope === 'public' ? 'Public' :
+                          item && item.postedBy && item.postedBy.role == 'Super_Admin' ? 'Super Admin' : item.postedBy.collegeName
+                        }
+                       
+
+
                     </p>
                     <p className="post-display-heading-time">{item.postedDate && timeAgo.format(new Date(item.postedDate).getTime() - 60 * 1000)}</p>
                   </div>
