@@ -67,7 +67,7 @@ router.post("/register", (req, res) => {
         user
           .save()
           .then((user) => {
-            res.send({data:"You have registered successfully ! Wait until you receive mail to login"});
+            res.send({data:"Registered successfully! Wait until you receive mail to login."});
           })
           .catch((err) => {
             console.log(err);
