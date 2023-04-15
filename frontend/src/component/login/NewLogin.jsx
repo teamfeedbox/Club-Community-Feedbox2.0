@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+import { injectStyle } from "react-toastify/dist/inject-style";
+import { ToastContainer, toast } from "react-toastify";
+
 const NewLogin = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+
+  if (typeof window !== "undefined") {
+    injectStyle();
+  }
 
   const handleLogin = async (e) => {
     setLoading(true);
@@ -25,7 +32,7 @@ const NewLogin = () => {
       localStorage.setItem("jwt", result.token);
       window.location.href="/main"  
     } else {
-      alert("Invalid Email or Password");
+      toast.error("Invalid Email or Password");
     }
     setLoading(false);
 
@@ -182,6 +189,7 @@ const NewLogin = () => {
           d="M0,0L40,42.7C80,85,160,171,240,197.3C320,224,400,192,480,154.7C560,117,640,75,720,74.7C800,75,880,117,960,154.7C1040,192,1120,224,1200,213.3C1280,203,1360,149,1400,122.7L1440,96L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"
         ></path>
       </svg>
+      <ToastContainer/>
     </div>
 
     // </div>

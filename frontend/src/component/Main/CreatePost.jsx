@@ -7,6 +7,9 @@ import Button from "react-bootstrap/Button";
 import axios from "axios"
 import { useStateValue } from "../../StateProvider";
 
+import { injectStyle } from "react-toastify/dist/inject-style";
+import { ToastContainer, toast } from "react-toastify";
+
 const CreatePost = ({allColleges }) => {
   const [show, setShow] = useState(false);
   const [file, setFile] = useState([]);
@@ -100,6 +103,10 @@ const CreatePost = ({allColleges }) => {
       });
   }
 
+  if (typeof window !== "undefined") {
+    injectStyle();
+  }
+
   // Create a post
   const CreatePost = (urls) => {
     const data = fetch("http://localhost:8000/create-post", {
@@ -120,9 +127,13 @@ const CreatePost = ({allColleges }) => {
         if (data.error) {
           console.log("error");
         } else {
-          alert("Posted Successfully...")
+          // alert("Posted Successfully...")
+          toast.dark("Posted Successfully...");
           setImage([]);
           setLoading(true);
+          setTimeout(()=>{
+            window.location.href="/main"
+          },5000);
         }
       })
       .catch((err) => {
@@ -265,6 +276,7 @@ const CreatePost = ({allColleges }) => {
             </div>
           </Modal.Footer>
         </Modal>
+        <ToastContainer/>
       </div>
     </>
   );

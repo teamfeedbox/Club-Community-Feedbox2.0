@@ -7,6 +7,9 @@ import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./EditProfile.css";
 
+import { injectStyle } from "react-toastify/dist/inject-style";
+import { ToastContainer, toast } from "react-toastify";
+
 const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
   // const [dataChanges, setDataChanges] = useState('nnnnn');
@@ -24,7 +27,11 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
 
   const [bio, setBio] = useState('');
 
-  
+  if (typeof window !== "undefined") {
+    injectStyle();
+  }
+
+
   const handleClose = () => {
     setOpen(false);
     setImage(false)
@@ -120,8 +127,14 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
         console.log(data.url)
         setLoading(false);
         setOpen(false);
-        alert("Profile updated successfully!");
-        window.location.href="/profile"
+        toast.success("updated ",
+        {
+          position: toast.POSITION.TOP_CENTER,
+     });
+        setTimeout(()=>{
+          window.location.href="/profile"
+        },4000);
+       
        
       })
       .catch((err) => {
@@ -282,6 +295,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                 </Form.Group>
               </Form>
             </Modal.Body>
+            
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
                 Close
@@ -315,6 +329,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
       ) : (
         ""
       )}
+      <ToastContainer />
     </div>
   );
 };
