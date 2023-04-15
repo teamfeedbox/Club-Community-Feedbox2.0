@@ -29,6 +29,9 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
     setOpen(false);
     setImage(false)
     // uploadPic();
+    // setUrl("")
+    // setImgg('');
+
     setBio(Userbio);
     setName(Username);
     setCollegeYear(Useryear);
@@ -91,6 +94,12 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   
   };
 
+  const crossImage=()=>{
+    setImage(false);
+    setUrl("");
+    setImgg("");
+
+  }
 
 // update(data);
   const uploadPic  = ()=>{
@@ -120,7 +129,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
       });
   };
 
- 
+  
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
@@ -128,7 +137,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
       },
     });
     result = await result.json();
-    console.log(result);
+    // console.log(result);
     setData(result._id);
     setBio(bio === '' ? result.bio : bio);
     setName(name === '' ? result.name : name);
@@ -215,7 +224,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                         <div>
                           <FontAwesomeIcon
                             icon={faXmark}
-                            onClick={() => setImage(false)}
+                            onClick={crossImage }
                             className="Edit-Profile-cancel"
                           />
                           <img

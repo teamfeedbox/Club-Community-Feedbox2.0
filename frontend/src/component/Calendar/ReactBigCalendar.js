@@ -19,6 +19,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
 import "./ReactBigCalendar.css";
+import { useStateValue } from "../../StateProvider";
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -65,7 +66,9 @@ export default function ReactBigCalendar() {
 
 
   const id = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).id;
-  const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role
+  const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role;
+
+  const [{allEventsData, currentUser}] = useStateValue();
 
   // Mindate for diasble previous dates in calender
   var today = new Date();
@@ -82,13 +85,7 @@ export default function ReactBigCalendar() {
 
   // get user
   const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    setUser(result);
+    setUser(currentUser);
   };
 
   const compareDate = (date, time) => {
@@ -136,22 +133,25 @@ export default function ReactBigCalendar() {
 
   // Get All Events
   const showEvent = async () => {
-    setInfinite(false);
-    let result = await fetch("http://localhost:8000/getAllEvent");
-    result = await result.json();
-    setEvent(result);
-    console.log(result, "o");
-    result.map((data, i) => {
+
+    // setInfinite(false);
+    // let result = await fetch("http://localhost:8000/getAllEvent");
+    // result = await result.json();
+    setEvent(allEventsData);
+    console.log(allEventsData, "o");
+    allEventsData.map((data, i) => {
       data.start = new Date(data.eventDate + " " + data.eventTime);
       data.end = new Date(data.eventDate + " " + data.eventTime);
       // data.end ="";
       data.id = i;
     });
-    setEventData(result);
-    setDupliEvents(result);
+    setEventData(allEventsData);
+    setDupliEvents(allEventsData);
     setLoading(false)
-    return result;
+    return allEventsData;
   };
+
+
 
   useEffect(() => {
     if (clgSelected) {
@@ -276,7 +276,9 @@ export default function ReactBigCalendar() {
     setEventClicked(true);
     setSelectedEvent(val);
   };
-  const handleSelect = () => { };
+  const handleSelect = () => {
+    setAddEventModel(true);
+  };
 
   // Delete Event
   const cancelEvent = async (id) => {

@@ -5,6 +5,8 @@ import "./PendingApprovals.css";
 import { Scrollbars } from "react-custom-scrollbars";
 import Modal from "react-bootstrap/Modal";
 import "./ClubMember.css";
+import {Link} from "react-router-dom"
+
 
 const Leads = (props) => {
   const [searchval, setSearchVal] = useState("");
@@ -25,51 +27,6 @@ const Leads = (props) => {
   const handleShow = () => setShow(true);
   const handleDelShow = () => setDelShow(true);
   const handleDelClose = () => setDelShow(false);
-
-
-  // const getUser = async () => {
-  //   setLoading3(true);
-  //   const result = await fetch(`http://localhost:8000/get`);
-  //   const res = await result.json();
-  //   let lead = [];
-  //   res && res.map((data) => {
-  //     if (data.role === 'Lead') {
-  //       lead.push(data)
-  //     }
-  //   })
-  //   lead = lead.reverse();
-  //   if (role === "Super_Admin") {
-  //     let clgSel = [];
-  //     if (props.clg) {
-  //       if (props.clg == "All") {
-  //         setLead(lead);
-  //         setData(lead);
-  //       } else {
-  //         lead.map(data => {
-  //           if (data.collegeName === props.clg) {
-  //             clgSel.push(data)
-  //           }
-  //         })
-  //         setLead(clgSel);
-  //         setData(clgSel);
-  //       }
-  //     } else {
-  //       setLead(lead);
-  //       setData(lead);
-  //     }
-  //   } else {
-  //     console.log("2");
-  //     let clg = [];
-  //     lead.map(data => {
-  //       if (data.collegeName === currentCollege) {
-  //         clg.push(data)
-  //       }
-  //     })
-  //     setLead(clg);
-  //     setData(clg);
-  //   }
-  //   setLoading3(false);
-  // };
 
   const getUser = async () => {
     setLoading3(true);
@@ -244,8 +201,12 @@ const Leads = (props) => {
                           height="40"
                           alt="Alex Shatov"
                         />
-
-                        <div className="ml-1  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[400]"> {member.name} </div>
+<Link to="/profile" 
+                state={member}
+                >
+                        <div className="ml-1  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[400]"> {member.name} 
+                        </div>
+                        </Link>
                       </div>
                     </td>
                     <td class="p-2 lg:flex items-left  hidden md:block  w-[12%]">

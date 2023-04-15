@@ -23,7 +23,7 @@ const Register = () => {
   const [collegeYear, setCollegeYear] = useState();
   const [collegeName, setCollegeName] = useState();
   const [branch, setBranch] = useState();
-  const [bio, setBio] = useState();
+  const [bio, setBio] = useState("");
   const [allClgs, setAllClgs] = useState([]);
 
   const navigate = useNavigate();
@@ -177,6 +177,17 @@ const Register = () => {
       });
     }
     setSkills((arr) => [...userinfo.response, skills]);
+  };
+
+  const maxWords = 400;
+  // const words = bio.trim().split(/\s+/);
+  const wordsLeft = maxWords - bio.length;
+
+  const handleChange1 = (event) => {
+    const value = event.target.value;
+    if (bio.length < maxWords) {
+      setBio(value);
+    }
   };
 
   return (
@@ -503,10 +514,16 @@ const Register = () => {
                         className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
                         type="text"
                         placeholder="Bio"
+                        maxlength="400"
                         value={bio}
-                        onChange={(e) => setBio(e.target.value)}
+                        onChange={(e) =>{
+                          setBio(e.target.value)
+                          handleChange1()
+                        } }
                         required
                       />
+                      <p className="Register-Page-Word-Limit"
+                      >* {wordsLeft}/400</p>
                     </div>
 
                     <div className="flex">

@@ -17,3 +17,9 @@ select:invalid option:not(:disabled) { color: red }
     font-size: 10px;
     color:red;
 }
+
+.Register-Page-Word-Limit{
+    font-size: 10px;
+    width: fit-content;
+   
+}

@@ -15,7 +15,6 @@ import NewLogin from "./component/login/NewLogin";
 import AttendanceSheet from "./component/Calendar/AttendanceSheet";
 import ReactBigCalendar from "./component/Calendar/ReactBigCalendar";
 import PostBigModel from "./component/Main/PostBigModel";
-import ProfileBigModel from "./component/Profile/ProfileBigModel";
 import Error from "./component/Error";
 import Loader from "./component/Loader";
 import Dashboard from "./component/Dashboard/Dashboard";
@@ -42,30 +41,20 @@ const App = () => {
   }
 
   const handleClick = async () => {
-    // let result = await fetch(`http://localhost:8000/user`, {
-    //   headers: {
-    //     Authorization: "Bearer " + localStorage.getItem("jwt"),
-    //   },
-    // });
-    // result = await result.json();
-    // if (result.role != role) {
-    //   setShow(true);
-    // }
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    if (result.role != role) {
+      setShow(true);
+    }
   }
 
   useEffect(() => {
     document.addEventListener("click", handleClick);
   }, []);
-
-  // const getUser = async () => {
-  //   let result = await fetch(`http://localhost:8000/user`, {
-  //     headers: {
-  //       Authorization: "Bearer " + localStorage.getItem("jwt"),
-  //     },
-  //   });
-  //   result = await result.json();
-  //   // document.addEventListener("click", handleClick(result.role));
-  // }
 
   return (
     <div className="App">
@@ -135,7 +124,7 @@ const App = () => {
             }
           />
 
-          <Route index path="/profileComment" element={<ProfileBigModel />} />
+          <Route index path="/profileComment" element={<PostBigModel />} />
 
           <Route
             index

@@ -6,9 +6,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom"
 import Scrollbars from "react-custom-scrollbars";
+import { useStateValue } from "../../StateProvider";
 
 const HomePageEvent = (props) => {
   const [event, setEvent] = useState([]);
+
+  const [{allEventsData}] = useStateValue();
+
+
 
   const handleEvents = (res) => {
     // res ----> all events coming from props
@@ -66,8 +71,8 @@ const HomePageEvent = (props) => {
   }
 
   useEffect(() => {
-    if (props.allEvents) {
-      handleEvents(props.allEvents);
+    if (allEventsData) {
+      handleEvents(allEventsData);
     }
   }, [props, props.clgData]);
 

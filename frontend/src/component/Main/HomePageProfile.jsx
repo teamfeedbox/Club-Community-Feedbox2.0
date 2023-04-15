@@ -31,6 +31,7 @@ const fColor = [
 ];
 
 const HomePageProfile = (props) => {
+
   const [college, setCollege] = useState("");
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
@@ -57,14 +58,6 @@ const HomePageProfile = (props) => {
     let result = await fetch("http://localhost:8000/get");
     result = await result.json();
     setAllUsers(result);
-  }
-
-  const goToProfile = (name) => {
-    if (name === "superAdmin") {
-      window.location.href = "/dashboard"
-    } else if (name === "user") {
-      window.location.href = "/profile"
-    }
   }
 
   const handleCollege = (e) => {
@@ -97,7 +90,7 @@ const HomePageProfile = (props) => {
       <div className="hidden md:block lg:block">
         <div className="home-profile-bg-doodle">
           <img src={"Images/doodle-profile-bg.png"} alt="" />
-          <button className="home-profile-visit-profile" onClick={() => goToProfile('user')}>
+          <button className="home-profile-visit-profile">
             <FontAwesomeIcon
               className="home-profile-visit-profile-icon"
               icon={faArrowUpRightFromSquare}
@@ -167,46 +160,43 @@ const HomePageProfile = (props) => {
           : ''}
 
         {/* for super admin */}
-        {/* <div className="m-3 flex  flex-col pb-3"> */}
-          {role && role == 'Super_Admin' && <div className="m-3 flex-col pb-3">
-            <div className="flex mt-2 w-[280px] rounded shadow-sm h-[60px] ">
-              <div className=" w-[45px] h-[45px] mt-1  ml-3 rounded bg-blue-200">
-                <FontAwesomeIcon
-                  className="w-[25px] h-[25px] m-2.5 text-blue-800"
-                  icon={faUserGroup}
-                />
-              </div>
-              <div className=" flex flex-col  pl-2">
-                <h className=" text-[1.1rem] md:text-[16px]   font-[600]">
-                  Total Students:
-                </h>
-                <p className=" text-[1.5rem] font-[700] p-0 relative bottom-2">
-                  {selected ? clgUsers ? clgUsers : 0 : allUsers.length > 0 && allUsers.length}
-                </p>
-              </div>
+        {role && role == 'Super_Admin' && <div className="m-3 flex-col pb-3">
+          <div className="flex mt-2 w-[280px] rounded shadow-sm h-[60px] ">
+            <div className=" w-[45px] h-[45px] mt-1  ml-3 rounded bg-blue-200">
+              <FontAwesomeIcon
+                className="w-[25px] h-[25px] m-2.5 text-blue-800"
+                icon={faUserGroup}
+              />
             </div>
-
-            <div className="flex mt-2 w-[280px] rounded shadow-sm h-[60px] ">
-              <div className=" w-[45px] h-[45px] mt-1  ml-3 rounded bg-green-200">
-                <FontAwesomeIcon
-                  className="w-[25px] h-[25px] m-2.5 text-green-800"
-                  icon={faWandSparkles}
-                />
-              </div>
-              <div className=" flex flex-col  pl-2">
-                <h className=" text-[1.1rem] md:text-[16px]   font-[600]">
-                  Total Events:
-                </h>
-                <p className=" text-[1.5rem] font-[700] p-0 relative bottom-2">{selected ? clgEvents.length > 0 ? clgEvents.length : 0 : event ? event.length : 0}</p>
-              </div>
+            <div className=" flex flex-col  pl-2">
+              <h className=" text-[1.1rem] md:text-[16px]   font-[600]">
+                Total Students:
+              </h>
+              <p className=" text-[1.5rem] font-[700] p-0 relative bottom-2">
+                {selected ? clgUsers ? clgUsers : 0 : allUsers.length > 0 && allUsers.length}
+              </p>
             </div>
-          </div>}
-        {/* </div> */}
+          </div>
 
+          <div className="flex mt-2 w-[280px] rounded shadow-sm h-[60px] ">
+            <div className=" w-[45px] h-[45px] mt-1  ml-3 rounded bg-green-200">
+              <FontAwesomeIcon
+                className="w-[25px] h-[25px] m-2.5 text-green-800"
+                icon={faWandSparkles}
+              />
+            </div>
+            <div className=" flex flex-col  pl-2">
+              <h className=" text-[1.1rem] md:text-[16px]   font-[600]">
+                Total Events:
+              </h>
+              <p className=" text-[1.5rem] font-[700] p-0 relative bottom-2">{selected ? clgEvents.length > 0 ? clgEvents.length : 0 : event ? event.length : 0}</p>
+            </div>
+          </div>
+        </div>}
       </div>
 
       {/* --------------------for mobile view (only for super admin) -------------------- */}
-      {role && (role === 'Super_Admin' || role==="Admin") ?
+      {role && (role === 'Super_Admin' || role === "Admin") ?
         <div className="block md:hidden lg:hidden px-3 pt-3 pb-3">
           <div className=" ">
             <select

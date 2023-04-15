@@ -16,10 +16,13 @@ import Loader from '../Loader.jsx'
 import TimeAgo from "javascript-time-ago";
 import en from 'javascript-time-ago/locale/en'
 import { useStateValue } from "../../StateProvider";
+import {Link} from "react-router-dom"
 
 const PostDisplay = (props) => {
+
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
+
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
   const [val, setVal] = useState([]);
@@ -28,25 +31,26 @@ const PostDisplay = (props) => {
   // To open the Comment Model
   const [openComment, setOpenComment] = useState(false);
 
-  console.log(props,"clgdara");
- 
-  useEffect(() => {
-    getList();
-    getUser();
-  },[]);
+  const role = JSON.parse(localStorage.getItem("user")).role;
 
-  const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    setUser(result);
+  const [{currentUser, allPosts}, dispatch ] = useStateValue();
+
+  useEffect(() => {
+    getUser();
+    getList();
+  },[]);
+  
+  const getUser = () => {
+    setUser(currentUser);
   };
 
   // get All Post
   const getList = async () => {
+    if(allPosts ){
+      console.log(allPosts, 'all post');
+      setData(allPosts);
+      return 
+    }
     let result = await fetch("http://localhost:8000/getAllPost", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -64,7 +68,12 @@ const PostDisplay = (props) => {
       data.count = count;
     })
 
+    dispatch({
+      type: 'INIT_ALL_POST',
+      item: result});
+
     setVal(result.reverse())
+
     if (props.clgData) {
       if (props.clgData === "All") {
         setData(result)
@@ -72,7 +81,6 @@ const PostDisplay = (props) => {
         if (val.length > 0) {
           let array = [];
           val.map((eve) => {
-            console.log(eve,"llllllllllllllllllllllll")
             if (eve.collegeName === props.clgData) {
               array.push(eve);
             }
@@ -100,8 +108,7 @@ const PostDisplay = (props) => {
       body: JSON.stringify({
         postId: id,
       }),
-    })
-      .then((res) => res.json())
+    }).then((res) => res.json())
       .then((result) => {
         const newData = data.map((item) => {
           if (item._id === result._id) {
@@ -151,26 +158,43 @@ const PostDisplay = (props) => {
         <div className="mb-[120px]">
           {data.length > 0 ? data.map((item, index) => (
             <div key={item._id} className="post-display1">
+              
               <div className="post-display-head">
                 <div className="post-display-profile">
                   <img src={item && item.postedBy && item.postedBy.img} alt="" />
                 </div>
                 <div className="post-display-heading">
+               {
+               role==="Super_Admin"  || role === "Admin" ?
+                <Link className="link-to-profile" to="/profile" 
+                state={item.postedBy}
+                >
                   <p className="post-head">
                     {item && item.postedBy && item.postedBy.name}
                   </p>
-
+                  </Link>
+                  :
+                  <p className="post-head">
+                    {item && item.postedBy && item.postedBy.name}
+                  </p>
+               }
+                
                   <div className="post-head-content">
                     <p className="post-display-heading-college">
-                        {item && item.postedBy && item.postedBy.role == 'Super_Admin' ? 'Super Admin' : item.postedBy.collegeName}             
+                        {
+                          item.scope === 'public' ? 'Public' :
+                          item && item.postedBy && item.postedBy.role == 'Super_Admin' ? 'Super Admin' : item.postedBy.collegeName
+                        }
                     </p>
                     <p className="post-display-heading-time">{item.postedDate && timeAgo.format(new Date(item.postedDate).getTime() - 60 * 1000)}</p>
                   </div>
                 </div>
               </div>
+            
 
               <div className="post-display-center">
                 <div className="post-display-content">{item.desc}</div>
+
                   {/* *****************carousel for mobile view********************* */}
                   {item.img.length > 0 ?
                 <div className="post-display-image ">
@@ -204,6 +228,7 @@ const PostDisplay = (props) => {
                   </div>
                 </div>
                   :' '}
+
                 {/* *********************carousel for web view*************************** */}
 
                 {item.img.length > 0 ?
@@ -260,7 +285,7 @@ const PostDisplay = (props) => {
                 <button onClick={() => {
                   setOpenComment(!openComment)
                   setId(item._id)
-                  // localStorage.setItem("postId",JSON.stringify(item._id))
+                
                 }} className="post-display-bottom-content">
                   <FontAwesomeIcon
                     style={{ fontSize: "22.5px", cursor: "pointer", marginTop: "1px" }}
@@ -271,7 +296,6 @@ const PostDisplay = (props) => {
                     {item.count}
                    
                   </span>
-                    {/* {item.comment.length && item.comment.reply.length} */}
                 </button>
               </div>
             </div>
