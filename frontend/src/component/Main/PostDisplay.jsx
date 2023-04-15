@@ -58,7 +58,7 @@ const PostDisplay = (props) => {
         },
       });
       res = await res.json();
-
+setData(res);
       let count = 0;
       res.map((data) => {
         count = data.comment.length
