@@ -101,11 +101,13 @@ const PostDisplay = (props) => {
 
   // get All Post
   const getList = async () => {
+    
     if(allPosts ){
       console.log(allPosts, 'all post');
       setData(allPosts);
       return 
     }
+
     let result = await fetch("http://localhost:8000/getAllPost", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),

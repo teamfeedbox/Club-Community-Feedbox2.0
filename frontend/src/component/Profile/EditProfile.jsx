@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./EditProfile.css";
+import { useToasts } from "react-toast-notifications";
 
 const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
@@ -24,6 +25,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
 
   const [bio, setBio] = useState('');
 
+  const { addToast } = useToasts();
   
   const handleClose = () => {
     setOpen(false);
@@ -120,8 +122,15 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
         console.log(data.url)
         setLoading(false);
         setOpen(false);
-        alert("Profile updated successfully!");
+        // alert("Profile updated successfully!");
+        addToast("Profile updated successfully!", { appearance: "success" })
+        // window.location.href="/profile"
+
+        setTimeout(() => {
+          // setTextDisplay(false);
         window.location.href="/profile"
+
+        }, 2000);
        
       })
       .catch((err) => {
