@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import Button from "react-bootstrap/esm/Button";
 
+import { ToastContainer, toast } from 'react-toastify';
+
 const Colleges = () => {
   const [loading1, setLoading1] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -47,8 +49,11 @@ const Colleges = () => {
       });
       const res = await data.json();
       setaddclg("");
-      alert(res);
-      window.location.href = "/profile";
+      toast.dark(res);
+
+      setTimeout(() => {
+        window.location.href = "/profile";
+      }, 2000);
       setLoading(true);
     }
     setLoading1(false);
@@ -181,6 +186,7 @@ const Colleges = () => {
           </table>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

@@ -21,7 +21,7 @@ const CreatePost = ({allColleges }) => {
   const [zeroImage, setZeroImage] = useState(false);
   const [required, setRequired] = useState(false);
 
-  const [{currentUser}]= useStateValue();
+  const [{ currentUser }] = useStateValue();
   let user = currentUser;
 
   let allClgs = allColleges && allColleges
@@ -204,7 +204,7 @@ const CreatePost = ({allColleges }) => {
               </div>
               <textarea
                 type="text"
-                rows="3"
+                rows="3"                 
                 className="modal-input"
                 placeholder="what do you want to talk about ?"
                 value={desc}
@@ -252,7 +252,7 @@ const CreatePost = ({allColleges }) => {
             </div>
             <div>
               {
-                (zeroImage || desc.length > 0)  && scope ?
+                (zeroImage || desc.length > 0) && scope ?
                   <Button
                     variant="primary"
                     onClick={function (event) {

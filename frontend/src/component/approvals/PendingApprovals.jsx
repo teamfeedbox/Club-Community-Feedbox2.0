@@ -219,7 +219,7 @@ const PendingApprovals = (props) => {
                           className="h-[30px] rounded-xl text-[#616161] text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[500] hover:bg-gray-300 mr-2 w-[80px]"
                           >
 
-                          {declineLoading && id !== index  ? (
+                          {declineLoading && id === index  ? (
                             <div
                               class="spinner-border text-black"
                               role="status"

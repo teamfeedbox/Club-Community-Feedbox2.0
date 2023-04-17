@@ -6,6 +6,8 @@ import Form from "react-bootstrap/Form";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./EditProfile.css";
+import { useToasts } from "react-toast-notifications";
+import { useStateValue } from "../../StateProvider";
 
 import { injectStyle } from "react-toastify/dist/inject-style";
 import { ToastContainer, toast } from "react-toastify";
@@ -27,11 +29,10 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
 
   const [bio, setBio] = useState('');
 
-  if (typeof window !== "undefined") {
-    injectStyle();
-  }
+  const { addToast } = useToasts();
+  const [{currentUser}]= useStateValue();
 
-
+  
   const handleClose = () => {
     setOpen(false);
     setImage(false)
@@ -127,14 +128,15 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
         console.log(data.url)
         setLoading(false);
         setOpen(false);
-        toast.success("updated ",
-        {
-          position: toast.POSITION.TOP_CENTER,
-     });
-        setTimeout(()=>{
-          window.location.href="/profile"
-        },4000);
-       
+        // alert("Profile updated successfully!");
+        addToast("Profile updated successfully!", { appearance: "success" })
+        // window.location.href="/profile"
+
+        setTimeout(() => {
+          // setTextDisplay(false);
+        window.location.href="/profile"
+
+        }, 2000);
        
       })
       .catch((err) => {
@@ -144,6 +146,14 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
 
   
   const getUser = async () => {
+    if(currentUser){      // Ab- if the context is not empty
+      setData(currentUser._id);
+      setBio(bio === '' ? currentUser.bio : bio);
+      setName(name === '' ? currentUser.name : name);
+      setCollegeYear(collegeYear === '' ? currentUser.collegeYear : collegeYear);
+      
+      return;
+    }
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -191,6 +201,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                     type="text"
                     onChange={(e) => setName(e.target.value)}
                     value={name}
+                    required
                   />
                 </Form.Group>
                 }

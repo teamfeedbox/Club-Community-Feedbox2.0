@@ -10,7 +10,6 @@ import { useStateValue } from "../../StateProvider";
 
 const REACT_APP_BASE_URL= process.env.REACT_APP_BASE_URL;
 
-
 const Main = () => {
   const [user, setUser] = useState();
   const [clg, setClg] = useState();
@@ -21,12 +20,10 @@ const Main = () => {
 
   const[{},dispatch] = useStateValue();
 
-
   useEffect(() => {
     getUser();
     getAllEvents();
     getColleges();
-    
   }, [])
 
   // Get all Colleges*****
@@ -51,9 +48,9 @@ const Main = () => {
       },
     });
     result = await result.json();
-    console.log(result,"result");
     setUser(result);
     console.log(result, 'user hereeeeeee');
+    
     dispatch({
       type: 'INIT_USER',
       item: result,});

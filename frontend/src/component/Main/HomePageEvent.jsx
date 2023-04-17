@@ -10,11 +10,13 @@ import { useStateValue } from "../../StateProvider";
 
 const HomePageEvent = (props) => {
   const [event, setEvent] = useState([]);
+  const [loading,setLoading]=useState(false);
 
   const [{ allEventsData }] = useStateValue();
 
   const handleEvents = (res) => {
     // res ----> all events coming from props
+    setLoading(true);
     let today = new Date();
     let result = [];
     res.map((event) => {
@@ -69,6 +71,7 @@ const HomePageEvent = (props) => {
     } else {
       setEvent(result);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -79,6 +82,8 @@ const HomePageEvent = (props) => {
 
   return (
     <div className="overall-main-page-event">
+      {
+      !loading ?
       <div className="event-main-div-res">
         {event && event.length > 0 ? (
           event.map((item) => (
@@ -104,18 +109,23 @@ const HomePageEvent = (props) => {
           
           // Skeleton view for event 
           <div className="HomePageEvent">
-          <div role="status" class="max-w-sm animate-pulse">
-              <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
-              <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
-              <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
-              <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
-              <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
-              <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
-              <span class="sr-only">Loading...</span>
-            </div>
+          <div style={{textAlign:"center"}}>No Upcoming Events !</div>
           </div>
         )}
+      </div>:
+      <div className="HomePageEvent">
+      <div role="status" class="max-w-sm animate-pulse">
+          <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+          <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
+          <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+          <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
+          <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
+          <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
+          <span class="sr-only">Loading...</span>
+        </div>
       </div>
+      }
+      
 
       {/* mobile view */}
       <div className="main-event-carousel">
