@@ -27,19 +27,22 @@ const PostDisplay = (props) => {
   const [user, setUser] = useState([]);
   const [val, setVal] = useState([]);
   const [id, setId] = useState("");
-  const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
+  const [load, setLoad] = useState(false);
   // To open the Comment Model
   const [openComment, setOpenComment] = useState(false);
 
   const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role;
+  const college = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).college;
+  console.log(college);
 
   const [{ currentUser, allPosts }, dispatch] = useStateValue();
 
   useEffect(() => {
     getUser();
     getList();
-  }, []);
+    setLoad(false);
+  }, [load, props.clgData]);
 
   const getUser = () => {
     setUser(currentUser);
@@ -80,30 +83,53 @@ const PostDisplay = (props) => {
 
     setVal(result.reverse())
 
-    if (role !== "Super_Admin") {
+    if (role === "Super_Admin" || role === "Admin") {
+      console.log(props.clgData, "ppp");
       if (props.clgData) {
         if (props.clgData === "All") {
           setData(result)
+          setLoad(true);
         } else {
-          if (val.length > 0) {
-            let array = [];
-            val.map((eve) => {
-              if (eve.collegeName === props.clgData) {
-                array.push(eve);
-              }
-            })
-            if (array.length > 0) {
-              setData(array);
-            } else {
-              setData([])
+          console.log(props.clgData);
+          let array = [];
+          result.map((eve) => {
+            if (eve.collegeName === props.clgData) {
+              array.push(eve);
             }
+          })
+          console.log(array);
+          if (array.length > 0) {
+            setData(array);
+            setLoad(true);
+          } else {
+            setData([])
+            setLoad(true);
           }
         }
-      }else{
-        
+      } else {
+        if (role == "Admin") {
+          let array = [];
+          result.map((data) => {
+            if (data.scope === "public" || data.collegeName === college) {
+              array.push(data);
+            }
+          })
+          setData(array);
+          setLoad(true);
+        } else {
+          setData(result);
+          setLoad(true);
+        }
       }
     } else {
-      setData(result);
+      let array = [];
+      result.map((data) => {
+        if (data.scope === "public" || data.collegeName === college) {
+          array.push(data);
+        }
+      })
+      setData(array);
+      setLoad(true);
     }
     setLoading2(false);
   };
@@ -195,7 +221,7 @@ const PostDisplay = (props) => {
                     <p className="post-display-heading-college">
                       {
                         item.scope === 'public' ? 'Public' :
-                          item && item.postedBy && item.postedBy.role == 'Super_Admin' ? 'Super Admin' : item.postedBy.collegeName
+                          item && item.postedBy && item.postedBy.role == 'Super_Admin' ? 'Super Admin' : item.collegeName
                       }
                     </p>
                     <p className="post-display-heading-time">{item.postedDate && timeAgo.format(new Date(item.postedDate).getTime() - 60 * 1000)}</p>
@@ -265,7 +291,6 @@ const PostDisplay = (props) => {
                       </Carousel>
                     </div>
                   </div> : ''}
-
               </div>
 
               <div className="post-display-bottom">
@@ -297,21 +322,16 @@ const PostDisplay = (props) => {
                 <button onClick={() => {
                   setOpenComment(!openComment)
                   setId(item._id)
-
                 }} className="post-display-bottom-content">
                   <FontAwesomeIcon
                     style={{ fontSize: "22.5px", cursor: "pointer", marginTop: "1px" }}
-                    icon={faMessage}
-                  />
+                    icon={faMessage} />
                   <span style={{ fontSize: '0.8rem', fontWeight: '600' }}>
-
                     {item.count}
-
                   </span>
                 </button>
               </div>
             </div>
-
           )) :
           <div className="post-display1">
             <div style={{textAlign:"center"}}>No Post Yet !</div>
