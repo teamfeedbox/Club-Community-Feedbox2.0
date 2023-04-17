@@ -36,7 +36,7 @@ const PostDisplay = (props) => {
   const [{ currentUser, allPosts }, dispatch] = useStateValue();
 
   useEffect(() => {
-    getUser();
+    getUser();     
     getList();
   }, []);
 
@@ -58,6 +58,7 @@ const PostDisplay = (props) => {
         },
       });
       res = await res.json();
+      setData(res)
 
       let count = 0;
       res.map((data) => {
