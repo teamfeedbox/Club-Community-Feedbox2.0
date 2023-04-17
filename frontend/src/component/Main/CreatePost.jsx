@@ -7,7 +7,10 @@ import Button from "react-bootstrap/Button";
 import axios from "axios"
 import { useStateValue } from "../../StateProvider";
 
-const CreatePost = ({ allColleges }) => {
+import { injectStyle } from "react-toastify/dist/inject-style";
+import { ToastContainer, toast } from "react-toastify";
+
+const CreatePost = ({allColleges }) => {
   const [show, setShow] = useState(false);
   const [file, setFile] = useState([]);
   const [textDisplay, setTextDisplay] = useState(false);
@@ -20,7 +23,8 @@ const CreatePost = ({ allColleges }) => {
 
   const [{ currentUser }] = useStateValue();
   let user = currentUser;
-
+  let currCollege = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).college
+  let role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role
   let allClgs = allColleges && allColleges
 
   function handleSelect(e) {
@@ -33,7 +37,6 @@ const CreatePost = ({ allColleges }) => {
     if (file.length >= 0) {
       setZeroImage(true);
     }
-
 
     if (file.length == 5) {
       setTextDisplay(true);
@@ -100,29 +103,39 @@ const CreatePost = ({ allColleges }) => {
       });
   }
 
+  if (typeof window !== "undefined") {
+    injectStyle();
+  }
+
   // Create a post
   const CreatePost = (urls) => {
+    let val = {
+      scope: scope,
+      collegName: currCollege,
+      desc: desc,
+      img: urls
+    };
+
     const data = fetch("http://localhost:8000/create-post", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + localStorage.getItem("jwt")
       },
-      body: JSON.stringify({
-        desc,
-        scope,
-        collegeName: user && user.collegeName,
-        img: urls,
-      })
+      body: JSON.stringify(val)
     })
-      .then((res) => res.json())
-      .then((data) => {
+      .then(res => res.json())
+      .then(data => {
         if (data.error) {
           console.log("error");
         } else {
-          alert("Posted Successfully...")
+          // alert("Posted Successfully...")
+          toast.dark("Posted Successfully...");
           setImage([]);
           setLoading(true);
+          setTimeout(()=>{
+            window.location.href="/main"
+          },5000);
         }
       })
       .catch((err) => {
@@ -175,14 +188,22 @@ const CreatePost = ({ allColleges }) => {
                   <img src={user && user.img} alt="" />
                 </div>
                 <div className="modal-profile-section-content">
-                  {/* <h5>{JSON.parse(auth).name}</h5> */}
                   <div>{user && user.name}</div>
 
                   <select required name="type" onChange={handleSelect}>
                     <option disabled hidden selected value="Select">Select</option>
                     <option value="public">Public</option>
-                    {allClgs && allClgs.length > 0 &&
-                      allClgs.map((clg) => <option value={clg}>{clg}</option>)}
+                    {
+                      (role === "Admin" || role==="Lead") &&
+                      <option value={currCollege && currCollege}>{currCollege && currCollege}</option>
+                    }
+                    {
+                      role == "Super_Admin" &&
+                      <>
+                        {allClgs && allClgs.length > 0 &&
+                          allClgs.map((clg) => <option value={clg}>{clg}</option>)}
+                      </>
+                    }
                   </select>
                   {
                     required ? <div className="error-text-create-post" >
@@ -193,7 +214,7 @@ const CreatePost = ({ allColleges }) => {
               </div>
               <textarea
                 type="text"
-                rows="3"                 
+                rows="3"
                 className="modal-input"
                 placeholder="what do you want to talk about ?"
                 value={desc}
@@ -265,6 +286,7 @@ const CreatePost = ({ allColleges }) => {
             </div>
           </Modal.Footer>
         </Modal>
+        <ToastContainer/>
       </div>
     </>
   );

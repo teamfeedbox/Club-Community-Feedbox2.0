@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import "./HomePageProfile.css";
 import { useStateValue } from "../../StateProvider";
+import { Link } from "react-router-dom";
 
 const backColor = [
   "#EDC7E2",
@@ -94,12 +95,14 @@ const HomePageProfile = (props) => {
       <div className="hidden md:block lg:block">
         <div className="home-profile-bg-doodle">
           <img src={"Images/doodle-profile-bg.png"} alt="" />
+          <Link style={{textDecoration:"none"}} to="/profile">
           <button className="home-profile-visit-profile">
             <FontAwesomeIcon
               className="home-profile-visit-profile-icon"
               icon={faArrowUpRightFromSquare}
             />
           </button>
+          </Link>
         </div>
         <div className="home-profile-main-info">
           <div className="home-profile-main-photo">
