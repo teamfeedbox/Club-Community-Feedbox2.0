@@ -25,7 +25,6 @@ const PostDisplay = (props) => {
 
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
-  const [val, setVal] = useState([]);
   const [id, setId] = useState("");
   const [loading, setLoading] = useState(false);
   const [load, setLoad] = useState(false);
@@ -79,16 +78,14 @@ const PostDisplay = (props) => {
       result = res
     }
 
-    setVal(result.reverse())
+    result = result.reverse()
 
     if (role === "Super_Admin" || role === "Admin") {
-      console.log(props.clgData, "ppp");
       if (props.clgData) {
         if (props.clgData === "All") {
           setData(result)
           setLoad(true);
         } else {
-          console.log(props.clgData);
           let array = [];
           result.map((eve) => {
             if (eve.collegeName === props.clgData) {
@@ -216,8 +213,8 @@ const PostDisplay = (props) => {
                   <div className="post-head-content">
                     <p className="post-display-heading-college">
                       {
-                        item.scope === 'public' ? 'Public' :
-                          item && item.postedBy && item.postedBy.role == 'Super_Admin' ? 'Super Admin' : item.collegeName
+                        item && item.postedBy && item.postedBy.role == 'Super_Admin' ? 'Super Admin'
+                        : item.scope === 'public' ? item.collegeName + ' (Public)' : item.collegeName
                       }
                     </p>
                     <p className="post-display-heading-time">{item.postedDate && timeAgo.format(new Date(item.postedDate).getTime() - 60 * 1000)}</p>
