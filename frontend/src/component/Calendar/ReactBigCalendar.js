@@ -28,10 +28,6 @@ export default function ReactBigCalendar() {
   const location = useLocation();
   const eveId = location.state && location.state.eventId;
 
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const [event, setEvent] = useState([]);
   const [title, setTitle] = useState("");
   const [eventDate, setEventDate] = useState("");
@@ -64,9 +60,9 @@ export default function ReactBigCalendar() {
   const [eventProp, setEventProp] = useState(true);
   const [calIntersted, setCalInterested] = useState(false);
 
-
   const id = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).id;
   const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role;
+  const college = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).college;
 
   const [{allEventsData, currentUser}] = useStateValue();
 
@@ -91,7 +87,6 @@ export default function ReactBigCalendar() {
   const compareDate = (date, time) => {
     let today = new Date();
     let eveDate = new Date(date + " " + time);
-    console.log(today > eveDate);
     setMAVisibility(today > eveDate);
   };
 
@@ -133,10 +128,7 @@ export default function ReactBigCalendar() {
 
   // Get All Events
   const showEvent = async () => {
-
     // setInfinite(false);
-    // let result = await fetch("http://localhost:8000/getAllEvent");
-    // result = await result.json();
     setEvent(allEventsData);
     console.log(allEventsData, "o");
     allEventsData.map((data, i) => {
@@ -327,7 +319,7 @@ export default function ReactBigCalendar() {
       <div className="Calendar-container">
         <div className="Calendar-left">
           {/* ----------------college dropdown for super admin--------------- */}
-          {role && role == "Super_Admin" ? (
+          {role && (role == "Super_Admin" || role==='Admin') ? (
             <div className=" my-4 mx-1 ">
               <select
                 className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl w-[100%]"
@@ -349,9 +341,7 @@ export default function ReactBigCalendar() {
                   ))}
               </select>
             </div>
-          ) : (
-            ""
-          )}
+          ) : "" }
 
           {/* -----------Button to add event in calendar------------------*/}
           {role && role !== "Club_Member" ? (
@@ -624,8 +614,15 @@ export default function ReactBigCalendar() {
                         Select Community
                       </option>
                       <option value="public" className="text-black">Public</option>
-                      {allClgs && allClgs.length > 0 &&
-                        allClgs.map((clg) => <option value={clg} className="text-black">{clg}</option>)}
+                      {
+                        (role ==='Admin' || role ==='Lead') && 
+                        <option value={college} className="text-black">{college}</option>
+                      }
+                      {
+                        role ==='Super_Admin' &&
+                        allClgs && allClgs.length > 0 &&
+                        allClgs.map((clg) => <option value={clg} className="text-black">{clg}</option>)
+                      }
                     </select>
                   </div>
                   <div className="input-container">
