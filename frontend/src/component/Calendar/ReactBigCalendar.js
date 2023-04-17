@@ -85,7 +85,17 @@ export default function ReactBigCalendar() {
 
   // get user
   const getUser = async () => {
-    setUser(currentUser);
+    if(currentUser){
+      setUser(currentUser);
+      return;
+    }
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    setUser(result);
   };
 
   const compareDate = (date, time) => {
@@ -133,22 +143,27 @@ export default function ReactBigCalendar() {
 
   // Get All Events
   const showEvent = async () => {
-
-    // setInfinite(false);
-    // let result = await fetch("http://localhost:8000/getAllEvent");
-    // result = await result.json();
-    setEvent(allEventsData);
-    console.log(allEventsData, "o");
-    allEventsData.map((data, i) => {
+    let result;
+    if(allEventsData){
+      result=allEventsData;
+    }else
+    {
+      setInfinite(false);
+      result = await fetch("http://localhost:8000/getAllEvent");
+      result = await result.json();
+    }
+    setEvent(result);
+    console.log(result, "o");
+    result.map((data, i) => {
       data.start = new Date(data.eventDate + " " + data.eventTime);
       data.end = new Date(data.eventDate + " " + data.eventTime);
       // data.end ="";
       data.id = i;
     });
-    setEventData(allEventsData);
-    setDupliEvents(allEventsData);
+    setEventData(result);
+    setDupliEvents(result);
     setLoading(false)
-    return allEventsData;
+    return result;
   };
 
 

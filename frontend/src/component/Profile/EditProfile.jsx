@@ -52,8 +52,8 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   }
 
   useEffect(() => {
-    getUserDetails();
     getUser();
+    getUserDetails();
     if (url) {
       update(data);
     }
@@ -78,6 +78,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   const getUserDetails = async () => {
     // console.log(params)
     let result = await fetch(`http://localhost:8000/user/${data}`);
+    console.log(data, "helloooooooodata");
     result = await result.json();
     setEmail(result.email);
   };
@@ -151,7 +152,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
       setBio(bio === '' ? currentUser.bio : bio);
       setName(name === '' ? currentUser.name : name);
       setCollegeYear(collegeYear === '' ? currentUser.collegeYear : collegeYear);
-      
+ 
       return;
     }
     let result = await fetch(`http://localhost:8000/user`, {
