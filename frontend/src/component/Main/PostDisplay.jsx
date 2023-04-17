@@ -27,7 +27,7 @@ const PostDisplay = (props) => {
   const [user, setUser] = useState([]);
   const [val, setVal] = useState([]);
   const [id, setId] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const [load, setLoad] = useState(false);
   // To open the Comment Model
   const [openComment, setOpenComment] = useState(false);
@@ -50,6 +50,7 @@ const PostDisplay = (props) => {
 
   // get All Post
   const getList = async () => {
+    setLoading2(true);
     let result;
     if (allPosts) {
       setData(allPosts);
@@ -62,6 +63,7 @@ const PostDisplay = (props) => {
         },
       });
       res = await res.json();
+      setData(res);
 
       let count = 0;
       res.map((data) => {
@@ -129,6 +131,7 @@ const PostDisplay = (props) => {
       setData(array);
       setLoad(true);
     }
+    setLoading2(false);
   };
 
   // Like a post
@@ -188,9 +191,10 @@ const PostDisplay = (props) => {
 
   return (
     <div id="post_display_container">
-      {!loading ?
+      {!loading2 ?
         <div className="mb-[120px]">
-          {data.length > 0 ? data.map((item, index) => (
+          {
+          data.length > 0 ? data.map((item, index) => (
             <div key={item._id} className="post-display1">
 
               <div className="post-display-head">
@@ -229,7 +233,7 @@ const PostDisplay = (props) => {
               <div className="post-display-center">
                 <div className="post-display-content">{item.desc}</div>
 
-                {/* *****************carousel for mobile view********************* */}
+                {/* ******carousel for mobile view******** */}
                 {item.img.length > 0 ?
                   <div className="post-display-image ">
                     <div className="post-display-carousel-mobileview">
@@ -263,7 +267,7 @@ const PostDisplay = (props) => {
                   </div>
                   : ' '}
 
-                {/* *********************carousel for web view*************************** */}
+                {/* ********carousel for web view********** */}
 
                 {item.img.length > 0 ?
                   <div id="web-carousel" className="post-display-image flex justify-center h-[620px] carousel-web-view">
@@ -329,12 +333,24 @@ const PostDisplay = (props) => {
               </div>
             </div>
           )) :
-            <div className="post-display1">
-              <div style={{ justifyContent: "center", textAlign: "center" }}>No Post Yet !</div>
-            </div>
+          <div className="post-display1">
+            <div style={{textAlign:"center"}}>No Post Yet !</div>
+          </div>
           }
         </div>
-        : <Loader />}
+        :
+        <div className="post-display1">
+          <div role="status" class="max-w-sm animate-pulse">
+            <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+            <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
+            <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+            <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
+            <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
+            <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
+            <span class="sr-only">Loading...</span>
+          </div>
+          </div>
+        }
       <PostBigModel
         openComment={openComment}
         setOpenComment={setOpenComment}

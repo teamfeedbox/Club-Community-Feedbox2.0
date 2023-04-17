@@ -9,6 +9,9 @@ import "./EditProfile.css";
 import { useToasts } from "react-toast-notifications";
 import { useStateValue } from "../../StateProvider";
 
+import { injectStyle } from "react-toastify/dist/inject-style";
+import { ToastContainer, toast } from "react-toastify";
+
 const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
   // const [dataChanges, setDataChanges] = useState('nnnnn');
@@ -198,6 +201,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                     type="text"
                     onChange={(e) => setName(e.target.value)}
                     value={name}
+                    required
                   />
                 </Form.Group>
                 }
@@ -302,6 +306,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                 </Form.Group>
               </Form>
             </Modal.Body>
+            
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
                 Close
@@ -335,6 +340,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
       ) : (
         ""
       )}
+      <ToastContainer />
     </div>
   );
 };
