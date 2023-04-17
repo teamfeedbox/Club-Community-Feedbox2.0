@@ -54,6 +54,7 @@ const LoginPage = () => {
   // const navigate = useNavigate();
   return (
     <div className="login-page">
+
       <div className="login-main-page">
         <p>Sign In</p>
    
@@ -115,9 +116,11 @@ const LoginPage = () => {
           New to Community? Join now
         </button> 
       </div>
+     
       <div className="login-image">
         <img src="Images/l2.jpeg" alt="" />
       </div>
+     
     </div>
   );
 };
