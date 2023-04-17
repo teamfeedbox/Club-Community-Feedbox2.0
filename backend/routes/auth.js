@@ -142,7 +142,7 @@ router.get('/user', requireLogin, async (req, res) => {
     const email = req.user.email;
     const user = await User.findOne({ email }).populate("email").select("-password");
     if (user) {
-      console.log("llllll");
+      
       res.status(200).json(user);
     } else {
       res.status(404).json("This user doesn't exists...")

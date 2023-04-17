@@ -35,6 +35,9 @@ const PostDisplay = (props) => {
   const [replyCount, setReplyCount] = useState([]);
   const [comment, setComments] = useState([" How "]);
   const [loading, setLoading] = useState(false);
+  // To show and hide the more button if content is more then 200 character
+  const [showMore, setShowMore] = useState(false);
+  const [contentId,setContentId]=useState('');
 
   // const[isCommunity, setIsCommunity] = useState(true)
 
@@ -225,6 +228,9 @@ const PostDisplay = (props) => {
       });
   };
 
+
+  
+
   return (
     <div id="post_display_container">
       {!loading ?
@@ -250,7 +256,26 @@ const PostDisplay = (props) => {
               </div>
 
               <div className="post-display-center">
-                <div className="post-display-content">{item.desc}</div>
+                <div className="post-display-content">
+                {
+                  item.img.length<=0 ? item.desc : item.desc
+                   && contentId===item._id && showMore ? item.desc :
+                   item.desc.length>180 ?
+                  <button onClick={()=>
+                    {
+                      setShowMore(true)
+                  setContentId(item._id)  
+
+                    }
+                  
+                  }
+                   style={{ color:""}}
+                  >{item.desc.slice(0,180)}......more</button>:item.desc
+                }
+                  </div>
+                {/*
+                
+                */}
                   {/* *****************carousel for mobile view********************* */}
                   {item.img.length > 0 ?
                 <div className="post-display-image ">
@@ -369,6 +394,8 @@ const PostDisplay = (props) => {
         openComment={openComment}
         setOpenComment={setOpenComment}
         id={id}
+        route="/main"
+        
       />
     </div>
   );

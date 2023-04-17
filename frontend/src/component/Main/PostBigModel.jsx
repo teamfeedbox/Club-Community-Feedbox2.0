@@ -19,7 +19,7 @@ import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 import { RotatingLines,ProgressBar } from  'react-loader-spinner'
 import { useStateValue } from "../../StateProvider";
-function PostBigModel({ openComment, setOpenComment, id }) {
+function PostBigModel({ openComment, setOpenComment, id, route }) {
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
   const [deleteComId, setDeleteComId] = useState("");
@@ -43,6 +43,8 @@ function PostBigModel({ openComment, setOpenComment, id }) {
   const [checkReply, setCheckreply] = useState(true);
   // To show and hide "hide reply"
   const [hideReply, setHidereply] = useState(false);
+  
+
 
   // funciton for doing comment
   function comment(){
@@ -171,7 +173,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                     </div>
                   </div>
                   <Link
-                    to="/main"
+                    to={route}
                     className="Cancel-Icon-Container"
                     style={{ textDecoration: "none" }}
                   >
@@ -208,7 +210,7 @@ function PostBigModel({ openComment, setOpenComment, id }) {
                   ) : (
                     <Scrollbars
                       className="Scrollbar-height"
-                      style={{ height: "102%", position: "relative" }}
+                      style={{ height: "94%", position: "relative" }}
                     >
                       {/* Comment 1 */}
                       {user &&
@@ -753,11 +755,10 @@ function PostBigModel({ openComment, setOpenComment, id }) {
           </div>
           )
           
-        //  ********************************************************
+          //  ********************************************************
           // if no img is there
 
           :
-          
           
           ( <div id="commentBox" className="Post-Big-Model2">
             {

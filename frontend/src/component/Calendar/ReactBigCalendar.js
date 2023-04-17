@@ -276,9 +276,14 @@ export default function ReactBigCalendar() {
     setEventClicked(true);
     setSelectedEvent(val);
   };
-  const handleSelect = () => {
+  const handleSelect = ({start}) => {
+    // alert(start);
+    const a=JSON.stringify(start);
+    (a.slice(0,9))
+    // alert(a.)
+    
     setAddEventModel(true);
-  };
+  };  
 
   // Delete Event
   const cancelEvent = async (id) => {
@@ -569,8 +574,6 @@ export default function ReactBigCalendar() {
             events={eventData}
             onSelectEvent={handleEvent}
             step={20}
-            // showMultiDayTimes
-            // eventPropGetter={eventPropGetter}
             onSelectSlot={handleSelect}
           />
         </div>
