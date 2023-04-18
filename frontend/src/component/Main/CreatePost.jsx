@@ -10,7 +10,7 @@ import { useStateValue } from "../../StateProvider";
 import { injectStyle } from "react-toastify/dist/inject-style";
 import { ToastContainer, toast } from "react-toastify";
 
-const CreatePost = ({allColleges }) => {
+const CreatePost = ({ allColleges }) => {
   const [show, setShow] = useState(false);
   const [file, setFile] = useState([]);
   const [textDisplay, setTextDisplay] = useState(false);
@@ -109,12 +109,22 @@ const CreatePost = ({allColleges }) => {
 
   // Create a post
   const CreatePost = (urls) => {
-    let val = {
-      scope: scope,
-      collegName: currCollege,
-      desc: desc,
-      img: urls
-    };
+    let val;
+    if (role === 'Super_Admin') {
+      val = {
+        scope: scope,
+        collegName: scope,
+        desc: desc,
+        img: urls
+      };
+    } else {
+      val = {
+        scope: scope,
+        collegName: currCollege,
+        desc: desc,
+        img: urls
+      };
+    }
 
     const data = fetch("http://localhost:8000/create-post", {
       method: "post",
@@ -133,9 +143,9 @@ const CreatePost = ({allColleges }) => {
           toast.dark("Posted Successfully...");
           setImage([]);
           setLoading(true);
-          setTimeout(()=>{
-            window.location.href="/main"
-          },5000);
+          setTimeout(() => {
+            window.location.href = "/main"
+          }, 5000);
         }
       })
       .catch((err) => {
@@ -205,7 +215,7 @@ const CreatePost = ({allColleges }) => {
                     <option disabled hidden selected value="Select">Select</option>
                     <option value="public">Public</option>
                     {
-                      (role === "Admin" || role==="Lead") &&
+                      (role === "Admin" || role === "Lead") &&
                       <option value={currCollege && currCollege}>{currCollege && currCollege}</option>
                     }
                     {
@@ -303,7 +313,7 @@ const CreatePost = ({allColleges }) => {
             </div>
           </Modal.Footer>
         </Modal>
-        <ToastContainer/>
+        <ToastContainer />
       </div>
     </>
   );

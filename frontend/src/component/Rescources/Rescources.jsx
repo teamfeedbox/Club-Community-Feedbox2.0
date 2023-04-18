@@ -5,9 +5,7 @@ import RescourcesTable from "./RescourcesTable";
 import NavbarRes from "../navbar/NavbarRes";
 
 const Rescources = () => {
-  //   const getText = (e)=>{
-  // console.log(e)
-  //   }
+ 
   const [temp,setTemp]=useState(0);
   const [name, setName] = useState("");
   const [skill, setSkills] = useState([
