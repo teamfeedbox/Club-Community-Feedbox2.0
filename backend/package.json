@@ -17,6 +17,7 @@
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "force": "^0.0.3",
+    "helmet": "^6.1.5",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^5.0.1",

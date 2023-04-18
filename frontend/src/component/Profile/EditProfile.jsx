@@ -31,6 +31,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   const [bio, setBio] = useState('');
 
   const { addToast } = useToasts();
+  
   const [{currentUser}]= useStateValue();
 
   
@@ -131,15 +132,13 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
         console.log(data.url)
         setLoading(false);
         setOpen(false);
-        // alert("Profile updated successfully!");
-        addToast("Profile updated successfully!", { appearance: "success" })
-        // window.location.href="/profile"
-
-        setTimeout(() => {
-          // setTextDisplay(false);
+        alert("Profile updated successfully!");
+        // addToast("Profile updated successfully!", { appearance: "success" })
         window.location.href="/profile"
 
-        }, 2000);
+        // setTimeout(() => {
+        // window.location.href="/profile"
+        // }, 2000);
        
       })
       .catch((err) => {
