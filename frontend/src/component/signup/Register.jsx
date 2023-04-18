@@ -188,7 +188,7 @@ const Register = () => {
 
   const maxWords = 400;
   // const words = bio.trim().split(/\s+/);
-  const wordsLeft = maxWords - bio.length;
+  const wordsLeft = bio.length;
 
   const handleChange1 = (event) => {
     const value = event.target.value;

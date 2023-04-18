@@ -165,36 +165,9 @@ router.get('/getAllResource/:skill', requireLogin, (req, res) => {
 })
 
 
-// router.get('/getAllResource',requireLogin,(req,res)=>{
-//   var mySort = { date: -1 };
-//     Resource.find()
-//     .sort(mySort)
-//     .populate('author').select("-password")
-//     .then(posts=>{
-//       // console.log(posts)
-//         res.json(posts)
-//     })
-//     .catch(err=>{
-//         console.log(err)
-//     })
-// })
 
 
 
-
-//api to get all the resource created by user in their profile page
-// router.get('/myResource/:id',(req,res)=>{
-
-//     Resource.find({author:req.params.id})
-
-//     .populate('author').select("-password")
-//     .then(resource=>{
-//         res.json({resource})
-//     })
-//     .catch(err=>{
-//         console.log(err)
-//     })
-// })
 
 
 
