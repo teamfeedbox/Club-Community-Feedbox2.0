@@ -198,7 +198,9 @@ const Leads = (props) => {
                           height="40"
                           alt="Alex Shatov"
                         />
-                        <Link
+                        {
+                          role==="Super_Admin" || role=== "Admin" ?
+                          <Link
                           className="link-to-profile"
                           to="/profile"
                           state={member}
@@ -208,6 +210,13 @@ const Leads = (props) => {
                             {member.name}
                           </div>
                         </Link>
+                        :
+                        <div className="ml-1  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[400]">
+                            {" "}
+                            {member.name}
+                          </div>
+                        }
+                        
                       </div>
                     </td>
                     <td class="p-2 lg:flex items-left  hidden md:block  w-[12%]">
