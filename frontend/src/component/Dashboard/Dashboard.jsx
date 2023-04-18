@@ -164,6 +164,7 @@ const Dashboard = () => {
   var mon = new Date().getMonth() + 1;
 
   useEffect(() => {
+    console.log(allEventsData, "dataaaaa");
     getUser();
     getColleges();
     getList();
@@ -189,11 +190,16 @@ const Dashboard = () => {
   };
   // console.log(user)
 
-  const getList = (e) => {
-
+  const getList = async (e) => {
+    let res;
+    if(allEventsData){
+      res=allEventsData;
+    }else
+    {
+      let result = await fetch("http://localhost:8000/getAllEvent");
+      res = await result.json();
+    }
     // await e.preventDefault();
-    // let result = await fetch("http://localhost:8000/getAllEvent");
-    // result = await result.json();
     //  console.log(Number(result[0].eventDate.slice(5,7)))
     //  console.log(mon)
     // var count;
@@ -202,7 +208,7 @@ const Dashboard = () => {
     let a=0;let b=0;let c=0;let d=0;let ee=0;let f=0;let g=0; let h=0;let i=0; let j=0;let k=0;let l=0;
     let a1=0;let b1=0;let c1=0;let d1=0;let ee1=0;let f1=0;let g1=0; let h1=0;let i1=0; let j1=0;let k1=0;let l1=0;
     let a2=0;let b2=0;let c2=0;let d2=0;let ee2=0;let f2=0;let g2=0; let h2=0;let i2=0; let j2=0;let k2=0;let l2=0;
-    allEventsData.map((item)=>
+    res.map((item)=>
     { 
       
       month = Number(item.eventDate.slice(5, 7))
@@ -292,7 +298,7 @@ const Dashboard = () => {
     let average = 0;
 
     // console.log(Number(result[7].eventDate.slice(8,10))
-    allEventsData.map((item) => {
+    res.map((item) => {
 
       if (
           ( today.getFullYear() <= Number(item.eventDate.slice(0, 4))) 
@@ -312,7 +318,7 @@ const Dashboard = () => {
    
     setCount(counter);
     setEventHeld(pastEvent);
-    setEvent(allEventsData);
+    setEvent(res);
     setTime(eventHr);
     setAverageTime(average);
     // console.log(counter)

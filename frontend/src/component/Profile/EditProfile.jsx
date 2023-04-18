@@ -70,17 +70,17 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
       },
     });
 
-    result = await result.json();
+    const res = await result.json();
 
-    console.log(result)
+    console.log(res)
   };
 
   const getUserDetails = async () => {
     // console.log(params)
     let result = await fetch(`http://localhost:8000/user/${data}`);
     console.log(data, "helloooooooodata");
-    result = await result.json();
-    setEmail(result.email);
+    const res = await result.json();
+    setEmail(res.email);
   };
 
   const updateDetail = async (data) => {
@@ -96,7 +96,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
       },
     });
 
-    result = await result.json();
+    const res = await result.json();  
 
     setLoading(false);
     setOpen(false);
@@ -160,12 +160,12 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     });
-    result = await result.json();
+    const res = await result.json();
     // console.log(result);
-    setData(result._id);
-    setBio(bio === '' ? result.bio : bio);
-    setName(name === '' ? result.name : name);
-    setCollegeYear(collegeYear === '' ? result.collegeYear : collegeYear);
+    setData(res._id);
+    setBio(bio === '' ? res.bio : bio);
+    setName(name === '' ? res.name : name);
+    setCollegeYear(collegeYear === '' ? res.collegeYear : collegeYear);
     // if(bio===''){
     //   setBio(result.bio)
     // }

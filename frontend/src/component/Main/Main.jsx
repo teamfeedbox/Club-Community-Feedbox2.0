@@ -18,7 +18,7 @@ const Main = () => {
   const [eventSel, setEventSel] = useState();
   const role = JSON.parse(localStorage.getItem("user")).role;
 
-  const[{},dispatch] = useStateValue();
+  const[{currentUser, allEventsData, colleges},dispatch] = useStateValue();
 
   useEffect(() => {
     getUser();
@@ -28,42 +28,56 @@ const Main = () => {
 
   // Get all Colleges*****
   const getColleges = async () => {
-    const data = await fetch(`http://localhost:8000/colleges/get`);
-    const res = await data.json();
-    let val = [];
-    res.map((data) => {
-      val.push(data.name);
-    });
-    setAllClgs(val);
-    dispatch({
-      type: 'INIT_CLG_ARR',
-      item: val,});
+    if(colleges){
+      setAllClgs(colleges);
+      console.log("collegeee-------");
+    }else{
+      console.log('collegggggeee-----');
+      const data = await fetch(`http://localhost:8000/colleges/get`);
+      const res = await data.json();
+      let val = [];
+      res.map((data) => {
+        val.push(data.name);
+      });
+      setAllClgs(val);
+      dispatch({
+        type: 'INIT_CLG_ARR',
+        item: val,});
+    }
   };
 
   // Get a user*****
   const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    setUser(result);
-    console.log(result, 'user hereeeeeee');
-    
-    dispatch({
-      type: 'INIT_USER',
-      item: result,});
+    if(currentUser){
+      setUser(currentUser);
+    }else{
+      let result = await fetch(`http://localhost:8000/user`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      });
+      result = await result.json();
+      setUser(result);
+      console.log(result, 'user hereeeeeee');
+      
+      dispatch({
+        type: 'INIT_USER',
+        item: result,});
+    }
   };
 
   // Get All Events*****
   const getAllEvents = async () => {
-    let res = await fetch("http://localhost:8000/getAllEvent");
-    res = await res.json();
-    setAllEvents(res);
-    dispatch({
-      type: 'INIT_ALL_EVENT',
-      item: res,});
+    if(allEventsData){
+      setAllEvents(allEventsData);
+    }else{
+      let res = await fetch("http://localhost:8000/getAllEvent");
+      res = await res.json();
+      setAllEvents(res);
+      dispatch({
+        type: 'INIT_ALL_EVENT',
+        item: res,});
+    }
   }
 
   const handleDataChange = (newData) => {
