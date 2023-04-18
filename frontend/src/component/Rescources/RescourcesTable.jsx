@@ -141,15 +141,16 @@ const RescourcesTable = (props) => {
       // PDF file uploaded successfully
       setLoading(false);
       alert("File uploaded successfully");
-      setTitle("");
-      setFile("");
-      setPdfFile("");
-      setPdfLink("");
-      setFileName("");
-      setLink(false);
-      setShow(false);
+      // setTitle("");
+      // setFile("");
+      // setPdfFile("");
+      // setPdfLink("");
+      // setFileName("");
+      // setLink(false);
+      // setShow(false);
       window.location.href='/rescourcesDisplay';
-    } else {
+    } 
+    else {
       // Error uploading PDF file
       console.log("error");
       setLoading(false);
@@ -157,7 +158,7 @@ const RescourcesTable = (props) => {
   };
 
   const getList = async (skillName) => {
-    console.log("l,mnuhgftr");
+    // console.log("l,mnuhgftr");
     let result = await fetch(
       `http://localhost:8000/getAllResource/${skillName}`,
       {
@@ -287,7 +288,7 @@ const RescourcesTable = (props) => {
                           name="file"
                           // value={image}
                           onChange={handleChange}
-                          accept=".pdf, .doc, .docx"
+                          accept=".pdf"
                         />
                       </div>
 
@@ -301,7 +302,7 @@ const RescourcesTable = (props) => {
                         <FontAwesomeIcon icon={faChain} className="fa-xl" />
                       </div>
 
-                      {link && !mypdf ? (
+                      {/* {link && !mypdf ? ( */}
                         <div className="add-res-add-link">
                           <input
                             type="text"
@@ -311,17 +312,18 @@ const RescourcesTable = (props) => {
                             name="pdfLink"
                           />
                         </div>
-                      ) : (
+                      {/* ) : (
                         ""
-                      )}
+                      )
+                      } */}
 
-                      {mypdf && !link ? (
+                      {/* {mypdf && !link ? (
                         <div className="w-fit text-[.8rem] mt-2">
                           {filename}
                         </div>
                       ) : (
                         ""
-                      )}
+                      )} */}
                     </div>
 
                     <div>
@@ -330,7 +332,7 @@ const RescourcesTable = (props) => {
                         className="btn btn-primary"
                         type="submit"
                         variant="primary"
-                        disabled = {title && (file || pdfLink) ? false : true}
+                        // disabled = {title && (file || pdfLink) ? false : true}
                       >
                         {loading ? (
                           <div

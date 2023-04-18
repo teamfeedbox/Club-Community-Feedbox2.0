@@ -86,7 +86,7 @@ router.post("/login", (req, res) => {
     return res.status(422).json({ error: "please add all the details" });
   }
   User.findOne({ email: email }).then((savedUser) => {
-    if (!savedUser) {
+    if (!savedUser) { 
       return res.status(422).json({ err: "invalid email or password" });
     } else if(savedUser.role == 'user') {
       return res.status(500).json({ err: "You are not a part of club right now." });
@@ -95,7 +95,7 @@ router.post("/login", (req, res) => {
       .compare(password, savedUser.password)
       .then((doMatch) => {
         if (doMatch) {
-          const token = jwt.sign({ _id: savedUser._id }, jwtKey);
+          const token = jwt.sign({ _id: savedUser._id }, jwtKey,{ expiresIn: '2d' });
           res.json({ token ,id:savedUser._id,role:savedUser.role,college:savedUser.collegeName});
         } else {
           return res.status(422).json({ error: "invalid password" });

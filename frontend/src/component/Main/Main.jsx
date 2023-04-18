@@ -48,6 +48,7 @@ const Main = () => {
       },
     });
     result = await result.json();
+
     setUser(result);
     console.log(result, 'user hereeeeeee');
     

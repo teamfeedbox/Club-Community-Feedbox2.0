@@ -253,7 +253,7 @@ const PostDisplay = (props) => {
                     }
                   
                   }
-                   style={{ color:""}}
+                  //  style={{ color:""}}
                   >{item.desc.slice(0,180)}......more</button>:item.desc
                 }
                   </div>

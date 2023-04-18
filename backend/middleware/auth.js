@@ -88,7 +88,7 @@ router.post("/login", (req, res) => {
       .compare(password, savedUser.password)
       .then((doMatch) => {
         if (doMatch) {
-          const token = jwt.sign({ _id: savedUser._id }, jwtKey);
+          const token = jwt.sign({ _id: savedUser._id }, jwtKey,{ algorithm: 'RS256' },{ expiresIn: '2d' });
           res.json({ token });
         } else {
           return res.status(422).json({ error: "invalid password" });
@@ -144,12 +144,7 @@ router.put('/updateSkill/:id', requireLogin, async (req, res) => {
 })
 
 
-// router.put('/updateDetail/:id', async(req,res)=>{
 
-// //  console.log(req.body.email)
-// //   console.log(req.body.bio)
-//   let result = await User.updateMany(
-//     {_id:req.params.id},
 
 // update details of a user
 router.put('/updateDetail/:id', async (req, res) => {
@@ -174,15 +169,7 @@ router.delete('/user/:id', async (req, res) => {
   })
 })
 
-// router.put('/updateSkills/:eventId', requireLogin, async (req, res) => {
-//   let result = await Event.updateOne(
-//     { _id: req.params.eventId },
-//     {
-//       $push: { skills: req.body }
-//     }
-//   )
-//   res.send(result)
-// })
+
 
 
 
@@ -200,7 +187,7 @@ router.get('/getAllUser',(req,res)=>{
 })
 
 
-// updatte event attendance and coins of a user
+// update event attendance and coins of a user
 router.put('/update/coins/events/', async (req, res) => {
   // console.log(req.body);
   try {
