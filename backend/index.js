@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require('mongoose');
 const cors = require("cors"); 
 const compression = require('compression');
-
+const helmet = require('helmet');
 const post = require("./routes/Post");
 const auth = require('./routes/auth')
 const event = require('./routes/Event')
@@ -31,6 +31,32 @@ app.use(bodyParser.urlencoded({
 app.use(express.json({ limit: '10mb' }));
 app.use(cors());
 app.use(compression())
+
+
+//helmet
+app.use(helmet());
+app.use(helmet.xssFilter(),
+helmet.noSniff(),
+helmet.frameguard({
+  action:"deny",
+}),
+helmet.referrerPolicy({
+  policy:"no-referrer",
+}),
+helmet.contentSecurityPolicy({
+  directives:{
+    scriptSrc:["'self'"],
+    styleSrc:["'self'"]
+  },
+})
+);
+
+
+
+
+
+
+
 
 app.use("/", auth);
 app.use("/", post);
