@@ -12,7 +12,7 @@ router.post('/upload', upload.single('file'),requireLogin, async (req, res) => {
     const {title,skill,pdfLink} = req.body
     // console.log(pdfLink)
 
-    if(pdfLink === 'undefined'){
+    if(pdfLink === ''){
       //  alert("Add files");
       const result = await cloudinary.uploader.upload(req.file.path, {
         resource_type: 'raw',
@@ -36,9 +36,7 @@ router.post('/upload', upload.single('file'),requireLogin, async (req, res) => {
       // console.log(pdf);
       
       await pdf.save()
-      .then(()=>{
-        res.send({data:"PDF uploaded successfully!"});
-      })
+    
       
     }
 
@@ -54,41 +52,14 @@ router.post('/upload', upload.single('file'),requireLogin, async (req, res) => {
     // console.log(pdfSave);
     
     await pdfSave.save()
-    .then(()=>{
-      res.send({data:"PDF uploaded successfully!"});
-    })
+   
     
     }
 
 
-
-    // const result = await cloudinary.uploader.upload(req.file.path, {
-    //   resource_type: 'raw',
-    //   folder: 'pdfs'
-    // });
-  
-    // const pdfUrl = result.secure_url;
-    // // console.log(pdfUrl)
-    // // console.log(req.user)
-    // const pdf = await new Resource({
-    //   title,
-    //   skill,
-    //   author:req.user,  
-    //   name: req.file.originalname,
-    //   url: pdfUrl,
-    //   link:pdfLink
-    // });
-    // // console.log(pdf);
-    
-    // await pdf.save();
   });
 
-// router.post('/create-resource',async(req,res)=>{
-//     let resource = new Resource(req.body)
-//     let data = await resource.save();
-//     res.send(data);
-    
-// })
+
 
 //api to get all resource
 //it will be used to display at the resources page
@@ -107,36 +78,9 @@ router.get('/getAllResource/:skill',requireLogin,(req,res)=>{
 })
 
 
-// router.get('/getAllResource',requireLogin,(req,res)=>{
-//   var mySort = { date: -1 };
-//     Resource.find()
-//     .sort(mySort)
-//     .populate('author').select("-password")
-//     .then(posts=>{
-//       // console.log(posts)
-//         res.json(posts)
-//     })
-//     .catch(err=>{
-//         console.log(err)
-//     })
-// })
 
 
 
-
-//api to get all the resource created by user in their profile page
-// router.get('/myResource/:id',(req,res)=>{
-   
-//     Resource.find({author:req.params.id})
-  
-//     .populate('author').select("-password")
-//     .then(resource=>{
-//         res.json({resource})
-//     })
-//     .catch(err=>{
-//         console.log(err)
-//     })
-// })
 
 
 
