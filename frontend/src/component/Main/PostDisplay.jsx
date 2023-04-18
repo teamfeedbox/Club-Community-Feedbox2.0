@@ -4,6 +4,7 @@ import { FcLike } from "react-icons/fc";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import React, { useState, useEffect, } from "react";
+import { faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -25,13 +26,14 @@ const PostDisplay = (props) => {
 
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
-  const [val, setVal] = useState([]);
   const [id, setId] = useState("");
+  const [id1, setId1] = useState("");
   const [loading2, setLoading2] = useState(false);
   const [load, setLoad] = useState(false);
   // To open the Comment Model
   const [openComment, setOpenComment] = useState(false);
-
+  const[open,setOpen]=useState(false);
+  
   const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role;
   const college = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).college;
   console.log(college);
@@ -39,7 +41,7 @@ const PostDisplay = (props) => {
   const [{ currentUser, allPosts }, dispatch] = useStateValue();
 
   useEffect(() => {
-    getUser();
+    getUser();     
     getList();
     setLoad(false);
   }, [load, props.clgData]);
@@ -64,7 +66,7 @@ const PostDisplay = (props) => {
       });
       res = await res.json();
       setData(res);
-
+      console.log(res);
       let count = 0;
       res.map((data) => {
         count = data.comment.length
@@ -81,16 +83,14 @@ const PostDisplay = (props) => {
       result = res
     }
 
-    setVal(result.reverse())
+    result = result.reverse()
 
     if (role === "Super_Admin" || role === "Admin") {
-      console.log(props.clgData, "ppp");
       if (props.clgData) {
         if (props.clgData === "All") {
           setData(result)
           setLoad(true);
         } else {
-          console.log(props.clgData);
           let array = [];
           result.map((eve) => {
             if (eve.collegeName === props.clgData) {
@@ -189,6 +189,22 @@ const PostDisplay = (props) => {
       });
   };
 
+  const deletePost = async(id)=>{
+    // console.log(id)
+    let result = await fetch(`http://localhost:8000/deletePost/${id}`, {
+      method: "delete",
+    });
+
+    result = await result.json();
+    console.log(result)
+
+    if (result) {
+     getList();
+    }
+    console.log(allPosts);
+  }
+  
+
   return (
     <div id="post_display_container">
       {!loading2 ?
@@ -198,6 +214,7 @@ const PostDisplay = (props) => {
             <div key={item._id} className="post-display1">
 
               <div className="post-display-head">
+                <div style={{display:'flex'}}>
                 <div className="post-display-profile">
                   <img src={item && item.postedBy && item.postedBy.img} alt="" />
                 </div>
@@ -220,13 +237,37 @@ const PostDisplay = (props) => {
                   <div className="post-head-content">
                     <p className="post-display-heading-college">
                       {
-                        item.scope === 'public' ? 'Public' :
-                          item && item.postedBy && item.postedBy.role == 'Super_Admin' ? 'Super Admin' : item.collegeName
+                        item && item.postedBy && item.postedBy.role == 'Super_Admin' ? 'Super Admin'
+                        : item.scope === 'public' ? item.collegeName + ' (Public)' : item.collegeName
                       }
                     </p>
                     <p className="post-display-heading-time">{item.postedDate && timeAgo.format(new Date(item.postedDate).getTime() - 60 * 1000)}</p>
                   </div>
                 </div>
+                </div>
+
+              {
+               role==='Super_Admin'?
+               <div className="post-display-delete" onClick={() => {deletePost(item._id);console.log(item._id);}}>
+                <svg
+                        className="w-8 h-8 text-red-600 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        ></path>
+                      </svg>
+              </div>
+                :
+                "" 
+              }
+              
               </div>
 
 

@@ -111,7 +111,7 @@ const CreatePost = ({allColleges }) => {
   const CreatePost = (urls) => {
     let val = {
       scope: scope,
-      collegName: scope,
+      collegName: currCollege,
       desc: desc,
       img: urls
     };

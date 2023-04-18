@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import "./PendingApprovals.css";
 import { Scrollbars } from "react-custom-scrollbars";
+import { useStateValue } from "../../StateProvider";
 
 const PendingApprovals = (props) => {
   const [data, setData] = useState([]);
@@ -19,11 +20,16 @@ const PendingApprovals = (props) => {
   const currentCollege = JSON.parse(localStorage.getItem("user")).college;
   const role = JSON.parse(localStorage.getItem("user")).role;
 
+  const[{currentUser}]=useStateValue();
+  
+
+  // get all users
   const getUser = async () => {
     console.log("dlkcnus");
     setLoading3(true);
     const result = await fetch(`http://localhost:8000/get`);
     const res = await result.json();
+    console.log(res, 'pApprovalsssssss');
     let user = [];
     res &&
       res.map((data) => {

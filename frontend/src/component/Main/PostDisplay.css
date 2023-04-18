@@ -19,6 +19,15 @@
 }
 .post-display-head {
     display: flex;
+    justify-content: space-between;
+}
+
+.post-display-delete{
+    display: flex;
+    margin-top: 10px;
+    margin-right: 10px;
+    font-size: 15px;
+    cursor: pointer;
 }
 .post-display-profile img{
     width: 50px;
