@@ -225,7 +225,7 @@ const AttendanceSheet = () => {
           <section className="attendence-title">
             {/* *****************Event title******************** */}
             <h5 className="mt-2 pl-2 md:ml-4">
-              {currentEvent && currentEvent.title}
+              Event : {currentEvent && currentEvent.title}
             </h5>
 
             {/* ****************search functionality***************** */}
@@ -309,7 +309,7 @@ const AttendanceSheet = () => {
               </div>
             </div>
           ) : (
-            "No Interested Students"
+            <div style={{textAlign:"center",padding:"20px"}}>No Interested Students!</div>
           )}
           {data.length > 0 ? (
             <div className="flex justify-between mx-12 my-5">

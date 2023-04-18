@@ -167,7 +167,8 @@ const Admin = (props) => {
                           alt="Alex Shatov"
                         />
                     <Link to="/profile" 
-                         state={member} >
+                         state={member}
+                         className="link-to-profile" >
                         <div className="ml-2 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[400]"> {member.name} </div>
                       </Link>
                       </div>

@@ -200,6 +200,11 @@ const ProfilePost = (prop) => {
       });
   };
 
+  const openDeletePost=(id)=>{
+    setId(id);
+    setOpen(!open);    
+  }
+
 
   return (
     <div id="profilePost" >
@@ -209,17 +214,17 @@ const ProfilePost = (prop) => {
             <p className="post-display-heading-time"> Posted : {item && item.postedDate && timeAgo.format(new Date(item.postedDate).getTime() - 60 * 1000)}</p>
             <div>
               <div 
-              onClick={() => {setOpen(!open)}}
+              onClick={() => openDeletePost(item._id)}
               className=" w-7 h-7 rounded-full hover:bg-blue-200 transition-all duration-100">
                 <FontAwesomeIcon
                   icon={faEllipsisVertical}
                   className="mx-[11.5px]"
                 />
               </div>
-               { open && <div
+               { open && item._id === id && <div
                 class=" absolute   bg-white/40 rounded-lg shadow ">
                 <ul class="py-3 px-3  flex flex-col gap-3">
-                  <li class="cursor-pointer bg-red-400 p-2 rounded-md hover:opacity-90 text-white"
+                  <li class="cursor-pointer bg-red-500 p-2 rounded-md hover:opacity-90 text-white"
                   onClick={() => deletePost(item._id)}
                   >
                      <FontAwesomeIcon icon={faTrash} /> Delete

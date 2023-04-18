@@ -14,12 +14,19 @@ import {
   faFile,
   faFileInvoice,
 } from "@fortawesome/free-solid-svg-icons";
+
+import { injectStyle } from "react-toastify/dist/inject-style";
+import { ToastContainer, toast } from "react-toastify";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import NavbarRes from "../navbar/NavbarRes";
 import { useStateValue } from "../../StateProvider";
 
 const RescourcesTable = (props) => {
+  if (typeof window !== "undefined") {
+    injectStyle();
+  }
+
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
   const location = useLocation();
@@ -140,14 +147,15 @@ const RescourcesTable = (props) => {
     if (response) {
       // PDF file uploaded successfully
       setLoading(false);
-      alert("File uploaded successfully");
-      // setTitle("");
-      // setFile("");
-      // setPdfFile("");
-      // setPdfLink("");
-      // setFileName("");
-      // setLink(false);
-      // setShow(false);
+      toast.dark("File uploaded successfully");
+      setTitle("");
+      setFile("");
+      setPdfFile("");
+      setPdfLink("");
+      setFileName("");
+      setLink(false);
+      setShow(false);
+      setLoading(false);
       window.location.href='/rescourcesDisplay';
     } 
     else {
@@ -302,7 +310,7 @@ const RescourcesTable = (props) => {
                         <FontAwesomeIcon icon={faChain} className="fa-xl" />
                       </div>
 
-                      {/* {link && !mypdf ? ( */}
+                      {link && !mypdf ? (
                         <div className="add-res-add-link">
                           <input
                             type="text"
@@ -312,18 +320,18 @@ const RescourcesTable = (props) => {
                             name="pdfLink"
                           />
                         </div>
-                      {/* ) : (
+                      ) : (
                         ""
                       )
-                      } */}
+                      } 
 
-                      {/* {mypdf && !link ? (
+                      {mypdf && !link ? (
                         <div className="w-fit text-[.8rem] mt-2">
                           {filename}
                         </div>
                       ) : (
                         ""
-                      )} */}
+                      )}
                     </div>
 
                     <div>
@@ -332,7 +340,7 @@ const RescourcesTable = (props) => {
                         className="btn btn-primary"
                         type="submit"
                         variant="primary"
-                        // disabled = {title && (file || pdfLink) ? false : true}
+                        disabled = {title && (file || pdfLink) ? false : true}
                       >
                         {loading ? (
                           <div
@@ -355,6 +363,7 @@ const RescourcesTable = (props) => {
                   </Modal.Footer>
                 </form>
               </Modal>
+              <ToastContainer/>
             </div>
           </div>
 
@@ -473,6 +482,7 @@ const RescourcesTable = (props) => {
               ""
             )}
           </div>
+          
         </div>
       </div>
     </>
