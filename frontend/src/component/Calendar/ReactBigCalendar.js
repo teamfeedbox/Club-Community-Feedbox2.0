@@ -155,9 +155,9 @@ export default function ReactBigCalendar() {
       setEventData(result);
       setLoading(false)
     } else {
-      let array=[];
+      let array = [];
       result.map((data, i) => {
-        if(data.collegeName==college || data.scope=='public'){
+        if (data.collegeName == college || data.scope == 'public') {
           data.start = new Date(data.eventDate + " " + data.eventTime);
           data.end = new Date(data.eventDate + " " + data.eventTime);
           data.id = i;
@@ -243,7 +243,7 @@ export default function ReactBigCalendar() {
       desc,
       speaker,
     };
-    
+
     if (role == "Lead") {
       val['scope'] = college;
       val['collegeName'] = college
@@ -255,7 +255,7 @@ export default function ReactBigCalendar() {
       val['collegeName'] = scope
     }
 
-    console.log(val,"val");
+    console.log(val, "val");
     setLoading(true);
     e.preventDefault();
     let result = await fetch("http://localhost:8000/createEvent", {
@@ -305,14 +305,14 @@ export default function ReactBigCalendar() {
     setEventClicked(true);
     setSelectedEvent(val);
   };
-  const handleSelect = ({start}) => {
+  const handleSelect = ({ start }) => {
     // alert(start);
-    const a=JSON.stringify(start);
-    (a.slice(0,9))
+    const a = JSON.stringify(start);
+    (a.slice(0, 9))
     // alert(a.)
-    
+
     setAddEventModel(true);
-  };  
+  };
 
   // Delete Event
   const cancelEvent = async (id) => {
@@ -452,7 +452,7 @@ export default function ReactBigCalendar() {
                     style={{ margin: "0 10px 0 0" }}
                     icon={faUniversity}
                   />
-                  {myEvent && myEvent.postedBy.role==="Super_Admin" ? "Super Admin" : myEvent.postedBy.collegeName}
+                  {myEvent && myEvent.postedBy.role === "Super_Admin" ? "Super Admin" : myEvent.postedBy.collegeName}
                 </div>
                 <div className="event-minor">
                   <div>
