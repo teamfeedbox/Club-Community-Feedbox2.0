@@ -34,7 +34,7 @@ const eventSchema = new mongoose.Schema({
   attendance: [],
   collegeName: {
     type: String,
-  },
+  }
 });
 
 module.exports = mongoose.model("events", eventSchema);

@@ -166,10 +166,18 @@ const Admin = (props) => {
                           height="40"
                           alt="Alex Shatov"
                         />
-                    <Link to="/profile" 
-                         state={member} >
+                        {
+                          role==="Super_Admin" || role=== "Admin" ?
+                          <Link to="/profile" 
+                         state={member}
+                         className="link-to-profile" >
                         <div className="ml-2 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[400]"> {member.name} </div>
                       </Link>
+                      :
+                      <div className="ml-2 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[400]"> {member.name} </div>
+
+                        }
+                    
                       </div>
                     </td>
                     <td class="p-2 w-[170px] lg:w-[400px] block lg:flex flex-start items-center  mr-8 ">

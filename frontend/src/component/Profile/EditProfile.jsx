@@ -16,6 +16,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
   // const [dataChanges, setDataChanges] = useState('nnnnn');
   const [data, setData] = useState('');
+  const [validated, setValidated] = useState(false);
   const [show, setShow] = useState(false);
   const [file, setFile] = useState("Images/girl.jpg");
   const [image, setImage] = useState(false);
@@ -71,17 +72,17 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
       },
     });
 
-    result = await result.json();
+    const res = await result.json();
 
-    console.log(result)
+    console.log(res)
   };
 
   const getUserDetails = async () => {
     // console.log(params)
     let result = await fetch(`http://localhost:8000/user/${data}`);
     console.log(data, "helloooooooodata");
-    result = await result.json();
-    setEmail(result.email);
+    const res = await result.json();
+    setEmail(res.email);
   };
 
   const updateDetail = async (data) => {
@@ -97,11 +98,12 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
       },
     });
 
-    result = await result.json();
+    const res = await result.json();  
 
     setLoading(false);
     setOpen(false);
-  
+
+    setValidated(true);
   };
 
   const crossImage=()=>{
@@ -159,12 +161,12 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     });
-    result = await result.json();
+    const res = await result.json();
     // console.log(result);
-    setData(result._id);
-    setBio(bio === '' ? result.bio : bio);
-    setName(name === '' ? result.name : name);
-    setCollegeYear(collegeYear === '' ? result.collegeYear : collegeYear);
+    setData(res._id);
+    setBio(bio === '' ? res.bio : bio);
+    setName(name === '' ? res.name : name);
+    setCollegeYear(collegeYear === '' ? res.collegeYear : collegeYear);
     // if(bio===''){
     //   setBio(result.bio)
     // }
@@ -175,6 +177,22 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
     //   setCollegeYear(result.collegeYear)
     // }
   };
+
+  const handleSubmit=(event)=>{
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
+    if(validated)
+    {
+      updateDetail(data);
+      uploadPic();
+    }
+    
+  }
 
   // to count the number of words left in edit bio section
   const maxWords = 400;
@@ -197,11 +215,12 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
           }}
         >
           <Modal show={open}>
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Modal.Header>
               <Modal.Title>Edit Profile</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Form>
+              {/* <Form> */}
               {role === 'Super_Admin'? '' :<Form.Group
                   className="mb-3"
                   controlId="exampleForm.ControlTextarea1"
@@ -223,6 +242,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                   <Form.Label>Year </Form.Label>
                   <Form.Control
                     type="text"
+                    required
                     onChange={(e) => setCollegeYear(e.target.value)}
                     value={collegeYear}
                   />
@@ -235,6 +255,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                 >
                   <Form.Label>About </Form.Label>
                   <Form.Control
+                    required
                     as="textarea"
                     // rows={3}
                     maxlength="400"
@@ -322,7 +343,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                     </div>
                   </div>
                 </Form.Group>
-              </Form>
+              {/* </Form> */}
             </Modal.Body>
             
             <Modal.Footer>
@@ -340,19 +361,18 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                 </div>
               ) : (
                 <Button
-                  
-                  onClick={() => {
-                    // handleClose();
-                    updateDetail(data);
-                    //  update(data)
-                    uploadPic();
-                  }}
+                  type="submit"
+                  // onClick={() => {
+                  //   updateDetail(data);
+                  //   uploadPic();
+                  // }}
                 >
                   Save Changes
                 </Button>
               )}
               </Button>
             </Modal.Footer>
+            </Form>
           </Modal>
         </div>
       ) : (
