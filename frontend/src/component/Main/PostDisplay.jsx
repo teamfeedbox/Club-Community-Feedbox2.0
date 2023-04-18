@@ -25,9 +25,8 @@ const PostDisplay = (props) => {
 
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
-  const [val, setVal] = useState([]);
   const [id, setId] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const [load, setLoad] = useState(false);
   // To open the Comment Model
   const [openComment, setOpenComment] = useState(false);
@@ -39,7 +38,7 @@ const PostDisplay = (props) => {
   const [{ currentUser, allPosts }, dispatch] = useStateValue();
 
   useEffect(() => {
-    getUser();
+    getUser();     
     getList();
     setLoad(false);
   }, [load, props.clgData]);
@@ -50,6 +49,7 @@ const PostDisplay = (props) => {
 
   // get All Post
   const getList = async () => {
+    setLoading2(true);
     let result;
     if (allPosts) {
       setData(allPosts);
@@ -62,7 +62,8 @@ const PostDisplay = (props) => {
         },
       });
       res = await res.json();
-setData(res);
+      setData(res);
+
       let count = 0;
       res.map((data) => {
         count = data.comment.length
@@ -79,16 +80,14 @@ setData(res);
       result = res
     }
 
-    setVal(result.reverse())
+    result = result.reverse()
 
     if (role === "Super_Admin" || role === "Admin") {
-      console.log(props.clgData, "ppp");
       if (props.clgData) {
         if (props.clgData === "All") {
           setData(result)
           setLoad(true);
         } else {
-          console.log(props.clgData);
           let array = [];
           result.map((eve) => {
             if (eve.collegeName === props.clgData) {
@@ -129,6 +128,7 @@ setData(res);
       setData(array);
       setLoad(true);
     }
+    setLoading2(false);
   };
 
   // Like a post
@@ -188,9 +188,10 @@ setData(res);
 
   return (
     <div id="post_display_container">
-      {!loading ?
+      {!loading2 ?
         <div className="mb-[120px]">
-          {data.length > 0 ? data.map((item, index) => (
+          {
+          data.length > 0 ? data.map((item, index) => (
             <div key={item._id} className="post-display1">
 
               <div className="post-display-head">
@@ -216,8 +217,8 @@ setData(res);
                   <div className="post-head-content">
                     <p className="post-display-heading-college">
                       {
-                        item.scope === 'public' ? 'Public' :
-                          item && item.postedBy && item.postedBy.role == 'Super_Admin' ? 'Super Admin' : item.collegeName
+                        item && item.postedBy && item.postedBy.role == 'Super_Admin' ? 'Super Admin'
+                        : item.scope === 'public' ? item.collegeName + ' (Public)' : item.collegeName
                       }
                     </p>
                     <p className="post-display-heading-time">{item.postedDate && timeAgo.format(new Date(item.postedDate).getTime() - 60 * 1000)}</p>
@@ -229,7 +230,7 @@ setData(res);
               <div className="post-display-center">
                 <div className="post-display-content">{item.desc}</div>
 
-                {/* *****************carousel for mobile view********************* */}
+                {/* ******carousel for mobile view******** */}
                 {item.img.length > 0 ?
                   <div className="post-display-image ">
                     <div className="post-display-carousel-mobileview">
@@ -263,7 +264,7 @@ setData(res);
                   </div>
                   : ' '}
 
-                {/* *********************carousel for web view*************************** */}
+                {/* ********carousel for web view********** */}
 
                 {item.img.length > 0 ?
                   <div id="web-carousel" className="post-display-image flex justify-center h-[620px] carousel-web-view">
@@ -329,12 +330,24 @@ setData(res);
               </div>
             </div>
           )) :
-            <div className="post-display1">
-              <div style={{ justifyContent: "center", textAlign: "center" }}>No Post Yet !</div>
-            </div>
+          <div className="post-display1">
+            <div style={{textAlign:"center"}}>No Post Yet !</div>
+          </div>
           }
         </div>
-        : <Loader />}
+        :
+        <div className="post-display1">
+          <div role="status" class="max-w-sm animate-pulse">
+            <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+            <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
+            <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+            <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
+            <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
+            <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
+            <span class="sr-only">Loading...</span>
+          </div>
+          </div>
+        }
       <PostBigModel
         openComment={openComment}
         setOpenComment={setOpenComment}

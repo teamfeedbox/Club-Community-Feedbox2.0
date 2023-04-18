@@ -55,15 +55,15 @@ const Faq = () => {
                 alt=""
               />
             </div>
-            <div class="grid divide-y divide-neutral-200 lg:w-[50%]  pt-4 m-2  lg:pr-6 ">
+            <div className="grid divide-y divide-neutral-200 lg:w-[50%]  pt-4 m-2  lg:pr-6 ">
               <Scrollbars style={{ height: "350px" }}>
                 {faqs.map((faq) => (
-                  <div class="py-3 px-2 mr-2 z-20 relative max-h-25 transition-[max-h] ease-in-out delay-2000 overflow-hidden">
-                    <details class="group" >
+                  <div className="py-3 px-2 mr-2 z-20 relative max-h-25 transition-[max-h] ease-in-out delay-2000 overflow-hidden">
+                    <details className="group" >
                       <summary 
-                      class="flex justify-between items-center font-medium cursor-pointer list-none">
+                      className="flex justify-between items-center font-medium cursor-pointer list-none">
                         <span className="text-[1.1rem] font-[700]"> {faq.question}</span>
-                        <span class="transition group-open:rotate-180 ">
+                        <span className="transition group-open:rotate-180 ">
                           <svg
                             fill="none"
                             height="24"
@@ -80,7 +80,7 @@ const Faq = () => {
                         </span>
                       </summary>
                       <div className="max-h-20 transition-[max-h] ease-in-out delay-2000">
-                      <p class=" text-[1rem] font-[400] mt-3">
+                      <p className=" text-[1rem] font-[400] mt-3">
                         {faq.answer}
                       </p>
                       </div>
