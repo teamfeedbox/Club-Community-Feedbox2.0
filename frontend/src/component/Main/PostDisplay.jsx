@@ -89,13 +89,14 @@ const PostDisplay = (props) => {
           count += res.reply.length;
         });
         data.count = count;
-      });
-
-      dispatch({
-        type: "INIT_ALL_POST",
-        item: res,
-      });
-      result = res;
+      })
+      if(allPosts==null){
+        dispatch({
+          type: 'INIT_ALL_POST',
+          item: res
+        });
+      }
+      result = res
     }
 
     result = result.reverse();
@@ -325,26 +326,24 @@ const PostDisplay = (props) => {
                   </Modal>
                 </div>
 
-                <div className="post-display-center">
-                  <div className="post-display-content">
-                    {item.img.length <= 0 ? (
-                      item.desc
-                    ) : item.desc && contentId === item._id && showMore ? (
-                      item.desc
-                    ) : item.desc.length > 180 ? (
-                      <button
-                        style={{ textAlign: "left" }}
-                        onClick={() => {
-                          setShowMore(true);
-                          setContentId(item._id);
-                        }}
-                        //  style={{ color:""}}
-                      >
-                        {item.desc.slice(0, 180)}......more
-                      </button>
-                    ) : (
-                      item.desc
-                    )}
+
+              <div className="post-display-center">
+                <div className="post-display-content">
+                {
+                  item.img.length<=0 ? item.desc : item.desc
+                   && contentId===item._id && showMore ? item.desc :
+                   item.desc.length>180 ?
+                  <button 
+                    style={{textAlign:"left"}}
+                  onClick={()=>
+                    {
+                      setShowMore(true)
+                  setContentId(item._id)  
+                    }
+                  }
+                  //  style={{ color:""}}
+                  >{item.desc.slice(0,180)} <span style={{color:"gray",fontWeight:"600"}}> .....read more</span></button>:item.desc
+                }
                   </div>
                   {/*
                 
@@ -477,14 +476,14 @@ const PostDisplay = (props) => {
         </div>
       ) : (
         <div className="post-display1">
-          <div role="status" class="max-w-sm animate-pulse">
-            <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
-            <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
-            <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
-            <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
-            <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
-            <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
-            <span class="sr-only">Loading...</span>
+          <div role="status" className="max-w-sm animate-pulse">
+            <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+            <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
+            <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+            <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
+            <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
+            <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
+            <span className="sr-only">Loading...</span>
           </div>
         </div>
       )}
