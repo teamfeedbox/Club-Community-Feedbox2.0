@@ -428,7 +428,7 @@ const RescourcesTable = (props) => {
                       <td className="p-2">
                         <a
                           href={(item && item.driveId) || (item && item.link)}
-                          target="_blank"
+                           target="_blank"
                           className="text-black"
                         >
                           {item.url ? (
