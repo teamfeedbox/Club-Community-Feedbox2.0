@@ -14,12 +14,19 @@ import {
   faFile,
   faFileInvoice,
 } from "@fortawesome/free-solid-svg-icons";
+
+import { injectStyle } from "react-toastify/dist/inject-style";
+import { ToastContainer, toast } from "react-toastify";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import NavbarRes from "../navbar/NavbarRes";
 import { useStateValue } from "../../StateProvider";
 
 const RescourcesTable = (props) => {
+  if (typeof window !== "undefined") {
+    injectStyle();
+  }
+
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
   const location = useLocation();
@@ -140,7 +147,7 @@ const RescourcesTable = (props) => {
     if (response) {
       // PDF file uploaded successfully
       setLoading(false);
-      alert("File uploaded successfully");
+      toast.dark("File uploaded successfully");
       setTitle("");
       setFile("");
       setPdfFile("");
@@ -312,7 +319,7 @@ const RescourcesTable = (props) => {
                             name="pdfLink"
                           />
                         </div>
-                       ) : (
+                      ) : (
                         ""
                       )
                       } 
@@ -355,6 +362,7 @@ const RescourcesTable = (props) => {
                   </Modal.Footer>
                 </form>
               </Modal>
+              <ToastContainer/>
             </div>
           </div>
 
@@ -473,6 +481,7 @@ const RescourcesTable = (props) => {
               ""
             )}
           </div>
+          
         </div>
       </div>
     </>
