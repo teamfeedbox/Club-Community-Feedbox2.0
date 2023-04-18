@@ -19,6 +19,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
 import "./ReactBigCalendar.css";
+import { useStateValue } from "../../StateProvider";
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -65,7 +66,9 @@ export default function ReactBigCalendar() {
 
 
   const id = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).id;
-  const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role
+  const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role;
+
+  const [{allEventsData, currentUser}] = useStateValue();
 
   // Mindate for diasble previous dates in calender
   var today = new Date();
@@ -82,6 +85,10 @@ export default function ReactBigCalendar() {
 
   // get user
   const getUser = async () => {
+    if(currentUser){
+      setUser(currentUser);
+      return;
+    }
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -136,9 +143,15 @@ export default function ReactBigCalendar() {
 
   // Get All Events
   const showEvent = async () => {
-    setInfinite(false);
-    let result = await fetch("http://localhost:8000/getAllEvent");
-    result = await result.json();
+    let result;
+    if(allEventsData){
+      result=allEventsData;
+    }else
+    {
+      setInfinite(false);
+      result = await fetch("http://localhost:8000/getAllEvent");
+      result = await result.json();
+    }
     setEvent(result);
     console.log(result, "o");
     result.map((data, i) => {
@@ -152,6 +165,8 @@ export default function ReactBigCalendar() {
     setLoading(false)
     return result;
   };
+
+
 
   useEffect(() => {
     if (clgSelected) {

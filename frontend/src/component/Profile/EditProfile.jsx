@@ -6,6 +6,11 @@ import Form from "react-bootstrap/Form";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./EditProfile.css";
+import { useToasts } from "react-toast-notifications";
+import { useStateValue } from "../../StateProvider";
+
+import { injectStyle } from "react-toastify/dist/inject-style";
+import { ToastContainer, toast } from "react-toastify";
 
 const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
@@ -24,11 +29,17 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
 
   const [bio, setBio] = useState('');
 
+  const { addToast } = useToasts();
+  const [{currentUser}]= useStateValue();
+
   
   const handleClose = () => {
     setOpen(false);
     setImage(false)
     // uploadPic();
+    // setUrl("")
+    // setImgg('');
+
     setBio(Userbio);
     setName(Username);
     setCollegeYear(Useryear);
@@ -41,8 +52,8 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   }
 
   useEffect(() => {
-    getUserDetails();
     getUser();
+    getUserDetails();
     if (url) {
       update(data);
     }
@@ -67,6 +78,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   const getUserDetails = async () => {
     // console.log(params)
     let result = await fetch(`http://localhost:8000/user/${data}`);
+    console.log(data, "helloooooooodata");
     result = await result.json();
     setEmail(result.email);
   };
@@ -91,6 +103,12 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   
   };
 
+  const crossImage=()=>{
+    setImage(false);
+    setUrl("");
+    setImgg("");
+
+  }
 
 // update(data);
   const uploadPic  = ()=>{
@@ -111,8 +129,15 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
         console.log(data.url)
         setLoading(false);
         setOpen(false);
-        alert("Profile updated successfully!");
+        // alert("Profile updated successfully!");
+        addToast("Profile updated successfully!", { appearance: "success" })
+        // window.location.href="/profile"
+
+        setTimeout(() => {
+          // setTextDisplay(false);
         window.location.href="/profile"
+
+        }, 2000);
        
       })
       .catch((err) => {
@@ -120,15 +145,23 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
       });
   };
 
- 
+  
   const getUser = async () => {
+    if(currentUser){      // Ab- if the context is not empty
+      setData(currentUser._id);
+      setBio(bio === '' ? currentUser.bio : bio);
+      setName(name === '' ? currentUser.name : name);
+      setCollegeYear(collegeYear === '' ? currentUser.collegeYear : collegeYear);
+ 
+      return;
+    }
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     });
     result = await result.json();
-    console.log(result);
+    // console.log(result);
     setData(result._id);
     setBio(bio === '' ? result.bio : bio);
     setName(name === '' ? result.name : name);
@@ -179,6 +212,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                     type="text"
                     onChange={(e) => setName(e.target.value)}
                     value={name}
+                    required
                   />
                 </Form.Group>
                 }
@@ -233,7 +267,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                         <div>
                           <FontAwesomeIcon
                             icon={faXmark}
-                            onClick={() => setImage(false)}
+                            onClick={crossImage }
                             className="Edit-Profile-cancel"
                           />
                           <img
@@ -291,6 +325,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                 </Form.Group>
               </Form>
             </Modal.Body>
+            
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
                 Close
@@ -324,6 +359,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
       ) : (
         ""
       )}
+      <ToastContainer />
     </div>
   );
 };
