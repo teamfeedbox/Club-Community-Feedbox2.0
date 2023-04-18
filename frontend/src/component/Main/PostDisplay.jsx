@@ -59,7 +59,6 @@ const PostDisplay = (props) => {
       let res = await fetch("http://localhost:8000/getAllPost", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("jwt"),
-          // ;nfvkndf 
         },
       });
       res = await res.json();
