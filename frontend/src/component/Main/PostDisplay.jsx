@@ -249,12 +249,10 @@ const PostDisplay = (props) => {
                     {
                       setShowMore(true)
                   setContentId(item._id)  
-
                     }
-                  
                   }
                   //  style={{ color:""}}
-                  >{item.desc.slice(0,180)}......more</button>:item.desc
+                  >{item.desc.slice(0,180)} <span style={{color:"gray",fontWeight:"600"}}> .....read more</span></button>:item.desc
                 }
                   </div>
                 {/*
