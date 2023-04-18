@@ -21,7 +21,7 @@ const authenticateGoogle = () => {
 const uploadToGoogleDrive = async (file, auth) => {
   const fileMetadata = {
     name: file.originalname,
-    parents: ["1iystXLT8-ZL8pBbFj6n4Wlm96Bx_B723"],
+    parents: [process.env.RESOURCES_KEY],
   };
 
   const stream = new Readable();
@@ -43,16 +43,14 @@ const uploadToGoogleDrive = async (file, auth) => {
 };
 
 router.post("/upload", upload.single("file"), requireLogin, async (req, res, next) => {
-  console.log("jiiijijiji");
+  console.log(process.env.url);
   console.log(req.body.title, "ffff");
   console.log(req.file);
   try {
     if (!req.file) {
-      console.log("1");
       res.status(400).send("No file uploaded.");
       return;
     } else {
-      console.log("2");
       const auth = authenticateGoogle();
       const response = await uploadToGoogleDrive(req.file, auth);
       console.log(response);
@@ -65,7 +63,7 @@ router.post("/upload", upload.single("file"), requireLogin, async (req, res, nex
       const pdf = await new Resource(val)
       await pdf.save()
         .then(() => {
-          res.status(200).json({ data: "PDF uploaded successfully!" });
+          res.status(200).json("PDF uploaded successfully!");
         })
     }
   } catch (err) {
@@ -73,80 +71,7 @@ router.post("/upload", upload.single("file"), requireLogin, async (req, res, nex
   }
 });
 
-// router.post('/upload', upload.single('file'), requireLogin, async (req, res) => {
-//   const { title, skill, pdfLink } = req.body
-//   // console.log(pdfLink)
 
-//   if (pdfLink === 'undefined') {
-//     //  alert("Add files");
-//     const result = await cloudinary.uploader.upload(req.file.path, {
-//       resource_type: 'raw',
-//       folder: 'pdfs',
-//       // allowed_formats: ['pdf','doc','docx'],
-
-//     });
-
-//     const pdfUrl = result.secure_url;
-//     console.log(pdfUrl);
-//     // console.log(req.user)
-//     const pdf = await new Resource({
-//       title,
-//       skill,
-//       author: req.user,
-//       name: req.file.originalname,
-//       url: pdfUrl,
-
-//       // link:pdfLink
-//     });
-//     // console.log(pdf);
-
-//     await pdf.save()
-//       .then(() => {
-//         res.send({ data: "PDF uploaded successfully!" });
-//       })
-
-//   }
-
-//   else {
-//     const pdfSave = await new Resource({
-//       title,
-//       skill,
-//       author: req.user,
-//       // name: req.file.originalname,
-//       // url: pdfUrl,
-//       link: pdfLink
-//     });
-//     // console.log(pdfSave);
-
-//     await pdfSave.save()
-//       .then(() => {
-//         res.send({ data: "PDF uploaded successfully!" });
-//       })
-
-//   }
-
-
-
-//     // const result = await cloudinary.uploader.upload(req.file.path, {
-//     //   resource_type: 'raw',
-//     //   folder: 'pdfs'
-//     // });
-
-//     // const pdfUrl = result.secure_url;
-//     // // console.log(pdfUrl)
-//     // // console.log(req.user)
-//     // const pdf = await new Resource({
-//     //   title,
-//     //   skill,
-//     //   author:req.user,  
-//     //   name: req.file.originalname,
-//     //   url: pdfUrl,
-//     //   link:pdfLink
-//     // });
-//     // // console.log(pdf);
-
-//     // await pdf.save();
-// });
 
 //api to get all resource
 //it will be used to display at the resources page
@@ -164,32 +89,17 @@ router.get('/getAllResource/:skill', requireLogin, (req, res) => {
     })
 })
 
-
-
-
-
-
-
-
 router.get('/myResource', requireLogin, async (req, res) => {
   var mySort = { date: -1 };
-
-
   Resource.find({ author: req.user._id })
     .sort(mySort)
-
-
     .populate('author').select("-password")
-
     .then(event => {
-      // console.log(event)
       res.json(event)
     })
     .catch(err => {
       console.log(err)
     })
-
-
 })
 
 
@@ -197,10 +107,8 @@ router.get('/myResource', requireLogin, async (req, res) => {
 router.put('/updateResource/:id', async (req, res) => {
   let result = await Resource.updateOne(
     { _id: req.params.id },
-
     {
       $set: req.body
-
     }
   )
   res.send(result)
@@ -210,21 +118,13 @@ router.put('/updateResource/:id', async (req, res) => {
 router.delete('/deleteResource/:eventId', async (req, res) => {
   const result = await Resource.deleteOne({ _id: req.params.eventId });
   res.send(result)
-
 })
-
 
 router.get('/search/:key', async (req, res) => {
   let result = await Resource.find({
-    "$or": [
-      { title: { $regex: req.params.key } }
-
-    ]
+    "$or": [{ title: { $regex: req.params.key } }]
   })
   res.send(result);
-  // console.log(result) 
-
-
 })
 
 module.exports = router

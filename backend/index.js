@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require('mongoose');
 const cors = require("cors"); 
 const compression = require('compression');
+const dotenv = require('dotenv').config();
 const helmet = require('helmet');
 const post = require("./routes/Post");
 const auth = require('./routes/auth')
