@@ -155,7 +155,6 @@ const RescourcesTable = (props) => {
       setFileName("");
       setLink(false);
       setShow(false);
-      setLoading(false);
       window.location.href='/rescourcesDisplay';
     } 
     else {
