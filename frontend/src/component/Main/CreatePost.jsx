@@ -151,6 +151,17 @@ const CreatePost = ({allColleges }) => {
   };
   const handleShow = () => setShow(true);
 
+  // To count the number of character in post
+  const maxWords = 1000;
+  const wordsLeft = desc.length;
+  
+  const handleChange1 = (event) => {
+    const value = event.target.value;
+    if (desc.length < maxWords) {
+      setDesc(value)
+    }
+  };
+
   return (
     <>
       <div className="CreatePost">
@@ -218,8 +229,14 @@ const CreatePost = ({allColleges }) => {
                 className="modal-input"
                 placeholder="what do you want to talk about ?"
                 value={desc}
-                onChange={(e) => setDesc(e.target.value)}
+                maxlength="1000"
+                onChange={(e) => {
+                  setDesc(e.target.value)
+                  handleChange1()
+                }}
               ></textarea>
+               <p className="Register-Page-Word-Limit"
+                      >* {wordsLeft}/1000</p>
               <div className="image-chooosen-upload-overall-div">
                 {file.map((files, index) => (
                   <div className="image-chooosen-upload-div">

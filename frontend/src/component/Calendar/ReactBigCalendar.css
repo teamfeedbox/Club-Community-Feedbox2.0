@@ -153,10 +153,10 @@ flex-direction: column;
 .Calendar-view-events-hide{
     display: none;
 }
-
 .Pre-Event-desc{
     max-width:100%;
     min-width: 100%;
+    word-wrap: break-word; 
 }
 .preview-button{
     display: flex;
