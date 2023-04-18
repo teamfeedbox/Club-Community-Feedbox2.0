@@ -57,12 +57,12 @@ const HomePageProfile = (props) => {
     result = await result.json();
     let array=[];
     result.map(data=>{
-      if(data.role!=="Super_Admin"){
+      if(data.role =="Lead" || data.role =="Admin" || data.role=="Club_Member"){
         array.push(data)
       }
     })
-    setAllUsers(result);
-    // setAllUsers(array);
+    console.log(array)
+    setAllUsers(array);
   }
 
   const handleCollege = (e) => {
@@ -79,7 +79,7 @@ const HomePageProfile = (props) => {
         }
       })
       allUsers.map((user) => {
-        if (user.collegeName === e.target.value) {
+        if (user.collegeName === e.target.value &&  (user.role =="Lead" || user.role =="Admin" || user.role=="Club_Member")) {
           usercount++;
         }
       })
@@ -193,9 +193,9 @@ const HomePageProfile = (props) => {
               />
             </div>
             <div className=" flex flex-col  pl-2">
-              <h className=" text-[1.1rem] md:text-[16px]   font-[600]">
+              <h1 className=" text-[1.1rem] md:text-[16px] font-[600]">
                 Total Events:
-              </h>
+              </h1>
               <p className=" text-[1.5rem] font-[700] p-0 relative bottom-2">{selected ? clgEvents.length > 0 ? clgEvents.length : 0 : event ? event.length : 0}</p>
             </div>
           </div>

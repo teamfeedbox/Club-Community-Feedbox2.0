@@ -38,7 +38,7 @@ const PostDisplay = (props) => {
   const [{ currentUser, allPosts }, dispatch] = useStateValue();
 
   useEffect(() => {
-    getUser();
+    getUser();     
     getList();
     setLoad(false);
   }, [load, props.clgData]);
