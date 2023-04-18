@@ -206,7 +206,23 @@ const HomePageProfile = (props) => {
       {role && (role === 'Super_Admin' || role === "Admin") ?
         <div className="block md:hidden lg:hidden px-3 pt-3 pb-3">
           <div className=" ">
-            <select
+          <select
+                name="College"
+                id="College"
+                // className="border w-[280px] rounded p-1 mt-1 text-[1rem] font-[400]" onChange={handleCollege}
+              className="border w-[100%] rounded p-1 text-[1rem] font-[400]" onChange={handleCollege}
+                
+              >
+                <option disabled selected className="hidden">
+                  College
+                </option>
+                <option value="All">All</option>
+                {allClgs && allClgs.length > 0 &&
+                  allClgs.map((clg) => <option value={clg}>{clg}</option>)}
+              </select>
+
+              
+            {/* <select
               name="College"
               id="College"
               className="border w-[100%] rounded p-1 text-[1rem] font-[400]" onChange={handleCollege}
@@ -216,7 +232,7 @@ const HomePageProfile = (props) => {
               </option>
               {allClgs && allClgs.length > 0 &&
                 allClgs.map((clg) => <option key={clg._id} value={clg}>{clg}</option>)}
-            </select>
+            </select> */}
           </div>
         </div> : ''}
     </div>

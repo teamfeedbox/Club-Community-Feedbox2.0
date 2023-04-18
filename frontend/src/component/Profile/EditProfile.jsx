@@ -184,6 +184,16 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
     
   }
 
+  // to count the number of words left in edit bio section
+  const maxWords = 400;
+  const wordsLeft = bio.length;
+
+  const handleChange1 = (event) => {
+    const value = event.target.value;
+    if (bio.length < maxWords) {
+      setBio(value);
+    }
+  };
   
 
   return (
@@ -238,9 +248,17 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                     required
                     as="textarea"
                     // rows={3}
-                    onChange={(e) => setBio(e.target.value)}
+                    maxlength="400"
                     value={bio}
+                    onChange={(e) => 
+                      {
+                        setBio(e.target.value)
+                        handleChange1()
+                      }}
+                    
                   />
+                      <p className="Register-Page-Word-Limit"
+                      >* {wordsLeft}/400</p>
                 </Form.Group>}
 
                 <Form.Group>

@@ -207,7 +207,7 @@ const ProfilePost = (prop) => {
 
 
   return (
-    <div>
+    <div id="profilePost" >
       {post.length>0 ? post.map((item) => (
         <div className="post-display my-3">
           <div className="flex justify-between">
@@ -339,7 +339,7 @@ const ProfilePost = (prop) => {
       openComment={openComment}
       setOpenComment={setOpenComment}
       id={id}
-
+      route="/profile"
       />
     </div>
   );

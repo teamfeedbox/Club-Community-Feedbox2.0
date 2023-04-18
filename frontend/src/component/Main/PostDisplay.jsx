@@ -34,6 +34,14 @@ const PostDisplay = (props) => {
   const [openComment, setOpenComment] = useState(false);
   const[open,setOpen]=useState(false);
   
+  const [reply, setReply] = useState('');
+  const [replyCount, setReplyCount] = useState([]);
+  const [comment, setComments] = useState([" How "]);
+  const [loading, setLoading] = useState(false);
+  // To show and hide the more button if content is more then 200 character
+  const [showMore, setShowMore] = useState(false);
+  const [contentId,setContentId]=useState('');
+
   const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role;
   const college = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).college;
   console.log(college);
@@ -272,11 +280,31 @@ const PostDisplay = (props) => {
 
 
               <div className="post-display-center">
-                <div className="post-display-content">{item.desc}</div>
+                <div className="post-display-content">
+                {
+                  item.img.length<=0 ? item.desc : item.desc
+                   && contentId===item._id && showMore ? item.desc :
+                   item.desc.length>180 ?
+                  <button 
+                    style={{textAlign:"left"}}
+                  onClick={()=>
+                    {
+                      setShowMore(true)
+                  setContentId(item._id)  
 
-                {/* ******carousel for mobile view******** */}
-                {item.img.length > 0 ?
-                  <div className="post-display-image ">
+                    }
+                  
+                  }
+                  //  style={{ color:""}}
+                  >{item.desc.slice(0,180)}......more</button>:item.desc
+                }
+                  </div>
+                {/*
+                
+                */}
+                  {/* *****************carousel for mobile view********************* */}
+                  {item.img.length > 0 ?
+                <div className="post-display-image ">
                     <div className="post-display-carousel-mobileview">
                       <Swiper
                         navigation={item.img.length === 1 ? false : true}
@@ -396,6 +424,8 @@ const PostDisplay = (props) => {
         openComment={openComment}
         setOpenComment={setOpenComment}
         id={id}
+        route="/main"
+        
       />
     </div>
   );

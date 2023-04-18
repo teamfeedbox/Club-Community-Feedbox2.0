@@ -167,29 +167,29 @@
 
 /* -----------carousel for web-------------- */
 
-#post_display_container .carousel-root{
+ .carousel-root{
     height: 100%;
 }
-#post_display-container .carousel-slider{
+ .carousel-slider{
     height: 500px;
 }
-#post_display_contaier .slider-wrapper{
+ .slider-wrapper{
     height: 500px;
 }
-#post_display_container .carousel .slide{
+ .carousel .slide{
     height: 100%;
 }
-#post_display_container .carousel .slider img{
+ .carousel .slider img{
     height: 500px !important;
     object-fit: cover !important;
 }
-#post_display_container .post-display-center1{
+ .post-display-center1{
     /* display: none; */
     display: flex;
     align-items: center;
     overflow: hidden;
 }
-/* #post_display_container .post-display-image{
+/*  .post-display-image{
     height: 500px !important;
 } */
 @media only screen and (max-width: 1000px) {
@@ -199,11 +199,11 @@
     /* .Post-Big-Model{
         width: 95%;
     } */
-    #post_display_container .thumb{
+     .thumb{
         display: none;
     }
   
-    #post_display_container .post-display-carousel-mobileview {
+     .post-display-carousel-mobileview {
         display: block;
         height: 400px !important;
     }
@@ -211,10 +211,10 @@
         display: none;
     }
     
-   #post_display_container .post-display-center{
+    .post-display-center{
     /* height: 500px !important; */
    }
-   #post_display_container .post-display-image img{
+    .post-display-image img{
     /* height: 300px !important; */
     /* width: 100%; */
     object-fit: cover !important;
@@ -224,7 +224,7 @@
 .carousel-web-view{
     display: none !important;
 }
-/* #post_display_container .post-display-image{
+/*  .post-display-image{
     height: 400px !important;
 } */
 }
@@ -245,15 +245,15 @@
     .post-head-content p{
         padding-top: 4px;
     }
-    #post_display_container .carousel-slider{
+     .carousel-slider{
         height: 200px !important;
     }
 
     /* ------- */
-    #post_display_container .post-display-image img{
+     .post-display-image img{
         height: 300px !important;
     }
-    #post_display_container .post-display-center{
+     .post-display-center{
         /* height: 400px !important; */
         /* margin: auto; */
            }
