@@ -10,7 +10,7 @@ import { useStateValue } from "../../StateProvider";
 import { injectStyle } from "react-toastify/dist/inject-style";
 import { ToastContainer, toast } from "react-toastify";
 
-const CreatePost = ({allColleges }) => {
+const CreatePost = ({ allColleges }) => {
   const [show, setShow] = useState(false);
   const [file, setFile] = useState([]);
   const [textDisplay, setTextDisplay] = useState(false);
@@ -109,12 +109,22 @@ const CreatePost = ({allColleges }) => {
 
   // Create a post
   const CreatePost = (urls) => {
-    let val = {
-      scope: scope,
-      collegName: currCollege,
-      desc: desc,
-      img: urls
-    };
+    let val;
+    if (role === 'Super_Admin') {
+      val = {
+        scope: scope,
+        collegName: scope,
+        desc: desc,
+        img: urls
+      };
+    } else {
+      val = {
+        scope: scope,
+        collegName: currCollege,
+        desc: desc,
+        img: urls
+      };
+    }
 
     const data = fetch("http://localhost:8000/create-post", {
       method: "post",
@@ -133,9 +143,9 @@ const CreatePost = ({allColleges }) => {
           toast.dark("Posted Successfully...");
           setImage([]);
           setLoading(true);
-          setTimeout(()=>{
-            window.location.href="/main"
-          },5000);
+          setTimeout(() => {
+            window.location.href = "/main"
+          }, 5000);
         }
       })
       .catch((err) => {
@@ -150,6 +160,17 @@ const CreatePost = ({allColleges }) => {
     setDesc([]);
   };
   const handleShow = () => setShow(true);
+
+  // To count the number of character in post
+  const maxWords = 1000;
+  const wordsLeft = desc.length;
+  
+  const handleChange1 = (event) => {
+    const value = event.target.value;
+    if (desc.length < maxWords) {
+      setDesc(value)
+    }
+  };
 
   return (
     <>
@@ -194,7 +215,7 @@ const CreatePost = ({allColleges }) => {
                     <option disabled hidden selected value="Select">Select</option>
                     <option value="public">Public</option>
                     {
-                      (role === "Admin" || role==="Lead") &&
+                      (role === "Admin" || role === "Lead") &&
                       <option value={currCollege && currCollege}>{currCollege && currCollege}</option>
                     }
                     {
@@ -218,8 +239,14 @@ const CreatePost = ({allColleges }) => {
                 className="modal-input"
                 placeholder="what do you want to talk about ?"
                 value={desc}
-                onChange={(e) => setDesc(e.target.value)}
+                maxlength="1000"
+                onChange={(e) => {
+                  setDesc(e.target.value)
+                  handleChange1()
+                }}
               ></textarea>
+               <p className="Register-Page-Word-Limit"
+                      >* {wordsLeft}/1000</p>
               <div className="image-chooosen-upload-overall-div">
                 {file.map((files, index) => (
                   <div className="image-chooosen-upload-div">
@@ -286,7 +313,7 @@ const CreatePost = ({allColleges }) => {
             </div>
           </Modal.Footer>
         </Modal>
-        <ToastContainer/>
+        <ToastContainer />
       </div>
     </>
   );

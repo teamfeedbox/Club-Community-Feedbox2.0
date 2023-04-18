@@ -8,8 +8,7 @@ const { default: mongoose } = require('mongoose')
 
 // Create event
 router.post('/createEvent', requireLogin, (req, res) => {
-    const { title, eventDate, eventTime, venue, desc, speaker, attendance, scope } = req.body
-    console.log(req.body)
+    const { title, eventDate, eventTime, venue, desc, speaker, attendance, scope, collegeName } = req.body
     const event = new Event({
         title,
         eventDate,
@@ -19,9 +18,29 @@ router.post('/createEvent', requireLogin, (req, res) => {
         speaker,
         postedBy: req.user,
         attendance,
-        scope
+        scope, 
+        collegeName:collegeName
     })
     event.save().then(result => {
+        res.json({ event: result })
+    }).catch(err => { console.log(err) })
+})
+
+// add notification
+router.post('/addNotifications', (req, res) => {
+    const { message, messageScope, userId, date, venue, time } = req.body
+
+    const notification = new Notification({
+        message,
+        messageScope,
+        userId,
+        date,
+        userId,
+        venue,
+        time,
+    })
+
+    notification.save().then(result => {
         res.json({ event: result })
     })
         .catch(err => {
@@ -29,35 +48,13 @@ router.post('/createEvent', requireLogin, (req, res) => {
         })
 })
 
-// add notification
-router.post('/addNotifications' , (req,res)=>{
-  const { message, messageScope, userId, date, venue, time} = req.body
-
-  const notification = new Notification({
-    message,
-    messageScope,
-    userId,
-    date,
-    userId,
-    venue,
-    time,
-  })
-
-  notification.save().then(result => {
-    res.json({ event: result })
-})
-    .catch(err => {
-        console.log(err)
-    })
-})
-
 // get all notifications
-router.get('/getNotifications', async(req, res) => {
+router.get('/getNotifications', async (req, res) => {
     try {
         // var mySort = { message: -1 };
         await Notification.find({})
-      
-        
+
+
             .then(events => {
                 res.status(200).json(events)
             })
@@ -161,9 +158,9 @@ router.put('/update/Event/:eventId', requireLogin, async (req, res) => {
 router.put('/updateEvent/:eventId', requireLogin, async (req, res) => {
     let result = await Event.findOneAndUpdate(
         { _id: req.params.eventId },
-        { $push: { attendance: req.user } },{new:true}
+        { $push: { attendance: req.user } }, { new: true }
     )
-    console.log(result,"rrrrrrrrrrrr");
+    console.log(result, "rrrrrrrrrrrr");
     res.send(result)
 })
 

@@ -4,6 +4,7 @@ import ClubMember from "./ClubMember";
 import Lead from "./Leads";
 import Admin from "./Admin";
 import SuperAdmin from "./SuperAdmin";
+import { useStateValue } from "../../StateProvider";
 
 const Approvals = () => {
   const [tabs, setTabs] = useState("club");
@@ -13,6 +14,7 @@ const Approvals = () => {
   const [user, setUser] = useState();
   const [clg, setClg] = useState();
   const[loading,setLoading]=useState(false);
+  const[{colleges}]=useStateValue();
 
   const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role
 
@@ -21,29 +23,25 @@ const Approvals = () => {
   }
 
   const getColleges = async () => {
-    const data = await fetch(`http://localhost:8000/colleges/get`);
-    const res = await data.json();
     let val = [];
-    res.map((data) => {
-      val.push(data.name);
-    });
+    if(colleges){
+      val=colleges;
+    }else{
+      const data = await fetch(`http://localhost:8000/colleges/get`);
+      const res = await data.json();
+      res.map((data) => {
+        val.push(data.name);
+      });
+    }
+  
     setAllClgs(val);
   }
 
   useEffect(() => {
-    getUser();
     getColleges();
   }, []);
 
-  const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    setUser(result);
-  };
+ 
 
   return (
     <>

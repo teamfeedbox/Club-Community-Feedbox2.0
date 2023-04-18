@@ -174,7 +174,7 @@ const Dashboard = () => {
     let result = await fetch("http://localhost:8000/getAllUser");
     result = await result.json();
     setUser(result.length);
-    // console.log(result.length);
+    console.log(result);
   };
 
   const getColleges = async () => {

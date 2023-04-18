@@ -14,15 +14,10 @@ const resourceSchema = new mongoose.Schema({
   link: {
     type: String,
   },
-  // pdf: {
-  //   data: Buffer,
-  //   type: String,
-  // },
   author: {
     type:ObjectId,
     ref:"users"
   },
- 
   date: {
     type: Date,
     default: Date.now,
@@ -30,6 +25,9 @@ const resourceSchema = new mongoose.Schema({
   skill:{
     type: String,
   },
+  driveId:{
+    type: String
+  }
 });
 
 module.exports = mongoose.model("resources", resourceSchema);

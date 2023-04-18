@@ -14,12 +14,19 @@ import {
   faFile,
   faFileInvoice,
 } from "@fortawesome/free-solid-svg-icons";
+
+import { injectStyle } from "react-toastify/dist/inject-style";
+import { ToastContainer, toast } from "react-toastify";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import NavbarRes from "../navbar/NavbarRes";
 import { useStateValue } from "../../StateProvider";
 
 const RescourcesTable = (props) => {
+  if (typeof window !== "undefined") {
+    injectStyle();
+  }
+
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
   const location = useLocation();
@@ -28,7 +35,7 @@ const RescourcesTable = (props) => {
 
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
-  const [file, setFile] = useState();
+  const [fileu, setFile] = useState();
   const [link, setLink] = useState(false);
   const [title, setTitle] = useState();
   const [pdfFile, setPdfFile] = useState();
@@ -52,7 +59,7 @@ const RescourcesTable = (props) => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
-  const [{currentUser}, dispatch] = useStateValue();
+  const [{ currentUser }, dispatch] = useStateValue();
 
   let tableData = data && data.slice(startIndex, endIndex);
   let searchData = searched && searched.slice(startIndex, endIndex);
@@ -76,7 +83,7 @@ const RescourcesTable = (props) => {
   }, [skillName]);
 
   const getUser = async () => {
-    if(currentUser){
+    if (currentUser) {
       setUser(currentUser);
       setImg(currentUser.img);
       return;
@@ -94,7 +101,8 @@ const RescourcesTable = (props) => {
 
     dispatch({
       type: 'INIT_USER',
-      item: result,});
+      item: result,
+    });
 
   };
 
@@ -120,44 +128,71 @@ const RescourcesTable = (props) => {
   const handleShow = () => setShow(true);
 
   const AddResource = async (e) => {
-    setLoading(true);
+    // setLoading(true);
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("file", pdfFile);
-    formData.append("pdfLink", pdfLink);
-    formData.append("title", title);
-    formData.append("author", id);
-    formData.append("skill", skillName);
+    // const formData = new FormData();
+    // console.log(pdfLink,"pdfLink");
+    // console.log(pdfFile,"pdfFile");
 
-    const response = await fetch("http://localhost:8000/upload", {
-      method: "POST",
-      body: formData,
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    if (response) {
-      // PDF file uploaded successfully
-      setLoading(false);
-      alert("File uploaded successfully");
-      setTitle("");
-      setFile("");
-      setPdfFile("");
-      setPdfLink("");
-      setFileName("");
-      setLink(false);
-      setShow(false);
-      window.location.href='/rescourcesDisplay';
-    } else {
-      // Error uploading PDF file
-      console.log("error");
+    // formData.append("file", pdfFile);
+    // formData.append("pdfLink", pdfLink);
+    // formData.append("title", title);
+    // formData.append("author", id);
+    // formData.append("skill", skillName);
+
+    if (pdfFile) {
+      console.log(pdfFile, fileu);
+      const formData = new FormData();
+      const file = {
+        preview: fileu,
+        data: pdfFile
+      }
+      formData.append("file", file.data);
+      formData.append("title", title);
+      formData.append("skill", skillName);
+
+      const response = await fetch("http://localhost:8000/upload", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      });
+
+      const responseWithBody = await response.json();
+      if (responseWithBody) alert(responseWithBody);
       setLoading(false);
     }
+
+    // const response = await fetch("http://localhost:8000/upload", {
+    //   method: "POST",
+    //   body: formData,
+    //   headers: {
+    //     Authorization: "Bearer " + localStorage.getItem("jwt"),
+    //   },
+    // });
+    // if (response) {
+    //   // PDF file uploaded successfully
+    //   setLoading(false);
+    //   alert("File uploaded successfully");
+    //   setTitle("");
+    //   setFile("");
+    //   setPdfFile("");
+    //   setPdfLink("");
+    //   setFileName("");
+    //   setLink(false);
+    //   setShow(false);
+    //   window.location.href = '/rescourcesDisplay';
+    // } else {
+    //   // Error uploading PDF file
+    //   console.log("error");
+    //   setLoading(false);
+    // }
   };
 
   const getList = async (skillName) => {
-    console.log("l,mnuhgftr");
+    // console.log("l,mnuhgftr");
     let result = await fetch(
       `http://localhost:8000/getAllResource/${skillName}`,
       {
@@ -190,7 +225,7 @@ const RescourcesTable = (props) => {
     }
   };
 
-  const changeTitle=(e)=>{
+  const changeTitle = (e) => {
     e.preventDefault();
     const filteredValue = e.target.value.replace(/[^0-9a-zA-Z-_\s]/g, '');
     setTitle(filteredValue);
@@ -203,10 +238,7 @@ const RescourcesTable = (props) => {
           <div className="res-table-heading">
             <div className="res-heading-left"> {skillName} Documents </div>
             <div className="res-heading-right">
-              <div
-                className="form-inline my-2 my-lg-0 res-table-search"
-                // className=""
-              >
+              <div className="form-inline my-2 my-lg-0 res-table-search" >
                 <input
                   className="form-control mr-sm-2"
                   type="text"
@@ -285,9 +317,8 @@ const RescourcesTable = (props) => {
                           style={{ display: "none" }}
                           type="file"
                           name="file"
-                          // value={image}
                           onChange={handleChange}
-                          accept=".pdf, .doc, .docx"
+                          accept=".pdf"
                         />
                       </div>
 
@@ -313,7 +344,8 @@ const RescourcesTable = (props) => {
                         </div>
                       ) : (
                         ""
-                      )}
+                      )
+                      }
 
                       {mypdf && !link ? (
                         <div className="w-fit text-[.8rem] mt-2">
@@ -330,7 +362,7 @@ const RescourcesTable = (props) => {
                         className="btn btn-primary"
                         type="submit"
                         variant="primary"
-                        disabled = {title && (file || pdfLink) ? false : true}
+                        disabled={title && (fileu || pdfLink) ? false : true}
                       >
                         {loading ? (
                           <div
@@ -353,6 +385,7 @@ const RescourcesTable = (props) => {
                   </Modal.Footer>
                 </form>
               </Modal>
+              <ToastContainer />
             </div>
           </div>
 
@@ -391,7 +424,7 @@ const RescourcesTable = (props) => {
                     <tr key={item._id}>
                       <td className="p-2">
                         <a
-                          href={(item && item.url) || (item && item.link)}
+                          href={(item && item.driveId) || (item && item.link)}
                           target="_blank"
                           className="text-black"
                         >
@@ -471,6 +504,7 @@ const RescourcesTable = (props) => {
               ""
             )}
           </div>
+
         </div>
       </div>
     </>
