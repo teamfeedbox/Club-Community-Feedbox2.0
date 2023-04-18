@@ -5,11 +5,13 @@ import { Scrollbars } from "react-custom-scrollbars";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import { Link, useAsyncError } from "react-router-dom";
-// Import Swiper styles
+
+import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
+import { Autoplay, Navigation } from "swiper";
 
 // Css PostBigModel.css (in profile folder)
 import "./PostBigModel.css";
@@ -105,40 +107,34 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
     return (
       <>
         <div className="post-display2">
-          <div className="post-display-center1">
-            {/* **carousel for web view** */}
-            <div className="post-display-image flex justify-center">
-              <div className="post-display-carousel-webview1 flex justify-center">
-                <Carousel
-                  thumbWidth={60}
-                  className="w-[100%]"
-                  autoPlay
-                  interval="5000"
-                  infiniteLoop={true}
-                  dynamicHeight
-                >
-                  {
-                    //  user?("loader"):
-                    user &&
-                    user.img.map((data) => (
 
-                      <div key={data._id} style={{ maxHeight: "400px" }}>
+                      <Swiper
+                        navigation={user.img.length === 1 ? false : true}
+                        data-aos="fade-up"
+                        data-aos-duration="100s"
+                        spaceBetween={0}
+                        slidesPerView={1}
+                        loop={true}
+                        autoplay={{
+                          delay: 2000,
+                          disableOnInteraction: false,
+                        }}
+                        modules={[Navigation, Autoplay]}
 
-                        <img
-                          className="display-img"
-                          src={data}
-                          style={{
+                        className="mySwiper">
+                        {
 
-                            objectFit: "contain",
-                          }}
-                          alt=""
-                        />
-                      </div>
-                    ))}
-                </Carousel>
-              </div>
-            </div>
-          </div>
+                          user.img.length > 0 &&
+                          user.img.map((data) => (
+                            <SwiperSlide >
+                              <div className="" key={data._id}>
+                                <img className="" src={data} alt="" />
+                              </div>
+                            </SwiperSlide>
+                          ))
+                        }
+                      </Swiper>
+
         </div>
       </>
     )
