@@ -27,12 +27,12 @@ function Overview(props) {
   const [userId, setUserId] = useState('');
   const [show1, setShow1] = useState(false);
   const [data, setData] = useState();
-  const [memberDetail, setMemberDeatil] = useState();
+  // const [memberDetail, setMemberDeatil] = useState();
 
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
 
-  const [{currentUser}]= useStateValue();
+  const [{currentUser}, dispatch]= useStateValue();
 
   function updateProfile() {
     setValue("")
@@ -41,6 +41,7 @@ function Overview(props) {
   let onSelectNames = (skills) => {
     setSkills(skills);
   };
+ 
 
   useEffect(() => {
     getUser();
@@ -49,6 +50,10 @@ function Overview(props) {
  
 
   const getUser = async () => {
+    if(currentUser){
+      setData(currentUser);
+      return;
+    }
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -57,6 +62,9 @@ function Overview(props) {
     result = await result.json();
     setData(result);
     setUserId(result._id)
+    dispatch({
+      type: 'INIT_USER',
+      item: result,});
   };
 
 
@@ -64,7 +72,7 @@ function Overview(props) {
 
 
 
-  const updateSkill = async (userId) => {
+  const updateSkills = async (userId) => {
     let result = await fetch(`http://localhost:8000/updateDetail/${userId}`, {
       method: 'put',
       body: JSON.stringify({ skills }),
@@ -74,7 +82,12 @@ function Overview(props) {
       }
     })
     result = await result.json();
-    window.location.href = '/profile'
+    
+    if(result){
+      window.location.href = '/profile'
+
+    }
+    // console.log(result)
   }
 
   const handleRemove = (e) => {
@@ -84,6 +97,8 @@ function Overview(props) {
 
   return (
     <>
+
+    {/* propsData contains data of user from approval page */}
 
     {
       propsData === null ? 
@@ -200,7 +215,7 @@ function Overview(props) {
         <Modal.Footer>
           <Button variant="primary" onClick={() => {
             handleClose1()
-            updateSkill(userId)
+            updateSkills(userId)
           }}
             className='save-btn'>
             Save
@@ -267,7 +282,7 @@ function Overview(props) {
       </div >
     </div >
 
-      :
+       :
 
       <div className='Overview-Container'>
       <div className='Overview-Left'>
@@ -337,16 +352,16 @@ function Overview(props) {
                 <span style={{ background: backColor[index], color: fColor[index] }} key={index} className='Skills'>{data}</span>
               ))
             }
-            {/* <span className='Add-Event' style={{marginTop:"15px"}} onClick={handleShow1}>
+            <span className='Add-Event' style={{marginTop:"15px"}} onClick={handleShow1}>
               <FontAwesomeIcon className="fa-lg"  icon={faAdd} />
-            </span> */}
+            </span>
           </div>
         </div>
-        {/* ******logout***** */}
+     
       </div>
 
-      {/* modal to add skills */}
-      {/* <Modal show={show1} >
+{/*     
+       <Modal show={show1} >
         <Modal.Header closeButton onHide={handleClose1}> 
           <Modal.Title className='club-member-modal-header'>Add Skills</Modal.Title>
         </Modal.Header>
@@ -374,19 +389,19 @@ function Overview(props) {
               "Content Writing",
               "Ads",
             ]}
-          // selectedValues={{}}
+       
           />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={() => {
             handleClose1()
-            updateSkill(userId)
+            updateSkills(userId)
           }}
             className='save-btn'>
             Save
           </Button>
         </Modal.Footer>
-      </Modal> */}
+      </Modal>  */}
 
       <div className='Overview-Right'>
         <div className='Overview-Right-Statistics'>
@@ -448,7 +463,7 @@ function Overview(props) {
       </div >
 
     }
-      
+       
 
     </>
   )

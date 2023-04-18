@@ -68,6 +68,7 @@ const HomePageCal = ({ clgData, eventSel, allEvents }) => {
     <div className="home-page-cal">
       <div className="calendar-container">
         <Calendar onChange={handleChange} value={value}
+        showYearPicker={false}
           tileClassName={({ date, view }) => {
             if (event.find(x => x === moment(date).format("YYYY-MM-DD"))) {
               return 'highlightbtn1'

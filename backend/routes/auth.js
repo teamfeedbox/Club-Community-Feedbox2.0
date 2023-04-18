@@ -67,7 +67,7 @@ router.post("/register", (req, res) => {
         user
           .save()
           .then((user) => {
-            res.send({data:"You have registered successfully ! Wait until you receive mail to login"});
+            res.send({data:"Registered successfully! Wait until you receive mail to login."});
           })
           .catch((err) => {
             console.log(err);
@@ -176,9 +176,10 @@ router.put('/updatePic/:id', requireLogin, async (req, res) => {
 router.put('/updateSkill/:id', requireLogin, async (req, res) => {
   let result = await User.updateOne(
     { _id: req.params.id },
-    { $push: { skills: req.body.skill } }
+    { $push: { skills: req.body.skills } }
   )
   res.send(result)
+  console.log(result)
 })
 
 // update details of a user
