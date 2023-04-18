@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import 'react-toastify/dist/ReactToastify.css';
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from "./component/signup/Register";
@@ -22,6 +23,7 @@ import MobileNotification from "./component/navbar/MobileNotification";
 import NavbarRes from "./component/navbar/NavbarRes";
 import Login from "./component/login/Login";
 import Modal from "react-bootstrap/Modal";
+import { useStateValue } from "./StateProvider";
 
 const App = () => {
   const [currUser, setCurrUser] = useState();
@@ -29,6 +31,8 @@ const App = () => {
   const [show, setShow] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
   const role = user && user.role;
+
+  const [{},dispatch]=useStateValue();
 
   const handleClose = () => {
     setShow(false)
@@ -41,30 +45,60 @@ const App = () => {
   }
 
   const handleClick = async () => {
-    // let result = await fetch(`http://localhost:8000/user`, {
-    //   headers: {
-    //     Authorization: "Bearer " + localStorage.getItem("jwt"),
-    //   },
-    // });
-    // result = await result.json();
-    // if (result.role != role) {
-    //   setShow(true);
-    // }
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    if (result.role != role) {
+      setShow(true);
+    }
+  }
+  // Get all Colleges*****
+  const getColleges = async () => {
+    const data = await fetch(`http://localhost:8000/colleges/get`);
+    const res = await data.json();
+    let val = [];
+    res.map((data) => {
+      val.push(data.name);
+    });
+    dispatch({
+      type: 'INIT_CLG_ARR',
+      item: val,});
+  };
+
+  // Get a user*****
+  const getUser = async () => {
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    console.log(result, 'user hereeeeeee');
+    
+    dispatch({
+      type: 'INIT_USER',
+      item: result,});
+  };
+
+  // Get All Events*****
+  const getAllEvents = async () => {
+    let res = await fetch("http://localhost:8000/getAllEvent");
+    res = await res.json();
+    dispatch({
+      type: 'INIT_ALL_EVENT',
+      item: res,});
   }
 
   useEffect(() => {
     document.addEventListener("click", handleClick);
+    console.log('apppp loadeddddd-----------------')
+    getUser();
+    getAllEvents();
+    getColleges();
   }, []);
-
-  // const getUser = async () => {
-  //   let result = await fetch(`http://localhost:8000/user`, {
-  //     headers: {
-  //       Authorization: "Bearer " + localStorage.getItem("jwt"),
-  //     },
-  //   });
-  //   result = await result.json();
-  //   // document.addEventListener("click", handleClick(result.role));
-  // }
 
   return (
     <div className="App">

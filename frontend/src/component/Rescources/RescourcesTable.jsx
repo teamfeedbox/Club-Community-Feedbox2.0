@@ -17,6 +17,7 @@ import {
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import NavbarRes from "../navbar/NavbarRes";
+import { useStateValue } from "../../StateProvider";
 
 const RescourcesTable = (props) => {
   TimeAgo.addLocale(en);
@@ -51,6 +52,8 @@ const RescourcesTable = (props) => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
+  const [{currentUser}, dispatch] = useStateValue();
+
   let tableData = data && data.slice(startIndex, endIndex);
   let searchData = searched && searched.slice(startIndex, endIndex);
 
@@ -73,6 +76,11 @@ const RescourcesTable = (props) => {
   }, [skillName]);
 
   const getUser = async () => {
+    if(currentUser){
+      setUser(currentUser);
+      setImg(currentUser.img);
+      return;
+    }
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -82,6 +90,12 @@ const RescourcesTable = (props) => {
     setImg(result.img);
     id = result._id;
     setUser(result);
+    console.log(result, 'user resourceee');
+
+    dispatch({
+      type: 'INIT_USER',
+      item: result,});
+
   };
 
   function handleChange(e) {
@@ -191,18 +205,18 @@ const RescourcesTable = (props) => {
             <div className="res-heading-left"> {skillName} Documents </div>
             <div className="res-heading-right">
               <div
-                class="form-inline my-2 my-lg-0"
-                className="res-table-search"
+                className="form-inline my-2 my-lg-0 res-table-search"
+                // className=""
               >
                 <input
-                  class="form-control mr-sm-2"
+                  className="form-control mr-sm-2"
                   type="text"
                   value={searchval}
                   onChange={searchHandler}
                   placeholder="Search"
                   aria-label="Search"
                 />
-                <button class="btn btn-primary">
+                <button className="btn btn-primary">
                   <FontAwesomeIcon icon={faSearch} />
                 </button>
               </div>
@@ -261,7 +275,7 @@ const RescourcesTable = (props) => {
                         Upload :{" "}
                       </div>
                       <div>
-                        <label for="files" class="btn">
+                        <label for="files" className="btn">
                           <FontAwesomeIcon
                             icon={faFile}
                             className="fa-xl"
@@ -322,7 +336,7 @@ const RescourcesTable = (props) => {
                       >
                         {loading ? (
                           <div
-                            class="spinner-border text-white"
+                            className="spinner-border text-white"
                             role="status"
                             style={{
                               height: "15px",
@@ -330,7 +344,7 @@ const RescourcesTable = (props) => {
                               marginLeft: "2px",
                             }}
                           >
-                            <span class="visually-hidden">Loading...</span>
+                            <span className="visually-hidden">Loading...</span>
                           </div>
                         ) : (
                           <div>Add</div>
@@ -346,38 +360,38 @@ const RescourcesTable = (props) => {
 
           {/* table to display rescources */}
 
-          <div class="overflow-x-auto p-3">
-            <table class="table-auto w-full">
-              <thead class="uppercase text-gray-400 bg-gray-50">
+          <div className="overflow-x-auto p-3">
+            <table className="table-auto w-full">
+              <thead className="uppercase text-gray-400 bg-gray-50">
                 <tr>
-                  <th class="p-2">
-                    <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
+                  <th className="p-2">
+                    <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
                       Download
                     </div>
                   </th>
-                  <th class="p-2">
-                    <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
+                  <th className="p-2">
+                    <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
                       Resource Title
                     </div>
                   </th>
-                  <th class="p-2">
-                    <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
+                  <th className="p-2">
+                    <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
                       Created{" "}
                     </div>
                   </th>
-                  <th class="p-2">
-                    <div class="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
+                  <th className="p-2">
+                    <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
                       Author
                     </div>
                   </th>
                 </tr>
               </thead>
 
-              <tbody class="text-sm divide-y divide-gray-100">
+              <tbody className="text-sm divide-y divide-gray-100">
                 {tableData && tableData.length > 0 ? (
                   tableData.map((item) => (
                     <tr key={item._id}>
-                      <td class="p-2">
+                      <td className="p-2">
                         <a
                           href={(item && item.url) || (item && item.link)}
                           target="_blank"
@@ -396,13 +410,13 @@ const RescourcesTable = (props) => {
                           )}
                         </a>
                       </td>
-                      <td class="p-2">
-                        <div class="font-[500] text-[1rem] text-black">
+                      <td className="p-2">
+                        <div className="font-[500] text-[1rem] text-black">
                           {item && item.title}
                         </div>
                       </td>
-                      <td class="p-2">
-                        <div class="text-left text-blue-600 font-[500] text-[1rem]">
+                      <td className="p-2">
+                        <div className="text-left text-blue-600 font-[500] text-[1rem]">
                           {item &&
                             item.date &&
                             timeAgo.format(
@@ -410,8 +424,8 @@ const RescourcesTable = (props) => {
                             )}
                         </div>
                       </td>
-                      <td class="p-2">
-                        <div class="text-left text-black font-[500] text-[1rem]">
+                      <td className="p-2">
+                        <div className="text-left text-black font-[500] text-[1rem]">
                           {item && item.author && item.author.name}
                         </div>
                       </td>

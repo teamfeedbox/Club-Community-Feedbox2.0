@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import Button from "react-bootstrap/esm/Button";
 
+import { ToastContainer, toast } from 'react-toastify';
+
 const Colleges = () => {
   const [loading1, setLoading1] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -47,8 +49,11 @@ const Colleges = () => {
       });
       const res = await data.json();
       setaddclg("");
-      alert(res);
-      window.location.href = "/profile";
+      toast.dark(res);
+
+      setTimeout(() => {
+        window.location.href = "/profile";
+      }, 2000);
       setLoading(true);
     }
     setLoading1(false);
@@ -71,6 +76,7 @@ const Colleges = () => {
     const res = await data.json();
     console.log(res);
     setLoad(true)
+    setEdit(!edit);
   }
 
   const updateCllg = (e, index) => {
@@ -126,11 +132,11 @@ const Colleges = () => {
                     College
                   </div>
                 </th>
-                <th className="p-2">
+                {/* <th className="p-2">
                   <div className="font-[500] text-[0.8rem] text-center">
                     Action
                   </div>
-                </th>
+                </th> */}
               </tr>
             </thead>
 
@@ -158,7 +164,7 @@ const Colleges = () => {
                         </div>
                       )}
                     </td>
-                    <td className="p-2  w-[25%]">
+                    {/* <td className="p-2  w-[25%]">
                       <div className="flex justify-center">
                         <button onClick={() => handleUpdateClg(index, clg._id)}>
                           {edit ? (
@@ -173,13 +179,14 @@ const Colleges = () => {
                           )}
                         </button>
                       </div>
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
             </tbody>
           </table>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

@@ -67,7 +67,7 @@ router.post("/register", (req, res) => {
         user
           .save()
           .then((user) => {
-            res.send({data:"You have registered successfully ! Wait until you receive mail to login"});
+            res.send({data:"Registered successfully! Wait until you receive mail to login."});
           })
           .catch((err) => {
             console.log(err);
@@ -142,7 +142,7 @@ router.get('/user', requireLogin, async (req, res) => {
     const email = req.user.email;
     const user = await User.findOne({ email }).populate("email").select("-password");
     if (user) {
-      // console.log("llllll");
+
       res.status(200).json(user);
     } else {
       res.status(404).json("This user doesn't exists...")

@@ -5,6 +5,9 @@ import Modal from "react-bootstrap/Modal";
 import "./Register.css";
 import Button from "react-bootstrap/Button";
 
+import { ToastContainer, toast } from 'react-toastify';
+
+
 
 const Register = () => {
   const [next, setNext] = useState(false);
@@ -33,6 +36,8 @@ const Register = () => {
   const [emailError, setEmailError] = useState(false);
   const [passError, setPassError] = useState(false);
   const [universityError, setUniversityError] = useState(false);
+
+
 
   const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
@@ -100,11 +105,13 @@ const Register = () => {
     if (result) {
       console.log(result);
       if (result.data === "user already exists with that email") {
-        alert(result.data);
+        toast.error(result.data);
       }
       else {
-        alert(result.data);
+        toast.success(result.data);
+        setTimeout(() => {
         navigate("/login");
+        }, 5000)
       }
     }
     setLoading(false);
@@ -119,7 +126,7 @@ const Register = () => {
       setNext(!next);
     }
     else {
-      alert("All fields are required")
+      toast.warning("All fields are required")
     }
 
   };
@@ -694,6 +701,8 @@ const Register = () => {
           d="M0,0L40,42.7C80,85,160,171,240,197.3C320,224,400,192,480,154.7C560,117,640,75,720,74.7C800,75,880,117,960,154.7C1040,192,1120,224,1200,213.3C1280,203,1360,149,1400,122.7L1440,96L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"
         ></path>
       </svg>
+      <ToastContainer />
+
     </div>
 
     // </div>
