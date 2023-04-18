@@ -150,7 +150,6 @@ const RescourcesTable = (props) => {
       }
       formData.append("file", file.data);
       formData.append("title", title);
-      formData.append("author", id);
       formData.append("skill", skillName);
 
       const response = await fetch("http://localhost:8000/upload", {
@@ -162,9 +161,7 @@ const RescourcesTable = (props) => {
       });
 
       const responseWithBody = await response.json();
-      // if (response) setUrl(responseWithBody.publicUrl);
-      if (response) console.log(responseWithBody.data.id, "public url here");
-
+      if (responseWithBody) alert(responseWithBody);
       setLoading(false);
     }
 
@@ -348,7 +345,7 @@ const RescourcesTable = (props) => {
                       ) : (
                         ""
                       )
-                      } 
+                      }
 
                       {mypdf && !link ? (
                         <div className="w-fit text-[.8rem] mt-2">
@@ -388,7 +385,7 @@ const RescourcesTable = (props) => {
                   </Modal.Footer>
                 </form>
               </Modal>
-              <ToastContainer/>
+              <ToastContainer />
             </div>
           </div>
 
@@ -507,7 +504,7 @@ const RescourcesTable = (props) => {
               ""
             )}
           </div>
-          
+
         </div>
       </div>
     </>
