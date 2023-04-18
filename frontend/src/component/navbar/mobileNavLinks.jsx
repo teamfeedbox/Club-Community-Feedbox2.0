@@ -205,7 +205,7 @@ export function MobileNavLinks(props) {
             ""
           )}
 
-          {role === "Super_Admin" ? (
+          {/* {role === "Super_Admin" ? (
             <div>
               {selectedPage === "/dashboard" ? (
                 <LinkItemHighlight>
@@ -219,7 +219,7 @@ export function MobileNavLinks(props) {
             </div>
           ) : (
             ""
-          )}
+          )} */}
 
           {selectedPage === "/faq" ? (
             <LinkItemHighlight>
