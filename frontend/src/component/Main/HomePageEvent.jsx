@@ -10,7 +10,7 @@ import { useStateValue } from "../../StateProvider";
 
 const HomePageEvent = (props) => {
   const [event, setEvent] = useState([]);
-  const [loading,setLoading]=useState(false);
+  const [loading,setLoading]=useState(true);
 
   const [{ allEventsData }] = useStateValue();
 
@@ -26,7 +26,7 @@ const HomePageEvent = (props) => {
       }
     });
     result = result.reverse();
-
+    // setLoading(false);
     if (props.clgData) {
       if (result.length > 0) {
         if (props.clgData === "All") {
@@ -55,6 +55,7 @@ const HomePageEvent = (props) => {
             setEvent([]);
           }
         }
+        setLoading(false);
       }
     } else if (props.eveD) {
       let array = [];
@@ -68,24 +69,27 @@ const HomePageEvent = (props) => {
       } else {
         setEvent([]);
       }
+      setLoading(false);
     } else {
       setEvent(result);
+      setLoading(false);
     }
-    setLoading(false);
+    
   };
 
   useEffect(() => {
     if (allEventsData) {
       handleEvents(allEventsData);
     }
+    
   }, [props, props.clgData]);
 
   return (
     <div className="overall-main-page-event">
       {
-      !loading ?
+      !loading && event ?
       <div className="event-main-div-res">
-        {event && event.length > 0 ? (
+        {event.length > 0 ? (
           event.map((item) => (
             <div className="HomePageEvent" key={item._id}>
               <div className="upcoming_event_title">{item.title}</div>
@@ -109,19 +113,19 @@ const HomePageEvent = (props) => {
           
           // Skeleton view for event 
           <div className="HomePageEvent">
-          <div style={{textAlign:"center"}}>No Upcoming Events !</div>
+            <div style={{textAlign:"center"}}>No Upcoming Events !</div>
           </div>
         )}
       </div>:
       <div className="HomePageEvent">
-      <div role="status" class="max-w-sm animate-pulse">
-          <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
-          <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
-          <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
-          <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
-          <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
-          <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
-          <span class="sr-only">Loading...</span>
+      <div role="status" className="max-w-sm animate-pulse">
+          <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+          <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
+          <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+          <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
+          <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
+          <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
+          <span className="sr-only">Loading...</span>
         </div>
       </div>
       }

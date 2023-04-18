@@ -57,12 +57,12 @@ const HomePageProfile = (props) => {
     result = await result.json();
     let array=[];
     result.map(data=>{
-      if(data.role!=="Super_Admin"){
+      if(data.role =="Lead" || data.role =="Admin" || data.role=="Club_Member"){
         array.push(data)
       }
     })
-    setAllUsers(result);
-    // setAllUsers(array);
+    console.log(array)
+    setAllUsers(array);
   }
 
   const handleCollege = (e) => {
@@ -79,7 +79,7 @@ const HomePageProfile = (props) => {
         }
       })
       allUsers.map((user) => {
-        if (user.collegeName === e.target.value) {
+        if (user.collegeName === e.target.value &&  (user.role =="Lead" || user.role =="Admin" || user.role=="Club_Member")) {
           usercount++;
         }
       })
@@ -193,9 +193,9 @@ const HomePageProfile = (props) => {
               />
             </div>
             <div className=" flex flex-col  pl-2">
-              <h className=" text-[1.1rem] md:text-[16px]   font-[600]">
+              <h1 className=" text-[1.1rem] md:text-[16px] font-[600]">
                 Total Events:
-              </h>
+              </h1>
               <p className=" text-[1.5rem] font-[700] p-0 relative bottom-2">{selected ? clgEvents.length > 0 ? clgEvents.length : 0 : event ? event.length : 0}</p>
             </div>
           </div>
@@ -206,7 +206,23 @@ const HomePageProfile = (props) => {
       {role && (role === 'Super_Admin' || role === "Admin") ?
         <div className="block md:hidden lg:hidden px-3 pt-3 pb-3">
           <div className=" ">
-            <select
+          <select
+                name="College"
+                id="College"
+                // className="border w-[280px] rounded p-1 mt-1 text-[1rem] font-[400]" onChange={handleCollege}
+              className="border w-[100%] rounded p-1 text-[1rem] font-[400]" onChange={handleCollege}
+                
+              >
+                <option disabled selected className="hidden">
+                  College
+                </option>
+                <option value="All">All</option>
+                {allClgs && allClgs.length > 0 &&
+                  allClgs.map((clg) => <option value={clg}>{clg}</option>)}
+              </select>
+
+              
+            {/* <select
               name="College"
               id="College"
               className="border w-[100%] rounded p-1 text-[1rem] font-[400]" onChange={handleCollege}
@@ -216,7 +232,7 @@ const HomePageProfile = (props) => {
               </option>
               {allClgs && allClgs.length > 0 &&
                 allClgs.map((clg) => <option key={clg._id} value={clg}>{clg}</option>)}
-            </select>
+            </select> */}
           </div>
         </div> : ''}
     </div>

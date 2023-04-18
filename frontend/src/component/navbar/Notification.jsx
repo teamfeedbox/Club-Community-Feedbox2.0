@@ -109,7 +109,7 @@ const Notification = (props) => {
                   // for coins
                   ((data.messageScope === "coins"  && currentUserId === data.userId) &&
                     <div key={data.message} className="flex bg-yellow-200 mt-2 rounded-sm">
-                      <div className="bg-yellow-800 p-1 w-[5px]  text-yellow-800"></div>
+                      <div className="bg-yellow-600 p-1 w-[5px]  text-yellow-800"></div>
                       <div className="p-1">
                         {data.message}
                       </div>
