@@ -32,7 +32,7 @@ const App = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const role = user && user.role;
 
-  const [{},dispatch]=useStateValue();
+  const [{currentUser, colleges,allPosts, allEventsData},dispatch]=useStateValue();
 
   const handleClose = () => {
     setShow(false)
@@ -57,39 +57,81 @@ const App = () => {
   }
   // Get all Colleges*****
   const getColleges = async () => {
-    const data = await fetch(`http://localhost:8000/colleges/get`);
-    const res = await data.json();
-    let val = [];
-    res.map((data) => {
-      val.push(data.name);
-    });
-    dispatch({
-      type: 'INIT_CLG_ARR',
-      item: val,});
+    if(!colleges){
+      console.log('collegeeegegegege-------');
+      const data = await fetch(`http://localhost:8000/colleges/get`);
+      const res = await data.json();
+      let val = [];
+      res.map((data) => {
+        val.push(data.name);
+      });
+      dispatch({
+        type: 'INIT_CLG_ARR',
+        item: val,});
+    }
+    else{
+      console.log("clg already initialized");
+    }
   };
 
   // Get a user*****
   const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    console.log(result, 'user hereeeeeee');
-    
-    dispatch({
-      type: 'INIT_USER',
-      item: result,});
+    if(!currentUser){
+      let result = await fetch(`http://localhost:8000/user`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      });
+      result = await result.json();
+      console.log(result, 'user hereeeeeee');
+      
+      dispatch({
+        type: 'INIT_USER',
+        item: result,});
+    }else{
+      console.log("current user already initialized");
+    }
   };
 
   // Get All Events*****
   const getAllEvents = async () => {
-    let res = await fetch("http://localhost:8000/getAllEvent");
-    res = await res.json();
-    dispatch({
-      type: 'INIT_ALL_EVENT',
-      item: res,});
+    if(!allEventsData){
+      let res = await fetch("http://localhost:8000/getAllEvent");
+      res = await res.json();
+      dispatch({
+        type: 'INIT_ALL_EVENT',
+        item: res,});
+    }else{
+      console.log("All events already initialized");
+    }
+  }
+
+  // Get all Posts*****
+  const getAllPosts= async () =>{
+    if(!allPosts){
+      let res = await fetch("http://localhost:8000/getAllPost", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+        });
+        res = await res.json();
+        
+  
+        let count = 0;
+        res.map((data) => {
+          count = data.comment.length
+          data.comment.map((res) => {
+            count += res.reply.length;
+          })
+          data.count = count;
+        })
+          dispatch({
+            type: 'INIT_ALL_POST',
+            item: res
+          });
+    }else{
+      console.log("All posts already initialized");
+    }
   }
 
   useEffect(() => {
@@ -98,6 +140,7 @@ const App = () => {
     getUser();
     getAllEvents();
     getColleges();
+    getAllPosts();
   }, []);
 
   return (
