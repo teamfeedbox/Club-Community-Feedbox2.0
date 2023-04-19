@@ -128,7 +128,7 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
                           user.img.map((data) => (
                             <SwiperSlide >
                               <div className="" key={data._id}>
-                                <img className="" src={data} alt="" />
+                                <img className="w-[100%]" src={data} alt="" />
                               </div>
                             </SwiperSlide>
                           ))
