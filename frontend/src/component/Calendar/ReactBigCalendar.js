@@ -485,7 +485,7 @@ export default function ReactBigCalendar() {
                 </div>
                 <div className="preview-button">
                   {
-                    role && role === "Super_Admin" ?
+                    role && role !== "Super_Admin" ?
                       id && myEvent && id !== myEvent.postedBy._id ?
                         new Date(myEvent && myEvent.eventDate).getTime() >
                           new Date(mindate).getTime() ?
@@ -582,7 +582,7 @@ export default function ReactBigCalendar() {
                       ""
                     )}
                   </div>
-                )}
+                )} 
               </div>
             </div>
           ) : (
