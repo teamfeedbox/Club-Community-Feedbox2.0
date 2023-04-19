@@ -418,7 +418,7 @@ const RescourcesTable = (props) => {
                     <tr key={item._id}>
                       <td className="p-2">
                         <a
-                          href={(item && item.url) || (item && item.link)}
+                          href={(item && item.url)}
                           target="_blank"
                           className="text-black"
                         >

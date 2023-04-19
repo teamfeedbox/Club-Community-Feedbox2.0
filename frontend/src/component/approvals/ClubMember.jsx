@@ -186,16 +186,16 @@ const ClubMember = ({ props }) => {
     <div>
       {/* search */}
       <div className="pending-approval-search">
-        <div class="relative text-lg bg-transparent text-gray-800">
-          <div class="flex items-center border-b-2 border-[#6F6F6F] py-2 mt-3">
+        <div className="relative text-lg bg-transparent text-gray-800">
+          <div className="flex items-center border-b-2 border-[#6F6F6F] py-2 mt-3">
             <input
-              class="bg-transparent w-full  border-none mr-10 px-2 text-[1rem] font-[400] leading-tight focus:outline-none"
+              className="bg-transparent w-full  border-none mr-10 px-2 text-[1rem] font-[400] leading-tight focus:outline-none"
               type="text"
               value={searchval}
               onChange={searchHandler}
               placeholder="Search Member..."
             />
-            <button type="submit" class="absolute right-0 top-2 mr-4 ">
+            <button type="submit" className="absolute right-0 top-2 mr-4 ">
               <FontAwesomeIcon icon={faSearch} />
             </button>
           </div>
@@ -204,11 +204,11 @@ const ClubMember = ({ props }) => {
       {/* table  */}
       <div className="lg:border">
         <Scrollbars style={{ height: "250px" }}>
-          <table class="table-auto w-full max-w-[1300px]">
-            <tbody class="text-sm divide-y divide-gray-100 max-w-[1150px]">
+          <table className="table-auto w-full max-w-[1300px]">
+            <tbody className="text-sm divide-y divide-gray-100 max-w-[1150px]">
               {loading3 ? (
                 <div
-                  class="spinner-border text-blue"
+                  className="spinner-border text-blue"
                   role="status"
                   style={{
                     height: "35px",
@@ -217,15 +217,15 @@ const ClubMember = ({ props }) => {
                     marginLeft: "80px",
                   }}
                 >
-                  <span class="visually-hidden">Loading...</span>
+                  <span className="visually-hidden">Loading...</span>
                 </div>
               ) : clubMember.length > 0 ? (
                 clubMember.map((member) => (
                   <tr className="flex justify-between max-w-[1150px]">
-                    <td class="p-2 w-[200px] lg:w-[300px]">
+                    <td className="p-2 w-[200px] lg:w-[300px]">
                       <div className="flex items-center">
                         <img
-                          class="rounded-full w-[40px] h-[40px] object-center"
+                          className="rounded-full w-[40px] h-[40px] object-center"
                           src={member.img}
                           width="40"
                           height="40"
@@ -252,12 +252,12 @@ const ClubMember = ({ props }) => {
                         
                       </div>
                     </td>
-                    <td class="p-2 lg:flex items-center hidden md:block">
-                      <div class=" text-gray-800 text-[1rem] font-[400]">
+                    <td className="p-2 lg:flex items-center hidden md:block">
+                      <div className=" text-gray-800 text-[1rem] font-[400]">
                         {member.branch}
                       </div>
                     </td>
-                    <td class="pt-2 pb-2 flex justify-end">
+                    <td className="pt-2 pb-2 flex justify-end">
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
                         <button className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]">
                           <div
@@ -377,7 +377,7 @@ const ClubMember = ({ props }) => {
                                 <div>
                                   {loading ? (
                                     <div
-                                      class="spinner-border text-blue"
+                                      className="spinner-border text-blue"
                                       role="status"
                                       style={{
                                         height: "15px",
@@ -386,7 +386,7 @@ const ClubMember = ({ props }) => {
                                         marginLeft: "80px",
                                       }}
                                     >
-                                      <span class="visually-hidden">
+                                      <span className="visually-hidden">
                                         Loading...
                                       </span>
                                     </div>

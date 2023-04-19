@@ -195,7 +195,7 @@ const HomePageProfile = (props) => {
               />
             </div>
             <div className=" flex flex-col  pl-2">
-              <h1 className=" text-[1.1rem] md:text-[16px] font-[600]">
+              <h1 className=" text-[1.1rem] md:text-[16px]   font-[600]">
                 Total Events:
               </h1>
               <p className=" text-[1.5rem] font-[700] p-0 relative bottom-2">{selected ? clgEvents.length > 0 ? clgEvents.length : 0 : event ? event.length : 0}</p>

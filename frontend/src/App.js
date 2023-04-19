@@ -18,7 +18,6 @@ import ReactBigCalendar from "./component/Calendar/ReactBigCalendar";
 import PostBigModel from "./component/Main/PostBigModel";
 import Error from "./component/Error";
 import Loader from "./component/Loader";
-import Dashboard from "./component/Dashboard/Dashboard";
 import MobileNotification from "./component/navbar/MobileNotification";
 import NavbarRes from "./component/navbar/NavbarRes";
 import Login from "./component/login/Login";
@@ -30,8 +29,7 @@ const App = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const role = user && user.role;
 
-  const [{ currentUser, colleges, allEventsData }, dispatch] = useStateValue();
-  console.log(currentUser, "currentUesr");
+  const [{currentUser, colleges,allPosts, allEventsData},dispatch]=useStateValue();
 
   const handleClose = () => {
     setShow(false)
@@ -56,7 +54,8 @@ const App = () => {
   }
   // Get all Colleges*****
   const getColleges = async () => {
-    if (!colleges) {
+    if(!colleges){
+      console.log('collegeeegegegege-------');
       const data = await fetch(`http://localhost:8000/colleges/get`);
       const res = await data.json();
       let val = [];
@@ -72,7 +71,7 @@ const App = () => {
 
   // Get a user*****
   const getUser = async () => {
-    if (!currentUser) {
+    if(!currentUser){
       let result = await fetch(`http://localhost:8000/user`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -80,23 +79,53 @@ const App = () => {
       });
       result = await result.json();
       console.log(result, 'user hereeeeeee');
-
+      
       dispatch({
         type: 'INIT_USER',
-        item: result,
-      });
+        item: result,});
+    }else{
+      console.log("current user already initialized");
     }
   };
 
   // Get All Events*****
   const getAllEvents = async () => {
-    if (!allEventsData) {
+    if(!allEventsData){
       let res = await fetch("http://localhost:8000/getAllEvent");
       res = await res.json();
       dispatch({
         type: 'INIT_ALL_EVENT',
-        item: res,
-      });
+        item: res,});
+    }else{
+      console.log("All events already initialized");
+    }
+  }
+
+  // Get all Posts*****
+  const getAllPosts= async () =>{
+    if(!allPosts){
+      let res = await fetch("http://localhost:8000/getAllPost", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+        });
+        res = await res.json();
+        
+  
+        let count = 0;
+        res.map((data) => {
+          count = data.comment.length
+          data.comment.map((res) => {
+            count += res.reply.length;
+          })
+          data.count = count;
+        })
+          dispatch({
+            type: 'INIT_ALL_POST',
+            item: res
+          });
+    }else{
+      console.log("All posts already initialized");
     }
   }
 
@@ -106,6 +135,7 @@ const App = () => {
     getUser();
     getAllEvents();
     getColleges();
+    getAllPosts();
   }, []);
 
   return (
