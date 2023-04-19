@@ -51,7 +51,7 @@ const App = () => {
       },
     });
     result = await result.json();
-    if (result.role != role) {
+    if (result.role !== role) {
       setShow(true);
     }
   }
@@ -101,7 +101,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="App">
+    <div className="App" >
       <Modal show={show} onHide={handleClose} className="club-member-modal" >
         <form>
           <Modal.Header

@@ -272,7 +272,7 @@ console.log(val);
           </Modal.Body>
           <Modal.Footer className="modal-footer">
             <div className="modal-footer-upload">
-              <label for="files" class="btn">
+              <label htmlFor="files" class="btn">
                 <FontAwesomeIcon
                   icon={faImage}
                   className="fa-xl"

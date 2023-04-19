@@ -428,11 +428,8 @@ const RescourcesTable = (props) => {
                   tableData.map((item) => (
                     <tr key={item._id}>
                       <td className="p-2">
-                        <a
-                          href={
-                            (item && item.driveId) || (item && item.link)
-                          }
-                          target="_blank"
+                        <a href={(item && item.driveId) || (item && item.link)}
+                           target="_blank"
                           className="text-black"
                         >
                           {item.url ? (

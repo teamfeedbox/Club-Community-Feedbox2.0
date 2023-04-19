@@ -49,7 +49,7 @@ const HomePageProfile = (props) => {
   useEffect(() => {
     getAllUsers();
     setLoading(false);
-  }, [college, loading, props]);
+  }, [ loading]);
 
   // get all users
   const getAllUsers = async () => {

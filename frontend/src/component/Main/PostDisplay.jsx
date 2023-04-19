@@ -327,26 +327,24 @@ const PostDisplay = (props) => {
                   </Modal>
                 </div>
 
-                <div className="post-display-center">
-                  <div className="post-display-content">
-                    {item.img.length <= 0 ? (
-                      item.desc
-                    ) : item.desc && contentId === item._id && showMore ? (
-                      item.desc
-                    ) : item.desc.length > 180 ? (
-                      <button
-                        style={{ textAlign: "left" }}
-                        onClick={() => {
-                          setShowMore(true);
-                          setContentId(item._id);
-                        }}
-                        //  style={{ color:""}}
-                      >
-                        {item.desc.slice(0, 180)}......more
-                      </button>
-                    ) : (
-                      item.desc
-                    )}
+
+              <div className="post-display-center">
+                <div className="post-display-content">
+                {
+                  item.img.length<=0 ? item.desc : item.desc
+                   && contentId===item._id && showMore ? item.desc :
+                   item.desc.length>180 ?
+                  <button 
+                    style={{textAlign:"left"}}
+                  onClick={()=>
+                    {
+                      setShowMore(true)
+                  setContentId(item._id)  
+                    }
+                  }
+                  //  style={{ color:""}}
+                  >{item.desc.slice(0,180)} <span style={{color:"gray",fontWeight:"600"}}> .....read more</span></button>:item.desc
+                }
                   </div>
                   {/*
                 
@@ -365,7 +363,8 @@ const PostDisplay = (props) => {
                           autoplay={{
                             delay: 2000,
                             disableOnInteraction: false,
-                          }}
+                          }
+                        }
                           modules={[Navigation, Autoplay]}
                           className="mySwiper"
                         >
