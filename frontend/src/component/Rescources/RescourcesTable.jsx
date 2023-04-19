@@ -39,19 +39,17 @@ const RescourcesTable = (props) => {
   const [link, setLink] = useState(false);
   const [title, setTitle] = useState();
   const [pdfFile, setPdfFile] = useState();
-  const [author, setAuthor] = useState();
   const [data, setData] = useState([]);
   const [duplicateData, setDuplicateData] = useState([]);
   const [searched, setSearched] = useState("");
   const [searchval, setSearchVal] = useState("");
-  const [enableSearch, setEnableSearch] = useState(false);
   const [user, setUser] = useState();
   const [img, setImg] = useState();
   const [pdfLink, setPdfLink] = useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const [selected, setSelected] = useState([]);
   const [mypdf, setMyPdf] = useState(false);
   const [filename, setFileName] = useState("");
+  const [load, setLoad] = useState(false);
 
   const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role
 
@@ -74,13 +72,13 @@ const RescourcesTable = (props) => {
 
   const totalPages = Math.ceil(data && data.length / itemsPerPage);
 
-  let id;
   useEffect(() => {
     if (searchval == "") {
       getList(skillName);
     }
     getUser();
-  }, [skillName]);
+    setLoad(false)
+  }, [skillName, load]);
 
   const getUser = async () => {
     if (currentUser) {
@@ -95,9 +93,7 @@ const RescourcesTable = (props) => {
     });
     result = await result.json();
     setImg(result.img);
-    id = result._id;
     setUser(result);
-    console.log(result, 'user resourceee');
 
     dispatch({
       type: 'INIT_USER',
@@ -128,27 +124,12 @@ const RescourcesTable = (props) => {
   const handleShow = () => setShow(true);
 
   const AddResource = async (e) => {
-    // setLoading(true);
+    setLoading(true);
     e.preventDefault();
-
-    // const formData = new FormData();
-    // console.log(pdfLink,"pdfLink");
-    // console.log(pdfFile,"pdfFile");
-
-    // formData.append("file", pdfFile);
-    // formData.append("pdfLink", pdfLink);
-    // formData.append("title", title);
-    // formData.append("author", id);
-    // formData.append("skill", skillName);
-
+    const formData = new FormData();
     if (pdfFile) {
-      console.log(pdfFile, fileu);
-      const formData = new FormData();
-      const file = {
-        preview: fileu,
-        data: pdfFile
-      }
-      formData.append("file", file.data);
+
+      formData.append("file", pdfFile);
       formData.append("title", title);
       formData.append("skill", skillName);
 
@@ -163,32 +144,45 @@ const RescourcesTable = (props) => {
       const responseWithBody = await response.json();
       if (responseWithBody) alert(responseWithBody);
       setLoading(false);
-    }
+      setTitle("");
+      setFile("");
+      setPdfFile("");
+      setPdfLink("");
+      setFileName("");
+      setLink(false);
+      setShow(false);
+      setLoad(true)
+      // window.location.href = '/rescourcesDisplay';
+    } else if (pdfLink) {
+      const val = {
+        title: title,
+        url: pdfLink,
+        skill: skillName
+      }
 
-    // const response = await fetch("http://localhost:8000/upload", {
-    //   method: "POST",
-    //   body: formData,
-    //   headers: {
-    //     Authorization: "Bearer " + localStorage.getItem("jwt"),
-    //   },
-    // });
-    // if (response) {
-    //   // PDF file uploaded successfully
-    //   setLoading(false);
-    //   alert("File uploaded successfully");
-    //   setTitle("");
-    //   setFile("");
-    //   setPdfFile("");
-    //   setPdfLink("");
-    //   setFileName("");
-    //   setLink(false);
-    //   setShow(false);
-    //   window.location.href = '/rescourcesDisplay';
-    // } else {
-    //   // Error uploading PDF file
-    //   console.log("error");
-    //   setLoading(false);
-    // }
+      const response = await fetch("http://localhost:8000/linkUpload", {
+        method: "POST",
+        body: JSON.stringify(val),
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const responseWithBody = await response.json();
+      if (responseWithBody) alert(responseWithBody);
+
+      setLoading(false);
+      setTitle("");
+      setFile("");
+      setPdfFile("");
+      setPdfLink("");
+      setFileName("");
+      setLink(false);
+      setShow(false);
+      setLoad(true)
+      // window.location.href = '/rescourcesDisplay';
+    }
   };
 
   const getList = async (skillName) => {
@@ -424,11 +418,11 @@ const RescourcesTable = (props) => {
                     <tr key={item._id}>
                       <td className="p-2">
                         <a
-                          href={(item && item.driveId) || (item && item.link)}
+                          href={(item && item.url) || (item && item.link)}
                           target="_blank"
                           className="text-black"
                         >
-                          {item.url ? (
+                          {item.type=='pdf' ? (
                             <FontAwesomeIcon
                               icon={faFileInvoice}
                               className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"

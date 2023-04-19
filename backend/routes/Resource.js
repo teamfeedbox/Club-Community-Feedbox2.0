@@ -2,11 +2,8 @@ const express = require('express')
 const router = express.Router()
 const Resource = require('../models/resource')
 const multer = require('multer');
-const cloudinary = require("../middleware/cloudinary");
-const uploader = require("../middleware/multer");
 const requireLogin = require('../middleware/requireLogin')
 const { google } = require("googleapis")
-const fs = require("fs");
 const { Readable } = require('stream');
 const upload = multer({});
 
@@ -42,10 +39,8 @@ const uploadToGoogleDrive = async (file, auth) => {
   return response;
 };
 
+// Upload pdf to google drive and then to mongodb
 router.post("/upload", upload.single("file"), requireLogin, async (req, res, next) => {
-  console.log(process.env.url);
-  console.log(req.body.title, "ffff");
-  console.log(req.file);
   try {
     if (!req.file) {
       res.status(400).send("No file uploaded.");
@@ -56,9 +51,11 @@ router.post("/upload", upload.single("file"), requireLogin, async (req, res, nex
       console.log(response);
       const val = {
         title: req.body.title,
-        driveId: `https://drive.google.com/file/d/${response.data.id}/view`,
+        url: `https://drive.google.com/file/d/${response.data.id}/view`,
         author: req.user,
-        skill: req.body.skill
+        skill: req.body.skill,
+        type: "pdf",
+        driveId: response.data.id
       }
       const pdf = await new Resource(val)
       await pdf.save()
@@ -71,7 +68,26 @@ router.post("/upload", upload.single("file"), requireLogin, async (req, res, nex
   }
 });
 
-
+// Upload link to mongodb
+router.post("/linkUpload", requireLogin, async (req, res) => {
+  try {
+    console.log(req.body);
+    const val = {
+      title: req.body.title,
+      url: req.body.url,
+      author: req.user,
+      skill: req.body.skill,
+      type: "link",
+    }
+    const pdf = await new Resource(val)
+    await pdf.save()
+      .then(() => {
+        res.status(200).json("Link uploaded successfully!");
+      })
+  } catch (error) {
+    res.status(500).json(error)
+  }
+})
 
 //api to get all resource
 //it will be used to display at the resources page
@@ -114,11 +130,41 @@ router.put('/updateResource/:id', async (req, res) => {
   res.send(result)
 })
 
-//delete resource
-router.delete('/deleteResource/:eventId', async (req, res) => {
-  const result = await Resource.deleteOne({ _id: req.params.eventId });
-  res.send(result)
+//delete resource link from mongodb 
+router.delete('/delete/Resource/link/:resId', async (req, res) => {
+  try {
+    const result = await Resource.deleteOne({ _id: req.params.resId });
+    res.status(200).json("Link Deleted Successfully")
+  } catch (error) {
+    res.status(500).json(error)
+  }
 })
+
+// Delete resource PDF from google drive and MongoDb
+router.delete('/delete/Resource/pdf', async (req, res) => {
+  try {
+    const auth = authenticateGoogle();
+    const drive = google.drive({ version: 'v3', auth });
+    const file_id = req.body.driveId;
+
+    drive.files
+      .delete({
+        fileId: file_id,
+      })
+      .then(
+        async function (response) {
+          const result = await Resource.deleteOne({ _id: req.body._id });
+          res.status(200).json("Pdf Deleted Successfully...")
+        },
+        function (err) {
+          return res.status(400).json('Deletion Failed for some reason');
+        }
+      );
+  } catch (error) {
+    res.status(500).json(error)
+  }
+})
+
 
 router.get('/search/:key', async (req, res) => {
   let result = await Resource.find({

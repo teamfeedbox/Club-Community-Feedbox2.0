@@ -15,6 +15,6 @@ root.render(
         <App />
       </ToastProvider>
     </StateProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 reportWebVitals();

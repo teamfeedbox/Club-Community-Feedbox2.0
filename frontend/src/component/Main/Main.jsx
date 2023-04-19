@@ -6,66 +6,13 @@ import HomePageEvent from "./HomePageEvent";
 import CreatePost from "./CreatePost";
 import "./Main.css";
 import bg from "../assets/mainBg.png";
-import { useStateValue } from "../../StateProvider";
 
-const REACT_APP_BASE_URL= process.env.REACT_APP_BASE_URL;
+const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const Main = () => {
-  const [user, setUser] = useState();
   const [clg, setClg] = useState();
-  const [allEvents, setAllEvents] = useState([]);
-  const [allClgs, setAllClgs] = useState([]);
   const [eventSel, setEventSel] = useState();
   const role = JSON.parse(localStorage.getItem("user")).role;
-
-  const[{},dispatch] = useStateValue();
-
-  useEffect(() => {
-    getUser();
-    getAllEvents();
-    getColleges();
-  }, [])
-
-  // Get all Colleges*****
-  const getColleges = async () => {
-    const data = await fetch(`http://localhost:8000/colleges/get`);
-    const res = await data.json();
-    let val = [];
-    res.map((data) => {
-      val.push(data.name);
-    });
-    setAllClgs(val);
-    dispatch({
-      type: 'INIT_CLG_ARR',
-      item: val,});
-  };
-
-  // Get a user*****
-  const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-
-    setUser(result);
-    console.log(result, 'user hereeeeeee');
-    
-    dispatch({
-      type: 'INIT_USER',
-      item: result,});
-  };
-
-  // Get All Events*****
-  const getAllEvents = async () => {
-    let res = await fetch("http://localhost:8000/getAllEvent");
-    res = await res.json();
-    setAllEvents(res);
-    dispatch({
-      type: 'INIT_ALL_EVENT',
-      item: res,});
-  }
 
   const handleDataChange = (newData) => {
     setClg(newData);
@@ -74,8 +21,6 @@ const Main = () => {
   const pull_data = (data) => {
     setEventSel(data);
   }
-
-  
 
   return (
     <>
@@ -93,14 +38,14 @@ const Main = () => {
             <div className="flex m-auto justify-center">
               <div className="main-home-page-profile">
                 <scrollable-component scrollbar-visibility="always">
-                  <HomePageProfile sendData={handleDataChange} user={user && user} allEvents={allEvents && allEvents} allColleges={allClgs && allClgs} />
+                  <HomePageProfile sendData={handleDataChange} />
                 </scrollable-component>
               </div>
 
               <div className="main-post-dispaly">
                 <scrollable-component scrollbar-visibility="always">
                   <div>
-                    {role && role === "Club_Member" ? '' : <CreatePost userData={user && user} allColleges={allClgs && allClgs} />}
+                    {role && role === "Club_Member" ? '' : <CreatePost />}
                   </div>
                   <PostDisplay clgData={clg && clg} />
                 </scrollable-component>
@@ -109,10 +54,10 @@ const Main = () => {
               <div className="main-home-page-cal">
                 <scrollable-component scrollbar-visibility="always">
                   <div className="home-page-cal-div">
-                    <HomePageCal clgData={clg && clg} eventSel={pull_data} allEvents={allEvents && allEvents} />
+                    <HomePageCal clgData={clg && clg} eventSel={pull_data} />
                   </div>
                   <p className="up-coming-events">UP-COMING EVENTS</p>
-                  <HomePageEvent clgData={clg && clg} eveD={eventSel && eventSel} allEvents={allEvents && allEvents} />
+                  <HomePageEvent clgData={clg && clg} eveD={eventSel && eventSel} />
                 </scrollable-component>
               </div>
             </div>
@@ -124,7 +69,7 @@ const Main = () => {
           <section className="main">
             <div className="main-page-display-tab-left ">
               <scrollable-component scrollbar-visibility="always">
-                <HomePageProfile userData={user && user} />
+                <HomePageProfile sendData={handleDataChange} />
                 <p className="up-coming-events">UP-COMING EVENTS</p>
 
                 <HomePageEvent clgData={clg && clg} />
@@ -132,7 +77,7 @@ const Main = () => {
             </div>
             <div className="main-page-display-tab-right">
               <scrollable-component scrollbar-visibility="always">
-                {role && role === "Club_Member" ? '' : <CreatePost userData={user && user} />}
+                {role && role === "Club_Member" ? '' : <CreatePost/>}
                 <PostDisplay clgData={clg && clg} />
               </scrollable-component>
             </div>
@@ -143,10 +88,10 @@ const Main = () => {
         <div className="main-page-display-mobile">
           <section className="main ">
             <div className="w-[92%] ml-[4%]">
-              <HomePageProfile userData={user && user} />
+              <HomePageProfile sendData={handleDataChange} />
             </div>
             <div className="w-[92%] ml-[4%]">
-              {role && role === "Club_Member" ? '' : <CreatePost userData={user && user} />}
+              {role && role === "Club_Member" ? '' : <CreatePost />}
             </div>
             <p className="up-coming-events">UP-COMING EVENTS</p>
             <div className="w-[92%] ml-[4%]">

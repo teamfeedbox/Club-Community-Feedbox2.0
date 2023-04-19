@@ -26,13 +26,12 @@ import Modal from "react-bootstrap/Modal";
 import { useStateValue } from "./StateProvider";
 
 const App = () => {
-  const [currUser, setCurrUser] = useState();
-  const [returned, setReturned] = useState(false);
   const [show, setShow] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
   const role = user && user.role;
 
-  const [{},dispatch]=useStateValue();
+  const [{ currentUser, colleges, allEventsData }, dispatch] = useStateValue();
+  console.log(currentUser, "currentUesr");
 
   const handleClose = () => {
     setShow(false)
@@ -40,8 +39,8 @@ const App = () => {
 
   const handleLogout = () => {
     localStorage.setItem("user", null);
-      localStorage.setItem("jwt", null);
-      window.location.href = "/"
+    localStorage.setItem("jwt", null);
+    window.location.href = "/"
   }
 
   const handleClick = async () => {
@@ -57,39 +56,48 @@ const App = () => {
   }
   // Get all Colleges*****
   const getColleges = async () => {
-    const data = await fetch(`http://localhost:8000/colleges/get`);
-    const res = await data.json();
-    let val = [];
-    res.map((data) => {
-      val.push(data.name);
-    });
-    dispatch({
-      type: 'INIT_CLG_ARR',
-      item: val,});
+    if (!colleges) {
+      const data = await fetch(`http://localhost:8000/colleges/get`);
+      const res = await data.json();
+      let val = [];
+      res.map((data) => {
+        val.push(data.name);
+      });
+      dispatch({
+        type: 'INIT_CLG_ARR',
+        item: val
+      });
+    }
   };
 
   // Get a user*****
   const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    console.log(result, 'user hereeeeeee');
-    
-    dispatch({
-      type: 'INIT_USER',
-      item: result,});
+    if (!currentUser) {
+      let result = await fetch(`http://localhost:8000/user`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      });
+      result = await result.json();
+      console.log(result, 'user hereeeeeee');
+
+      dispatch({
+        type: 'INIT_USER',
+        item: result,
+      });
+    }
   };
 
   // Get All Events*****
   const getAllEvents = async () => {
-    let res = await fetch("http://localhost:8000/getAllEvent");
-    res = await res.json();
-    dispatch({
-      type: 'INIT_ALL_EVENT',
-      item: res,});
+    if (!allEventsData) {
+      let res = await fetch("http://localhost:8000/getAllEvent");
+      res = await res.json();
+      dispatch({
+        type: 'INIT_ALL_EVENT',
+        item: res,
+      });
+    }
   }
 
   useEffect(() => {
