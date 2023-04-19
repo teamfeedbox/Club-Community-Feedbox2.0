@@ -55,7 +55,7 @@ const App = () => {
       setShow(true);
     }
   }
-  // Get all Colleges*****
+  // Get all Colleges***
   const getColleges = async () => {
     const data = await fetch(`http://localhost:8000/colleges/get`);
     const res = await data.json();
@@ -68,7 +68,7 @@ const App = () => {
       item: val,});
   };
 
-  // Get a user*****
+  // Get a user***
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
@@ -83,7 +83,7 @@ const App = () => {
       item: result,});
   };
 
-  // Get All Events*****
+  // Get All Events***
   const getAllEvents = async () => {
     let res = await fetch("http://localhost:8000/getAllEvent");
     res = await res.json();

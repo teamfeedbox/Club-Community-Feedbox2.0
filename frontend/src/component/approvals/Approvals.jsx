@@ -14,6 +14,7 @@ const Approvals = () => {
   const [user, setUser] = useState();
   const [clg, setClg] = useState();
   const[loading,setLoading]=useState(false);
+  
   const[{colleges}]=useStateValue();
 
   const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role

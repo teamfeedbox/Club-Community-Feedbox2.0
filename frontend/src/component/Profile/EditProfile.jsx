@@ -16,7 +16,8 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
   // const [dataChanges, setDataChanges] = useState('nnnnn');
   const [data, setData] = useState('');
-  const [validated, setValidated] = useState(false);
+  // const [validated, setValidated] = useState(false);
+  let validated=false;
   const [show, setShow] = useState(false);
   const [file, setFile] = useState("Images/girl.jpg");
   const [image, setImage] = useState(false);
@@ -72,17 +73,17 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
       },
     });
 
-    result = await result.json();
+    const res = await result.json();
 
-    console.log(result)
+    console.log(res)
   };
 
   const getUserDetails = async () => {
     // console.log(params)
     let result = await fetch(`http://localhost:8000/user/${data}`);
     console.log(data, "helloooooooodata");
-    result = await result.json();
-    setEmail(result.email);
+    const res = await result.json();
+    setEmail(res.email);
   };
 
   const updateDetail = async (data) => {
@@ -98,12 +99,12 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
       },
     });
 
-    result = await result.json();
+    const res = await result.json();  
 
     setLoading(false);
     setOpen(false);
-
-    setValidated(true);
+    validated=true;
+    // setValidated(true);
   };
 
   const crossImage=()=>{
@@ -132,13 +133,13 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
         console.log(data.url)
         setLoading(false);
         setOpen(false);
-        alert("Profile updated successfully!");
-        // addToast("Profile updated successfully!", { appearance: "success" })
-        window.location.href="/profile"
-
-        // setTimeout(() => {
+        // alert("Profile updated successfully!");
+        addToast("Profile updated successfully!", { appearance: "success" })
         // window.location.href="/profile"
-        // }, 2000);
+
+        setTimeout(() => {
+        window.location.href="/profile"
+        }, 2000);
        
       })
       .catch((err) => {
@@ -161,21 +162,33 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     });
-    result = await result.json();
-    setData(result._id);
-    setBio(bio === '' ? result.bio : bio);
-    setName(name === '' ? result.name : name);
-    setCollegeYear(collegeYear === '' ? result.collegeYear : collegeYear);
+    const res = await result.json();
+    // console.log(result);
+    setData(res._id);
+    setBio(bio === '' ? res.bio : bio);
+    setName(name === '' ? res.name : name);
+    setCollegeYear(collegeYear === '' ? res.collegeYear : collegeYear);
+    // if(bio===''){
+    //   setBio(result.bio)
+    // }
+    // if(name===''){
+    //   setName(result.name)
+    // }
+    // if(collegeYear===''){
+    //   setCollegeYear(result.collegeYear)
+    // }
   };
 
   const handleSubmit=(event)=>{
+    // let validated=false;
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     }
 
-    setValidated(true);
+    // setValidated(true);
+     validated=true;
     if(validated)
     {
       updateDetail(data);
@@ -205,7 +218,10 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
           }}
         >
           <Modal show={open}>
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form 
+          validated={validated} 
+          // onSubmit={handleSubmit}
+          >
             <Modal.Header>
               <Modal.Title>Edit Profile</Modal.Title>
             </Modal.Header>
@@ -316,11 +332,12 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                               <span className="flex justify-center">
                                 Upload a file
                               </span>
-                              <input
+                              <Form.Control
                                 onChange={handleChange}
                                 id="file-upload"
                                 name="file-upload"
                                 type="file"
+                                required
                                 className="sr-only "
                               />
                             </label>
@@ -351,11 +368,11 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                 </div>
               ) : (
                 <Button
-                  type="submit"
-                  // onClick={() => {
-                  //   updateDetail(data);
-                  //   uploadPic();
-                  // }}
+                  // type="submit"
+                  onClick={() => {
+                    updateDetail(data);
+                    uploadPic();
+                  }}
                 >
                   Save Changes
                 </Button>

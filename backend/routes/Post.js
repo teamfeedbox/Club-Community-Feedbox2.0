@@ -17,7 +17,7 @@ router.post("/upload/images/get/link", async (req, res) => {
 
 router.post("/create-post", requireLogin, (req, res) => {
   const { desc, collegeName, img, scope } = req.body;
-  // console.log(scope);
+  console.log(req.body.collegeName);
   const post = new Post({
     desc,
     postedBy: req.user,
