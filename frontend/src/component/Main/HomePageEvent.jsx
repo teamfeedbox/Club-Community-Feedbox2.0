@@ -74,14 +74,12 @@ const HomePageEvent = (props) => {
       setEvent(result);
       setLoading(false);
     }
-    
   };
 
   useEffect(() => {
     if (allEventsData) {
       handleEvents(allEventsData);
     }
-    
   }, [props, props.clgData]);
 
   return (
@@ -156,9 +154,6 @@ const HomePageEvent = (props) => {
                       Know More
                     </button>
                   </Link>
-                  {/* <button className="home-page-event-button-interested">
-                  Interested
-                </button> */}
                 </div>
               </Scrollbars>
             </div>

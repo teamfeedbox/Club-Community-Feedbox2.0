@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "./HomePageCal.css";
 import Calendar from "react-calendar";
+import { useStateValue } from "../../StateProvider";
 import moment from 'moment';
 
-const HomePageCal = ({ clgData, eventSel, allEvents }) => {
+const HomePageCal = ({ clgData, eventSel}) => {
   const [value, onChange] = useState(new Date());
   const [event, setEvent] = useState([]);
 
-  const dupData = allEvents && allEvents;
+  const [{allEventsData}] = useStateValue();
+  const dupData = allEventsData && allEventsData;
 
   useEffect(() => {
-    if (allEvents) {
+    if (allEventsData) {
       console.log("yes");
       let today = new Date();
       let result = [];
@@ -46,7 +48,7 @@ const HomePageCal = ({ clgData, eventSel, allEvents }) => {
         setEvent(result);
       }
     }
-  }, [clgData, allEvents])
+  }, [clgData])
 
   const handleChange = (day) => {
     const date = moment(day).format("YYYY-MM-DD");

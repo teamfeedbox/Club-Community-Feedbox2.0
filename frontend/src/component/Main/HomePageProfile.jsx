@@ -40,16 +40,18 @@ const HomePageProfile = (props) => {
   const [allUsers, setAllUsers] = useState([]);
   const [selected, setSelected] = useState(false);
   const role = JSON.parse(localStorage.getItem("user")).role
-  const event = props.allEvents;
-  const allClgs = props.allColleges;
-
-  const [{ currentUser }] = useStateValue();
+  
+  const [{ currentUser,allEventsData, colleges }] = useStateValue();
   const data = currentUser; // current user
+  const event = allEventsData;
+  const allClgs = colleges;
+  console.log(data,"homepageprofile");
 
   useEffect(() => {
+    console.log("khushi profile page");
     getAllUsers();
     setLoading(false);
-  }, [college, loading, props]);
+  }, [loading, props]);
 
   // get all users
   const getAllUsers = async () => {

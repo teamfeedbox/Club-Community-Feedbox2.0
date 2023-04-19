@@ -5,13 +5,7 @@ const resourceSchema = new mongoose.Schema({
   title: {
     type: String,
   },
-  name:{
-    type:String
-  },
   url: {
-    type: String,
-  },
-  link: {
     type: String,
   },
   author: {
@@ -25,8 +19,11 @@ const resourceSchema = new mongoose.Schema({
   skill:{
     type: String,
   },
+  type:{
+    type:String
+  },
   driveId:{
-    type: String
+    type:String
   }
 });
 

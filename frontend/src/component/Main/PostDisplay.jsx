@@ -362,7 +362,8 @@ const PostDisplay = (props) => {
                           autoplay={{
                             delay: 2000,
                             disableOnInteraction: false,
-                          }}
+                          }
+                        }
                           modules={[Navigation, Autoplay]}
                           className="mySwiper"
                         >
