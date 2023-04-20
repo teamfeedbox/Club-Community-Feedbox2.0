@@ -48,7 +48,7 @@ const App = () => {
       },
     });
     result = await result.json();
-    if (result.role != role) {
+    if (result.role !== role) {
       setShow(true);
     }
   }
@@ -71,21 +71,17 @@ const App = () => {
 
   // Get a user*****
   const getUser = async () => {
-    if(!currentUser){
-      let result = await fetch(`http://localhost:8000/user`, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("jwt"),
-        },
-      });
-      result = await result.json();
-      console.log(result, 'user hereeeeeee');
-      
-      dispatch({
-        type: 'INIT_USER',
-        item: result,});
-    }else{
-      console.log("current user already initialized");
-    }
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    // console.log(result, 'user hereeeeeee');
+    
+    dispatch({
+      type: 'INIT_USER',
+      item: result,});
   };
 
   // Get All Events*****
@@ -131,7 +127,7 @@ const App = () => {
 
   useEffect(() => {
     document.addEventListener("click", handleClick);
-    console.log('apppp loadeddddd-----------------')
+    // console.log('apppp loadeddddd-----------------') 
     getUser();
     getAllEvents();
     getColleges();
