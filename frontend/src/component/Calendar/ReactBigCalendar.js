@@ -103,7 +103,8 @@ export default function ReactBigCalendar() {
   const setCalenderEvent = (value) => {
     setInterestedBtn(true)
     let myEvent;
-    eventData.map(function (val, index) {
+    allEventsData.map(function (val, index) {
+      console.log(val._id,value);
       if (val._id === value) {
         setMyEvent(val);
         compareDate(val.eventDate, val.eventTime);
@@ -189,15 +190,18 @@ export default function ReactBigCalendar() {
         showEvent();
       }
     }
+
     if (eventClicked && selectedEvent) {
       setEventClicked(false);
       setMAVisibility(false);
       setCalenderEvent(selectedEvent._id);
     } else {
       if (eveId && eventProp) {
+        console.log("eveId",eveId);
         setCalenderEvent(eveId);
       }
     }
+
     getUser();
     getColleges();
     setLoading(false);
@@ -485,7 +489,7 @@ export default function ReactBigCalendar() {
                 </div>
                 <div className="preview-button">
                   {
-                    role && role === "Super_Admin" ?
+                    role && role !== "Super_Admin" ?
                       id && myEvent && id !== myEvent.postedBy._id ?
                         new Date(myEvent && myEvent.eventDate).getTime() >
                           new Date(mindate).getTime() ?
@@ -582,7 +586,7 @@ export default function ReactBigCalendar() {
                       ""
                     )}
                   </div>
-                )}
+                )} 
               </div>
             </div>
           ) : (

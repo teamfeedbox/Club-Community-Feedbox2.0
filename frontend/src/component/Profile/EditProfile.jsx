@@ -62,7 +62,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   }, [data,url]);
 
   const update = async (data) => {
-    // console.log(data)
+    console.log(data)
     let result = await fetch(`http://localhost:8000/updatePic/${data}`, {
       method: "put",
       body: JSON.stringify({ url }),

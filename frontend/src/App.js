@@ -18,7 +18,6 @@ import ReactBigCalendar from "./component/Calendar/ReactBigCalendar";
 import PostBigModel from "./component/Main/PostBigModel";
 import Error from "./component/Error";
 import Loader from "./component/Loader";
-import Dashboard from "./component/Dashboard/Dashboard";
 import MobileNotification from "./component/navbar/MobileNotification";
 import NavbarRes from "./component/navbar/NavbarRes";
 import Login from "./component/login/Login";
@@ -26,8 +25,6 @@ import Modal from "react-bootstrap/Modal";
 import { useStateValue } from "./StateProvider";
 
 const App = () => {
-  const [currUser, setCurrUser] = useState();
-  const [returned, setReturned] = useState(false);
   const [show, setShow] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
   const role = user && user.role;
@@ -40,8 +37,8 @@ const App = () => {
 
   const handleLogout = () => {
     localStorage.setItem("user", null);
-      localStorage.setItem("jwt", null);
-      window.location.href = "/"
+    localStorage.setItem("jwt", null);
+    window.location.href = "/"
   }
 
   const handleClick = async () => {
@@ -67,10 +64,8 @@ const App = () => {
       });
       dispatch({
         type: 'INIT_CLG_ARR',
-        item: val,});
-    }
-    else{
-      console.log("clg already initialized");
+        item: val
+      });
     }
   };
 

@@ -21,6 +21,7 @@ const PendingApprovals = (props) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
 
   const[{currentUser}]=useStateValue();
+  // const data = currentUser;
   
 
   // get all users
