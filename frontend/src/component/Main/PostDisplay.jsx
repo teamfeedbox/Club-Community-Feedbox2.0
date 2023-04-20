@@ -18,6 +18,8 @@ import TimeAgo from "javascript-time-ago";
 import en from 'javascript-time-ago/locale/en'
 import { useStateValue } from "../../StateProvider";
 import { Link } from "react-router-dom"
+import { injectStyle } from "react-toastify/dist/inject-style";
+import { ToastContainer, toast } from "react-toastify";
 
 const PostDisplay = (props) => {
 
@@ -42,6 +44,8 @@ const PostDisplay = (props) => {
   const [showMore, setShowMore] = useState(false);
   const [contentId,setContentId]=useState('');
 
+  
+
   const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role;
   const college = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).college;
   // console.log(college);
@@ -53,6 +57,9 @@ const PostDisplay = (props) => {
     getList();
     setLoad(false);
   }, [load, props.clgData]);
+  
+
+  
 
   const getUser = () => {
     setUser(currentUser);
@@ -76,6 +83,8 @@ const PostDisplay = (props) => {
       });
       res = await res.json();
       setData(res);
+      // console.log(res[0].likes)
+
       console.log(res);
       let count = 0;
       res.map((data) => {
@@ -164,7 +173,8 @@ const PostDisplay = (props) => {
             return item;
           }
         });
-        setData(newData);
+        setData(newData)
+        // setLoad(true);
       })
       .catch((err) => {
         console.log(err);
@@ -199,8 +209,12 @@ const PostDisplay = (props) => {
       });
   };
 
-  const deletePost = async(id)=>{
-    // console.log(id)
+  if (typeof window !== "undefined") {
+    injectStyle();
+  }
+
+  const postDelete = async(id)=>{
+    console.log(id)
     let result = await fetch(`http://localhost:8000/deletePost/${id}`, {
       method: "delete",
     });
@@ -209,9 +223,13 @@ const PostDisplay = (props) => {
     console.log(result)
 
     if (result) {
-     getList();
+      toast.dark("Deleted Successfully...");
+      setTimeout(() => {
+        window.location.href = "/main"
+      }, 5000);
+      getList();
     }
-    console.log(allPosts);
+    // console.log(allPosts);
   }
   
 
@@ -258,7 +276,7 @@ const PostDisplay = (props) => {
 
               {
                role==='Super_Admin'?
-               <div className="post-display-delete" onClick={() => {deletePost(item._id);console.log(item._id);}}>
+               <div className="post-display-delete" onClick={() => {postDelete(item._id);console.log(item._id);}}>
                 <svg
                         className="w-8 h-8 text-red-600 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
                         fill="none"
