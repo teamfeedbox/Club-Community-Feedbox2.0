@@ -21,11 +21,11 @@ const CreatePost = ({ allColleges }) => {
   const [zeroImage, setZeroImage] = useState(false);
   const [required, setRequired] = useState(false);
 
-  const [{ currentUser }] = useStateValue();
+  const [{ currentUser,colleges }] = useStateValue();
   let user = currentUser;
   let currCollege = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).college
   let role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role
-  let allClgs = allColleges && allColleges
+  let allClgs = colleges
 
   function handleSelect(e) {
     setScope(e.target.value)
@@ -272,7 +272,7 @@ const CreatePost = ({ allColleges }) => {
           </Modal.Body>
           <Modal.Footer className="modal-footer">
             <div className="modal-footer-upload">
-              <label for="files" class="btn">
+              <label htmlFor="files" class="btn">
                 <FontAwesomeIcon
                   icon={faImage}
                   className="fa-xl"
