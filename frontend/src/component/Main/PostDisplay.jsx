@@ -327,7 +327,7 @@ const PostDisplay = (props) => {
                       </Modal.Header>
                       <Modal.Footer className="modal-footer club-member-modal-footer">
                         <div className="modal-footer-club-member-yes-no-div">
-                          <div onClick={()=>deletePost(item._id)}>Yes</div>
+                          <div onClick={()=>postDelete(item._id)}>Yes</div>
                           <button
                             onClick={(e) => {
                               e.preventDefault();
