@@ -129,7 +129,7 @@ const ProfileRes = () => {
               ))}
             </tbody>
           </table>
-        </div> : <div className="font-[700] text-[1.1rem] pt-2 text-center m-auto">You haven't posted any event yet!</div>}
+        </div> : <div className="font-[700] text-[1.1rem] pt-2 text-center m-auto">You haven't posted any resource yet!</div>}
     </div>
   );
 };
