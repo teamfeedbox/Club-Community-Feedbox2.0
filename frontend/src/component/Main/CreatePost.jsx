@@ -113,19 +113,19 @@ const CreatePost = ({ allColleges }) => {
     if (role === 'Super_Admin') {
       val = {
         scope: scope,
-        collegName: scope,
+        collegeName: scope,
         desc: desc,
         img: urls
       };
     } else {
       val = {
         scope: scope,
-        collegName: currCollege,
+        collegeName: currCollege,
         desc: desc,
         img: urls
       };
     }
-
+console.log(val);
     const data = fetch("http://localhost:8000/create-post", {
       method: "post",
       headers: {
@@ -186,7 +186,7 @@ const CreatePost = ({ allColleges }) => {
               style={{ margin: "0px 15px" }}
               icon={faImage}
             />
-            <FontAwesomeIcon className="fa-xl" icon={faFaceSmile} />
+            {/* <FontAwesomeIcon className="fa-xl" icon={faFaceSmile} /> */}
           </div>
         </div>
 

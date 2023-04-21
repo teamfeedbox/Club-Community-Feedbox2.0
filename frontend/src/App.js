@@ -56,7 +56,7 @@ const App = () => {
     }
    
   }
-  // Get all Colleges*****
+  // Get all Colleges***
   const getColleges = async () => {
     if(!colleges){
       console.log('collegeeegegegege-------');
@@ -73,7 +73,7 @@ const App = () => {
     }
   };
 
-  // Get a user*****
+  // Get a user***
   const getUser = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
@@ -88,7 +88,7 @@ const App = () => {
       item: result,});
   };
 
-  // Get All Events*****
+  // Get All Events***
   const getAllEvents = async () => {
     if(!allEventsData){
       let res = await fetch("http://localhost:8000/getAllEvent");
@@ -101,7 +101,7 @@ const App = () => {
     }
   }
 
-  // Get all Posts*****
+  // Get all Posts***
   const getAllPosts= async () =>{
     if(!allPosts){
       let res = await fetch("http://localhost:8000/getAllPost", {

@@ -108,7 +108,7 @@ const PostDisplay = (props) => {
     }
 
     result = result.reverse();
-
+    console.log(result);
     if (role === "Super_Admin" || role === "Admin") {
       if (props.clgData) {
         if (props.clgData === "All") {
@@ -119,6 +119,7 @@ const PostDisplay = (props) => {
           result.map((eve) => {
             if (eve.collegeName === props.clgData) {
               array.push(eve);
+              console.log(array);
             }
           });
           console.log(array);
@@ -235,6 +236,7 @@ const PostDisplay = (props) => {
       }, 5000);
       getList();
     }
+    setDelShow(false);
     // console.log(allPosts);
   }
   
@@ -275,11 +277,11 @@ const PostDisplay = (props) => {
                         <p className="post-display-heading-college">
                           {item &&
                           item.postedBy &&
-                          item.postedBy.role == "Super_Admin"
+                          item.postedBy.role === "Super_Admin"
                             ? "Super Admin"
                             : item.scope === "public"
-                            ? item.collegeName + " (Public)"
-                            : item.collegeName}
+                            ? item.postedBy.collegeName + " (Public)"
+                            : item.postedBy.collegeName}
                         </p>
                         <p className="post-display-heading-time">
                           {item.postedDate &&
@@ -293,7 +295,7 @@ const PostDisplay = (props) => {
 
               {
                role==='Super_Admin'?
-               <div className="post-display-delete" onClick={() => {postDelete(item._id);console.log(item._id);}}>
+               <div className="post-display-delete" onClick={() => setDelShow(true)}>
                 <svg
                         className="w-8 h-8 text-red-600 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
                         fill="none"
