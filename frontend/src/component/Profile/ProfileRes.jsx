@@ -3,12 +3,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import TimeAgo from "javascript-time-ago";
 import en from 'javascript-time-ago/locale/en'
+import { useToasts } from "react-toast-notifications";
 
 const ProfileRes = () => {
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
   const [data, setData] = useState([]);
   const [load, setLoad] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const { addToast } = useToasts();
+
 
   useEffect(() => {
     getResource();
@@ -16,6 +21,7 @@ const ProfileRes = () => {
   }, [load]);
 
   const getResource = async () => {
+    setLoading(true);
     let result = await fetch("http://localhost:8000/myResource", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -23,6 +29,7 @@ const ProfileRes = () => {
     });
     result = await result.json();
     setData(result);
+    setLoading(false);
   };
 
   const deleteRes = async (item) => {
@@ -36,23 +43,19 @@ const ProfileRes = () => {
         }
       });
       result = await result.json();
-      alert(result)
+      // toast.dark(result)
+      addToast(result, { appearance: "success" })
       setLoad(true)
     } else if (item.type === "link") {
       let result = await fetch(`http://localhost:8000/delete/Resource/link/${item._id}`, {
         method: "delete",
       });
       result = await result.json();
-      alert(result)
+      addToast(result, { appearance: "success" })
       setLoad(true)
     }
 
-    // if (result) {
-    //   // this is done to get back the product list re render after any product is deleted
-    //   // if we do not call this function here the product will be deleted but it is visible on the
-    //   //screen and then when we refresh it disappears. so to avoid that bug we have called that function
-    //   getResource();
-    // }
+    
   }
 
 
@@ -61,7 +64,15 @@ const ProfileRes = () => {
   return (
     <div>
       {/* <!-- component --> */}
-      {data.length > 0 ?
+      {
+        loading ?
+        <div
+          role="status"
+          style={{ height: "15px", width: "15px",margin:'auto'}}
+        >
+          <span className="text-black m-auto">Loading...</span>
+        </div>:
+        data.length > 0 ?
         <div className="overflow-x-auto p-3">
           <table className="table-auto w-full">
             <thead className=" uppercase text-gray-400 bg-gray-50">
@@ -129,7 +140,12 @@ const ProfileRes = () => {
               ))}
             </tbody>
           </table>
-        </div> : <div className="font-[700] text-[1.1rem] pt-2 text-center m-auto">You haven't posted any resource yet!</div>}
+        </div> 
+        : 
+        <div className="font-[700] text-[1.1rem] pt-2 text-center m-auto">You haven't posted any resource yet!</div>
+        
+      }
+      
     </div>
   );
 };

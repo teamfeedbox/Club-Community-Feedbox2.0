@@ -40,8 +40,9 @@ const userSchema = new mongoose.Schema({
     default: 0
   },
   img: {
-    type: String, default: "Images/defaultImg.png"
+    type: String, default: 'https://drive.google.com/uc?id=1ofwRPVbT3e4-Ry7mniGi5Cmg0br_-v6j'
   },
+  imgId:{type:String,default:'1ofwRPVbT3e4-Ry7mniGi5Cmg0br_-v6j'},
   branch: {
     type: String
   },

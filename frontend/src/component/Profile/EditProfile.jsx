@@ -2,17 +2,14 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-
-import {faXmark} from "@fortawesome/free-solid-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./EditProfile.css";
 import { useToasts } from "react-toast-notifications";
 import { useStateValue } from "../../StateProvider";
 
-
-const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
+const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
-  // const [dataChanges, setDataChanges] = useState('nnnnn');
   const [data, setData] = useState('');
   // const [validated, setValidated] = useState(false);
   let validated=false;
@@ -22,26 +19,21 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   const [loading, setLoading] = useState(false);
   const [load, setLoad] = useState(false);
   const [imgg, setImgg] = useState();
-  const [img, setImg] = useState("");
-  const [url, setUrl] = useState("");
-  const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [collegeYear, setCollegeYear] = useState("");
+  const [render,setRender]=useState(false);
 
   const [bio, setBio] = useState('');
-
+  const [user, setUser] = useState();
   const { addToast } = useToasts();
-  
-  const [{currentUser}]= useStateValue();
 
-  
+  const [{ currentUser }, dispatch] = useStateValue();
+
+  const id = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).id
+
   const handleClose = () => {
     setOpen(false);
     setImage(false)
-    // uploadPic();
-    // setUrl("")
-    // setImgg('');
-
     setBio(Userbio);
     setName(Username);
     setCollegeYear(Useryear);
@@ -54,37 +46,14 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   }
 
   useEffect(() => {
-    getUser();
-    getUserDetails();
-    if (url) {
-      update(data);
+    if (Userbio || Username || Useryear) {
+      console.log(Userbio, Username, Useryear);
+      setBio(Userbio);
+      setName(Username);
+      setCollegeYear(Useryear);
     }
-    setLoad(false)
-  }, [data,url,load]);
-
-  const update = async (data) => {
-    console.log(data)
-    let result = await fetch(`http://localhost:8000/updatePic/${data}`, {
-      method: "put",
-      body: JSON.stringify({ url }),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-
-    const res = await result.json();
-
-    console.log(res)
-  };
-
-  const getUserDetails = async () => {
-    // console.log(params)
-    let result = await fetch(`http://localhost:8000/user/${data}`);
-    console.log(data, "helloooooooodata");
-    const res = await result.json();
-    setEmail(res.email);
-  };
+    setLoading(false)
+  }, [data, loading,Userbio, Username, Useryear]);
 
   const updateDetail = async (data) => {
     console.log(collegeYear, name, bio);
@@ -99,141 +68,111 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
       },
     });
 
-    const res = await result.json();  
+    const res = await result.json();
 
     setLoading(false);
     setOpen(false);
     validated=true;
     setImage(false);
-    setUrl("");
+    // setUrl("");
     setImgg("");
     // setValidated(true);
   };
 
   const crossImage=()=>{
     setImage(false);
-    setUrl("");
     setImgg("");
-
   }
 
-// update(data);
-  const uploadPic  = ()=>{
-    const data = new FormData();
-    data.append("file", imgg);
-    data.append("upload_preset", "feedbox-community-web");
-    data.append("cloud_name", "feedbox-community-web");
-    fetch(
-      "https://api.cloudinary.com/v1_1/feedbox-community-web/image/upload",
-      {
-        method: "post",
-        body: data,
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setUrl(data.url);
-        console.log(data.url);
-        setLoad(true);
-        console.log(load);
-        setLoading(false);
-        setLoad(true);
-        console.log(load);
-        setOpen(false);
-        addToast("Profile updated successfully!", { appearance: "success" });
-        // setTimeout(() => {
-        // // window.location.href="/profile"
-        // setLoad(true);
-        // }, 2000);
-       
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-  };
-
-  
   const getUser = async () => {
-    if(currentUser){      // Ab- if the context is not empty
-      setData(currentUser._id);
-      setBio(bio === '' ? currentUser.bio : bio);
-      setName(name === '' ? currentUser.name : name);
-      setCollegeYear(collegeYear === '' ? currentUser.collegeYear : collegeYear);
- 
-      return;
+    if (currentUser) {
+      console.log("1111111111");
+      console.log(currentUser);
+      setUser(currentUser)
+    } else {
+      let result = await fetch(`http://localhost:8000/user`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      });
+      const res = await result.json();
+      setUser(res)
+      setData(res._id);
+      setBio(bio === '' ? res.bio : bio);
+      setName(name === '' ? res.name : name);
+      setCollegeYear(collegeYear === '' ? res.collegeYear : collegeYear);
     }
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    const res = await result.json();
-    // console.log(result);
-    setData(res._id);
-    setBio(bio === '' ? res.bio : bio);
-    setName(name === '' ? res.name : name);
-    setCollegeYear(collegeYear === '' ? res.collegeYear : collegeYear);
-    // if(bio===''){
-    //   setBio(result.bio)
-    // }
-    // if(name===''){
-    //   setName(result.name)
-    // }
-    // if(collegeYear===''){
-    //   setCollegeYear(result.collegeYear)
-    // }
   };
 
-  const handleSubmit=(event)=>{
-    // let validated=false;
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+  const handleSubmit = async (e) => {
+    setLoad(true);
+    e.preventDefault();
+    console.log(imgg);
+    const fdata = new FormData();
 
-    // setValidated(true);
-     validated=true;
-    if(validated)
-    {
-      updateDetail(data);
-      uploadPic();
+    if (imgg) fdata.append("image", imgg)
+    if (name) fdata.append("name", name)
+    if (collegeYear) fdata.append("collegeYear", collegeYear)
+    if (bio) fdata.append("bio", bio)
+
+    const data = await fetch(`http://localhost:8000/update/details/pic/${id}`, {
+      method: "PUT",
+      body: fdata,
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt")
+      }
+    })
+    const updatedUser = await data.json();
+    console.log(updatedUser);
+
+    dispatch({
+      type: 'INIT_USER',
+      item: updatedUser,
+    });
+
+    if (currentUser && currentUser.imgId) {
+      const data = await fetch(`http://localhost:8000/delete/image/user/${currentUser.imgId}`, {
+        method: "DELETE",
+        body: fdata,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt")
+        }
+      })
+      const res = await data.json();
+      setLoad(false);
+      addToast(res, { appearance: "success" });
+      console.log(res);
     }
-    
+    setRender(!render)
+    sendData(!render);
+    setOpen(false);
+    setImage(false)
+    setLoading(true);
   }
 
   // to count the number of words left in edit bio section
   const maxWords = 400;
   const wordsLeft = bio.length;
 
-  const handleChange1 = (event) => {
-    const value = event.target.value;
+  const handleChange1 = (e) => {
+    const value = e.target.value;
     if (bio.length < maxWords) {
       setBio(value);
     }
   };
-  
 
   return (
     <div>
       {open ? (
-        <div
-          style={{
-            zIndex: "99999999",
-          }}
-        >
+        <div style={{ zIndex: "99999999", }} >
           <Modal show={open}>
-          <Form 
-          validated={validated} 
-          // onSubmit={handleSubmit}
-          >
-            <Modal.Header>
-              <Modal.Title>Edit Profile</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              {/* <Form> */}
-              {role === 'Super_Admin'? '' :<Form.Group
+            <Form noValidate>
+              <Modal.Header>
+                <Modal.Title>Edit Profile</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                {/* <Form> */}
+                {role === 'Super_Admin' ? '' : <Form.Group
                   className="mb-3"
                   controlId="exampleForm.ControlTextarea1"
                 >
@@ -247,7 +186,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                 </Form.Group>
                 }
 
-                {role === 'Super_Admin'? '' : <Form.Group
+                {role === 'Super_Admin' ? '' : <Form.Group
                   className="mb-3"
                   controlId="exampleForm.ControlTextarea1"
                 >
@@ -261,7 +200,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                 </Form.Group>
                 }
 
-                {role === 'Super_Admin'? '' :<Form.Group
+                {role === 'Super_Admin' ? '' : <Form.Group
                   className="mb-3"
                   controlId="exampleForm.ControlTextarea1"
                 >
@@ -272,15 +211,14 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                     // rows={3}
                     maxlength="400"
                     value={bio}
-                    onChange={(e) => 
-                      {
-                        setBio(e.target.value)
-                        handleChange1()
-                      }}
-                    
+                    onChange={(e) => {
+                      setBio(e.target.value)
+                      handleChange1(e)
+                    }}
+
                   />
-                      <p className="Register-Page-Word-Limit"
-                      >* {wordsLeft}/400</p>
+                  <p className="Register-Page-Word-Limit"
+                  >* {wordsLeft}/400</p>
                 </Form.Group>}
 
                 <Form.Group>
@@ -299,7 +237,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                         <div>
                           <FontAwesomeIcon
                             icon={faXmark}
-                            onClick={crossImage }
+                            onClick={crossImage}
                             className="Edit-Profile-cancel"
                           />
                           <img
@@ -356,35 +294,30 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
                     </div>
                   </div>
                 </Form.Group>
-              {/* </Form> */}
-            </Modal.Body>
-            
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Close
-              </Button>
-              <Button variant="primary">
-              {loading ? (
-                <div
-                  className="spinner-border text-white"
-                  role="status"
-                  style={{ height: "15px", width: "15px" }}
-                >
-                  <span className="visually-hidden">Loading...</span>
-                </div>
-              ) : (
-                <Button
-                  // type="submit"
-                  onClick={() => {
-                    updateDetail(data);
-                    uploadPic();
-                  }}
-                >
-                  Save Changes
+                {/* </Form> */}
+              </Modal.Body>
+
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                  Close
                 </Button>
-              )}
-              </Button>
-            </Modal.Footer>
+                <Button variant="primary">
+                  {load ? (
+                    <div
+                      className="spinner-border text-white"
+                      role="status"
+                      style={{ height: "15px", width: "15px" }}
+                    >
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  ) : (
+                    <Button
+                      type="submit" onClick={handleSubmit}>
+                      Save Changes
+                    </Button>
+                  )}
+                </Button>
+              </Modal.Footer>
             </Form>
           </Modal>
         </div>
