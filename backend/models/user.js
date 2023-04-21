@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+// import {deafultImg} from '../../frontend/public/Images/defaultImg.png'
+// import defaultImg from '../assests/defaultImg.png';
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -40,7 +42,9 @@ const userSchema = new mongoose.Schema({
     default: 0
   },
   img: {
-    type: String, default: 'https://drive.google.com/uc?id=1ofwRPVbT3e4-Ry7mniGi5Cmg0br_-v6j'
+    // type: String, default: 'https://drive.google.com/uc?id=1ofwRPVbT3e4-Ry7mniGi5Cmg0br_-v6j'
+    type: String, default: "Images/defaultImg.png"
+
   },
   imgId:{type:String,default:'1ofwRPVbT3e4-Ry7mniGi5Cmg0br_-v6j'},
   branch: {
