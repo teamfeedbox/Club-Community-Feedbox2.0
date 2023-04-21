@@ -22,6 +22,8 @@ const Main = () => {
     setEventSel(data);
   }
 
+  console.log("main loaded");
+
   return (
     <>
       <div

@@ -40,18 +40,18 @@ const HomePageProfile = (props) => {
   const [allUsers, setAllUsers] = useState([]);
   const [selected, setSelected] = useState(false);
   const role = JSON.parse(localStorage.getItem("user")).role
-  
+
   const [{ currentUser,allEventsData, colleges }] = useStateValue();
   const data = currentUser; // current user
   const event = allEventsData;
   const allClgs = colleges;
-  console.log(data,"homepageprofile");
+  // console.log(data,"homepageprofile");
 
   useEffect(() => {
     console.log("khushi profile page");
     getAllUsers();
     setLoading(false);
-  }, [loading, props]);
+  }, [loading]);
 
   // get all users
   const getAllUsers = async () => {
@@ -213,7 +213,7 @@ const HomePageProfile = (props) => {
                 id="College"
                 // className="border w-[280px] rounded p-1 mt-1 text-[1rem] font-[400]" onChange={handleCollege}
               className="border w-[100%] rounded p-1 text-[1rem] font-[400]" onChange={handleCollege}
-                
+
               >
                 <option disabled selected className="hidden">
                   College
@@ -223,7 +223,7 @@ const HomePageProfile = (props) => {
                   allClgs.map((clg) => <option value={clg}>{clg}</option>)}
               </select>
 
-              
+
             {/* <select
               name="College"
               id="College"
