@@ -67,34 +67,13 @@ function Overview(props) {
 
   const [{ currentUser }, dispatch] = useStateValue();
 
-  function updateProfile() {
-    setValue("");
-  }
-
   let onSelectNames = (skills) => {
     setSkills(skills);
   };
 
   useEffect(() => {
     getUser();
-  }, []);
-
-  const handleInputChange = (event) => {
-    setNewOption(event.target.value);
-  };
-
-  const handleInputKeyDown = (event) => {
-    if (event.key === "Enter" && newOption) {
-      // Add the new option to the options list
-      const newOptionObj = newOption;
-
-      skills.push(newOptionObj);
-      setSkills([...skills, newOptionObj]);
-      console.log(skills);
-      setNewOption("");
-      inputRef.current.value = "";
-    }
-  };
+  }, [props.send]);
 
   const getUser = async () => {
     if (currentUser) {
@@ -145,7 +124,6 @@ function Overview(props) {
   return (
     <>
       {/* propsData contains data of user from approval page */}
-
       {propsData === null ? (
         <div className="Overview-Container">
           <div className="Overview-Left">
@@ -261,20 +239,6 @@ function Overview(props) {
                   "Ads",
                 ]}
               />
-              {/* <input
-                ref={inputRef}
-                type="text"
-                value={newOption}
-                onChange={handleInputChange}
-                onKeyDown={handleInputKeyDown}
-                placeholder="Add your Skills"
-                style={{
-                  border: "1px solid grey",
-                  padding: "4px",
-                  borderRadius: "5px",
-                  marginLeft: "6px",
-                }}
-              /> */}
             </Modal.Body>
             <Modal.Footer>
             <Button

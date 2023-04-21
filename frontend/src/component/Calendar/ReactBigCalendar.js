@@ -6,10 +6,8 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-
 import { injectStyle } from "react-toastify/dist/inject-style";
 import { ToastContainer, toast } from "react-toastify";
-
 import {
   faLocationDot,
   faClock,
@@ -162,7 +160,7 @@ export default function ReactBigCalendar() {
         item: result
       });
     }
-    console.log(result,"llllol");
+    console.log(result, "llllol");
     setDupliEvents(result);
     if (role === "Super_Admin") {
       result.map((data, i) => {
@@ -235,7 +233,21 @@ export default function ReactBigCalendar() {
       },
     });
     result = await result.json();
+    console.log(allEventsData, "all");
     console.log(result, "result");
+
+    allEventsData.map((data, i) => {
+      if (data._id === result._id) {
+        data.attendance = result.attendance
+      }
+    })
+
+    console.log(allEventsData, "new");
+
+    dispatch({
+      type: 'INIT_ALL_EVENT',
+      item: allEventsData
+    });
 
     let data = await fetch(
       `http://localhost:8000/update/interested/events/${id}`,
@@ -253,6 +265,7 @@ export default function ReactBigCalendar() {
     setInterestedBtn(false)
     setCalInterested(true);
     setLoading(true);
+    setInfinite(true);
   };
 
   // toastify
@@ -411,12 +424,12 @@ export default function ReactBigCalendar() {
                   College
                 </option>
                 <option value="All">All</option>
-                {/* {allClgs.length > 0 &&
+                {allClgs.length > 0 &&
                   allClgs.map((clg, i) => (
                     <option key={i} value={clg}>
                       {clg}
                     </option>
-                  ))} */}
+                  ))}
               </select>
             </div>
           ) : ""}
@@ -521,30 +534,30 @@ export default function ReactBigCalendar() {
                 </div>
                 <div className="preview-button">
                   {
-                    role && role !== "Super_Admin" ?
-                      id && myEvent && id !== myEvent.postedBy._id ?
-                        new Date(myEvent && myEvent.eventDate).getTime() >
-                          new Date(mindate).getTime() ?
-                          interestedBtn ?
-                            <button
-                              type="button"
-                              onClick={() => {
-                                attendanceUpdate(myEvent && myEvent._id); setInterestedBtn(false)
-                              }}
-                            >
-                              Interested
-                            </button>
-                            :
-                            <button
-                              type="button"
-                              style={{
-                                pointerEvents: "none",
-                                backgroundColor: "gray",
-                              }}
-                            >
-                              Interested
-                            </button>
-                          : "" : "" : ""}
+                    // role && role !== "Super_Admin" ?
+                    // id && myEvent && id !== myEvent.postedBy._id ?
+                    new Date(myEvent && myEvent.eventDate).getTime() >
+                      new Date(mindate).getTime() ?
+                      interestedBtn ?
+                        <button
+                          type="button"
+                          onClick={() => {
+                            attendanceUpdate(myEvent && myEvent._id); setInterestedBtn(false)
+                          }}
+                        >
+                          Interested
+                        </button>
+                        :
+                        <button
+                          type="button"
+                          style={{
+                            pointerEvents: "none",
+                            backgroundColor: "gray",
+                          }}
+                        >
+                          Interested
+                        </button>
+                      : ""}
 
                   {(role === "Admin" ||
                     role === "Super_Admin" ||
@@ -788,7 +801,7 @@ export default function ReactBigCalendar() {
                     )}
                   </button>
                 </div>
-                <ToastContainer/>
+                <ToastContainer />
               </form>
             </div>
           </div>
