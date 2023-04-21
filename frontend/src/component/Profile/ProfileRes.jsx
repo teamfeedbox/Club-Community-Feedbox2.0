@@ -3,12 +3,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import TimeAgo from "javascript-time-ago";
 import en from 'javascript-time-ago/locale/en'
+import { useToasts } from "react-toast-notifications";
 
 const ProfileRes = () => {
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
   const [data, setData] = useState([]);
   const [load, setLoad] = useState(false);
+
+  const { addToast } = useToasts();
+
 
   useEffect(() => {
     getResource();
@@ -36,14 +40,16 @@ const ProfileRes = () => {
         }
       });
       result = await result.json();
-      alert(result)
+      // toast.dark(result)
+      addToast(result, { appearance: "success" })
       setLoad(true)
     } else if (item.type === "link") {
       let result = await fetch(`http://localhost:8000/delete/Resource/link/${item._id}`, {
         method: "delete",
       });
       result = await result.json();
-      alert(result)
+      // toast.dark(result)
+      addToast(result, { appearance: "success" })
       setLoad(true)
     }
 
