@@ -30,11 +30,11 @@ function reducer(state, action){
             return {...state, allPosts: action.item};
 
         case'ADD_USER':
-            console.log("adding user reducer");
+            // console.log("adding user reducer");
             return {state};
 
         case 'REMOVE_USER':
-            console.log("removing user reducer");
+            // console.log("removing user reducer");
             return {state};
 
         default:

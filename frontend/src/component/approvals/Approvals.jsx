@@ -16,6 +16,8 @@ const Approvals = () => {
   const[loading,setLoading]=useState(false);
   const[{colleges}]=useStateValue();
 
+
+
   const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role
 
   const pull_data = (data) => {
@@ -24,15 +26,16 @@ const Approvals = () => {
 
   const getColleges = async () => {
     let val = [];
-    if(colleges){
-      val=colleges;
-    }else{
+    // if(colleges){
+    //   val=colleges;
+    // }
+    // else{
       const data = await fetch(`http://localhost:8000/colleges/get`);
       const res = await data.json();
       res.map((data) => {
         val.push(data.name);
       });
-    }
+    // }
   
     setAllClgs(val);
   }

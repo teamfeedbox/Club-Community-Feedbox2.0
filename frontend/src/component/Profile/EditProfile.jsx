@@ -12,6 +12,9 @@ import { ToastContainer, toast } from "react-toastify";
 const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
   const [data, setData] = useState('');
+  // const [validated, setValidated] = useState(false);
+  let validated=false;
+  const [show, setShow] = useState(false);
   const [file, setFile] = useState("Images/girl.jpg");
   const [image, setImage] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -51,7 +54,28 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
     setLoading(false)
   }, [data, loading,Userbio, Username, Useryear]);
 
-  const crossImage = () => {
+  const updateDetail = async (data) => {
+    console.log(collegeYear, name, bio);
+    // console.log(data)
+    setLoading(true);
+    let result = await fetch(`http://localhost:8000/updateDetail/${data}`, {
+      method: "put",
+      body: JSON.stringify({ bio,name, collegeYear }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+
+    const res = await result.json();
+
+    setLoading(false);
+    setOpen(false);
+    validated=true;
+    // setValidated(true);
+  };
+
+  const crossImage=()=>{
     setImage(false);
     setImgg("");
   }
@@ -245,11 +269,12 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
                               <span className="flex justify-center">
                                 Upload a file
                               </span>
-                              <input
+                              <Form.Control
                                 onChange={handleChange}
                                 id="file-upload"
                                 name="file-upload"
                                 type="file"
+                                required
                                 className="sr-only "
                               />
                             </label>
