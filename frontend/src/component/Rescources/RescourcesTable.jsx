@@ -34,6 +34,7 @@ const RescourcesTable = (props) => {
   let skillName = propsData.name;
 
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const [show, setShow] = useState(false);
   const [fileu, setFile] = useState();
   const [link, setLink] = useState(false);
@@ -51,7 +52,9 @@ const RescourcesTable = (props) => {
   const [filename, setFileName] = useState("");
   const [load, setLoad] = useState(false);
 
-  const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role
+  const role =
+    JSON.parse(localStorage.getItem("user")) &&
+    JSON.parse(localStorage.getItem("user")).role;
 
   const itemsPerPage = 3;
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -96,10 +99,9 @@ const RescourcesTable = (props) => {
     setUser(result);
 
     dispatch({
-      type: 'INIT_USER',
+      type: "INIT_USER",
       item: result,
     });
-
   };
 
   function handleChange(e) {
@@ -142,7 +144,7 @@ const RescourcesTable = (props) => {
       });
 
       const responseWithBody = await response.json();
-      if (responseWithBody) alert(responseWithBody);
+      if (responseWithBody) toast.dark(responseWithBody);
       setLoading(false);
       setTitle("");
       setFile("");
@@ -151,7 +153,10 @@ const RescourcesTable = (props) => {
       setFileName("");
       setLink(false);
       setShow(false);
-      setLoad(true)
+      setTimeout(()=>{
+        setLoad(true)
+      },2000);
+    
       // window.location.href = '/rescourcesDisplay';
     } else if (pdfLink) {
       const val = {
@@ -170,7 +175,7 @@ const RescourcesTable = (props) => {
       });
 
       const responseWithBody = await response.json();
-      if (responseWithBody) alert(responseWithBody);
+      if (responseWithBody) toast.dark(responseWithBody);
 
       setLoading(false);
       setTitle("");
@@ -180,13 +185,17 @@ const RescourcesTable = (props) => {
       setFileName("");
       setLink(false);
       setShow(false);
-      setLoad(true)
+      setTimeout(()=>{
+        setLoad(true)
+      },2000);
+      
       // window.location.href = '/rescourcesDisplay';
     }
   };
 
   const getList = async (skillName) => {
     // console.log("l,mnuhgftr");
+    setLoading2(true);
     let result = await fetch(
       `http://localhost:8000/getAllResource/${skillName}`,
       {
@@ -198,6 +207,7 @@ const RescourcesTable = (props) => {
     result = await result.json();
     setData(result);
     setDuplicateData(result);
+    setLoading2(false);
   };
 
   const searchHandler = (e) => {
@@ -221,9 +231,9 @@ const RescourcesTable = (props) => {
 
   const changeTitle = (e) => {
     e.preventDefault();
-    const filteredValue = e.target.value.replace(/[^0-9a-zA-Z-_\s]/g, '');
+    const filteredValue = e.target.value.replace(/[^0-9a-zA-Z-_\s]/g, "");
     setTitle(filteredValue);
-  }
+  };
 
   return (
     <>
@@ -232,7 +242,7 @@ const RescourcesTable = (props) => {
           <div className="res-table-heading">
             <div className="res-heading-left"> {skillName} Documents </div>
             <div className="res-heading-right">
-              <div className="form-inline my-2 my-lg-0 res-table-search" >
+              <div className="form-inline my-2 my-lg-0 res-table-search">
                 <input
                   className="form-control mr-sm-2"
                   type="text"
@@ -338,8 +348,7 @@ const RescourcesTable = (props) => {
                         </div>
                       ) : (
                         ""
-                      )
-                      }
+                      )}
 
                       {mypdf && !link ? (
                         <div className="w-fit text-[.8rem] mt-2">
@@ -351,7 +360,6 @@ const RescourcesTable = (props) => {
                     </div>
 
                     <div>
-
                       <Button
                         className="btn btn-primary"
                         type="submit"
@@ -374,7 +382,6 @@ const RescourcesTable = (props) => {
                           <div>Add</div>
                         )}
                       </Button>
-
                     </div>
                   </Modal.Footer>
                 </form>
@@ -385,34 +392,38 @@ const RescourcesTable = (props) => {
 
           {/* table to display rescources */}
 
-          <div className="overflow-x-auto p-3">
-            <table className="table-auto w-full">
-              <thead className="uppercase text-gray-400 bg-gray-50">
-                <tr>
-                  <th className="p-2">
-                    <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
-                      Download
-                    </div>
-                  </th>
-                  <th className="p-2">
-                    <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
-                      Resource Title
-                    </div>
-                  </th>
-                  <th className="p-2">
-                    <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
-                      Created{" "}
-                    </div>
-                  </th>
-                  <th className="p-2">
-                    <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
-                      Author
-                    </div>
-                  </th>
-                </tr>
-              </thead>
+          
+            <div>
+              <div className="overflow-x-auto p-3">
+                <table className="table-auto w-full">
+                  <thead className="uppercase text-gray-400 bg-gray-50">
+                    <tr>
+                      <th className="p-2">
+                        <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
+                          Download
+                        </div>
+                      </th>
+                      <th className="p-2">
+                        <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
+                          Resource Title
+                        </div>
+                      </th>
+                      <th className="p-2">
+                        <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
+                          Created{" "}
+                        </div>
+                      </th>
+                      <th className="p-2">
+                        <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
+                          Author
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
 
-              <tbody className="text-sm divide-y divide-gray-100">
+                {
+                !loading2?
+                <tbody className="text-sm divide-y divide-gray-100">
                 {tableData && tableData.length > 0 ? (
                   tableData.map((item) => (
                     <tr key={item._id}>
@@ -457,48 +468,98 @@ const RescourcesTable = (props) => {
                     </tr>
                   ))
                 ) : (
-                  <tbody>
+                  
                     <tr>
-                      <td colspan="4">
-                        <div>No Resources Added yet !</div>
+                      <td colspan="4" >
+                        <div className="p-6 text-center">No Resources Added yet !</div>
                       </td>
                     </tr>
-                  </tbody>
+                  
                 )}
+              </tbody>:
+              <tbody>
+                <tr>
+                  <td className="w-full" colspan="4">
+                  <div
+                    role="status"
+                    class=" w-full  p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700"
+                  >
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                        <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                      </div>
+                      <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                    </div>
+                    <div class="flex items-center justify-between pt-4">
+                      <div>
+                        <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                        <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                      </div>
+                      <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                    </div>
+                    <div class="flex items-center justify-between pt-4">
+                      <div>
+                        <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                        <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                      </div>
+                      <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                    </div>
+                    <div class="flex items-center justify-between pt-4">
+                      <div>
+                        <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                        <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                      </div>
+                      <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                    </div>
+                    {/* <div class="flex items-center justify-between pt-4">
+                      <div>
+                        <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                        <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                      </div>
+                      <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                    </div> */}
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                  </td>
+                  </tr>
               </tbody>
-            </table>
-          </div>
-          <div className="res-navigation">
-            <div></div>
-            {tableData && tableData.length > 0 ? (
-              <nav className="d-flex">
-                <ul className="res-paginate">
-                  <button
-                    onClick={goToPrev}
-                    className="prev"
-                    disabled={currentPage === 1}
-                  >
-                    <GrFormPrevious size="25" />
-                  </button>
-                  <p className="nums">
-                    {tableData && tableData.length > 0
-                      ? `${currentPage}/${totalPages}`
-                      : "0/0"}
-                  </p>
-                  <button
-                    onClick={goToNext}
-                    className="prev"
-                    disabled={currentPage >= totalPages}
-                  >
-                    <GrFormNext size="25" />
-                  </button>
-                </ul>
-              </nav>
-            ) : (
-              ""
-            )}
-          </div>
-
+                }
+                  
+                </table>
+              </div>
+              <div className="res-navigation">
+                <div></div>
+                {tableData && tableData.length > 0 ? (
+                  <nav className="d-flex">
+                    <ul className="res-paginate">
+                      <button
+                        onClick={goToPrev}
+                        className="prev"
+                        disabled={currentPage === 1}
+                      >
+                        <GrFormPrevious size="25" />
+                      </button>
+                      <p className="nums">
+                        {tableData && tableData.length > 0
+                          ? `${currentPage}/${totalPages}`
+                          : "0/0"}
+                      </p>
+                      <button
+                        onClick={goToNext}
+                        className="prev"
+                        disabled={currentPage >= totalPages}
+                      >
+                        <GrFormNext size="25" />
+                      </button>
+                    </ul>
+                  </nav>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
+          
         </div>
       </div>
     </>

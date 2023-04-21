@@ -2,19 +2,18 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import Button from "react-bootstrap/esm/Button";
-
+import { useToasts } from "react-toast-notifications";
 import { ToastContainer, toast } from 'react-toastify';
 
 const Colleges = () => {
   const [loading1, setLoading1] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [load, setLoad] = useState(false);
   const [addclg, setaddclg] = useState();
   const [allClgs, setAllClgs] = useState([]);
   const [edit, setEdit] = useState(false);
   const [newCllg, setNewCllg] = useState();
   const [ids, setIds] = useState();
-
+  const { addToast } = useToasts();
   useEffect(() => {
     getColleges();
     setLoad(false)
@@ -49,12 +48,11 @@ const Colleges = () => {
       });
       const res = await data.json();
       setaddclg("");
-      toast.dark(res);
+      addToast(res, { appearance: "success" })
 
       setTimeout(() => {
-        window.location.href = "/profile";
+        setLoad(true);
       }, 2000);
-      setLoading(true);
     }
     setLoading1(false);
   };
@@ -183,10 +181,10 @@ const Colleges = () => {
                   </tr>
                 ))}
             </tbody>
+            <ToastContainer />
           </table>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };
