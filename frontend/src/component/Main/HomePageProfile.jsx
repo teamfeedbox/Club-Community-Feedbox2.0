@@ -63,7 +63,7 @@ const HomePageProfile = (props) => {
         array.push(data)
       }
     })
-    console.log(array)
+    // console.log(array)
     setAllUsers(array);
   }
 

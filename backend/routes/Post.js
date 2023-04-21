@@ -114,14 +114,17 @@ router.put("/updatePost/:postId", async (req, res) => {
       $set: req.body,
     }
   );
-  res.send(result);
+  res.send(result); 
 });
 
 //delete post
-router.delete("/deletePost/:postId", async (req, res) => {
-  const result = await Post.deleteOne({ _id: req.params.postId });
+router.delete("/deletePost/:id", async (req, res) => {
+  const result = await Post.deleteOne({ _id: req.params.id });
   res.send(result);
 });
+
+
+
 
 //like api
 router.put("/like", requireLogin, (req, res) => {
