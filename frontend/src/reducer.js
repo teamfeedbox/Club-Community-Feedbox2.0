@@ -8,7 +8,6 @@ export const initialState={
 
 
 function reducer(state, action){
-    console.log(action, 'action here');
     switch(action.type){
         case 'INIT_USER':
             if(!initialState.currentUser==null){return state}
@@ -19,7 +18,7 @@ function reducer(state, action){
             if(!initialState.colleges==null){return state}
             console.log('college array initialised');
             return {...state, colleges: action.item};
-        
+
         case 'INIT_ALL_EVENT':
             if(!initialState.allEventsData==null){return state}
             console.log('event array initialised');
@@ -33,11 +32,11 @@ function reducer(state, action){
         case'ADD_USER':
             console.log("adding user reducer");
             return {state};
-        
+
         case 'REMOVE_USER':
             console.log("removing user reducer");
             return {state};
-        
+
         default:
             return state;
     }

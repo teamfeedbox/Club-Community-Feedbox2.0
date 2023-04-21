@@ -58,12 +58,13 @@ export default function ReactBigCalendar() {
   const [MAVisibility, setMAVisibility] = useState(false);
   const [eventProp, setEventProp] = useState(true);
   const [calIntersted, setCalInterested] = useState(false);
+  const [load, setLoad] = useState(false);
 
   const id = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).id;
   const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role;
   const college = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).college;
 
-  const [{ allEventsData, currentUser }] = useStateValue();
+  const [{ allEventsData, currentUser }, dispatch] = useStateValue();
 
   // Mindate for diasble previous dates in calender
   var today = new Date();
@@ -82,15 +83,15 @@ export default function ReactBigCalendar() {
   const getUser = async () => {
     if (currentUser) {
       setUser(currentUser);
-      return;
+    } else {
+      let result = await fetch(`http://localhost:8000/user`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      });
+      result = await result.json();
+      setUser(result);
     }
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    setUser(result);
   };
 
   const compareDate = (date, time) => {
@@ -103,8 +104,12 @@ export default function ReactBigCalendar() {
   const setCalenderEvent = (value) => {
     setInterestedBtn(true)
     let myEvent;
-    allEventsData.map(function (val, index) {
-      console.log(val._id,value);
+    let data = [];
+    if (allEventsData) data = allEventsData
+    else if (dupliEvents) data = dupliEvents;
+
+    data.map(function (val, index) {
+      console.log(val._id, value);
       if (val._id === value) {
         setMyEvent(val);
         compareDate(val.eventDate, val.eventTime);
@@ -138,14 +143,21 @@ export default function ReactBigCalendar() {
 
   // Get All Events
   const showEvent = async () => {
+    console.log("coming");
     let result;
     if (allEventsData) {
       result = allEventsData;
     } else {
+      console.log("lojihihi");
       setInfinite(false);
       result = await fetch("http://localhost:8000/getAllEvent");
       result = await result.json();
+      dispatch({
+        type: 'INIT_ALL_EVENT',
+        item: result
+      });
     }
+    console.log(result,"llllol");
     setDupliEvents(result);
     if (role === "Super_Admin") {
       result.map((data, i) => {
@@ -186,18 +198,18 @@ export default function ReactBigCalendar() {
       }
     } else {
       if (infinite || calIntersted) {
+        console.log("cmesas");
         setCalInterested(false)
         showEvent();
       }
     }
-
     if (eventClicked && selectedEvent) {
       setEventClicked(false);
       setMAVisibility(false);
       setCalenderEvent(selectedEvent._id);
     } else {
       if (eveId && eventProp) {
-        console.log("eveId",eveId);
+        console.log("eveId", eveId);
         setCalenderEvent(eveId);
       }
     }
@@ -205,7 +217,8 @@ export default function ReactBigCalendar() {
     getUser();
     getColleges();
     setLoading(false);
-  }, [eventClicked, selectedEvent, clgSelected, loading]);
+    setLoad(false)
+  }, [eventClicked, selectedEvent, clgSelected, loading, load]);
 
   // Mark Interested
   const attendanceUpdate = async (eveid) => {
@@ -270,6 +283,17 @@ export default function ReactBigCalendar() {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     });
+    result = await result.json();
+
+    console.log(result.event, "result");
+    console.log(allEventsData, "pppp");
+    const newData = [...allEventsData, result.event]
+    console.log(newData, "newdata");
+    dispatch({
+      type: 'INIT_ALL_EVENT',
+      item: newData,
+    });
+
     setTitle("");
     setScope("");
     setEventDate("");
@@ -293,15 +317,11 @@ export default function ReactBigCalendar() {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     }).then((res) => {
-      // alert(res.json)
       setLoading(false);
-      window.location.href = "/calendar";
+      // window.location.href = "/calendar";
     });
-
-    // notification = await notification.json();
-    // console.log(notification)
-
-    // window.location.reload();
+    setLoad(true)
+    setInfinite(true)
   };
 
   // handle event on select from react big calender
@@ -379,12 +399,12 @@ export default function ReactBigCalendar() {
                   College
                 </option>
                 <option value="All">All</option>
-                {allClgs.length > 0 &&
+                {/* {allClgs.length > 0 &&
                   allClgs.map((clg, i) => (
                     <option key={i} value={clg}>
                       {clg}
                     </option>
-                  ))}
+                  ))} */}
               </select>
             </div>
           ) : ""}

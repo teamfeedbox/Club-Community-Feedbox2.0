@@ -27,17 +27,11 @@ const PostDisplay = (props) => {
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
   const [id, setId] = useState("");
-  const [id1, setId1] = useState("");
   const [loading2, setLoading2] = useState(false);
   const [load, setLoad] = useState(false);
   // To open the Comment Model
   const [openComment, setOpenComment] = useState(false);
-  const [open, setOpen] = useState(false);
   const [delshow, setDelShow] = useState(false);
-  const [reply, setReply] = useState("");
-  const [replyCount, setReplyCount] = useState([]);
-  const [comment, setComments] = useState([" How "]);
-  const [loading, setLoading] = useState(false);
   // To show and hide the more button if content is more then 200 character
   const [showMore, setShowMore] = useState(false);
   const [contentId, setContentId] = useState("");
@@ -90,7 +84,7 @@ const PostDisplay = (props) => {
         });
         data.count = count;
       })
-      if(allPosts==null){
+      if (allPosts == null) {
         dispatch({
           type: 'INIT_ALL_POST',
           item: res
@@ -256,12 +250,12 @@ const PostDisplay = (props) => {
                       <div className="post-head-content">
                         <p className="post-display-heading-college">
                           {item &&
-                          item.postedBy &&
-                          item.postedBy.role == "Super_Admin"
+                            item.postedBy &&
+                            item.postedBy.role == "Super_Admin"
                             ? "Super Admin"
                             : item.scope === "public"
-                            ? item.collegeName + " (Public)"
-                            : item.collegeName}
+                              ? item.collegeName + " (Public)"
+                              : item.collegeName}
                         </p>
                         <p className="post-display-heading-time">
                           {item.postedDate &&
@@ -311,7 +305,7 @@ const PostDisplay = (props) => {
                       </Modal.Header>
                       <Modal.Footer className="modal-footer club-member-modal-footer">
                         <div className="modal-footer-club-member-yes-no-div">
-                          <div onClick={()=>deletePost(item._id)}>Yes</div>
+                          <div onClick={() => deletePost(item._id)}>Yes</div>
                           <button
                             onClick={(e) => {
                               e.preventDefault();
@@ -327,23 +321,22 @@ const PostDisplay = (props) => {
                 </div>
 
 
-              <div className="post-display-center">
-                <div className="post-display-content">
-                {
-                  item.img.length<=0 ? item.desc : item.desc
-                   && contentId===item._id && showMore ? item.desc :
-                   item.desc.length>180 ?
-                  <button 
-                    style={{textAlign:"left"}}
-                  onClick={()=>
+                <div className="post-display-center">
+                  <div className="post-display-content">
                     {
-                      setShowMore(true)
-                  setContentId(item._id)  
+                      item.img.length <= 0 ? item.desc : item.desc
+                        && contentId === item._id && showMore ? item.desc :
+                        item.desc.length > 180 ?
+                          <button
+                            style={{ textAlign: "left" }}
+                            onClick={() => {
+                              setShowMore(true)
+                              setContentId(item._id)
+                            }
+                            }
+                          //  style={{ color:""}}
+                          >{item.desc.slice(0, 180)} <span style={{ color: "gray", fontWeight: "600" }}> .....read more</span></button> : item.desc
                     }
-                  }
-                  //  style={{ color:""}}
-                  >{item.desc.slice(0,180)} <span style={{color:"gray",fontWeight:"600"}}> .....read more</span></button>:item.desc
-                }
                   </div>
                   {/*
                 
@@ -363,7 +356,7 @@ const PostDisplay = (props) => {
                             delay: 2000,
                             disableOnInteraction: false,
                           }
-                        }
+                          }
                           modules={[Navigation, Autoplay]}
                           className="mySwiper"
                         >

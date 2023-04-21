@@ -17,12 +17,10 @@ function Overview(props) {
 
   const location = useLocation();
   const propsData = location.state;
-  // console.log(propsData)
-  
+
   const [skills, setSkills] = useState([])
   const [profileSubmit, SetProfileSubmit] = useState(false);
   const [value, setValue] = useState("")
-  const [file, setFile] = useState('Images/girl.jpg')
   const [image, setImage] = useState(false);
   const [userId, setUserId] = useState('');
   const [show1, setShow1] = useState(false);
@@ -44,9 +42,9 @@ function Overview(props) {
 
   useEffect(() => {
     getUser();
-  }, []);
+  }, [props]);
 
- 
+
 
   const getUser = async () => {
     if(currentUser){
@@ -93,12 +91,12 @@ function Overview(props) {
     <>
 
     {
-      propsData === null ? 
+      propsData === null ?
 
 
       <div className='Overview-Container'>
       <div className='Overview-Left'>
-              <p className='Overview-Left-P' 
+              <p className='Overview-Left-P'
               >
                 {data && data.bio}
               </p>
@@ -174,7 +172,7 @@ function Overview(props) {
 
       {/* modal to add skills */}
       <Modal show={show1} >
-        <Modal.Header closeButton onHide={handleClose1}> 
+        <Modal.Header closeButton onHide={handleClose1}>
           <Modal.Title className='club-member-modal-header'>Add Skills</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -257,7 +255,7 @@ function Overview(props) {
                   <div style={{ color: "#010001" }}>{(new Date(date.eventDate)).toString().split(" ")[2]} {(new Date(date.eventDate)).toString().split(" ")[1]}</div>
                   <div style={{ color: "#ff5a5f" }}>{date.eventTime}</div>
                 </Link>
-              ))  : <div className='text-[1rem] font-[500] flex my-auto mx-2 text-center'> You have not enrolled for any event yet! </div> 
+              ))  : <div className='text-[1rem] font-[500] flex my-auto mx-2 text-center'> You have not enrolled for any event yet! </div>
             }
 
             <div className='Add-Event-Cont'>
@@ -278,7 +276,7 @@ function Overview(props) {
 
       <div className='Overview-Container'>
       <div className='Overview-Left'>
-              <p className='Overview-Left-P' 
+              <p className='Overview-Left-P'
               >
                 {propsData && propsData.bio}
               </p>
@@ -354,7 +352,7 @@ function Overview(props) {
 
       {/* modal to add skills */}
       {/* <Modal show={show1} >
-        <Modal.Header closeButton onHide={handleClose1}> 
+        <Modal.Header closeButton onHide={handleClose1}>
           <Modal.Title className='club-member-modal-header'>Add Skills</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -437,7 +435,7 @@ function Overview(props) {
                   <div style={{ color: "#010001" }}>{(new Date(date.eventDate)).toString().split(" ")[2]} {(new Date(date.eventDate)).toString().split(" ")[1]}</div>
                   <div style={{ color: "#ff5a5f" }}>{date.eventTime}</div>
                 </Link>
-              ))  : <div className='text-[1rem] font-[500] flex my-auto mx-2 text-center'> You have not enrolled for any event yet! </div> 
+              ))  : <div className='text-[1rem] font-[500] flex my-auto mx-2 text-center'> You have not enrolled for any event yet! </div>
             }
 
             <div className='Add-Event-Cont'>
@@ -455,7 +453,7 @@ function Overview(props) {
       </div >
 
     }
-      
+
 
     </>
   )
