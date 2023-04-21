@@ -80,10 +80,10 @@ export default function ReactBigCalendar() {
 
   // get user
   const getUser = async () => {
-    if (currentUser) {
-      setUser(currentUser);
-      return;
-    }
+    // if (currentUser) {
+    //   setUser(currentUser);
+    //   return;
+    // }
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -103,7 +103,7 @@ export default function ReactBigCalendar() {
   const setCalenderEvent = (value) => {
     setInterestedBtn(true)
     let myEvent;
-    allEventsData.map(function (val, index) {
+    dupliEvents.map(function (val, index) {
       console.log(val._id,value);
       if (val._id === value) {
         setMyEvent(val);
@@ -135,17 +135,17 @@ export default function ReactBigCalendar() {
     });
     setAllClgs(val);
   };
-
+  
   // Get All Events
   const showEvent = async () => {
     let result;
-    if (allEventsData) {
-      result = allEventsData;
-    } else {
+    // if (allEventsData) {
+    //   result = allEventsData;
+    // } else {
       setInfinite(false);
       result = await fetch("http://localhost:8000/getAllEvent");
       result = await result.json();
-    }
+    // }
     setDupliEvents(result);
     if (role === "Super_Admin") {
       result.map((data, i) => {
