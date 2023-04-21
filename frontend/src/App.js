@@ -48,9 +48,13 @@ const App = () => {
       },
     });
     result = await result.json();
-    if (result.role !== role) {
-      setShow(true);
+    console.log(result.role ,'handle click function triggered');
+    if(result.role != null){
+      if (result.role !== role) {
+        setShow(true);
+      }
     }
+   
   }
   // Get all Colleges*****
   const getColleges = async () => {
@@ -106,7 +110,6 @@ const App = () => {
           },
         });
         res = await res.json();
-        
   
         let count = 0;
         res.map((data) => {
