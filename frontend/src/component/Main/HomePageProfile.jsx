@@ -45,7 +45,7 @@ const HomePageProfile = (props) => {
   const data = currentUser; // current user
   const event = allEventsData;
   const allClgs = colleges;
-  console.log(data,"homepageprofile");
+  // console.log(data,"homepageprofile");
 
   useEffect(() => {
     console.log("khushi profile page");

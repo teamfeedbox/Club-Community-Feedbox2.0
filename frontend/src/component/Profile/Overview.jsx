@@ -9,6 +9,8 @@ import Modal from 'react-bootstrap/Modal';
 import Multiselect from "multiselect-react-dropdown";
 import { Link } from 'react-router-dom';
 import { useStateValue } from '../../StateProvider';
+import { injectStyle } from "react-toastify/dist/inject-style";
+import { ToastContainer, toast } from "react-toastify";
 
 const backColor = ['#EDC7E2', '#C7EDCF', '#EDE7C7', '#EDC7C7', '#B5A6E1', '#B4B4B4', '#72C4FF', '#e9f5db', '#fad643', '#E3B47C']
 const fColor = ['#9B0483', '#2AA100', '#A67904', '#A10000', '#5C0684', '#363636', '#035794', '#718355', '#76520E', '#744E37']
@@ -46,25 +48,35 @@ function Overview(props) {
   useEffect(() => {
     getUser();
   }, []);
-
+// console.log(data)
  
+  if (typeof window !== "undefined") {
+    injectStyle();
+  }
 
   const getUser = async () => {
     if(currentUser){
       setData(currentUser);
       return;
     }
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    setData(result);
-    setUserId(result._id)
-    dispatch({
-      type: 'INIT_USER',
-      item: result,});
+
+    else{
+
+
+      let result = await fetch(`http://localhost:8000/user`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      });
+      result = await result.json();
+      setData(result);
+      setUserId(result._id)
+      // console.log(result._id)
+      dispatch({
+        type: 'INIT_USER',
+        item: result,});
+    }
+   
   };
 
 
@@ -73,6 +85,7 @@ function Overview(props) {
 
 
   const updateSkills = async (userId) => {
+    // console.log(userId)
     let result = await fetch(`http://localhost:8000/updateDetail/${userId}`, {
       method: 'put',
       body: JSON.stringify({ skills }),
@@ -84,10 +97,14 @@ function Overview(props) {
     result = await result.json();
     
     if(result){
-      window.location.href = '/profile'
+      toast.dark("Updated Successfully...");
+
+      setTimeout(() => {
+        window.location.href = "/profile"
+      }, 5000);
 
     }
-    // console.log(result)
+    console.log(result)
   }
 
   const handleRemove = (e) => {
@@ -215,7 +232,8 @@ function Overview(props) {
         <Modal.Footer>
           <Button variant="primary" onClick={() => {
             handleClose1()
-            updateSkills(userId)
+            updateSkills(data._id)
+            // console.log(data._id)
           }}
             className='save-btn'>
             Save
@@ -283,7 +301,7 @@ function Overview(props) {
     </div >
 
        :
-
+ 
       <div className='Overview-Container'>
       <div className='Overview-Left'>
               <p className='Overview-Left-P' 
@@ -352,56 +370,15 @@ function Overview(props) {
                 <span style={{ background: backColor[index], color: fColor[index] }} key={index} className='Skills'>{data}</span>
               ))
             }
-            <span className='Add-Event' style={{marginTop:"15px"}} onClick={handleShow1}>
+            {/* <span className='Add-Event' style={{marginTop:"15px"}} onClick={handleShow1}>
               <FontAwesomeIcon className="fa-lg"  icon={faAdd} />
-            </span>
+            </span> */}
           </div>
         </div>
      
       </div>
 
-{/*     
-       <Modal show={show1} >
-        <Modal.Header closeButton onHide={handleClose1}> 
-          <Modal.Title className='club-member-modal-header'>Add Skills</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Multiselect
-            value={skills}
-            onChange={(e) => console.log()}
-            placeholder="Add Skill"
-            displayValue=""
-            isObject={false}
-            onKeyPressFn={function noRefCheck() { }}
-            onRemove={(e) => { handleRemove(e) }}
-            onSearch={function noRefCheck() { }}
-            onSelect={onSelectNames}
-            selectedValues={propsData && propsData.skills}
-            options={[
-              "Web Development",
-              "App Development",
-              "SEO",
-              "Linkedin Optimization",
-              "Graphic Design",
-              "Video Editing",
-              "Time Management",
-              "Digital Marketing",
-              "Content Writing",
-              "Ads",
-            ]}
-       
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={() => {
-            handleClose1()
-            updateSkills(userId)
-          }}
-            className='save-btn'>
-            Save
-          </Button>
-        </Modal.Footer>
-      </Modal>  */}
+
 
       <div className='Overview-Right'>
         <div className='Overview-Right-Statistics'>
@@ -460,13 +437,13 @@ function Overview(props) {
         <div>
         </div>
       </div >
-      </div >
+      </div > 
 
-    }
+     } 
        
 
     </>
   )
 }
 
-export default Overview
+export default Overview;

@@ -174,12 +174,14 @@ router.put('/updatePic/:id', requireLogin, async (req, res) => {
 
 // Update Skills
 router.put('/updateSkill/:id', requireLogin, async (req, res) => {
+  // console.log(req.body,req.params.id);
+
   let result = await User.updateOne(
     { _id: req.params.id },
     { $push: { skills: req.body.skills } }
   )
   res.send(result)
-  console.log(result)
+  // console.log(result)
 })
 
 // update details of a user
