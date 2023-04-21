@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./EditProfile.css";
 import { useToasts } from "react-toast-notifications";
 import { useStateValue } from "../../StateProvider";
-import { ToastContainer, toast } from "react-toastify";
+// import { ToastContainer, toast } from "react-toastify";
+
 
 const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
@@ -29,6 +30,9 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
   const [{ currentUser }, dispatch] = useStateValue();
 
   const id = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).id
+
+  const { addToast } = useToasts();
+
 
   const handleClose = () => {
     setOpen(false);
@@ -120,6 +124,7 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
     const updatedUser = await data.json();
     console.log(updatedUser);
 
+
     dispatch({
       type: 'INIT_USER',
       item: updatedUser,
@@ -135,12 +140,16 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
       })
       const res = await data.json();
       console.log(res);
+      // addToast(res, { appearance: "success" })
     }
     setRender(!render)
     sendData(!render);
     setOpen(false);
     setImage(false)
     setLoading(true);
+    addToast('Profile updated successfully!', { appearance: "success" })
+
+
   }
 
   // to count the number of words left in edit bio section
@@ -317,7 +326,7 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
       ) : (
         ""
       )}
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };
