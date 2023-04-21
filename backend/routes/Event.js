@@ -18,7 +18,7 @@ router.post('/createEvent', requireLogin, (req, res) => {
         speaker,
         postedBy: req.user,
         attendance,
-        scope, 
+        scope,
         collegeName:collegeName
     })
     event.save().then(result => {
@@ -160,7 +160,6 @@ router.put('/updateEvent/:eventId', requireLogin, async (req, res) => {
         { _id: req.params.eventId },
         { $push: { attendance: req.user } }, { new: true }
     )
-    console.log(result, "rrrrrrrrrrrr");
     res.send(result)
 })
 
