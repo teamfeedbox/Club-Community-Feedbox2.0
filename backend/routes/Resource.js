@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const Resource = require('../models/resource')
-const multer = require('multer');
 const requireLogin = require('../middleware/requireLogin')
 const { google } = require("googleapis")
 const { Readable } = require('stream');
-const upload = multer({});
+const multer = require('multer');
+const upload = multer({limits: { fileSize: 5000000 }});
 
 const authenticateGoogle = () => {
   const auth = new google.auth.GoogleAuth({

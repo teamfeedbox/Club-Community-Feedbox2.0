@@ -134,7 +134,7 @@ function Overview(props) {
 
     }
     console.log(result);
-   
+
   };
 
   const handleRemove = (e) => {
@@ -224,7 +224,7 @@ function Overview(props) {
                 </span>
               </div>
             </div>
-            {/* ******logout***** */}
+            {/* *****logout**** */}
           </div>
 
           {/* modal to add skills */}
@@ -464,9 +464,9 @@ function Overview(props) {
             </div>
           </div>
 
-          {/*     
+          {/*
        <Modal show={show1} >
-        <Modal.Header closeButton onHide={handleClose1}> 
+        <Modal.Header closeButton onHide={handleClose1}>
           <Modal.Title className='club-member-modal-header'>Add Skills</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -493,7 +493,7 @@ function Overview(props) {
               "Content Writing",
               "Ads",
             ]}
-       
+
           />
         </Modal.Body>
         <Modal.Footer>

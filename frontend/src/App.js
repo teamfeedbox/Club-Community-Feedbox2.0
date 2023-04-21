@@ -11,7 +11,7 @@ import Rescources from "./component/Rescources/Rescources";
 import RescourcesTable from "./component/Rescources/RescourcesTable";
 import Faq from "./component/Faq";
 import Approvals from "./component/approvals/Approvals";
-import ProfilePage from "./component/Profile/ProfilePage";
+import ProfileTabs from "./component/Profile/ProfileTabs";
 import NewLogin from "./component/login/NewLogin";
 import AttendanceSheet from "./component/Calendar/AttendanceSheet";
 import ReactBigCalendar from "./component/Calendar/ReactBigCalendar";
@@ -54,7 +54,7 @@ const App = () => {
         setShow(true);
       }
     }
-   
+
   }
   // Get all Colleges***
   const getColleges = async () => {
@@ -75,17 +75,21 @@ const App = () => {
 
   // Get a user***
   const getUser = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    });
-    result = await result.json();
-    // console.log(result, 'user hereeeeeee');
-    
-    dispatch({
-      type: 'INIT_USER',
-      item: result,});
+    if(!currentUser){
+      let result = await fetch(`http://localhost:8000/user`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      });
+      result = await result.json();
+      console.log(result, 'user hereeeeeee');
+
+      dispatch({
+        type: 'INIT_USER',
+        item: result});
+    }else{
+      console.log("current user already initialized");
+    }
   };
 
   // Get All Events***
@@ -110,7 +114,8 @@ const App = () => {
           },
         });
         res = await res.json();
-  
+
+
         let count = 0;
         res.map((data) => {
           count = data.comment.length
@@ -130,11 +135,11 @@ const App = () => {
 
   useEffect(() => {
     document.addEventListener("click", handleClick);
-    // console.log('apppp loadeddddd-----------------') 
+    console.log('apppp loadeddddd-----------------')
     getUser();
-    getAllEvents();
-    getColleges();
-    getAllPosts();
+    // getAllEvents();
+    // getColleges();
+    // getAllPosts();
   }, []);
 
   return (
@@ -200,9 +205,7 @@ const App = () => {
           <Route
             index
             path="/profile"
-            element={
-              role == null ? <Error /> : [<NavbarRes />, <ProfilePage />]
-            }
+            element={ role == null ? <Error /> : [<NavbarRes />, <ProfileTabs />]}
           />
 
           <Route index path="/profileComment" element={<PostBigModel />} />
