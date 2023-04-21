@@ -137,9 +137,9 @@ const App = () => {
     document.addEventListener("click", handleClick);
     console.log('apppp loadeddddd-----------------')
     getUser();
-    // getAllEvents();
-    // getColleges();
-    // getAllPosts();
+    getAllEvents();
+    getColleges();
+    getAllPosts();
   }, []);
 
   return (
