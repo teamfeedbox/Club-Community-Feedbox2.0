@@ -9,8 +9,6 @@ import "./EditProfile.css";
 import { useToasts } from "react-toast-notifications";
 import { useStateValue } from "../../StateProvider";
 
-import { injectStyle } from "react-toastify/dist/inject-style";
-import { ToastContainer, toast } from "react-toastify";
 
 const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
@@ -22,6 +20,7 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
   const [file, setFile] = useState("Images/girl.jpg");
   const [image, setImage] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [load, setLoad] = useState(false);
   const [imgg, setImgg] = useState();
   const [img, setImg] = useState("");
   const [url, setUrl] = useState("");
@@ -60,7 +59,8 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
     if (url) {
       update(data);
     }
-  }, [data,url]);
+    setLoad(false)
+  }, [data,url,load]);
 
   const update = async (data) => {
     console.log(data)
@@ -104,6 +104,9 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
     setLoading(false);
     setOpen(false);
     validated=true;
+    setImage(false);
+    setUrl("");
+    setImgg("");
     // setValidated(true);
   };
 
@@ -130,21 +133,24 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
       .then((res) => res.json())
       .then((data) => {
         setUrl(data.url);
-        console.log(data.url)
+        console.log(data.url);
+        setLoad(true);
+        console.log(load);
         setLoading(false);
+        setLoad(true);
+        console.log(load);
         setOpen(false);
-        // alert("Profile updated successfully!");
-        addToast("Profile updated successfully!", { appearance: "success" })
-        // window.location.href="/profile"
-
-        setTimeout(() => {
-        window.location.href="/profile"
-        }, 2000);
+        addToast("Profile updated successfully!", { appearance: "success" });
+        // setTimeout(() => {
+        // // window.location.href="/profile"
+        // setLoad(true);
+        // }, 2000);
        
       })
       .catch((err) => {
         console.log(err);
       });
+
   };
 
   
@@ -385,7 +391,6 @@ const EditProfile = ({ Userbio,Username,Useryear, open, setOpen }) => {
       ) : (
         ""
       )}
-      <ToastContainer />
     </div>
   );
 };

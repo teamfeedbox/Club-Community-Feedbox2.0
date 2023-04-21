@@ -326,7 +326,7 @@ export default function ReactBigCalendar() {
     const a = JSON.stringify(start);
     (a.slice(0, 9))
     // alert(a.)
-
+    if(role==="Super_Admin" || role==="Admin" || role==="Lead" )
     setAddEventModel(true);
   };
 
