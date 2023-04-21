@@ -84,11 +84,11 @@ const SuperAdmin = () => {
                             alt="Alex Shatov"
                           />
 
-                          <div className="ml-2"> {member.name} </div>
+                          <div className="ml-2 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]"> {member.name} </div>
                         </div>
                       </td>
                       <td class="p-2 lg:flex items-center mr-8">
-                        <div class="font-medium text-gray-800">
+                        <div class="font-medium text-gray-800 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]">
                           {member.position}
                         </div>
                       </td>

@@ -48,11 +48,15 @@ const App = () => {
       },
     });
     result = await result.json();
-    if (result.role != role) {
-      setShow(true);
+    console.log(result.role ,'handle click function triggered');
+    if(result.role != null){
+      if (result.role !== role) {
+        setShow(true);
+      }
     }
+   
   }
-  // Get all Colleges*****
+  // Get all Colleges***
   const getColleges = async () => {
     if(!colleges){
       console.log('collegeeegegegege-------');
@@ -69,26 +73,22 @@ const App = () => {
     }
   };
 
-  // Get a user*****
+  // Get a user***
   const getUser = async () => {
-    if(!currentUser){
-      let result = await fetch(`http://localhost:8000/user`, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("jwt"),
-        },
-      });
-      result = await result.json();
-      console.log(result, 'user hereeeeeee');
-      
-      dispatch({
-        type: 'INIT_USER',
-        item: result,});
-    }else{
-      console.log("current user already initialized");
-    }
+    let result = await fetch(`http://localhost:8000/user`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    });
+    result = await result.json();
+    // console.log(result, 'user hereeeeeee');
+    
+    dispatch({
+      type: 'INIT_USER',
+      item: result,});
   };
 
-  // Get All Events*****
+  // Get All Events***
   const getAllEvents = async () => {
     if(!allEventsData){
       let res = await fetch("http://localhost:8000/getAllEvent");
@@ -101,7 +101,7 @@ const App = () => {
     }
   }
 
-  // Get all Posts*****
+  // Get all Posts***
   const getAllPosts= async () =>{
     if(!allPosts){
       let res = await fetch("http://localhost:8000/getAllPost", {
@@ -110,7 +110,6 @@ const App = () => {
           },
         });
         res = await res.json();
-        
   
         let count = 0;
         res.map((data) => {
@@ -131,7 +130,7 @@ const App = () => {
 
   useEffect(() => {
     document.addEventListener("click", handleClick);
-    console.log('apppp loadeddddd-----------------')
+    // console.log('apppp loadeddddd-----------------') 
     getUser();
     getAllEvents();
     getColleges();

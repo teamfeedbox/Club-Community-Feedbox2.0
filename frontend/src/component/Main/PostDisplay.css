@@ -64,18 +64,13 @@
     display: flex;
     flex-direction: column;
 }
-/* .post-display-center1{
-    display: flex;
-    flex-direction: column;
-    margin: auto 0;
-} */
+
 .post-display-content {
     padding-bottom: 10px;
     font-weight: var(--content-font-weight);
     font-size: var(--content-font-size);
  }
 .post-display-bottom {
-    /* border: 2px solid; */
     display: flex;
 }
 .post-display-bottom-content  {
@@ -84,6 +79,7 @@
     margin-right: 15px;
     text-align: center;
     justify-content: center;
+    z-index: 11;
 }
 .post-display-bottom-content span{
     font-weight: 500;

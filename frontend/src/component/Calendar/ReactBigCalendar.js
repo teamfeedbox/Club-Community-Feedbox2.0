@@ -6,6 +6,10 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+
+import { injectStyle } from "react-toastify/dist/inject-style";
+import { ToastContainer, toast } from "react-toastify";
+
 import {
   faLocationDot,
   faClock,
@@ -37,6 +41,7 @@ export default function ReactBigCalendar() {
   const [speaker, setSpeaker] = useState("");
   const [myEvent, setMyEvent] = useState();
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const [deletebtn, setDeleteBtn] = useState(false);
   const [clgSelected, setClgSelected] = useState();
   const [allClgs, setAllClgs] = useState([]);
@@ -80,10 +85,10 @@ export default function ReactBigCalendar() {
 
   // get user
   const getUser = async () => {
-    if (currentUser) {
-      setUser(currentUser);
-      return;
-    }
+    // if (currentUser) {
+    //   setUser(currentUser);
+    //   return;
+    // }
     let result = await fetch(`http://localhost:8000/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -103,7 +108,7 @@ export default function ReactBigCalendar() {
   const setCalenderEvent = (value) => {
     setInterestedBtn(true)
     let myEvent;
-    allEventsData.map(function (val, index) {
+    dupliEvents.map(function (val, index) {
       console.log(val._id,value);
       if (val._id === value) {
         setMyEvent(val);
@@ -135,17 +140,17 @@ export default function ReactBigCalendar() {
     });
     setAllClgs(val);
   };
-
+  
   // Get All Events
   const showEvent = async () => {
     let result;
-    if (allEventsData) {
-      result = allEventsData;
-    } else {
+    // if (allEventsData) {
+    //   result = allEventsData;
+    // } else {
       setInfinite(false);
       result = await fetch("http://localhost:8000/getAllEvent");
       result = await result.json();
-    }
+    // }
     setDupliEvents(result);
     if (role === "Super_Admin") {
       result.map((data, i) => {
@@ -237,8 +242,15 @@ export default function ReactBigCalendar() {
     setLoading(true);
   };
 
+  // toastify
+  if (typeof window !== "undefined") {
+    injectStyle();
+  }
+
   // create event
   const addEvent = async (e) => {
+    setLoading2(true);
+    console.log(loading);
     let val = {
       title,
       eventDate,
@@ -260,7 +272,7 @@ export default function ReactBigCalendar() {
     }
 
     console.log(val, "val");
-    setLoading(true);
+    setLoading2(true);
     e.preventDefault();
     let result = await fetch("http://localhost:8000/createEvent", {
       method: "post",
@@ -293,8 +305,8 @@ export default function ReactBigCalendar() {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     }).then((res) => {
-      // alert(res.json)
-      setLoading(false);
+      toast("Event Created Successfully!");
+      setLoading2(false);
       window.location.href = "/calendar";
     });
 
@@ -320,7 +332,7 @@ export default function ReactBigCalendar() {
 
   // Delete Event
   const cancelEvent = async (id) => {
-    setLoading(true);
+    setLoading2(true);
     let result = await fetch(`http://localhost:8000/deleteEvent/${id}`, {
       method: "delete",
     });
@@ -349,7 +361,7 @@ export default function ReactBigCalendar() {
     //   setLoading(false);
     //   window.location.href="/calendar"
     // });
-
+    setLoading2(false);
     window.location.href = "/calendar";
   };
 
@@ -537,7 +549,7 @@ export default function ReactBigCalendar() {
                       </Modal.Body>
                       <Modal.Footer style={{ justifyContent: "right" }}>
                         <Button variant="danger">
-                          {loading ? (
+                          {loading2 ? (
                             <div
                               class="spinner-border text-white"
                               role="status"
@@ -743,7 +755,7 @@ export default function ReactBigCalendar() {
                 </div>
                 <div className="submit-button">
                   <button className="Calendar-submit">
-                    {loading ? (
+                    {loading2 ? (
                       <div
                         class="spinner-border text-white"
                         role="status"
@@ -756,12 +768,14 @@ export default function ReactBigCalendar() {
                     )}
                   </button>
                 </div>
+                <ToastContainer/>
               </form>
             </div>
           </div>
         ) : (
           ""
         )}
+        
       </div>
     </>
   );

@@ -5,8 +5,7 @@ import "./PendingApprovals.css";
 import { Scrollbars } from "react-custom-scrollbars";
 import Modal from "react-bootstrap/Modal";
 import "./ClubMember.css";
-import {Link} from "react-router-dom"
-
+import { Link } from "react-router-dom";
 
 const Admin = (props) => {
   const [searchval, setSearchVal] = useState("");
@@ -17,21 +16,20 @@ const Admin = (props) => {
   const [loading, setLoading] = useState(false);
   const [loading3, setLoading3] = useState(false);
 
-  const role = JSON.parse(localStorage.getItem("user")).role
+  const role = JSON.parse(localStorage.getItem("user")).role;
   const currentCollege = JSON.parse(localStorage.getItem("user")).college;
 
   const handleDelClose = () => {
     setDelShow(false);
-  }
-
+  };
 
   const getUser = async () => {
     setLoading3(true);
     try {
       const result = await fetch(`http://localhost:8000/get`);
       const res = await result.json();
-      const admin = res.filter(data => data.role === 'Admin').reverse();
-  
+      const admin = res.filter((data) => data.role === "Admin").reverse();
+
       if (role === "Super_Admin") {
         let clgSel = [];
         if (props.clg) {
@@ -39,7 +37,9 @@ const Admin = (props) => {
             setAdmin(admin);
             setData(admin);
           } else {
-            const clgSel = admin.filter(data => data.collegeName === props.clg);
+            const clgSel = admin.filter(
+              (data) => data.collegeName === props.clg
+            );
             setAdmin(clgSel);
             setData(clgSel);
           }
@@ -48,7 +48,7 @@ const Admin = (props) => {
           setData(admin);
         }
       } else {
-        const clg = admin.filter(data => data.collegeName === currentCollege);
+        const clg = admin.filter((data) => data.collegeName === currentCollege);
         setAdmin(clg);
         setData(clg);
       }
@@ -58,12 +58,11 @@ const Admin = (props) => {
       setLoading3(false);
     }
   };
-  
 
   useEffect(() => {
     getUser();
     setLoading(false);
-  }, [props, loading])
+  }, [props, loading]);
 
   // search user
   const searchHandler = (e) => {
@@ -85,33 +84,33 @@ const Admin = (props) => {
   };
 
   const handleDeleteAdmin = async () => {
+    setLoading(true);
     const data = await fetch(`http://localhost:8000/updateDetail/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ role: 'Club_Member' })
-    })
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ role: "Club_Member" }),
+    });
     const res = await data.json();
-    console.log(res)
-    setDelShow(false)
-    setLoading(true)
+    console.log(res);
+    setDelShow(false);
 
-     //  notification
-   await fetch("http://localhost:8000/addNotifications", {
-    method: "post",
-    body: JSON.stringify({
-      message: `Now You are degraded Admin to Club Member, please login again`,
-      messageScope: "private",
-      userId: id,
-
-    }),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + localStorage.getItem("jwt"),
-    },
-  }).then((res) => {
-    // alert(res.json)
-  });
-  }
+    //  notification
+    await fetch("http://localhost:8000/addNotifications", {
+      method: "post",
+      body: JSON.stringify({
+        message: `Now You are degraded Admin to Club Member, please login again`,
+        messageScope: "private",
+        userId: id,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    }).then((res) => {
+      setLoading(false);
+      // alert(res.json)
+    });
+  };
 
   return (
     <div>
@@ -138,23 +137,20 @@ const Admin = (props) => {
         <Scrollbars style={{ height: "250px" }}>
           <table class="table-auto w-full max-w-[1300px]">
             <tbody class="text-sm divide-y  divide-gray-100 max-w-[1150px]">
-              {
-                loading3?
+              {loading3 ? (
                 <div
-                class="spinner-border text-blue"
-                role="status"
-                style={{
-                  height: "35px",
-                  width: "35px",
-                  marginTop: "15px",
-                  marginLeft:"75px"
-                }}
-              >
-                <span class="visually-hidden">
-                  Loading...
-                </span>
-              </div>:
-              admin.length > 0 ?
+                  class="spinner-border text-blue"
+                  role="status"
+                  style={{
+                    height: "35px",
+                    width: "35px",
+                    marginTop: "15px",
+                    marginLeft: "75px",
+                  }}
+                >
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              ) : admin.length > 0 ? (
                 admin.map((member) => (
                   <tr className="">
                     <td class=" p-2 w-[170px] md:w-[250px]  lg:w-[600px] ">
@@ -166,18 +162,23 @@ const Admin = (props) => {
                           height="40"
                           alt="Alex Shatov"
                         />
-                        {
-                          role==="Super_Admin" || role=== "Admin" ?
-                          <Link to="/profile" 
-                         state={member}
-                         className="link-to-profile" >
-                        <div className="ml-2 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[400]"> {member.name} </div>
-                      </Link>
-                      :
-                      <div className="ml-2 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[400]"> {member.name} </div>
-
-                        }
-                    
+                        {role === "Super_Admin" || role === "Admin" ? (
+                          <Link
+                            to="/profile"
+                            state={member}
+                            className="link-to-profile"
+                          >
+                            <div className="ml-2 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[400]">
+                              {" "}
+                              {member.name}{" "}
+                            </div>
+                          </Link>
+                        ) : (
+                          <div className="ml-2 text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[400]">
+                            {" "}
+                            {member.name}{" "}
+                          </div>
+                        )}
                       </div>
                     </td>
                     <td class="p-2 w-[170px] lg:w-[400px] block lg:flex flex-start items-center  mr-8 ">
@@ -186,11 +187,22 @@ const Admin = (props) => {
                       </div>
                     </td>
                     <td className=" w-[100px] my-auto">
-                      <div className="text-red-500" onClick={() => { setDelShow(true); setId(member._id) }}>
-                        <button className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000]  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[500] hover:bg-[#bf1004]"
-                        >Delete</button>
+                      <div
+                        className="text-red-500"
+                        onClick={() => {
+                          setDelShow(true);
+                          setId(member._id);
+                        }}
+                      >
+                        <button className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#ff0000]  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[500] hover:bg-[#bf1004]">
+                          Delete
+                        </button>
                       </div>
-                      <Modal show={delshow} onHide={handleDelClose} className="club-member-modal" >
+                      <Modal
+                        show={delshow}
+                        onHide={handleDelClose}
+                        className="club-member-modal"
+                      >
                         <form>
                           <Modal.Header
                             closeButton
@@ -200,21 +212,45 @@ const Admin = (props) => {
                           </Modal.Header>
                           <Modal.Footer className="modal-footer club-member-modal-footer">
                             <div className="modal-footer-club-member-yes-no-div">
-                              <div onClick={handleDeleteAdmin}>
-                                Yes
-                              </div>
-                              <button onClick={(e) => { e.preventDefault(); setDelShow(false); }}>No</button>
+                              {loading ? (
+                                <div
+                                  class="spinner-border text-blue"
+                                  role="status"
+                                  style={{
+                                    height: "35px",
+                                    width: "35px",
+                                    marginTop: "15px",
+                                    marginLeft: "75px",
+                                  }}
+                                >
+                                  <span class="visually-hidden">
+                                    Loading...
+                                  </span>
+                                </div>
+                              ) : (
+                                <div onClick={handleDeleteAdmin}>Yes</div>
+                              )}
+
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setDelShow(false);
+                                }}
+                              >
+                                No
+                              </button>
                             </div>
                           </Modal.Footer>
                         </form>
                       </Modal>
                     </td>
                   </tr>
-                )) : 
+                ))
+              ) : (
                 <div className="nopending">
-                <div className="text-[1rem] font-[400]">No Admin !</div>
+                  <div className="text-[1rem] font-[400]">No Admin !</div>
                 </div>
-                }
+              )}
             </tbody>
           </table>
         </Scrollbars>
