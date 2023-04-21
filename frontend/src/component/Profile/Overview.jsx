@@ -224,7 +224,7 @@ function Overview(props) {
                 </span>
               </div>
             </div>
-            {/* *****logout**** */}
+            {/* ****logout*** */}
           </div>
 
           {/* modal to add skills */}
@@ -295,7 +295,7 @@ function Overview(props) {
                 <div
                   onClick={() => {
                     // handleClose1();
-                    updateSkills(userId);
+                    updateSkills(data._id);
                   }}
                 >
                   Save
@@ -589,4 +589,4 @@ function Overview(props) {
   );
 }
 
-export default Overview;
+export default Overview;
