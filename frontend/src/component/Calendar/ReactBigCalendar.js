@@ -558,7 +558,7 @@ export default function ReactBigCalendar() {
                         > 
                           Interested
                         </button>
-                      : "" : "" : ""}
+                      : "" :'' : ''}
 
                   {(role === "Admin" ||
                     role === "Super_Admin" ||
@@ -607,7 +607,7 @@ export default function ReactBigCalendar() {
                       </Modal.Footer>
                     </Modal>
                   )}
-                </div>
+                </div>  
 
                 {MAVisibility && (
 

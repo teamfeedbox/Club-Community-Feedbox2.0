@@ -45,6 +45,10 @@ const PostDisplay = (props) => {
   const college =
     JSON.parse(localStorage.getItem("user")) &&
     JSON.parse(localStorage.getItem("user")).college;
+
+   
+
+
   console.log(college);
 
   const [{ currentUser, allPosts }, dispatch] = useStateValue();
@@ -255,7 +259,7 @@ const PostDisplay = (props) => {
                         <Link
                           className="link-to-profile"
                           to="/profile"
-                          state={item.postedBy}
+                          state={item.postedBy }
                         >
                           <p className="post-head">
                             {item && item.postedBy && item.postedBy.name}

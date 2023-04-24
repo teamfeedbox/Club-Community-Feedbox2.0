@@ -94,6 +94,7 @@ function Overview(props) {
       type: "INIT_USER",
       item: result,
     });
+    
   };
 
   const updateSkills = async (userId) => {
