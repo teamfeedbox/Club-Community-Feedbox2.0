@@ -286,7 +286,7 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
                         >
                           {item &&
                             item.reply.map((data) => (
-                              <div
+                              <div key={data._id}
                                 style={{
                                   display: "flex",
                                   flexDirection: "row",

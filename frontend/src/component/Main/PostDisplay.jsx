@@ -216,22 +216,22 @@ const PostDisplay = (props) => {
 
   const postDelete = async(id)=>{
     console.log(id)
-    let result = await fetch(`http://localhost:8000/deletePost/${id}`, {
-      method: "delete",
-    });
+    // let result = await fetch(`http://localhost:8000/deletePost/${id}`, {
+    //   method: "delete",
+    // });
 
-    result = await result.json();
-    console.log(result);
+    // result = await result.json();
+    // console.log(result);
 
-    if (result) {
-      toast.dark("Deleted Successfully...");
-      setTimeout(() => {
-        window.location.href = "/main"
-      }, 5000);
-      getList();
-    }
-    setDelShow(false);
-    // console.log(allPosts);
+    // if (result) {
+    //   toast.dark("Deleted Successfully...");
+    //   setTimeout(() => {
+    //     window.location.href = "/main"
+    //   }, 5000);
+    //   getList();
+    // }
+    // setDelShow(false);
+    // // console.log(allPosts);
   }
 
 
@@ -323,7 +323,9 @@ const PostDisplay = (props) => {
                       </Modal.Header>
                       <Modal.Footer className="modal-footer club-member-modal-footer">
                         <div className="modal-footer-club-member-yes-no-div">
-                          <div onClick={()=>postDelete(item._id)}>Yes</div>
+                          <div onClick={()=>{postDelete(item._id)
+                          console.log(item._id)
+                          }}>Yes</div>
                           <button
                             onClick={(e) => {
                               e.preventDefault();

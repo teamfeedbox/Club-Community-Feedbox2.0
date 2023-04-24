@@ -117,8 +117,11 @@ router.put("/updatePost/:postId", async (req, res) => {
   res.send(result); 
 });
 
+
+
 //delete post
 router.delete("/deletePost/:id", async (req, res) => {
+  console.log(req.params.id)
   const result = await Post.deleteOne({ _id: req.params.id });
   res.send(result);
 });
