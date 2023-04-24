@@ -6,10 +6,8 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-
 import { injectStyle } from "react-toastify/dist/inject-style";
 import { ToastContainer, toast } from "react-toastify";
-
 import {
   faLocationDot,
   faClock,
@@ -148,7 +146,6 @@ export default function ReactBigCalendar() {
 
   // Get All Events
   const showEvent = async () => {
-    console.log("coming");
     let result;
     if (allEventsData) {
       result = allEventsData;
@@ -162,7 +159,7 @@ export default function ReactBigCalendar() {
         item: result
       });
     }
-    console.log(result,"llllol");
+    console.log(result, "llllol");
     setDupliEvents(result);
     if (role === "Super_Admin") {
       result.map((data, i) => {
@@ -203,7 +200,6 @@ export default function ReactBigCalendar() {
       }
     } else {
       if (infinite || calIntersted) {
-        console.log("cmesas");
         setCalInterested(false)
         showEvent();
       }
@@ -235,7 +231,21 @@ export default function ReactBigCalendar() {
       },
     });
     result = await result.json();
+    console.log(allEventsData, "all");
     console.log(result, "result");
+
+    allEventsData.map((data, i) => {
+      if (data._id === result._id) {
+        data.attendance = result.attendance
+      }
+    })
+
+    console.log(allEventsData, "new");
+
+    dispatch({
+      type: 'INIT_ALL_EVENT',
+      item: allEventsData
+    });
 
     let data = await fetch(
       `http://localhost:8000/update/interested/events/${id}`,
@@ -253,6 +263,7 @@ export default function ReactBigCalendar() {
     setInterestedBtn(false)
     setCalInterested(true);
     setLoading(true);
+    setInfinite(true);
   };
 
   // toastify
@@ -285,8 +296,8 @@ export default function ReactBigCalendar() {
     }
 
     console.log(val, "val");
-    setLoading2(true);
     e.preventDefault();
+    toast.dark("Event Created Successfully!")
     let result = await fetch("http://localhost:8000/createEvent", {
       method: "post",
       body: JSON.stringify(val),
@@ -296,16 +307,17 @@ export default function ReactBigCalendar() {
       },
     });
     result = await result.json();
-
-    console.log(result.event, "result");
+    
+    console.log(result.event, "resultvbnvvbnvn");
     console.log(allEventsData, "pppp");
     const newData = [...allEventsData, result.event]
+    
     console.log(newData, "newdata");
     dispatch({
       type: 'INIT_ALL_EVENT',
       item: newData,
     });
-
+    
     setTitle("");
     setScope("");
     setEventDate("");
@@ -329,11 +341,14 @@ export default function ReactBigCalendar() {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     }).then((res) => {
-      toast("Event Created Successfully!");
+      // toast("Event Created Successfully!");
       setLoading2(false);
     });
-    setLoad(true)
-    setInfinite(true)
+    
+      setLoad(true)
+      setInfinite(true)
+
+    
   };
 
   // handle event on select from react big calender
@@ -346,7 +361,7 @@ export default function ReactBigCalendar() {
     const a = JSON.stringify(start);
     (a.slice(0, 9))
     // alert(a.)
-
+    if(role==="Super_Admin" || role==="Admin" || role==="Lead" )
     setAddEventModel(true);
   };
 
@@ -357,8 +372,6 @@ export default function ReactBigCalendar() {
       method: "delete",
     });
     result = await result.json();
-    // alert(result)
-    // console.log("delete",result);
     setDeleteBtn(false);
     setLoading(false);
     setPreEventModel(false);
@@ -382,6 +395,7 @@ export default function ReactBigCalendar() {
     //   window.location.href="/calendar"
     // });
     setLoading2(false);
+    
     window.location.href = "/calendar";
   };
 
@@ -411,12 +425,12 @@ export default function ReactBigCalendar() {
                   College
                 </option>
                 <option value="All">All</option>
-                {/* {allClgs.length > 0 &&
+                {allClgs.length > 0 &&
                   allClgs.map((clg, i) => (
                     <option key={i} value={clg}>
                       {clg}
                     </option>
-                  ))} */}
+                  ))}
               </select>
             </div>
           ) : ""}
@@ -522,29 +536,29 @@ export default function ReactBigCalendar() {
                 <div className="preview-button">
                   {
                     role && role !== "Super_Admin" ?
-                      id && myEvent && id !== myEvent.postedBy._id ?
-                        new Date(myEvent && myEvent.eventDate).getTime() >
-                          new Date(mindate).getTime() ?
-                          interestedBtn ?
-                            <button
-                              type="button"
-                              onClick={() => {
-                                attendanceUpdate(myEvent && myEvent._id); setInterestedBtn(false)
-                              }}
-                            >
-                              Interested
-                            </button>
-                            :
-                            <button
-                              type="button"
-                              style={{
-                                pointerEvents: "none",
-                                backgroundColor: "gray",
-                              }}
-                            >
-                              Interested
-                            </button>
-                          : "" : "" : ""}
+                    id && myEvent && id !== myEvent.postedBy._id ?
+                    new Date(myEvent && myEvent.eventDate).getTime() >
+                      new Date(mindate).getTime() ?
+                      interestedBtn ?
+                        <button
+                          type="button"
+                          onClick={() => {
+                            attendanceUpdate(myEvent && myEvent._id); setInterestedBtn(false)
+                          }}
+                        >
+                          Interested
+                        </button>
+                        :
+                        <button
+                          type="button"
+                          style={{
+                            pointerEvents: "none",
+                            backgroundColor: "gray",
+                          }}
+                        > 
+                          Interested
+                        </button>
+                      : "" :'' : ''}
 
                   {(role === "Admin" ||
                     role === "Super_Admin" ||
@@ -593,7 +607,7 @@ export default function ReactBigCalendar() {
                       </Modal.Footer>
                     </Modal>
                   )}
-                </div>
+                </div>  
 
                 {MAVisibility && (
 
@@ -788,7 +802,7 @@ export default function ReactBigCalendar() {
                     )}
                   </button>
                 </div>
-                <ToastContainer/>
+                <ToastContainer />
               </form>
             </div>
           </div>

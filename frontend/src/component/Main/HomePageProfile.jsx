@@ -37,34 +37,40 @@ const HomePageProfile = (props) => {
   const [loading, setLoading] = useState(false);
   const [clgEvents, setClgEvents] = useState([]);
   const [clgUsers, setClgUsers] = useState(0);
-  const [allUsers, setAllUsers] = useState([]);
+  const [allUser, setallUser] = useState([]);
   const [selected, setSelected] = useState(false);
   const role = JSON.parse(localStorage.getItem("user")).role
 
-  const [{ currentUser,allEventsData, colleges }] = useStateValue();
+  const [{ currentUser, allEventsData, colleges, allUsers },dispatch] = useStateValue();
   const data = currentUser; // current user
   const event = allEventsData;
   const allClgs = colleges;
-  // console.log(data,"homepageprofile");
 
   useEffect(() => {
     console.log("khushi profile page");
-    getAllUsers();
+    getallUser();
     setLoading(false);
   }, [loading]);
 
   // get all users
-  const getAllUsers = async () => {
-    let result = await fetch("http://localhost:8000/get");
-    result = await result.json();
-    let array=[];
-    result.map(data=>{
-      if(data.role =="Lead" || data.role =="Admin" || data.role=="Club_Member"){
-        array.push(data)
-      }
-    })
-    // console.log(array)
-    setAllUsers(array);
+  const getallUser = async () => {
+    if (allUsers) {
+      setallUser(allUsers);
+    } else {
+      let result = await fetch("http://localhost:8000/get");
+      result = await result.json();
+      let array = [];
+      result.map(data => {
+        if (data.role == "Lead" || data.role == "Admin" || data.role == "Club_Member") {
+          array.push(data)
+        }
+      })
+      setallUser(array);
+      dispatch({
+        type: 'INIT_ALL_USERS',
+        item: array,
+      });
+    }
   }
 
   const handleCollege = (e) => {
@@ -73,15 +79,15 @@ const HomePageProfile = (props) => {
     let clgEvents = [], usercount = 0;
     if (e.target.value === "All") {
       setClgEvents(event)
-      setClgUsers(allUsers.length)
+      setClgUsers(allUser.length)
     } else {
       event.map((eve) => {
         if (eve.postedBy.collegeName === e.target.value) {
           clgEvents.push(eve)
         }
       })
-      allUsers.map((user) => {
-        if (user.collegeName === e.target.value &&  (user.role =="Lead" || user.role =="Admin" || user.role=="Club_Member")) {
+      allUser.map((user) => {
+        if (user.collegeName === e.target.value && (user.role == "Lead" || user.role == "Admin" || user.role == "Club_Member")) {
           usercount++;
         }
       })
@@ -97,13 +103,13 @@ const HomePageProfile = (props) => {
       <div className="hidden md:block lg:block">
         <div className="home-profile-bg-doodle">
           <img src={"Images/doodle-profile-bg.png"} alt="" />
-          <Link style={{textDecoration:"none"}} to="/profile">
-          <button className="home-profile-visit-profile">
-            <FontAwesomeIcon
-              className="home-profile-visit-profile-icon"
-              icon={faArrowUpRightFromSquare}
-            />
-          </button>
+          <Link style={{ textDecoration: "none" }} to="/profile">
+            <button className="home-profile-visit-profile">
+              <FontAwesomeIcon
+                className="home-profile-visit-profile-icon"
+                icon={faArrowUpRightFromSquare}
+              />
+            </button>
           </Link>
         </div>
         <div className="home-profile-main-info">
@@ -182,7 +188,7 @@ const HomePageProfile = (props) => {
                 Total Students:
               </h>
               <p className=" text-[1.5rem] font-[700] p-0 relative bottom-2">
-                {selected ? clgUsers ? clgUsers : 0 : allUsers.length > 0 && allUsers.length}
+                {selected ? clgUsers ? clgUsers : 0 : allUser.length > 0 && allUser.length}
               </p>
             </div>
           </div>
@@ -208,20 +214,20 @@ const HomePageProfile = (props) => {
       {role && (role === 'Super_Admin' || role === "Admin") ?
         <div className="block md:hidden lg:hidden px-3 pt-3 pb-3">
           <div className=" ">
-          <select
-                name="College"
-                id="College"
-                // className="border w-[280px] rounded p-1 mt-1 text-[1rem] font-[400]" onChange={handleCollege}
+            <select
+              name="College"
+              id="College"
+              // className="border w-[280px] rounded p-1 mt-1 text-[1rem] font-[400]" onChange={handleCollege}
               className="border w-[100%] rounded p-1 text-[1rem] font-[400]" onChange={handleCollege}
 
-              >
-                <option disabled selected className="hidden">
-                  College
-                </option>
-                <option value="All">All</option>
-                {allClgs && allClgs.length > 0 &&
-                  allClgs.map((clg) => <option value={clg}>{clg}</option>)}
-              </select>
+            >
+              <option disabled selected className="hidden">
+                College
+              </option>
+              <option value="All">All</option>
+              {allClgs && allClgs.length > 0 &&
+                allClgs.map((clg) => <option value={clg}>{clg}</option>)}
+            </select>
 
 
             {/* <select
