@@ -15,11 +15,26 @@ import ProfileBanner from "./ProfileBanner";
 const ProfileTabs = (props) => {
   const location = useLocation();
   const propsData = location.state;
+
   const [render,setRender]=useState();
   const [data,setData] = useState();
+  const [checkId, setCheckId] = useState(false);
 
   const [tabs, setTabs] = useState("Overview");
+
   const role = JSON.parse(localStorage.getItem("user")).role;
+
+  // const userData = JSON.parse(localStorage.getItem("user"));
+  // console.log(propsData);
+
+  const localId =
+  JSON.parse(localStorage.getItem("user")) &&
+  JSON.parse(localStorage.getItem("user")).id;
+
+  // if(localId === propsData._id){
+  //   setCheckId(true);
+  // }
+
 
   const [{ currentUser }, dispatch] = useStateValue();
 
@@ -164,14 +179,88 @@ const ProfileTabs = (props) => {
                 }
                 onClick={() => setTabs("Overview")}
               >
-                Overview
+                {role === 'Super_Admin' && propsData._id === localId ? 'Dashboard'  :
+                  'Overview' 
+                }
               </div>
+
+                {propsData._id === localId ?
+                <div
+                  className={
+                    tabs === "Colleges"
+                      ? "profile-tab-content profile-tab-content-highlight"
+                      : "profile-tab-content"
+                  }
+                  onClick={() => setTabs("Colleges")}
+                >
+                  Colleges
+                </div> : '' }
+
+                {propsData._id === localId ?
+                  <div
+                  className={
+                    tabs === "Post"
+                      ? "profile-tab-content profile-tab-content-highlight"
+                      : "profile-tab-content"
+                  }
+                  onClick={() => setTabs("Post")}
+                >
+                  Posts
+                </div> 
+                : ''}
+
+                {propsData._id === localId ? (
+                <div
+                  className={
+                    tabs === "Event"
+                      ? "profile-tab-content profile-tab-content-highlight"
+                      : "profile-tab-content"
+                  }
+                  onClick={() => setTabs("Event")}
+                >
+                  Events
+                </div>
+              ) : (
+                ""
+              )}
+
+              {propsData._id === localId ? (
+                <div
+                  className={
+                    tabs === "Res"
+                      ? "profile-tab-content profile-tab-content-highlight"
+                      : "profile-tab-content"
+                  }
+                  onClick={() => setTabs("Res")}
+                >
+                  Resources
+                </div>
+              ) : (
+                ""
+              )}
             </div>
 
             <div className="profile-tab-data">
-              <div className={tabs === "Overview" ? "" : "profile-tab-data-hide"}>
-                <Overview />
+
+            <div className={tabs === "Overview" ? "" : "profile-tab-data-hide"}>
+                {role === 'Super_Admin' && propsData._id === localId ? <Dashboard /> :
+                  <Overview send={render && render}/>
+                }
               </div>
+              <div className={tabs === "Colleges" ? "" : "profile-tab-data-hide"}>
+                <Colleges />
+              </div>
+              <div className={tabs === "Post" ? "" : "profile-tab-data-hide"}>
+                <ProfilePostPage />
+              </div>
+              <div className={tabs === "Event" ? "" : "profile-tab-data-hide"}>
+                <ProfileEvent />
+              </div>
+              <div className={tabs === "Res" ? "" : "profile-tab-data-hide"}>
+                <ProfileRes />
+              </div>
+
+
             </div>
           </div>
       }

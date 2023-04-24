@@ -534,8 +534,8 @@ export default function ReactBigCalendar() {
                 </div>
                 <div className="preview-button">
                   {
-                    // role && role !== "Super_Admin" ?
-                    // id && myEvent && id !== myEvent.postedBy._id ?
+                    role && role !== "Super_Admin" ?
+                    id && myEvent && id !== myEvent.postedBy._id ?
                     new Date(myEvent && myEvent.eventDate).getTime() >
                       new Date(mindate).getTime() ?
                       interestedBtn ?
@@ -557,7 +557,7 @@ export default function ReactBigCalendar() {
                         >
                           Interested
                         </button>
-                      : ""}
+                      : "" :'' : ''}
 
                   {(role === "Admin" ||
                     role === "Super_Admin" ||
@@ -606,7 +606,7 @@ export default function ReactBigCalendar() {
                       </Modal.Footer>
                     </Modal>
                   )}
-                </div>
+                </div>  
 
                 {MAVisibility && (
 
