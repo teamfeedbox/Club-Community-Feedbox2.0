@@ -241,7 +241,7 @@ router.delete('/delete/image/user/:imgId', async (req, res) => {
       })
       .then(
         async function (response) {
-          res.status(200).json("Image Deleted Successfully...")
+          res.status(200).json("Profile Updated Successfully...")
         },
         function (err) {
           return res.status(400).json('Deletion Failed for some reason');

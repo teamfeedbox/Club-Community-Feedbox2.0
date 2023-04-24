@@ -155,7 +155,7 @@ const RescourcesTable = (props) => {
       setShow(false);
       setTimeout(()=>{
         setLoad(true)
-      },2000);
+      },5000);
     
       // window.location.href = '/rescourcesDisplay';
     } else if (pdfLink) {
