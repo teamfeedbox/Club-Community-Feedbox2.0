@@ -6,7 +6,6 @@ export const initialState = {
     comments: null
 }
 
-
 function reducer(state, action) {
     switch (action.type) {
         case 'INIT_USER':
