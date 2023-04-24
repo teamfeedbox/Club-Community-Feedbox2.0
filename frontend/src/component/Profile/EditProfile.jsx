@@ -25,11 +25,14 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
 
   const [bio, setBio] = useState('');
   const [user, setUser] = useState();
-  const { addToast } = useToasts();
+ 
 
   const [{ currentUser }, dispatch] = useStateValue();
 
   const id = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).id
+
+  const { addToast } = useToasts();
+
 
   const handleClose = () => {
     setOpen(false);
@@ -125,6 +128,7 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
     const updatedUser = await data.json();
     console.log(updatedUser);
 
+
     dispatch({
       type: 'INIT_USER',
       item: updatedUser,
@@ -142,12 +146,15 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
       setLoad(false);
       addToast(res, { appearance: "success" });
       console.log(res);
+      // addToast(res, { appearance: "success" })
     }
     setRender(!render)
     sendData(!render);
     setOpen(false);
     setImage(false)
     setLoading(true);
+
+
   }
 
   // to count the number of words left in edit bio section

@@ -4,15 +4,15 @@ import Calendar from "react-calendar";
 import { useStateValue } from "../../StateProvider";
 import moment from 'moment';
 
-const HomePageCal = ({ clgData, eventSel}) => {
+const HomePageCal = ({ clgData, eventSel }) => {
   const [value, onChange] = useState(new Date());
   const [event, setEvent] = useState([]);
+  const [dupData, setDupData] = useState([]);
 
-  const [{allEventsData}] = useStateValue();
-  const dupData = allEventsData && allEventsData;
+  const [{ allEventsData },dispatch] = useStateValue();
 
   useEffect(() => {
-    if (allEventsData) {
+    if (dupData) {
       console.log("yes");
       let today = new Date();
       let result = [];
@@ -48,11 +48,26 @@ const HomePageCal = ({ clgData, eventSel}) => {
         setEvent(result);
       }
     }
-  }, [clgData])
+
+    if (allEventsData) {
+      setDupData(allEventsData)
+    } else {
+      getAllEvents();
+    }
+  }, [clgData,dupData])
+
+  const getAllEvents =async () => {
+    let res = await fetch("http://localhost:8000/getAllEvent");
+    res = await res.json();
+    dispatch({
+      type: 'INIT_ALL_EVENT',
+      item: res,
+    });
+  }
 
   const handleChange = (day) => {
     const date = moment(day).format("YYYY-MM-DD");
-    console.log(date,"cal");
+    console.log(date, "cal");
     eventSel(date)
   }
 
@@ -60,7 +75,7 @@ const HomePageCal = ({ clgData, eventSel}) => {
     <div className="home-page-cal">
       <div className="calendar-container">
         <Calendar onChange={handleChange} value={value}
-        showYearPicker={false}
+          showYearPicker={false}
           tileClassName={({ date, view }) => {
             if (event.find(x => x === moment(date).format("YYYY-MM-DD"))) {
               return 'highlightbtn1'

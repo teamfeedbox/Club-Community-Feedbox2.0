@@ -105,41 +105,12 @@ const App = () => {
     }
   }
 
-  // Get all Posts***
-  const getAllPosts= async () =>{
-    if(!allPosts){
-      let res = await fetch("http://localhost:8000/getAllPost", {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("jwt"),
-          },
-        });
-        res = await res.json();
-
-
-        let count = 0;
-        res.map((data) => {
-          count = data.comment.length
-          data.comment.map((res) => {
-            count += res.reply.length;
-          })
-          data.count = count;
-        })
-          dispatch({
-            type: 'INIT_ALL_POST',
-            item: res
-          });
-    }else{
-      console.log("All posts already initialized");
-    }
-  }
-
   useEffect(() => {
     document.addEventListener("click", handleClick);
     console.log('apppp loadeddddd-----------------')
     getUser();
     getAllEvents();
     getColleges();
-    getAllPosts();
   }, []);
 
   return (
