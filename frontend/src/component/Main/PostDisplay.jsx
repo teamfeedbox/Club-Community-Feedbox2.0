@@ -18,6 +18,8 @@ import en from "javascript-time-ago/locale/en";
 import { useStateValue } from "../../StateProvider";
 import { Link } from "react-router-dom";
 import { injectStyle } from "react-toastify/dist/inject-style";
+import { ToastContainer, toast } from "react-toastify";
+
 
 const PostDisplay = (props) => {
   TimeAgo.addLocale(en);
@@ -34,6 +36,7 @@ const PostDisplay = (props) => {
   // To show and hide the more button if content is more then 200 character
   const [showMore, setShowMore] = useState(false);
   const [contentId, setContentId] = useState("");
+  const [postId, setPostId] = useState("");
 
   const role =
     JSON.parse(localStorage.getItem("user")) &&
@@ -45,7 +48,7 @@ const PostDisplay = (props) => {
 
 
 
-  console.log(college);
+  // console.log(college);
 
   const [{ currentUser, allPosts }, dispatch] = useStateValue();
 
@@ -212,14 +215,25 @@ const PostDisplay = (props) => {
     injectStyle();
   }
 
-  const postDelete = async (id) => {
-    console.log(id);
-    // let result = await fetch(`http://localhost:8000/deletePost/${id}`, {
-    //   method: "delete",
-    // });
+  const postDelete = async(Id)=>{
+    // console.log(Id)
+    let result = await fetch(`http://localhost:8000/deletePost/${Id}`, {
+      method: "delete",
+    });
 
-    // result = await result.json();
-    // console.log(result);
+    result = await result.json();
+    console.log(result);
+
+    if (result) {
+      toast.dark("Deleted Successfully...");
+      // setTimeout(() => {
+      //   window.location.href = "/main"
+      // }, 5000);
+      getList();
+    }
+    setDelShow(false);
+    // console.log(allPosts);
+  }
 
     // if (result) {
     //   toast.dark("Deleted Successfully...");
@@ -229,11 +243,13 @@ const PostDisplay = (props) => {
     //   getList();
     // }
     // setDelShow(false);
-  };
+  
 
   return (
     <div id="post_display_container">
-      {!loading2 ? (
+      {
+      
+      !loading2 ? (
         <div className="mb-[120px]">
           {data.length > 0 ? (
             data.map((item, index) => (
@@ -283,12 +299,10 @@ const PostDisplay = (props) => {
                     </div>
                   </div>
 
-                  {role === "Super_Admin" ? (
-                    <div
-                      className="post-display-delete"
-                      onClick={() => {console.log(item._id); setDelShow(true)}}
-                    >
-                      <svg
+              {
+               role==='Super_Admin'?
+               <div className="post-display-delete" onClick={() => {setDelShow(true); setPostId(item._id)}}>
+                <svg
                         className="w-8 h-8 text-red-600 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
                         fill="none"
                         stroke="currentColor"
@@ -303,7 +317,7 @@ const PostDisplay = (props) => {
                         ></path>
                       </svg>
                     </div>
-                  ) : (
+                 : (
                     ""
                   )}
                   <Modal
@@ -320,7 +334,9 @@ const PostDisplay = (props) => {
                       </Modal.Header>
                       <Modal.Footer className="modal-footer club-member-modal-footer">
                         <div className="modal-footer-club-member-yes-no-div">
-                          <div onClick={() => {console.log(item._id);}}>Yes</div>
+                          <div onClick={()=>{postDelete(postId)
+                          // console.log(postId)
+                          }}>Yes</div>
                           <button
                             onClick={(e) => {
                               e.preventDefault();
