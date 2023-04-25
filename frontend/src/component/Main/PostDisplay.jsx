@@ -18,6 +18,7 @@ import en from "javascript-time-ago/locale/en";
 import { useStateValue } from "../../StateProvider";
 import { Link } from "react-router-dom";
 import { injectStyle } from "react-toastify/dist/inject-style";
+import { ToastContainer, toast } from "react-toastify";
 
 const PostDisplay = (props) => {
   TimeAgo.addLocale(en);
@@ -34,6 +35,7 @@ const PostDisplay = (props) => {
   // To show and hide the more button if content is more then 200 character
   const [showMore, setShowMore] = useState(false);
   const [contentId, setContentId] = useState("");
+  const [postId, setPostId] = useState("");
 
   const role =
     JSON.parse(localStorage.getItem("user")) &&
@@ -42,10 +44,7 @@ const PostDisplay = (props) => {
     JSON.parse(localStorage.getItem("user")) &&
     JSON.parse(localStorage.getItem("user")).college;
 
-
-
-
-  console.log(college);
+  // console.log(college);
 
   const [{ currentUser, allPosts }, dispatch] = useStateValue();
 
@@ -211,23 +210,35 @@ const PostDisplay = (props) => {
     injectStyle();
   }
 
-  const postDelete = async (id) => {
-    console.log(id);
-    // let result = await fetch(`http://localhost:8000/deletePost/${id}`, {
-    //   method: "delete",
-    // });
+  const postDelete = async (Id) => {
+    let result = await fetch(`http://localhost:8000/deletePost/${Id._id}`, {
+      method: "delete",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify(Id),
+    });
 
-    // result = await result.json();
-    // console.log(result);
+    result = await result.json();
+    console.log(result);
 
-    // if (result) {
-    //   toast.dark("Deleted Successfully...");
-    //   setTimeout(() => {
-    //     window.location.href = "/main";
-    //   }, 5000);
-    //   getList();
-    // }
-    // setDelShow(false);
+    if (result) {
+      toast.dark("Deleted Successfully...");
+      console.log(allPosts);
+      let array = [];
+      for (let i = 0; i < allPosts.length; i++) {
+        if (allPosts[i]._id !== Id._id) {
+          array.push(allPosts[i]);
+        }
+      }
+      dispatch({
+        type: "INIT_ALL_POST",
+        item: array,
+      });
+      setDelShow(false);
+      setLoad(true);
+    }
   };
 
   return (
@@ -250,7 +261,7 @@ const PostDisplay = (props) => {
                         <Link
                           className="link-to-profile"
                           to="/profile"
-                          state={item.postedBy }
+                          state={item.postedBy}
                         >
                           <p className="post-head">
                             {item && item.postedBy && item.postedBy.name}
@@ -285,7 +296,10 @@ const PostDisplay = (props) => {
                   {role === "Super_Admin" ? (
                     <div
                       className="post-display-delete"
-                      onClick={() => setDelShow(true)}
+                      onClick={() => {
+                        setDelShow(true);
+                        setPostId(item);
+                      }}
                     >
                       <svg
                         className="w-8 h-8 text-red-600 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
@@ -302,7 +316,9 @@ const PostDisplay = (props) => {
                         ></path>
                       </svg>
                     </div>
-                  ) : "" }
+                  ) : (
+                    ""
+                  )}
                   <Modal
                     show={delshow}
                     onHide={handleDelClose}
@@ -317,7 +333,13 @@ const PostDisplay = (props) => {
                       </Modal.Header>
                       <Modal.Footer className="modal-footer club-member-modal-footer">
                         <div className="modal-footer-club-member-yes-no-div">
-                          <div onClick={() => {console.log(item._id);}}>Yes</div>
+                          <div
+                            onClick={() => {
+                              postDelete(postId);
+                            }}
+                          >
+                            Yes
+                          </div>
                           <button
                             onClick={(e) => {
                               e.preventDefault();
@@ -460,7 +482,7 @@ const PostDisplay = (props) => {
                   <button
                     onClick={() => {
                       setOpenComment(!openComment);
-                      setId(item._id)
+                      setId(item._id);
                     }}
                     className="post-display-bottom-content"
                   >

@@ -178,8 +178,27 @@ router.put("/updatePost/:postId", async (req, res) => {
 
 //delete post
 router.delete("/deletePost/:id", async (req, res) => {
-  const result = await Post.deleteOne({ _id: req.params.id });
-  res.send(result);
+  try {
+    const auth = authenticateGoogle();
+    const drive = google.drive({ version: "v3", auth });
+    for (let i = 0; i < req.body.img.length; i++) {
+    const file_id = req.body.img[i];
+      drive.files
+        .delete({
+          fileId: file_id,
+        })
+        .then(
+          async function (response) {
+            console.log(response);
+          },
+          function (err) {}
+        );
+    }
+    const result = await Post.deleteOne({ _id: req.params.id });
+    res.status(200).json("Deleted Successfully");
+  } catch (error) {
+    res.status(400).json(error);
+  }
 });
 
 //like api
