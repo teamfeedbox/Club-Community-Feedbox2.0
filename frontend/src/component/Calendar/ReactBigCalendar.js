@@ -23,6 +23,8 @@ import { useLocation } from "react-router-dom";
 import "./ReactBigCalendar.css";
 import { useStateValue } from "../../StateProvider";
 
+
+
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
 
@@ -376,14 +378,15 @@ export default function ReactBigCalendar() {
     var year = new Date().getFullYear(); 
     var currentDate=year+"-"+month+"-"+date;
     
-    if(tempDate<currentDate)
+    if(tempDate < currentDate)
     {
-      // toast("Can't create event for previous date")
+      // toast.dark("Can't create event for previous date");
       alert("Can't create event for previous date")
 
     }
     else{
     setAddEventModel(true);
+
     }
   };
 

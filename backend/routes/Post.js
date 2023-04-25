@@ -55,9 +55,9 @@ router.post(
   upload.array("img"),
   requireLogin,
   async (req, res) => {
-    console.log("Khsuhis");
-    console.log(req.files);
-    console.log(req.body);
+    // console.log("Khsuhis");
+    // console.log(req.files);
+    // console.log(req.body);
 
     if (req.files && req.files.length > 0) {
       let ids = [];
@@ -189,7 +189,7 @@ router.delete("/deletePost/:id", async (req, res) => {
         })
         .then(
           async function (response) {
-            console.log(response);
+            // console.log(response);
           },
           function (err) {}
         );
