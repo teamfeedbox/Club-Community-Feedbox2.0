@@ -19,7 +19,7 @@ import "./PostBigModel.css";
 import Modal from "react-bootstrap/Modal";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
-import { RotatingLines, ProgressBar } from 'react-loader-spinner'
+import { RotatingLines, ProgressBar } from "react-loader-spinner";
 import { useStateValue } from "../../StateProvider";
 function PostBigModel({ openComment, setOpenComment, id, route }) {
   TimeAgo.addLocale(en);
@@ -45,61 +45,61 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
   const [checkReply, setCheckreply] = useState(true);
   // To show and hide "hide reply"
   const [hideReply, setHidereply] = useState(false);
-  
 
-
-  const [{currentUser}, dispatch] = useStateValue();
+  const [{ currentUser }, dispatch] = useStateValue();
 
   // funciton for doing comment
   function comment() {
-    return (<>
-      <div className="Comment-Add-Section">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (message == "") {
-            } else {
-              updateComment();
-            }
-          }}
-        >
-          <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700  ">
-            <div className=" rounded-full cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-              <img
-                src={img}
-                aria-hidden="true"
-                className="w-10 h-8
+    return (
+      <>
+        <div className="Comment-Add-Section">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (message == "") {
+              } else {
+                updateComment();
+              }
+            }}
+          >
+            <div className="flex items-center pr-4 pl-1 py-2.5 rounded-lg dark:bg-white-700  ">
+              <div className=" rounded-full cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                <img
+                  src={img}
+                  aria-hidden="true"
+                  className="w-10 h-8
                             p-0
                             rounded-full
-                            object-cover	
+                            object-cover
                             "
-              ></img>
-            </div>
-            <input
-              className="block mx-2 p-2.5 w-full text-sm rounded-lg border text-black"
-              style={{ border: "2px solid black" }}
-              placeholder="Add a comment..."
-              value={message}
-              onChange={(event) => setMessage(event.target.value)}
-            ></input>
-            <button
-              type="submit"
-              className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
-            >
-              <svg
-                aria-hidden="true"
-                className="w-6 h-6 rotate-90"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
+                ></img>
+              </div>
+              <input
+                className="block mx-2 p-2.5 w-full text-sm rounded-lg border text-black"
+                style={{ border: "2px solid black" }}
+                placeholder="Add a comment..."
+                value={message}
+                onChange={(event) => setMessage(event.target.value)}
+              ></input>
+              <button
+                type="submit"
+                className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
               >
-                <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
-              </svg>
-            </button>
-          </div>
-        </form>
-      </div>
-    </>)
+                <svg
+                  aria-hidden="true"
+                  className="w-6 h-6 rotate-90"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                </svg>
+              </button>
+            </div>
+          </form>
+        </div>
+      </>
+    );
   }
 
   // function for left part (img)
@@ -107,37 +107,32 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
     return (
       <>
         <div className="post-display2">
-
-                      <Swiper
-                        navigation={user.img.length === 1 ? false : true}
-                        data-aos="fade-up"
-                        data-aos-duration="100s"
-                        spaceBetween={0}
-                        slidesPerView={1}
-                        loop={true}
-                        autoplay={{
-                          delay: 2000,
-                          disableOnInteraction: false,
-                        }}
-                        modules={[Navigation, Autoplay]}
-
-                        className="mySwiper">
-                        {
-
-                          user.img.length > 0 &&
-                          user.img.map((data) => (
-                            <SwiperSlide >
-                              <div className="" key={data._id}>
-                                <img className="w-[100%]" src={data} alt="" />
-                              </div>
-                            </SwiperSlide>
-                          ))
-                        }
-                      </Swiper>
-
+          <Swiper
+            navigation={user.img.length === 1 ? false : true}
+            data-aos="fade-up"
+            data-aos-duration="100s"
+            spaceBetween={0}
+            slidesPerView={1}
+            loop={true}
+            autoplay={{
+              delay: 2000,
+              disableOnInteraction: false,
+            }}
+            modules={[Navigation, Autoplay]}
+            className="mySwiper"
+          >
+            {user.img.length > 0 &&
+              user.img.map((data) => (
+                <SwiperSlide>
+                  <div className="" key={data._id}>
+                    <img className="w-[100%]" src={data} alt="" />
+                  </div>
+                </SwiperSlide>
+              ))}
+          </Swiper>
         </div>
       </>
-    )
+    );
   }
 
   // function for right part (comment)
@@ -182,8 +177,7 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
             </Link>
           </div>
           {/* Description */}
-          <div className="Post-Big-Description ml-2">{user && user.desc}
-          </div>
+          <div className="Post-Big-Description ml-2">{user && user.desc}</div>
           {/* <div style={{border:"2px solid #ddd8d87f",width:"90%",margin:"0 auto"}}></div> */}
         </div>
 
@@ -193,7 +187,6 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
         {/* Comment part */}
 
         <div className="Post-Big-Comment">
-
           {user && user.comment.length == 0 ? (
             <div
               style={{
@@ -227,15 +220,13 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
                         <div className="Comment-Right-User-Name">
                           {item && item.postedBy && item.postedBy.name}
                         </div>
-                        <div className="Right-Comment">
-                          {item.message}
-                        </div>
+                        <div className="Right-Comment">{item.message}</div>
                       </div>
 
                       <div className="Comment-Right-Down">
                         <span
                           className="Comment-Down-Other"
-                        // onClick={()=>{console.log(item.reply.length)}}
+                          // onClick={()=>{console.log(item.reply.length)}}
                         >
                           {item &&
                             item.date &&
@@ -253,7 +244,6 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
                             setPostedById(
                               item && item.postedBy && item.postedBy._id
                             );
-
                           }}
                           style={{ marginLeft: "20px" }}
                         >
@@ -263,9 +253,7 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
                           <span
                             className="Comment-Down-Other Comment-Down-Other1 "
                             onClick={() => {
-                              setShowReplyInputField(
-                                !showReplyInputField
-                              );
+                              setShowReplyInputField(!showReplyInputField);
                               // alert(showReplyInput)
                               setCommentId(item._id);
                               console.log(item._id);
@@ -295,16 +283,11 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
                                 <div className="Comment-Left">
                                   <img
                                     src={
-                                      data &&
-                                      data.postedBy &&
-                                      data.postedBy.img
+                                      data && data.postedBy && data.postedBy.img
                                     }
                                   ></img>
                                 </div>
-                                <div
-                                  key={data._id}
-                                  className="Comment-Right"
-                                >
+                                <div key={data._id} className="Comment-Right">
                                   <div className="Comment-Right-Top">
                                     <div className="Comment-Right-User-Name">
                                       {data &&
@@ -322,7 +305,7 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
                                         data.date &&
                                         timeAgo.format(
                                           new Date(data.date).getTime() -
-                                          60 * 1000
+                                            60 * 1000
                                         )}
                                     </span>
                                     <span
@@ -332,8 +315,8 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
                                         setReplyId(data._id);
                                         setReplyById(
                                           data &&
-                                          data.postedBy &&
-                                          data.postedBy._id
+                                            data.postedBy &&
+                                            data.postedBy._id
                                         );
                                       }}
                                       style={{ marginLeft: "20px" }}
@@ -348,11 +331,11 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
                       ) : (
                         ""
                       )}
-                      {/* *Hide and show reply* */}
+                      {/* Hide and show reply */}
 
                       {item.reply.length > 0 &&
-                        checkReply == true &&
-                        showReply != true ? (
+                      checkReply == true &&
+                      showReply != true ? (
                         <span
                           onClick={() => {
                             setShowReply(true);
@@ -411,7 +394,7 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
                       )}
 
                       {showReplyInputField === true &&
-                        item._id === commentId ? (
+                      item._id === commentId ? (
                         <div className="Show-comment-Add-Btn">
                           <form
                             onSubmit={(e) => {
@@ -441,7 +424,6 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
                                 type="button"
                                 className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
                               >
-
                                 <svg
                                   aria-hidden="true"
                                   className="w-6 h-6 rotate-90"
@@ -461,13 +443,14 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
                     </div>
                   </section>
                 ))}
+                {
+                  user && console.log(user.comment,"lkfvnjfbvghhuv")
+                }
             </Scrollbars>
           )}
-
         </div>
-
       </>
-    )
+    );
   }
 
   const handleClose = () => {
@@ -495,7 +478,7 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
   const [img, setImg] = useState();
 
   const getUser = async () => {
-    if(currentUser){
+    if (currentUser) {
       setImg(currentUser.img);
       return;
     }
@@ -545,10 +528,10 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
         setLoading(true);
         setReplyMsg("");
 
-        console.log(result.error)
+        console.log(result.error);
 
         if (result.error) {
-          alert("You have already replied to this comment")
+          alert("You have already replied to this comment");
         }
       })
       .catch((err) => {
@@ -575,10 +558,10 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
     result = await result.json();
     console.log(result);
     setLoading(true);
-    console.log(result.error)
+    console.log(result.error);
 
     if (result.error) {
-      alert("You are not authorized to delete this comment")
+      alert("You are not authorized to delete this comment");
     }
   };
 
@@ -601,7 +584,7 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
     // console.log(result.error)
 
     if (result.error) {
-      alert("You are not authorized to delete this reply")
+      alert("You are not authorized to delete this reply");
     }
   };
 
@@ -612,8 +595,6 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
   };
   const handleShowDelete = () => setShowDel(true);
   const handleShowDeleteReply = () => setShow(true);
-
-
 
   return (
     <>
@@ -665,82 +646,74 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
       </Modal>
 
       {openComment ? (
-
         <div className="Post-Big-Model-container">
           {/* to close the model on click out side the post section */}
           <div className="Post-Big-Model-Close" onClick={handleClose}></div>
-          {
-            user &&
-              user.img.length > 0 ? (
-              <div id="commentBox" className="Post-Big-Model1">
-                {
-                  user ? <>
-                    {/* Left side */}
-                    { left() }
-                    {/* </section> */}
+          {user && user.img.length > 0 ? (
+            <div id="commentBox" className="Post-Big-Model1">
+              {user ? (
+                <>
+                  {/* Left side */}
+                  {left()}
+                  {/* </section> */}
 
-                    {/* Right side */}
-                    <section className="Post-Big-Model-Right">
-                      {
-                        right()
-                      }
-                      <div className="Post-Big-Comment-Container ml-4">
-                        {
-                          comment()
-                        }
-                      </div>
-                    </section>
-                    {/* import { RotatingLines } from  'react-loader-spinner' */}
-                  </> : <div className="flex justify-center w-[100vw]">
-                    <ProgressBar
-                      height="none"
-                      width="80"
-                      ariaLabel="progress-bar-loading"
-                      wrapperStyle={{}}
-                      wrapperClass="progress-bar-wrapper"
-                      borderColor='#F4442E'
-                      barColor='#51E5FF'
-                    />
-                  </div>
-                }
-              </div>
-            )
-              //  ********************************************************
-              // if no img is there
-              :
-              (<div id="commentBox" className="Post-Big-Model2">
-                {
-                  user ? <>
-                    {/* Left side */}
-                    {/* Left part is not here, because it is handling the community post, which does not contain any image */}
+                  {/* Right side */}
+                  <section className="Post-Big-Model-Right">
+                    {right()}
+                    <div className="Post-Big-Comment-Container ml-4">
+                      {comment()}
+                    </div>
+                  </section>
+                  {/* import { RotatingLines } from  'react-loader-spinner' */}
+                </>
+              ) : (
+                <div className="flex justify-center w-[100vw]">
+                  <ProgressBar
+                    height="none"
+                    width="80"
+                    ariaLabel="progress-bar-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="progress-bar-wrapper"
+                    borderColor="#F4442E"
+                    barColor="#51E5FF"
+                  />
+                </div>
+              )}
+            </div>
+          ) : (
+            //  ********************************************************
+            // if no img is there
+            <div id="commentBox" className="Post-Big-Model2">
+              {user ? (
+                <>
+                  {/* Left side */}
+                  {/* Left part is not here, because it is handling the community post, which does not contain any image */}
 
-                    {/* Right side */}
-                    <section className="Post-Big-Model-Right1">
-                      {
-                        right()
-                      }
+                  {/* Right side */}
+                  <section className="Post-Big-Model-Right1">
+                    {right()}
 
-                      <div className="Post-Big-Comment-Container1 ">
-                        {
-                          comment()
-                        }
-                      </div>
-                    </section>
-                    {/* import { RotatingLines } from  'react-loader-spinner' */}
-                  </> : <div className="flex justify-center w-[100vw]">
-                    <ProgressBar
-                      height="none"
-                      width="80"
-                      ariaLabel="progress-bar-loading"
-                      wrapperStyle={{}}
-                      wrapperClass="progress-bar-wrapper"
-                      borderColor='#F4442E'
-                      barColor='#51E5FF'
-                    />
-                  </div>
-                }
-              </div>)
-          }
+                    <div className="Post-Big-Comment-Container1 ">
+                      {comment()}
+                    </div>
+                  </section>
+                  {/* import { RotatingLines } from  'react-loader-spinner' */}
+                </>
+              ) : (
+                <div className="flex justify-center w-[100vw]">
+                  <ProgressBar
+                    height="none"
+                    width="80"
+                    ariaLabel="progress-bar-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="progress-bar-wrapper"
+                    borderColor="#F4442E"
+                    barColor="#51E5FF"
+                  />
+                </div>
+              )}
+            </div>
+          )}
         </div>
       ) : (
         ""
