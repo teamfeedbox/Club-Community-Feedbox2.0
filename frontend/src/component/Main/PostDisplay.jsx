@@ -38,6 +38,7 @@ const PostDisplay = (props) => {
   // To show and hide the more button if content is more then 200 character
   const [showMore, setShowMore] = useState(false);
   const [contentId, setContentId] = useState("");
+  const [postId, setPostId] = useState("");
 
   const role =
     JSON.parse(localStorage.getItem("user")) &&
@@ -49,7 +50,7 @@ const PostDisplay = (props) => {
    
 
 
-  console.log(college);
+  // console.log(college);
 
   const [{ currentUser, allPosts }, dispatch] = useStateValue();
 
@@ -106,7 +107,7 @@ const PostDisplay = (props) => {
     }
 
     result = result.reverse();
-    console.log(result);
+    // console.log(result);
     if (role === "Super_Admin" || role === "Admin") {
       if (props.clgData) {
         if (props.clgData === "All") {
@@ -218,24 +219,24 @@ const PostDisplay = (props) => {
     injectStyle();
   }
 
-  const postDelete = async(id)=>{
-    console.log(id)
-    // let result = await fetch(`http://localhost:8000/deletePost/${id}`, {
-    //   method: "delete",
-    // });
+  const postDelete = async(Id)=>{
+    // console.log(Id)
+    let result = await fetch(`http://localhost:8000/deletePost/${Id}`, {
+      method: "delete",
+    });
 
-    // result = await result.json();
-    // console.log(result);
+    result = await result.json();
+    console.log(result);
 
-    // if (result) {
-    //   toast.dark("Deleted Successfully...");
-    //   setTimeout(() => {
-    //     window.location.href = "/main"
-    //   }, 5000);
-    //   getList();
-    // }
-    // setDelShow(false);
-    // // console.log(allPosts);
+    if (result) {
+      toast.dark("Deleted Successfully...");
+      // setTimeout(() => {
+      //   window.location.href = "/main"
+      // }, 5000);
+      getList();
+    }
+    setDelShow(false);
+    // console.log(allPosts);
   }
 
 
@@ -293,7 +294,7 @@ const PostDisplay = (props) => {
 
               {
                role==='Super_Admin'?
-               <div className="post-display-delete" onClick={() => setDelShow(true)}>
+               <div className="post-display-delete" onClick={() => {setDelShow(true); setPostId(item._id)}}>
                 <svg
                         className="w-8 h-8 text-red-600 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
                         fill="none"
@@ -327,8 +328,8 @@ const PostDisplay = (props) => {
                       </Modal.Header>
                       <Modal.Footer className="modal-footer club-member-modal-footer">
                         <div className="modal-footer-club-member-yes-no-div">
-                          <div onClick={()=>{postDelete(item._id)
-                          console.log(item._id)
+                          <div onClick={()=>{postDelete(postId)
+                          // console.log(postId)
                           }}>Yes</div>
                           <button
                             onClick={(e) => {
