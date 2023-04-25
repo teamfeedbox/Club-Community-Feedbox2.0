@@ -76,7 +76,6 @@ router.get("/myPost", requireLogin, async (req, res) => {
     .select("-password")
 
     .then((event) => {
-      // console.log(event)
       res.json(event);
     })
     .catch((err) => {
@@ -85,20 +84,14 @@ router.get("/myPost", requireLogin, async (req, res) => {
 });
 
 router.get("/userPost/:postId", requireLogin, async (req, res) => {
-  // var mySort = { date: -1 };
-  //  console.log(req.params.postId)
-  Post.findOne({ _id: req.params.postId })
-    //   .sort(mySort)
-
+  Post.findOne({ _id: req.params.postId },{comment: {$slice: [2,5]}})
     .populate("postedBy")
     .select("-password")
     .populate("comment.postedBy")
     .select("-password")
     .populate("comment.reply.postedBy")
     .select("-password")
-
     .then((post) => {
-      //   console.log(post)
       res.json(post);
     })
     .catch((err) => {
@@ -114,7 +107,7 @@ router.put("/updatePost/:postId", async (req, res) => {
       $set: req.body,
     }
   );
-  res.send(result); 
+  res.send(result);
 });
 
 //delete post
@@ -122,9 +115,6 @@ router.delete("/deletePost/:id", async (req, res) => {
   const result = await Post.deleteOne({ _id: req.params.id });
   res.send(result);
 });
-
-
-
 
 //like api
 router.put("/like", requireLogin, (req, res) => {
@@ -309,7 +299,7 @@ router.put("/reply/:commentId", requireLogin, async (req, res) => {
 
 
 router.put("/commentDel/:commentId", requireLogin, async (req, res) => {
-  
+
   // try {
     // Check if the logged in user is the creator of the post
     const post = await Post.findById(req.body.id);
@@ -322,7 +312,7 @@ router.put("/commentDel/:commentId", requireLogin, async (req, res) => {
         { $pull: { comment: { _id: req.params.commentId } } }
       );
       res.send(result);
-    
+
     }
 
   else {
@@ -330,7 +320,7 @@ router.put("/commentDel/:commentId", requireLogin, async (req, res) => {
     }
 
     // Remove the comment from the post's comments array
-    
+
   // catch (error) {
   //   console.error(error);
   //   res.status(500).json({ error: "Server error" });
@@ -349,20 +339,20 @@ router.put("/replyDel/:replyId", requireLogin, async (req, res) => {
     {
       const result = await Post.updateOne(
         {_id: req.body.id, "comment._id": req.body.commentId },
-       
+
         {
           $pull: { "comment.$.reply": { _id: req.params.replyId } },
         }
       );
       res.send(result);
-    
+
     }
     else{
       return res.status(401).json({ error: "You are not authorized to delete this reply" });
 
     }
-    
-   
+
+
 
     // Remove the comment from the post's comments array
     //  catch (error) {
@@ -377,7 +367,7 @@ router.put("/replyDel/:replyId", requireLogin, async (req, res) => {
 //   const{user}=req.user._id
 //   const result = await Post.updateOne(
 //     {_id: req.body.id, "comment._id": req.body.commentId },
-   
+
 //     {
 //       $pull: { "comment.$.reply": { _id: req.params.replyId } },
 //     }

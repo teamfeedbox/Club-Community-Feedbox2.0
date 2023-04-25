@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from "./component/signup/Register";
@@ -29,17 +29,18 @@ const App = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const role = user && user.role;
 
-  const [{currentUser, colleges,allPosts, allEventsData},dispatch]=useStateValue();
+  const [{ currentUser, colleges, allPosts, allEventsData }, dispatch] =
+    useStateValue();
 
   const handleClose = () => {
-    setShow(false)
-  }
+    setShow(false);
+  };
 
   const handleLogout = () => {
     localStorage.setItem("user", null);
     localStorage.setItem("jwt", null);
-    window.location.href = "/"
-  }
+    window.location.href = "/";
+  };
 
   const handleClick = async () => {
     let result = await fetch(`http://localhost:8000/user`, {
@@ -48,18 +49,17 @@ const App = () => {
       },
     });
     result = await result.json();
-    console.log(result.role ,'handle click function triggered');
-    if(result.role != null){
+    console.log(result.role, "handle click function triggered");
+    if (result.role != null) {
       if (result.role !== role) {
         setShow(true);
       }
     }
-
-  }
+  };
   // Get all Colleges***
   const getColleges = async () => {
-    if(!colleges){
-      console.log('collegeeegegegege-------');
+    if (!colleges) {
+      console.log("collegeeegegegege-------");
       const data = await fetch(`http://localhost:8000/colleges/get`);
       const res = await data.json();
       let val = [];
@@ -67,47 +67,49 @@ const App = () => {
         val.push(data.name);
       });
       dispatch({
-        type: 'INIT_CLG_ARR',
-        item: val
+        type: "INIT_CLG_ARR",
+        item: val,
       });
     }
   };
 
   // Get a user***
   const getUser = async () => {
-    if(!currentUser){
+    if (!currentUser) {
       let result = await fetch(`http://localhost:8000/user`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("jwt"),
         },
       });
       result = await result.json();
-      console.log(result, 'user hereeeeeee');
+      console.log(result, "user hereeeeeee");
 
       dispatch({
-        type: 'INIT_USER',
-        item: result});
-    }else{
+        type: "INIT_USER",
+        item: result,
+      });
+    } else {
       console.log("current user already initialized");
     }
   };
 
   // Get All Events***
   const getAllEvents = async () => {
-    if(!allEventsData){
+    if (!allEventsData) {
       let res = await fetch("http://localhost:8000/getAllEvent");
       res = await res.json();
       dispatch({
-        type: 'INIT_ALL_EVENT',
-        item: res,});
-    }else{
+        type: "INIT_ALL_EVENT",
+        item: res,
+      });
+    } else {
       console.log("All events already initialized");
     }
-  }
+  };
 
   useEffect(() => {
     document.addEventListener("click", handleClick);
-    console.log('apppp loadeddddd-----------------')
+    console.log("apppp loadeddddd-----------------");
     getUser();
     getAllEvents();
     getColleges();
@@ -115,19 +117,14 @@ const App = () => {
 
   return (
     <div className="App">
-      <Modal show={show} onHide={handleClose} className="club-member-modal" >
+      <Modal show={show} onHide={handleClose} className="club-member-modal">
         <form>
-          <Modal.Header
-            closeButton
-            className="club-member-modal-header"
-          >
+          <Modal.Header closeButton className="club-member-modal-header">
             Your position is changed, Please Login In Again !
           </Modal.Header>
           <Modal.Footer className="modal-footer club-member-modal-footer">
             <div className="modal-footer-club-member-yes-no-div">
-              <div onClick={handleLogout}>
-                OK
-              </div>
+              <div onClick={handleLogout}>OK</div>
             </div>
           </Modal.Footer>
         </form>
@@ -142,41 +139,34 @@ const App = () => {
           <Route
             index
             path="/main"
-            element={
-              role == null ? <Error /> : [<NavbarRes />, <Main />]
-            }
+            element={role == null ? <Error /> : [<NavbarRes />, <Main />]}
           />
 
           <Route
             index
             path="/comment/:id"
-            element={role == null ? <Error /> : <PostBigModel />}
-          />
+            element={role == null ? <Error /> : <PostBigModel />} />
 
           <Route
             index
             path="/calendar"
             element={
-              role === null ? (
-                <Error />
-              ) : (
-                [<NavbarRes />, <ReactBigCalendar />]
-              )
+              role === null ? <Error /> : [<NavbarRes />, <ReactBigCalendar />]
             }
           />
 
           <Route
             index
             path="/rescources"
-            element={
-              role == null ? <Error /> : [<NavbarRes />, <Rescources />]
-            }
+            element={role == null ? <Error /> : [<NavbarRes />, <Rescources />]}
           />
 
           <Route
             index
             path="/profile"
-            element={ role == null ? <Error /> : [<NavbarRes />, <ProfileTabs />]}
+            element={
+              role == null ? <Error /> : [<NavbarRes />, <ProfileTabs />]
+            }
           />
 
           <Route index path="/profileComment" element={<PostBigModel />} />
@@ -185,27 +175,21 @@ const App = () => {
             index
             path="/rescourcesDisplay"
             element={
-              role == null ? (
-                <Error />
-              ) : (
-                [<NavbarRes />, <RescourcesTable />]
-              )
+              role == null ? <Error /> : [<NavbarRes />, <RescourcesTable />]
             }
           />
 
           <Route
             index
             path="/faq"
-            element={
-              role == null ? <Error /> : [<NavbarRes />, <Faq />]
-            }
+            element={role == null ? <Error /> : [<NavbarRes />, <Faq />]}
           />
 
           <Route
             index
             path="/approvals"
             element={
-              (role === null) || (role === "Club_Member") ? (
+              role === null || role === "Club_Member" ? (
                 <Error />
               ) : (
                 [<NavbarRes />, <Approvals />]
@@ -220,7 +204,7 @@ const App = () => {
             index
             path="/attendance/:name"
             element={
-              (role == null) || (role == "Club_Member") ? (
+              role == null || role == "Club_Member" ? (
                 <Error />
               ) : (
                 [<NavbarRes />, <AttendanceSheet />]

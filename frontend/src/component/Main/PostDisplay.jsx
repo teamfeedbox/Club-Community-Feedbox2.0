@@ -4,7 +4,6 @@ import { FcLike } from "react-icons/fc";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import React, { useState, useEffect } from "react";
-import { faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Modal from "react-bootstrap/Modal";
 import "swiper/css";
@@ -14,14 +13,11 @@ import "swiper/css/thumbs";
 import { Autoplay, Navigation } from "swiper";
 import "./PostDisplay.css";
 import PostBigModel from "./PostBigModel";
-import Loader from "../Loader.jsx";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 import { useStateValue } from "../../StateProvider";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import { injectStyle } from "react-toastify/dist/inject-style";
-import { ToastContainer, toast } from "react-toastify";
-
 
 const PostDisplay = (props) => {
   TimeAgo.addLocale(en);
@@ -29,7 +25,7 @@ const PostDisplay = (props) => {
 
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
-  const [id, setId] = useState("");
+  const [postComm, setPostComm] = useState("");
   const [loading2, setLoading2] = useState(false);
   const [load, setLoad] = useState(false);
   // To open the Comment Model
@@ -53,10 +49,7 @@ const PostDisplay = (props) => {
     getUser();
     getList();
     setLoad(false);
-  }, [load, props.clgData]);
-
-
-
+  }, [load, props.clgData, props.receivePost]);
 
   const getUser = () => {
     setUser(currentUser);
@@ -64,14 +57,14 @@ const PostDisplay = (props) => {
 
   const handleDelClose = () => {
     setDelShow(false);
-  }
+  };
 
   // get All Post
   const getList = async () => {
     setLoading2(true);
     let result;
     if (allPosts) {
-      setData(allPosts);
+      console.log(allPosts, "alllPiskjdihd");
       result = allPosts;
     } else {
       let res = await fetch("http://localhost:8000/getAllPost", {
@@ -80,10 +73,6 @@ const PostDisplay = (props) => {
         },
       });
       res = await res.json();
-      setData(res);
-      // console.log(res[0].likes)
-
-      console.log(res);
       let count = 0;
       res.map((data) => {
         count = data.comment.length;
@@ -91,17 +80,15 @@ const PostDisplay = (props) => {
           count += res.reply.length;
         });
         data.count = count;
-      })
-      if (allPosts == null) {
-        dispatch({
-          type: 'INIT_ALL_POST',
-          item: res
-        });
-      }
-      result = res
+      });
+      dispatch({
+        type: "INIT_ALL_POST",
+        item: res.reverse(),
+      });
+      result = res;
     }
 
-    result = result.reverse();
+    // result = result.reverse();
     console.log(result);
     if (role === "Super_Admin" || role === "Admin") {
       if (props.clgData) {
@@ -154,7 +141,7 @@ const PostDisplay = (props) => {
   };
 
   // Like a post
-  const like = (id) => {
+  const like = (id, index) => {
     fetch("http://localhost:8000/like", {
       method: "put",
       headers: {
@@ -167,15 +154,18 @@ const PostDisplay = (props) => {
     })
       .then((res) => res.json())
       .then((result) => {
-        const newData = data.map((item) => {
-          if (item._id === result._id) {
-            return result;
-          } else {
-            return item;
-          }
+        console.log(result);
+        allPosts.length > 0 &&
+          allPosts.map((post) => {
+            if (post._id === id) {
+              post.likes = result.likes;
+            }
+          });
+        dispatch({
+          type: "INIT_ALL_POST",
+          item: allPosts,
         });
-        setData(newData)
-        // setLoad(true);
+        setLoad(true);
       })
       .catch((err) => {
         console.log(err);
@@ -196,14 +186,18 @@ const PostDisplay = (props) => {
     })
       .then((res) => res.json())
       .then((result) => {
-        const newData = data.map((item) => {
-          if (item._id === result._id) {
-            return result;
-          } else {
-            return item;
-          }
+        console.log(result);
+        allPosts.length > 0 &&
+          allPosts.map((post) => {
+            if (post._id === id) {
+              post.likes = result.likes;
+            }
+          });
+        dispatch({
+          type: "INIT_ALL_POST",
+          item: allPosts,
         });
-        setData(newData);
+        setLoad(true);
       })
       .catch((err) => {
         console.log(err);
@@ -214,26 +208,24 @@ const PostDisplay = (props) => {
     injectStyle();
   }
 
-  const postDelete = async(id)=>{
-    console.log(id)
-    let result = await fetch(`http://localhost:8000/deletePost/${id}`, {
-      method: "delete",
-    });
+  const postDelete = async (id) => {
+    console.log(id);
+    // let result = await fetch(`http://localhost:8000/deletePost/${id}`, {
+    //   method: "delete",
+    // });
 
-    result = await result.json();
-    console.log(result);
+    // result = await result.json();
+    // console.log(result);
 
-    if (result) {
-      toast.dark("Deleted Successfully...");
-      setTimeout(() => {
-        window.location.href = "/main"
-      }, 5000);
-      getList();
-    }
-    setDelShow(false);
-    // console.log(allPosts);
-  }
-
+    // if (result) {
+    //   toast.dark("Deleted Successfully...");
+    //   setTimeout(() => {
+    //     window.location.href = "/main";
+    //   }, 5000);
+    //   getList();
+    // }
+    // setDelShow(false);
+  };
 
   return (
     <div id="post_display_container">
@@ -270,12 +262,12 @@ const PostDisplay = (props) => {
                       <div className="post-head-content">
                         <p className="post-display-heading-college">
                           {item &&
-                            item.postedBy &&
-                            item.postedBy.role == "Super_Admin"
+                          item.postedBy &&
+                          item.postedBy.role == "Super_Admin"
                             ? "Super Admin"
                             : item.scope === "public"
-                              ? item.collegeName + " (Public)"
-                              : item.collegeName}
+                            ? item.collegeName + " (Public)"
+                            : item.collegeName}
                         </p>
                         <p className="post-display-heading-time">
                           {item.postedDate &&
@@ -287,10 +279,12 @@ const PostDisplay = (props) => {
                     </div>
                   </div>
 
-              {
-               role==='Super_Admin'?
-               <div className="post-display-delete" onClick={() => setDelShow(true)}>
-                <svg
+                  {role === "Super_Admin" ? (
+                    <div
+                      className="post-display-delete"
+                      onClick={() => {console.log(item._id); setDelShow(true)}}
+                    >
+                      <svg
                         className="w-8 h-8 text-red-600 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
                         fill="none"
                         stroke="currentColor"
@@ -305,10 +299,9 @@ const PostDisplay = (props) => {
                         ></path>
                       </svg>
                     </div>
-                   : (
+                  ) : (
                     ""
                   )}
-
                   <Modal
                     show={delshow}
                     onHide={handleDelClose}
@@ -323,7 +316,7 @@ const PostDisplay = (props) => {
                       </Modal.Header>
                       <Modal.Footer className="modal-footer club-member-modal-footer">
                         <div className="modal-footer-club-member-yes-no-div">
-                          <div onClick={()=>postDelete(item._id)}>Yes</div>
+                          <div onClick={() => {console.log(item._id);}}>Yes</div>
                           <button
                             onClick={(e) => {
                               e.preventDefault();
@@ -338,23 +331,29 @@ const PostDisplay = (props) => {
                   </Modal>
                 </div>
 
-
                 <div className="post-display-center">
                   <div className="post-display-content">
-                    {
-                      item.img.length <= 0 ? item.desc : item.desc
-                        && contentId === item._id && showMore ? item.desc :
-                        item.desc.length > 180 ?
-                          <button
-                            style={{ textAlign: "left" }}
-                            onClick={() => {
-                              setShowMore(true)
-                              setContentId(item._id)
-                            }
-                            }
-                          //  style={{ color:""}}
-                          >{item.desc.slice(0, 180)} <span style={{ color: "gray", fontWeight: "600" }}> .....read more</span></button> : item.desc
-                    }
+                    {item.img.length <= 0 ? (
+                      item.desc
+                    ) : item.desc && contentId === item._id && showMore ? (
+                      item.desc
+                    ) : item.desc.length > 180 ? (
+                      <button
+                        style={{ textAlign: "left" }}
+                        onClick={() => {
+                          setShowMore(true);
+                          setContentId(item._id);
+                        }}
+                      >
+                        {item.desc.slice(0, 180)}{" "}
+                        <span style={{ color: "gray", fontWeight: "600" }}>
+                          {" "}
+                          .....read more
+                        </span>
+                      </button>
+                    ) : (
+                      item.desc
+                    )}
                   </div>
                   {/*
 
@@ -373,8 +372,7 @@ const PostDisplay = (props) => {
                           autoplay={{
                             delay: 2000,
                             disableOnInteraction: false,
-                          }
-                          }
+                          }}
                           modules={[Navigation, Autoplay]}
                           className="mySwiper"
                         >
@@ -450,7 +448,7 @@ const PostDisplay = (props) => {
                         icon={faHeart}
                         style={{ fontSize: "24.5px", cursor: "pointer" }}
                         onClick={function () {
-                          like(item._id);
+                          like(item._id, index);
                         }}
                       />
                       <span style={{ fontSize: "0.8rem", fontWeight: "600" }}>
@@ -461,7 +459,7 @@ const PostDisplay = (props) => {
                   <button
                     onClick={() => {
                       setOpenComment(!openComment);
-                      setId(item._id);
+                      setPostComm(item);
                     }}
                     className="post-display-bottom-content"
                   >
@@ -502,7 +500,8 @@ const PostDisplay = (props) => {
       <PostBigModel
         openComment={openComment}
         setOpenComment={setOpenComment}
-        id={id}
+        id={postComm._id}
+        currPost={postComm}
         route="/main"
       />
     </div>

@@ -21,33 +21,26 @@ import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 import { RotatingLines, ProgressBar } from 'react-loader-spinner'
 import { useStateValue } from "../../StateProvider";
-function PostBigModel({ openComment, setOpenComment, id, route }) {
+function PostBigModel({ openComment, setOpenComment, id, route , currPost}) {
+  const user = currPost && currPost
   TimeAgo.addLocale(en);
+
   const timeAgo = new TimeAgo("en-US");
   const [deleteComId, setDeleteComId] = useState("");
   const [replyId, setReplyId] = useState("");
-  const [user, setUser] = useState();
+  // const [user, setUser] = useState();
   const [loading, setLoading] = useState(false);
   const [replyMsg, setReplyMsg] = useState("");
   const [commentId, setCommentId] = useState("");
   const [postedById, setPostedById] = useState("");
   const [replyById, setReplyById] = useState("");
   const [message, setMessage] = useState("");
-  // popup to delete the reply
   const [show, setShow] = useState(false);
-  // popup to delete the comment
   const [showDel, setShowDel] = useState(false);
-  // To show reply input field
   const [showReplyInputField, setShowReplyInputField] = useState(false);
-  // To show the reply written by user
   const [showReply, setShowReply] = useState(true);
-  // To show and hide "view reply"
   const [checkReply, setCheckreply] = useState(true);
-  // To show and hide "hide reply"
   const [hideReply, setHidereply] = useState(false);
-  
-
-
   const [{currentUser}, dispatch] = useStateValue();
 
   // funciton for doing comment
@@ -71,7 +64,7 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
                 className="w-10 h-8
                             p-0
                             rounded-full
-                            object-cover	
+                            object-cover
                             "
               ></img>
             </div>
@@ -475,25 +468,25 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
   };
 
   useEffect(() => {
-    if (id) {
+    if (currPost._id) {
       getPost();
     }
     getUser();
     setLoading(false);
-  }, [id, loading]);
+  }, [currPost._id, loading]);
 
   const getPost = async () => {
-    let result = await fetch(`http://localhost:8000/userPost/${id}`, {
+    let result = await fetch(`http://localhost:8000/userPost/${currPost && currPost._id}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     });
     result = await result.json();
-    setUser(result);
+    console.log(result,"popopopopopop");
+    // setUser(result);
   };
 
   const [img, setImg] = useState();
-
   const getUser = async () => {
     if(currentUser){
       setImg(currentUser.img);
