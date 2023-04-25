@@ -165,7 +165,7 @@ function PostBigModel({ openComment, setOpenComment, id, route }) {
               </div>
             </div>
             <Link
-              to="/main"
+              to={route}
               className="Cancel-Icon-Container"
               style={{ textDecoration: "none" }}
             >
