@@ -92,7 +92,6 @@ const PostDisplay = (props) => {
       result = res;
     }
 
-    // result = result.reverse();
     console.log(result);
     if (role === "Super_Admin" || role === "Admin") {
       if (props.clgData) {
@@ -286,7 +285,7 @@ const PostDisplay = (props) => {
                   {role === "Super_Admin" ? (
                     <div
                       className="post-display-delete"
-                      onClick={() => {console.log(item._id); setDelShow(true)}}
+                      onClick={() => setDelShow(true)}
                     >
                       <svg
                         className="w-8 h-8 text-red-600 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
@@ -303,9 +302,7 @@ const PostDisplay = (props) => {
                         ></path>
                       </svg>
                     </div>
-                  ) : (
-                    ""
-                  )}
+                  ) : "" }
                   <Modal
                     show={delshow}
                     onHide={handleDelClose}
@@ -417,7 +414,7 @@ const PostDisplay = (props) => {
                                 <img
                                   className="display-img"
                                   alt=""
-                                  src={data}
+                                  src={`https://drive.google.com/uc?id=${data}`}
                                 />
                               </div>
                             ))}
@@ -476,7 +473,7 @@ const PostDisplay = (props) => {
                       icon={faMessage}
                     />
                     <span style={{ fontSize: "0.8rem", fontWeight: "600" }}>
-                      {item.count}
+                      {item.count ? item.count : 0}
                     </span>
                   </button>
                 </div>

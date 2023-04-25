@@ -3,9 +3,44 @@ const router = express.Router();
 const Post = require("../models/post");
 const user = require("../models/user");
 const mongoose = require("mongoose");
-const multer = require("multer");
 const requireLogin = require("../middleware/requireLogin");
 const { closeDelimiter } = require("ejs");
+const { google } = require("googleapis");
+const { Readable } = require("stream");
+const multer = require("multer");
+const upload = multer();
+
+const authenticateGoogle = () => {
+  const auth = new google.auth.GoogleAuth({
+    keyFile: `${__dirname}/club-community-key.json`,
+    scopes: "https://www.googleapis.com/auth/drive",
+  });
+  return auth;
+};
+
+const uploadToGoogleDrive = async (file, auth) => {
+  const fileMetadata = {
+    name: file.originalname,
+    parents: [process.env.POST_IMAGE_KEY],
+  };
+
+  const stream = new Readable();
+  stream.push(file.buffer);
+  stream.push(null);
+
+  const media = {
+    mimeType: file.mimetype,
+    body: stream,
+  };
+
+  const driveService = google.drive({ version: "v3", auth });
+  const response = await driveService.files.create({
+    requestBody: fileMetadata,
+    media: media,
+    fields: "id",
+  });
+  return response;
+};
 
 router.post("/upload/images/get/link", async (req, res) => {
   try {
@@ -15,25 +50,56 @@ router.post("/upload/images/get/link", async (req, res) => {
   }
 });
 
-router.post("/create-post", requireLogin, (req, res) => {
-  const { desc, collegeName, img, scope } = req.body;
-  console.log(req.body.collegeName);
-  const post = new Post({
-    desc,
-    postedBy: req.user,
-    collegeName,
-    img: img,
-    scope,
-  });
-  post
-    .save()
-    .then((result) => {
-      res.json({ post: result });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
+router.post(
+  "/create-post",
+  upload.array("img"),
+  requireLogin,
+  async (req, res) => {
+    console.log("Khsuhis");
+    console.log(req.files);
+    console.log(req.body);
+
+    if (req.files && req.files.length > 0) {
+      let ids = [];
+      for (let i = 0; i < req.files.length; i++) {
+        const auth = authenticateGoogle();
+        const response = await uploadToGoogleDrive(req.files[i], auth);
+        ids.push(response.data.id);
+      }
+      const post = new Post({
+        desc: req.body.desc,
+        postedBy: req.user,
+        collegeName: req.body.collegeName,
+        scope: req.body.scope,
+        img: ids,
+      });
+      post
+        .save()
+        .then((result) => {
+          res.json({ post: result });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      const { desc, collegeName, scope } = req.body;
+      const post = new Post({
+        desc: req.body.desc,
+        postedBy: req.user,
+        collegeName: req.body.collegeName,
+        scope: req.body.scope,
+      });
+      post
+        .save()
+        .then((result) => {
+          res.json({ post: result });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }
+);
 
 //api to get all posts
 //it will be used to display at the homepage feed
@@ -188,8 +254,6 @@ router.put("/comment", requireLogin, (req, res) => {
     });
 });
 
-
-
 // router.put("/reply/:commentId", requireLogin, async (req, res) => {
 //   // console.log(req.params.commentId,req.body.id)
 //   // console.log(req.body.id)
@@ -236,10 +300,6 @@ router.put("/comment", requireLogin, (req, res) => {
 //   // console.log(post)
 // });
 
-
-
-
-
 router.put("/reply/:commentId", requireLogin, async (req, res) => {
   try {
     // const { userId } = req.user._id;
@@ -251,16 +311,22 @@ router.put("/reply/:commentId", requireLogin, async (req, res) => {
       return res.status(404).json({ error: "Post not found" });
     }
 
-    const comment = post.comment.find((c) => c._id.toString() === req.params.commentId);
+    const comment = post.comment.find(
+      (c) => c._id.toString() === req.params.commentId
+    );
 
     if (!comment) {
       return res.status(404).json({ error: "Comment not found" });
     }
 
-    const alreadyReplied = comment.reply.some((r) => r.postedBy._id.toString() === req.user._id.toString());
+    const alreadyReplied = comment.reply.some(
+      (r) => r.postedBy._id.toString() === req.user._id.toString()
+    );
 
     if (alreadyReplied) {
-      return res.status(400).json({ error: "You have already replied to this comment" });
+      return res
+        .status(400)
+        .json({ error: "You have already replied to this comment" });
     }
 
     comment.reply.push({
@@ -277,13 +343,6 @@ router.put("/reply/:commentId", requireLogin, async (req, res) => {
   }
 });
 
-
-
-
-
-
-
-
 //delete comment
 // router.put("/commentDel/:commentId", requireLogin, async (req, res) => {
 //   console.log(req.body.postedById)
@@ -296,72 +355,66 @@ router.put("/reply/:commentId", requireLogin, async (req, res) => {
 //   res.send(result);
 // });
 
-
-
 router.put("/commentDel/:commentId", requireLogin, async (req, res) => {
-
   // try {
-    // Check if the logged in user is the creator of the post
-    const post = await Post.findById(req.body.id);
+  // Check if the logged in user is the creator of the post
+  const post = await Post.findById(req.body.id);
 
+  if (
+    req.body.postedById === req.user._id.toString() ||
+    req.user.role === "Super_Admin" ||
+    req.user.role === "Admin"
+  ) {
+    const result = await Post.updateOne(
+      { _id: req.body.id, "comment._id": req.params.commentId },
+      { $pull: { comment: { _id: req.params.commentId } } }
+    );
+    res.send(result);
+  } else {
+    return res
+      .status(401)
+      .json({ error: "You are not authorized to delete this comment" });
+  }
 
-    if((req.body.postedById === req.user._id.toString()) || (req.user.role==="Super_Admin") || (req.user.role==="Admin"))
-    {
-      const result = await Post.updateOne(
-        { _id: req.body.id, "comment._id": req.params.commentId },
-        { $pull: { comment: { _id: req.params.commentId } } }
-      );
-      res.send(result);
-
-    }
-
-  else {
-      return res.status(401).json({ error: "You are not authorized to delete this comment" });
-    }
-
-    // Remove the comment from the post's comments array
+  // Remove the comment from the post's comments array
 
   // catch (error) {
   //   console.error(error);
   //   res.status(500).json({ error: "Server error" });
   // }
-})
-
-
+});
 
 router.put("/replyDel/:replyId", requireLogin, async (req, res) => {
   // const {postedById} = req.body.postedById;
   // try {
-    // Check if the logged in user is the creator of the post
-    const post = await Post.findById(req.body.id);
+  // Check if the logged in user is the creator of the post
+  const post = await Post.findById(req.body.id);
 
-    if((req.body.replyById === req.user._id.toString()) || (req.user.role==="Super_Admin") || (req.user.role==="Admin"))
-    {
-      const result = await Post.updateOne(
-        {_id: req.body.id, "comment._id": req.body.commentId },
+  if (
+    req.body.replyById === req.user._id.toString() ||
+    req.user.role === "Super_Admin" ||
+    req.user.role === "Admin"
+  ) {
+    const result = await Post.updateOne(
+      { _id: req.body.id, "comment._id": req.body.commentId },
 
-        {
-          $pull: { "comment.$.reply": { _id: req.params.replyId } },
-        }
-      );
-      res.send(result);
+      {
+        $pull: { "comment.$.reply": { _id: req.params.replyId } },
+      }
+    );
+    res.send(result);
+  } else {
+    return res
+      .status(401)
+      .json({ error: "You are not authorized to delete this reply" });
+  }
 
-    }
-    else{
-      return res.status(401).json({ error: "You are not authorized to delete this reply" });
-
-    }
-
-
-
-    // Remove the comment from the post's comments array
-    //  catch (error) {
-    // console.error(error);
-    // res.status(500).json({ error: "Server error" });
+  // Remove the comment from the post's comments array
+  //  catch (error) {
+  // console.error(error);
+  // res.status(500).json({ error: "Server error" });
   // }
-})
-
-
+});
 
 // router.put("/replyDel/:replyId", requireLogin, async (req, res) => {
 //   const{user}=req.user._id

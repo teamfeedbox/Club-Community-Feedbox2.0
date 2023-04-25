@@ -95,65 +95,66 @@ const CreatePost = (props) => {
   }, [loading]);
 
   /// get all cloudinary images
-  const postDetails = () => {
-    const promises = image.map((file) => {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "feedbox-community-web");
-      return axios.post(
-        "https://api.cloudinary.com/v1_1/feedbox-community-web/image/upload",
-        formData
-      );
-    });
-    Promise.all(promises)
-      .then((responses) => {
-        const urls = responses.map((res) => res.data.secure_url);
-        CreatePost(urls);
+  // const postDetails = () => {
+  //   const promises = image.map((file) => {
+  //     const formData = new FormData();
+  //     formData.append("file", file);
+  //     formData.append("upload_preset", "feedbox-community-web");
+  //     return axios.post(
+  //       "https://api.cloudinary.com/v1_1/feedbox-community-web/image/upload",
+  //       formData
+  //     );
+  //   });
+  //   Promise.all(promises)
+  //     .then((responses) => {
+  //       const urls = responses.map((res) => res.data.secure_url);
+  //       CreatePost(urls);
 
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   if (typeof window !== "undefined") {
     injectStyle();
   }
 
   // Create a post
-  const CreatePost = (urls) => {
+  const CreatePost = () => {
+    // console.log(image, "file");
     setLoading2(true);
+    const formData = new FormData();
     let val;
     if (role === "Super_Admin") {
-      val = {
-        scope: scope,
-        collegeName: scope,
-        desc: desc,
-        img: urls,
-      };
+      formData.append("scope", scope);
+      formData.append("collegeName", scope);
+      formData.append("desc", desc);
+      for (let i = 0; i < image.length; i++) {
+        formData.append("img", image[i]);
+      }
     } else {
-      val = {
-        scope: scope,
-        collegeName: currCollege,
-        desc: desc,
-        img: urls,
-      };
+      formData.append("scope", scope);
+      formData.append("collegeName", currCollege);
+      formData.append("desc", desc);
+      for (let i = 0; i < image.length; i++) {
+        formData.append("img", image[i]);
+      }
     }
-    console.log(val);
+
     const data = fetch("http://localhost:8000/create-post", {
       method: "post",
       headers: {
-        "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify(val),
+      body: formData,
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
           console.log("error");
         } else {
-          // alert("Posted Successfully...")
+          // alert("Posted Successfully...");
           setLoading2(false);
           handleClose();
           toast.dark("Posted Successfully...");
@@ -161,7 +162,7 @@ const CreatePost = (props) => {
           setLoading(true);
           console.log(allPosts);
           console.log(data);
-          const array = [data.post,...allPosts];
+          const array = [data.post, ...allPosts];
           dispatch({
             type: "INIT_ALL_POST",
             item: array,
@@ -311,41 +312,41 @@ const CreatePost = (props) => {
                 onChange={handleChange}
                 accept="image/*"
                 multiple
+                name="img"
               />
             </div>
             <div>
-              {
-                (zeroImage || desc.length > 0) && scope ?
-
-                <Button
-                    variant="primary"
-                  >
-                    {
-                      loading2?
-                      <div
+              {(zeroImage || desc.length > 0) && scope ? (
+                <Button variant="primary">
+                  {loading2 ? (
+                    <div
                       className="spinner-border text-white"
                       role="status"
-                      style={{ height: "15px", width: "15px"}}
+                      style={{ height: "15px", width: "15px" }}
                     >
                       <span class="visually-hidden">Loading...</span>
-                    </div>:
-                    <div onClick={function (event) {
-
-                      postDetails();
-                    }}>Post</div>
-                    }
-                  </Button> :
-                  <Button disabled
-                    variant="primary"
-                    onClick={function (event) {
-
-                      postDetails();
-                    }}
-                  >
-                    Post
-                  </Button>
-              }
-
+                    </div>
+                  ) : (
+                    <div
+                      onClick={function (event) {
+                        CreatePost();
+                      }}
+                    >
+                      Post
+                    </div>
+                  )}
+                </Button>
+              ) : (
+                <Button
+                  disabled
+                  variant="primary"
+                  onClick={function (event) {
+                    CreatePost();
+                  }}
+                >
+                  Post
+                </Button>
+              )}
             </div>
           </Modal.Footer>
         </Modal>
