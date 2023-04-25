@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./EditProfile.css";
 import { useToasts } from "react-toast-notifications";
 import { useStateValue } from "../../StateProvider";
-import { ToastContainer, toast } from "react-toastify";
 
 const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) => {
   const role = JSON.parse(localStorage.getItem("user")).role;
@@ -18,6 +17,7 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
   const [file, setFile] = useState("Images/girl.jpg");
   const [image, setImage] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [load, setLoad] = useState(false);
   const [imgg, setImgg] = useState();
   const [name, setName] = useState("");
   const [collegeYear, setCollegeYear] = useState("");
@@ -25,10 +25,14 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
 
   const [bio, setBio] = useState('');
   const [user, setUser] = useState();
+ 
 
   const [{ currentUser }, dispatch] = useStateValue();
 
   const id = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).id
+
+  const { addToast } = useToasts();
+
 
   const handleClose = () => {
     setOpen(false);
@@ -72,6 +76,9 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
     setLoading(false);
     setOpen(false);
     validated=true;
+    setImage(false);
+    // setUrl("");
+    setImgg("");
     // setValidated(true);
   };
 
@@ -101,6 +108,7 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
   };
 
   const handleSubmit = async (e) => {
+    setLoad(true);
     e.preventDefault();
     console.log(imgg);
     const fdata = new FormData();
@@ -120,6 +128,7 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
     const updatedUser = await data.json();
     console.log(updatedUser);
 
+
     dispatch({
       type: 'INIT_USER',
       item: updatedUser,
@@ -134,13 +143,18 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
         }
       })
       const res = await data.json();
+      setLoad(false);
+      addToast(res, { appearance: "success" });
       console.log(res);
+      // addToast(res, { appearance: "success" })
     }
     setRender(!render)
     sendData(!render);
     setOpen(false);
     setImage(false)
     setLoading(true);
+
+
   }
 
   // to count the number of words left in edit bio section
@@ -295,7 +309,7 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
                   Close
                 </Button>
                 <Button variant="primary">
-                  {loading ? (
+                  {load ? (
                     <div
                       className="spinner-border text-white"
                       role="status"
@@ -317,7 +331,6 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
       ) : (
         ""
       )}
-      <ToastContainer />
     </div>
   );
 };

@@ -12,6 +12,7 @@ const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL;
 const Main = () => {
   const [clg, setClg] = useState();
   const [eventSel, setEventSel] = useState();
+  const [postadd,setPostAdd]=useState();
   const role = JSON.parse(localStorage.getItem("user")).role;
 
   const handleDataChange = (newData) => {
@@ -20,6 +21,10 @@ const Main = () => {
 
   const pull_data = (data) => {
     setEventSel(data);
+  }
+
+  const getData=(data)=>{
+    setPostAdd(data);
   }
 
   console.log("main loaded");
@@ -47,9 +52,9 @@ const Main = () => {
               <div className="main-post-dispaly">
                 <scrollable-component scrollbar-visibility="always">
                   <div>
-                    {role && role === "Club_Member" ? '' : <CreatePost />}
+                    {role && role === "Club_Member" ? '' : <CreatePost  receive={getData} />}
                   </div>
-                  <PostDisplay clgData={clg && clg} />
+                  <PostDisplay clgData={clg && clg} receivePost={postadd}/>
                 </scrollable-component>
               </div>
 

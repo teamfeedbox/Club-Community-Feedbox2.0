@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
 import "./CreatePost.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFaceSmile, faImage, faXmark, } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFaceSmile,
+  faImage,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import axios from "axios"
+import axios from "axios";
 import { useStateValue } from "../../StateProvider";
 
 import { injectStyle } from "react-toastify/dist/inject-style";
 import { ToastContainer, toast } from "react-toastify";
 
-const CreatePost = ({ allColleges }) => {
+const CreatePost = (props) => {
   const [show, setShow] = useState(false);
   const [file, setFile] = useState([]);
   const [textDisplay, setTextDisplay] = useState(false);
@@ -18,17 +22,23 @@ const CreatePost = ({ allColleges }) => {
   const [desc, setDesc] = useState("");
   const [scope, setScope] = useState();
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const [zeroImage, setZeroImage] = useState(false);
   const [required, setRequired] = useState(false);
+  const [send, setSend] = useState(false);
 
-  const [{ currentUser,colleges }] = useStateValue();
+  const [{ currentUser, colleges, allPosts }, dispatch] = useStateValue();
   let user = currentUser;
-  let currCollege = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).college
-  let role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role
-  let allClgs = colleges
+  let currCollege =
+    JSON.parse(localStorage.getItem("user")) &&
+    JSON.parse(localStorage.getItem("user")).college;
+  let role =
+    JSON.parse(localStorage.getItem("user")) &&
+    JSON.parse(localStorage.getItem("user")).role;
+  let allClgs = colleges;
 
   function handleSelect(e) {
-    setScope(e.target.value)
+    setScope(e.target.value);
   }
 
   let count = 0;
@@ -46,10 +56,14 @@ const CreatePost = ({ allColleges }) => {
     }
 
     let limit = file.length + e.target.files.length;
-    for (let i = count; i < e.target.files.length && i < 5 && file.length < 5 && limit < 6; i++) {
+    for (
+      let i = count;
+      i < e.target.files.length && i < 5 && file.length < 5 && limit < 6;
+      i++
+    ) {
       setFile((arr) => [...arr, URL.createObjectURL(e.target.files[i])]);
       console.log(e.target.files[i]);
-      setImage(arr => [...arr, e.target.files[i]]);
+      setImage((arr) => [...arr, e.target.files[i]]);
       count++;
     }
 
@@ -93,15 +107,14 @@ const CreatePost = ({ allColleges }) => {
     });
     Promise.all(promises)
       .then((responses) => {
-        const urls = responses.map(
-          (res) => res.data.secure_url
-        );
+        const urls = responses.map((res) => res.data.secure_url);
         CreatePost(urls);
+
       })
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   if (typeof window !== "undefined") {
     injectStyle();
@@ -109,52 +122,61 @@ const CreatePost = ({ allColleges }) => {
 
   // Create a post
   const CreatePost = (urls) => {
+    setLoading2(true);
     let val;
-    if (role === 'Super_Admin') {
+    if (role === "Super_Admin") {
       val = {
         scope: scope,
         collegeName: scope,
         desc: desc,
-        img: urls
+        img: urls,
       };
     } else {
       val = {
         scope: scope,
         collegeName: currCollege,
         desc: desc,
-        img: urls
+        img: urls,
       };
     }
-console.log(val);
+    console.log(val);
     const data = fetch("http://localhost:8000/create-post", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + localStorage.getItem("jwt")
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify(val)
+      body: JSON.stringify(val),
     })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         if (data.error) {
           console.log("error");
         } else {
           // alert("Posted Successfully...")
+          setLoading2(false);
+          handleClose();
           toast.dark("Posted Successfully...");
           setImage([]);
           setLoading(true);
-          setTimeout(() => {
-            window.location.href = "/main"
-          }, 5000);
+          console.log(allPosts);
+          console.log(data);
+          const array = [data.post,...allPosts];
+          dispatch({
+            type: "INIT_ALL_POST",
+            item: array,
+          });
+          setSend(!send);
+          props.receive(!send);
         }
       })
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   const handleClose = () => {
-    setShow(false)
+    setShow(false);
     setFile([]);
     setImage([]);
     setDesc([]);
@@ -164,11 +186,11 @@ console.log(val);
   // To count the number of character in post
   const maxWords = 1000;
   const wordsLeft = desc.length;
-  
+
   const handleChange1 = (event) => {
     const value = event.target.value;
     if (desc.length < maxWords) {
-      setDesc(value)
+      setDesc(value);
     }
   };
 
@@ -197,9 +219,7 @@ console.log(val);
         >
           <Modal.Header closeButton>
             <Modal.Title>
-              <div className="create_post_home_page" >
-                Create a post
-              </div>
+              <div className="create_post_home_page">Create a post</div>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body className="modal-body">
@@ -212,25 +232,32 @@ console.log(val);
                   <div>{user && user.name}</div>
 
                   <select required name="type" onChange={handleSelect}>
-                    <option disabled hidden selected value="Select">Select</option>
+                    <option disabled hidden selected value="Select">
+                      Select
+                    </option>
                     <option value="public">Public</option>
-                    {
-                      (role === "Admin" || role === "Lead") &&
-                      <option value={currCollege && currCollege}>{currCollege && currCollege}</option>
-                    }
-                    {
-                      role == "Super_Admin" &&
+                    {(role === "Admin" || role === "Lead") && (
+                      <option value={currCollege && currCollege}>
+                        {currCollege && currCollege}
+                      </option>
+                    )}
+                    {role == "Super_Admin" && (
                       <>
-                        {allClgs && allClgs.length > 0 &&
-                          allClgs.map((clg) => <option value={clg}>{clg}</option>)}
+                        {allClgs &&
+                          allClgs.length > 0 &&
+                          allClgs.map((clg) => (
+                            <option value={clg}>{clg}</option>
+                          ))}
                       </>
-                    }
+                    )}
                   </select>
-                  {
-                    required ? <div className="error-text-create-post" >
+                  {required ? (
+                    <div className="error-text-create-post">
                       **select type of post you want to create.
-                    </div> : ''
-                  }
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
               <textarea
@@ -241,12 +268,11 @@ console.log(val);
                 value={desc}
                 maxlength="1000"
                 onChange={(e) => {
-                  setDesc(e.target.value)
-                  handleChange1()
+                  setDesc(e.target.value);
+                  handleChange1();
                 }}
               ></textarea>
-               <p className="Register-Page-Word-Limit"
-                      >* {wordsLeft}/1000</p>
+              <p className="Register-Page-Word-Limit">* {wordsLeft}/1000</p>
               <div className="image-chooosen-upload-overall-div">
                 {file.map((files, index) => (
                   <div className="image-chooosen-upload-div">
@@ -256,7 +282,7 @@ console.log(val);
                       onClick={() => deleteFile(index)}
                     />
                     {/* <button type="button" className="btn-close"></button> */}
-                    <img src={files} className="image-chooosen-upload" />
+                    <img src={files} alt="" className="image-chooosen-upload" />
                   </div>
                 ))}
               </div>
@@ -290,19 +316,29 @@ console.log(val);
             <div>
               {
                 (zeroImage || desc.length > 0) && scope ?
-                  <Button
+
+                <Button
                     variant="primary"
-                    onClick={function (event) {
-                      handleClose();
-                      postDetails();
-                    }}
                   >
-                    Post
+                    {
+                      loading2?
+                      <div
+                      className="spinner-border text-white"
+                      role="status"
+                      style={{ height: "15px", width: "15px"}}
+                    >
+                      <span class="visually-hidden">Loading...</span>
+                    </div>:
+                    <div onClick={function (event) {
+
+                      postDetails();
+                    }}>Post</div>
+                    }
                   </Button> :
                   <Button disabled
                     variant="primary"
                     onClick={function (event) {
-                      handleClose();
+
                       postDetails();
                     }}
                   >

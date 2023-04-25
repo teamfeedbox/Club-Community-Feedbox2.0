@@ -53,6 +53,7 @@ function Overview(props) {
   const [file, setFile] = useState("Images/girl.jpg");
   const [image, setImage] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [load, setLoad] = useState(false);
   const [userId, setUserId] = useState("");
   const [show1, setShow1] = useState(false);
   const [data, setData] = useState();
@@ -67,34 +68,14 @@ function Overview(props) {
 
   const [{ currentUser }, dispatch] = useStateValue();
 
-  function updateProfile() {
-    setValue("");
-  }
-
   let onSelectNames = (skills) => {
     setSkills(skills);
   };
 
   useEffect(() => {
     getUser();
-  }, []);
-
-  const handleInputChange = (event) => {
-    setNewOption(event.target.value);
-  };
-
-  const handleInputKeyDown = (event) => {
-    if (event.key === "Enter" && newOption) {
-      // Add the new option to the options list
-      const newOptionObj = newOption;
-
-      skills.push(newOptionObj);
-      setSkills([...skills, newOptionObj]);
-      console.log(skills);
-      setNewOption("");
-      inputRef.current.value = "";
-    }
-  };
+    setLoad(false);
+  }, [props.send,load]);
 
   const getUser = async () => {
     if (currentUser) {
@@ -113,6 +94,7 @@ function Overview(props) {
       type: "INIT_USER",
       item: result,
     });
+    
   };
 
   const updateSkills = async (userId) => {
@@ -126,13 +108,12 @@ function Overview(props) {
       },
     });
     result = await result.json();
-
-    if (result) {
+    
+    
+      setLoad(true);
       setLoading(false);
       handleClose1();
       window.location.href = "/profile";
-
-    }
     console.log(result);
 
   };
@@ -145,7 +126,6 @@ function Overview(props) {
   return (
     <>
       {/* propsData contains data of user from approval page */}
-
       {propsData === null ? (
         <div className="Overview-Container">
           <div className="Overview-Left">
@@ -224,7 +204,7 @@ function Overview(props) {
                 </span>
               </div>
             </div>
-            {/* *****logout**** */}
+            {/* ****logout*** */}
           </div>
 
           {/* modal to add skills */}
@@ -261,20 +241,6 @@ function Overview(props) {
                   "Ads",
                 ]}
               />
-              {/* <input
-                ref={inputRef}
-                type="text"
-                value={newOption}
-                onChange={handleInputChange}
-                onKeyDown={handleInputKeyDown}
-                placeholder="Add your Skills"
-                style={{
-                  border: "1px solid grey",
-                  padding: "4px",
-                  borderRadius: "5px",
-                  marginLeft: "6px",
-                }}
-              /> */}
             </Modal.Body>
             <Modal.Footer>
             <Button
@@ -295,7 +261,7 @@ function Overview(props) {
                 <div
                   onClick={() => {
                     // handleClose1();
-                    updateSkills(userId);
+                    updateSkills(data._id);
                   }}
                 >
                   Save
@@ -464,48 +430,7 @@ function Overview(props) {
             </div>
           </div>
 
-          {/*
-       <Modal show={show1} >
-        <Modal.Header closeButton onHide={handleClose1}>
-          <Modal.Title className='club-member-modal-header'>Add Skills</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Multiselect
-            value={skills}
-            onChange={(e) => console.log()}
-            placeholder="Add Skill"
-            displayValue=""
-            isObject={false}
-            onKeyPressFn={function noRefCheck() { }}
-            onRemove={(e) => { handleRemove(e) }}
-            onSearch={function noRefCheck() { }}
-            onSelect={onSelectNames}
-            selectedValues={propsData && propsData.skills}
-            options={[
-              "Web Development",
-              "App Development",
-              "SEO",
-              "Linkedin Optimization",
-              "Graphic Design",
-              "Video Editing",
-              "Time Management",
-              "Digital Marketing",
-              "Content Writing",
-              "Ads",
-            ]}
-
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={() => {
-            handleClose1()
-            updateSkills(userId)
-          }}
-            className='save-btn'>
-            Save
-          </Button>
-        </Modal.Footer>
-      </Modal>  */}
+         
 
           <div className="Overview-Right">
             <div className="Overview-Right-Statistics">
@@ -547,7 +472,7 @@ function Overview(props) {
                 <div></div>
               </h5>
               <section className="Enrolled-Section">
-                {propsData ? (
+                {propsData && propsData.length>0 ? (
                   propsData.interestedEvents.map((date, index) => (
                     <Link
                       to="/calendar"
@@ -589,4 +514,4 @@ function Overview(props) {
   );
 }
 
-export default Overview;
+export default Overview;
