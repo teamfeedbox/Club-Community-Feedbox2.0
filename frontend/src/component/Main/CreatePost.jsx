@@ -22,6 +22,7 @@ const CreatePost = (props) => {
   const [desc, setDesc] = useState("");
   const [scope, setScope] = useState();
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const [zeroImage, setZeroImage] = useState(false);
   const [required, setRequired] = useState(false);
   const [send, setSend] = useState(false);
@@ -108,6 +109,7 @@ const CreatePost = (props) => {
       .then((responses) => {
         const urls = responses.map((res) => res.data.secure_url);
         CreatePost(urls);
+
       })
       .catch((err) => {
         console.log(err);
@@ -120,6 +122,7 @@ const CreatePost = (props) => {
 
   // Create a post
   const CreatePost = (urls) => {
+    setLoading2(true);
     let val;
     if (role === "Super_Admin") {
       val = {
@@ -150,6 +153,9 @@ const CreatePost = (props) => {
         if (data.error) {
           console.log("error");
         } else {
+          // alert("Posted Successfully...")
+          setLoading2(false);
+          handleClose();
           toast.dark("Posted Successfully...");
           setImage([]);
           setLoading(true);
@@ -276,7 +282,7 @@ const CreatePost = (props) => {
                       onClick={() => deleteFile(index)}
                     />
                     {/* <button type="button" className="btn-close"></button> */}
-                    <img src={files} className="image-chooosen-upload" />
+                    <img src={files} alt="" className="image-chooosen-upload" />
                   </div>
                 ))}
               </div>
@@ -308,28 +314,38 @@ const CreatePost = (props) => {
               />
             </div>
             <div>
-              {(zeroImage || desc.length > 0) && scope ? (
+              {
+                (zeroImage || desc.length > 0) && scope ?
+
                 <Button
-                  variant="primary"
-                  onClick={function (event) {
-                    handleClose();
-                    postDetails();
-                  }}
-                >
-                  Post
-                </Button>
-              ) : (
-                <Button
-                  disabled
-                  variant="primary"
-                  onClick={function (event) {
-                    handleClose();
-                    postDetails();
-                  }}
-                >
-                  Post
-                </Button>
-              )}
+                    variant="primary"
+                  >
+                    {
+                      loading2?
+                      <div
+                      className="spinner-border text-white"
+                      role="status"
+                      style={{ height: "15px", width: "15px"}}
+                    >
+                      <span class="visually-hidden">Loading...</span>
+                    </div>:
+                    <div onClick={function (event) {
+
+                      postDetails();
+                    }}>Post</div>
+                    }
+                  </Button> :
+                  <Button disabled
+                    variant="primary"
+                    onClick={function (event) {
+
+                      postDetails();
+                    }}
+                  >
+                    Post
+                  </Button>
+              }
+
             </div>
           </Modal.Footer>
         </Modal>

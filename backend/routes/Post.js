@@ -84,7 +84,7 @@ router.get("/myPost", requireLogin, async (req, res) => {
 });
 
 router.get("/userPost/:postId", requireLogin, async (req, res) => {
-  Post.findOne({ _id: req.params.postId },{comment: {$slice: [2,5]}})
+  Post.findOne({ _id: req.params.postId })
     .populate("postedBy")
     .select("-password")
     .populate("comment.postedBy")

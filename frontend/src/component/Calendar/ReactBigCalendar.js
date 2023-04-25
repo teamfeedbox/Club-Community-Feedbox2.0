@@ -146,7 +146,6 @@ export default function ReactBigCalendar() {
 
   // Get All Events
   const showEvent = async () => {
-    console.log("coming");
     let result;
     if (allEventsData) {
       result = allEventsData;
@@ -201,7 +200,6 @@ export default function ReactBigCalendar() {
       }
     } else {
       if (infinite || calIntersted) {
-        console.log("cmesas");
         setCalInterested(false)
         showEvent();
       }
@@ -298,8 +296,8 @@ export default function ReactBigCalendar() {
     }
 
     console.log(val, "val");
-    setLoading2(true);
     e.preventDefault();
+    toast.dark("Event Created Successfully!")
     let result = await fetch("http://localhost:8000/createEvent", {
       method: "post",
       body: JSON.stringify(val),
@@ -309,16 +307,17 @@ export default function ReactBigCalendar() {
       },
     });
     result = await result.json();
-
-    console.log(result.event, "result");
+    
+    console.log(result.event, "resultvbnvvbnvn");
     console.log(allEventsData, "pppp");
     const newData = [...allEventsData, result.event]
+    
     console.log(newData, "newdata");
     dispatch({
       type: 'INIT_ALL_EVENT',
       item: newData,
     });
-
+    
     setTitle("");
     setScope("");
     setEventDate("");
@@ -342,11 +341,14 @@ export default function ReactBigCalendar() {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     }).then((res) => {
-      toast("Event Created Successfully!");
+      // toast("Event Created Successfully!");
       setLoading2(false);
     });
-    setLoad(true)
-    setInfinite(true)
+    
+      setLoad(true)
+      setInfinite(true)
+
+    
   };
 
   // handle event on select from react big calender
@@ -359,7 +361,7 @@ export default function ReactBigCalendar() {
     const a = JSON.stringify(start);
     (a.slice(0, 9))
     // alert(a.)
-
+    if(role==="Super_Admin" || role==="Admin" || role==="Lead" )
     setAddEventModel(true);
   };
 
@@ -370,8 +372,6 @@ export default function ReactBigCalendar() {
       method: "delete",
     });
     result = await result.json();
-    // alert(result)
-    // console.log("delete",result);
     setDeleteBtn(false);
     setLoading(false);
     setPreEventModel(false);
@@ -395,6 +395,7 @@ export default function ReactBigCalendar() {
     //   window.location.href="/calendar"
     // });
     setLoading2(false);
+    
     window.location.href = "/calendar";
   };
 
@@ -534,8 +535,8 @@ export default function ReactBigCalendar() {
                 </div>
                 <div className="preview-button">
                   {
-                    // role && role !== "Super_Admin" ?
-                    // id && myEvent && id !== myEvent.postedBy._id ?
+                    role && role !== "Super_Admin" ?
+                    id && myEvent && id !== myEvent.postedBy._id ?
                     new Date(myEvent && myEvent.eventDate).getTime() >
                       new Date(mindate).getTime() ?
                       interestedBtn ?
@@ -554,10 +555,10 @@ export default function ReactBigCalendar() {
                             pointerEvents: "none",
                             backgroundColor: "gray",
                           }}
-                        >
+                        > 
                           Interested
                         </button>
-                      : ""}
+                      : "" :'' : ''}
 
                   {(role === "Admin" ||
                     role === "Super_Admin" ||
@@ -606,7 +607,7 @@ export default function ReactBigCalendar() {
                       </Modal.Footer>
                     </Modal>
                   )}
-                </div>
+                </div>  
 
                 {MAVisibility && (
 

@@ -25,7 +25,7 @@ const PostDisplay = (props) => {
 
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
-  const [postComm, setPostComm] = useState("");
+  const [id, setId] = useState("");
   const [loading2, setLoading2] = useState(false);
   const [load, setLoad] = useState(false);
   // To open the Comment Model
@@ -41,6 +41,10 @@ const PostDisplay = (props) => {
   const college =
     JSON.parse(localStorage.getItem("user")) &&
     JSON.parse(localStorage.getItem("user")).college;
+
+
+
+
   console.log(college);
 
   const [{ currentUser, allPosts }, dispatch] = useStateValue();
@@ -247,7 +251,7 @@ const PostDisplay = (props) => {
                         <Link
                           className="link-to-profile"
                           to="/profile"
-                          state={item.postedBy}
+                          state={item.postedBy }
                         >
                           <p className="post-head">
                             {item && item.postedBy && item.postedBy.name}
@@ -459,7 +463,7 @@ const PostDisplay = (props) => {
                   <button
                     onClick={() => {
                       setOpenComment(!openComment);
-                      setPostComm(item);
+                      setId(item._id)
                     }}
                     className="post-display-bottom-content"
                   >
@@ -500,8 +504,7 @@ const PostDisplay = (props) => {
       <PostBigModel
         openComment={openComment}
         setOpenComment={setOpenComment}
-        id={postComm._id}
-        currPost={postComm}
+        id={id}
         route="/main"
       />
     </div>
