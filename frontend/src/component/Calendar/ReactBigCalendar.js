@@ -342,12 +342,34 @@ export default function ReactBigCalendar() {
     setSelectedEvent(val);
   };
   const handleSelect = ({ start }) => {
-    // alert(start);
     const a = JSON.stringify(start);
-    (a.slice(0, 9))
-    // alert(a.)
+    //  console.log(a.slice(1, 11))
+    var tempDate=a.slice(1,11)
+    let today1 = new Date();
+    // console.log(today1);
+    var date = (new Date().getDate());
+    date-=1;
+    if(date<10)
+    {
+      date="0"+date;
+    } 
+    var month = new Date().getMonth() + 1; 
+    if(month<10)
+    {
+      month="0"+month;
+    }
+    var year = new Date().getFullYear(); 
+    var currentDate=year+"-"+month+"-"+date;
+    
+    if(tempDate<currentDate)
+    {
+      // toast("Can't create event for previous date")
+      alert("Can't create event for previous date")
 
+    }
+    else{
     setAddEventModel(true);
+    }
   };
 
   // Delete Event
