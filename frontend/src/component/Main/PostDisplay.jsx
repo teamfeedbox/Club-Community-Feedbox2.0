@@ -67,7 +67,7 @@ const PostDisplay = (props) => {
     setLoading2(true);
     let result;
     if (allPosts) {
-      console.log(allPosts, "alllPiskjdihd");
+      // console.log(allPosts, "alllPiskjdihd");
       result = allPosts;
     } else {
       let res = await fetch("http://localhost:8000/getAllPost", {
@@ -403,7 +403,7 @@ const PostDisplay = (props) => {
                             item.img.map((data) => (
                               <SwiperSlide>
                                 <div className="" key={data._id}>
-                                  <img className="" src={data} alt="" />
+                                  <img className="" src={`https://drive.google.com/uc?id=${data}`} alt="" />
                                 </div>
                               </SwiperSlide>
                             ))}
