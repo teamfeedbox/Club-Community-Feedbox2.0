@@ -11,7 +11,6 @@ const nodemailer = require('nodemailer');
 const { google } = require("googleapis")
 const { Readable } = require('stream');
 const multer = require('multer');
-const { log } = require("console");
 const upload = multer({ limits: { fileSize: 5000000 } });
 
 const authenticateGoogle = () => {
@@ -201,7 +200,6 @@ router.get('/user/:id', requireLogin, async (req, res) => {
 
 // Update picture
 router.put('/update/details/pic/:id', upload.single('image'), async (req, res) => {
-
   try {
     if (req.file) {
       const auth = authenticateGoogle();

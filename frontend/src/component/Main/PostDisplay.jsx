@@ -20,7 +20,6 @@ import { Link } from "react-router-dom";
 import { injectStyle } from "react-toastify/dist/inject-style";
 import { ToastContainer, toast } from "react-toastify";
 
-
 const PostDisplay = (props) => {
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
@@ -44,9 +43,6 @@ const PostDisplay = (props) => {
   const college =
     JSON.parse(localStorage.getItem("user")) &&
     JSON.parse(localStorage.getItem("user")).college;
-
-
-
 
   // console.log(college);
 
@@ -95,7 +91,6 @@ const PostDisplay = (props) => {
       result = res;
     }
 
-    // result = result.reverse();
     console.log(result);
     if (role === "Super_Admin" || role === "Admin") {
       if (props.clgData) {
@@ -215,10 +210,14 @@ const PostDisplay = (props) => {
     injectStyle();
   }
 
-  const postDelete = async(Id)=>{
-    // console.log(Id)
-    let result = await fetch(`http://localhost:8000/deletePost/${Id}`, {
+  const postDelete = async (Id) => {
+    let result = await fetch(`http://localhost:8000/deletePost/${Id._id}`, {
       method: "delete",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify(Id),
     });
 
     result = await result.json();
@@ -226,30 +225,25 @@ const PostDisplay = (props) => {
 
     if (result) {
       toast.dark("Deleted Successfully...");
-      // setTimeout(() => {
-      //   window.location.href = "/main"
-      // }, 5000);
-      getList();
+      console.log(allPosts);
+      let array = [];
+      for (let i = 0; i < allPosts.length; i++) {
+        if (allPosts[i]._id !== Id._id) {
+          array.push(allPosts[i]);
+        }
+      }
+      dispatch({
+        type: "INIT_ALL_POST",
+        item: array,
+      });
+      setDelShow(false);
+      setLoad(true);
     }
-    setDelShow(false);
-    // console.log(allPosts);
-  }
-
-    // if (result) {
-    //   toast.dark("Deleted Successfully...");
-    //   setTimeout(() => {
-    //     window.location.href = "/main";
-    //   }, 5000);
-    //   getList();
-    // }
-    // setDelShow(false);
-  
+  };
 
   return (
     <div id="post_display_container">
-      {
-      
-      !loading2 ? (
+      {!loading2 ? (
         <div className="mb-[120px]">
           {data.length > 0 ? (
             data.map((item, index) => (
@@ -267,7 +261,7 @@ const PostDisplay = (props) => {
                         <Link
                           className="link-to-profile"
                           to="/profile"
-                          state={item.postedBy }
+                          state={item.postedBy}
                         >
                           <p className="post-head">
                             {item && item.postedBy && item.postedBy.name}
@@ -299,10 +293,15 @@ const PostDisplay = (props) => {
                     </div>
                   </div>
 
-              {
-               role==='Super_Admin'?
-               <div className="post-display-delete" onClick={() => {setDelShow(true); setPostId(item._id)}}>
-                <svg
+                  {role === "Super_Admin" ? (
+                    <div
+                      className="post-display-delete"
+                      onClick={() => {
+                        setDelShow(true);
+                        setPostId(item);
+                      }}
+                    >
+                      <svg
                         className="w-8 h-8 text-red-600 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
                         fill="none"
                         stroke="currentColor"
@@ -317,7 +316,7 @@ const PostDisplay = (props) => {
                         ></path>
                       </svg>
                     </div>
-                 : (
+                  ) : (
                     ""
                   )}
                   <Modal
@@ -334,9 +333,13 @@ const PostDisplay = (props) => {
                       </Modal.Header>
                       <Modal.Footer className="modal-footer club-member-modal-footer">
                         <div className="modal-footer-club-member-yes-no-div">
-                          <div onClick={()=>{postDelete(postId)
-                          // console.log(postId)
-                          }}>Yes</div>
+                          <div
+                            onClick={() => {
+                              postDelete(postId);
+                            }}
+                          >
+                            Yes
+                          </div>
                           <button
                             onClick={(e) => {
                               e.preventDefault();
@@ -433,7 +436,7 @@ const PostDisplay = (props) => {
                                 <img
                                   className="display-img"
                                   alt=""
-                                  src={data}
+                                  src={`https://drive.google.com/uc?id=${data}`}
                                 />
                               </div>
                             ))}
@@ -479,7 +482,7 @@ const PostDisplay = (props) => {
                   <button
                     onClick={() => {
                       setOpenComment(!openComment);
-                      setId(item._id)
+                      setId(item._id);
                     }}
                     className="post-display-bottom-content"
                   >
@@ -492,7 +495,7 @@ const PostDisplay = (props) => {
                       icon={faMessage}
                     />
                     <span style={{ fontSize: "0.8rem", fontWeight: "600" }}>
-                      {item.count}
+                      {item.count ? item.count : 0}
                     </span>
                   </button>
                 </div>
