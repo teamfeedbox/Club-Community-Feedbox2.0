@@ -43,7 +43,7 @@ const App = () => {
   };
 
   const handleClick = async () => {
-    let result = await fetch(`http://localhost:8000/user`, {
+    let result = await fetch(`${process.env.BASE_URL_MAIN}/user`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
@@ -56,6 +56,7 @@ const App = () => {
       }
     }
   };
+
   // Get all Colleges***
   const getColleges = async () => {
     if (!colleges) {

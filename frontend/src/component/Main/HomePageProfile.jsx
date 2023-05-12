@@ -188,7 +188,7 @@ const HomePageProfile = (props) => {
                 Total Students:
               </h>
               <p className=" text-[1.5rem] font-[700] p-0 relative bottom-2">
-                {selected ? clgUsers ? clgUsers : 0 : allUser.length > 0 && allUser.length}
+                {selected ? clgUsers ? clgUsers : 0 : allUser.length > 0 ? allUser.length : 0}
               </p>
             </div>
           </div>

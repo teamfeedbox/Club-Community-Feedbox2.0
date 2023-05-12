@@ -16,7 +16,8 @@ const app = express();
 
 mongoose.set("strictQuery", false);
 
-const db = "mongodb+srv://Khushi:Khushi@cluster0.6b9gc.mongodb.net/FeedBox-Club";
+// const db = "mongodb+srv://Khushi:Khushi@cluster0.6b9gc.mongodb.net/FeedBox-Club";
+const db = process.env.MONGO_URL_COMMUNITY;
 mongoose.connect(db,{ useNewUrlParser: true, useUnifiedTopology: true })
 .then(()=>{
     console.log("connection successful 😎😎")
