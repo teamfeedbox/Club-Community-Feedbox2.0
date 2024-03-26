@@ -128,7 +128,7 @@ export function Accessibility(props) {
     <AccessibilityContainer>
       {/* *********************profile icon*************************** */}
       {/* {role !== "Super_Admin" ? ( */}
-        <Links
+        <Link
           to="/profile"
           title="Profile Page"
           className={
@@ -140,7 +140,7 @@ export function Accessibility(props) {
           <LoginButton>
             <FontAwesomeIcon icon={faUser} className="fa-xl" />
           </LoginButton>
-        </Links>
+        </Link>
         
       {/* )  */}
       {/* *************************Dashboard****************************** */}

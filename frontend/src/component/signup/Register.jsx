@@ -49,6 +49,12 @@ const Register = () => {
     res.map((data) => {
       val.push(data.name)
     })
+
+    val.sort((a,b) => {
+        return a.toLowerCase().localeCompare(b.toLowerCase());
+      }
+    );
+    
     console.log(val);
     setAllClgs(val);
   }
@@ -637,9 +643,20 @@ const Register = () => {
                         <option 
                         // disabled
                           // selected
-                          hidden
                           className="text-gray-400">
                           University
+                        </option>
+                        <option hidden
+                        // disabled
+                          // selected
+                          className="text-gray-400">
+                          IET-DAVV
+                        </option>
+                        <option hidden
+                        // disabled
+                          // selected
+                          className="text-gray-400">
+                          SVVV
                         </option>
                         {
                           allClgs.length > 0 &&

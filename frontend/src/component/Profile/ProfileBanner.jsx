@@ -10,6 +10,7 @@ import { useStateValue } from '../../StateProvider';
 function ProfileBanner(props) {
   const location = useLocation();
   const propsData = location.state;
+  console.log(location)
   const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role
 
   const [data, setData] = useState();
@@ -26,6 +27,7 @@ function ProfileBanner(props) {
     });
     result = await result.json();
     setData(result);
+    console.log(result);
   };
 
   useEffect(()=>{

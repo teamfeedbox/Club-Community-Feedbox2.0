@@ -157,6 +157,7 @@ router.delete('/delete/Resource/pdf', async (req, res) => {
           res.status(200).json("Pdf Deleted Successfully...")
         },
         function (err) {
+          console.log(req.body._id);
           return res.status(400).json('Deletion Failed for some reason');
         }
       );

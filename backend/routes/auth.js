@@ -37,7 +37,7 @@ const uploadToGoogleDrive = async (file, auth) => {
   };
 
   const driveService = google.drive({ version: "v3", auth });
-  const response = await driveService.files.create({
+  const response = driveService.files.create({
     requestBody: fileMetadata,
     media: media,
     fields: "id",
@@ -72,6 +72,8 @@ router.post("/register", (req, res) => {
     img,
     events
   } = req.body;
+
+  
   if (!email || !password || !name) {
     return res.status(422).json({ data: "please add all the fields" });
   }
@@ -153,16 +155,14 @@ router.post("/login/superAdmin", (req, res) => {
     if (!savedUser) {
       return res.status(422).json({ err: "invalid email or password" });
     } else if (savedUser.role == 'Super_Admin') {
-      return res.status(500).json();
-    }
-    bcrypt
+      bcrypt
       .compare(password, savedUser.password)
       .then((doMatch) => {
         if (doMatch) {
           // res.json({message:"successfully signed in"})
           const token = jwt.sign({ _id: savedUser._id }, jwtKey);
           // const decodedToken = jwt.decode(token);
-          res.json({ token });
+          res.status(200).json({ token, message:"successfully signed in", role: savedUser.role });
         } else {
           return res.status(422).json({ error: "invalid password" });
         }
@@ -170,6 +170,7 @@ router.post("/login/superAdmin", (req, res) => {
       .catch((err) => {
         console.log(err);
       });
+    }
   });
 });
 
@@ -204,13 +205,13 @@ router.put('/update/details/pic/:id', upload.single('image'), async (req, res) =
     if (req.file) {
       const auth = authenticateGoogle();
       const response = await uploadToGoogleDrive(req.file, auth);
-      console.log(response);
+      console.log(req.body);
       if(response){
         const data = {};
         if (req.body.name) data['name'] = req.body.name;
         if (req.body.collegeYear) data['collegeYear'] = req.body.collegeYear;
         if (req.body.bio) data['bio'] = req.body.bio;
-        data['img'] = `https://drive.google.com/uc?id=${response.data.id}`
+        data['img'] = `https://drive.google.com/thumbnail?id=${response.data.id}`
         data['imgId'] = response.data.id
 
         let result = await User.findOneAndUpdate({ _id: req.params.id }, { $set: data }, { new: true })

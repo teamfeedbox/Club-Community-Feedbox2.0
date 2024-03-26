@@ -30,6 +30,8 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
   const [{ currentUser }, dispatch] = useStateValue();
 
   const id = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).id
+  console.log(localStorage.getItem("jwt")); // 65d5bb099dd7c852779b1fd4
+  
 
   const { addToast } = useToasts();
 
@@ -89,8 +91,6 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
 
   const getUser = async () => {
     if (currentUser) {
-      console.log("1111111111");
-      console.log(currentUser);
       setUser(currentUser)
     } else {
       let result = await fetch(`http://localhost:8000/user`, {
@@ -126,7 +126,6 @@ const EditProfile = ({ Userbio, Username, Useryear, open, setOpen,sendData }) =>
       }
     })
     const updatedUser = await data.json();
-    console.log(updatedUser);
 
 
     dispatch({

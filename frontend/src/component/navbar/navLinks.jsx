@@ -60,7 +60,10 @@ const Links = styled(Link)`
 
 export function NavLinks(props) {
   const selectedPage = window.location.pathname;
-  const role = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).role
+  const role =
+    JSON.parse(localStorage.getItem("user")) &&
+    JSON.parse(localStorage.getItem("user")).role;
+  console.log(role);
 
   return (
     <NavLinksContainer>
@@ -71,8 +74,8 @@ export function NavLinks(props) {
           </LinkItemHighlight>
         ) : (
           <LinkItem>
-                <Links to="/main">Home</Links>
-              </LinkItem>
+            <Links to="/main">Home</Links>
+          </LinkItem>
         )}
 
         {selectedPage === "/calendar" || selectedPage === "/attendance" ? (
@@ -85,8 +88,8 @@ export function NavLinks(props) {
           </LinkItem>
         )}
 
-        {role && (role === "Admin" || role === 'Lead' 
-        || role === 'Super_Admin') ? (
+        {role &&
+        (role === "Admin" || role === "Lead" || role === "Super_Admin") ? (
           <div>
             {selectedPage === "/approvals" ? (
               <LinkItemHighlight>
@@ -111,6 +114,34 @@ export function NavLinks(props) {
           <LinkItem>
             <Links to="/rescources">Resources</Links>
           </LinkItem>
+        )}
+
+        {role && (role === "Club_Member" || role === "Admin" || role === "Lead") ? (
+          selectedPage === "/store" ? (
+            <LinkItemHighlight>
+              <Links to="/store">Store</Links>
+            </LinkItemHighlight>
+          ) : (
+            <LinkItem>
+              <Links to="/store">Store</Links>
+            </LinkItem>
+          )
+        ) : (
+          ""
+        )}
+        
+        {role && (role === "Super_Admin") ? (
+          selectedPage === "/addproduct" ? (
+            <LinkItemHighlight>
+              <Links to="/addproduct">Add Product</Links>
+            </LinkItemHighlight>
+          ) : (
+            <LinkItem>
+              <Links to="/addproduct">Add Product</Links>
+            </LinkItem>
+          )
+        ) : (
+          ""
         )}
 
         {selectedPage === "/faq" ? (

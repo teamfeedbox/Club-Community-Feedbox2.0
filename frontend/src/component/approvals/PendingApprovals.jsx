@@ -212,7 +212,7 @@ const PendingApprovals = (props) => {
                     </td>
                     <td className="p-2 lg:flex items-center hidden md:block">
                       <div className="text-gray-800 text-[1rem] font-[400]">
-                        {approval.collegeYear} year-{approval.branch}
+                        {approval.collegeYear} year-{approval.branch} / {approval.collegeName}
                       </div>
                     </td>
                     <td className="pt-2 pb-2 flex justify-end">

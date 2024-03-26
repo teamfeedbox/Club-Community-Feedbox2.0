@@ -23,6 +23,8 @@ import NavbarRes from "./component/navbar/NavbarRes";
 import Login from "./component/login/Login";
 import Modal from "react-bootstrap/Modal";
 import { useStateValue } from "./StateProvider";
+import Store from "./component/store/Store";
+import AddProducts from "./component/store/AddProducts";
 
 const App = () => {
   const [show, setShow] = useState(false);
@@ -49,7 +51,6 @@ const App = () => {
       },
     });
     result = await result.json();
-    console.log(result.role, "handle click function triggered");
     if (result.role != null) {
       if (result.role !== role) {
         setShow(true);
@@ -60,7 +61,6 @@ const App = () => {
   // Get all Colleges***
   const getColleges = async () => {
     if (!colleges) {
-      console.log("collegeeegegegege-------");
       const data = await fetch(`http://localhost:8000/colleges/get`);
       const res = await data.json();
       let val = [];
@@ -110,7 +110,6 @@ const App = () => {
 
   useEffect(() => {
     document.addEventListener("click", handleClick);
-    console.log("apppp loadeddddd-----------------");
     getUser();
     getAllEvents();
     getColleges();
@@ -146,7 +145,8 @@ const App = () => {
           <Route
             index
             path="/comment/:id"
-            element={role == null ? <Error /> : <PostBigModel />} />
+            element={role == null ? <Error /> : <PostBigModel />}
+          />
 
           <Route
             index
@@ -211,6 +211,18 @@ const App = () => {
                 [<NavbarRes />, <AttendanceSheet />]
               )
             }
+          />
+
+          <Route
+            index
+            path="/store"
+            element={role == null ? <Error /> : [<NavbarRes />, <Store />]}
+          />
+          
+          <Route
+            index
+            path="/addproduct"
+            element={role == 'Super_Admin' ? [<NavbarRes />, <AddProducts />] : <Error />}
           />
 
           <Route
