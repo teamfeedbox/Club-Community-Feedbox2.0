@@ -31,6 +31,8 @@ const ProfileTabs = (props) => {
   JSON.parse(localStorage.getItem("user")) &&
   JSON.parse(localStorage.getItem("user")).id;
 
+  console.log(location);
+
   // if(localId === propsData._id){
   //   setCheckId(true);
   // }
@@ -179,12 +181,12 @@ const ProfileTabs = (props) => {
                 }
                 onClick={() => setTabs("Overview")}
               >
-                {role === 'Super_Admin' && propsData._id === localId ? 'Dashboard'  :
+                {role === 'Super_Admin' && propsData && propsData._id === localId ? 'Dashboard'  :
                   'Overview' 
                 }
               </div>
 
-                {propsData._id === localId ?
+                {propsData && propsData._id === localId ?
                 <div
                   className={
                     tabs === "Colleges"
@@ -196,7 +198,7 @@ const ProfileTabs = (props) => {
                   Colleges
                 </div> : '' }
 
-                {propsData._id === localId ?
+                {propsData && propsData._id === localId ?
                   <div
                   className={
                     tabs === "Post"
@@ -209,7 +211,7 @@ const ProfileTabs = (props) => {
                 </div> 
                 : ''}
 
-                {propsData._id === localId ? (
+                {propsData && propsData._id === localId ? (
                 <div
                   className={
                     tabs === "Event"
@@ -224,7 +226,7 @@ const ProfileTabs = (props) => {
                 ""
               )}
 
-              {propsData._id === localId ? (
+              {propsData && propsData._id === localId ? (
                 <div
                   className={
                     tabs === "Res"

@@ -57,6 +57,7 @@ const Dashboard = () => {
   const [decAvgHr, setDecAvgHr] = useState(0);
 
   const [{ allEventsData, allUsers, colleges }, dispatch] = useStateValue();
+  console.log(colleges);
   // const arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   // console.log(arr.length)
 
@@ -164,18 +165,19 @@ const Dashboard = () => {
     ],
   };
 
-  let avgJan = Math.round(janAvgHr / user);
-  let avgFeb = Math.round(febAvgHr / user);
-  let avgMarch = Math.round(marchAvgHr / user);
-  let avgApril = Math.round(aprilAvgHr / user);
-  let avgMay = Math.round(mayAvgHr / user);
-  let avgJune = Math.round(juneAvgHr / user);
-  let avgJuly = Math.round(julyAvgHr / user);
-  let avgAugust = Math.round(augustAvgHr / user);
-  let avgSept = Math.round(septAvgHr / user);
-  let avgOct = Math.round(octAvgHr / user);
-  let avgNov = Math.round(novAvgHr / user);
-  let avgDec = Math.round(decAvgHr / user);
+  let avgJan = Math.round(janAvgHr);
+  console.log(avgJan)
+  let avgFeb = Math.round(febAvgHr);
+  let avgMarch = Math.round(marchAvgHr);
+  let avgApril = Math.round(aprilAvgHr);
+  let avgMay = Math.round(mayAvgHr);
+  let avgJune = Math.round(juneAvgHr);
+  let avgJuly = Math.round(julyAvgHr);
+  let avgAugust = Math.round(augustAvgHr);
+  let avgSept = Math.round(septAvgHr);
+  let avgOct = Math.round(octAvgHr);
+  let avgNov = Math.round(novAvgHr);
+  let avgDec = Math.round(decAvgHr);
 
   const data2 = {
     labels: labels,
@@ -220,7 +222,6 @@ const Dashboard = () => {
   var mon = new Date().getMonth() + 1;
 
   useEffect(() => {
-    console.log(allEventsData, "dataaaaa");
     getUser();
     getColleges();
     getList();
@@ -242,7 +243,7 @@ const Dashboard = () => {
           array.push(data);
         }
       });
-      setUser(array);
+      //  setUser(array);
       dispatch({
         type: "INIT_ALL_USERS",
         item: array,
@@ -252,21 +253,19 @@ const Dashboard = () => {
 
   const getColleges = async () => {
     if (!colleges) {
-      console.log("collegeeegegegege-------");
       const data = await fetch(`http://localhost:8000/colleges/get`);
       const res = await data.json();
+      console.log(res)
       let val = [];
       res.map((data) => {
         val.push(data.name);
       });
-      console.log(val,"vllvl");
       dispatch({
         type: "INIT_CLG_ARR",
         item: val,
       });
       setCollege(val.length)
     }else{
-      console.log(colleges,"clgs");
       setCollege(colleges.length)
     }
   };
@@ -479,7 +478,7 @@ const Dashboard = () => {
     // console.log(counter)
   };
 
-  let averageHourStudied = Math.round(averageTime / user);
+  let averageHourStudied = Math.round(averageTime);
 
   return (
     <div>
@@ -501,7 +500,8 @@ const Dashboard = () => {
                 Total Students:
               </h6>
               <p className=" text-[1.5rem] font-[700] p-0 relative bottom-2">
-                {user.length > 0 && user.length > 0 ? user : 0}
+                {user.length > 0 ? user : 0}
+                {console.log(user.length)}
               </p>
             </div>
           </div>

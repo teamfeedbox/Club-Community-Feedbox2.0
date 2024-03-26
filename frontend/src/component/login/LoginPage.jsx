@@ -13,7 +13,6 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     // setLoading(true);
     e.preventDefault();
-    console.log(email, password);
 
     let result = await fetch("http://localhost:8000/login/superAdmin", {
       method: "post",
@@ -26,10 +25,9 @@ const LoginPage = () => {
     console.log(result)
 
     if(result.token){
-      navigate('/main')   
-
       localStorage.setItem("user", JSON.stringify(result));
       localStorage.setItem("jwt", result.token);
+      navigate('/main')   
     } else {
       alert(result.err);
     }

@@ -5,6 +5,8 @@ import en from "javascript-time-ago/locale/en";
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import "./RescourcesTable.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Swal from "sweetalert2";
+
 import {
   faChain,
   faFileLines,
@@ -13,6 +15,8 @@ import {
   faImage,
   faFile,
   faFileInvoice,
+  faDeleteLeft,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { injectStyle } from "react-toastify/dist/inject-style";
@@ -80,7 +84,7 @@ const RescourcesTable = (props) => {
       getList(skillName);
     }
     getUser();
-    setLoad(false)
+    setLoad(false);
   }, [skillName, load]);
 
   const getUser = async () => {
@@ -130,7 +134,6 @@ const RescourcesTable = (props) => {
     e.preventDefault();
     const formData = new FormData();
     if (pdfFile) {
-
       formData.append("file", pdfFile);
       formData.append("title", title);
       formData.append("skill", skillName);
@@ -153,24 +156,24 @@ const RescourcesTable = (props) => {
       setFileName("");
       setLink(false);
       setShow(false);
-      setTimeout(()=>{
-        setLoad(true)
-      },5000);
-    
+      setTimeout(() => {
+        setLoad(true);
+      }, 5000);
+
       // window.location.href = '/rescourcesDisplay';
     } else if (pdfLink) {
       const val = {
         title: title,
         url: pdfLink,
-        skill: skillName
-      }
+        skill: skillName,
+      };
 
       const response = await fetch("http://localhost:8000/linkUpload", {
         method: "POST",
         body: JSON.stringify(val),
         headers: {
           Authorization: "Bearer " + localStorage.getItem("jwt"),
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
 
@@ -185,10 +188,10 @@ const RescourcesTable = (props) => {
       setFileName("");
       setLink(false);
       setShow(false);
-      setTimeout(()=>{
-        setLoad(true)
-      },2000);
-      
+      setTimeout(() => {
+        setLoad(true);
+      }, 2000);
+
       // window.location.href = '/rescourcesDisplay';
     }
   };
@@ -205,6 +208,7 @@ const RescourcesTable = (props) => {
       }
     );
     result = await result.json();
+    console.log(result);
     setData(result);
     setDuplicateData(result);
     setLoading2(false);
@@ -235,6 +239,44 @@ const RescourcesTable = (props) => {
     setTitle(filteredValue);
   };
 
+  const handleDeleteClick = (id, driveId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Are you sure you want to delete this resource?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const _id = { _id: id, driveId };
+        const deleteCall = await fetch(
+          "http://localhost:8000/delete/Resource/pdf",
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(_id),
+          }
+        );
+
+        const response = await deleteCall.json();
+
+        const updatedData = data.filter((item) => {
+          return item._id !== id;
+        });
+
+
+        setData(updatedData);
+
+        Swal.fire("Deleted!", response, "success");
+      }
+    });
+  };
+
+  console.log(data);
   return (
     <>
       <div className="Res-table-display pt-[60px] md:pt-[100px]">
@@ -392,174 +434,180 @@ const RescourcesTable = (props) => {
 
           {/* table to display rescources */}
 
-          
-            <div>
-              <div className="overflow-x-auto p-3">
-                <table className="table-auto w-full">
-                  <thead className="uppercase text-gray-400 bg-gray-50">
-                    <tr>
-                      <th className="p-2">
-                        <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
-                          Download
-                        </div>
-                      </th>
-                      <th className="p-2">
-                        <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
-                          Resource Title
-                        </div>
-                      </th>
-                      <th className="p-2">
-                        <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
-                          Created{" "}
-                        </div>
-                      </th>
-                      <th className="p-2">
-                        <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
-                          Author
-                        </div>
-                      </th>
-                    </tr>
-                  </thead>
+          <div>
+            <div className="overflow-x-auto p-3">
+              <table className="table-auto w-full">
+                <thead className="uppercase text-gray-400 bg-gray-50">
+                  <tr>
+                    <th className="p-2">
+                      <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
+                        Download
+                      </div>
+                    </th>
+                    <th className="p-2">
+                      <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
+                        Resource Title
+                      </div>
+                    </th>
+                    <th className="p-2">
+                      <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
+                        Created{" "}
+                      </div>
+                    </th>
+                    <th className="p-2">
+                      <div className="font-[500] text-[.7rem] md:text-[1rem]  lg:text-[1.05rem]  text-left">
+                        Author
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
 
-                {
-                !loading2?
-                <tbody className="text-sm divide-y divide-gray-100">
-                {tableData && tableData.length > 0 ? (
-                  tableData.map((item) => (
-                    <tr key={item._id}>
-                      <td className="p-2">
-                        <a
-                          href={(item && item.url)}
-                          target="_blank"
-                          className="text-black"
-                        >
-                          {item.type=='pdf' ? (
+                {!loading2 ? (
+                  <tbody className="text-sm divide-y divide-gray-100">
+                    {tableData && tableData.length > 0 ? (
+                      tableData.map((item) => (
+                        <tr key={item._id}>
+                          <td className="p-2">
+                            <a
+                              href={item && item.url}
+                              target="_blank"
+                              className="text-black"
+                            >
+                              {item.type == "pdf" ? (
+                                <FontAwesomeIcon
+                                  icon={faFileInvoice}
+                                  className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
+                                />
+                              ) : (
+                                <FontAwesomeIcon
+                                  icon={faChain}
+                                  className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
+                                />
+                              )}
+                            </a>
+                          </td>
+                          <td className="p-2">
+                            <div className="font-[500] text-[1rem] text-black">
+                              {item && item.title}
+                            </div>
+                          </td>
+                          <td className="p-2">
+                            <div className="text-left text-blue-600 font-[500] text-[1rem]">
+                              {item &&
+                                item.date &&
+                                timeAgo.format(
+                                  new Date(item.date).getTime() - 60 * 1000
+                                )}
+                            </div>
+                          </td>
+                          <td className="p-2">
+                            <div className="text-left text-black font-[500] text-[1rem]">
+                              {item && item.author && item.author.name}
+                            </div>
+                          </td>
+                          <td>
                             <FontAwesomeIcon
-                              icon={faFileInvoice}
-                              className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
+                              icon={faTrash}
+                              className="w-5 h-5 hover:text-red-600 rounded-full hover:bg-gray-100 p-1"
+                              onClick={() =>
+                                handleDeleteClick(item._id, item.driveId)
+                              }
                             />
-                          ) : (
-                            <FontAwesomeIcon
-                              icon={faChain}
-                              className="w-5 h-5 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
-                            />
-                          )}
-                        </a>
-                      </td>
-                      <td className="p-2">
-                        <div className="font-[500] text-[1rem] text-black">
-                          {item && item.title}
-                        </div>
-                      </td>
-                      <td className="p-2">
-                        <div className="text-left text-blue-600 font-[500] text-[1rem]">
-                          {item &&
-                            item.date &&
-                            timeAgo.format(
-                              new Date(item.date).getTime() - 60 * 1000
-                            )}
-                        </div>
-                      </td>
-                      <td className="p-2">
-                        <div className="text-left text-black font-[500] text-[1rem]">
-                          {item && item.author && item.author.name}
-                        </div>
-                      </td>
-                    </tr>
-                  ))
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colspan="4">
+                          <div className="p-6 text-center">
+                            No Resources Added yet !
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
                 ) : (
-                  
+                  <tbody>
                     <tr>
-                      <td colspan="4" >
-                        <div className="p-6 text-center">No Resources Added yet !</div>
-                      </td>
-                    </tr>
-                  
-                )}
-              </tbody>:
-              <tbody>
-                <tr>
-                  <td className="w-full" colspan="4">
-                  <div
-                    role="status"
-                    class=" w-full  p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700"
-                  >
-                    <div class="flex items-center justify-between">
-                      <div>
-                        <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-                        <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-                      </div>
-                      <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
-                    </div>
-                    <div class="flex items-center justify-between pt-4">
-                      <div>
-                        <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-                        <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-                      </div>
-                      <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
-                    </div>
-                    <div class="flex items-center justify-between pt-4">
-                      <div>
-                        <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-                        <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-                      </div>
-                      <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
-                    </div>
-                    <div class="flex items-center justify-between pt-4">
-                      <div>
-                        <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-                        <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-                      </div>
-                      <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
-                    </div>
-                    {/* <div class="flex items-center justify-between pt-4">
+                      <td className="w-full" colspan="4">
+                        <div
+                          role="status"
+                          class=" w-full  p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700"
+                        >
+                          <div class="flex items-center justify-between">
+                            <div>
+                              <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                              <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                            </div>
+                            <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                          </div>
+                          <div class="flex items-center justify-between pt-4">
+                            <div>
+                              <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                              <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                            </div>
+                            <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                          </div>
+                          <div class="flex items-center justify-between pt-4">
+                            <div>
+                              <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                              <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                            </div>
+                            <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                          </div>
+                          <div class="flex items-center justify-between pt-4">
+                            <div>
+                              <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                              <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                            </div>
+                            <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                          </div>
+                          {/* <div class="flex items-center justify-between pt-4">
                       <div>
                         <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
                         <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
                       </div>
                       <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
                     </div> */}
-                    <span class="sr-only">Loading...</span>
-                  </div>
-                  </td>
-                  </tr>
-              </tbody>
-                }
-                  
-                </table>
-              </div>
-              <div className="res-navigation">
-                <div></div>
-                {tableData && tableData.length > 0 ? (
-                  <nav className="d-flex">
-                    <ul className="res-paginate">
-                      <button
-                        onClick={goToPrev}
-                        className="prev"
-                        disabled={currentPage === 1}
-                      >
-                        <GrFormPrevious size="25" />
-                      </button>
-                      <p className="nums">
-                        {tableData && tableData.length > 0
-                          ? `${currentPage}/${totalPages}`
-                          : "0/0"}
-                      </p>
-                      <button
-                        onClick={goToNext}
-                        className="prev"
-                        disabled={currentPage >= totalPages}
-                      >
-                        <GrFormNext size="25" />
-                      </button>
-                    </ul>
-                  </nav>
-                ) : (
-                  ""
+                          <span class="sr-only">Loading...</span>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
                 )}
-              </div>
+              </table>
             </div>
-          
+            <div className="res-navigation">
+              <div></div>
+              {tableData && tableData.length > 0 ? (
+                <nav className="d-flex">
+                  <ul className="res-paginate">
+                    <button
+                      onClick={goToPrev}
+                      className="prev"
+                      disabled={currentPage === 1}
+                    >
+                      <GrFormPrevious size="25" />
+                    </button>
+                    <p className="nums">
+                      {tableData && tableData.length > 0
+                        ? `${currentPage}/${totalPages}`
+                        : "0/0"}
+                    </p>
+                    <button
+                      onClick={goToNext}
+                      className="prev"
+                      disabled={currentPage >= totalPages}
+                    >
+                      <GrFormNext size="25" />
+                    </button>
+                  </ul>
+                </nav>
+              ) : (
+                ""
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </>
