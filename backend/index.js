@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const compression = require("compression");
-const dotenv = require("dotenv").config();
+const dotenv = require("dotenv");
 const helmet = require("helmet");
 const post = require("./routes/Post");
 const auth = require("./routes/auth");
@@ -16,12 +16,13 @@ const port = 8000;
 const app = express();
 
 mongoose.set("strictQuery", false);
+dotenv.config();
 
 // const db = "mongodb+srv://Khushi:Khushi@cluster0.6b9gc.mongodb.net/FeedBox-Club";
 const db = process.env.MONGO_URL_COMMUNITY;
 mongoose
   .connect(
-    "mongodb+srv://jsiddharth847:Indore1234@cluster0.xxvhr7g.mongodb.net/mern_admin?retryWrites=true&w=majority",
+    db,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => {
