@@ -189,7 +189,57 @@ export function MobileNavLinks(props) {
             </LinkItem>
           )}
 
+          {/* Adding store in toggle options Date: 04/04/2024 */}
+
           {role !== "Super_Admin" ? (
+            <div>
+          {selectedPage === "/store" ? (
+            <LinkItemHighlight>
+              <Links to="/store">store</Links>
+            </LinkItemHighlight>
+          ) : (
+            <LinkItem>
+              <Links to="/store">store</Links>
+            </LinkItem>
+          )}
+          </div>
+          ) : (
+            ""
+          )}
+
+          {role === "Super_Admin" ? (
+            <div>
+              {selectedPage === "/addproduct" ? (
+                <LinkItemHighlight>
+                  <Links to="/addproduct">Add Product</Links>
+                </LinkItemHighlight>
+              ) : (
+                <LinkItem>
+                  <Links to="/addproduct">Add Product</Links>
+                </LinkItem>
+              )}
+            </div>
+          ) : (
+            ""
+          )} 
+
+          {role === "Super_Admin" ? (
+            <div>
+              {selectedPage === "/showproducts" ? (
+                <LinkItemHighlight>
+                  <Links to="/showproducts">Product</Links>
+                </LinkItemHighlight>
+              ) : (
+                <LinkItem>
+                  <Links to="/showproducts">Product</Links>
+                </LinkItem>
+              )}
+            </div>
+          ) : (
+            ""
+          )} 
+            {/*  */}
+          {/* {role !== "Super_Admin" ? (
             <div>
               {selectedPage === "/profile" ? (
                 <LinkItemHighlight>
@@ -203,23 +253,23 @@ export function MobileNavLinks(props) {
             </div>
           ) : (
             ""
-          )}
+          )} */}
 
-          {/* {role === "Super_Admin" ? (
+          {role === "Super_Admin" ? (
             <div>
-              {selectedPage === "/dashboard" ? (
+              {selectedPage === "/profile" ? (
                 <LinkItemHighlight>
-                  <Links to="/dashboard">Dashboard</Links>
+                  <Links to="/profile">Dashboard</Links>
                 </LinkItemHighlight>
               ) : (
                 <LinkItem>
-                  <Links to="/dashboard">Dashboard</Links>
+                  <Links to="/profile">Dashboard</Links>
                 </LinkItem>
               )}
             </div>
           ) : (
             ""
-          )} */}
+          )} 
 
           {selectedPage === "/faq" ? (
             <LinkItemHighlight>

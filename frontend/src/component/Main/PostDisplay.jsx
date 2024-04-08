@@ -403,7 +403,7 @@ const PostDisplay = (props) => {
                             item.img.map((data) => (
                               <SwiperSlide>
                                 <div className="" key={data._id}>
-                                  <img className="" src={`https://drive.google.com/uc?id=${data}`} alt="" />
+                                  <img className="" src={`${data}`} alt="" />
                                 </div>
                               </SwiperSlide>
                             ))}
@@ -436,7 +436,7 @@ const PostDisplay = (props) => {
                                 <img
                                   className="display-img"
                                   alt=""
-                                  src={`https://drive.google.com/uc?id=${data}`}
+                                  src={`${data}`}
                                 />
                               </div>
                             ))}

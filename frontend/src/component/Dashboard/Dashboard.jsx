@@ -56,8 +56,16 @@ const Dashboard = () => {
   const [decHr, setDecHr] = useState(0);
   const [decAvgHr, setDecAvgHr] = useState(0);
 
+  const [userError, setUserError] = useState(null);
+const [collegesError, setCollegesError] = useState(null);
+const [eventsError, setEventsError] = useState(null);
+const [isLoadingUser, setIsLoadingUser] = useState(false);
+const [isLoadingColleges, setIsLoadingColleges] = useState(false);
+const [isLoadingEvents, setIsLoadingEvents] = useState(false);
+
+
+
   const [{ allEventsData, allUsers, colleges }, dispatch] = useStateValue();
-  console.log(colleges);
   // const arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   // console.log(arr.length)
 
@@ -166,7 +174,6 @@ const Dashboard = () => {
   };
 
   let avgJan = Math.round(janAvgHr);
-  console.log(avgJan)
   let avgFeb = Math.round(febAvgHr);
   let avgMarch = Math.round(marchAvgHr);
   let avgApril = Math.round(aprilAvgHr);
@@ -222,50 +229,90 @@ const Dashboard = () => {
   var mon = new Date().getMonth() + 1;
 
   useEffect(() => {
+    console.log(allEventsData, "dataaaaa");
     getUser();
     getColleges();
     getList();
   }, []);
 
+  // const getUser = async () => {
+  //   if (allUsers) {
+  //     setUser(allUsers);
+  //   } else {
+  //     let result = await fetch("http://localhost:8000/get");
+  //     result = await result.json();
+  //     let array = [];
+  //     // result.map((data) => {
+  //     //   if (
+  //     //     data.role == "Lead" ||
+  //     //     data.role == "Admin" ||
+  //     //     data.role == "Club_Member"
+  //     //   ) {
+  //     //     array.push(data);
+  //     //   }
+  //     // });
+  //     result.forEach((data) => {
+  //       if (data.role === "Lead" || data.role === "Admin" || data.role === "Club_Member") {
+  //         array.push(data);
+  //       }
+  //     });
+  //     //setUser(array);
+  //     dispatch({
+  //       type: "INIT_ALL_USERS",
+  //       item: array,
+  //     });
+  //   }
+  // };
   const getUser = async () => {
-    if (allUsers) {
-      setUser(allUsers);
-    } else {
-      let result = await fetch("http://localhost:8000/get");
-      result = await result.json();
-      let array = [];
-      result.map((data) => {
-        if (
-          data.role == "Lead" ||
-          data.role == "Admin" ||
-          data.role == "Club_Member"
-        ) {
-          array.push(data);
+    setIsLoadingUser(true); // Start loading
+    setUserError(null); // Reset error state
+  
+    try {
+      let result;
+      if (allUsers) {
+        result = allUsers;
+      } else {
+        const response = await fetch("http://localhost:8000/get");
+        result = await response.json();
+        if (response.ok) {
+          let array = result.filter(data =>
+            ["Lead", "Admin", "Club_Member"].includes(data.role)
+          );
+          dispatch({
+            type: "INIT_ALL_USERS",
+            item: array,
+          });
+        } else {
+          throw new Error('Failed to fetch users');
         }
-      });
-      //  setUser(array);
-      dispatch({
-        type: "INIT_ALL_USERS",
-        item: array,
-      });
+      }
+      setUser(result);
+    } catch (error) {
+      setUserError(error.message); // Set error message
+    } finally {
+      setIsLoadingUser(false); // End loading
     }
   };
+  
 
   const getColleges = async () => {
     if (!colleges) {
+      console.log("collegeeegegegege-------");
       const data = await fetch(`http://localhost:8000/colleges/get`);
       const res = await data.json();
-      console.log(res)
-      let val = [];
-      res.map((data) => {
-        val.push(data.name);
-      });
+      // let val = [];
+      // res.map((data) => {
+      //   val.push(data.name);
+      // });
+      let val = res.map((data) => data.name);
+      console.log(val,"vllvl");
       dispatch({
         type: "INIT_CLG_ARR",
         item: val,
       });
       setCollege(val.length)
     }else{
+      console.log(colleges,"clgs");
       setCollege(colleges.length)
     }
   };
@@ -500,8 +547,7 @@ const Dashboard = () => {
                 Total Students:
               </h6>
               <p className=" text-[1.5rem] font-[700] p-0 relative bottom-2">
-                {user.length > 0 ? user : 0}
-                {console.log(user.length)}
+              {user.length > 0 ? user.length : 0}
               </p>
             </div>
           </div>

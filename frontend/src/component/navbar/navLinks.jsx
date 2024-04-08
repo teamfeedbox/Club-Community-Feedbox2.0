@@ -143,6 +143,20 @@ export function NavLinks(props) {
         ) : (
           ""
         )}
+        
+        {role && (role === "Super_Admin") ? (
+          selectedPage === "/showproducts" ? (
+            <LinkItemHighlight>
+              <Links to="/showproducts">Products</Links>
+            </LinkItemHighlight>
+          ) : (
+            <LinkItem>
+              <Links to="/showproducts">Products</Links>
+            </LinkItem>
+          )
+        ) : (
+          ""
+        )}
 
         {selectedPage === "/faq" ? (
           <LinkItemHighlight>

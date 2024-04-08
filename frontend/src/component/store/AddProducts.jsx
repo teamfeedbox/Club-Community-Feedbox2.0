@@ -32,7 +32,7 @@ const ProductForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.price <= 0 || formData.quantity <= 0) {
-      Swal.fire({
+      return Swal.fire({
         title: "Invalid Credentials",
         text: "Price or quantity must be greater than zero!",
       });
@@ -93,7 +93,7 @@ const ProductForm = () => {
       className="max-w-[50vw] mx-auto mt-[100px] mb-5 p-8 bg-[#cbcbd9] rounded-lg shadow-lg"
       style={{
         background:
-          "transparent linear-gradient(281deg, #007C9D 0%, #01C9C9 100%) 0% 0%",
+          "transparent linear-gradient(185deg, #29abe2 , #0071bc ) 30% 30%",
       }}
     >
       <div className="font-bold text-center text-white text-3xl">
@@ -209,6 +209,7 @@ const ProductForm = () => {
                   accept="image/*"
                   onChange={handleImageChange}
                   required
+                  className="w-full flex flex-wrap"
                 />
               </div>
               {file && (
@@ -230,6 +231,7 @@ const ProductForm = () => {
         <button
           type="submit"
           className="w-[100%] bg-white hover:bg-blue-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          disabled={loading}
         >
           {!loading ? (
             <span>Submit</span>
