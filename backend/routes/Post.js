@@ -64,7 +64,8 @@ router.post(
       for (let i = 0; i < req.files.length; i++) {
         const auth = authenticateGoogle();
         const response = await uploadToGoogleDrive(req.files[i], auth);
-        ids.push(response.data.id);
+        // ids.push(response.data.id);
+        ids[i] = `https://drive.google.com/thumbnail?id=${response.data.id}`;
       }
       const post = new Post({
         desc: req.body.desc,
@@ -181,8 +182,8 @@ router.delete("/deletePost/:id", async (req, res) => {
   try {
     const auth = authenticateGoogle();
     const drive = google.drive({ version: "v3", auth });
-    for (let i = 0; i < req.body.img.length; i++) {
-    const file_id = req.body.img[i];
+    for (let i = 0; i < req.body.img; i++) {
+      const file_id = req.body.img[i];
       drive.files
         .delete({
           fileId: file_id,
