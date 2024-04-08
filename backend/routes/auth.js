@@ -37,7 +37,7 @@ const uploadToGoogleDrive = async (file, auth) => {
   };
 
   const driveService = google.drive({ version: "v3", auth });
-  const response = driveService.files.create({
+  const response = await driveService.files.create({
     requestBody: fileMetadata,
     media: media,
     fields: "id",
@@ -72,8 +72,6 @@ router.post("/register", (req, res) => {
     img,
     events
   } = req.body;
-
-  
   if (!email || !password || !name) {
     return res.status(422).json({ data: "please add all the fields" });
   }
@@ -155,14 +153,16 @@ router.post("/login/superAdmin", (req, res) => {
     if (!savedUser) {
       return res.status(422).json({ err: "invalid email or password" });
     } else if (savedUser.role == 'Super_Admin') {
-      bcrypt
+      return res.status(500).json();
+    }
+    bcrypt
       .compare(password, savedUser.password)
       .then((doMatch) => {
         if (doMatch) {
           // res.json({message:"successfully signed in"})
           const token = jwt.sign({ _id: savedUser._id }, jwtKey);
           // const decodedToken = jwt.decode(token);
-          res.status(200).json({ token, message:"successfully signed in", role: savedUser.role });
+          res.json({ token });
         } else {
           return res.status(422).json({ error: "invalid password" });
         }
@@ -170,7 +170,6 @@ router.post("/login/superAdmin", (req, res) => {
       .catch((err) => {
         console.log(err);
       });
-    }
   });
 });
 
@@ -205,14 +204,14 @@ router.put('/update/details/pic/:id', upload.single('image'), async (req, res) =
     if (req.file) {
       const auth = authenticateGoogle();
       const response = await uploadToGoogleDrive(req.file, auth);
-      console.log(req.body);
+      console.log(response);
       if(response){
         const data = {};
         if (req.body.name) data['name'] = req.body.name;
         if (req.body.collegeYear) data['collegeYear'] = req.body.collegeYear;
         if (req.body.bio) data['bio'] = req.body.bio;
-        data['img'] = `https://drive.google.com/thumbnail?id=${response.data.id}`
-        data['imgId'] = response.data.id
+        data['img'] = `https://drive.google.com/thumbnail?id=${response.data.id}`;
+        data['imgId'] = response.data.id;
 
         let result = await User.findOneAndUpdate({ _id: req.params.id }, { $set: data }, { new: true })
         res.status(200).json(result)
@@ -245,7 +244,8 @@ router.delete('/delete/image/user/:imgId', async (req, res) => {
         function (err) {
           return res.status(400).json('Deletion Failed for some reason');
         }
-      );
+      );this["m-search"]
+
   } catch (error) {
     res.status(500).json(error)
   }
@@ -277,39 +277,74 @@ router.put('/updateDetail/:id', async (req, res) => {
 
 // send mail
 router.post('/sendmail/:id', async (req, res) => {
-  try {
-    let result = await User.findOne({ _id: req.params.id })
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      port: 465,
-      secure: false,
-      auth: {
-        user: 'anushkashah02.feedbox@gmail.com',
-        pass: 'dvtjbrrqhgjypuya' // this requires apps password not original password
-      }
-    });
+  // try {
+  //   let result = await User.findOne({ _id: req.params.id });
+  //   console.log(result);
+  //   const transporter = nodemailer.createTransport({
+  //     service: "smtp.gmail.com",
+  //     port: 587,
+  //     secure: false,
+  //     auth: {
+  //       user: 'jsiddharth847@gmail.com',
+  //       pass: 'wech kgew ajys qbto' // this requires apps password not original password
+  //     }
+  //   });
 
-    let info = await transporter.sendMail({
-      from: '<anushkashah02.feedbox@gmail.com>', // sender address
-      to: `${result.email}`, // list of receivers
-      subject: `Your Account has been Verified`, // Subject line
-      text: `Hello ${result.name}`, // plain text body
-      html: `<div>Dear ${result.name},
-      <br/><br/>
-      We are pleased to inform you that your account has been successfully verified. You can now login to your account and start using all the features and services that our platform has to offer.<br/>
-      To access your account, please visit our website at [website URL] and click on the login button. If you have any questions or concerns, please do not hesitate to contact us. Our support team is available 24/7 to assist you with any issues you may have.
-      <br/><br/>
-      Best regards,
-      <br/><br/>
-      Team Feedbox</div>`, // html body
-    });
+  //   let info = await transporter.sendMail({
+  //     from: '<siddharth.fdbx@gmail.com>', // sender address
+  //     to:`${result.email}`, // list of receivers
+  //     subject: `Your Account has been Verified`, // Subject line
+  //     text: `Hello ${result.name}`, // plain text body
+  //     html: `<div>Dear ${result.name},
+  //     <br/><br/>
+  //     We are pleased to inform you that your account has been successfully verified. You can now login to your account and start using all the features and services that our platform has to offer.<br/>
+  //     To access your account, please visit our website at [website URL] and click on the login button. If you have any questions or concerns, please do not hesitate to contact us. Our support team is available 24/7 to assist you with any issues you may have.
+  //     <br/><br/>
+  //     Best regards,
+  //     <br/><br/>
+  //     Team Feedbox</div>`, // html body
+  //   });
 
-    // console.log("Message sent: %s", info.messageId);
-    res.status(200).json(info);
-  } catch (error) {
-    res.status(500).json(error);
+  //   console.log("Message sent: %s", info.messageId);
+  //   res.status(200).json(info);
+  // } catch (error) {
+  //   res.status(500).json(error);
+  // }
+
+  let result = await User.findOne({ _id: req.params.id });
+  console.log(result);
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'siddharth.fdbx@gmail.com',
+    pass: 'gmqm ybmr cqke bdkb'
   }
-})
+});
+
+var mailOptions = {
+  from: 'siddharth.fdbx@gmail.com',
+  to: `${result.email}`,
+  subject: `Your Account has been Verified`,
+  //text: `${result.name}`,
+  html:`<div>Dear ${result.name},
+       <br/><br/>
+       We are pleased to inform you that your account has been successfully verified. You can now login to your account and start using all the features and services that our platform has to offer.<br/>
+       To access your account, please visit our website at [website URL] and click on the login button. If you have any questions or concerns, please do not hesitate to contact us. Our support team is available 24/7 to assist you with any issues you may have.
+       <br/><br/>
+       Best regards,
+       <br/><br/>
+       Team Feedbox</div>`, // html body
+
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
+ })
 
 // delete a user
 router.delete('/user/:id', async (req, res) => {
