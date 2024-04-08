@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import TimeAgo from "javascript-time-ago";
+// import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import "./RescourcesTable.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Swal from "sweetalert2";
+import moment from"moment";
+
+
 
 import {
   faChain,
@@ -31,8 +34,8 @@ const RescourcesTable = (props) => {
     injectStyle();
   }
 
-  TimeAgo.addLocale(en);
-  const timeAgo = new TimeAgo("en-US");
+  // TimeAgo.addLocale(en);
+  // const timeAgo = new TimeAgo("en-US");
   const location = useLocation();
   const propsData = location.state;
   let skillName = propsData.name;
@@ -63,7 +66,7 @@ const RescourcesTable = (props) => {
   const itemsPerPage = 3;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-
+  const currentdate = moment().format('DD/MM/YYYY'); 
   const [{ currentUser }, dispatch] = useStateValue();
 
   let tableData = data && data.slice(startIndex, endIndex);
@@ -495,9 +498,9 @@ const RescourcesTable = (props) => {
                             <div className="text-left text-blue-600 font-[500] text-[1rem]">
                               {item &&
                                 item.date &&
-                                timeAgo.format(
-                                  new Date(item.date).getTime() - 60 * 1000
-                                )}
+                                currentdate
+                                
+                                }
                             </div>
                           </td>
                           <td className="p-2">
