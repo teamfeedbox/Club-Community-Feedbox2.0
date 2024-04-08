@@ -23,8 +23,10 @@ import NavbarRes from "./component/navbar/NavbarRes";
 import Login from "./component/login/Login";
 import Modal from "react-bootstrap/Modal";
 import { useStateValue } from "./StateProvider";
-import Store from "./component/store/Store";
-import AddProducts from "./component/store/AddProducts";
+import Store from "./component/store/Store.jsx";
+import AddProducts from "./component/store/AddProducts.jsx";
+import ProductList from "./component/store/ProductList.jsx";
+import { CheckoutPage } from "./component/store/CheckoutPage.jsx";
 
 const App = () => {
   const [show, setShow] = useState(false);
@@ -224,12 +226,20 @@ const App = () => {
             path="/addproduct"
             element={role == 'Super_Admin' ? [<NavbarRes />, <AddProducts />] : <Error />}
           />
+          
+          <Route
+            index
+            path="/showproducts"
+            element={role == 'Super_Admin' ? [<NavbarRes />, <ProductList />] : <Error />}
+          />
 
           <Route
             index
             path="/notification"
             element={role == null ? <Error /> : <MobileNotification />}
           />
+
+          <Route exact path="/store/product/:productId"  element={role === 'Club_Member' ? [<NavbarRes />, <CheckoutPage />] : <Error />} />
         </Routes>
       </Router>
     </div>
