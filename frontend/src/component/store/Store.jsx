@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import Product from './Product';
+import banner from './banner.jpeg';
 import { MDBContainer, MDBRow, MDBCol, MDBRipple } from "mdb-react-ui-kit";
 
 
@@ -47,7 +48,11 @@ const App = () => {
     //       </div>
     // </div>
 
-    <MDBContainer fluid className="my-[90px] text-center">
+    <MDBContainer fluid className="my-[90px] text-center w-full">
+      <div className='banner-image w-full'>
+        <img src={banner} className='w-full' alt="" srcset="" />
+      </div>
+
       <h4 className="mt-4 mb-5">
         <strong>Product Listing</strong>
       </h4>
