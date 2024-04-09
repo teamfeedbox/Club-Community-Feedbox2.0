@@ -78,7 +78,7 @@ const Product = ({ product }) => {
         <img
           src={product.imageUrl}
           fluid
-          className="w-100"
+          className="w-100 md:h-[50vh] sm:h-[75vh]"
         />
        <Link to={`product/${product._id}`} className="no-underline">
           <div
