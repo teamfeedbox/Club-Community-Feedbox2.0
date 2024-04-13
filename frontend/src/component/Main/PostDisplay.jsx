@@ -19,7 +19,7 @@ import { useStateValue } from "../../StateProvider";
 import { Link } from "react-router-dom";
 import { injectStyle } from "react-toastify/dist/inject-style";
 import { ToastContainer, toast } from "react-toastify";
-
+import debounce from 'lodash.debounce';
 const PostDisplay = (props) => {
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
@@ -143,7 +143,7 @@ const PostDisplay = (props) => {
   };
 
   // Like a post
-  const like = (id, index) => {
+  const like = debounce( (id, index) => {
     fetch("http://localhost:8000/like", {
       method: "put",
       headers: {
@@ -172,10 +172,10 @@ const PostDisplay = (props) => {
       .catch((err) => {
         console.log(err);
       });
-  };
+  },500);
 
   // Unlike a Post
-  const unlike = (id) => {
+  const unlike = debounce((id) => {
     fetch("http://localhost:8000/unlike", {
       method: "put",
       headers: {
@@ -204,7 +204,7 @@ const PostDisplay = (props) => {
       .catch((err) => {
         console.log(err);
       });
-  };
+  },500);
 
   if (typeof window !== "undefined") {
     injectStyle();
