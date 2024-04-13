@@ -90,7 +90,7 @@ const ProductForm = () => {
 
   return (
     <div
-      className="max-w-[50vw] mx-auto mt-[100px] mb-5 p-8 bg-[#cbcbd9] rounded-lg shadow-lg"
+      className="max-w-[50vw] mx-auto  pt-[100px] pb-[5vh] p-8 bg-[#cbcbd9] rounded-lg shadow-lg"
       style={{
         background:
           "transparent linear-gradient(185deg, #29abe2 , #0071bc ) 30% 30%",
