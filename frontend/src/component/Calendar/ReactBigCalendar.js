@@ -442,7 +442,7 @@ export default function ReactBigCalendar() {
           {role && (role == "Super_Admin" || role === "Admin") ? (
             <div className=" my-4 mx-1 ">
               <select
-                className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl w-[100%]"
+                className="p-2 border-2 font-semibold text-[#3174AD] border-[#3174AD] rounded-3xl w-[100%] cursor-pointer"
                 value={clgSelected}
                 onChange={(e) => {
                   handleCollege(e);
