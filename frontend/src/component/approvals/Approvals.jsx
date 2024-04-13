@@ -5,7 +5,7 @@ import Lead from "./Leads";
 import Admin from "./Admin";
 import SuperAdmin from "./SuperAdmin";
 import { useStateValue } from "../../StateProvider";
-
+import bg from "../assets/mainBg.png";
 const Approvals = () => {
   const [tabs, setTabs] = useState("club");
   const [cM, setCM] = useState(false);
@@ -49,7 +49,12 @@ const Approvals = () => {
     <>
 
       {/* search handler for super admin */}
-      <div className="pb-9 pt-[70px] text-center" >
+      <div className="pb-9 pt-[70px] text-center"
+        style={{
+        backgroundImage: `url(${bg})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+      }}>
         {role && role === 'Super_Admin' ?
           <div className="lg:my-3 my-0 mx-1 mt-3 text-center">
             <select onChange={(e) => setClg(e.target.value)} className="p-2 border-2  text-[1rem] font-[400] border-[#000] rounded-3xl w-[90%] md:w-[90%] lg:w-[30%] cursor-pointer">
