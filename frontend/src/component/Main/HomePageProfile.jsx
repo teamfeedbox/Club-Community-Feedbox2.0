@@ -135,7 +135,7 @@ const HomePageProfile = (props) => {
               <select
                 name="College"
                 id="College"
-                className="border w-[280px] rounded p-1 mt-1 text-[1rem] font-[400]" onChange={handleCollege}
+                className="border w-[280px] rounded p-1 mt-1 text-[1rem] font-[400] cursor-pointer" onChange={handleCollege}
               >
                 <option disabled selected className="hidden">
                   College
