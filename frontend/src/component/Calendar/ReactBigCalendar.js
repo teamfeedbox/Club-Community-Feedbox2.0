@@ -22,6 +22,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
 import "./ReactBigCalendar.css";
 import { useStateValue } from "../../StateProvider";
+import bg from "../assets/mainBg.png";
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -430,7 +431,12 @@ export default function ReactBigCalendar() {
 
   return (
     <>
-      <div className="Calendar-container">
+      <div className="Calendar-container"
+    style={{
+        backgroundImage: `url(${bg})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+      }}>
         <div className="Calendar-left">
           {/* ----------------college dropdown for super admin--------------- */}
           {role && (role == "Super_Admin" || role === "Admin") ? (
