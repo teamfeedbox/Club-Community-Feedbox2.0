@@ -14,10 +14,6 @@ import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 
-// import "./styles.css";
-
-// import required modules
-// import { FreeMode, Navigation, Thumbs } from "swiper";
 import "./ProfilePost.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDeleteLeft, faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -241,7 +237,7 @@ const ProfilePost = (prop) => {
                           item.img.length > 0 &&
                           item.img.map((data) => (
                             <div key={data._id}>
-                              <img className="display-img" src={data} />
+                              <img className="display-img" src={data} alt=""/>
                             </div>
                           ))
                         }

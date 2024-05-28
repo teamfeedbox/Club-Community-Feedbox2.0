@@ -7,8 +7,6 @@ import Button from "react-bootstrap/Button";
 
 import { ToastContainer, toast } from 'react-toastify';
 
-
-
 const Register = () => {
   const [next, setNext] = useState(false);
   const [skills, setSkills] = useState([]);

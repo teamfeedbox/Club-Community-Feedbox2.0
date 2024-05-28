@@ -31,7 +31,7 @@
 .main-post-dispaly {
     overflow-y: scroll;
     height: 100vh;
-    width: 40%;
+    width: 100vh;
 }
 
 
@@ -40,6 +40,7 @@
     width: 24%;
     height: 100vh;
     padding-bottom: 100px;
+    text-align: center;
 }
 
 .main-post-dispaly::-webkit-scrollbar {
@@ -56,10 +57,17 @@
 }
 
 .up-coming-events {
-    color: #595656;
-    font-size: var(--heading-font-size);
-    font-weight: var(--heading-font-weight);
+    font-family: "Montserrat", sans-serif;
+    color: #fff;
+    font-size: large;
+    font-weight: 500;
     margin-left: 5px;
+    margin-top: 5vh;
+    background-color: #407CD4;
+    border-radius: 5px;
+    text-align: center;
+    display: inline;
+    padding: 1.5vh;
 }
 
 .main-page-display-tab {
@@ -155,8 +163,9 @@
     }
 
     .up-coming-events {
-        margin: 0;
+        margin: 0vh 10vh 0vh 10vh;
         text-align: center;
-        color: black;
+        color: rgb(255, 255, 255);
+        padding: .5vh;
     }
 }

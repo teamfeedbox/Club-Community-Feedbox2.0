@@ -92,7 +92,7 @@ const HomePageEvent = (props) => {
             <div className="HomePageEvent" key={item._id}>
               <div className="upcoming_event_title">{item.title}</div>
               <div className="home-page-event-time">
-                <img src="Images/clock.svg" alt="" />
+                <img src="./frontend/src/component/Main/date.png" alt="cal" />
                 <p className="home-page-event-time-p">
                   Event Date : {item.eventDate}
                 </p>

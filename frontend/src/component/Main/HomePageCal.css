@@ -1,12 +1,75 @@
 .home-page-cal {
-
+  font-family: "Poppins", sans-serif;
   margin: 20px 0px;
   padding: 20px;
-  border-radius: 8px;
+  border: .1em dashed;
+  border-radius: 20px;
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+  border-color: #F14684;
   /* position: fixed; */
 }
+
+/* 26/04/204 start */
+/* .react-calendar__navigation__arrow { */
+  /* display: none; */
+  /* color: red;
+}
+
+.react-calendar__navigation__label {
+  pointer-events: none;
+}
+
+.react-calendar__navigation {
+  text-align: right;
+} */
+
+/* Hide navigation arrows */
+.react-calendar__navigation__arrow {
+  display: none;
+}
+
+/* Ensure the navigation label takes the full width */
+.react-calendar__navigation__label {
+  flex-grow: 1;
+}
+
+/* Hide navigation arrows */
+.react-calendar__navigation__arrow {
+  display: none;
+}
+
+/* Expand and style the navigation label */
+.react-calendar__navigation__label {
+  flex-grow: 1;
+  color: orange;           /* Set text color to orange */
+  text-align: left;        /* Align text to the left */
+}
+
+/* Additional styling for inner text span if necessary */
+.react-calendar__navigation__label__labelText {
+  /* Any additional styles for the text itself */
+}
+
+
+.react-calendar__navigation {
+  display: flex;
+  width: 100%; /* Adjust this as necessary to fit your layout */
+}
+
+.react-calendar__navigation__label {
+  pointer-events: none;
+  text-decoration: underline solid #EC722F .5vh;
+  font-family: 'Montserrat', sans-serif;
+  font-size: xx-large;
+}
+
+.react-calendar__navigation__label__labelText {
+  font-size: x-large;
+  font-weight: 700;
+}
+
+/* 26/04/2024 End */
 
 .react-calendar {
   max-width: 100%;
@@ -15,11 +78,11 @@
 
 .react-calendar__navigation button {
   color: black;
-  /* min-width: 44px; */
+  min-width: 44px;
   background: white;
   font-size: 16px;
   margin-top: 8px;
-  /* border-radius: 10px; */
+  border-radius: 10px;
 }
 
 .react-calendar--doubleView {
@@ -52,6 +115,8 @@
 .react-calendar button:enabled:hover {
   cursor: pointer;
 }
+
+/*  */
 
 .react-calendar__navigation {
   display: flex;

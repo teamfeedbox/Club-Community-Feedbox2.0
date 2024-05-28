@@ -3,6 +3,15 @@
     width: 80%;
 }
 
+.customizeT {
+    border: 2px dashed orange;
+    border-top: none;
+}
+
+.rowSize {
+    height: 2rem;
+}
+
 .pending-approval-td {
     display: block;
     position: absolute;

@@ -23,16 +23,17 @@
 
 .post-head {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 600;
+    font-family: "Montserrat", sans-serif;
 }
 
 .post-head-content p{
     margin-bottom: 0;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     display: flex;
     margin-right: 10px;
-    font-weight: 600;
+    font-weight: 500;
     color: #333;
     margin-top: -6px;
 }
@@ -78,12 +79,6 @@
     font-size: var(--subheading-font-size);
     font-weight: var(--subheading-font-weight);
 }
-
-/* ############################################################## */
-/* ############################################################## */
-/* ############################################################## */
-/* ############################################################## */
-
 
 .Scrollbar-height{
     height: 59vh;

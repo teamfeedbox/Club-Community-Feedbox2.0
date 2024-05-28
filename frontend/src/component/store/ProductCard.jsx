@@ -5,7 +5,7 @@ import "./ProductCard.css";
 import Vibrant from "node-vibrant";
 import Swal from "sweetalert2";
 
-const ProductCard = ({ product, setProducts, products, id }) => {
+const ProductCard = ({ product, setProducts, products, id, colo }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [buttonColor, setButtonColor] = useState("#000"); // Default color
 
@@ -55,60 +55,22 @@ const ProductCard = ({ product, setProducts, products, id }) => {
 
   return (
     <>
-      {/* <div className="card-content relative flex-wrap hover:shadow-lg transition duration-300 ease-in-out cursor-pointer md:w-[30%]">
-        <div className="w-full h-[278px]">
-          <img
-            className="w-full h-full object-contain"
-            // style={{  transform: "translate3d(0, 0, 1px )"}}
-            src={product.imageUrl}
-            alt=""
-            srcSet=""
-          />
-        </div>
-        <div className="mt-5 font-serif text-3xl mx-2 hover:underline">
-          {product.name}
-        </div>
-        <div className="my-2 price flex items-center justify-center gap-1">
-          <span className="font-serif text-xl">{product.price}</span>
-          <span className="material-symbols-outlined relative top-[2px]">
-            monetization_on
-          </span>
-        </div>
-        <button style={{ color: buttonColor }} onClick={openModal}>
-          <span className="material-symbols-outlined absolute top-1 right-0 z-10 opacity-100">
-            edit
-          </span>
-        </button>
-        <button style={{ color: buttonColor }} onClick={handleDeleteClick}>
-          <span className="material-symbols-outlined absolute top-1 right-8">
-            delete
-          </span>
-        </button>
-      </div>
-      <EditModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        product={product}
-        setProducts={setProducts}
-        products={products}
-        id={id}
-      /> */}
-      <div className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
+      <div className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl" style={{border: "2px dashed", borderColor : colo, backgroundColorbackgroundColor: "#fff",}}>
         <img
           src={product.imageUrl}
           alt="Product"
           className="h-80 w-72 object-fill rounded-t-xl"
         />
-        <div className="px-4 py-3 w-72">
+        <div className="px-4 py-2 w-72">
           <p className="text-lg font-bold text-black truncate block capitalize">
             {product.name}
           </p>
           <div className="flex items-center">
-            <p className="text-sm text-gray-600 cursor-auto ml-2">
-              {product.price}{" "}
-              <span className="material-symbols-outlined relative top-[6px]">
-                monetization_on
+            <p className="text-sm text-gray-600 cursor-auto ml-0">
+              <span className="material-symbols-outlined relative top-[.7vh] mr-1">
+                ₹
               </span>
+              {product.price}{" "}
             </p>
             <div className="ml-auto flex gap-2">
               <button onClick={openModal}>

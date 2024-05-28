@@ -5,7 +5,6 @@ import HomePageCal from "./HomePageCal";
 import HomePageEvent from "./HomePageEvent";
 import CreatePost from "./CreatePost";
 import "./Main.css";
-import bg from "../assets/mainBg.png";
 
 const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -34,15 +33,12 @@ const Main = () => {
       <div
         className="main_container"
         style={{
-          backgroundImage: `url(${bg})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-        }}
+    }}
       >
         {/* *******************webview****************** */}
         <div className="main-page-display-web">
           <section className="main">
-            <div className="flex m-auto justify-center">
+            <div className="flex m-auto justify-center w-full">
               <div className="main-home-page-profile">
                 <scrollable-component scrollbar-visibility="always">
                   <HomePageProfile sendData={handleDataChange} />
@@ -63,7 +59,7 @@ const Main = () => {
                   <div className="home-page-cal-div">
                     <HomePageCal clgData={clg && clg} eventSel={pull_data} />
                   </div>
-                  <p className="up-coming-events">UP-COMING EVENTS</p>
+                  <p className="up-coming-events">UPCOMING EVENTS</p>
                   <HomePageEvent clgData={clg && clg} eveD={eventSel && eventSel} />
                 </scrollable-component>
               </div>
@@ -74,7 +70,7 @@ const Main = () => {
         {/* *****************tab view ************************* */}
         <div className="main-page-display-tab">
           <section className="main">
-            <div className="main-page-display-tab-left ">
+            <div className="main-page-display-tab-left mt-2">
               <scrollable-component scrollbar-visibility="always">
                 <HomePageProfile sendData={handleDataChange} />
                 <p className="up-coming-events">UP-COMING EVENTS</p>

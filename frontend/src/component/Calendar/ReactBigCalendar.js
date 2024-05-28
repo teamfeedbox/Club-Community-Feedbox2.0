@@ -22,7 +22,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
 import "./ReactBigCalendar.css";
 import { useStateValue } from "../../StateProvider";
-import bg from "../assets/mainBg.png";
+// import bg from "../assets/mainBg.png";
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -431,12 +431,9 @@ export default function ReactBigCalendar() {
 
   return (
     <>
-      <div className="Calendar-container"
-    style={{
-        backgroundImage: `url(${bg})`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-      }}>
+      <div className="Calendar-container"  style={{
+      backgroundColor: 'white'
+    }}>
         <div className="Calendar-left">
           {/* ----------------college dropdown for super admin--------------- */}
           {role && (role == "Super_Admin" || role === "Admin") ? (
@@ -522,14 +519,14 @@ export default function ReactBigCalendar() {
                 </div>
                 <div className="event-profile">
                   <FontAwesomeIcon
-                    style={{ margin: "0 10px 0 0" }}
+                    style={{ margin: "0 10px 0 0", color : "#ec4882" }}
                     icon={faPodcast}
                   />
                   {myEvent && myEvent.speaker}
                 </div>
                 <div className="event-profile">
                   <FontAwesomeIcon
-                    style={{ margin: "0 10px 0 0" }}
+                    style={{ margin: "0 10px 0 0", color : "#ec4882" }}
                     icon={faUniversity}
                   />
                   {myEvent && myEvent.postedBy.role === "Super_Admin"
@@ -539,14 +536,14 @@ export default function ReactBigCalendar() {
                 <div className="event-minor">
                   <div>
                     <FontAwesomeIcon
-                      style={{ margin: "0 10px 0 0" }}
+                      style={{ margin: "0 10px 0 0", color : "#ec4882" }}
                       icon={faLocationDot}
                     />
                     {myEvent && myEvent.venue}
                   </div>
                   <div>
                     <FontAwesomeIcon
-                      style={{ margin: "0 10px 0 0" }}
+                      style={{ margin: "0 10px 0 0", color : "#ec4882" }}
                       icon={faCalendarAlt}
                     />
                     {myEvent && myEvent.eventDate}
@@ -554,7 +551,7 @@ export default function ReactBigCalendar() {
 
                   <div>
                     <FontAwesomeIcon
-                      style={{ margin: "0 10px 0 0" }}
+                      style={{ margin: "0 10px 0 0", color : "#ec4882" }}
                       icon={faClock}
                     />
                     {myEvent && myEvent.eventTime}
@@ -577,6 +574,7 @@ export default function ReactBigCalendar() {
                               attendanceUpdate(myEvent && myEvent._id);
                               setInterestedBtn(false);
                             }}
+                            style={{backgroundColor : '#9647ff'}}
                           >
                             Interested
                           </button>
@@ -585,7 +583,7 @@ export default function ReactBigCalendar() {
                             type="button"
                             style={{
                               pointerEvents: "none",
-                              backgroundColor: "gray",
+                              backgroundColor: '#9647ff'
                             }}
                           >
                             Interested
@@ -608,6 +606,7 @@ export default function ReactBigCalendar() {
                       onClick={() => {
                         setDeleteBtn(true);
                       }}
+                      style={{backgroundColor : "#9647ff"}}
                     >
                       Delete Event
                     </button>

@@ -1,10 +1,17 @@
 .HomePageProfile {
     /* border: 2px solid black; */
     /* margin-top: 20px ; */
-    border-radius: 8px;
+    border-radius: 14px;
     background-color: #fff;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+    margin-bottom: 20px;
 }
+
+.innerDIV {
+    border: .1em dashed #9471C7;
+    border-radius: 15px;
+}
+
 .home-profile-visit-profile {
     position: relative;
     float: right;
@@ -14,6 +21,9 @@
 }
 .home-profile-bg-doodle img{
     width: 100%;
+    border-top-right-radius: 14px;
+    border-top-left-radius: 14px;
+    
 }
 
 .home-profile-visit-profile-icon {
@@ -55,9 +65,12 @@
 }
 
 .home-profile-name-section-name{
-    font-weight: var(--subheading-font-weight);
+    /* font-weight: var(--subheading-font-weight);
     margin: auto;
-    font-size: var(--heading-font-size);
+    font-size: var(--heading-font-size); */
+    font-weight: 600;
+    margin: auto;
+    font-size: 1.4em;
 }
 
 .home-profile-name-section-desig  {

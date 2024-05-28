@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./Faq.css";
 import NavbarRes from "./navbar/NavbarRes";
 import { Scrollbars } from "react-custom-scrollbars";
-import bg from "./assets/mainBg.png";
 const faqs = [
   {
     id: "Q1",
@@ -45,11 +44,7 @@ const Faq = () => {
 
   return (
     <div className="lg:h-[100vh] overflow-hidden"
-      style={{
-      backgroundImage: `url(${bg})`,
-      backgroundRepeat: "no-repeat",
-      backgroundSize: "cover",
-    }}>
+      >
       <div className="lg:p-[85px] pt-[85px] pb-[80px] bg-gray-200">
         <div className="shadow m-auto lg:w-[80%] md:w-[85%] w-[95%] bg-white rounded-2xl">
           <div className="lg:pt-5 pt-4 flex m-auto lg:flex-row flex-col ">

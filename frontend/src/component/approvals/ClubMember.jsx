@@ -259,7 +259,7 @@ const ClubMember = ({ props }) => {
                     </td>
                     <td className="pt-2 pb-2 flex justify-end">
                       <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
-                        <button className="h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]">
+                        <button className="bg-[#407CD4] h-[25px] py-3 flex items-center px-3 rounded-xl text-white bg-[#00D22E] hover:bg-[#03821f]">
                           <div
                             className=" text-[.5rem] md:text-[1rem]  lg:text-[1.05rem] font-[500]"
                             onClick={() => {

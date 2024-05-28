@@ -52,9 +52,9 @@ const SuperAdmin = () => {
       {/* search */}
       <div className="pending-approval-search">
         <div class="relative text-lg bg-transparent text-gray-800">
-          <div class="flex items-center border-b-2 border-[#6F6F6F] py-2 mt-3">
+          <div class="flex items-center border-b-2 border-[#6F6F6F] py-2 mt-3 ">
             <input
-              class="bg-transparent w-full  border-none mr-10 px-2 leading-tight focus:outline-none"
+              class="bg-transparent w-full border-none mr-10 px-2 leading-tight focus:outline-none"
               type="text"
               value={searchval}
               onChange={searchHandler}

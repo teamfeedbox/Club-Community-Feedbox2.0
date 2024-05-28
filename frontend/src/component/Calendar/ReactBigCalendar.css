@@ -18,6 +18,12 @@
 .input-container1{
     display: flex;
     flex-direction: column;}
+
+    .rbc-toolbar-label {
+        font-size: 1.2em;
+        font-weight: 700;
+    }
+
 button a{
     text-decoration: none;
     color:white;
@@ -64,7 +70,7 @@ button a{
     padding: 10px 10px 10px 10px;
     margin-top: 0px;
     font-weight: 1000;
-    background-color: #3174AD;
+    background-color: #9647ff;
     color: #fff;
     border-radius: 20px 20px 20px 20px;
     cursor: pointer;
@@ -138,17 +144,22 @@ flex-direction: column;
     padding: 12px 10px 12px 10px;
     margin-top: 0px;
     font-weight: 1000;
-    background-color: #3174AD;
+    background-color: #9647ff;
     color: #fff;
     border-radius: 20px 20px 20px 20px;
     text-align: center;
 }
+
+.rbc-event, .rbc-selected, .rbc-day-slot .rbc-selected.rbc-background-event {
+    background-color: #ec4882;
+}
+
 .Calendar-view-events{
     padding-top: 20px;
-    border: 2px solid #3174AD;
+    border: 2px dashed #9647ff;
     border-radius: 0px 0px 20px 20px;
     padding:12px 10px 12px 10px;
-    box-shadow: #2e5f8aaf 0px 2px 9px 0px;
+    /* box-shadow: #2e5f8aaf 0px 2px 9px 0px; */
 }
 .Calendar-view-events-hide{
     display: none;
@@ -180,7 +191,7 @@ flex-direction: column;
 }
 .Calendar-view-events button{
     border: none;
-    background-color: #000;
+    background-color: #9647ff;
     margin: 10px 10px;
     color: #fff;
     padding: 5px 15px;
@@ -342,6 +353,7 @@ margin: 10px 0;
         top:0;
         left:0;
         text-align: left;
+        border: 2px dashed black;
     }
     .Calendar-view-events{
         border: 2px solid #3174AD;
@@ -561,6 +573,7 @@ margin: 10px 0;
         top:0;
         left:0;
         text-align: left;
+        border: 2px dashed black;
     }
     .Calendar-view-events{
         border: 2px solid #3174AD;
@@ -711,6 +724,7 @@ margin: 10px 0;
         width: 100vw;
         height: 100vh;
         top:0;
+        border: 2px dashed black;
     }
 
     .Calendar-view-events{
@@ -725,6 +739,7 @@ margin: 10px 0;
         width: 40%;
         font-size: 12px;
         background-color: #fff;
+        border: 5px solid black;
     }
     .Calendar-view-events-hide{
         display: none;

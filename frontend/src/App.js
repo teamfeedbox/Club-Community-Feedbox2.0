@@ -23,11 +23,10 @@ import NavbarRes from "./component/navbar/NavbarRes";
 import Login from "./component/login/Login";
 import Modal from "react-bootstrap/Modal";
 import { useStateValue } from "./StateProvider";
-import Store from "./component/store/Store.jsx";
-import AddProducts from "./component/store/AddProducts.jsx";
-import ProductList from "./component/store/ProductList.jsx";
-import { CheckoutPage } from "./component/store/CheckoutPage.jsx";
-import bg from "./component/assets/mainBg.png";
+import Store from "./component/Store/Store.jsx";
+import AddProducts from "./component/Store/AddProducts.jsx";
+import ProductList from "./component/Store/ProductList.jsx";
+import { CheckoutPage } from "./component/Store/CheckoutPage.jsx";
 const App = () => {
   const [show, setShow] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
@@ -119,11 +118,7 @@ const App = () => {
 
   return (
     <div className="App"
-    style={{
-      backgroundImage: `url(${bg})`,
-      backgroundRepeat: "no-repeat",
-      backgroundSize: "cover",
-    }}>
+    >
       <Modal show={show} onHide={handleClose} className="club-member-modal">
         <form>
           <Modal.Header closeButton className="club-member-modal-header">

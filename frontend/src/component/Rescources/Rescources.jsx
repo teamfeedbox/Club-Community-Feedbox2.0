@@ -3,7 +3,6 @@ import "./Rescources.css";
 import { Link } from "react-router-dom";
 import RescourcesTable from "./RescourcesTable";
 import NavbarRes from "../navbar/NavbarRes";
-import bg from "../assets/mainBg.png";
 const Rescources = () => {
  
   const [temp,setTemp]=useState(0);
@@ -25,11 +24,7 @@ const Rescources = () => {
   return (
     <>
       <div className="Rescources"
-       style={{
-        backgroundImage: `url(${bg})`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-      }}>
+       >
         <h1>RESOURCES</h1>
 
         {/* ----------------college dropdown for super admin--------------- */}

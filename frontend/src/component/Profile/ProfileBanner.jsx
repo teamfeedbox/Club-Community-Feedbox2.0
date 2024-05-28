@@ -77,9 +77,9 @@ function ProfileBanner(props) {
           :
 
           <div className='Profile-Banner'>
-            <img src="Images/bg5.png"></img>
+            <img src="Images/bg5.png" alt=''/>
             <div className='Profile-Title'>
-              <img src={propsData && propsData.img}></img>
+              <img src={propsData && propsData.img} alt=''/>
               <div>
                 <p>{propsData && propsData.name}</p>
                 {propsData.role === "Club_Member" ? (

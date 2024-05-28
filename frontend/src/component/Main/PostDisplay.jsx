@@ -419,7 +419,7 @@ const PostDisplay = (props) => {
                   {item.img.length > 0 ? (
                     <div
                       id="web-carousel"
-                      className="post-display-image flex justify-center h-[620px] carousel-web-view"
+                      className="post-display-image flex justify-center carousel-web-view"
                     >
                       <div className="post-display-carousel-webview flex justify-center h-[100%] m-0 p-0">
                         <Carousel

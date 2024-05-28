@@ -98,9 +98,9 @@ const HomePageProfile = (props) => {
   }
 
   return (
-    <div className="HomePageProfile mt-[10px] md:mt-[20px] lg:mt-[20px] ">
+    <div className="HomePageProfile mt-[10px] md:mt-[20px] lg:mt-[20px]">
       {/*-------------- for web and tab view------------- */}
-      <div className="hidden md:block lg:block">
+      <div className="hidden md:block lg:block innerDIV">
         <div className="home-profile-bg-doodle">
           <img src={"Images/doodle-profile-bg.png"} alt="" />
           <Link style={{ textDecoration: "none" }} to="/profile">

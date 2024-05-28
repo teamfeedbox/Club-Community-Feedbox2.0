@@ -20,9 +20,9 @@ const PendingApprovals = (props) => {
   const currentCollege = JSON.parse(localStorage.getItem("user")).college;
   const role = JSON.parse(localStorage.getItem("user")).role;
 
-  const[{currentUser}]=useStateValue();
+  const [{ currentUser }] = useStateValue();
   // const data = currentUser;
-  
+
 
   // get all users
   const getUser = async () => {
@@ -48,16 +48,16 @@ const PendingApprovals = (props) => {
           setData(user);
         } else {
 
-          const getData = (async()=>{
+          const getData = (async () => {
 
             await user.map(data => {
-              
+
               if (data.collegeName === props.clg) {
                 clgSel.push(data)
               }
             })
           })
-          getData().then(()=>{
+          getData().then(() => {
             setPendingUsers(clgSel);
             setData(clgSel);
           })
@@ -151,18 +151,18 @@ const PendingApprovals = (props) => {
 
   return (
     <div className="PendingApprovals ">
-      <div className="flex flex-col lg:flex-row md:flex-row justify-between">
+      <div className="flex flex-col lg:flex-row md:flex-row justify-content-center">
         <div>
-          <h4 className=" text-[1.5rem] font-[700] mt-3 lg:mt-1  my-0 lg:my-3">Pending Approvals</h4>
+          <h4 className=" text-[1.5rem] font-[700] mt-3 lg:mt-1  my-0 lg:my-3" style={{color : "#F24887"}}>PENDING APPROVALS</h4>
 
         </div>
       </div>
       {/* search */}
-      <div className="pending-approval-search">
+      <div className="pending-approval-search bg-[#E5E5E5]">
         <div className="relative text-lg bg-transparent text-gray-800">
-          <div className="flex items-center border-b-2 border-[#6F6F6F] py-2 mt-3">
+          <div className="flex items-center border-[#6F6F6F] py-2 mt-3 mb-3">
             <input
-              className="bg-transparent w-full text-[1rem] font-[400]  border-none mr-10 px-2 leading-tight focus:outline-none"
+              className="bg-transparent w-full text-[1rem] font-[400] border-none mr-10 px-2 leading-tight focus:outline-none"
               type="text"
               value={searchval}
               onChange={searchHandler}
@@ -175,31 +175,35 @@ const PendingApprovals = (props) => {
         </div>
       </div>
       <div className="lg:border">
+
+
         <Scrollbars style={{ height: "250px" }}>
-          <table className="table-auto w-full max-w-[1300px] ">
-            <tbody className="text-sm divide-y divide-gray-100 max-w-[1150px]">
-              {
-              loading3?
-               <div
-               className="spinner-border text-blue"
-               role="status"
-               style={{
-                 height: "35px",
-                 width: "35px",
-                 marginTop: "15px",
-                 marginLeft:"75px"
-               }}
-             >
-               <span className="visually-hidden">
-                 Loading...
-               </span>
-             </div>
-              :
-              pendingUsers.length > 0 ? (
-                pendingUsers.map((approval, index) => (
-                  <tr className="flex justify-between max-w-[1150px]">
-                    <td className="p-2  lg:w-[300px]">
-                      <div className="flex items-center">
+
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white table-auto w-full p-4 customizeT" style={{ borderSpacing: 0 }}>
+              <thead>
+                <tr>
+                  <th className="border px-6 py-4 bg-orange-500 border-orange-200 color text-white	">Name</th>
+                  <th className="border px-6 py-4 bg-orange-500 border-orange-200 hidden sm:table-cell color text-white	">Course</th>
+                  <th className="border px-6 py-4 bg-orange-500 border-orange-200 hidden sm:table-cell color text-white	">Year</th>
+                  <th className="border px-6 py-4 bg-orange-500 border-orange-200 hidden sm:table-cell color text-white	">College</th>
+                  <th className="border px-6 py-4 bg-orange-500 border-orange-200 color text-white	">Decline</th>
+                  <th className="border px-6 py-4 bg-orange-500 border-orange-200 color text-white	">Accept</th>
+                </tr>
+              </thead>
+              <tbody >
+                {loading3 ? (
+                  <tr className="rowSize" style={{borderBottom : "none", borderTop : "none"}}>
+                    <td colSpan="6" className="text-center py-4">
+                      <div className="spinner-border text-blue" role="status" style={{ height: "35px", width: "35px" }}>
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                    </td>
+                  </tr>
+                ) : pendingUsers.length > 0 ? (
+                  pendingUsers.map((approval, index) => (
+                    <tr key={approval._id} className="border-b" style={{borderBottom : "none", borderTop : "none"}}>
+                      <td className="border px-6 py-4"><div className="flex items-center">
                         <img
                           className="rounded-full w-[40px] h-[40px] object-center"
                           src={approval.img}
@@ -208,67 +212,42 @@ const PendingApprovals = (props) => {
                           alt="Alex Shatov"
                         />
                         <div className="ml-2  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[400]"> {approval.name} </div>
-                      </div>
-                    </td>
-                    <td className="p-2 lg:flex items-center hidden md:block">
-                      <div className="text-gray-800 text-[1rem] font-[400]">
-                        {approval.collegeYear} year-{approval.branch} / {approval.collegeName}
-                      </div>
-                    </td>
-                    <td className="pt-2 pb-2 flex justify-end">
-                      <div className="flex items-center font-medium lg:gap-3 justify-start mr-6 md:mr-6 lg:mr-6 2xl:-mr-4  w-fit">
-
-
-                        {id !== index ?
-
-                          <button 
-                          // className="h-[25px] w-[80px] rounded-xl  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[500]  text-white bg-[#00D22E] hover:bg-[#03821f]"
-                          className="h-[30px] rounded-xl text-[#616161] text-[.8rem] md:text-[1rem]  lg:text-[1.05rem]  font-[500] hover:bg-gray-300 mr-2 w-[80px]"
-                          >
-
-                          {declineLoading && id === index  ? (
-                            <div
-                              className="spinner-border text-black"
-                              role="status"
-                              style={{ height: "15px", width: "15px" }}
-                            >
-                              <span className="visually-hidden">Loading...</span>
-                            </div>
-                          ) : (
-                            <div onClick={() => handleDecline(approval._id, index)}>
-                              Decline
-                            </div>
-                          )}
-                        </button>: ''}
-
-                        {did !== index ?
-                          <button className="h-[25px] w-[80px] rounded-xl  text-[.8rem] md:text-[1rem]  lg:text-[1.05rem] font-[500]  text-white bg-[#00D22E] hover:bg-[#03821f]">
-                          {loading && id === index ? (
-                            <div
-                              className="spinner-border text-white"
-                              role="status"
-                              style={{ height: "15px", width: "15px" }}
-                            >
-                              <span className="visually-hidden">Loading...</span>
-                            </div>
-                          ) : (
-                            <div onClick={() => handleAccept(approval._id, index)}>
-                              Accept
-                            </div>
-                          )}
-                        </button> : ''}
-
-                      </div>
-                    </td>
+                      </div></td>
+                      <td className="border px-6 py-4 hidden sm:table-cell">{approval.branch}</td>
+                      <td className="border px-6 py-4 hidden sm:table-cell">{approval.collegeYear}</td>
+                      <td className="border px-6 py-4 hidden sm:table-cell">{approval.collegeName}</td>
+                      <td className="border px-6 py-4">
+                        {id !== index ? (
+                          <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDecline(approval._id, index)}>
+                            Decline
+                          </button>
+                        ) : (
+                          <div className="spinner-border text-black" role="status" style={{ height: "15px", width: "15px" }}>
+                            <span className="visually-hidden">Loading...</span>
+                          </div>
+                        )}
+                      </td>
+                      <td className="border px-6 py-4">
+                        {did !== index ? (
+                          <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleAccept(approval._id, index)}>
+                            Accept
+                          </button>
+                        ) : (
+                          <div className="spinner-border text-white" role="status" style={{ height: "15px", width: "15px" }}>
+                            <span className="visually-hidden">Loading...</span>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="6" className="text-center py-4">No Pending Requests!</td>
                   </tr>
-                ))
-              ) : (
-                <div className="nopending">
-                  <div className="text-[1rem] font-[400]">No Pending Requests !</div>
-                </div>
-              )}
-            </tbody>
-          </table>
+                )}
+              </tbody>
+            </table>
+          </div>
         </Scrollbars>
       </div>
     </div>
