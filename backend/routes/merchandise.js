@@ -15,11 +15,12 @@ const nodemailer = require("nodemailer");
 // const { JWT } from 'google-auth-library';
 const { JWT } = require("google-auth-library");
 // import { GoogleSpreadsheet } from 'google-spreadsheet';
-const { GoogleSpreadsheet, GoogleSpreadsheetRow } = require("google-spreadsheet");
+const {
+  GoogleSpreadsheet,
+  GoogleSpreadsheetRow,
+} = require("google-spreadsheet");
 const fdbx = require("./feedboxclubcommunity-419307-e85ba3424dee.json");
-const moment = require('moment')
-
-
+const moment = require("moment");
 
 const authenticateGoogle = () => {
   const auth = new google.auth.GoogleAuth({
@@ -406,8 +407,10 @@ router.post("/submitProduct/:productId", requireLogin, async (req, res) => {
     }
 
     const findProduct = await Merchandise.findById(req.params.productId);
-    if(!findProduct) {
-      return res.status(404).json({status: false, message: "Product not found!"})
+    if (!findProduct) {
+      return res
+        .status(404)
+        .json({ status: false, message: "Product not found!" });
     }
 
     if (findProduct.quantity < parseInt(quantity)) {
@@ -440,8 +443,10 @@ router.post("/submitProduct/:productId", requireLogin, async (req, res) => {
     //   { new: true, runValidators: true }
     // );
 
-    transaction.update('users' , userId, { $inc: { coins: -calculatedCoins } });
-    transaction.update('products' , req.params.productId, { $inc: { quantity: -parseInt(quantity) } });
+    transaction.update("users", userId, { $inc: { coins: -calculatedCoins } });
+    transaction.update("products", req.params.productId, {
+      $inc: { quantity: -parseInt(quantity) },
+    });
 
     await transaction.run();
     /*
@@ -451,7 +456,7 @@ router.post("/submitProduct/:productId", requireLogin, async (req, res) => {
       //   user.coins -= price;
       //   user.save();
 */
-   const {size} = req.body;    
+    const { size } = req.body;
 
     const serviceAccountAuth = new JWT({
       fdbx,
@@ -479,14 +484,14 @@ router.post("/submitProduct/:productId", requireLogin, async (req, res) => {
       "PRODUCT NAME",
       "SIZE",
       "PRODUCT_ID",
-      "ORDER DATE"
+      "ORDER DATE",
     ];
     await sheet.setHeaderRow(HEADERS);
 
     const product = await Merchandise.findById(req.params.productId);
     const user2 = await users.findById(req.user._id);
 
-    console.log("--------------------------",sheet.rowCount);
+    console.log("--------------------------", sheet.rowCount);
 
     const rows = await sheet.getRows();
     console.log(rows);
@@ -498,18 +503,19 @@ router.post("/submitProduct/:productId", requireLogin, async (req, res) => {
     // console.log("Firstrows---------->",firstrow);
     // console.log("LastSerialNumber ---->",lastSerialNumber);
 
-    const currentDate = moment().format('DD/MM/YY');
+    const currentDate = moment().format("DD/MM/YY");
     const newRow = {
-      "SERIAL NO": rows && rows.length > 0 ? rows[rows.length - 1]._rowNumber : 1, // Assuming SERIAL NO is a sequence number
+      "SERIAL NO":
+        rows && rows.length > 0 ? rows[rows.length - 1]._rowNumber : 1, // Assuming SERIAL NO is a sequence number
       "USER NAME": user2.name, // Replace 'name' with the actual field name in your user model
-      "EMAIL": user2.email, // Assuming there's an 'email' field in your user model
-      "USER_ID": user2.uniqueId,
+      EMAIL: user2.email, // Assuming there's an 'email' field in your user model
+      USER_ID: user2.uniqueId,
       "COLLEGE NAME": user2.collegeName,
-      "YEAR": user2.collegeYear,
+      YEAR: user2.collegeYear,
       "PRODUCT NAME": product.name, // Replace 'name' with the actual field name in your product model
-      "SIZE": size, // Assuming there's a 'size' field in your product model
-      "PRODUCT_ID": product._id,
-      "ORDER DATE": currentDate
+      SIZE: size, // Assuming there's a 'size' field in your product model
+      PRODUCT_ID: product._id,
+      "ORDER DATE": currentDate,
     };
 
     await sheet.addRow(newRow);
@@ -535,8 +541,8 @@ router.post("/submitProduct/:productId", requireLogin, async (req, res) => {
         pass: "gmqm ybmr cqke bdkb",
       },
       tls: {
-        rejectUnauthorized: false
-    }
+        rejectUnauthorized: false,
+      },
     });
 
     let mailOptions = {
@@ -555,7 +561,7 @@ router.post("/submitProduct/:productId", requireLogin, async (req, res) => {
 
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
-        console.log("error in sending the mail => ",error);
+        console.log("error in sending the mail => ", error);
         res
           .status(404)
           .json({ status: false, message: "Some error occured !" });
@@ -572,16 +578,13 @@ router.post("/submitProduct/:productId", requireLogin, async (req, res) => {
         });
       }
     });
-
   } catch (err) {
     await transaction.rollback().catch(console.error);
     console.log(err);
     res.status(500).json({ status: false, message: "Some error occured !" });
-  }
-
-   finally{
+  } finally {
     transaction.clean();
-   }
+  }
 });
 
 module.exports = router;

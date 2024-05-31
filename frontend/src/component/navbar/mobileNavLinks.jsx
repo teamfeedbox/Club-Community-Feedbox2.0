@@ -190,16 +190,16 @@ export function MobileNavLinks(props) {
           )}
 
           {/* Adding store in toggle options Date: 04/04/2024 */}
-
-          {role !== "Super_Admin" ? (
+          {/* 30 May 2024 restrict access to store for  */}
+          {(role === "Club_Member") ? (
             <div>
           {selectedPage === "/store" ? (
             <LinkItemHighlight>
-              <Links to="/store">store</Links>
+              <Links to="/store">Store</Links>
             </LinkItemHighlight>
           ) : (
             <LinkItem>
-              <Links to="/store">store</Links>
+              <Links to="/store">Store</Links>
             </LinkItem>
           )}
           </div>

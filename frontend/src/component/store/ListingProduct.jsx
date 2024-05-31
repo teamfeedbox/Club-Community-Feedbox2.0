@@ -1,70 +1,37 @@
-import React from 'react'
+import React from 'react';
 
-const ListingProduct = ({product}) => {
+const ListingProduct = ({ product, listProduct }) => {
+    // Initialize filteredProducts array
+    const filteredProducts = [];
+
+    // Check if listProduct is defined and has length
+    if (listProduct && listProduct.length > 0) {
+        for (let i = 0; i < listProduct.length; i++) {
+            if (listProduct[i]._id !== product._id) {
+                filteredProducts.push(listProduct[i]);
+                // Break if we have collected four unique products
+                if (filteredProducts.length === 4) {
+                    break;
+                }
+            }
+        }
+    }
+
     return (
         <div className="mt-8 mb-8 flex flex-wrap space-x-4">
-        {console.log(product, "::::::::")}
-            <div className="h-48 w-32 bg-blue-500 border-2 border-dashed border-red-500 " style={{borderRadius : "15px"}}>
-                <div className=" h-32" style={{borderRadius : "15px 15px 0 0"}}>
-                    <img src='https://plus.unsplash.com/premium_photo-1661962818463-f2dffbabe742?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDl8fG1vdW50YWluJTIwYWVzdGhldGljfGVufDB8fDB8fHww' alt='IMG ' style={{borderRadius : "15px 15px 0 0"}} className='h-32'></img>
+            {filteredProducts.map(data => (
+                <div key={data._id} className="h-48 w-32 bg-blue-500 border-2 border-dashed border-red-500" style={{ borderRadius: "15px" }}>
+                    <div className="h-32" style={{ borderRadius: "15px 15px 0 0" }}>
+                        <img src={data.imageUrl} alt='Product Image' style={{ borderRadius: "15px 15px 0 0", width: '100%', height: '100%' }} />
+                    </div>
+                    <div className="text-center">
+                        <h7>{data.name}</h7><br />
+                        <span>{data.price}</span>
+                    </div>
                 </div>
-                <div className="text-center ">
-                    <h7>Product Name</h7>
-                    <span className="">Price</span>
-                </div>
-            </div>
-
-            <div className="h-48 w-32 bg-blue-500 border-2 border-dashed border-red-500 " style={{borderRadius : "15px"}}>
-                <div className=" h-32" style={{borderRadius : "15px 15px 0 0"}}>
-                    <img src='https://plus.unsplash.com/premium_photo-1661962818463-f2dffbabe742?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDl8fG1vdW50YWluJTIwYWVzdGhldGljfGVufDB8fDB8fHww' alt='IMG ' style={{borderRadius : "15px 15px 0 0"}} className='h-32'></img>
-                </div>
-                <div className="text-center ">
-                    <h7>Product Name</h7>
-                    <span className="">Price</span>
-                </div>
-            </div>
-
-            <div className="h-48 w-32 bg-blue-500 border-2 border-dashed border-red-500 " style={{borderRadius : "15px"}}>
-                <div className=" h-32" style={{borderRadius : "15px 15px 0 0"}}>
-                    <img src='https://plus.unsplash.com/premium_photo-1661962818463-f2dffbabe742?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDl8fG1vdW50YWluJTIwYWVzdGhldGljfGVufDB8fDB8fHww' alt='IMG ' style={{borderRadius : "15px 15px 0 0"}} className='h-32'></img>
-                </div>
-                <div className="text-center ">
-                    <h7>Product Name</h7>
-                    <span className="">Price</span>
-                </div>
-            </div>
-
-            <div className="h-48 w-32 bg-blue-500 border-2 border-dashed border-red-500 " style={{borderRadius : "15px"}}>
-                <div className=" h-32" style={{borderRadius : "15px 15px 0 0"}}>
-                    <img src='https://plus.unsplash.com/premium_photo-1661962818463-f2dffbabe742?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDl8fG1vdW50YWluJTIwYWVzdGhldGljfGVufDB8fDB8fHww' alt='IMG ' style={{borderRadius : "15px 15px 0 0"}} className='h-32'></img>
-                </div>
-                <div className="text-center ">
-                    <h7>Product Name</h7>
-                    <span className="">Price</span>
-                </div>
-            </div>
-
-            <div className="h-48 w-32 bg-blue-500 border-2 border-dashed border-red-500 " style={{borderRadius : "15px"}}>
-                <div className=" h-32" style={{borderRadius : "15px 15px 0 0"}}>
-                    <img src='https://plus.unsplash.com/premium_photo-1661962818463-f2dffbabe742?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDl8fG1vdW50YWluJTIwYWVzdGhldGljfGVufDB8fDB8fHww' alt='IMG ' style={{borderRadius : "15px 15px 0 0"}} className='h-32'></img>
-                </div>
-                <div className="text-center ">
-                    <h7>Product Name</h7>
-                    <span className="">Price</span>
-                </div>
-            </div>
-
-            <div className="h-48 w-32 bg-blue-500 border-2 border-dashed border-red-500 " style={{borderRadius : "15px"}}>
-                <div className=" h-32" style={{borderRadius : "15px 15px 0 0"}}>
-                    <img src='https://plus.unsplash.com/premium_photo-1661962818463-f2dffbabe742?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDl8fG1vdW50YWluJTIwYWVzdGhldGljfGVufDB8fDB8fHww' alt='IMG ' style={{borderRadius : "15px 15px 0 0"}} className='h-32'></img>
-                </div>
-                <div className="text-center ">
-                    <h7>Product Name</h7>
-                    <span className="">Price</span>
-                </div>
-            </div>
+            ))}
         </div>
-    )
+    );
 }
 
-export default ListingProduct
+export default ListingProduct;

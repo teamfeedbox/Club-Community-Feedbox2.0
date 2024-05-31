@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import "./CheckoutPage.css";
 import ListingProduct from "./ListingProduct";
+import COIN_RUPEE from "./rupee.png";
 
 const ModalWithForm = ({ show, onClose, product, quantity }) => {
 	// const [message, setMessage] = useState({});
@@ -197,6 +198,19 @@ const ModalWithForm = ({ show, onClose, product, quantity }) => {
 };
 
 export const CheckoutPage = () => {
+	const [listProduct, setListProduct] = useState();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const allProducts = await fetch(
+        "http://localhost:8000/merchandise/getallproducts"
+      );
+      const data = await allProducts.json();
+      setListProduct(data);
+    };
+
+    fetchProducts();
+  }, []);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [quantity, setQuantity] = useState(1); // Initialize quantity with 1
 	const [product, setProduct] = useState();
@@ -283,11 +297,14 @@ export const CheckoutPage = () => {
 				</div>
 				<div className="productDetail w-full md:w-1/2 lg:w-1/2 xl:w-1/3 h-auto   lg:p-0">
 					<h1 className="py-4 text-xl md:text-2xl lg:text-3xl font-semibold">
-						Product Name:{" "}
 						<span className="font-extrabold">
 							{!product ? "N/A" : product.name}
 						</span>
 					</h1>
+					<hr/>
+					{console.log(product, "----454545999")}
+					<label ><img src={COIN_RUPEE} alt="COINS" style={{width: "2em"}}/></label>
+
 					<p className="py-1 text-base md:text-lg lg:text-xl font-semibold">
 						Product Description:{" "}
 						<p className="font-light">
@@ -335,7 +352,7 @@ export const CheckoutPage = () => {
 				</div>
 
         {/* Suggestions */}
-				<ListingProduct product={product}/>
+				<ListingProduct product={product} listProduct={listProduct}/>
 			</div>
 		</>
 	);

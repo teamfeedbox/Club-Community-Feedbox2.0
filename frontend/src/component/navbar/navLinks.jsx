@@ -116,7 +116,8 @@ export function NavLinks(props) {
           </LinkItem>
         )}
 
-        {role && (role === "Club_Member" || role === "Admin" || role === "Lead") ? (
+{/* 28 May 2024 Change to avoid purchase and error page. */}
+        {role && (role === "Club_Member" || role === "Lead") ? (
           selectedPage === "/store" ? (
             <LinkItemHighlight>
               <Links to="/store">Store</Links>

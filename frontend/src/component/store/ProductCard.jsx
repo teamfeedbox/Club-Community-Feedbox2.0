@@ -5,7 +5,7 @@ import "./ProductCard.css";
 import Vibrant from "node-vibrant";
 import Swal from "sweetalert2";
 
-const ProductCard = ({ product, setProducts, products, id, colo }) => {
+const ProductCard = ({ product, setProducts, products, id, colo, productsList }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [buttonColor, setButtonColor] = useState("#000"); // Default color
 

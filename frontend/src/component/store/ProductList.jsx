@@ -25,19 +25,20 @@ const ProductList = () => {
       id="Projects"
       className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-[90px] mb-5"
     >
+    {console.log(products, "LIST ALL PRODUCTS")}
       {products.map((product, index) => {
         const colorIndex = index % colorCodes.length;
         const colo = colorCodes[colorIndex];
 
         return (
           <>
-          <h1>HELLO</h1>
           <ProductCard
             product={product}
             setProducts={setProducts}
             products={products} 
             id={product._id}
             colo={colo}
+            productsList={products}
           />
           </>
         );
