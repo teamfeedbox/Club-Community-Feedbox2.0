@@ -33,8 +33,8 @@ const ProductForm = () => {
     };
 
     const handleTileImagesChange = (e) => {
-        const files = Array.from(e.target.files).slice(0, 3);  // Limit to 3 files
-        setTileImagesPreview(files.map(file => URL.createObjectURL(file)));
+        const files = Array.from(e.target.files).slice(0, 3); // Limit to 3 files
+        setTileImagesPreview(files.map((file) => URL.createObjectURL(file)));
         setFormData({
             ...formData,
             tileImages: files,
@@ -52,17 +52,18 @@ const ProductForm = () => {
 
         setLoading(true);
         const fdata = new FormData();
-        const { name, description, category, price, quantity, image, tileImages } = formData;
+        const { name, description, category, price, quantity, image, tileImages } =
+            formData;
 
-        fdata.append("image", image);
-        tileImages.forEach((file, index) => fdata.append(`tileImage${index}`, file));
+        fdata.append("imageUrl", image);
+        tileImages.forEach((file, index) => fdata.append(`tileImages`, file));
         fdata.append("name", name);
         fdata.append("description", description);
         fdata.append("category", category);
         fdata.append("quantity", quantity);
         fdata.append("price", price);
 
-        const data = await fetch(
+        const response = await fetch(
             `http://localhost:8000/merchandise/createproduct`,
             {
                 method: "POST",
@@ -72,7 +73,8 @@ const ProductForm = () => {
                 },
             }
         );
-        const product = await data.json();
+        const product = await response.json();
+        console.log(product);
 
         if (product.error) {
             Swal.fire({
@@ -116,97 +118,95 @@ const ProductForm = () => {
                     className="w-full max-w-[77vw] mx-auto mt-[5vh] bg-white "
                     onSubmit={handleSubmit}
                 >
-                    {/* Form fields here, including the new multi-image field */}
-					
-							<div className="w-full px-3 mb-6 md:mb-0">
-								<label
-									className="block uppercase tracking-wide text-pink-600 text-xs font-bold mb-2"
-									htmlFor="grid-name"
-								>
-									NAME
-								</label>
-								<input
-									className="appearance-none block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-									id="grid-name"
-									type="text"
-									placeholder="Product Name"
-									name="name"
-									value={formData.name}
-									onChange={handleChange}
-									required
-								/>
-							</div>
-							<div className="w-full px-3 mb-6 md:mb-0 ">
-								<label
-									className="block uppercase tracking-wide text-pink-600 text-xs font-bold mb-2"
-									htmlFor="grid-description"
-								>
-									DESCRIPTION
-								</label>
-								<textarea
-									className="appearance-none block w-full bg-gray-200 border border-gray-200 rounded py-1 px-3 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-									id="grid-description"
-									placeholder="Product Description"
-									name="description"
-									value={formData.description}
-									onChange={handleChange}
-									required
-								/>
-							</div>
-							<div className="w-full px-3 mb-6 md:mb-0">
-								<label
-									className="block uppercase tracking-wide  text-pink-600 text-xs font-bold mb-2"
-									htmlFor="grid-category"
-								>
-									CATEGORY
-								</label>
-								<input
-									className="appearance-none block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-									id="grid-category"
-									type="text"
-									placeholder="Product Category"
-									name="category"
-									value={formData.category}
-									onChange={handleChange}
-									required
-								/>
-							</div>
-							<div className="w-full px-3 mb-6 md:mb-0">
-								<label
-									className="block uppercase tracking-wide  text-pink-600 text-xs font-bold mb-2"
-									htmlFor="grid-price"
-								>
-									PRICE
-								</label>
-								<input
-									className="appearance-none block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-									id="grid-price"
-									type="number"
-									placeholder="Product Price"
-									name="price"
-									value={formData.price}
-									onChange={handleChange}
-									required
-								/>
-							</div>
-							<div className="w-full px-3 mb-6 md:mb-0">
-								<label
-									className="block uppercase tracking-wide  text-pink-600 text-xs font-bold mb-2"
-									htmlFor="grid-quantity"
-								>
-									QUANTITY
-								</label>
-								<input
-									className="appearance-none block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-									id="grid-quantity"
-									type="number"
-									placeholder="Product Quantity"
-									name="quantity"
-									value={formData.quantity}
-									onChange={handleChange}
-									required
-								/>
-							</div>
+                    <div className="w-full px-3 mb-6 md:mb-0">
+                        <label
+                            className="block uppercase tracking-wide text-pink-600 text-xs font-bold mb-2"
+                            htmlFor="grid-name"
+                        >
+                            NAME
+                        </label>
+                        <input
+                            className="appearance-none block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id="grid-name"
+                            type="text"
+                            placeholder="Product Name"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="w-full px-3 mb-6 md:mb-0 ">
+                        <label
+                            className="block uppercase tracking-wide text-pink-600 text-xs font-bold mb-2"
+                            htmlFor="grid-description"
+                        >
+                            DESCRIPTION
+                        </label>
+                        <textarea
+                            className="appearance-none block w-full bg-gray-200 border border-gray-200 rounded py-1 px-3 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id="grid-description"
+                            placeholder="Product Description"
+                            name="description"
+                            value={formData.description}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="w-full px-3 mb-6 md:mb-0">
+                        <label
+                            className="block uppercase tracking-wide  text-pink-600 text-xs font-bold mb-2"
+                            htmlFor="grid-category"
+                        >
+                            CATEGORY
+                        </label>
+                        <input
+                            className="appearance-none block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id="grid-category"
+                            type="text"
+                            placeholder="Product Category"
+                            name="category"
+                            value={formData.category}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="w-full px-3 mb-6 md:mb-0">
+                        <label
+                            className="block uppercase tracking-wide  text-pink-600 text-xs font-bold mb-2"
+                            htmlFor="grid-price"
+                        >
+                            PRICE
+                        </label>
+                        <input
+                            className="appearance-none block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id="grid-price"
+                            type="number"
+                            placeholder="Product Price"
+                            name="price"
+                            value={formData.price}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="w-full px-3 mb-6 md:mb-0">
+                        <label
+                            className="block uppercase tracking-wide  text-pink-600 text-xs font-bold mb-2"
+                            htmlFor="grid-quantity"
+                        >
+                            QUANTITY
+                        </label>
+                        <input
+                            className="appearance-none block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id="grid-quantity"
+                            type="number"
+                            placeholder="Product Quantity"
+                            name="quantity"
+                            value={formData.quantity}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
                     {/* IMAGE FIELD */}
                     <div className="w-full px-3 mb-6 md:mb-0">
                         <label
@@ -255,7 +255,11 @@ const ProductForm = () => {
                                     key={index}
                                     src={img}
                                     alt="Tile Preview"
-                                    style={{ maxHeight: "100px", width: "150px", marginTop: "5px" }}
+                                    style={{
+                                        maxHeight: "100px",
+                                        width: "150px",
+                                        marginTop: "5px",
+                                    }}
                                     className="object-cover"
                                 />
                             ))}
@@ -269,7 +273,9 @@ const ProductForm = () => {
                             className="w-full bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                             disabled={loading}
                         >
-                            {!loading ? "Submit Now" : (
+                            {!loading ? (
+                                "Submit Now"
+                            ) : (
                                 <div className="flex items-center justify-center">
                                     <svg
                                         aria-hidden="true"

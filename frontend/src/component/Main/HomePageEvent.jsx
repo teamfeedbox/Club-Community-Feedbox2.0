@@ -7,6 +7,7 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Scrollbars from "react-custom-scrollbars";
 import { useStateValue } from "../../StateProvider";
+import Cal from "./date.png";
 
 const HomePageEvent = (props) => {
   const [event, setEvent] = useState([]);
@@ -92,7 +93,24 @@ const HomePageEvent = (props) => {
             <div className="HomePageEvent" key={item._id}>
               <div className="upcoming_event_title">{item.title}</div>
               <div className="home-page-event-time">
-                <img src="./frontend/src/component/Main/date.png" alt="cal" />
+              <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    id="Layer_1"
+                    data-name="Layer 1"
+                    viewBox="0 0 24 24"
+                    width="20"
+                    height="20"
+                    version="1.1"
+                  >
+                    <g transform="matrix(1,0,0,1,0,0)">
+                      <path
+                        d="M0,14H4v4H0v-4Zm6,4h5v-4H6v4ZM0,12H4v-4H0v4Zm6,12h5v-4H6v4Zm7-12h5v-4h-5v4Zm-7,0h5v-4H6v4ZM0,24H4v-4H0v4ZM20,12h4v-4h-4v4Zm-7,12h5v-4h-5v4Zm7,0h4v-4h-4v4Zm1-22h-3V0h-2V2H8V0h-2V2H3C1.35,2,0,3.35,0,5v1H24v-1c0-1.65-1.35-3-3-3Zm-1,16h4v-4h-4v4Zm-7,0h5v-4h-5v4Z"
+                        fill="#eb732fff"
+                        data-original-color="#000000ff"
+                      />
+                    </g>
+                  </svg>
+                {/* <img src={Cal} alt="cal" /> */}
                 <p className="home-page-event-time-p">
                   Event Date : {item.eventDate}
                 </p>
@@ -144,6 +162,7 @@ const HomePageEvent = (props) => {
               <Scrollbars style={{ height: "150px" }}>
                 <h2> {item.title} </h2>
                 <div className="home-page-event-time">
+                
                   <FontAwesomeIcon icon={faClock} className="fa-xl" />
                   <p className="home-page-event-time-p">{item.eventDate}</p>
                 </div>

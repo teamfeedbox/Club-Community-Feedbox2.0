@@ -54,7 +54,7 @@ const uploadToGoogleDrive = async (file, auth) => {
   return response;
 };
 
-//Integrating with excel api
+// //Integrating with excel api
 
 dotenv.config();
 
@@ -126,46 +126,112 @@ router.get("/merchandise/getallproducts", async (req, res) => {
   }
 });
 
+// router.post(
+//   "/merchandise/createproduct",
+//   requireLogin,
+//   upload.single("imageUrl"),
+//   async (req, res) => {
+//     try {
+//       const auth = authenticateGoogle();
+//       const response = await uploadToGoogleDrive(req.file, auth);
+//       console.log(req.user);
+
+//       if (req.user.role !== "Super_Admin")
+//         return res.status(400).json({ error: "You don't have any access!" });
+
+//       if (response) {
+//         const { name, description, price, category, quantity } = req.body;
+//         const image = `https://drive.google.com/thumbnail?id=${response.data.id}`;
+//         const imageId = response.data.id;
+
+//         let product = await Merchandise.findOne({ imageId, name, description });
+
+//         if (product) res.status(400).json({ error: "Product already exists" });
+
+//         let result = await Merchandise.create({
+//           name,
+//           description,
+//           price,
+//           category,
+//           imageUrl: image,
+//           quantity,
+//           imageId,
+//         });
+//         res.status(200).json(result);
+//       }
+//     } catch (error) {
+//       res.status(500).json({ error: "Something went Wrong!!" });
+//       console.log(error);
+//     }
+//   }
+// );
+
 router.post(
   "/merchandise/createproduct",
   requireLogin,
-  upload.single("imageUrl"),
+  upload.fields([
+    { name: "imageUrl", maxCount: 1 },
+    { name: "tileImages", maxCount: 3 },
+  ]),
   async (req, res) => {
     try {
       const auth = authenticateGoogle();
-      const response = await uploadToGoogleDrive(req.file, auth);
-      console.log(req.user);
 
-      if (req.user.role !== "Super_Admin")
-        return res.status(400).json({ error: "You don't have any access!" });
+      // Upload main image
+      const mainImage = req.files["imageUrl"][0];
+      const mainImageResponse = await uploadToGoogleDrive(mainImage, auth);
 
-      if (response) {
+      if (mainImageResponse) {
         const { name, description, price, category, quantity } = req.body;
-        const image = `https://drive.google.com/thumbnail?id=${response.data.id}`;
-        const imageId = response.data.id;
+        const imageUrl = `https://drive.google.com/thumbnail?id=${mainImageResponse.data.id}`;
+        const imageId = mainImageResponse.data.id;
 
-        let product = await Merchandise.findOne({ imageId, name, description });
+        const tileImages = [];
+        if (req.files["tileImages"]) {
+          for (let file of req.files["tileImages"]) {
+            const tileImageResponse = await uploadToGoogleDrive(file, auth);
+            if (tileImageResponse) {
+              tileImages.push({
+                url: `https://drive.google.com/thumbnail?id=${tileImageResponse.data.id}`,
+                imageId: tileImageResponse.data.id,
+              });
+            }
+          }
+        }
 
-        if (product) res.status(400).json({ error: "Product already exists" });
+        if (req.user.role !== "Super_Admin") {
+          return res.status(400).json({ error: "You don't have any access!" });
+        }
 
-        let result = await Merchandise.create({
+        let existingProduct = await Merchandise.findOne({
+          imageId,
+          name,
+          description,
+        });
+
+        if (existingProduct) {
+          return res.status(400).json({ error: "Product already exists" });
+        }
+
+        let newProduct = await Merchandise.create({
           name,
           description,
           price,
           category,
-          imageUrl: image,
+          imageUrl,
           quantity,
           imageId,
+          tileImages,
         });
-        res.status(200).json(result);
+
+        return res.status(200).json(newProduct);
       }
     } catch (error) {
-      res.status(500).json({ error: "Something went Wrong!!" });
-      console.log(error);
+      res.status(500).json({ error: "Something went wrong!" });
+      console.error(error);
     }
   }
 );
-
 // 11/04/2024
 router.get("/getProduct/:id", async (req, res) => {
   try {

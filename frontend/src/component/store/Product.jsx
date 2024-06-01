@@ -6,8 +6,8 @@ import Card from 'react-bootstrap/Card';
 const Product = ({ product, colors }) => {
   return (
     <>
-      <Card style={{ width: '20rem', borderColor : `${colors}`, borderStyle: 'dashed', borderRadius: '30px' }} className="py-0 px-0 mx-5 mt-5 border-2 border-dashed">
-        <Card.Img variant="top" src={product.imageUrl} className="w-100 md:h-[50vh] sm:h-[75vh]" style={{borderTopLeftRadius: '30px', borderTopRightRadius: '30px'}}/>
+      <Card style={{ width: '16rem', height: '25.125rem', borderColor : `${colors}`, borderStyle: 'dashed', borderRadius: '30px' }} className="py-0 px-0 mx-5 mt-5 border-2 border-dashed">
+        <Card.Img variant="top" src={product.imageUrl} className=" md:h-[50vh] sm:h-[75vh]" style={{borderTopLeftRadius: '30px', borderTopRightRadius: '30px', width: '18rem', height : '15.56rem'}}/>
         <Card.Body>
           <Card.Title><span className="font-normal">Product Name : </span><span>{product.name}</span></Card.Title>
           {console.log(product)}

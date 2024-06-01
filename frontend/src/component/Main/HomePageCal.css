@@ -59,7 +59,7 @@
 
 .react-calendar__navigation__label {
   pointer-events: none;
-  text-decoration: underline solid #EC722F .5vh;
+  /* text-decoration: underline solid #EC722F .5vh; */
   font-family: 'Montserrat', sans-serif;
   font-size: xx-large;
 }

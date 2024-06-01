@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import "./CheckoutPage.css";
 import ListingProduct from "./ListingProduct";
 import COIN_RUPEE from "./rupee.png";
+import dummy from "./images.png";
 
 const ModalWithForm = ({ show, onClose, product, quantity }) => {
 	// const [message, setMessage] = useState({});
@@ -41,10 +42,9 @@ const ModalWithForm = ({ show, onClose, product, quantity }) => {
 
 		const updateToSheet = async () => {
 			let data = await fetch(
-				`http://localhost:8000/submitProduct/${
-					window.location.pathname.split("/")[
-						window.location.pathname.split("/").length - 1
-					]
+				`http://localhost:8000/submitProduct/${window.location.pathname.split("/")[
+				window.location.pathname.split("/").length - 1
+				]
 				}`,
 				{
 					method: "POST",
@@ -200,17 +200,17 @@ const ModalWithForm = ({ show, onClose, product, quantity }) => {
 export const CheckoutPage = () => {
 	const [listProduct, setListProduct] = useState();
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const allProducts = await fetch(
-        "http://localhost:8000/merchandise/getallproducts"
-      );
-      const data = await allProducts.json();
-      setListProduct(data);
-    };
+	useEffect(() => {
+		const fetchProducts = async () => {
+			const allProducts = await fetch(
+				"http://localhost:8000/merchandise/getallproducts"
+			);
+			const data = await allProducts.json();
+			setListProduct(data);
+		};
 
-    fetchProducts();
-  }, []);
+		fetchProducts();
+	}, []);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [quantity, setQuantity] = useState(1); // Initialize quantity with 1
 	const [product, setProduct] = useState();
@@ -229,7 +229,7 @@ export const CheckoutPage = () => {
 
 	let id =
 		window.location.pathname.split("/")[
-			window.location.pathname.split("/").length - 1
+		window.location.pathname.split("/").length - 1
 		];
 	useEffect(() => {
 		const fetchData = async () => {
@@ -256,28 +256,37 @@ export const CheckoutPage = () => {
 	console.log(product);
 	// let imgURL = product.imageUrl;
 	// using  lg:justify-between for space
+	let url1
+	let url2
+	let url3
+	if(product) {
+		url1 = product.tileImages[0].url;
+		url2 = product.tileImages[1].url;
+		url3 = product.tileImages[2].url;
+	}
 	return (
 		<>
 			<div className="parentDiv flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 lg:space-x-8 xl:space-x-12 justify-center mt-12 px-5 py-5">
 				{/* Thumbnail side */}
-				<div className="thumbnailImg ">
+				
+				<div className="thumbnailImg">
 					<div
 						style={{ border: "2px dashed #9647ff" }}
 						className="mt-2 h-24 w-24 rounded-3xl"
 					>
-						<img src="" alt="img1" />
+						<img src={url1 ? url1 : dummy} alt="img1" className="w-full h-full  rounded-3xl"/>
 					</div>
 					<div
 						style={{ border: "2px dashed #ec4882" }}
 						className="mt-4 h-24 w-24 rounded-3xl"
 					>
-						<img src="" alt="img2" />
+						<img src={url2 ? url2 : dummy} alt="img2" className="w-full h-full  rounded-3xl"/>
 					</div>
 					<div
 						style={{ border: "2px dashed #9647ff" }}
 						className="mt-4 h-24 w-24 rounded-3xl"
 					>
-						<img src="" alt="img3" />
+						<img src={url3 ? url3 : dummy} alt="img3" className="w-full h-full  rounded-3xl"/>
 					</div>
 				</div>
 				{/*  */}
@@ -295,33 +304,42 @@ export const CheckoutPage = () => {
                     alt=""
                 /> */}
 				</div>
-				<div className="productDetail w-full md:w-1/2 lg:w-1/2 xl:w-1/3 h-auto   lg:p-0">
-					<h1 className="py-4 text-xl md:text-2xl lg:text-3xl font-semibold">
-						<span className="font-extrabold">
-							{!product ? "N/A" : product.name}
+				<div className="productDetail w-full md:w-1/2 lg:w-1/2 xl:w-1/3 h-auto ">
+					<h1 className="py-2 text-5xl m-0 -top-0 font-semibold">
+						<span className="font-extrabold  ">
+							Feed your mind<br />
+							Feed your soul
 						</span>
-					</h1>
-					<hr/>
-					{console.log(product, "----454545999")}
-					<label ><img src={COIN_RUPEE} alt="COINS" style={{width: "2em"}}/></label>
+						<hr
+							className="flex-1"
+							style={{ backgroundColor: "black", height: "1px" }}
+						/>
 
-					<p className="py-1 text-base md:text-lg lg:text-xl font-semibold">
-						Product Description:{" "}
-						<p className="font-light">
-							{!product ? "N/A" : product.description}
+						<p className="text-black m-0 text-sm">
+							<span>{!product ? "N/A" : product.name}</span>
 						</p>
+					</h1>
+
+					<button className="flex items-center justify-center bg-purple-600 rounded-xl px-4 py-2 text-white font-bold text-lg shadow-md">
+						<img src={COIN_RUPEE} alt="Coin" className="h-6 w-6 mr-2" />
+						<span>{!product ? "N/A" : product.price}</span>
+					</button>
+					<p className="text-black font-medium m-0 text-sm">Coins need for product:</p>
+
+					<p className="py-1 text-base md:text-lg lg:text-2xl font-bold">
+						Product Description:
+						<div className="font-extralight tracking-widest text-sm mt-3 " >
+
+							<span className="font-bold">
+								{!product ? "Product Description:" : product.description}
+							</span>
+						</div>
 					</p>
-					<p className="py-1 text-sm md:text-base lg:text-lg font-semibold">
-						Coins need for product:{" "}
-						<span className="font-light">
-							{!product ? "N/A" : product.price}
-						</span>
-					</p>
-					
+
 					<div className="flex py-4 mt-4 lg:mt-8">
 						<button
 							onClick={toggleModal}
-							className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110  lg:text-xl"
+							className=" bg-[#9647ff]  text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110  lg:text-xl "
 						>
 							Buy Now
 						</button>
@@ -341,7 +359,7 @@ export const CheckoutPage = () => {
 				</ModalWithForm>
 			</div>
 			<div className="ml-48">
-				<div className="flex flex-row">
+				{/* <div className="flex flex-row">
 					<button className="bg-[#eb732f] px-4 text-white">
 						Similar Products
 					</button>
@@ -349,10 +367,10 @@ export const CheckoutPage = () => {
 						className="flex-1"
 						style={{ backgroundColor: "black", height: "1px" }}
 					/>
-				</div>
+				</div> */}
 
-        {/* Suggestions */}
-				<ListingProduct product={product} listProduct={listProduct}/>
+				{/* Suggestions */}
+				<ListingProduct product={product} listProduct={listProduct} />
 			</div>
 		</>
 	);

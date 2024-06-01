@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
   name: { type: String, required: true },
@@ -7,11 +7,15 @@ const productSchema = new Schema({
   price: { type: Number, required: true },
   category: { type: String, required: true },
   imageUrl: { type: String, required: true },
-  quantity: {type: Number, required: true},
-  imageId: {type: String, required: true},
-  createdAt: { type: Date, default: Date.now }
+  quantity: { type: Number, required: true },
+  imageId: { type: String, required: true },
+  tileImages: [
+    {
+      url: { type: String, required: true },
+      imageId: { type: String, required: true },
+    },
+  ],
+  createdAt: { type: Date, default: Date.now },
 });
 
-const Merchandise = mongoose.model('products', productSchema);
-
-module.exports = Merchandise;
+module.exports = mongoose.model("products", productSchema);
