@@ -11,7 +11,7 @@ const Product = ({ product, colors }) => {
         <Card.Body>
           <Card.Title><span className="font-normal">Product Name : </span><span>{product.name}</span></Card.Title>
           {console.log(product)}
-          <Link to={`product/${product._id}`} className="no-underline">
+          <Link to={`product/${product._id}`} path={`{product.name}`} className="no-underline">
             <div
               className="mask"
               

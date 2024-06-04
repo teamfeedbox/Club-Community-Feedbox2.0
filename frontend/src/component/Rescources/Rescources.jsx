@@ -4,27 +4,29 @@ import { Link } from "react-router-dom";
 import RescourcesTable from "./RescourcesTable";
 import NavbarRes from "../navbar/NavbarRes";
 const Rescources = () => {
- 
-  const [temp,setTemp]=useState(0);
+  const [temp, setTemp] = useState(0);
   const [name, setName] = useState("");
   const [skill, setSkills] = useState([
     { name: "Web Development", img: "Images/web-development.png" },
     { name: "App Development", img: "Images/app-dev.png" },
-    { name: "Search Engine Optimization", img: "Images/search-engine-optimization.png" },
+    {
+      name: "Search Engine Optimization",
+      img: "Images/search-engine-optimization.png",
+    },
     { name: "Social Media Optimization", img: "Images/smo.png" },
     { name: "Graphic Designing", img: "Images/graphic.png" },
     { name: "Video Editing", img: "Images/video.png" },
     { name: "Time Management", img: "Images/time.png" },
     { name: "Digital Marketing", img: "Images/digital.png" },
     { name: "Content Writing", img: "Images/content.png" },
-    { name: "Performance Marketing", img: "Images/performance.png" }
+    { name: "Performance Marketing", img: "Images/performance.png" },
   ]);
-  
+
+  let colors = ["#9647ff", "#eb732f", "#ec4882", "#417cd3"];
 
   return (
     <>
-      <div className="Rescources"
-       >
+      <div className="Rescources">
         <h1>RESOURCES</h1>
 
         {/* ----------------college dropdown for super admin--------------- */}
@@ -39,20 +41,28 @@ const Rescources = () => {
           </div> */}
 
         <div className="Rescources-overall-card">
-          
-          {
-            skill.map((item)=>
-            <Link to="/rescourcesDisplay" className="Rescources-card" state={item}
+          {skill.map((item, index) => (
+            <Link
+              to="/rescourcesDisplay"
+              className="Rescources-card shadow-gray-300 shadow-lg"
+              state={item}
+              key={index}
+              style={{
+                width: "20em",
+                height: "7em",
+                backgroundColor: colors[index % colors.length],
+              }}
             >
-            <div className="Rescources-card-img">
-              <img src={item.img} alt="" />
-            </div>
-            <div className="Rescources-card-content">
-              <div>{item.name}</div>
-            </div>
-          </Link>
-            )
-          }
+              <div className="flex flex-start" style={{border: "1px dashed", height: "7em", backgroundColor : "white", borderRadius: '10px', width : "18em", borderColor : `colors[index % colors.length]`, padding : ".5em"}}>
+                <div className="Rescources-card-img" style={{ width: "5em", height: "2.5em"}}>
+                  <img src={item.img} alt="" style={{ width: "5em", height: "2.5em"}}/>
+                </div>
+                <div className="Rescources-card-content" style={{height: "2.5em", margin : "1em 0 1em 1em"}}>
+                  <div style={{height: "2.5em", margin : "0"}}>{item.name}</div>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </>

@@ -17,28 +17,47 @@ const ProductForm = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+    if (name === "description") {
+        // Count the words in the textarea
+        const words = value.split(/\s+/).filter(Boolean); // Split by whitespace and remove empty strings
+        if (words.length <= 65) {
+            setFormData(prev => ({ ...prev, [name]: value }));
+        } else {
+            // Optionally, alert the user that the word limit has been reached
+            Swal.fire({
+                title: "Limit Reached",
+                text: "You can only enter up to 65 words in the description.",
+                icon: "warning",
+                timer: 3000,
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+            });
+            // Truncate the text to the first 65 words if more are entered
+            const trimmedText = words.slice(0, 65).join(" ");
+            setFormData(prev => ({ ...prev, [name]: trimmedText }));
+        }
+    } else {
+        setFormData(prev => ({ ...prev, [name]: value }));
+    }
     };
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         setImagePreview(URL.createObjectURL(file));
-        setFormData({
-            ...formData,
+        setFormData(prev => ({
+            ...prev,
             image: file,
-        });
+        }));
     };
 
     const handleTileImagesChange = (e) => {
         const files = Array.from(e.target.files).slice(0, 3); // Limit to 3 files
-        setTileImagesPreview(files.map((file) => URL.createObjectURL(file)));
-        setFormData({
-            ...formData,
+        setTileImagesPreview(files.map(file => URL.createObjectURL(file)));
+        setFormData(prev => ({
+            ...prev,
             tileImages: files,
-        });
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -47,38 +66,35 @@ const ProductForm = () => {
             return Swal.fire({
                 title: "Invalid Credentials",
                 text: "Price or quantity must be greater than zero!",
+                icon: "error",
             });
         }
 
         setLoading(true);
         const fdata = new FormData();
-        const { name, description, category, price, quantity, image, tileImages } =
-            formData;
+        const { name, description, category, price, quantity, image, tileImages } = formData;
 
         fdata.append("imageUrl", image);
-        tileImages.forEach((file, index) => fdata.append(`tileImages`, file));
+        tileImages.forEach((file, index) => fdata.append("tileImages", file));
         fdata.append("name", name);
         fdata.append("description", description);
         fdata.append("category", category);
         fdata.append("quantity", quantity);
         fdata.append("price", price);
 
-        const response = await fetch(
-            `http://localhost:8000/merchandise/createproduct`,
-            {
-                method: "POST",
-                body: fdata,
-                headers: {
-                    Authorization: "Bearer " + localStorage.getItem("jwt"),
-                },
-            }
-        );
+        const response = await fetch(`http://localhost:8000/merchandise/createproduct`, {
+            method: "POST",
+            body: fdata,
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("jwt"),
+            },
+        });
         const product = await response.json();
-        console.log(product);
 
         if (product.error) {
             Swal.fire({
-                title: product.error,
+                title: "Error",
+                text: product.error,
                 icon: "error",
             });
         } else {

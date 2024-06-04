@@ -8,6 +8,7 @@ const NewLogin = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isSignUpMode, setIsSignUpMode] = useState(false);
 
   if (typeof window !== "undefined") {
     injectStyle();
@@ -45,37 +46,57 @@ const NewLogin = () => {
       notifi = await notifi.json();
       localStorage.setItem("notification-length", notifi.length)
   };
+  const handleButtonClick = () => {
+    setIsSignUpMode(!isSignUpMode);
+
+    setTimeout(() => {
+      window.location.href = "/register";
+    }, 1000);
+    
+  };
+
 
   return (
-    <div className="h-[100vh] overflow-hidden">
-      kmlkm lkm l <br /> bnijbc ikj
-      <div className="bg-purple-900 absolute top-0 left-0 bg-gradient-to-b from-gray-900 via-gray-900 to-purple-800 bottom-0 leading-5 h-full w-full overflow-hidden"></div>
-      <div className="relative   min-h-screen  sm:flex sm:flex-row  justify-center bg-transparent rounded-3xl shadow-xl">
-        <div className="flex-col flex  self-center lg:px-14 sm:max-w-4xl xl:max-w-md  z-10">
-          <div className="self-start hidden lg:flex flex-col  text-gray-300">
+    <div className="h-[100vh] sm:h-[100vh] bg-[#F6F6EF] overflow-hidden">
+      <div className=" absolute  top-0 bottom-0  h-[100vh] max-w-md sm:inline-flex overflow-visible">
+      <svg viewBox="67 77 195 100"
+       xmlns="http://www.w3.org/2000/svg" className="absolute h-screen sm:h-[100vh] self-centre overflow-visible Z-10 "style={{
+        transform: ` rotate( ${isSignUpMode ?'180deg' : '0deg'})` ,
+
+        transition: 'transform 0.6s ease-in-out',
+      }}> 
+  <path fill="#9647FF" d="M67.2,-37.4C81,-14.9,81.9,16.5,68.6,39.7C55.2,62.9,27.6,78,-0.6,78.3C-28.8,78.7,-57.6,64.3,-71.5,40.7C-85.4,17.2,-84.4,-15.5,-70,-38.4C-55.6,-61.3,-27.8,-74.5,-0.6,-74.1C26.7,-73.8,53.4,-60,67.2,-37.4Z" 
+   transform="translate(100 120)"></path>
+  
+</svg>
+
+      </div>
+      <div className="relative h-[100vh] sm:h-[100vh] sm:flex sm:flex-row justify-center  container ">
+        <div className="flex-col flex  self-center lg:px-14 sm:max-w-2xl xl:max-w-md  justify-center z-10">
+          <div className="self-start sm:self-centre  text-center sm:inline-flex lg:flex flex-col text-white">
             <h1 className="my-3 font-semibold text-4xl">Welcome back</h1>
             <p className="pr-3 text-sm opacity-75">
               Lorem ipsum is placeholder text commonly used in the graphic,
               print, and publishing industries for previewing layouts and visual
               mockups
             </p>
-          </div>
-        </div>
-        <div className=" md:mt-10 z-10 lg:flex sm:flex justify-center lg:self-center sm:self-center m-[12px] mt-[50px] md:self-auto md:block">
-
-        {/* <div className="flex justify-center self-center mt-[80px] m-[12px] z-10 md:block"> */}
-          <div className="p-12 bg-white mx-auto rounded-3xl w-[98%] md:w-[110%] lg:w-[350px] ">
-            <div className="mb-7">
-              <h3 className="font-semibold text-2xl text-gray-800">Sign In </h3>
-              <p className="text-gray-400">
-                Don't have an account?{" "}
-                <Link
-                  to="/register"
-                  className="text-sm text-purple-700 hover:text-purple-700"
+            <button
+                  className="w-[50%] text-white font-bold py-2 px-4 rounded-3xl ml-7 mt-2  lg:translate-x-12 bg-[#9647ff] focus:outline-none focus:shadow-outline"
+                  style={{ border: "2px solid white" }}
+                  onClick={handleButtonClick}
                 >
                   Sign Up
-                </Link>
-              </p>
+                </button>
+
+          </div>
+        </div>
+        <div className=" md:mt-10 z-10 lg:flex sm:flex justify-center lg:self-center sm:self-center lg:translate-x-[150px] m-[12px] mt-[50px] md:self-auto md:block">
+
+        {/* <div className="flex justify-center self-center mt-[80px] m-[12px] z-10 md:block"> */}
+          <div className="p-12 bg-white mx-auto rounded-3xl w-[98%] md:w-[110%] lg:w-[350px] shadow-black shadow-2xl " style={{border:"2px dashed #eb732f"}}>
+            <div className="mb-7">
+              <h3 className="font-semibold text-3xl text-center text-black">Sign In </h3>
+            
             </div>
             <div className="space-y-6">
               <div className="">
@@ -138,7 +159,7 @@ const NewLogin = () => {
               <div>
                 <button
                 onClick={handleLogin}
-                  className="w-full flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
+                  className="w-full flex justify-center bg-[#9647ff] hover:bg-[#9647ff] text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
                 >
                   {loading ? (
                     <div
@@ -169,7 +190,7 @@ const NewLogin = () => {
                   rel=""
                   target="_blank"
                   title="Codepen aji"
-                  className="text-purple-500 hover:text-purple-600 "
+                  className="text-[#9647ff] hover:text-[#9647ff] "
                 >
                   Feedbox
                 </a>
@@ -178,17 +199,6 @@ const NewLogin = () => {
           </div>
         </div>
       </div>
-      <svg
-        class="absolute bottom-0 left-0 hidden md:block "
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1440 320"
-      >
-        <path
-          fill="#fff"
-          fill-opacity="1"
-          d="M0,0L40,42.7C80,85,160,171,240,197.3C320,224,400,192,480,154.7C560,117,640,75,720,74.7C800,75,880,117,960,154.7C1040,192,1120,224,1200,213.3C1280,203,1360,149,1400,122.7L1440,96L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"
-        ></path>
-      </svg>
       <ToastContainer/>
     </div>
 

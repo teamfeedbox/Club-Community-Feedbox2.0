@@ -233,7 +233,7 @@ export const CheckoutPage = () => {
 		];
 	useEffect(() => {
 		const fetchData = async () => {
-			const productData = await fetch(`http://localhost:8000/getProduct/${id}`);
+			const productData = await fetch(`http://localhost:8000/getProduct/${id}/`);
 			const data = await productData.json();
 			setProduct(data);
 			console.log("106", product);
@@ -296,7 +296,8 @@ export const CheckoutPage = () => {
 					<img
 						src={product && product.imageUrl}
 						alt="product_img"
-						className="w-full h-full "
+						className=""
+						style={{width: "750px", height: "637px"}}
 					/>
 					{/* <img
                     src={imgURL}
@@ -328,7 +329,7 @@ export const CheckoutPage = () => {
 
 					<p className="py-1 text-base md:text-lg lg:text-2xl font-bold">
 						Product Description:
-						<div className="font-extralight tracking-widest text-sm mt-3 " >
+						<div className="font-extralight tracking-widest text-sm mt-3 " style={{width: "470px", height: "208px"}}>
 
 							<span className="font-bold">
 								{!product ? "Product Description:" : product.description}
