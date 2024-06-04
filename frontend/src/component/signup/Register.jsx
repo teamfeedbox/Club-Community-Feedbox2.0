@@ -13,6 +13,8 @@ const Register = () => {
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const [confirm, setConfirm] = useState(false);
+  const [isSignUpMode, setIsSignUpMode] = useState(false);
+  const [isDivWhite, setIsDivWhite] = useState(false);
   const [userinfo, setUserInfo] = useState({
     skill: [],
     response: [],
@@ -200,34 +202,41 @@ const Register = () => {
       setBio(value);
     }
   };
+  const handleButtonClick = () => {
+    setIsSignUpMode(!isSignUpMode);
+
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 1000);
+    setIsDivWhite(true);
+  };
 
   return (
-    <div className="overflow-hidden">
-      <div className="bg-purple-900 absolute top-0 left-0 bg-gradient-to-b from-gray-900 via-gray-900 to-purple-800 bottom-0 leading-5 h-full w-full overflow-hidden"></div>
-      <div className="relative   min-h-screen sm:flex sm:flex-row  justify-center bg-transparent rounded-3xl shadow-xl">
-        <div className="flex-col flex  self-center lg:px-14 sm:max-w-4xl xl:max-w-md  z-10">
-          <div className="self-start hidden lg:flex flex-col  text-gray-300">
-            <h1 className="my-3 font-semibold text-4xl">Welcome back</h1>
-            <p className="pr-3 text-sm opacity-75">
-              Lorem ipsum is placeholder text commonly used in the graphic,
-              print, and publishing industries for previewing layouts and visual
-              mockups
-            </p>
-          </div>
-        </div>
-        <div className="flex justify-center self-center md:self-auto lg:self-center m-[12px] mt-[50px]  z-10 h-fit">
-        {/* <div className=" md:mt-10 z-10 lg:flex sm:flex justify-center lg:self-center sm:self-center m-[12px] mt-[50px] md:self-auto md:block"> */}
-          <div className="p-12 bg-white mx-auto rounded-3xl w-96 ">
+    <div className=" bg-[#F6F6EF] overflow-hidden">
+      <div className= "fixed  h-full w-full ">
+      <svg viewBox="-67 77 195 90" xmlns="http://www.w3.org/2000/svg" fill-opacity="1" className="absolute h-full self-centre overflow-visible Z-10 " style={{
+            transform: ` rotate(${isSignUpMode ? '-169deg' : '9deg'})`,
+
+            transition: 'transform 0.6s ease-in-out',
+          }}>
+            <path fill="#9647FF" d="M67.2,-37.4C81,-14.9,81.9,16.5,68.6,39.7C55.2,62.9,27.6,78,-0.6,78.3C-28.8,78.7,-57.6,64.3,-71.5,40.7C-85.4,17.2,-84.4,-15.5,-70,-38.4C-55.6,-61.3,-27.8,-74.5,-0.6,-74.1C26.7,-73.8,53.4,-60,67.2,-37.4Z"
+              transform="translate(100 120)"></path>
+            <Link to="/login"> {/* Wrap the SVG in a Link tag */}
+
+            </Link>
+          </svg>
+
+      </div>
+      <div className="relative   min-h-screen sm:flex sm:flex-row  sm:pt-5 justify-center bg-transparent rounded-3xl shadow-xl">
+      <div className="flex justify-center self-center md:self-auto lg:self-center m-[12px] mt-[50px] lg:translate-x-[-150px] z-10 h-fit">
+        <div className="p-12 bg-white mx-auto rounded-3xl w-96  shadow-[#000000] shadow-lg "
+            style={{ border: "2px dashed #eb732f" }}
+            >
             <div className="mb-7">
-              <h3 className="font-semibold text-2xl text-gray-800">Sign Up </h3>
-              <p className="text-gray-400">
-                Have an account?
-                <Link to="/login" className="text-sm text-purple-700 hover:text-purple-700">
-                  Sign In
-                </Link>
-              </p>
-            </div>
-            <div>
+              <h3 className="font-bold text-3xl text-center text-[#000000]">Sign Up </h3>
+              
+              </div>
+               <div>
               <form onSubmit={collectData}>
                 <div className={next ? "block" : "hidden"}>
                   <div className="space-y-6">
@@ -261,24 +270,27 @@ const Register = () => {
                         </option>
                         <option
                           value="1st"
-                          className="text-black w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
+                          className="text-[#000000] w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
                         >
                           I Year
                         </option>
                         <option
-                          className=" text-black w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
+                          className=" text-[#000000] w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
                           value="2nd"
                         >
                           II Year
                         </option>
                         <option
-                          className=" text-black w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
+                          className=" text-[#000000] w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
                           value="3rd"
                         >
                           III Year
                         </option>
                         <option
-                          className="text-black w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
+                          className="text-[#000000]
+                          
+                          
+                          w-full text-[1rem] h-[50px] px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400 border-b-gray-500"
                           value="4th"
                         >
                           IV Year
@@ -540,15 +552,16 @@ const Register = () => {
                     <div className="flex">
                       <div
                         onClick={() => setNext(!next)}
-                        className="w-full mr-2 flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
+                        className="w-full mr-2 flex justify-center bg-[#9647ff]  hover:bg-[#9647ff] text-gray-100
+                         p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
                       >
                         Back
                       </div>
                       <Button 
                       onClick={generateUniqueid}
                       disabled={!branch || !collegeYear || !userinfo.response || !bio ? true : false}
-                      style={{background : '#7e22ce', border : '#7e22ce'}}
-                      className="w-full flex justify-center bg-purple-800  hover:bg-purple-700 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
+                      style={{background : '#9647ff', border : '#9647ff'}}
+                      className="w-full flex justify-center bg-[#9647ff]  hover:bg-[#9647ff] text-[#ffffff] p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
                       >
                       {
                         loading ? 
@@ -572,7 +585,7 @@ const Register = () => {
                   <div className="space-y-6">
                     <div className="">
                       <input
-                        className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
+                        className=" w-full text-sm  px-4 py-3 bg-[#F6F6EF] focus:bg-[#F6F6EF] border  border-[#F6F6EF] rounded-lg focus:outline-none focus:border-purple-400"
                         type="text"
                         name="name"
                         placeholder="Full Name"
@@ -591,7 +604,7 @@ const Register = () => {
 
                     <div className="">
                       <input
-                        className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
+                        className=" w-full text-sm  px-4 py-3 bg- focus:bg-[#F6F6EF] border  border-[#F6F6EF] rounded-lg focus:outline-none focus:border-purple-400"
                         type="email"
                         name="email"
                         required
@@ -610,7 +623,7 @@ const Register = () => {
 
                     <div className="">
                       <input
-                        className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
+                        className=" w-full text-sm  px-4 py-3 bg-[#F6F6EF] focus:bg-[#F6F6EF] border  border-[#F6F6EF] rounded-lg focus:outline-none focus:border-purple-400"
                         type="password"
                         name="password"
                         placeholder="Password"
@@ -633,7 +646,7 @@ const Register = () => {
                     <div className="">
                       <select
                         required
-                        className="  w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none "
+                        className="  w-full text-sm  px-4 py-3 bg-[#F6F6EF] focus:bg-[#F6F6EF] border  border-[#F6F6EF] rounded-lg focus:outline-none "
                         value={collegeName}
                         onChange={(e) => setCollegeName(e.target.value)}
                       >
@@ -641,19 +654,19 @@ const Register = () => {
                         <option 
                         // disabled
                           // selected
-                          className="text-gray-400">
+                          className="text-[#F6F6EF]">
                           University
                         </option>
                         <option hidden
                         // disabled
                           // selected
-                          className="text-gray-400">
+                          className="text-[#F6F6EF]">
                           IET-DAVV
                         </option>
                         <option hidden
                         // disabled
                           // selected
-                          className="text-gray-400">
+                          className="text-[#F6F6EF]">
                           SVVV
                         </option>
                         {
@@ -676,9 +689,9 @@ const Register = () => {
                       <Button
                         type="submit"
                         onClick={changenext}
-                        style={{background : '#7e22ce', border : '#7e22ce'}}
+                        style={{background : '#9647ff', border : '#9647ff'}}
                         disabled = {!name || !email || !password || !collegeName ? true : false}
-                        className="w-full flex justify-center  text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
+                        className="w-full flex justify-center  text-[#ffffff] p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
                       >
                         Next
                       </Button>
@@ -688,7 +701,7 @@ const Register = () => {
               </form>
             </div>
 
-            <div className="mt-7 text-center text-gray-300 text-xs">
+            <div className="mt-7 text-center text-[#000000] text-xs">
               <span>
                 Copyright © 2021-2023
                 <a
@@ -696,7 +709,7 @@ const Register = () => {
                   rel=""
                   target="_blank"
                   title="Codepen aji"
-                  className="text-purple-500 hover:text-purple-600 "
+                  className="text-[#9647ff]  hover:text-[#9647ff] "
                 >
                   Feedbox
                 </a>
@@ -704,23 +717,34 @@ const Register = () => {
             </div>
           </div>
         </div>
+        
+        <div className="flex-col flex  justify-center text-center self-center lg:px-14 sm:max-w-4xl xl:max-w-md z-10 ">
+           {/* <div className=" md:mt-10 z-10 lg:flex sm:flex justify-center lg:self-center sm:self-center m-[12px] mt-[50px] md:self-auto md:block"> */}
+           <div className="self-center lg:flex flex-col sm:text-center lg:text-[#ffffff]  md:text-[#000000] sm:text-[#000000] ">
+           < div className={` sm:items-center justify-self-center text-container  ${isDivWhite ? "bg-[#ffffff] text-[#ffffff] " : "text-[#ffffff]" }`}
+          style={{ transition: `transform (${isDivWhite ?  "1.5s" : "2s"}) ease-in-out delay-200`,}}>
+            <h1 className="my-3 font-semibold text-4xl">Welcome back</h1>
+            <p className="pr-3 text-sm opacity-75">
+              Lorem ipsum is placeholder text commonly used in the graphic,
+              print, and publishing industries for previewing layouts and visual
+              mockups
+            </p>
+            <button
+                   className={`w-[50%] text-white font-bold py-2 px-4 rounded-3xl self-center mt-2  ${isDivWhite ? "bg-[#ffffff]  text-[#000000]" : "bg-[#9647ff]"}  bg-[#9647ff] shadow-black shadow-lg focus:outline-none `}
+
+                  style={{ border: "2px solid white" }}
+                  onClick={handleButtonClick}
+                >
+                  Sign Up
+                </button>
+                </div>
+          </div>
+        
       </div>
-      <svg
-        class="absolute bottom-0 left-0 hidden md:block"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1440 320"
-      >
-        <path
-          fill="#fff"
-          fill-opacity="1"
-          d="M0,0L40,42.7C80,85,160,171,240,197.3C320,224,400,192,480,154.7C560,117,640,75,720,74.7C800,75,880,117,960,154.7C1040,192,1120,224,1200,213.3C1280,203,1360,149,1400,122.7L1440,96L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"
-        ></path>
-      </svg>
       <ToastContainer />
 
     </div>
-
-    // </div>
+ </div>
   );
 };
 

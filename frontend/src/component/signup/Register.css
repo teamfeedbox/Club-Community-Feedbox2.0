@@ -1,19 +1,19 @@
-.searchWrapper {
-    border: none;
+/* .searchWrapper {
+    border: none; */
     /* display: flex;
     align-items: center; */
     /* min-height: 18px; */
-}
-select:valid {
+
+/* select:valid {
     color: black;
 }
 
-select:invalid option:not(:disabled) { color: red }
+select:invalid option:not(:disabled) { color: red } */
 
 /* select:invalid { 
     color: red;
 } */
-.registerError{
+/* .registerError{
     font-size: 10px;
     color:red;
 }
@@ -22,4 +22,46 @@ select:invalid option:not(:disabled) { color: red }
     font-size: 10px;
     width: fit-content;
    
-}
+} */
+body {
+    background-color: #eee;
+  }
+  
+  @media (max-width: 767.98px) {
+    .border-sm-start-none {
+      border-left: none !important;
+    }
+  }
+
+  @media only screen and (min-width: 344px) and (max-height: 800px) {
+   
+   .svg-container{
+    min-height: 100%;
+    width: 50%;
+   
+   }
+   .text-container{
+    color:  #000000;
+    background: transparent;
+
+   }
+   .isDivWhite{
+    color: #000000;
+   }
+  
+  }
+  @media only screen and (min-width: 450px) and (max-height: 1034px) {
+   
+    .svg-container{
+     min-height: 100%;
+     width: 50%;
+    
+    }
+    
+   }
+ 
+ 
+
+
+
+
